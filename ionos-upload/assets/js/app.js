@@ -6,6 +6,7 @@ import { initCounters } from "./modules/counters.js";
 import { initYear } from "./modules/year.js";
 import { initDocsCatalog } from "./modules/docs.js";
 import { initInteractionEffects } from "./modules/interaction-effects.js";
+import { initBackgroundFlow } from "./modules/background-flow.js";
 
 function boot() {
   renderMetricCards(document.querySelector("#metric-grid"), metricCards);
@@ -18,6 +19,7 @@ function boot() {
   initYear();
   initDocsCatalog();
   initInteractionEffects();
+  initBackgroundFlow();
 }
 
 if (document.readyState === "loading") {

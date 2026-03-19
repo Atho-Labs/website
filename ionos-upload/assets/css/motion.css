@@ -162,3 +162,32 @@
     display: none !important;
   }
 }
+
+main,
+.site-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.background-flow-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.768;
+  filter: saturate(110%);
+}
+
+@media (max-width: 720px) {
+  .background-flow-canvas {
+    opacity: 0.552;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .background-flow-canvas {
+    display: none !important;
+  }
+}
