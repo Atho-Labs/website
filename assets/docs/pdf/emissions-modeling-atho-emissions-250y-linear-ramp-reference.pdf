@@ -1,0 +1,279 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 1 /Kids [ 7 0 R ] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+6 0 obj
+<< /Length 4252 >>
+stream
+0.9686 0.9765 0.9882 rg
+0.00 0.00 792.00 612.00 re f
+0.9176 0.9412 0.9725 rg
+0.00 548.00 792.00 64.00 re f
+BT
+0.0588 0.0902 0.1647 rg
+/F2 18.00 Tf
+1 0 0 1 26.00 578.00 Tm
+(Atho 250Y Linear Ramp Reference) Tj
+ET
+BT
+0.2784 0.3333 0.4118 rg
+/F1 9.00 Tf
+1 0 0 1 26.00 560.00 Tm
+(Analytic ramp cross-check \(from atho_emissions_250y_linear_ramp_reference.csv\) | Columns 1-5 of 5) Tj
+ET
+0.9176 0.9412 0.9725 rg
+20.00 516.00 752.00 16.00 re f
+1.00 w
+0.8275 0.8627 0.9216 RG
+20.00 516.00 752.00 16.00 re S
+BT
+0.0588 0.0902 0.1647 rg
+/F2 8.50 Tf
+1 0 0 1 24.00 520.00 Tm
+(final_usage_pct) Tj
+ET
+BT
+0.0588 0.0902 0.1647 rg
+/F2 8.50 Tf
+1 0 0 1 139.10 520.00 Tm
+(s_25_atho) Tj
+ET
+BT
+0.0588 0.0902 0.1647 rg
+/F2 8.50 Tf
+1 0 0 1 269.55 520.00 Tm
+(s_50_atho) Tj
+ET
+BT
+0.0588 0.0902 0.1647 rg
+/F2 8.50 Tf
+1 0 0 1 400.00 520.00 Tm
+(s_100_atho) Tj
+ET
+BT
+0.0588 0.0902 0.1647 rg
+/F2 8.50 Tf
+1 0 0 1 530.45 520.00 Tm
+(post_25_net_change_atho_per_year) Tj
+ET
+1.0000 1.0000 1.0000 rg
+20.00 500.00 752.00 16.00 re f
+0.50 w
+0.8275 0.8627 0.9216 RG
+20.00 500.00 752.00 16.00 re S
+BT
+0.0588 0.0902 0.1647 rg
+/F1 8.20 Tf
+1 0 0 1 24.00 504.00 Tm
+(25.0000) Tj
+ET
+BT
+0.0588 0.0902 0.1647 rg
+/F1 8.20 Tf
+1 0 0 1 139.10 504.00 Tm
+(25458750.00000000) Tj
+ET
+BT
+0.0588 0.0902 0.1647 rg
+/F1 8.20 Tf
+1 0 0 1 269.55 504.00 Tm
+(27511875.00000000) Tj
+ET
+BT
+0.0588 0.0902 0.1647 rg
+/F1 8.20 Tf
+1 0 0 1 400.00 504.00 Tm
+(31039442.12328767) Tj
+ET
+BT
+0.0588 0.0902 0.1647 rg
+/F1 8.20 Tf
+1 0 0 1 530.45 504.00 Tm
+(32850.00000000) Tj
+ET
+0.9176 0.9412 0.9725 rg
+20.00 484.00 752.00 16.00 re f
+0.50 w
+0.8275 0.8627 0.9216 RG
+20.00 484.00 752.00 16.00 re S
+BT
+0.0588 0.0902 0.1647 rg
+/F1 8.20 Tf
+1 0 0 1 24.00 488.00 Tm
+(50.0000) Tj
+ET
+BT
+0.0588 0.0902 0.1647 rg
+/F1 8.20 Tf
+1 0 0 1 139.10 488.00 Tm
+(25458750.00000000) Tj
+ET
+BT
+0.0588 0.0902 0.1647 rg
+/F1 8.20 Tf
+1 0 0 1 269.55 488.00 Tm
+(27511875.00000000) Tj
+ET
+BT
+0.0588 0.0902 0.1647 rg
+/F1 8.20 Tf
+1 0 0 1 400.00 488.00 Tm
+(30784384.24657534) Tj
+ET
+BT
+0.0588 0.0902 0.1647 rg
+/F1 8.20 Tf
+1 0 0 1 530.45 488.00 Tm
+(0E-8) Tj
+ET
+1.0000 1.0000 1.0000 rg
+20.00 468.00 752.00 16.00 re f
+0.50 w
+0.8275 0.8627 0.9216 RG
+20.00 468.00 752.00 16.00 re S
+BT
+0.0588 0.0902 0.1647 rg
+/F1 8.20 Tf
+1 0 0 1 24.00 472.00 Tm
+(75.0000) Tj
+ET
+BT
+0.0588 0.0902 0.1647 rg
+/F1 8.20 Tf
+1 0 0 1 139.10 472.00 Tm
+(25458750.00000000) Tj
+ET
+BT
+0.0588 0.0902 0.1647 rg
+/F1 8.20 Tf
+1 0 0 1 269.55 472.00 Tm
+(27511875.00000000) Tj
+ET
+BT
+0.0588 0.0902 0.1647 rg
+/F1 8.20 Tf
+1 0 0 1 400.00 472.00 Tm
+(30529326.36986301) Tj
+ET
+BT
+0.0588 0.0902 0.1647 rg
+/F1 8.20 Tf
+1 0 0 1 530.45 472.00 Tm
+(-32850.00000000) Tj
+ET
+0.9176 0.9412 0.9725 rg
+20.00 452.00 752.00 16.00 re f
+0.50 w
+0.8275 0.8627 0.9216 RG
+20.00 452.00 752.00 16.00 re S
+BT
+0.0588 0.0902 0.1647 rg
+/F1 8.20 Tf
+1 0 0 1 24.00 456.00 Tm
+(100.0000) Tj
+ET
+BT
+0.0588 0.0902 0.1647 rg
+/F1 8.20 Tf
+1 0 0 1 139.10 456.00 Tm
+(25458750.00000000) Tj
+ET
+BT
+0.0588 0.0902 0.1647 rg
+/F1 8.20 Tf
+1 0 0 1 269.55 456.00 Tm
+(27511875.00000000) Tj
+ET
+BT
+0.0588 0.0902 0.1647 rg
+/F1 8.20 Tf
+1 0 0 1 400.00 456.00 Tm
+(30274268.49315068) Tj
+ET
+BT
+0.0588 0.0902 0.1647 rg
+/F1 8.20 Tf
+1 0 0 1 530.45 456.00 Tm
+(-65700.00000000) Tj
+ET
+BT
+0.2784 0.3333 0.4118 rg
+/F2 8.50 Tf
+1 0 0 1 26.00 100.00 Tm
+(Footnotes) Tj
+ET
+BT
+0.2784 0.3333 0.4118 rg
+/F1 7.00 Tf
+1 0 0 1 34.00 90.00 Tm
+([1] Rows: Each row is one closed-form reference case at selected final utilization.) Tj
+ET
+BT
+0.2784 0.3333 0.4118 rg
+/F1 7.00 Tf
+1 0 0 1 34.00 81.00 Tm
+([2] final_usage_pct: Final utilization level used in linear-ramp closed-form reference.) Tj
+ET
+BT
+0.2784 0.3333 0.4118 rg
+/F1 7.00 Tf
+1 0 0 1 34.00 72.00 Tm
+([3] s_25_atho: Closed-form reference circulating supply at indicated year \(ATHO\).) Tj
+ET
+BT
+0.2784 0.3333 0.4118 rg
+/F1 7.00 Tf
+1 0 0 1 34.00 63.00 Tm
+([4] s_50_atho: Closed-form reference circulating supply at indicated year \(ATHO\).) Tj
+ET
+BT
+0.2784 0.3333 0.4118 rg
+/F1 7.00 Tf
+1 0 0 1 34.00 54.00 Tm
+([5] s_100_atho: Closed-form reference circulating supply at indicated year \(ATHO\).) Tj
+ET
+BT
+0.2784 0.3333 0.4118 rg
+/F1 7.00 Tf
+1 0 0 1 34.00 45.00 Tm
+([6] post_25_net_change_atho_per_year: Year-over-year circulating supply change after burn \(ATHO/year\).) Tj
+ET
+BT
+0.2784 0.3333 0.4118 rg
+/F1 8.00 Tf
+1 0 0 1 26.00 20.00 Tm
+(Page 1/1) Tj
+ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 792 612] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 6 0 R >>
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000123 00000 n 
+0000000193 00000 n 
+0000000268 00000 n 
+0000000336 00000 n 
+0000004640 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R >>
+startxref
+4786
+%%EOF

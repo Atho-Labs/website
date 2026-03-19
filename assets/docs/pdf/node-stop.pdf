@@ -1,0 +1,214 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 2 /Kids [4 0 R 6 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 1383 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Node Stop Utility \(Src/Main/stop.py\)) Tj
+T*
+() Tj
+T*
+(Status: Alpha documentation snapshot \(2026-03-12\).) Tj
+T*
+() Tj
+T*
+(This utility stops Atho node processes even when they were started from another) Tj
+T*
+(terminal/background session.) Tj
+T*
+() Tj
+T*
+(It targets:) Tj
+T*
+(- fullnode.py) Tj
+T*
+(- minernode.py) Tj
+T*
+(- walletnode.py) Tj
+T*
+(- runminer.py) Tj
+T*
+(- runnode.py \(launcher, optional/available\)) Tj
+T*
+() Tj
+T*
+(Why this exists) Tj
+T*
+() Tj
+T*
+(runnode.py launches background processes but does not include a dedicated stop command.) Tj
+T*
+(stop.py gives you one place to:) Tj
+T*
+(- stop one node role \(full, miner, wallet\)) Tj
+T*
+(- stop everything) Tj
+T*
+(- stop specific PIDs) Tj
+T*
+(- integrate the same logic from API/GUI code) Tj
+T*
+() Tj
+T*
+(CLI Usage) Tj
+T*
+() Tj
+T*
+(From project root:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(No flags opens an interactive menu where you can choose:) Tj
+T*
+(- stop all) Tj
+T*
+(- stop full) Tj
+T*
+(- stop miner) Tj
+T*
+(- stop wallet) Tj
+T*
+(- stop launcher) Tj
+T*
+(- stop by PID) Tj
+T*
+() Tj
+T*
+(Non-interactive examples:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(API-Friendly Functions) Tj
+T*
+() Tj
+T*
+(You can import and reuse these directly:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Main callable functions:) Tj
+T*
+(- discover_node_processes\(include_launcher=True\)) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 1262 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- list_node_processes\(include_launcher=True\)) Tj
+T*
+(- active_nodes_snapshot\(include_launcher=True\)) Tj
+T*
+(- stop_nodes\(target="all", include_launcher=True, timeout_seconds=5.0, force_kill=True,) Tj
+T*
+(dry_run=False\)) Tj
+T*
+(- stop_pids\(pids, timeout_seconds=5.0, force_kill=True, dry_run=False\)) Tj
+T*
+() Tj
+T*
+(Signal Behavior) Tj
+T*
+() Tj
+T*
+(For each matched process:) Tj
+T*
+(- send SIGTERM) Tj
+T*
+(- wait up to timeout \(default 5s\)) Tj
+T*
+(- if still running and force-kill enabled, send SIGKILL) Tj
+T*
+() Tj
+T*
+(This is designed to cleanly stop nodes first, then force-stop only when needed.) Tj
+T*
+() Tj
+T*
+(GUI/API Integration) Tj
+T*
+() Tj
+T*
+(The API node stop routes now call this stop logic, so GUI stop actions can terminate:) Tj
+T*
+(- processes started by API controller) Tj
+T*
+(- processes started from other terminals/background launchers) Tj
+T*
+() Tj
+T*
+(The API also exposes active node monitoring:) Tj
+T*
+(- GET /nodes/active -> returns active node list, roles, and PIDs \(counts_by_role, processes,) Tj
+T*
+(by_role\).) Tj
+T*
+() Tj
+T*
+(Safety Scope) Tj
+T*
+() Tj
+T*
+(stop.py only matches Atho node/launcher command paths listed above.) Tj
+T*
+(It does **not** blanket-kill all Python processes.) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000127 00000 n 
+0000000195 00000 n 
+0000000321 00000 n 
+0000001756 00000 n 
+0000001882 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R >>
+startxref
+3196
+%%EOF

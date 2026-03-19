@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Join Atho network quickly: environment setup, API auth, binary checks, node launch, and verification.">
+  <title>Join Atho</title>
+  <link rel="icon" type="image/png" href="./assets/media/round-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/variables.css">
+  <link rel="stylesheet" href="./assets/css/base.css">
+  <link rel="stylesheet" href="./assets/css/layout.css">
+  <link rel="stylesheet" href="./assets/css/components.css">
+  <link rel="stylesheet" href="./assets/css/motion.css">
+  <link rel="stylesheet" href="./assets/css/responsive.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-shell">
+      <a class="brand" href="./index.html#overview" aria-label="Atho home">
+        <img class="brand-mark" src="./assets/media/round-logo.png" alt="Atho logo">
+        <span>
+          <span class="brand-title">Atho</span>
+          <span class="brand-sub">The Platinum Standard Of The Quantum Age</span>
+        </span>
+      </a>
+
+      <div class="header-right">
+        <nav id="main-nav" class="nav-links" data-nav-links>
+          <a class="nav-link" href="./index.html">Home</a>
+          <a class="nav-link" href="./join.html">Join</a>
+          <a class="nav-link" href="./docs.html">Docs</a>
+          <a class="nav-link" href="./changelog.html">Changelog</a>
+          <a class="nav-link" href="#quickstart">Quickstart</a>
+          <a class="nav-link" href="#key-manager">Key Manager</a>
+          <a class="nav-link" href="#verify">Verify</a>
+          <a class="nav-link" href="#troubleshoot">Troubleshoot</a>
+        </nav>
+
+        <div class="social-links" aria-label="Social media">
+          <a class="social-link" href="https://github.com/Atho-Labs" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.1.68-.21.68-.48v-1.7c-2.78.6-3.37-1.18-3.37-1.18-.45-1.14-1.11-1.45-1.11-1.45-.9-.62.07-.61.07-.61 1 .08 1.53 1.03 1.53 1.03.89 1.52 2.33 1.08 2.9.83.09-.64.35-1.08.64-1.33-2.22-.25-4.56-1.11-4.56-4.95 0-1.1.39-2 1.03-2.71-.11-.26-.45-1.29.1-2.69 0 0 .84-.27 2.75 1.03a9.46 9.46 0 0 1 5 0c1.9-1.3 2.74-1.03 2.74-1.03.56 1.4.22 2.43.11 2.69.64.71 1.03 1.61 1.03 2.71 0 3.85-2.34 4.69-4.57 4.94.36.31.68.91.68 1.84v2.73c0 .27.18.59.69.48A10 10 0 0 0 12 2Z"/></svg>
+          </a>
+          <a class="social-link" href="https://x.com/Atho_io" target="_blank" rel="noopener noreferrer" aria-label="X" title="X">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.24 3h2.94l-6.43 7.35L22 21h-5.64l-4.42-5.78L6.88 21H3.94l6.88-7.86L2 3h5.78l4 5.28L18.24 3Zm-.99 16.3h1.56L6.93 4.62H5.26L17.25 19.3Z"/></svg>
+          </a>
+          <a class="social-link" href="https://www.reddit.com/r/Atho/" target="_blank" rel="noopener noreferrer" aria-label="Reddit" title="Reddit">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a2.5 2.5 0 0 0-4.6-1.4 11.1 11.1 0 0 0-2.8-.8l.6-2.8 2 .4a1.8 1.8 0 1 0 .2-1.2l-2.4-.5a.7.7 0 0 0-.8.5l-.7 3.3a11.8 11.8 0 0 0-3 .9A2.5 2.5 0 1 0 4 11.5c0 .4.1.8.3 1.1a4.9 4.9 0 0 0-.1.9c0 2.9 3.5 5.2 7.8 5.2s7.8-2.3 7.8-5.2c0-.3 0-.6-.1-.9.2-.3.3-.7.3-1.1Zm-11 2.9a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2Zm6 0a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2Zm-5 2.6a.7.7 0 0 1 1-.1 2 2 0 0 0 2.2 0 .7.7 0 0 1 .9 1 3.4 3.4 0 0 1-4 0 .7.7 0 0 1-.1-1Z"/></svg>
+          </a>
+          <a class="social-link" href="https://www.instagram.com/atho.io" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm11 1.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>
+          </a>
+          <a class="social-link" href="https://discord.gg/W5fV4aGcUR" target="_blank" rel="noopener noreferrer" aria-label="Discord" title="Discord">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.54 5.23A16.4 16.4 0 0 0 15.35 4l-.2.41a15.3 15.3 0 0 1 3.72 1.14 11.7 11.7 0 0 0-3.35-1.03 11.1 11.1 0 0 0-.5 1.02 14.4 14.4 0 0 0-6.04 0 10.7 10.7 0 0 0-.5-1.02 11.3 11.3 0 0 0-3.36 1.03 15.1 15.1 0 0 1 3.72-1.14L8.66 4a16.3 16.3 0 0 0-4.2 1.23C1.9 9.08 1.2 12.82 1.55 16.5a16.5 16.5 0 0 0 5.15 2.62l1.12-1.5c-.62-.22-1.21-.5-1.77-.83.15.11.31.22.47.32 1.52.9 3.27 1.37 5.48 1.37s3.96-.47 5.48-1.37c.16-.1.32-.2.47-.32-.56.33-1.15.61-1.77.83l1.12 1.5a16.4 16.4 0 0 0 5.15-2.62c.42-4.27-.72-7.97-2.91-11.27ZM8.86 14.23c-.96 0-1.74-.88-1.74-1.95s.77-1.95 1.74-1.95c.98 0 1.75.88 1.74 1.95 0 1.07-.77 1.95-1.74 1.95Zm6.28 0c-.96 0-1.74-.88-1.74-1.95s.77-1.95 1.74-1.95c.98 0 1.75.88 1.74 1.95 0 1.07-.77 1.95-1.74 1.95Z"/></svg>
+          </a>
+          <a class="social-link" href="https://t.me/atho_labs" target="_blank" rel="noopener noreferrer" aria-label="Telegram" title="Telegram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.8 4.2a1.3 1.3 0 0 0-1.4-.2L3 10.8a1.2 1.2 0 0 0 .1 2.3l4.4 1.4 1.7 5.2a1.2 1.2 0 0 0 2 .5l2.4-2.5 4.5 3.3a1.2 1.2 0 0 0 1.9-.7L22 5.4a1.3 1.3 0 0 0-.2-1.2ZM9.2 14.8l-.8-2.3 8.5-5.3-7.7 7.6Z"/></svg>
+          </a>
+          <a class="social-link" href="./contact.html" aria-label="Email" title="Email">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h13A2.5 2.5 0 0 1 21 6.5v11a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5v-11Zm2 .46V17.5c0 .28.22.5.5.5h13a.5.5 0 0 0 .5-.5V6.96l-6.4 5.04a1 1 0 0 1-1.24 0L5 6.96Zm12.33-.96H6.67L12 10.2 17.33 6Z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <button class="menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="main-nav" aria-label="Toggle menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="wrap hero-grid">
+        <div class="hero-copy" data-reveal>
+          <div class="eyebrow-row">
+            <span class="section-eyebrow section-eyebrow-hot">Join Atho</span>
+            <span class="section-eyebrow">Quick Node Setup</span>
+          </div>
+          <h1>From fresh clone to active node in minutes.</h1>
+          <p>
+            This page walks through setup, API auth, Falcon/Kyber checks, key creation and management, node launch, and verification. It follows the current Atho quickstart runbook and adds a dedicated key-manager flow for GUI and CLI operators.
+          </p>
+          <p class="hero-footnote join-network-note">
+            <strong>Network notice:</strong> Run on <code>testnet</code> until mainnet launch. Set <code>ATHO_NETWORK=testnet</code> before starting nodes.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-inline" href="#quickstart">Start Setup</a>
+            <a class="btn btn-ghost btn-inline" href="./docs.html">Open Full Docs</a>
+          </div>
+        </div>
+
+        <div class="hero-panel" data-reveal>
+          <div class="card card-pad">
+            <h2 class="panel-title">Before you start</h2>
+            <ul class="key-list">
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Testnet-only until mainnet launch</strong>
+                  <span>Keep <code>ATHO_NETWORK=testnet</code> aligned across GUI, CLI, and node startup commands.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Python + venv</strong>
+                  <span>Python 3.9+ with an isolated virtual environment is required.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>API key is mandatory</strong>
+                  <span>Node and CLI actions require API auth headers and permissions.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Falcon/Kyber runtime checks + key setup</strong>
+                  <span>Install/register cryptographic binaries, then run key manager to create wallet keys before routine node operations.</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="quickstart" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Setup Steps</span>
+        <h2 class="section-title">Join flow by operating system</h2>
+        <div class="feature-grid">
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Linux Setup</h3>
+            <p>Clone repo, create virtual environment, install dependencies, then launch nodes.</p>
+            <pre class="join-code"><code>git clone &lt;repo-url&gt;
+cd &lt;repo-dir&gt;
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip setuptools wheel
+python -m pip install -r requirements.txt
+./.venv/bin/python Src/Api/auth.py
+./.venv/bin/python Src/Falcon/Falcon/install_platform_binary.py
+./.venv/bin/python Src/GUI/cliui.py
+# CLI: wallet new 24
+./.venv/bin/python Src/Main/runnode.py</code></pre>
+            <span class="feature-tag">Linux</span>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>macOS Setup</h3>
+            <p>Use the same core flow as Linux with local build toolchain available for native dependencies.</p>
+            <pre class="join-code"><code>git clone &lt;repo-url&gt;
+cd &lt;repo-dir&gt;
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip setuptools wheel
+python -m pip install -r requirements.txt
+./.venv/bin/python Src/Api/auth.py
+./.venv/bin/python Src/Falcon/Falcon/install_platform_binary.py
+./.venv/bin/python Src/GUI/cliui.py
+# CLI: wallet new 24
+./.venv/bin/python Src/Main/runnode.py</code></pre>
+            <span class="feature-tag">macOS</span>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Windows Setup (PowerShell)</h3>
+            <p>Install compiler/build tools first, then run the setup sequence below.</p>
+            <pre class="join-code"><code>git clone &lt;repo-url&gt;
+cd &lt;repo-dir&gt;
+py -3 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip setuptools wheel
+python -m pip install -r requirements.txt
+python Src/Api/auth.py
+python Src/Falcon/Falcon/install_platform_binary.py
+python Src/GUI/cliui.py
+# CLI: wallet new 24
+python Src/Main/runnode.py</code></pre>
+            <span class="feature-tag">Windows</span>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>API Auth + Validation</h3>
+            <p>Create credentials once, then verify API chain status before routine operation.</p>
+            <pre class="join-code"><code>curl -H "X-API-Key:&lt;KEY&gt;" \
+  -H "X-User:&lt;USER&gt;" \
+  -H "X-Pass:&lt;PASS&gt;" \
+  http://127.0.0.1:&lt;full_api_port&gt;/chain/info</code></pre>
+            <span class="feature-tag">Validation</span>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Falcon + Kyber References</h3>
+            <p>Official references for Atho’s signature and KEM hardening stack.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary btn-inline" href="https://falcon-sign.info/" target="_blank" rel="noopener noreferrer">Falcon Reference</a>
+              <a class="btn btn-primary btn-inline" href="https://pq-crystals.org/kyber/" target="_blank" rel="noopener noreferrer">Kyber Reference</a>
+            </div>
+            <span class="feature-tag">References</span>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Troubleshooting First Path</h3>
+            <p>Use troubleshooting docs for startup/auth/sync issues before deeper recovery actions.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary btn-inline" href="./docs.html#docs-index">Open Troubleshooting Docs</a>
+            </div>
+            <span class="feature-tag">Recovery</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="key-manager" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Key Management</span>
+        <h2 class="section-title">After venv + Falcon build, run key manager before normal wallet/miner use.</h2>
+        <p class="section-copy">
+          This is the required step between dependency setup and ongoing node operation. Create or import keys first, then confirm defaults and wallet security policy so send/mining flows have valid signing material.
+        </p>
+        <div class="feature-grid">
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Recommended order (fast path)</h3>
+            <ol class="join-step-list">
+              <li>Finish <code>venv</code>, dependencies, API key setup, and Falcon binary install.</li>
+              <li>Open CLI wallet/key manager and generate a mnemonic-backed key (default 24 words).</li>
+              <li>Confirm addresses/default key, then start nodes and verify API health.</li>
+            </ol>
+            <pre class="join-code"><code>source .venv/bin/activate
+./.venv/bin/python Src/GUI/cliui.py
+# in CLI:
+wallet new 24
+wallet addresses
+wallet balance</code></pre>
+            <span class="feature-tag">Run Order</span>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Manage keys in GUI or CLI</h3>
+            <p>Use GUI Wallet tab for visual control, or CLI tools for operator scripting and precision changes.</p>
+            <pre class="join-code"><code>./.venv/bin/python Src/Accounts/change_default_key.py list
+./.venv/bin/python Src/Accounts/change_default_key.py set-default --network testnet --id miner_1
+./.venv/bin/python Src/Accounts/change_default_key.py rename --network testnet --old miner_1 --new validator_main
+./.venv/bin/python Src/Accounts/change_default_key.py import --network testnet --id import_1 --file /path/to/key.txt
+./.venv/bin/python Src/Accounts/change_default_key.py delete --network testnet --key import_1</code></pre>
+            <span class="feature-tag">GUI + CLI</span>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Key manager / wallet features</h3>
+            <ul class="key-list">
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Create, recover, import, export</strong>
+                  <span>Mnemonic-backed keys (12/24/48 words), deterministic recovery, and wallet import/export support.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Rename, delete, set default</strong>
+                  <span>Manage active wallet identities per network (`mainnet`, `testnet`, `regnet`) with safe default handling.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Wallet lockbox security</strong>
+                  <span>Password + AES-256-GCM with Kyber-backed unlock workflow, lock/unlock, password change, and encrypted backup/export controls.</span>
+                </span>
+              </li>
+            </ul>
+            <span class="feature-tag">Security + Control</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="verify" class="section">
+      <div class="wrap">
+        <div class="split-grid">
+          <article class="card card-pad" data-reveal>
+            <h3 class="panel-title">Runtime signals to watch</h3>
+            <ul class="key-list">
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Peer handshake</strong>
+                  <span>Look for `handshake_ok` and connected peers in network logs.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Sync progression</strong>
+                  <span>Tip height should move toward network best known chain.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Node process health</strong>
+                  <span>Use `stop.py --active` to verify running node PIDs and detect stale starts.</span>
+                </span>
+              </li>
+            </ul>
+          </article>
+
+          <article id="troubleshoot" class="card card-pad" data-reveal>
+            <h3 class="panel-title">Fast troubleshooting shortcuts</h3>
+            <ul class="key-list">
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>List active nodes</strong>
+                  <span><code>./.venv/bin/python Src/Main/stop.py --active</code></span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Stop stale background nodes</strong>
+                  <span><code>./.venv/bin/python Src/Main/stop.py --all</code></span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Deep fixes</strong>
+                  <span>Use the full troubleshooting runbook for API, sync, storage, and miner-specific recovery paths.</span>
+                </span>
+              </li>
+            </ul>
+            <div class="hero-actions">
+              <a class="btn btn-primary btn-inline" href="./docs.html#docs-index">Search Full Documentation</a>
+            </div>
+          </article>
+        </div>
+
+        <article class="card card-pad join-troubleshoot-deep" data-reveal>
+          <h3 class="panel-title">Most common errors and direct doc buttons</h3>
+          <p class="panel-copy">
+            These are the high-frequency setup failures. Each one includes a direct documentation button so users can jump straight to the exact fix path.
+          </p>
+          <div class="feature-grid">
+            <article class="card card-pad feature-card join-error-card">
+              <h3>API key not set / auth headers missing</h3>
+              <p>Symptoms: 401/403 responses or GUI wallet calls failing auth.</p>
+              <pre class="join-code"><code>./.venv/bin/python Src/Api/auth.py</code></pre>
+              <div class="hero-actions">
+                <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/apiauth.pdf" download>API Auth Doc</a>
+                <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/troubleshooting.pdf" download>Troubleshooting</a>
+              </div>
+            </article>
+
+            <article class="card card-pad feature-card join-error-card">
+              <h3>Virtual environment not set/activated</h3>
+              <p>Symptoms: import errors, wrong python path, package mismatch across runs.</p>
+              <pre class="join-code"><code>python3 -m venv .venv
+source .venv/bin/activate</code></pre>
+              <div class="hero-actions">
+                <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/quickstart.pdf" download>Quickstart Doc</a>
+                <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/troubleshooting.pdf" download>Dependency Fixes</a>
+              </div>
+            </article>
+
+            <article class="card card-pad feature-card join-error-card">
+              <h3>Requirements not fully installed</h3>
+              <p>Symptoms: missing modules after install (`lmdb`, `cryptography`, GUI/runtime deps).</p>
+              <pre class="join-code"><code>python -m pip install --upgrade pip setuptools wheel
+python -m pip install -r requirements.txt</code></pre>
+              <div class="hero-actions">
+                <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/quickstart.pdf" download>Install Sequence</a>
+                <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/troubleshooting.pdf" download>Install Errors</a>
+              </div>
+            </article>
+
+            <article class="card card-pad feature-card join-error-card">
+              <h3>Outdated pip / installer toolchain</h3>
+              <p>Symptoms: wheel build failures or package resolver issues during setup.</p>
+              <pre class="join-code"><code>python -m pip install --upgrade pip setuptools wheel</code></pre>
+              <div class="hero-actions">
+                <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/quickstart.pdf" download>Quickstart Install</a>
+              </div>
+            </article>
+
+            <article class="card card-pad feature-card join-error-card">
+              <h3>Falcon binary not installed/registered</h3>
+              <p>Symptoms: runtime signing checks fail because expected binary is missing or stale.</p>
+              <pre class="join-code"><code>./.venv/bin/python Src/Falcon/Falcon/install_platform_binary.py</code></pre>
+              <div class="hero-actions">
+                <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/binaries.pdf" download>Binaries Doc</a>
+                <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/falcon-docs.pdf" download>Falcon Reference</a>
+              </div>
+            </article>
+
+            <article class="card card-pad feature-card join-error-card">
+              <h3>Binary hash pin mismatch (manual update)</h3>
+              <p>Symptoms: startup blocks with pinning/runtime-guard digest mismatch messages.</p>
+              <pre class="join-code"><code># update expected Falcon digest pins in:
+Src/Utility/const.py</code></pre>
+              <div class="hero-actions">
+                <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/troubleshooting.pdf" download>Pinning Guide</a>
+                <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/binaries.pdf" download>Binary Workflow</a>
+              </div>
+            </article>
+
+            <article class="card card-pad feature-card join-error-card">
+              <h3>Wrong network mode (must stay on testnet)</h3>
+              <p>Symptoms: no headers, peers on a different chain, sync mismatch.</p>
+              <pre class="join-code"><code>export ATHO_NETWORK=testnet
+./.venv/bin/python Src/Main/runnode.py</code></pre>
+              <div class="hero-actions">
+                <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/quickstart.pdf" download>Network Setup</a>
+                <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/troubleshooting.pdf" download>Sync Issues</a>
+              </div>
+            </article>
+
+            <article class="card card-pad feature-card join-error-card">
+              <h3>Stale node processes / port conflicts</h3>
+              <p>Symptoms: nodes fail to start or report that ports are already in use.</p>
+              <pre class="join-code"><code>./.venv/bin/python Src/Main/stop.py --active
+./.venv/bin/python Src/Main/stop.py --all</code></pre>
+              <div class="hero-actions">
+                <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/node-stop.pdf" download>Node Stop Doc</a>
+                <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/troubleshooting.pdf" download>Port Fixes</a>
+              </div>
+            </article>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <span>Atho Labs</span>
+      <span class="footer-contact">
+        To report bugs, security issues, or general inquiries:
+        <a href="./contact.html">Contact</a>
+        or
+        <a href="mailto:labs@atho.io">labs@atho.io</a>
+      </span>
+      <span>&copy; <span data-year></span> Atho Labs. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>

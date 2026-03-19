@@ -1,0 +1,1041 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 9 /Kids [4 0 R 6 0 R 8 0 R 10 0 R 12 0 R 14 0 R 16 0 R 18 0 R 20 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2875 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(ATHO 250-YEAR SCENARIO REPORT) Tj
+T*
+(========================================================) Tj
+T*
+(Generated: 2026-03-17T22:57:26) Tj
+T*
+() Tj
+T*
+(PURPOSE) Tj
+T*
+(-------) Tj
+T*
+(- Compare explicit block-capacity scenarios with identical consensus inputs.) Tj
+T*
+(- Isolate effects on supply, burn, miner revenue, and annual net change.) Tj
+T*
+() Tj
+T*
+(SCENARIO DEFINITIONS) Tj
+T*
+(--------------------) Tj
+T*
+(- No Burn \(100% block capacity\): cap=100.00%, burn=off) Tj
+T*
+(- Burn On \(25% block capacity\): cap=25.00%, burn=on) Tj
+T*
+(- Burn On \(50% block capacity\): cap=50.00%, burn=on) Tj
+T*
+(- Burn On \(75% block capacity\): cap=75.00%, burn=on) Tj
+T*
+(- Burn On \(100% block capacity\): cap=100.00%, burn=on) Tj
+T*
+() Tj
+T*
+(TOP-LINE SUMMARY) Tj
+T*
+(----------------) Tj
+T*
+(Scenario                      | Year250 Circulating | Year250 Burned | PostTail Net/yr |) Tj
+T*
+(Breakeven Price Lift% | Loss-Rate Threshold%) Tj
+T*
+(------------------------------+---------------------+----------------+-----------------+--------) Tj
+T*
+(---------------+---------------------) Tj
+T*
+(No Burn \(100% block capacity\) |      41,149,500.000 |          0.000 |      65,700.000 |) Tj
+T*
+(0.000 |                0.160) Tj
+T*
+(Burn On \(25% block capacity\)  |      35,565,000.000 |  5,584,500.000 |      32,850.000 |) Tj
+T*
+(50.000 |                0.092) Tj
+T*
+(Burn On \(50% block capacity\)  |      29,980,500.000 | 11,169,000.000 |           0.000 |) Tj
+T*
+(100.000 |                0.000) Tj
+T*
+(Burn On \(75% block capacity\)  |      24,396,000.000 | 16,753,500.000 |     -32,850.000 |) Tj
+T*
+(150.000 |                0.000) Tj
+T*
+(Burn On \(100% block capacity\) |      21,000,000.000 | 20,149,500.000 |     -65,700.000 |) Tj
+T*
+(200.000 |                0.000) Tj
+T*
+(Table Footnotes:) Tj
+T*
+(  [1] Rows: Each row summarizes one scenario endpoint and tail-era economics.) Tj
+T*
+(  [2] Column 'Scenario': Scenario name for the row.) Tj
+T*
+(  [3] Column 'Year250 Circulating': Projected circulating supply at year 250 \(ATHO\).) Tj
+T*
+(  [4] Column 'Year250 Burned': Projected cumulative burned coins at year 250 \(ATHO\).) Tj
+T*
+(  [5] Column 'PostTail Net/yr': Steady-state tail-era annual supply delta under scenario) Tj
+T*
+(\(ATHO/year\).) Tj
+T*
+(  [6] Column 'Breakeven Price Lift%': Price increase needed for miner revenue to match selected) Tj
+T*
+(no-burn) Tj
+T*
+(      reference.) Tj
+T*
+(  [7] Column 'Loss-Rate Threshold%': External coin-loss rate needed to push total net supply) Tj
+T*
+(change below zero.) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(CHECKPOINT MATRIX) Tj
+T*
+(-----------------) Tj
+T*
+(Year |      NoBurn100 |         Burn25 |         Burn50 |         Burn75 |        Burn100 |) Tj
+T*
+(NoBurn-Burn100 | Reduction %) Tj
+T*
+(-----+----------------+----------------+----------------+----------------+----------------+-----) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 3467 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(-----------+------------) Tj
+T*
+(   0 |          0.000 |          0.000 |          0.000 |          0.000 |          0.000 |) Tj
+T*
+(0.000 |       0.000) Tj
+T*
+(  10 | 19,710,000.000 | 19,710,000.000 | 19,710,000.000 | 19,710,000.000 | 19,710,000.000 |) Tj
+T*
+(0.000 |       0.000) Tj
+T*
+(  25 | 25,458,750.000 | 25,458,750.000 | 25,458,750.000 | 25,458,750.000 | 25,458,750.000 |) Tj
+T*
+(0.000 |       0.000) Tj
+T*
+(  50 | 27,511,875.000 | 27,511,875.000 | 27,511,875.000 | 27,511,875.000 | 27,511,875.000 |) Tj
+T*
+(0.000 |       0.000) Tj
+T*
+( 100 | 31,294,500.000 | 30,637,500.000 | 29,980,500.000 | 29,323,500.000 | 28,666,500.000 |) Tj
+T*
+(2,628,000.000 |       8.398) Tj
+T*
+( 150 | 34,579,500.000 | 32,280,000.000 | 29,980,500.000 | 27,681,000.000 | 25,381,500.000 |) Tj
+T*
+(9,198,000.000 |      26.600) Tj
+T*
+( 200 | 37,864,500.000 | 33,922,500.000 | 29,980,500.000 | 26,038,500.000 | 22,096,500.000 |) Tj
+T*
+(15,768,000.000 |      41.643) Tj
+T*
+( 250 | 41,149,500.000 | 35,565,000.000 | 29,980,500.000 | 24,396,000.000 | 21,000,000.000 |) Tj
+T*
+(20,149,500.000 |      48.967) Tj
+T*
+(Table Footnotes:) Tj
+T*
+(  [1] Rows: Rows are shared checkpoint years for cross-scenario comparison.) Tj
+T*
+(  [2] Column 'Year': Model year index from genesis \(0..250\).) Tj
+T*
+(  [3] Column 'NoBurn100': Circulating supply value for the named scenario \(ATHO\).) Tj
+T*
+(  [4] Column 'Burn25': Circulating supply value for the named scenario \(ATHO\).) Tj
+T*
+(  [5] Column 'Burn50': Circulating supply value for the named scenario \(ATHO\).) Tj
+T*
+(  [6] Column 'Burn75': Circulating supply value for the named scenario \(ATHO\).) Tj
+T*
+(  [7] Column 'Burn100': Circulating supply value for the named scenario \(ATHO\).) Tj
+T*
+(  [8] Column 'NoBurn-Burn100': Deterministic model field \(units are included in header text\).) Tj
+T*
+(  [9] Column 'Reduction %': Difference between NoBurn100 and Burn100 values at checkpoint.) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(SCENARIO DETAIL - No Burn \(100% block capacity\)) Tj
+T*
+(-----------------------------------------------) Tj
+T*
+(Year |    Circulating | Cumul Burned |   Issuance/yr |     Fees/yr | Burn/yr |  Miner Rev/yr |) Tj
+T*
+(Net Change/yr | Net Rate %) Tj
+T*
+(-----+----------------+--------------+---------------+-------------+---------+---------------+--) Tj
+T*
+(-------------+-----------) Tj
+T*
+(   0 |          0.000 |        0.000 |         0.000 |       0.000 |   0.000 |         0.000 |) Tj
+T*
+(0.000 |     0.000%) Tj
+T*
+(  10 | 19,710,000.000 |        0.000 | 1,314,000.000 | 131,400.000 |   0.000 | 1,445,400.000 |) Tj
+T*
+(1,314,000.000 |     7.143%) Tj
+T*
+(  25 | 25,458,750.000 |        0.000 |   164,250.000 | 131,400.000 |   0.000 |   295,650.000 |) Tj
+T*
+(164,250.000 |     0.649%) Tj
+T*
+(  50 | 27,511,875.000 |        0.000 |    82,125.000 | 131,400.000 |   0.000 |   213,525.000 |) Tj
+T*
+(82,125.000 |     0.299%) Tj
+T*
+( 100 | 31,294,500.000 |        0.000 |    65,700.000 | 131,400.000 |   0.000 |   197,100.000 |) Tj
+T*
+(65,700.000 |     0.210%) Tj
+T*
+( 150 | 34,579,500.000 |        0.000 |    65,700.000 | 131,400.000 |   0.000 |   197,100.000 |) Tj
+T*
+(65,700.000 |     0.190%) Tj
+T*
+( 200 | 37,864,500.000 |        0.000 |    65,700.000 | 131,400.000 |   0.000 |   197,100.000 |) Tj
+T*
+(65,700.000 |     0.174%) Tj
+T*
+( 250 | 41,149,500.000 |        0.000 |    65,700.000 | 131,400.000 |   0.000 |   197,100.000 |) Tj
+T*
+(65,700.000 |     0.160%) Tj
+T*
+(Table Footnotes:) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 3799 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(  [1] Rows: Rows are checkpoints for scenario 'No Burn \(100% block capacity\)'.) Tj
+T*
+(  [2] Column 'Year': Model year index from genesis \(0..250\).) Tj
+T*
+(  [3] Column 'Circulating': Circulating = cumulative emitted - cumulative burned \(ATHO\).) Tj
+T*
+(  [4] Column 'Cumul Burned': Total burned fees from genesis through sampled year-end \(ATHO\).) Tj
+T*
+(  [5] Column 'Issuance/yr': Coins newly minted during the sampled year \(ATHO/year\).) Tj
+T*
+(  [6] Column 'Fees/yr': Total fee pool under assumed utilization at fee floor \(ATHO/year\).) Tj
+T*
+(  [7] Column 'Burn/yr': Coins permanently removed from fees under burn policy \(ATHO/year\).) Tj
+T*
+(  [8] Column 'Miner Rev/yr': Miner income = annual issuance + miner fee share \(ATHO/year\).) Tj
+T*
+(  [9] Column 'Net Change/yr': Year-over-year circulating supply change after burn \(ATHO/year\).) Tj
+T*
+(  [10] Column 'Net Rate %': Annual net supply change divided by previous circulating supply) Tj
+T*
+(\(%/year\).) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(SCENARIO DETAIL - Burn On \(25% block capacity\)) Tj
+T*
+(----------------------------------------------) Tj
+T*
+(Year |    Circulating |  Cumul Burned |   Issuance/yr |    Fees/yr |    Burn/yr |  Miner Rev/yr) Tj
+T*
+(| Net Change/yr | Net Rate %) Tj
+T*
+(-----+----------------+---------------+---------------+------------+------------+---------------) Tj
+T*
+(+---------------+-----------) Tj
+T*
+(   0 |          0.000 |         0.000 |         0.000 |      0.000 |      0.000 |         0.000) Tj
+T*
+(|         0.000 |     0.000%) Tj
+T*
+(  10 | 19,710,000.000 |         0.000 | 1,314,000.000 | 32,850.000 |      0.000 | 1,346,850.000) Tj
+T*
+(| 1,314,000.000 |     7.143%) Tj
+T*
+(  25 | 25,458,750.000 |         0.000 |   164,250.000 | 32,850.000 |      0.000 |   197,100.000) Tj
+T*
+(|   164,250.000 |     0.649%) Tj
+T*
+(  50 | 27,511,875.000 |         0.000 |    82,125.000 | 32,850.000 |      0.000 |   114,975.000) Tj
+T*
+(|    82,125.000 |     0.299%) Tj
+T*
+( 100 | 30,637,500.000 |   657,000.000 |    65,700.000 | 32,850.000 | 32,850.000 |    65,700.000) Tj
+T*
+(|    32,850.000 |     0.107%) Tj
+T*
+( 150 | 32,280,000.000 | 2,299,500.000 |    65,700.000 | 32,850.000 | 32,850.000 |    65,700.000) Tj
+T*
+(|    32,850.000 |     0.102%) Tj
+T*
+( 200 | 33,922,500.000 | 3,942,000.000 |    65,700.000 | 32,850.000 | 32,850.000 |    65,700.000) Tj
+T*
+(|    32,850.000 |     0.097%) Tj
+T*
+( 250 | 35,565,000.000 | 5,584,500.000 |    65,700.000 | 32,850.000 | 32,850.000 |    65,700.000) Tj
+T*
+(|    32,850.000 |     0.092%) Tj
+T*
+(Table Footnotes:) Tj
+T*
+(  [1] Rows: Rows are checkpoints for scenario 'Burn On \(25% block capacity\)'.) Tj
+T*
+(  [2] Column 'Year': Model year index from genesis \(0..250\).) Tj
+T*
+(  [3] Column 'Circulating': Circulating = cumulative emitted - cumulative burned \(ATHO\).) Tj
+T*
+(  [4] Column 'Cumul Burned': Total burned fees from genesis through sampled year-end \(ATHO\).) Tj
+T*
+(  [5] Column 'Issuance/yr': Coins newly minted during the sampled year \(ATHO/year\).) Tj
+T*
+(  [6] Column 'Fees/yr': Total fee pool under assumed utilization at fee floor \(ATHO/year\).) Tj
+T*
+(  [7] Column 'Burn/yr': Coins permanently removed from fees under burn policy \(ATHO/year\).) Tj
+T*
+(  [8] Column 'Miner Rev/yr': Miner income = annual issuance + miner fee share \(ATHO/year\).) Tj
+T*
+(  [9] Column 'Net Change/yr': Year-over-year circulating supply change after burn \(ATHO/year\).) Tj
+T*
+(  [10] Column 'Net Rate %': Annual net supply change divided by previous circulating supply) Tj
+T*
+(\(%/year\).) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(SCENARIO DETAIL - Burn On \(50% block capacity\)) Tj
+T*
+(----------------------------------------------) Tj
+T*
+(Year |    Circulating |   Cumul Burned |   Issuance/yr |    Fees/yr |    Burn/yr |  Miner Rev/yr) Tj
+T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 3727 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(| Net Change/yr | Net Rate %) Tj
+T*
+(-----+----------------+----------------+---------------+------------+------------+--------------) Tj
+T*
+(-+---------------+-----------) Tj
+T*
+(   0 |          0.000 |          0.000 |         0.000 |      0.000 |      0.000 |         0.000) Tj
+T*
+(|         0.000 |     0.000%) Tj
+T*
+(  10 | 19,710,000.000 |          0.000 | 1,314,000.000 | 65,700.000 |      0.000 | 1,379,700.000) Tj
+T*
+(| 1,314,000.000 |     7.143%) Tj
+T*
+(  25 | 25,458,750.000 |          0.000 |   164,250.000 | 65,700.000 |      0.000 |   229,950.000) Tj
+T*
+(|   164,250.000 |     0.649%) Tj
+T*
+(  50 | 27,511,875.000 |          0.000 |    82,125.000 | 65,700.000 |      0.000 |   147,825.000) Tj
+T*
+(|    82,125.000 |     0.299%) Tj
+T*
+( 100 | 29,980,500.000 |  1,314,000.000 |    65,700.000 | 65,700.000 | 65,700.000 |    65,700.000) Tj
+T*
+(|         0.000 |     0.000%) Tj
+T*
+( 150 | 29,980,500.000 |  4,599,000.000 |    65,700.000 | 65,700.000 | 65,700.000 |    65,700.000) Tj
+T*
+(|         0.000 |     0.000%) Tj
+T*
+( 200 | 29,980,500.000 |  7,884,000.000 |    65,700.000 | 65,700.000 | 65,700.000 |    65,700.000) Tj
+T*
+(|         0.000 |     0.000%) Tj
+T*
+( 250 | 29,980,500.000 | 11,169,000.000 |    65,700.000 | 65,700.000 | 65,700.000 |    65,700.000) Tj
+T*
+(|         0.000 |     0.000%) Tj
+T*
+(Table Footnotes:) Tj
+T*
+(  [1] Rows: Rows are checkpoints for scenario 'Burn On \(50% block capacity\)'.) Tj
+T*
+(  [2] Column 'Year': Model year index from genesis \(0..250\).) Tj
+T*
+(  [3] Column 'Circulating': Circulating = cumulative emitted - cumulative burned \(ATHO\).) Tj
+T*
+(  [4] Column 'Cumul Burned': Total burned fees from genesis through sampled year-end \(ATHO\).) Tj
+T*
+(  [5] Column 'Issuance/yr': Coins newly minted during the sampled year \(ATHO/year\).) Tj
+T*
+(  [6] Column 'Fees/yr': Total fee pool under assumed utilization at fee floor \(ATHO/year\).) Tj
+T*
+(  [7] Column 'Burn/yr': Coins permanently removed from fees under burn policy \(ATHO/year\).) Tj
+T*
+(  [8] Column 'Miner Rev/yr': Miner income = annual issuance + miner fee share \(ATHO/year\).) Tj
+T*
+(  [9] Column 'Net Change/yr': Year-over-year circulating supply change after burn \(ATHO/year\).) Tj
+T*
+(  [10] Column 'Net Rate %': Annual net supply change divided by previous circulating supply) Tj
+T*
+(\(%/year\).) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(SCENARIO DETAIL - Burn On \(75% block capacity\)) Tj
+T*
+(----------------------------------------------) Tj
+T*
+(Year |    Circulating |   Cumul Burned |   Issuance/yr |    Fees/yr |    Burn/yr |  Miner Rev/yr) Tj
+T*
+(| Net Change/yr | Net Rate %) Tj
+T*
+(-----+----------------+----------------+---------------+------------+------------+--------------) Tj
+T*
+(-+---------------+-----------) Tj
+T*
+(   0 |          0.000 |          0.000 |         0.000 |      0.000 |      0.000 |         0.000) Tj
+T*
+(|         0.000 |     0.000%) Tj
+T*
+(  10 | 19,710,000.000 |          0.000 | 1,314,000.000 | 98,550.000 |      0.000 | 1,412,550.000) Tj
+T*
+(| 1,314,000.000 |     7.143%) Tj
+T*
+(  25 | 25,458,750.000 |          0.000 |   164,250.000 | 98,550.000 |      0.000 |   262,800.000) Tj
+T*
+(|   164,250.000 |     0.649%) Tj
+T*
+(  50 | 27,511,875.000 |          0.000 |    82,125.000 | 98,550.000 |      0.000 |   180,675.000) Tj
+T*
+(|    82,125.000 |     0.299%) Tj
+T*
+( 100 | 29,323,500.000 |  1,971,000.000 |    65,700.000 | 98,550.000 | 98,550.000 |    65,700.000) Tj
+T*
+(|   -32,850.000 |    -0.112%) Tj
+T*
+( 150 | 27,681,000.000 |  6,898,500.000 |    65,700.000 | 98,550.000 | 98,550.000 |    65,700.000) Tj
+T*
+(|   -32,850.000 |    -0.119%) Tj
+T*
+( 200 | 26,038,500.000 | 11,826,000.000 |    65,700.000 | 98,550.000 | 98,550.000 |    65,700.000) Tj
+T*
+ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 3786 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(|   -32,850.000 |    -0.126%) Tj
+T*
+( 250 | 24,396,000.000 | 16,753,500.000 |    65,700.000 | 98,550.000 | 98,550.000 |    65,700.000) Tj
+T*
+(|   -32,850.000 |    -0.134%) Tj
+T*
+(Table Footnotes:) Tj
+T*
+(  [1] Rows: Rows are checkpoints for scenario 'Burn On \(75% block capacity\)'.) Tj
+T*
+(  [2] Column 'Year': Model year index from genesis \(0..250\).) Tj
+T*
+(  [3] Column 'Circulating': Circulating = cumulative emitted - cumulative burned \(ATHO\).) Tj
+T*
+(  [4] Column 'Cumul Burned': Total burned fees from genesis through sampled year-end \(ATHO\).) Tj
+T*
+(  [5] Column 'Issuance/yr': Coins newly minted during the sampled year \(ATHO/year\).) Tj
+T*
+(  [6] Column 'Fees/yr': Total fee pool under assumed utilization at fee floor \(ATHO/year\).) Tj
+T*
+(  [7] Column 'Burn/yr': Coins permanently removed from fees under burn policy \(ATHO/year\).) Tj
+T*
+(  [8] Column 'Miner Rev/yr': Miner income = annual issuance + miner fee share \(ATHO/year\).) Tj
+T*
+(  [9] Column 'Net Change/yr': Year-over-year circulating supply change after burn \(ATHO/year\).) Tj
+T*
+(  [10] Column 'Net Rate %': Annual net supply change divided by previous circulating supply) Tj
+T*
+(\(%/year\).) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(SCENARIO DETAIL - Burn On \(100% block capacity\)) Tj
+T*
+(-----------------------------------------------) Tj
+T*
+(Year |    Circulating |   Cumul Burned |   Issuance/yr |     Fees/yr |     Burn/yr |  Miner) Tj
+T*
+(Rev/yr | Net Change/yr | Net Rate %) Tj
+T*
+(-----+----------------+----------------+---------------+-------------+-------------+------------) Tj
+T*
+(---+---------------+-----------) Tj
+T*
+(   0 |          0.000 |          0.000 |         0.000 |       0.000 |       0.000 |) Tj
+T*
+(0.000 |         0.000 |     0.000%) Tj
+T*
+(  10 | 19,710,000.000 |          0.000 | 1,314,000.000 | 131,400.000 |       0.000 |) Tj
+T*
+(1,445,400.000 | 1,314,000.000 |     7.143%) Tj
+T*
+(  25 | 25,458,750.000 |          0.000 |   164,250.000 | 131,400.000 |       0.000 |) Tj
+T*
+(295,650.000 |   164,250.000 |     0.649%) Tj
+T*
+(  50 | 27,511,875.000 |          0.000 |    82,125.000 | 131,400.000 |       0.000 |) Tj
+T*
+(213,525.000 |    82,125.000 |     0.299%) Tj
+T*
+( 100 | 28,666,500.000 |  2,628,000.000 |    65,700.000 | 131,400.000 | 131,400.000 |) Tj
+T*
+(65,700.000 |   -65,700.000 |    -0.229%) Tj
+T*
+( 150 | 25,381,500.000 |  9,198,000.000 |    65,700.000 | 131,400.000 | 131,400.000 |) Tj
+T*
+(65,700.000 |   -65,700.000 |    -0.258%) Tj
+T*
+( 200 | 22,096,500.000 | 15,768,000.000 |    65,700.000 | 131,400.000 | 131,400.000 |) Tj
+T*
+(65,700.000 |   -65,700.000 |    -0.296%) Tj
+T*
+( 250 | 21,000,000.000 | 20,149,500.000 |    65,700.000 | 131,400.000 |  65,700.000 |) Tj
+T*
+(131,400.000 |         0.000 |     0.000%) Tj
+T*
+(Table Footnotes:) Tj
+T*
+(  [1] Rows: Rows are checkpoints for scenario 'Burn On \(100% block capacity\)'.) Tj
+T*
+(  [2] Column 'Year': Model year index from genesis \(0..250\).) Tj
+T*
+(  [3] Column 'Circulating': Circulating = cumulative emitted - cumulative burned \(ATHO\).) Tj
+T*
+(  [4] Column 'Cumul Burned': Total burned fees from genesis through sampled year-end \(ATHO\).) Tj
+T*
+(  [5] Column 'Issuance/yr': Coins newly minted during the sampled year \(ATHO/year\).) Tj
+T*
+(  [6] Column 'Fees/yr': Total fee pool under assumed utilization at fee floor \(ATHO/year\).) Tj
+T*
+(  [7] Column 'Burn/yr': Coins permanently removed from fees under burn policy \(ATHO/year\).) Tj
+T*
+(  [8] Column 'Miner Rev/yr': Miner income = annual issuance + miner fee share \(ATHO/year\).) Tj
+T*
+(  [9] Column 'Net Change/yr': Year-over-year circulating supply change after burn \(ATHO/year\).) Tj
+T*
+(  [10] Column 'Net Rate %': Annual net supply change divided by previous circulating supply) Tj
+T*
+(\(%/year\).) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+14 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 15 0 R >>
+endobj
+15 0 obj
+<< /Length 2758 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(VISUALS) Tj
+T*
+(-------) Tj
+T*
+(SCENARIO CHART A: Circulating Supply) Tj
+T*
+(41149500.00 |                                             NNNNNN) Tj
+T*
+(37408636.36 |                                 NNNNNNNNNNNN     1) Tj
+T*
+(33667772.73 |                      NNNNNN*****11111111111111111) Tj
+T*
+(29926909.09 |            ****************22222222222222222222222) Tj
+T*
+(26186045.45 |    ********          444444******33333333333333333) Tj
+T*
+(22445181.82 |   *                              44444444444444444) Tj
+T*
+(18704318.18 |  *) Tj
+T*
+(14963454.55 | *) Tj
+T*
+(11222590.91 |) Tj
+T*
+(7481727.27 |) Tj
+T*
+(3740863.64 |) Tj
+T*
+(      0.00 |*) Tj
+T*
+(            +---------------------------------------------------) Tj
+T*
+(             |         |         |         |         |         |) Tj
+T*
+(             years: 0        50       100      150      200      250) Tj
+T*
+( legend: N=NoBurn100, 1=Burn25, 2=Burn50, 3=Burn75, 4=Burn100, *=overlap) Tj
+T*
+(Chart Footnotes:) Tj
+T*
+(  [1] Rows are sampled every 5 years from year 0 to year 250.) Tj
+T*
+(  [2] Y-axis range is auto-scaled to min/max of plotted series for readability.) Tj
+T*
+(  [3] Values are deterministic outputs from the same consensus-aligned model constants.) Tj
+T*
+(  [4] Circulating supply equals cumulative emitted minus cumulative burned.) Tj
+T*
+(  [5] Floor clipping prevents burn from pushing circulating below configured floor.) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(SCENARIO CHART B: Annual Burn) Tj
+T*
+( 131400.00 |                 444444444444444444444444444) Tj
+T*
+( 119454.55 |) Tj
+T*
+( 107509.09 |) Tj
+T*
+(  95563.64 |                 3333333333333333333333333333333333) Tj
+T*
+(  83618.18 |) Tj
+T*
+(  71672.73 |                 222222222222222222222222222*******) Tj
+T*
+(  59727.27 |) Tj
+T*
+(  47781.82 |) Tj
+T*
+(  35836.36 |                 1111111111111111111111111111111111) Tj
+T*
+(  23890.91 |) Tj
+T*
+(  11945.45 |) Tj
+T*
+(      0.00 |*****************NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN) Tj
+T*
+(            +---------------------------------------------------) Tj
+T*
+(             |         |         |         |         |         |) Tj
+T*
+(             years: 0        50       100      150      200      250) Tj
+T*
+( legend: N=NoBurn100, 1=Burn25, 2=Burn50, 3=Burn75, 4=Burn100, *=overlap) Tj
+T*
+(Chart Footnotes:) Tj
+T*
+(  [1] Rows are sampled every 5 years from year 0 to year 250.) Tj
+T*
+(  [2] Y-axis range is auto-scaled to min/max of plotted series for readability.) Tj
+T*
+(  [3] Values are deterministic outputs from the same consensus-aligned model constants.) Tj
+T*
+(  [4] Annual burn is fee_pool * burn_pct when burn policy is active, clipped by floor headroom.) Tj
+T*
+(  [5] Burn is zero before burn activation height.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+16 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 17 0 R >>
+endobj
+17 0 obj
+<< /Length 2921 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(SCENARIO CHART C: Cumulative Burned) Tj
+T*
+(20149500.00 |                                                444) Tj
+T*
+(18317727.27 |                                           44444) Tj
+T*
+(16485954.55 |                                        444     333) Tj
+T*
+(14654181.82 |                                     444    3333) Tj
+T*
+(12822409.09 |                                   44    333) Tj
+T*
+(10990636.36 |                                444  3333      2222) Tj
+T*
+(9158863.64 |                             444 3333     22222) Tj
+T*
+(7327090.91 |                          444 333   222222) Tj
+T*
+(5495318.18 |                       4443333222222        1111111) Tj
+T*
+(3663545.45 |                     4*33*2222   11111111111) Tj
+T*
+(1831772.73 |                  *******11111111) Tj
+T*
+(      0.00 |**********************NNNNNNNNNNNNNNNNNNNNNNNNNNNNN) Tj
+T*
+(            +---------------------------------------------------) Tj
+T*
+(             |         |         |         |         |         |) Tj
+T*
+(             years: 0        50       100      150      200      250) Tj
+T*
+( legend: N=NoBurn100, 1=Burn25, 2=Burn50, 3=Burn75, 4=Burn100, *=overlap) Tj
+T*
+(Chart Footnotes:) Tj
+T*
+(  [1] Rows are sampled every 5 years from year 0 to year 250.) Tj
+T*
+(  [2] Y-axis range is auto-scaled to min/max of plotted series for readability.) Tj
+T*
+(  [3] Values are deterministic outputs from the same consensus-aligned model constants.) Tj
+T*
+(  [4] Cumulative burned is the running sum of annual burned amounts.) Tj
+T*
+(  [5] Curve slope flattens when burn clipping engages near the floor bound.) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(SCENARIO CHART D: Annual Miner Revenue) Tj
+T*
+(2759400.00 | *) Tj
+T*
+(2508545.45 |) Tj
+T*
+(2257690.91 |) Tj
+T*
+(2006836.36 |) Tj
+T*
+(1755981.82 |) Tj
+T*
+(1505127.27 |  *) Tj
+T*
+(1254272.73 |  1) Tj
+T*
+(1003418.18 |) Tj
+T*
+( 752563.64 |   *) Tj
+T*
+( 501709.09 |    *) Tj
+T*
+( 250854.55 |    1************NNNNNNNNNNNNNNNNNNNNNNNNNNN*******) Tj
+T*
+(      0.00 |*     11111111111**********************************) Tj
+T*
+(            +---------------------------------------------------) Tj
+T*
+(             |         |         |         |         |         |) Tj
+T*
+(             years: 0        50       100      150      200      250) Tj
+T*
+( legend: N=NoBurn100, 1=Burn25, 2=Burn50, 3=Burn75, 4=Burn100, *=overlap) Tj
+T*
+(Chart Footnotes:) Tj
+T*
+(  [1] Rows are sampled every 5 years from year 0 to year 250.) Tj
+T*
+(  [2] Y-axis range is auto-scaled to min/max of plotted series for readability.) Tj
+T*
+(  [3] Values are deterministic outputs from the same consensus-aligned model constants.) Tj
+T*
+(  [4] Miner revenue equals annual issuance plus miner fee share under scenario fee split.) Tj
+T*
+(  [5] With 100% fee burn, miner fee share is zero in burn-enabled tail years.) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(SCENARIO CHART E: Net Supply Rate \(%/year\)) Tj
+T*
+ET
+endstream
+endobj
+18 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 19 0 R >>
+endobj
+19 0 obj
+<< /Length 2817 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(     25.00% | *) Tj
+T*
+(     22.70% |) Tj
+T*
+(     20.40% |) Tj
+T*
+(     18.10% |) Tj
+T*
+(     15.80% |) Tj
+T*
+(     13.50% |) Tj
+T*
+(     11.19% |) Tj
+T*
+(      8.89% |) Tj
+T*
+(      6.59% |  *) Tj
+T*
+(      4.29% |) Tj
+T*
+(      1.99% |   **) Tj
+T*
+(     -0.31% |*    **********************************************) Tj
+T*
+(            +---------------------------------------------------) Tj
+T*
+(             |         |         |         |         |         |) Tj
+T*
+(             years: 0        50       100      150      200      250) Tj
+T*
+( legend: N=NoBurn100, 1=Burn25, 2=Burn50, 3=Burn75, 4=Burn100, *=overlap) Tj
+T*
+(Chart Footnotes:) Tj
+T*
+(  [1] Rows are sampled every 5 years from year 0 to year 250.) Tj
+T*
+(  [2] Y-axis range is auto-scaled to min/max of plotted series for readability.) Tj
+T*
+(  [3] Values are deterministic outputs from the same consensus-aligned model constants.) Tj
+T*
+(  [4] Net supply rate is annual_net_change / prior-year circulating supply.) Tj
+T*
+(  [5] Rate convergence is expected in steady-state tail regime under fixed utilization.) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(SCENARIO BAR: Tail Miner Income Composition) Tj
+T*
+(No Burn \(100% block capacity\)  | ==================++++++++++++++++++++++++++++++++++++ |) Tj
+T*
+(total=197,100.000 ATHO/yr) Tj
+T*
+(Burn On \(25% block capacity\)   | ==================                                     |) Tj
+T*
+(total=65,700.000 ATHO/yr) Tj
+T*
+(Burn On \(50% block capacity\)   | ==================                                     |) Tj
+T*
+(total=65,700.000 ATHO/yr) Tj
+T*
+(Burn On \(75% block capacity\)   | ==================                                     |) Tj
+T*
+(total=65,700.000 ATHO/yr) Tj
+T*
+(Burn On \(100% block capacity\)  | ==================                                     |) Tj
+T*
+(total=65,700.000 ATHO/yr) Tj
+T*
+( legend: '=' tail issuance component, '+' miner fee component) Tj
+T*
+(Chart Footnotes:) Tj
+T*
+(  [1] Stacked bars split miner income into subsidy \('='\) and miner fee share \('+'\).) Tj
+T*
+(  [2] Scenario comparison is normalized by bar length to relative max income.) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(SCENARIO BAR 1: Year 250 Circulating Supply) Tj
+T*
+(No Burn \(100% block capacity\)  | ###################################################### |) Tj
+T*
+(41,149,500.000) Tj
+T*
+(Burn On \(25% block capacity\)   | ###############################################        |) Tj
+T*
+(35,565,000.000) Tj
+T*
+(Burn On \(50% block capacity\)   | #######################################                |) Tj
+T*
+(29,980,500.000) Tj
+T*
+(Burn On \(75% block capacity\)   | ################################                       |) Tj
+T*
+(24,396,000.000) Tj
+T*
+(Burn On \(100% block capacity\)  | ############################                           |) Tj
+T*
+(21,000,000.000) Tj
+T*
+ET
+endstream
+endobj
+20 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 21 0 R >>
+endobj
+21 0 obj
+<< /Length 1436 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Chart Footnotes:) Tj
+T*
+(  [1] Bars compare final-year circulating outcomes; exact ATHO values are printed per row.) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(SCENARIO BAR 2: Year 250 Total Burned) Tj
+T*
+(No Burn \(100% block capacity\)  |                                                        | 0.000) Tj
+T*
+(Burn On \(25% block capacity\)   | ###############                                        |) Tj
+T*
+(5,584,500.000) Tj
+T*
+(Burn On \(50% block capacity\)   | ##############################                         |) Tj
+T*
+(11,169,000.000) Tj
+T*
+(Burn On \(75% block capacity\)   | #############################################          |) Tj
+T*
+(16,753,500.000) Tj
+T*
+(Burn On \(100% block capacity\)  | ###################################################### |) Tj
+T*
+(20,149,500.000) Tj
+T*
+(Chart Footnotes:) Tj
+T*
+(  [1] Bars compare total cumulative burned amount by scenario at year 250.) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(SCENARIO-LEVEL INTERPRETATION) Tj
+T*
+(-----------------------------) Tj
+T*
+(- NoBurn100 provides a reference upper-bound on long-run circulating supply.) Tj
+T*
+(- Burn25/Burn50/Burn75/Burn100 isolate the effect of utilization on cumulative burn.) Tj
+T*
+(- Burn100 maximizes fee-burn impact and is protocol-deflationary under current constants.) Tj
+T*
+(- External loss rates above each scenario's threshold \(table above\) flip effective supply) Tj
+T*
+(trajectory to deflation.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+xref
+0 22
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000175 00000 n 
+0000000243 00000 n 
+0000000369 00000 n 
+0000003296 00000 n 
+0000003422 00000 n 
+0000006941 00000 n 
+0000007067 00000 n 
+0000010918 00000 n 
+0000011046 00000 n 
+0000014826 00000 n 
+0000014954 00000 n 
+0000018793 00000 n 
+0000018921 00000 n 
+0000021732 00000 n 
+0000021860 00000 n 
+0000024834 00000 n 
+0000024962 00000 n 
+0000027832 00000 n 
+0000027960 00000 n 
+trailer
+<< /Size 22 /Root 1 0 R >>
+startxref
+29449
+%%EOF

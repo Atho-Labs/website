@@ -1,0 +1,400 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 4 /Kids [4 0 R 6 0 R 8 0 R 10 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 3308 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(LMDB Storage Overview) Tj
+T*
+() Tj
+T*
+(Status: Alpha documentation snapshot \(2026-03-12\).) Tj
+T*
+() Tj
+T*
+(This describes how Atho uses LMDB for chain, UTXO, mempool, orphan handling, and state) Tj
+T*
+(checkpoints. Paths and knobs are driven by Constants \(see Src/Utility/const.py\).) Tj
+T*
+() Tj
+T*
+(Database layout and paths) Tj
+T*
+(- Root: blockchain_storage/<NETWORK_FOLDER>/ \(network-specific\).) Tj
+T*
+(- Main environments \(Constants.DATABASES\):) Tj
+T*
+(- full_block_chain.lmdb ? BlockStore \(blocks by height/hash\).) Tj
+T*
+(- utxo.lmdb ? UTXOStore.) Tj
+T*
+(- mempool.lmdb ? MempoolStore.) Tj
+T*
+(- orphan_blocks.lmdb ? orphan/side-branch staging \(OrphanReorgManager\).) Tj
+T*
+(- Additional LMDB:) Tj
+T*
+(- blockchain_storage/BlockData/state_hashes.lmdb ? StateTracker Merkle accumulator.) Tj
+T*
+(- Map sizes/bounds:) Tj
+T*
+(- Initial sizes: BLOCKSTORE_MAP_SIZE, UTXO_MAP_SIZE, MEMPOOL_MAP_SIZE, STATE_MAP_SIZE,) Tj
+T*
+(ORPHAN_MAP_SIZE.) Tj
+T*
+(- Per-store rollover ceilings: BLOCKSTORE_MAX_MAP_SIZE, UTXO_MAX_MAP_SIZE, MEMPOOL_MAX_MAP_SIZE,) Tj
+T*
+(STATE_MAX_MAP_SIZE, ORPHAN_MAX_MAP_SIZE.) Tj
+T*
+(- Global controls: LMDB_MAX_READERS, AUTO_RESIZE_LMDB, LMDB_GROWTH_FACTOR,) Tj
+T*
+(LMDB_MIN_GROWTH_STEP_BYTES, LMDB_ROLLOVER_ALERT_THRESHOLD, LMDB_RESIZE_RETRY_ATTEMPTS.) Tj
+T*
+(- Runtime logging: LMDB_STATUS_LOG_INTERVAL_SECONDS rate-limits memory-pressure logs while a) Tj
+T*
+(store is near its rollover threshold.) Tj
+T*
+() Tj
+T*
+(Rollover model) Tj
+T*
+(- Atho does not shard a single logical store across multiple LMDB environments yet.) Tj
+T*
+(- In current code, "rollover" means bounded LMDB map growth: when a write hits) Tj
+T*
+(lmdb.MapFullError, the store asks Src/Storage/lmdbutils.py for the next map size and grows the) Tj
+T*
+(existing environment.) Tj
+T*
+(- Growth is store-specific and stops at that store's configured *_MAX_MAP_SIZE.) Tj
+T*
+(- Once a store reaches its max map size, writes stop auto-growing and the node logs) Tj
+T*
+(lmdb_map_limit_reached. At that point you must raise the configured ceiling or archive/prune) Tj
+T*
+(data.) Tj
+T*
+(- While a store is near the rollover threshold, the node emits lmdb_memory_status log entries) Tj
+T*
+(with used_bytes, free_bytes, utilization_percent, and the next planned map size.) Tj
+T*
+(- Those LMDB memory events are also written to logs/<network>/storage/lmdb_memory.log so storage) Tj
+T*
+(pressure is preserved even if terminal log filtering is enabled.) Tj
+T*
+(- Stores expose lmdb_status\(\) and the aggregate checker in Src/Storage/dbcheck.py reports) Tj
+T*
+(used_bytes, free_bytes, utilization_percent, near_rollover, and next_map_size.) Tj
+T*
+() Tj
+T*
+(BlockStore \(Src/Storage/blockstorage.py\)) Tj
+T*
+(- Keys:) Tj
+T*
+(- blk:h:<height> ? compact JSON block.) Tj
+T*
+(- blk:x:<hash> ? compact JSON block.) Tj
+T*
+(- blk:t:<txid> ? tx location index payload \(block_height, block_hash, tx_index\).) Tj
+T*
+(- meta:blk:txindex_ready ? tx-index readiness marker.) Tj
+T*
+(- Serialization: to_compact/from_compact\("Block", ...\); Decimal/bytes serialized via custom JSON) Tj
+T*
+(hook.) Tj
+T*
+(- Writes: put_block enforces network, normalizes index/height, merges witness info, prunes) Tj
+T*
+(witnesses for old blocks based on retention, and writes both height/hash keys in one LMDB txn.) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 3673 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Optional guard ENFORCE_CONSENSUS_WRITE requires consensus_write_context.) Tj
+T*
+(- Tx index maintenance is in the same LMDB write transaction as block writes and deletes so tx) Tj
+T*
+(lookup stays consistent with chain state.) Tj
+T*
+(- Persistent witness pruning: compact_pruned_witnesses\(\) now rewrites eligible old block records) Tj
+T*
+(so witness maps and tx_list_full payloads are actually removed from disk as the tip advances.) Tj
+T*
+(- Reads: get_by_height/get_by_hash expand compact, prune witnesses in-memory if past retention) Tj
+T*
+(window, and attach full txs/witnesses for display.) Tj
+T*
+(- Fast tx lookup: get_tx_location\(txid\) and get_tx_by_id\(txid\) use blk:t:* first; legacy) Tj
+T*
+(backward scan is retained as a compatibility fallback.) Tj
+T*
+(- Startup backfill: when TX_INDEX_AUTO_BACKFILL=true \(default\), BlockStore backfills missing) Tj
+T*
+(blk:t:* entries once and marks meta:blk:txindex_ready=1.) Tj
+T*
+(- Tip tracking: latest_height scans blk:h: keys and validates stored index matches height.) Tj
+T*
+(- Resizing: put_block retries writes and uses the shared rollover helper. lmdb_status\(\) reports) Tj
+T*
+(remaining headroom.) Tj
+T*
+(- Integrity log: _append_chain_hash writes cumulative SHA3-384 header chain to) Tj
+T*
+(logs/<network>/state_hashes.log.) Tj
+T*
+() Tj
+T*
+(UTXOStore \(Src/Storage/utxostorage.py\)) Tj
+T*
+(- Environment: Constants.DATABASES["utxo"].) Tj
+T*
+(- Keys:) Tj
+T*
+(- Primary: utxo:<txid-bytes>:<vout> \(record JSON\).) Tj
+T*
+(- Secondary address index: utxoaddr:<canonical_hpk>:<txid>:<vout> \(points to primary key\).) Tj
+T*
+(- Index-ready marker: meta:utxoaddr:index_ready.) Tj
+T*
+(- Operations: list by address, get/spend/apply_block. Write-heavy paths run through a bounded) Tj
+T*
+(retry wrapper so MapFullError triggers rollover growth up to the configured UTXO ceiling.) Tj
+T*
+(- Address lookup now uses a prefix scan on utxoaddr:* when index is ready) Tj
+T*
+(\(O\(utxos_for_address\)\), with legacy full-scan fallback while index is not ready.) Tj
+T*
+(- Index maintenance is done in the same LMDB write transaction on) Tj
+T*
+(put/spend/unspend/delete/apply/revert paths.) Tj
+T*
+(- Backfill: UTXOStore.backfill_address_index\(\) can rebuild secondary keys for existing datasets) Tj
+T*
+(and then mark meta:utxoaddr:index_ready=1.) Tj
+T*
+(- Optional safety compare: UTXO_ADDR_INDEX_SHADOW_COMPARE runs indexed + legacy lookup and logs) Tj
+T*
+(mismatch. UTXO_ADDR_INDEX_RETURN_LEGACY can force returning legacy results on mismatch.) Tj
+T*
+(- Consensus guard: uses utxostorage.consensus_write_context \(mirrors BlockStore pattern\) when) Tj
+T*
+(called from consensus.) Tj
+T*
+(- Amounts stored as Decimal-friendly strings; locking/spent flags persisted. Addresses are) Tj
+T*
+(canonicalized to HPK at write boundaries.) Tj
+T*
+(- Diagnostics: lmdb_status\(\) exposes current map utilization and next growth step.) Tj
+T*
+() Tj
+T*
+(MempoolStore \(Src/Storage/mempool.py\)) Tj
+T*
+(- Environment: Constants.DATABASES["mempool"].) Tj
+T*
+(- Keys:) Tj
+T*
+(- tx:<txid> for raw tx JSON) Tj
+T*
+(- mempool:confirmed:<txid> tombstones) Tj
+T*
+(- mempool:meta:revision cross-process refresh marker) Tj
+T*
+(- in-memory UTXO reservation index map) Tj
+T*
+(- Features: add/remove tx, list pending, rebuild UTXO index from LMDB on startup, tombstone) Tj
+T*
+(confirmed txs.) Tj
+T*
+(- Runtime performance path: hot API reads use RAM snapshots/counters \(transactions, _ram,) Tj
+T*
+(_total_size_bytes, _total_fees\) instead of full LMDB scans.) Tj
+T*
+(- Cross-process coherence path: readers call _maybe_refresh_from_lmdb\(\) and skip full rebuilds) Tj
+T*
+(when mempool:meta:revision is unchanged.) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 3520 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Internal write helpers retry on MapFullError and grow the mempool map within its configured) Tj
+T*
+(ceiling.) Tj
+T*
+(- Consensus writes: use mempool.consensus_write_context when invoked from) Tj
+T*
+(ConsensusSupervisor.accept_tx/accept_block.) Tj
+T*
+(- Diagnostics: lmdb_status\(\) reports utilization and rollover readiness.) Tj
+T*
+() Tj
+T*
+(Orphan/side-branch storage \(Src/Blockchain/orphreorgs.py\)) Tj
+T*
+(- Environment: blockchain_storage/BlockData/orphan.lmdb \(network-specific via) Tj
+T*
+(Constants.DATABASES["orphan_blocks"] when set\).) Tj
+T*
+(- Stores orphan/side-branch blocks for later reorg consideration. Orphan writes retry with the) Tj
+T*
+(shared rollover helper and stop at ORPHAN_MAX_MAP_SIZE.) Tj
+T*
+(- Reorg application rewinds/applies UTXO using stored branches.) Tj
+T*
+() Tj
+T*
+(State checkpoint LMDB \(Src/Main/state.py\)) Tj
+T*
+(- Environment: blockchain_storage/BlockData/state_hashes.lmdb.) Tj
+T*
+(- Stores leaves leaf:<height> with payload {height, block_hash, leaf, state_root, chain_hash,) Tj
+T*
+(status}. State root is a Merkle accumulator over \(height:block_hash\) leaves \(SHA3-384\).) Tj
+T*
+(- State leaf writes retry with the shared rollover helper. Auto-growth is controlled by) Tj
+T*
+(STATE_LMDB_GROWTH_FACTOR and capped by STATE_MAX_MAP_SIZE.) Tj
+T*
+() Tj
+T*
+(Non-LMDB telemetry persistence \(network hashrate\)) Tj
+T*
+(- Network hashrate aggregation is intentionally file-based JSON/JSONL \(not LMDB\):) Tj
+T*
+(- logs/<network>/network/network_hashrate_live.json) Tj
+T*
+(- logs/<network>/network/network_hashrate_state.json) Tj
+T*
+(- logs/<network>/network/network_hashrate_history.jsonl) Tj
+T*
+(- This data powers /network/hashrate* API responses and chart windows.) Tj
+T*
+() Tj
+T*
+(Concurrency and safety) Tj
+T*
+(- LMDB readers are many; writers are single per environment. Code opens envs with max_readers) Tj
+T*
+(from Constants.) Tj
+T*
+(- Consensus guards \(consensus_write_context\) prevent accidental writes when) Tj
+T*
+(ENFORCE_CONSENSUS_WRITE is enabled.) Tj
+T*
+(- Write operations catch lmdb.MapFullError and optionally roll the map up to the next configured) Tj
+T*
+(size; if AUTO_RESIZE_LMDB is off or the store is already at its ceiling, callers must enlarge) Tj
+T*
+(the configured map size manually.) Tj
+T*
+(- Pruning: witness data can be pruned in persisted blocks based on retention \(WITNESS_*) Tj
+T*
+(constants\); reads may return pruned witness maps for old heights.) Tj
+T*
+(- Important LMDB behavior: pruning frees pages for reuse by future writes, but it does not) Tj
+T*
+(shrink the already-allocated map_size. If you want a smaller file footprint after heavy pruning,) Tj
+T*
+(you need an explicit LMDB compaction/export step.) Tj
+T*
+() Tj
+T*
+(Operational tips) Tj
+T*
+(- Use python3 Src/Storage/dbcheck.py to inspect all LMDB stores and see how close each one is to) Tj
+T*
+(rollover.) Tj
+T*
+(- If a store reports near_rollover, raise that store's *_MAX_MAP_SIZE before it reaches the) Tj
+T*
+(ceiling.) Tj
+T*
+(- If you hit MapFullError, check whether the store already reached its *_MAX_MAP_SIZE; if so,) Tj
+T*
+(raise the limit or prune/archive data before retrying.) Tj
+T*
+(- Backups: stop writers, copy the LMDB directory \(env is a few files\). Avoid copying while) Tj
+T*
+(writes are in flight unless you use LMDB?s copy\(\) API \(not wrapped here\).) Tj
+T*
+(- Permissions: ensure blockchain_storage/... is writable by the node user; map sizes allocate) Tj
+T*
+(virtual space, not immediate disk, but plan for growth.) Tj
+T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 258 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- For debugging, inspect logs/<network>/state_hashes.log, logs/<network>/pow/adjustments.log) Tj
+T*
+(\(difficulty\), and logs/<network>/consensus/consensus.log for consensus actions touching) Tj
+T*
+(LMDB-backed stores.) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 12
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000140 00000 n 
+0000000208 00000 n 
+0000000334 00000 n 
+0000003694 00000 n 
+0000003820 00000 n 
+0000007545 00000 n 
+0000007671 00000 n 
+0000011243 00000 n 
+0000011371 00000 n 
+trailer
+<< /Size 12 /Root 1 0 R >>
+startxref
+11681
+%%EOF

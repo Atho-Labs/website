@@ -1,0 +1,331 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 3760 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Falcon-512 Integration Notes and Audit) Tj
+T*
+() Tj
+T*
+(Status: Alpha documentation snapshot \(2026-03-12\).) Tj
+T*
+() Tj
+T*
+(This explains how Falcon-512 is integrated into the Atho stack, where signing and verification) Tj
+T*
+(happen, how keys are handled, and the security posture of the current implementation \(excluding) Tj
+T*
+(the C source itself under Src/Falcon/Falcon\).) Tj
+T*
+() Tj
+T*
+(Related reference package: Docs/falcon Docs.pdf \(NIST/Falcon context used by this repo\).) Tj
+T*
+() Tj
+T*
+(Components \(code paths\)) Tj
+T*
+(- Binary: platform-tagged binaries live under) Tj
+T*
+(Src/Falcon/Binaries/<platform_tag>/falcon_cli\(.exe\) with legacy fallback to) Tj
+T*
+(Src/Falcon/Falcon/falcon_cli. Build script: Src/Falcon/Falcon/compile_falcon.sh; registration) Tj
+T*
+(script: Src/Falcon/Falcon/install_platform_binary.py.) Tj
+T*
+(- Wrapper: Src/Accounts/falconcli.py locates the binary, enforces strict version-bound pinning) Tj
+T*
+(on required networks \(FALCONCLI_PIN_DOMAIN, FALCONCLI_PIN_REQUIRED_NETWORKS,) Tj
+T*
+(FALCONCLI_PINNED_VERSION_DIGESTS\), validates it \(runs keygen\), and exposes keygen, sign, and) Tj
+T*
+(verify helpers. Optional FFI verify fallback via FALCON_VERIFY_SO.) Tj
+T*
+(- Key manager: Src/Accounts/key_manager.py calls FalconCLI for keygen/sign/verify, enforces) Tj
+T*
+(CLI-format keys, and stores them in JSON \(default Keys/KeyManager_Public_Private_Keys.json\). It) Tj
+T*
+(derives hashed public keys \(HPK\) and Base56 addresses from the Falcon public key.) Tj
+T*
+(- Transaction hashing: Src/Utility/txdhash.py defines canonical_tx_id \(no-witness hash\) and) Tj
+T*
+(signing_message_hex_digest \(sha3_384 of canonical fields\) used for signing and verification.) Tj
+T*
+(- Transaction signing: Src/Main/send.py and Src/Transactions/tx.py build txs, then call) Tj
+T*
+(KeyManager.sign_transaction, which in turn invokes FalconCLI.sign on the signing digest.) Tj
+T*
+(- Transaction verification: Src/Transactions/txvalidation.py::_validate_signature strips witness) Tj
+T*
+(data \(SegWit.strip_witness\), recomputes the signing digest, and calls) Tj
+T*
+(KeyManager.verify_transaction, which uses FalconCLI.verify/verify_transaction_hash \(multiple) Tj
+T*
+(call orders + optional FFI\).) Tj
+T*
+(- Block validation: Src/Main/blockveri.py trusts TXValidation for per-tx signature checks;) Tj
+T*
+(coinbase has no signature.) Tj
+T*
+() Tj
+T*
+(Key and signature formats) Tj
+T*
+(- Public key: Falcon-512, 1024 bytes = 2048 hex chars. Private key components f/g/F/G: 1793) Tj
+T*
+(bytes each = 3586 hex chars.) Tj
+T*
+(- Signatures: treated as 2048 hex chars \(1024 bytes\). Verification accepts 1024 or 2048 hex) Tj
+T*
+(length.) Tj
+T*
+(- Wire format: transaction witness fields \(pubkey, signature\) are canonical base64) Tj
+T*
+(on-chain/wire; they are decoded back to hex/bytes before Falcon verification.) Tj
+T*
+(- Hashing/signing payload: sha3_384 digest \(96 hex chars\) of the canonical no-witness) Tj
+T*
+(transaction body from signing_message_hex_digest. Witness \(tx.signature\) is **not** included in) Tj
+T*
+(the txid.) Tj
+T*
+(- Address binding: outputs carry hashed_public_key \(HPK\); HPK is derived from the Falcon public) Tj
+T*
+(key and can be rendered as Base56 via Src/Blockchain/base56.py.) Tj
+T*
+() Tj
+T*
+(Binary discovery and hardening \(Src/Accounts/falconcli.py\)) Tj
+T*
+(- Path search order: provided cli_path ? ATHO_FALCONCLI_BIN env override ? PATH \(falcon_cli\) ?) Tj
+T*
+(platform-tagged candidates in Src/Falcon/Binaries/ ? legacy Src/Falcon/Falcon/falcon_cli.) Tj
+T*
+(- Hash pinning: preferred path is version-bound pinning) Tj
+T*
+(\(FALCONCLI_PINNED_VERSION_DIGESTS[CONSENSUS_VERSION]\); legacy raw-binary pinning) Tj
+T*
+(\(FALCONCLI_EXPECTED_HASH\) is a fallback.) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 3636 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Startup validation: supports mode-controlled CLI sanity checks:) Tj
+T*
+(- ATHO_FALCONCLI_VALIDATE_MODE=cached \(default\): validate once per binary fingerprint) Tj
+T*
+(\(path+mtime+size+expected hash\), then reuse cache.) Tj
+T*
+(- ATHO_FALCONCLI_VALIDATE_MODE=always: validate on every process init.) Tj
+T*
+(- ATHO_FALCONCLI_VALIDATE_MODE=off: skip startup validation.) Tj
+T*
+(- Cached validation state is persisted to logs/falconcli/validation_cache.json \(override with) Tj
+T*
+(ATHO_FALCONCLI_VALIDATE_CACHE\).) Tj
+T*
+(- Rebuild fallback still applies for exec format errors.) Tj
+T*
+(- Optional FFI verify: loads FALCON_VERIFY_SO \(or sibling libfalcon_verify.*\) and, if present,) Tj
+T*
+(uses CLI first, then FFI falcon_verify\(pub, msg48, sig\) on failure.) Tj
+T*
+(- Temp handling: signing now uses in-memory key delivery via stdin \(falcon_cli sign --key-stdin) Tj
+T*
+(<msg_hex>\), so private key parts are not written to a temporary file on disk.) Tj
+T*
+() Tj
+T*
+(Signing flow \(tx creation\)) Tj
+T*
+(- Send.send resolves sender HPK ? key identifier via KeyManager.) Tj
+T*
+(- Tx is built without signatures; txid/no-witness hash set.) Tj
+T*
+(- KeyManager.sign_transaction:) Tj
+T*
+(- Normalizes the signing message to hex \(detects 48-byte raw or 96-char hex SHA3-384\).) Tj
+T*
+(- Extracts CLI-format private key \(f/g/F/G\).) Tj
+T*
+(- Calls FalconCLI.sign\(priv, message_hex\) ? signature hex.) Tj
+T*
+(- Returns bytes \(decoded from hex\) to the caller.) Tj
+T*
+(- The witness signature/public key are stored in tx witness fields and encoded as canonical) Tj
+T*
+(base64 when serialized \(Transaction.to_dict\).) Tj
+T*
+(- Inputs reference prev outputs via tx_out_id and carry only compact SIG_REF markers \(no full) Tj
+T*
+(embedded signature\).) Tj
+T*
+(- Size/fee recalculated after witness is added \(policy uses canonical vsize\).) Tj
+T*
+() Tj
+T*
+(Verification flow \(tx admission\)) Tj
+T*
+(- TXValidation.normalize_tx_dict standardizes shapes and derives prev_tx_id/index.) Tj
+T*
+(- SegWit.strip_witness removes signature/pubkey to get the base tx for hashing.) Tj
+T*
+(- signing_message_hex_digest recomputes the signing payload \(sha3_384 hex\).) Tj
+T*
+(- KeyManager.verify_transaction:) Tj
+T*
+(- Resolves pubkey from identifier/HPK; recomputes HPK to ensure binding.) Tj
+T*
+(- Normalizes message to hex \(prefers 96-char sha3_384 if present\).) Tj
+T*
+(- Normalizes signature \(hex or base64\).) Tj
+T*
+(- Runs FalconCLI.verify \(CLI\), then verify-hex, then manual CLI orders; optional FFI fallback if) Tj
+T*
+(configured.) Tj
+T*
+(- On success, validation continues to fee/UTXO checks; on failure, tx is rejected.) Tj
+T*
+() Tj
+T*
+(Build & runtime requirements) Tj
+T*
+(- falcon_cli must be executable for the host \(x86_64/ARM\). Rebuild with) Tj
+T*
+(Src/Falcon/Falcon/compile_falcon.sh or the inline gcc/clang command in falconcli.py.) Tj
+T*
+(- Set execute bit: chmod +x Src/Falcon/Falcon/falcon_cli.) Tj
+T*
+(- If signing fails with --key-stdin unsupported, you are running an older falcon_cli; rebuild) Tj
+T*
+(from current cli.c and refresh pinned digest constants before main/test/reg runtime use.) Tj
+T*
+(- Optional env:) Tj
+T*
+(- FALCON_VERIFY_SO for FFI verify.) Tj
+T*
+(- FALCONCLI_SILENT=1 to mute verbose logs.) Tj
+T*
+(- ATHO_FALCONCLI_VALIDATE_MODE \(cached|always|off\) for startup validation behavior.) Tj
+T*
+(- ATHO_FALCONCLI_VALIDATE_CACHE to override startup validation cache file location.) Tj
+T*
+(- Hash pin: maintain Constants.FALCONCLI_PINNED_VERSION_DIGESTS_BY_PLATFORM +) Tj
+T*
+(Constants.FALCONCLI_EXPECTED_HASH_BY_PLATFORM for release builds. Use global pins only as) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 2014 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(fallback.) Tj
+T*
+() Tj
+T*
+(Audit findings / risks) Tj
+T*
+(- Hash pinning is **required on mainnet/testnet by default**; startup fails if no expected) Tj
+T*
+(digest is configured for the active consensus version. Keep the digest map current for every) Tj
+T*
+(release.) Tj
+T*
+(- FFI fallback will load any path given by FALCON_VERIFY_SO; ensure it points to a trusted) Tj
+T*
+(library or leave unset.) Tj
+T*
+(- Key storage is plain JSON on disk \(Keys/KeyManager_Public_Private_Keys.json\), not encrypted.) Tj
+T*
+(Backup/permission hardening is required.) Tj
+T*
+(- Verbose logging prints paths, key lengths, and sometimes previews; run with reduced logging in) Tj
+T*
+(production to avoid metadata leakage.) Tj
+T*
+(- Signing key delivery is now stdin/in-memory. Remaining exposure is process-memory lifetime and) Tj
+T*
+(debug/log mishandling, not temp-file residue.) Tj
+T*
+(- Verification accepts 1024-hex signatures in addition to 2048; if only Falcon-512 is intended,) Tj
+T*
+(tighten this to 2048 to avoid ambiguity.) Tj
+T*
+(- CLI path fallback includes shutil.which\("falcon_cli"\), but strict pinning plus file-permission) Tj
+T*
+(checks on required networks prevents untrusted binaries from passing verification.) Tj
+T*
+(- No hardware-key or MPC support; all signing uses the local CLI with full private key material.) Tj
+T*
+() Tj
+T*
+(Operational tips) Tj
+T*
+(- Keep falcon_cli versioned with the repo; update the version-bound digest map after audited) Tj
+T*
+(builds.) Tj
+T*
+(- Use FALCONCLI_SILENT=1 in production to cut noise; keep it verbose for diagnostics.) Tj
+T*
+(- Regenerate or migrate keys with KeyManager.enforce_cli_only\(\) if legacy formats appear.) Tj
+T*
+(- In CI, run a lightweight smoke test: python3 - <<'PY'\\nfrom Src.Accounts.falconcli import) Tj
+T*
+(FalconCLI\\nfc = FalconCLI\(\)\\nkeys = fc.keygen\(\)\\nsig = fc.sign\(keys['private_key'],) Tj
+T*
+('00'*48\)\\nassert fc.verify_transaction_hash\(keys['public_key'], '00'*48, sig\)\\nprint\('ok'\)\\nPY) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000004139 00000 n 
+0000004265 00000 n 
+0000007953 00000 n 
+0000008079 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+10145
+%%EOF

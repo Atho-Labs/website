@@ -1,0 +1,309 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2392 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Docker Guide \(Atho\)) Tj
+T*
+() Tj
+T*
+(Status: Alpha documentation snapshot \(2026-03-12\).) Tj
+T*
+() Tj
+T*
+(This guide walks through building and running Atho nodes with Docker/Compose on Linux, macOS,) Tj
+T*
+(and Windows \(Docker Desktop\). It also shows how to run multiple nodes without port conflicts and) Tj
+T*
+(how to use the CLI container.) Tj
+T*
+() Tj
+T*
+(Prereqs) Tj
+T*
+(- Install Docker \(Docker Desktop on macOS/Windows; Docker Engine on Linux\).) Tj
+T*
+(- Optional: docker-compose v1/v2 \(Compose v2 is built into recent Docker Desktop\).) Tj
+T*
+() Tj
+T*
+(What?s in the repo) Tj
+T*
+(- Dockerfile: builds a Python 3.11 image, installs deps, builds falcon_cli, and runs) Tj
+T*
+(Src/Node/fullnode.py by default.) Tj
+T*
+(- docker-entrypoint.sh: simple entrypoint wrapper.) Tj
+T*
+(- docker-compose.yml: services fullnode, miner, miner2, optional fullnode2, and cli. P2P is) Tj
+T*
+(fixed to 56000 in-container; host ports are distinct \(56000/56001/56002/56003\). Miner APIs use) Tj
+T*
+(randomized host ports \(still 10200/10250 in-container\) to avoid conflicts.) Tj
+T*
+(- Bootstrap defaults: fullnode sets ATHO_BOOTSTRAP="" \(no external seed\); miners bootstrap to) Tj
+T*
+(fullnode:56000 on the compose network.) Tj
+T*
+(- P2P bootstrap seeds are now **env-only** \(ATHO_BOOTSTRAP as comma-separated host:port\); no) Tj
+T*
+(hardcoded seeds.) Tj
+T*
+() Tj
+T*
+(Quick start \(full node + miners + CLI, internal networking\)) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(This builds the image and starts:) Tj
+T*
+(- fullnode: P2P 56000 and API 10100 inside the compose network.) Tj
+T*
+(- miner: P2P 56000 \(host bind 56001\) and API 10200 in-container \(host port randomized\);) Tj
+T*
+(bootstraps to fullnode:56000.) Tj
+T*
+(- miner2: P2P 56000 \(host bind 56003\) and API 10250 in-container \(host port randomized\);) Tj
+T*
+(bootstraps to fullnode:56000.) Tj
+T*
+(- cli: interactive CLI pointing at http://fullnode:10100.) Tj
+T*
+() Tj
+T*
+(Stop: docker compose down) Tj
+T*
+() Tj
+T*
+(Run just a full node \(no miner/cli\)) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Run just a miner \(no full/cli\)) Tj
+T*
+(Be sure there?s a peer to bootstrap to \(in this repo the compose default is fullnode:56000\):) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Run both nodes \(no cli\)) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Accessing the CLI) Tj
+T*
+(If the CLI container exits \(after a session\), rerun it:) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2851 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Running multiple nodes \(no host port conflicts\)) Tj
+T*
+(Use the built-in services; they run on internal ports \(P2P 56000, APIs 10100/10200/10250\) with) Tj
+T*
+(separate volumes. For more nodes, duplicate a service with a new name and distinct volumes.) Tj
+T*
+(Example addition:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Now run docker compose up --build and both nodes run on internal ports \(56000/10100/10300\). CLI) Tj
+T*
+(can target either by setting ATHO_API_URL to http://fullnode:10100 or http://fullnode2:10300.) Tj
+T*
+() Tj
+T*
+(Exposing ports to the host \(optional\)) Tj
+T*
+(If you want to reach a node from the host, add ports: with unique host mappings:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Use different host ports per node \(e.g., 56001/10101, 56002/10102, etc.\). Then set CLI) Tj
+T*
+(ATHO_API_URL to http://localhost:10101 for that node.) Tj
+T*
+() Tj
+T*
+(Running the image manually \(without compose\)) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Configuring CLI target) Tj
+T*
+(- Internal compose network: ATHO_API_URL=http://fullnode:10100 \(default in CLI service\).) Tj
+T*
+(- Host-mapped ports: set ATHO_API_URL=http://localhost:<host_api_port> when running cliui.py.) Tj
+T*
+(- External bootstrap: set ATHO_BOOTSTRAP=<seed_ip>:56000 so docker nodes sync to your host/seed.) Tj
+T*
+(Use ATHO_RESET_PEERS=1 to clear stale peers on startup.) Tj
+T*
+() Tj
+T*
+(Performance-related knobs \(containers\)) Tj
+T*
+(- PoW worker scaling:) Tj
+T*
+(- POW_MULTIPROCESS_ENABLED \(default on\)) Tj
+T*
+(- POW_WORKER_CORES \(requested core count; runtime-capped to available CPUs\)) Tj
+T*
+(- POW_WORKER_NONCE_CHUNK \(worker batch size\)) Tj
+T*
+(- POW_PROGRESS_INTERVAL_SEC \(progress print interval\)) Tj
+T*
+(- Network/API scan controls:) Tj
+T*
+(- ATHO_MAX_MESSAGE_SIZE \(P2P message cap; defaults to consensus block-size ceiling\)) Tj
+T*
+(- API history/recent/balance caps are constant-driven and already bounded.) Tj
+T*
+() Tj
+T*
+(Security notes \(even for testnets\)) Tj
+T*
+(- API key + user/pass auth is required by default. If you expose APIs without TLS/HMAC,) Tj
+T*
+(credentials and payloads can still be intercepted/replayed. Set ATHO_API_HMAC=true and run) Tj
+T*
+(behind TLS/reverse proxy when publishing ports.) Tj
+T*
+(- P2P is plaintext/unauthenticated by design; firewall appropriately if exposed.) Tj
+T*
+(- Keys/LMDB data are stored on host volumes \(blockchain_storage, Keys, Logs\); they are) Tj
+T*
+(unencrypted. Use permissions and avoid sharing volumes across nodes unless intentional.) Tj
+T*
+(- Falcon CLI pinning is strict on mainnet/testnet; keep) Tj
+T*
+(Constants.FALCONCLI_PINNED_VERSION_DIGESTS current for the active consensus version before) Tj
+T*
+(deployment.) Tj
+T*
+() Tj
+T*
+(Platform notes) Tj
+T*
+(- macOS/Windows: use Docker Desktop; commands are the same. Host volume paths may differ \(%cd%) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1248 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(or absolute paths\).) Tj
+T*
+(- ARM hosts: AVX2 is opt-in \(FALCON_USE_AVX2=true\). Keep the default \(false\) on ARM/older CPUs,) Tj
+T*
+(or provide a known-good prebuilt binary.) Tj
+T*
+() Tj
+T*
+(Troubleshooting) Tj
+T*
+(- Port in use: adjust host mappings in ports: or remove them to keep services internal.) Tj
+T*
+(- falcon_cli build fails: ensure build-essential/clang is present \(installed in Dockerfile\); if) Tj
+T*
+(AVX2 was enabled on an unsupported CPU, rebuild with FALCON_USE_AVX2=false.) Tj
+T*
+(- Map full errors: ensure the mounted volume has free space and raise the relevant LMDB size) Tj
+T*
+(ceiling if a store reaches its configured max; bounded AUTO_RESIZE_LMDB growth is already) Tj
+T*
+(supported and enabled in current code.) Tj
+T*
+(- CLI can?t connect: check NodePorts.json and ATHO_API_URL; ensure correct host/port mapping if) Tj
+T*
+(accessing from host.) Tj
+T*
+(- Miner not starting: ensure you?re running the miner service \(docker compose up miner\) and that) Tj
+T*
+(it can reach a bootstrap peer \(defaults to fullnode:56000 in compose\).) Tj
+T*
+(- Hashrate telemetry check: query /network/hashrate/live on your API port to verify local and) Tj
+T*
+(peer reports are being aggregated.) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000002771 00000 n 
+0000002897 00000 n 
+0000005800 00000 n 
+0000005926 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+7226
+%%EOF

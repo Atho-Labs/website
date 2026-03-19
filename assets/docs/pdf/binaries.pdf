@@ -1,0 +1,345 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 1716 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Building Binaries \(Advanced\)) Tj
+T*
+() Tj
+T*
+(Status: Alpha documentation snapshot \(2026-03-12\).) Tj
+T*
+() Tj
+T*
+(This guide is for advanced users who want to build Atho binaries from source, including the) Tj
+T*
+(falcon_cli helper, on Linux, macOS, and Windows. If you want the fastest path, use Docker \(it) Tj
+T*
+(builds falcon_cli inside a container with all dependencies preinstalled\).) Tj
+T*
+() Tj
+T*
+(Cross-OS Binary Layout \(required\)) Tj
+T*
+(Runtime now checks platform-tagged Falcon binary folders first:) Tj
+T*
+(- Src/Falcon/Binaries/darwin-arm64/falcon_cli) Tj
+T*
+(- Src/Falcon/Binaries/darwin-x86_64/falcon_cli) Tj
+T*
+(- Src/Falcon/Binaries/linux-x86_64/falcon_cli) Tj
+T*
+(- Src/Falcon/Binaries/linux-arm64/falcon_cli) Tj
+T*
+(- Src/Falcon/Binaries/windows-x86_64/falcon_cli.exe) Tj
+T*
+() Tj
+T*
+(App Binary Build \(GUI launcher binary\)) Tj
+T*
+() Tj
+T*
+(You can now generate release binary artifacts with:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Optional modes:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Output goes to:) Tj
+T*
+(- releases/binaries/<timestamp>/...) Tj
+T*
+() Tj
+T*
+(Important:) Tj
+T*
+(- Native GUI binaries should be built on their target OS for best compatibility.) Tj
+T*
+(- Windows .exe should be built on Windows host \(or dedicated CI runner\).) Tj
+T*
+(- Script always creates a source snapshot fallback package via make_prealpha_package.sh.) Tj
+T*
+() Tj
+T*
+(You can install the current host build into the correct folder with:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Windows \(PowerShell\):) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Optional explicit source path:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(The script prints:) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2366 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- binary_sha3_384) Tj
+T*
+(- version-bound digest) Tj
+T*
+(- exact const.py pin values to update \(FALCONCLI_PINNED_VERSION_DIGESTS_BY_PLATFORM and) Tj
+T*
+(FALCONCLI_EXPECTED_HASH_BY_PLATFORM\)) Tj
+T*
+() Tj
+T*
+(Prerequisites by OS) Tj
+T*
+(**Linux \(Debian/Ubuntu\)**) Tj
+T*
+(- build-essential \(gcc/g++/make\)) Tj
+T*
+(- cmake \(if you rebuild beyond the provided script\)) Tj
+T*
+(- libssl-dev \(for hashing/crypto\)) Tj
+T*
+(- Python 3.11+ and pip install -r requirements.txt) Tj
+T*
+() Tj
+T*
+(**macOS**) Tj
+T*
+(- Xcode Command Line Tools: xcode-select --install) Tj
+T*
+(- Homebrew packages \(if needed\): brew install openssl cmake \(adjust PATH/CPPFLAGS/LDFLAGS for) Tj
+T*
+(OpenSSL if non-system\)) Tj
+T*
+(- Python 3.11+ and pip install -r requirements.txt) Tj
+T*
+() Tj
+T*
+(**Windows**) Tj
+T*
+(- Recommended: WSL \(Ubuntu\) with the Linux prerequisites above.) Tj
+T*
+(- Native \(more work\): install Visual Studio Build Tools \(C++ workload\) or MSYS2/MinGW-w64;) Tj
+T*
+(ensure gcc/clang and make are on PATH. Python 3.11+ with pip, and pip install -r) Tj
+T*
+(requirements.txt.) Tj
+T*
+(- PowerShell/WSL tip: use WSL to avoid toolchain headaches; Docker Desktop can build for you) Tj
+T*
+(\(see below\).) Tj
+T*
+() Tj
+T*
+(Building falcon_cli from source) Tj
+T*
+(Falcon sources live in Src/Falcon/Falcon/. The Dockerfile builds with gcc by default.) Tj
+T*
+() Tj
+T*
+(Linux / macOS) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Notes:) Tj
+T*
+(- The script builds with -O3 -std=c99 -Wall -Wextra -DFALCON_FPNATIVE.) Tj
+T*
+(- Set FALCON_USE_AVX2=true on x86_64 with AVX2 support; keep false on ARM/older CPUs.) Tj
+T*
+(- After build, ensure falcon_cli is executable: chmod +x falcon_cli.) Tj
+T*
+() Tj
+T*
+(Windows \(WSL recommended\)) Tj
+T*
+(- **WSL path:** follow Linux steps above.) Tj
+T*
+(- **Native:** open MSYS2/MinGW shell or Developer Command Prompt, and compile with your) Tj
+T*
+(toolchain:) Tj
+T*
+(- MinGW example: gcc -O3 -std=c99 -Wall -Wextra -DFALCON_FPNATIVE -o falcon_cli cli.c falcon.c) Tj
+T*
+(fft.c fpr.c keygen.c rng.c shake.c sign.c vrfy.c common.c codec.c) Tj
+T*
+(- Adjust flags for AVX2: add -mavx2 -DFALCON_AVX2 if supported.) Tj
+T*
+(- Ensure falcon_cli.exe ends up in Src/Falcon/Binaries/windows-x86_64/ \(or set) Tj
+T*
+(ATHO_FALCONCLI_BIN\).) Tj
+T*
+() Tj
+T*
+(For GUI .exe packaging on Windows host:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1926 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(This produces:) Tj
+T*
+(- dist\\AthoAlpha-windows.exe) Tj
+T*
+(- a timestamped copy under releases\\binaries\\...\\windows\\) Tj
+T*
+() Tj
+T*
+(Building and running via Docker \(simpler, all OS\)) Tj
+T*
+(If local toolchain setup is painful, let Docker build everything:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(The Dockerfile installs build tools and runs the Falcon build as part of the image build. You) Tj
+T*
+(can then run the nodes via docker compose up ... without touching local compilers.) Tj
+T*
+() Tj
+T*
+(Common issues and fixes) Tj
+T*
+(- **AVX2 on unsupported CPUs:** remove -mavx2 -DFALCON_AVX2 \(set FALCON_USE_AVX2=false\) to avoid) Tj
+T*
+(illegal instruction errors.) Tj
+T*
+(- **Missing OpenSSL headers \(Linux/macOS\):** install libssl-dev \(Linux\) or brew install openssl) Tj
+T*
+(and set CPPFLAGS/LDFLAGS to point to it.) Tj
+T*
+(- **Permissions:** after building, run chmod +x falcon_cli.) Tj
+T*
+(- **Path issues \(Windows native\):** ensure your compiler and make are on PATH; prefer WSL to) Tj
+T*
+(simplify.) Tj
+T*
+(- **Python deps:** always pip install -r requirements.txt in a venv before running Python) Tj
+T*
+(scripts.) Tj
+T*
+() Tj
+T*
+(Verifying the build) Tj
+T*
+(- Run ./falcon_cli in Src/Falcon/Falcon to check it executes.) Tj
+T*
+(- Run .venv/bin/python Src/Falcon/Falcon/install_platform_binary.py to place the binary in the) Tj
+T*
+(platform directory and generate pin values.) Tj
+T*
+(- Update Constants.FALCONCLI_PINNED_VERSION_DIGESTS_BY_PLATFORM /) Tj
+T*
+(Constants.FALCONCLI_EXPECTED_HASH_BY_PLATFORM for release pinning \(legacy global pin remains) Tj
+T*
+(fallback-only\).) Tj
+T*
+() Tj
+T*
+(Notes) Tj
+T*
+(- These steps are for advanced users; Docker/Compose is the easiest path to get a working) Tj
+T*
+(falcon_cli and nodes without local toolchain setup.) Tj
+T*
+(- Rebuild the image \(docker compose build --no-cache\) after changing Falcon sources or compiler) Tj
+T*
+(flags.) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000002095 00000 n 
+0000002221 00000 n 
+0000004639 00000 n 
+0000004765 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+6743
+%%EOF

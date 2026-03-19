@@ -1,0 +1,345 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2852 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(API Authentication & Permissions) Tj
+T*
+() Tj
+T*
+(Status: Alpha documentation snapshot \(2026-03-12\).) Tj
+T*
+() Tj
+T*
+(This note explains how Atho secures its HTTP API, how passwords/permissions work, and why this) Tj
+T*
+(matters for protecting your node and funds.) Tj
+T*
+() Tj
+T*
+(Model overview) Tj
+T*
+(- Every API request must include:) Tj
+T*
+(- X-API-Key ? the token from Src/Config/Api_Keys.json) Tj
+T*
+(- X-User ? username associated with the key \(default atho\)) Tj
+T*
+(- X-Pass ? password for the user \(hashed in the key file\)) Tj
+T*
+(- Optional HMAC: when enabled, requests also carry X-TS and X-Sig to sign method/path/body with) Tj
+T*
+(a derived secret.) Tj
+T*
+(- Permissions are per-key; missing scopes yield 403s. Keys are stored in) Tj
+T*
+(Src/Config/Api_Keys.json.) Tj
+T*
+() Tj
+T*
+(Permissions) Tj
+T*
+(- Required scopes include:) Tj
+T*
+(- read ? general info endpoints) Tj
+T*
+(- explorer ? block/tx explorer-like data) Tj
+T*
+(- send_tx ? submit transactions) Tj
+T*
+(- mining ? mining control/status) Tj
+T*
+(- wallet_admin ? wallet/key mutation endpoints \(/wallet/create, /wallet/recover_mnemonic,) Tj
+T*
+(/wallet/import, /wallet/export, rename/delete/default\)) Tj
+T*
+(- node_admin ? node/config/security mutation endpoints) Tj
+T*
+(- Keys can have a subset; defaults are full permissions if a password is set, or read-only if no) Tj
+T*
+(password is provided.) Tj
+T*
+(- The code migrates existing keys to include required scopes on startup.) Tj
+T*
+() Tj
+T*
+(Passwords and safety) Tj
+T*
+(- Passwords are hashed \(SHA3-256 with a salt\) in the key file; the plain password is never) Tj
+T*
+(stored.) Tj
+T*
+(- Without X-Pass, a key cannot authorize sensitive actions even if the token is known.) Tj
+T*
+(- If you leave the password blank on creation, the key is restricted to read-only scopes,) Tj
+T*
+(reducing blast radius for non-admin usage.) Tj
+T*
+() Tj
+T*
+(HMAC \(optional but recommended when exposed\)) Tj
+T*
+(- If REQUIRE_HMAC is enabled, every request must include X-TS and X-Sig; the server verifies) Tj
+T*
+(freshness \(±60s\) and integrity over method/path/body.) Tj
+T*
+(- HMAC secrets are derived per key \(or you can store an explicit secret\).) Tj
+T*
+(- Protects against replay and tampering; use when exposing APIs beyond localhost.) Tj
+T*
+() Tj
+T*
+(File locations) Tj
+T*
+(- API keys: Src/Config/Api_Keys.json) Tj
+T*
+(- Auto-creation: the entrypoint \(docker-entrypoint.sh\) calls ensure_api_key_auto\(\) if no keys) Tj
+T*
+(exist; cliui/runnode call interactive setup.) Tj
+T*
+() Tj
+T*
+(Why this matters) Tj
+T*
+(- The API can submit transactions, manage mining, and expose node data. Without authentication,) Tj
+T*
+(anyone could double-spend, drain wallets, or disrupt your node.) Tj
+T*
+(- Strong passwords + per-key scopes + optional HMAC provide layered defense. Keep Api_Keys.json) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 3464 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(private \(chmod 600\) and rotate keys periodically.) Tj
+T*
+(- API authentication protects request authorization. Release integrity checks) Tj
+T*
+(\(checksums/signatures\) are a separate control layer and should be used for distributed binaries.) Tj
+T*
+() Tj
+T*
+(Operational tips) Tj
+T*
+(- Local dev: HMAC off, HTTPS off, bind to localhost; use strong passwords anyway.) Tj
+T*
+(- Exposed/production: enable HMAC, run behind TLS/reverse proxy, limit IPs via firewall, use) Tj
+T*
+(least-privilege keys \(separate read-only vs. send/mine\).) Tj
+T*
+(- Back up Api_Keys.json securely; losing it locks you out, leaking it compromises your node.) Tj
+T*
+() Tj
+T*
+(Performance behavior \(wallet endpoints\)) Tj
+T*
+(- POST /wallet/create now supports mnemonic-backed key creation parameters \(word_count,) Tj
+T*
+(passphrase, account, index, iterations\) and defaults to 24-word mnemonic generation.) Tj
+T*
+(- POST /wallet/recover_mnemonic recovers deterministic keys from phrase+path.) Tj
+T*
+(- POST /wallet/export exports one key bundle to .txt.) Tj
+T*
+(- POST /wallet/import imports key bundles \(.txt current format + legacy format support\).) Tj
+T*
+(- API boundaries normalize sender/recipient addresses to canonical HPK before send-path logic) Tj
+T*
+(runs.) Tj
+T*
+(- GET /wallet/balance uses a short in-memory cache and wallet snapshot path to reduce repeated) Tj
+T*
+(index scans during GUI polling.) Tj
+T*
+(- POST /wallet/balance_batch accepts multiple addresses and returns one combined response so GUI) Tj
+T*
+(wallet tables do one HTTP round-trip instead of N per-address calls.) Tj
+T*
+(- GET /wallet/history applies short TTL caching and per-request normalization memoization to) Tj
+T*
+(reduce repeated work during rapid refresh loops.) Tj
+T*
+(- GET /wallet/recent supports cursor pagination \(limit, offset, cursor\) with bounded caps to) Tj
+T*
+(avoid unbounded scans under load.) Tj
+T*
+() Tj
+T*
+(Network hashrate telemetry endpoints) Tj
+T*
+(Read-scoped endpoints now expose live and chart-ready hashrate telemetry:) Tj
+T*
+(- GET /network/hashrate/live) Tj
+T*
+(- returns current aggregate hashrate snapshot + per-reporter share) Tj
+T*
+(- GET /network/hashrate/chart?window_seconds=&bucket_seconds=&include_reporters=) Tj
+T*
+(- returns chart buckets from persisted history) Tj
+T*
+(- GET /network/hashrate/hourly?hours=&include_reporters=) Tj
+T*
+(- returns hourly historical buckets \(default 168 hours / 7 days\)) Tj
+T*
+(- points update hourly and include peer-shared reporter maps by default) Tj
+T*
+(- GET /network/hashrate/peer-shared-hourly?hours=&include_reporters=) Tj
+T*
+(- alias of /network/hashrate/hourly for dashboards expecting peer-shared naming) Tj
+T*
+(- GET /network/hashrate?window_seconds=&bucket_seconds=&include_reporters=) Tj
+T*
+(- combined live + chart response) Tj
+T*
+() Tj
+T*
+(Backing files \(per network\):) Tj
+T*
+(- logs/<network>/network/network_hashrate_live.json) Tj
+T*
+(- logs/<network>/network/network_hashrate_state.json) Tj
+T*
+(- logs/<network>/network/network_hashrate_history.jsonl) Tj
+T*
+() Tj
+T*
+(Network peer-count telemetry endpoint) Tj
+T*
+(- GET /network/node_count?active_window_seconds=&sample_limit=) Tj
+T*
+(- returns observed peer counts and sampled peer records from this node's view) Tj
+T*
+(- includes observed_counts \(known_peers, active_peers, healthy_peers, bucket stats\)) Tj
+T*
+(- used by the GUI Web Explorer bridge/header stats to show network-facing peer estimates) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1989 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Notes:) Tj
+T*
+(- This endpoint is still an observed/local network view, not global consensus truth.) Tj
+T*
+(- sample_limit is bounded server-side and intended for dashboard/reporting use.) Tj
+T*
+() Tj
+T*
+(Node/admin operations) Tj
+T*
+(- POST /network/switch) Tj
+T*
+(- set active network preference \(mainnet|testnet|regnet\)) Tj
+T*
+(- requires admin permission + sensitive approval token) Tj
+T*
+(- rejects while full/miner/wallet nodes are running \(unless overridden\)) Tj
+T*
+(- GET /nodes/active) Tj
+T*
+(- returns active process snapshot by role) Tj
+T*
+(- GET /storage/root) Tj
+T*
+(- returns effective storage-root info and persisted storage-path config) Tj
+T*
+(- POST /storage/root) Tj
+T*
+(- move/set block storage root; requires nodes stopped + admin approval token) Tj
+T*
+(- GET /emission/status) Tj
+T*
+(- reads emission tracker state \(emission_state.json\)) Tj
+T*
+(- GET /burn/status) Tj
+T*
+(- reads burn tracker state \(burn_state.json\)) Tj
+T*
+() Tj
+T*
+(Send idempotency \(duplicate-payment protection\)) Tj
+T*
+(- POST /tx/send now requires a client-provided intent_id \(idempotency key\).) Tj
+T*
+(- The node persists send intents in a local SQLite database:) Tj
+T*
+(- default path: logs/api/send_intents.sqlite3) Tj
+T*
+(- override path: ATHO_SEND_INTENTS_DB) Tj
+T*
+(- Intent lifecycle states:) Tj
+T*
+(- pending ? request accepted, send in progress) Tj
+T*
+(- broadcast ? transaction\(s\) built and submitted to mempool) Tj
+T*
+(- confirmed ? previously broadcast tx set later observed as confirmed) Tj
+T*
+(- failed ? send attempt failed) Tj
+T*
+(- If the same intent_id is submitted again with the same payload, the API returns the prior) Tj
+T*
+(saved result \(idempotent_replay=true\) instead of creating new transactions.) Tj
+T*
+(- Reusing an intent_id with a different payload is rejected.) Tj
+T*
+(- GET /tx/intent/{intent_id} returns current intent state so clients can poll send progress) Tj
+T*
+(without resubmitting the payment payload.) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000003231 00000 n 
+0000003357 00000 n 
+0000006873 00000 n 
+0000006999 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+9040
+%%EOF

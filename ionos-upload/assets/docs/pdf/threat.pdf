@@ -1,0 +1,646 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 6 /Kids [4 0 R 6 0 R 8 0 R 10 0 R 12 0 R 14 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 3693 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Threat Model and Security Posture) Tj
+T*
+() Tj
+T*
+(Status: Alpha documentation snapshot \(2026-03-15\).) Tj
+T*
+() Tj
+T*
+(This document reviews current security posture across keys, signing, networking/auth, consensus,) Tj
+T*
+(storage, and operational controls. It calls out weaknesses, impacts, and recommended) Tj
+T*
+(improvements with code references.) Tj
+T*
+() Tj
+T*
+(Overview: high-risk areas) Tj
+T*
+(- Private keys stored unencrypted on disk.) Tj
+T*
+(- Falcon CLI integrity depends on maintaining the pinned digest map per release;) Tj
+T*
+(misconfigured/empty pins on required networks block startup.) Tj
+T*
+(- Runtime guard exists but may be left in audit mode; live networks should run enforce mode +) Tj
+T*
+(signed manifest requirement.) Tj
+T*
+(- API auth relies on key+user+pass; HMAC optional; no TLS termination described.) Tj
+T*
+(- Signature verification accepts 1024-hex sigs in addition to Falcon-512 \(2048-hex\).) Tj
+T*
+(- Verbose logging leaks metadata \(key lengths/previews, tx details\).) Tj
+T*
+(- Tail issuance is active, with post-tail fee burn target \(100%, floor-clipped\) and a hard) Tj
+T*
+(circulating-supply floor \(21M ATHO\).) Tj
+T*
+(- LMDB map-size/permissions misconfiguration can cause DoS; no WAL/backup guidance in code.) Tj
+T*
+(- P2P now has basic per-IP request rate limits, but API-level throttling and global mempool caps) Tj
+T*
+(are still limited.) Tj
+T*
+() Tj
+T*
+(Cryptography and key management) Tj
+T*
+(- **Key storage**: Keys/KeyManager_Public_Private_Keys.json stored in plaintext \(no) Tj
+T*
+(encryption/at-rest protection\). Impact: disk compromise ? key theft. Mitigation: encrypt key) Tj
+T*
+(store \(passphrase + PBKDF + AES-GCM\), permissions \(0600\), or hardware-backed keys.) Tj
+T*
+(- **Key generation/import**: Src/Accounts/key_manager.py, wimport.py accept CLI-format) Tj
+T*
+(Falcon-512 keys. Some import paths log previews. Impact: logs can leak key material previews.) Tj
+T*
+(Mitigation: remove previews, restrict logs in production.) Tj
+T*
+(- **Signing pipeline**: KeyManager.sign_transaction ? FalconCLI.sign now passes key material via) Tj
+T*
+(stdin \(--key-stdin\) instead of temp files. Impact reduced vs disk temp files; residual risk) Tj
+T*
+(remains in process memory and local host compromise. Mitigation: keep debug off, reduce key) Tj
+T*
+(lifetime in RAM, consider hardware signing.) Tj
+T*
+(- **Signature verification**: KeyManager.verify_transaction accepts 1024- or 2048-hex sigs.) Tj
+T*
+(Impact: ambiguity or acceptance of non-Falcon-512 artifacts. Mitigation: enforce 2048-hex length) Tj
+T*
+(for Falcon-512.) Tj
+T*
+(- **Hashing**: SHA3-384 for txid/signing/HPK and SHA3-256 for address checksum. Consistent; risk) Tj
+T*
+(is mostly around normalization \(handled in txdhash.py\).) Tj
+T*
+() Tj
+T*
+(Falcon CLI binary integrity) Tj
+T*
+(- **Binary discovery**: Src/Accounts/falconcli.py searches PATH and repo locations. On required) Tj
+T*
+(networks, strict pinning + file-permission checks are applied before use.) Tj
+T*
+(- **Hash pinning**: version-bound pinning is enforced with FALCONCLI_PIN_DOMAIN +) Tj
+T*
+(FALCONCLI_PINNED_VERSION_DIGESTS[CONSENSUS_VERSION]. If pinning is required and no digest is) Tj
+T*
+(configured, startup fails. Impact of bad pin hygiene: upgrade outages or forced fallback) Tj
+T*
+(decisions. Mitigation: publish audited release digests and keep pins synchronized with version) Tj
+T*
+(upgrades.) Tj
+T*
+(- **FFI fallback**: loads FALCON_VERIFY_SO if present. Impact: loading untrusted shared object) Tj
+T*
+(can run arbitrary code. Mitigation: restrict/disable unless explicitly configured and pinned.) Tj
+T*
+() Tj
+T*
+(Runtime integrity controls \(implemented\)) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 3690 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- **Runtime guard**: Src/Utility/versioning.py snapshots critical constants and critical file) Tj
+T*
+(hashes at startup and checks drift periodically.) Tj
+T*
+(- **Modes**:) Tj
+T*
+(- audit \(default\): logs violations, does not stop node.) Tj
+T*
+(- enforce: fail-closed behavior in full/miner/wallet entrypoints.) Tj
+T*
+(- **Manifest verification**:) Tj
+T*
+(- release manifest can be verified at runtime \(security_manifest.json\),) Tj
+T*
+(- optional Falcon signature verification over canonical manifest payload.) Tj
+T*
+(- **Consensus ingress coupling**:) Tj
+T*
+(- accept_tx and accept_block reject with runtime_guard_violation in enforce mode if guard is) Tj
+T*
+(violated.) Tj
+T*
+(- **Reorg rollback cap**:) Tj
+T*
+(- reorg depth is capped by policy \(max_reorg_depth_blocks\), returning reorg_depth_exceeded when) Tj
+T*
+(exceeded.) Tj
+T*
+() Tj
+T*
+(Networking and API auth) Tj
+T*
+(- **API auth**: key + user + pass headers; optional HMAC \(ATHO_API_HMAC\). If HMAC off \(default\),) Tj
+T*
+(replay risk on plaintext channels. Impact: credential replay/steal if traffic intercepted.) Tj
+T*
+(Mitigation: require HMAC by default, enforce TLS, rotate keys.) Tj
+T*
+(- **TLS**: No built-in TLS; docs recommend local-only. Impact: if exposed, MITM risk.) Tj
+T*
+(Mitigation: enforce loopback binding or TLS/proxy guidance in defaults.) Tj
+T*
+(- **Rate limiting**: P2P server enforces basic per-IP request window caps) Tj
+T*
+(\(RATE_LIMIT_WINDOW_SECS, RATE_LIMIT_MAX_REQUESTS\), but API-level and mempool-admission) Tj
+T*
+(throttling are still comparatively light. Impact: tx/API flood pressure can still create high) Tj
+T*
+(CPU/IO load. Mitigation: per-key/token HTTP throttles + explicit mempool size/age eviction) Tj
+T*
+(policy.) Tj
+T*
+(- **P2P**: Not detailed here; ensure handshake/ban logic is robust \(not in scope of listed) Tj
+T*
+(code\).) Tj
+T*
+() Tj
+T*
+(Consensus rules and enforcement) Tj
+T*
+(- **Tail issuance and burn floor**: Tail reward continues, and post-tail fees target 100% burn) Tj
+T*
+(\(0% miner fee share\) with burn clipped by a 21M ATHO floor. Impact: under high utilization the) Tj
+T*
+(protocol can be net deflationary, but burn accounting cannot push circulating supply below) Tj
+T*
+(floor.) Tj
+T*
+(- **PoW target**: Blocks carry target; BlockVerifier enforces bounds and compares to) Tj
+T*
+(PowManager.expected_target_for_height best-effort. If expected-target check fails \(exceptions) Tj
+T*
+(ignored\), a wrong-but-in-bounds target could pass. Mitigation: make expected-target check) Tj
+T*
+(mandatory with clear failure.) Tj
+T*
+(- **Checkpoint lock**: CHECKPOINT_INTERVAL_BLOCKS prevents deep reorgs; verify value fits threat) Tj
+T*
+(model \(too low ? censorship risk; too high ? reduced safety\).) Tj
+T*
+(- **Signature policy**: Accepting 1024-hex sigs is a loosened rule; tighten to 2048-hex to) Tj
+T*
+(reduce ambiguity.) Tj
+T*
+(- **Witness policy**: Pruning controlled by WITNESS_*; ensure pruning doesn?t break validation) Tj
+T*
+(for older blocks if full verification required.) Tj
+T*
+() Tj
+T*
+(Storage \(LMDB\) and data integrity) Tj
+T*
+(- **Map size exhaustion**: MapFullError can still DoS writes if a store reaches its configured) Tj
+T*
+(*_MAX_MAP_SIZE, even though bounded auto-growth is on by default. Mitigation: monitor) Tj
+T*
+(lmdb_memory_status, size ceilings appropriately, and prune/archive before a store hits its cap.) Tj
+T*
+(- **Permissions**: LMDB files under blockchain_storage/... require writable perms; lack of) Tj
+T*
+(checking could cause silent failures. Mitigation: startup checks for writability.) Tj
+T*
+(- **Backups**: No built-in consistent snapshot; copying live env during writes risks corruption.) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 3353 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Mitigation: document stopping writers or use LMDB copy\(\); periodic backups.) Tj
+T*
+(- **State logs**: BlockStore writes cumulative header hash log; not a hard guarantee?tampering) Tj
+T*
+(with LMDB could go undetected without independent verification. Mitigation: periodic) Tj
+T*
+(recomputation, external anchoring.) Tj
+T*
+() Tj
+T*
+(Mempool and DoS considerations) Tj
+T*
+(- **Admission**: accept_tx verifies tx and fee, but no overall mempool size cap exposed;) Tj
+T*
+(mempool.get_mempool_size used in logging only. Impact: memory/disk exhaustion by many minimally) Tj
+T*
+(valid txs. Mitigation: set max mempool size/count and eviction policy.) Tj
+T*
+(- **Sweep/verify**: ConsensusSupervisor.sweep_mempool re-verifies pending txs; heavy load could) Tj
+T*
+(be expensive. Mitigation: rate limit submissions, batch verification.) Tj
+T*
+(- **Large blocks**: Size/weight limits enforced; still subject to CPU verification load) Tj
+T*
+(\(signatures\). Mitigation: per-connection work caps, parallel verification with limits.) Tj
+T*
+() Tj
+T*
+(Performance hardening already applied \(liveness risk reduction\)) Tj
+T*
+(- Miner template build now uses tx-index lookup + revision-cached snapshots + incremental size) Tj
+T*
+(accounting, reducing wasted CPU and stale-template churn.) Tj
+T*
+(- Mempool reader refresh uses LMDB revision markers \(mempool:meta:revision\) to avoid repeated) Tj
+T*
+(full rebuild scans.) Tj
+T*
+(- PoW supports multiprocess workers with runtime CPU-cap enforcement and structured runtime) Tj
+T*
+(logs.) Tj
+T*
+(- P2P block relay uses lean payloads \(drops export-only duplicate fields\), improving propagation) Tj
+T*
+(efficiency.) Tj
+T*
+() Tj
+T*
+(These are operational hardening improvements; they do not alter core cryptographic consensus) Tj
+T*
+(rules.) Tj
+T*
+() Tj
+T*
+(Logging and observability) Tj
+T*
+(- **Verbose logs**: falconcli.py, key_manager.py, send.py, txveri.py print key lengths/previews,) Tj
+T*
+(paths, and occasionally transaction details. Impact: metadata leakage into logs; potential key) Tj
+T*
+(info exposure. Mitigation: production log level that omits sensitive fields; redact previews.) Tj
+T*
+(- **Consensus logs**: JSON logs stored under logs/<network>/consensus,) Tj
+T*
+(logs/<network>/verified_blocks, logs/<network>/emissions.log, logs/<network>/State, and) Tj
+T*
+(logs/<network>/storage/lmdb_memory.log; ensure permissions and rotation to avoid disk) Tj
+T*
+(exhaustion.) Tj
+T*
+() Tj
+T*
+(Configuration and secrets) Tj
+T*
+(- **API credentials**: Src/Config/Api_Keys.json defaults; stored plaintext. Impact: theft if) Tj
+T*
+(file readable. Mitigation: permissions \(0600\), optional encryption, env var overrides.) Tj
+T*
+(- **Env vars**: Paths/auth can be set via env; ensure they are not printed in logs or shell) Tj
+T*
+(history.) Tj
+T*
+() Tj
+T*
+(Privacy) Tj
+T*
+(- Addresses are HPK/Base56; no additional privacy \(no coinjoin, no stealth\). Impact: standard) Tj
+T*
+(UTXO traceability; out of scope for immediate security, but note linkage risk.) Tj
+T*
+() Tj
+T*
+(Testing and CI gaps) Tj
+T*
+(- No automated security regression checks \(hash pinning, signature length policy, API auth) Tj
+T*
+(defaults\) in CI.) Tj
+T*
+(- No automated map-size smoke tests to catch LMDB misconfig.) Tj
+T*
+(- No fuzzing of address decode, tx normalization, or orphan handling observed.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 3798 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Recommendations \(prioritized\)) Tj
+T*
+(- **Run live nodes in enforce mode with signed manifests**: set runtime guard to enforce,) Tj
+T*
+(require manifest + signature, and distribute signer keys via trusted channels.) Tj
+T*
+(- **Pin the Falcon CLI binary correctly**: Maintain Constants.FALCONCLI_PINNED_VERSION_DIGESTS) Tj
+T*
+(per consensus release; fail fast on mismatch; keep bundled binaries and digest publication in) Tj
+T*
+(the release process.) Tj
+T*
+(- **Encrypt keys at rest**: Wrap Keys/KeyManager_Public_Private_Keys.json with passphrase-based) Tj
+T*
+(encryption; enforce 0600 perms; avoid key previews in logs.) Tj
+T*
+(- **Harden signing**: Move temp key handling to in-memory or tmpfs; minimize logging during) Tj
+T*
+(signing; consider hardware/MPC options.) Tj
+T*
+(- **Tighten signature policy**: Enforce 2048-hex Falcon-512 signatures only; reject 1024-hex.) Tj
+T*
+(- **Default to HMAC + TLS**: Require ATHO_API_HMAC=true and document TLS/proxy as baseline;) Tj
+T*
+(consider rejecting non-localhost without TLS.) Tj
+T*
+(- **Rate limiting/mempool caps**: Add request throttling and max mempool size/eviction policy;) Tj
+T*
+(expose metrics/alerts.) Tj
+T*
+(- **LMDB resilience**: Keep AUTO_RESIZE_LMDB enabled, size the per-store ceilings correctly, add) Tj
+T*
+(startup checks for writable dirs and free space, and provide backup guidance.) Tj
+T*
+(- **Reduce sensitive logging**: Production log level should omit key material previews and limit) Tj
+T*
+(tx details; add redaction helpers.) Tj
+T*
+(- **Expected-target enforcement**: Make PowManager.expected_target_for_height check mandatory) Tj
+T*
+(\(no silent pass on exception\); alert on deviations.) Tj
+T*
+(- **Security testing**: Add CI smoke tests for manifest verify, runtime drift checks, hash pin,) Tj
+T*
+(signature length enforcement, LMDB open/write/read, and API auth defaults.) Tj
+T*
+() Tj
+T*
+(Residual risks after mitigations) Tj
+T*
+(- If Falcon CLI supply chain is compromised before hashing/pinning, signatures could be) Tj
+T*
+(subverted?consider multi-party or hardware-based signing for high assurance.) Tj
+T*
+(- Local compromise \(disk/root\) still exposes plaintext keys unless hardware protection is used.) Tj
+T*
+(- Network-layer DoS remains possible without robust rate limiting and P2P-level protections) Tj
+T*
+(beyond current scope.) Tj
+T*
+() Tj
+T*
+(Additional coverage: areas not detailed above) Tj
+T*
+() Tj
+T*
+(P2P / networking surface) Tj
+T*
+(- **Bootstrap/peering**: Default seed/ports handled in NodePorts.json and env; no documented) Tj
+T*
+(peer scoring/ban logic here. Risk: eclipse/sybil without peer diversity and ban heuristics.) Tj
+T*
+(Mitigation: diversify peers, add inbound connection limits, misbehavior scoring, and addr) Tj
+T*
+(freshness checks.) Tj
+T*
+(- **Binding**: Defaults bind APIs to localhost, but if exposed externally without TLS/HMAC,) Tj
+T*
+(MITM/replay risk increases. Enforce loopback by default; require explicit opt-in for external) Tj
+T*
+(binds with TLS.) Tj
+T*
+(- **DoS on wire**: No explicit P2P rate limiting, message caps, or handshake timeouts noted in) Tj
+T*
+(this excerpt. Large/invalid message floods could tie up CPU. Mitigation: add per-connection) Tj
+T*
+(throttles and message size caps.) Tj
+T*
+() Tj
+T*
+(API surface & auth lifecycle) Tj
+T*
+(- **Key lifecycle**: API keys in Src/Config/Api_Keys.json are plaintext; no rotation tooling.) Tj
+T*
+(Add rotation commands and expiry; consider scoping \(send/mine/admin\).) Tj
+T*
+(- **Secrets in env**: ATHO_API_KEY/USER/PASS may leak in shell history/process list. Encourage) Tj
+T*
+(env files with restricted perms and avoid echoing.) Tj
+T*
+(- **Audit logging**: No signed audit logs for API calls; tampering risk. Consider append-only,) Tj
+T*
+(tamper-evident logs or remote shipping.) Tj
+T*
+ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 3460 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(Time/difficulty correctness) Tj
+T*
+(- **Timestamp rules**: MTP \(MTP_WINDOW=13\) and MAX_TIME_DRIFT=120 are enforced in both) Tj
+T*
+(BlockVerifier and direct blockchain.add_block acceptance paths. Residual risk remains from) Tj
+T*
+(hostile clock skew and coordinated timestamp games, so monitor adjustment logs and reject) Tj
+T*
+(persistent outliers.) Tj
+T*
+(- **Difficulty windows**: PowManager uses weighted intervals; if data is sparse or manipulated,) Tj
+T*
+(expected-target check may fail open. Make failures fatal and log/ban peers sending off-target) Tj
+T*
+(blocks.) Tj
+T*
+() Tj
+T*
+(Reorg/orphan handling) Tj
+T*
+(- **Orphan LMDB**: orphan_blocks.lmdb persists side branches; corruption or map exhaustion could) Tj
+T*
+(impair reorg safety. Add integrity checks and size caps. Ensure rollback/apply paths are) Tj
+T*
+(idempotent and crash-safe.) Tj
+T*
+(- **Checkpoint policy**: Fixed CHECKPOINT_INTERVAL_BLOCKS; risk of accidental chain lock-in or) Tj
+T*
+(censorship. Document and review values per network.) Tj
+T*
+() Tj
+T*
+(Storage integrity and recovery) Tj
+T*
+(- **Corruption detection**: Limited detection \(header chain hash log\). No full-chain hash audit) Tj
+T*
+(on startup beyond optional verify_full_chain_once. Mitigation: periodic end-to-end hash walk and) Tj
+T*
+(external anchoring.) Tj
+T*
+(- **Backups/restores**: No scripted safe-copy; copying live LMDB during writes risks) Tj
+T*
+(inconsistency. Provide a --backup command using LMDB copy\(\) or instruct shutdown-before-backup.) Tj
+T*
+(- **Pruning/witness**: Witnesses are now compacted out of persisted old block records after the) Tj
+T*
+(retention horizon. If retention is too short, old witness payloads cannot be replay-verified) Tj
+T*
+(locally. Align retention with reorg depth and verification needs.) Tj
+T*
+() Tj
+T*
+(Build, dependencies, and supply chain) Tj
+T*
+(- **Python deps**: Unpinned beyond versions in requirements.txt \(e.g., lmdb==1.7.3\).) Tj
+T*
+(Supply-chain risk if mirrors are compromised. Mitigation: hash-pinned requirements) Tj
+T*
+(\(--require-hashes\) and vendored wheels for releases.) Tj
+T*
+(- **C toolchain**: compile_falcon.sh uses system compiler flags; no reproducible build pipeline.) Tj
+T*
+(Mitigation: documented deterministic build with checksums for released binaries.) Tj
+T*
+(- **Binary artifacts**: falcon_cli, qrcode, PIL etc. are runtime dependencies; validate licenses) Tj
+T*
+(and update cadence; monitor CVEs.) Tj
+T*
+() Tj
+T*
+(Resource exhaustion) Tj
+T*
+(- **CPU-heavy verification**: Falcon verification is expensive; block with many inputs/sigs can) Tj
+T*
+(be used for CPU DoS within size limits. Mitigation: per-block/tx verification timeouts,) Tj
+T*
+(parallelism caps, fee policies that reflect verification cost.) Tj
+T*
+(- **Disk growth**: Tail emission with no pruning of blocks/utxos by default; ensure) Tj
+T*
+(pruning/archival strategy to prevent disk exhaustion.) Tj
+T*
+(- **Mempool size**: No hard cap; high volume of small, valid txs can bloat LMDB. Add) Tj
+T*
+(configurable mempool size/age eviction.) Tj
+T*
+() Tj
+T*
+(Logging/observability gaps) Tj
+T*
+(- **Rotation**: Logs under logs/<network>/... have no automatic rotation; disk fill risk. Add) Tj
+T*
+(rotation/compression and monitoring.) Tj
+T*
+(- **Sensitive fields**: Some logs may capture auth failures or API keys if exceptions include) Tj
+T*
+(headers. Audit log formatting to redact secrets.) Tj
+T*
+() Tj
+T*
+(Operational hygiene) Tj
+T*
+ET
+endstream
+endobj
+14 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 15 0 R >>
+endobj
+15 0 obj
+<< /Length 652 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- **Process privileges**: Runs as invoking user; no sandbox/chroot. For production, run under) Tj
+T*
+(dedicated unprivileged user, consider seccomp/AppArmor if feasible.) Tj
+T*
+(- **Config drift**: Some safety knobs still remain optional \(especially HMAC/TLS posture\), but) Tj
+T*
+(ENFORCE_CONSENSUS_WRITE and AUTO_RESIZE_LMDB now default on. Provide a hardened config profile) Tj
+T*
+(and startup checks to warn if those protections are turned off.) Tj
+T*
+(- **Testing/fuzzing**: No fuzzers for address decode, tx normalization, or block parsing. Add) Tj
+T*
+(property/fuzz tests to catch malformed inputs early.) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 16
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000154 00000 n 
+0000000222 00000 n 
+0000000348 00000 n 
+0000004093 00000 n 
+0000004219 00000 n 
+0000007961 00000 n 
+0000008087 00000 n 
+0000011492 00000 n 
+0000011620 00000 n 
+0000015471 00000 n 
+0000015599 00000 n 
+0000019112 00000 n 
+0000019240 00000 n 
+trailer
+<< /Size 16 /Root 1 0 R >>
+startxref
+19944
+%%EOF

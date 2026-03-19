@@ -1,0 +1,224 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 2 /Kids [4 0 R 6 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2389 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Atho GUI Guide) Tj
+T*
+() Tj
+T*
+(Status: Alpha documentation snapshot \(2026-03-12\).) Tj
+T*
+() Tj
+T*
+(Last refresh: 2026-03-12.) Tj
+T*
+() Tj
+T*
+(This document covers the desktop client \(Src/GUI/gui.py\) and the integrated Web Explorer served) Tj
+T*
+(from Src/GUI/web_explorer.html.) Tj
+T*
+() Tj
+T*
+(Run the GUI) Tj
+T*
+(- From project root:) Tj
+T*
+(- source .venv/bin/activate) Tj
+T*
+(- ./.venv/bin/python Src/GUI/gui.py) Tj
+T*
+(- Keep a local API/full node reachable \(GUI calls API routes for wallet, chain, tx, and node) Tj
+T*
+(state\).) Tj
+T*
+() Tj
+T*
+(Main areas) Tj
+T*
+(- **Dashboard**: balance, pending, transaction history, send/receive actions, copy controls.) Tj
+T*
+(- **Wallet**: address list + rename/delete/default actions, balance fill, import/export/create) Tj
+T*
+(flows.) Tj
+T*
+(- **Contacts**: add/edit/delete/favorite contacts with quick copy.) Tj
+T*
+(- **Nodes**: start/stop/restart per role and all-node controls.) Tj
+T*
+(- **Explorer button**: opens a local browser explorer popup/URL.) Tj
+T*
+() Tj
+T*
+(Web Explorer \(current behavior\)) Tj
+T*
+(- The GUI starts a local bridge server on 127.0.0.1 \(random free port\) and opens the browser) Tj
+T*
+(explorer.) Tj
+T*
+(- UI source: Src/GUI/web_explorer.html.) Tj
+T*
+(- Bridge/API proxy lives in ExternalExplorerBridge in Src/GUI/gui.py.) Tj
+T*
+(- Search accepts:) Tj
+T*
+(- block height/hash) Tj
+T*
+(- txid) Tj
+T*
+(- address \(Base56 or HPK\)) Tj
+T*
+(- Addresses shown in explorer output are normalized to Base56 for display.) Tj
+T*
+() Tj
+T*
+(Explorer pages and navigation) Tj
+T*
+(- **Blocks page**:) Tj
+T*
+(- list view with Blocks/page selector \(10, 20, 30, 40, 50\)) Tj
+T*
+(- newer/older controls at top and bottom) Tj
+T*
+(- quick stats: height, peers, mempool tx count, tip hash) Tj
+T*
+(- **Block page**:) Tj
+T*
+(- hash, previous hash, difficulty, timestamp, miner, reward/fees) Tj
+T*
+(- tx list with TX/page selector \(20, 40, 60, 80, 100\)) Tj
+T*
+(- newer/older controls at top and bottom of tx section) Tj
+T*
+(- **View full JSON** modal for raw block payload inspection) Tj
+T*
+(- **Transaction page**:) Tj
+T*
+(- summary + inputs/outputs + metadata + raw JSON section) Tj
+T*
+(- **Address page**:) Tj
+T*
+(- confirmed/pending/available balances) Tj
+T*
+(- tx table with TX/page selector \(20, 40, 60, 80, 100\)) Tj
+T*
+(- UTXO table + raw payload panel) Tj
+T*
+(- **Mempool page**:) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 1631 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- full pending tx list with paging and drill-down to tx details) Tj
+T*
+() Tj
+T*
+(Copy and audit UX) Tj
+T*
+(- Clickable hashes/txids/addresses include compact copy buttons.) Tj
+T*
+(- Top/bottom pagers are present on list-heavy sections to support fast auditing.) Tj
+T*
+(- Block raw JSON is available via modal \(copy supported\).) Tj
+T*
+() Tj
+T*
+(Explorer bridge endpoints) Tj
+T*
+(Served locally by GUI bridge:) Tj
+T*
+(- GET /api/chain/info) Tj
+T*
+(- GET /api/mempool/info) Tj
+T*
+(- GET /api/mempool/list) Tj
+T*
+(- GET /api/mempool/tx/{txid}) Tj
+T*
+(- GET /api/block/{height_or_hash}) Tj
+T*
+(- GET /api/tx/{txid}) Tj
+T*
+(- GET /api/address/{address_or_hpk}) Tj
+T*
+(- GET /api/search?q=...) Tj
+T*
+(- GET /api/network/node_count?active_window_seconds=&sample_limit=) Tj
+T*
+() Tj
+T*
+(Send safety + wallet behavior) Tj
+T*
+(- GUI send flow uses per-submit intent_id to avoid duplicate payment creation on retries.) Tj
+T*
+(- intent_in_progress responses are polled until completion.) Tj
+T*
+(- Wallet balances use balance_batch first, then fallback per-row calls when needed.) Tj
+T*
+(- Local tx history writes are debounced \(ATHO_GUI_HISTORY_WRITE_DEBOUNCE_SEC\) and flushed at) Tj
+T*
+(shutdown.) Tj
+T*
+() Tj
+T*
+(Notes) Tj
+T*
+(- Embedded explorer UI still exists in code paths, but default user flow is browser-based Web) Tj
+T*
+(Explorer from the GUI.) Tj
+T*
+(- To regenerate bundled default explorer HTML from code template, set:) Tj
+T*
+(- ATHO_GUI_WEB_EXPLORER_OVERWRITE=1) Tj
+T*
+() Tj
+T*
+(Latest GUI + HTML Screenshots) Tj
+T*
+(Captured from current alpha client/web explorer flow \(2026-03-12\):) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000127 00000 n 
+0000000195 00000 n 
+0000000321 00000 n 
+0000002762 00000 n 
+0000002888 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R >>
+startxref
+4571
+%%EOF

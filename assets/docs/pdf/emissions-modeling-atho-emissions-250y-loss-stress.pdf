@@ -1,0 +1,311 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 3897 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(scenario_key,scenario_label,evaluation_year,circulating_supply_atho,protocol_net_change_atho_per) Tj
+T*
+(_year,loss_rate_pct,annual_lost_atho,net_after_loss_atho_per_year,mode) Tj
+T*
+(no_burn_100,No Burn \(100% block capacity\),25,25458750.00000000,65700.00000000,0.5000,127293.7500) Tj
+T*
+(0000,-61593.75000000,deflationary) Tj
+T*
+(no_burn_100,No Burn \(100% block capacity\),25,25458750.00000000,65700.00000000,1.0000,254587.5000) Tj
+T*
+(0000,-188887.50000000,deflationary) Tj
+T*
+(no_burn_100,No Burn \(100% block capacity\),25,25458750.00000000,65700.00000000,1.5000,381881.2500) Tj
+T*
+(0000,-316181.25000000,deflationary) Tj
+T*
+(no_burn_100,No Burn \(100% block capacity\),50,27511875.00000000,65700.00000000,0.5000,137559.3750) Tj
+T*
+(0000,-71859.37500000,deflationary) Tj
+T*
+(no_burn_100,No Burn \(100% block capacity\),50,27511875.00000000,65700.00000000,1.0000,275118.7500) Tj
+T*
+(0000,-209418.75000000,deflationary) Tj
+T*
+(no_burn_100,No Burn \(100% block capacity\),50,27511875.00000000,65700.00000000,1.5000,412678.1250) Tj
+T*
+(0000,-346978.12500000,deflationary) Tj
+T*
+(no_burn_100,No Burn \(100% block capacity\),100,31294500.00000000,65700.00000000,0.5000,156472.500) Tj
+T*
+(00000,-90772.50000000,deflationary) Tj
+T*
+(no_burn_100,No Burn \(100% block capacity\),100,31294500.00000000,65700.00000000,1.0000,312945.000) Tj
+T*
+(00000,-247245.00000000,deflationary) Tj
+T*
+(no_burn_100,No Burn \(100% block capacity\),100,31294500.00000000,65700.00000000,1.5000,469417.500) Tj
+T*
+(00000,-403717.50000000,deflationary) Tj
+T*
+(no_burn_100,No Burn \(100% block capacity\),250,41149500.00000000,65700.00000000,0.5000,205747.500) Tj
+T*
+(00000,-140047.50000000,deflationary) Tj
+T*
+(no_burn_100,No Burn \(100% block capacity\),250,41149500.00000000,65700.00000000,1.0000,411495.000) Tj
+T*
+(00000,-345795.00000000,deflationary) Tj
+T*
+(no_burn_100,No Burn \(100% block capacity\),250,41149500.00000000,65700.00000000,1.5000,617242.500) Tj
+T*
+(00000,-551542.50000000,deflationary) Tj
+T*
+(burn_25,Burn On \(25% block capacity\),25,25458750.00000000,32850.00000000,0.5000,127293.75000000,) Tj
+T*
+(-94443.75000000,deflationary) Tj
+T*
+(burn_25,Burn On \(25% block capacity\),25,25458750.00000000,32850.00000000,1.0000,254587.50000000,) Tj
+T*
+(-221737.50000000,deflationary) Tj
+T*
+(burn_25,Burn On \(25% block capacity\),25,25458750.00000000,32850.00000000,1.5000,381881.25000000,) Tj
+T*
+(-349031.25000000,deflationary) Tj
+T*
+(burn_25,Burn On \(25% block capacity\),50,27511875.00000000,32850.00000000,0.5000,137559.37500000,) Tj
+T*
+(-104709.37500000,deflationary) Tj
+T*
+(burn_25,Burn On \(25% block capacity\),50,27511875.00000000,32850.00000000,1.0000,275118.75000000,) Tj
+T*
+(-242268.75000000,deflationary) Tj
+T*
+(burn_25,Burn On \(25% block capacity\),50,27511875.00000000,32850.00000000,1.5000,412678.12500000,) Tj
+T*
+(-379828.12500000,deflationary) Tj
+T*
+(burn_25,Burn On \(25% block capacity\),100,30637500.00000000,32850.00000000,0.5000,153187.50000000) Tj
+T*
+(,-120337.50000000,deflationary) Tj
+T*
+(burn_25,Burn On \(25% block capacity\),100,30637500.00000000,32850.00000000,1.0000,306375.00000000) Tj
+T*
+(,-273525.00000000,deflationary) Tj
+T*
+(burn_25,Burn On \(25% block capacity\),100,30637500.00000000,32850.00000000,1.5000,459562.50000000) Tj
+T*
+(,-426712.50000000,deflationary) Tj
+T*
+(burn_25,Burn On \(25% block capacity\),250,35565000.00000000,32850.00000000,0.5000,177825.00000000) Tj
+T*
+(,-144975.00000000,deflationary) Tj
+T*
+(burn_25,Burn On \(25% block capacity\),250,35565000.00000000,32850.00000000,1.0000,355650.00000000) Tj
+T*
+(,-322800.00000000,deflationary) Tj
+T*
+(burn_25,Burn On \(25% block capacity\),250,35565000.00000000,32850.00000000,1.5000,533475.00000000) Tj
+T*
+(,-500625.00000000,deflationary) Tj
+T*
+(burn_50,Burn On \(50% block) Tj
+T*
+(capacity\),25,25458750.00000000,0E-8,0.5000,127293.75000000,-127293.75000000,deflationary) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 3713 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(burn_50,Burn On \(50% block) Tj
+T*
+(capacity\),25,25458750.00000000,0E-8,1.0000,254587.50000000,-254587.50000000,deflationary) Tj
+T*
+(burn_50,Burn On \(50% block) Tj
+T*
+(capacity\),25,25458750.00000000,0E-8,1.5000,381881.25000000,-381881.25000000,deflationary) Tj
+T*
+(burn_50,Burn On \(50% block) Tj
+T*
+(capacity\),50,27511875.00000000,0E-8,0.5000,137559.37500000,-137559.37500000,deflationary) Tj
+T*
+(burn_50,Burn On \(50% block) Tj
+T*
+(capacity\),50,27511875.00000000,0E-8,1.0000,275118.75000000,-275118.75000000,deflationary) Tj
+T*
+(burn_50,Burn On \(50% block) Tj
+T*
+(capacity\),50,27511875.00000000,0E-8,1.5000,412678.12500000,-412678.12500000,deflationary) Tj
+T*
+(burn_50,Burn On \(50% block) Tj
+T*
+(capacity\),100,29980500.00000000,0E-8,0.5000,149902.50000000,-149902.50000000,deflationary) Tj
+T*
+(burn_50,Burn On \(50% block) Tj
+T*
+(capacity\),100,29980500.00000000,0E-8,1.0000,299805.00000000,-299805.00000000,deflationary) Tj
+T*
+(burn_50,Burn On \(50% block) Tj
+T*
+(capacity\),100,29980500.00000000,0E-8,1.5000,449707.50000000,-449707.50000000,deflationary) Tj
+T*
+(burn_50,Burn On \(50% block) Tj
+T*
+(capacity\),250,29980500.00000000,0E-8,0.5000,149902.50000000,-149902.50000000,deflationary) Tj
+T*
+(burn_50,Burn On \(50% block) Tj
+T*
+(capacity\),250,29980500.00000000,0E-8,1.0000,299805.00000000,-299805.00000000,deflationary) Tj
+T*
+(burn_50,Burn On \(50% block) Tj
+T*
+(capacity\),250,29980500.00000000,0E-8,1.5000,449707.50000000,-449707.50000000,deflationary) Tj
+T*
+(burn_75,Burn On \(75% block capacity\),25,25458750.00000000,-32850.00000000,0.5000,127293.75000000) Tj
+T*
+(,-160143.75000000,deflationary) Tj
+T*
+(burn_75,Burn On \(75% block capacity\),25,25458750.00000000,-32850.00000000,1.0000,254587.50000000) Tj
+T*
+(,-287437.50000000,deflationary) Tj
+T*
+(burn_75,Burn On \(75% block capacity\),25,25458750.00000000,-32850.00000000,1.5000,381881.25000000) Tj
+T*
+(,-414731.25000000,deflationary) Tj
+T*
+(burn_75,Burn On \(75% block capacity\),50,27511875.00000000,-32850.00000000,0.5000,137559.37500000) Tj
+T*
+(,-170409.37500000,deflationary) Tj
+T*
+(burn_75,Burn On \(75% block capacity\),50,27511875.00000000,-32850.00000000,1.0000,275118.75000000) Tj
+T*
+(,-307968.75000000,deflationary) Tj
+T*
+(burn_75,Burn On \(75% block capacity\),50,27511875.00000000,-32850.00000000,1.5000,412678.12500000) Tj
+T*
+(,-445528.12500000,deflationary) Tj
+T*
+(burn_75,Burn On \(75% block capacity\),100,29323500.00000000,-32850.00000000,0.5000,146617.5000000) Tj
+T*
+(0,-179467.50000000,deflationary) Tj
+T*
+(burn_75,Burn On \(75% block capacity\),100,29323500.00000000,-32850.00000000,1.0000,293235.0000000) Tj
+T*
+(0,-326085.00000000,deflationary) Tj
+T*
+(burn_75,Burn On \(75% block capacity\),100,29323500.00000000,-32850.00000000,1.5000,439852.5000000) Tj
+T*
+(0,-472702.50000000,deflationary) Tj
+T*
+(burn_75,Burn On \(75% block capacity\),250,24396000.00000000,-32850.00000000,0.5000,121980.0000000) Tj
+T*
+(0,-154830.00000000,deflationary) Tj
+T*
+(burn_75,Burn On \(75% block capacity\),250,24396000.00000000,-32850.00000000,1.0000,243960.0000000) Tj
+T*
+(0,-276810.00000000,deflationary) Tj
+T*
+(burn_75,Burn On \(75% block capacity\),250,24396000.00000000,-32850.00000000,1.5000,365940.0000000) Tj
+T*
+(0,-398790.00000000,deflationary) Tj
+T*
+(burn_100,Burn On \(100% block capacity\),25,25458750.00000000,-65700.00000000,0.5000,127293.750000) Tj
+T*
+(00,-192993.75000000,deflationary) Tj
+T*
+(burn_100,Burn On \(100% block capacity\),25,25458750.00000000,-65700.00000000,1.0000,254587.500000) Tj
+T*
+(00,-320287.50000000,deflationary) Tj
+T*
+(burn_100,Burn On \(100% block capacity\),25,25458750.00000000,-65700.00000000,1.5000,381881.250000) Tj
+T*
+(00,-447581.25000000,deflationary) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1369 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(burn_100,Burn On \(100% block capacity\),50,27511875.00000000,-65700.00000000,0.5000,137559.375000) Tj
+T*
+(00,-203259.37500000,deflationary) Tj
+T*
+(burn_100,Burn On \(100% block capacity\),50,27511875.00000000,-65700.00000000,1.0000,275118.750000) Tj
+T*
+(00,-340818.75000000,deflationary) Tj
+T*
+(burn_100,Burn On \(100% block capacity\),50,27511875.00000000,-65700.00000000,1.5000,412678.125000) Tj
+T*
+(00,-478378.12500000,deflationary) Tj
+T*
+(burn_100,Burn On \(100% block capacity\),100,28666500.00000000,-65700.00000000,0.5000,143332.50000) Tj
+T*
+(000,-209032.50000000,deflationary) Tj
+T*
+(burn_100,Burn On \(100% block capacity\),100,28666500.00000000,-65700.00000000,1.0000,286665.00000) Tj
+T*
+(000,-352365.00000000,deflationary) Tj
+T*
+(burn_100,Burn On \(100% block capacity\),100,28666500.00000000,-65700.00000000,1.5000,429997.50000) Tj
+T*
+(000,-495697.50000000,deflationary) Tj
+T*
+(burn_100,Burn On \(100% block capacity\),250,21000000.00000000,-65700.00000000,0.5000,105000.00000) Tj
+T*
+(000,-170700.00000000,deflationary) Tj
+T*
+(burn_100,Burn On \(100% block capacity\),250,21000000.00000000,-65700.00000000,1.0000,210000.00000) Tj
+T*
+(000,-275700.00000000,deflationary) Tj
+T*
+(burn_100,Burn On \(100% block capacity\),250,21000000.00000000,-65700.00000000,1.5000,315000.00000) Tj
+T*
+(000,-380700.00000000,deflationary) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000004276 00000 n 
+0000004402 00000 n 
+0000008167 00000 n 
+0000008293 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+9714
+%%EOF

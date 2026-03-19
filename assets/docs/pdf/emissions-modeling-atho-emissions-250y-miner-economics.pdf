@@ -1,0 +1,65 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 1 /Kids [4 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 1292 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(scenario_key,scenario_label,capacity_pct,tail_issuance_atho_per_year,annual_fee_pool_atho,annual) Tj
+T*
+(_burn_atho,annual_miner_fee_atho,annual_miner_total_atho,income_delta_vs_no_burn_same_capacity_a) Tj
+T*
+(tho,breakeven_price_lift_vs_no_burn_same_capacity_pct,income_delta_vs_no_burn_100_atho,breakeven) Tj
+T*
+(_price_lift_vs_no_burn_100_pct) Tj
+T*
+(no_burn_100,No Burn \(100% block capacity\),100.0000,65700.00000000,131400.00000000,0E-8,131400.00) Tj
+T*
+(000000,197100.00000000,0E-8,0E-8,0E-8,0E-8) Tj
+T*
+(burn_25,Burn On \(25% block capacity\),25.0000,65700.00000000,32850.00000000,32850.00000000,0E-8,6) Tj
+T*
+(5700.00000000,32850.00000000,50.00000000,131400.00000000,200.00000000) Tj
+T*
+(burn_50,Burn On \(50% block capacity\),50.0000,65700.00000000,65700.00000000,65700.00000000,0E-8,6) Tj
+T*
+(5700.00000000,65700.00000000,100.00000000,131400.00000000,200.00000000) Tj
+T*
+(burn_75,Burn On \(75% block capacity\),75.0000,65700.00000000,98550.00000000,98550.00000000,0E-8,6) Tj
+T*
+(5700.00000000,98550.00000000,150.00000000,131400.00000000,200.00000000) Tj
+T*
+(burn_100,Burn On \(100% block capacity\),100.0000,65700.00000000,131400.00000000,131400.00000000,0) Tj
+T*
+(E-8,65700.00000000,131400.00000000,200.00000000,131400.00000000,200.00000000) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000189 00000 n 
+0000000315 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1659
+%%EOF

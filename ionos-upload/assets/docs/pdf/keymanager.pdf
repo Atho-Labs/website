@@ -1,0 +1,486 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 4 /Kids [4 0 R 6 0 R 8 0 R 10 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2875 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Key Manager \(Atho\)) Tj
+T*
+() Tj
+T*
+(Status: Alpha documentation snapshot \(2026-03-12\).) Tj
+T*
+() Tj
+T*
+(This note explains how Atho?s key manager stores, loads, and uses keys for wallets, mining) Tj
+T*
+(rewards, and API authentication.) Tj
+T*
+() Tj
+T*
+(What it does) Tj
+T*
+(- Generates Falcon-512 keypairs for wallet/miner addresses.) Tj
+T*
+(- Defaults to mnemonic-backed deterministic key generation \(atho-mnemonic-v1\) with 24 words) Tj
+T*
+(\(12/24/48 supported\).) Tj
+T*
+(- Derives hashed public keys \(HPK\) and Base56 addresses for display/UX.) Tj
+T*
+(- Persists keys atomically to Keys/KeyManager_Public_Private_Keys.json \(one file per) Tj
+T*
+(node/instance\).) Tj
+T*
+(- Supplies keys to transaction signing, mining coinbase outputs, and API auth where needed.) Tj
+T*
+(- Imports existing Falcon keys \(see below\) with hash/base56 verification and a test-sign before) Tj
+T*
+(storing.) Tj
+T*
+() Tj
+T*
+(Storage layout) Tj
+T*
+(- Path \(by default\): Keys/KeyManager_Public_Private_Keys.json) Tj
+T*
+(- Structure:) Tj
+T*
+(- miner_1, miner_2, ?: labels for each managed key.) Tj
+T*
+(- public_key: Falcon public key \(stored as 2048-char hex in key files\).) Tj
+T*
+(- private_key: Falcon private key components \(F, G, f, g\).) Tj
+T*
+(- mnemonic_phrase, mnemonic_words, mnemonic_text, mnemonic_meta for mnemonic-derived keys.) Tj
+T*
+(- Metadata: creation time, role \(e.g., miner\), network.) Tj
+T*
+(- Files are written atomically to avoid partial writes and corruption.) Tj
+T*
+() Tj
+T*
+(Encrypted-at-rest lockbox mode) Tj
+T*
+(- Key file now supports encrypted-at-rest mode with one-password unlock flow.) Tj
+T*
+(- Kyber DEK wrap is mandatory in lockbox mode \(no Kyber opt-out\).) Tj
+T*
+(- Lockbox unlock modes:) Tj
+T*
+(- default: password-only UX \(Kyber secret wrap stored in wallet metadata\).) Tj
+T*
+(- advanced: password + Kyber unlock text file import on unlock \(.txt bundle\).) Tj
+T*
+(- Encryption stack:) Tj
+T*
+(- password KDF: Argon2id) Tj
+T*
+(- payload cipher: AES-256-GCM) Tj
+T*
+(- DEK wrap: AES-256-GCM) Tj
+T*
+(- required PQ wrap: Kyber \(kyber1024_ref by default\) wrapping the same DEK for hybrid/PQ backup) Tj
+T*
+(integrity.) Tj
+T*
+(- Plaintext fields \(kept visible for wallet UX while locked\):) Tj
+T*
+(- identifier, role, network, defaults, hashed_public_key, address_base56, source/version.) Tj
+T*
+(- Encrypted fields:) Tj
+T*
+(- raw public_key / cli_public_key) Tj
+T*
+(- all private key parts \(f/g/F/G\)) Tj
+T*
+(- mnemonic fields \(mnemonic_phrase, mnemonic_words, mnemonic_text, mnemonic_meta\).) Tj
+T*
+(- Security metadata is stored in _wallet_security \(schema athokey-lockbox-v1\).) Tj
+T*
+(- Advanced-mode Kyber unlock file format:) Tj
+T*
+(- schema: athokey-kyber-unlock-v1) Tj
+T*
+(- includes strict integrity hash and binding metadata) Tj
+T*
+(- importer fails closed on tampered/invalid format.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2827 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Kyber + AES-256 together \(why both\)) Tj
+T*
+() Tj
+T*
+(Key point: Kyber does not replace AES for payload encryption. They serve different roles.) Tj
+T*
+(- AES-256-GCM role:) Tj
+T*
+(- Encrypt the actual wallet secret payload \(private key parts + mnemonic data\).) Tj
+T*
+(- Provide confidentiality + integrity tag over the payload.) Tj
+T*
+(- Kyber role:) Tj
+T*
+(- Wrap/encapsulate the DEK used by AES payload encryption.) Tj
+T*
+(- Provide a post-quantum recovery/unlock control plane for key material.) Tj
+T*
+() Tj
+T*
+(Practical model:) Tj
+T*
+(- Generate random DEK.) Tj
+T*
+(- Encrypt wallet secret payload with AES-256-GCM\(DEK\).) Tj
+T*
+(- Wrap DEK with password-derived KEK \(Argon2id + AES-256-GCM wrap\).) Tj
+T*
+(- Also wrap the same DEK with Kyber KEM metadata/ciphertext.) Tj
+T*
+(- Store encrypted payload + both wrap records in lockbox metadata.) Tj
+T*
+() Tj
+T*
+(This gives:) Tj
+T*
+(- fast encryption performance \(AES\),) Tj
+T*
+(- password UX for daily use,) Tj
+T*
+(- PQC-capable DEK recovery path \(Kyber\),) Tj
+T*
+(- and policy flexibility to tighten one plane without rewriting payload format.) Tj
+T*
+() Tj
+T*
+(How keys are used) Tj
+T*
+(- Wallet CLI: signs transactions with the selected key; displays Base56 addresses derived from) Tj
+T*
+(HPK.) Tj
+T*
+(- Miner: uses the configured key for coinbase rewards and block signing.) Tj
+T*
+(- API: keys are separate \(see Src/Config/Api_Keys.json\), but the key manager feeds addresses for) Tj
+T*
+(wallet/miner actions.) Tj
+T*
+(- Wallet management API \(added\): POST /wallet/rename, POST /wallet/delete, POST /wallet/default) Tj
+T*
+(let the GUI rename, delete, or set a default key \(one default per network\). They resolve) Tj
+T*
+(identifiers by id/base56/HPK and refuse to delete the last key in a network.) Tj
+T*
+(- Wallet lockbox API \(added\):) Tj
+T*
+(- GET /wallet/unlock_status) Tj
+T*
+(- POST /wallet/unlock) Tj
+T*
+(- POST /wallet/lock) Tj
+T*
+(- POST /wallet/change_password) Tj
+T*
+(- POST /wallet/export_kyber_unlock_file) Tj
+T*
+(- POST /wallet/export_encrypted_backup) Tj
+T*
+(- POST /wallet/import_encrypted_backup) Tj
+T*
+(- GET /wallet/lock_policy) Tj
+T*
+(- POST /wallet/lock_policy) Tj
+T*
+(- sensitive wallet operations \(create/recover/import/export/sign/send/rename/delete/default\) now) Tj
+T*
+(fail closed with wallet_locked when encrypted and locked.) Tj
+T*
+(- unlock endpoint includes brute-force controls \(per-client backoff + temporary lockout after) Tj
+T*
+(repeated failures\).) Tj
+T*
+() Tj
+T*
+(Safety notes) Tj
+T*
+(- The JSON file can run unencrypted \(legacy\) or encrypted lockbox mode.) Tj
+T*
+(- In lockbox mode, private/public raw key material and mnemonic data are encrypted and) Tj
+T*
+(unavailable until unlock.) Tj
+T*
+(- Mnemonic passphrases are never stored in key JSON or export files; keep passphrases) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 3509 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(separately.) Tj
+T*
+(- Wallet encryption passwords now require non-empty input \(no fixed minimum length enforced by) Tj
+T*
+(backend\).) Tj
+T*
+(- Wallet exports are .txt and are marked read-only on save.) Tj
+T*
+(- Each node/container should have its own Keys directory; don?t share across independent nodes) Tj
+T*
+(unless you intend to reuse the same addresses.) Tj
+T*
+(- For production, add OS-level permissions \(e.g., chmod 600 Keys/*.json\) and consider an) Tj
+T*
+(encrypted keystore if you extend the system. A simple AES-GCM+scrypt proof-of-concept CLI exists) Tj
+T*
+(at Src/Accounts/ecript.py for manual encryption/decryption tests.) Tj
+T*
+(- Key file writes are lock-protected \(<key_file>.lock\) to reduce concurrent-write corruption) Tj
+T*
+(risk.) Tj
+T*
+(- Saves use backup-on-write and keep rolling backups in Keys/backups/ before replacing the) Tj
+T*
+(active key JSON.) Tj
+T*
+(- During plaintext -> encrypted migration, KeyManager no longer creates a new plaintext) Tj
+T*
+(pre_write backup and now purges any existing plaintext-secret backups under Keys/backups/.) Tj
+T*
+(- Mnemonic sidecar files \(Keys/mnemonic_recovery/...\) are automatically removed once wallet) Tj
+T*
+(lockbox encryption is enabled.) Tj
+T*
+(- Startup/disk reload now applies strict schema validation and fails closed on malformed key) Tj
+T*
+(files instead of silently proceeding with bad structure.) Tj
+T*
+(- Wallet backup/import paths for encrypted snapshots are validated under the keys root and use) Tj
+T*
+(the same atomic/backup controls.) Tj
+T*
+(- Unlock auto-relock policy:) Tj
+T*
+(- default unlock window is 30 seconds \(_wallet_policy.unlock_ttl_seconds\),) Tj
+T*
+(- 0 disables auto-relock timer,) Tj
+T*
+(- lock status includes unlock_expires_in_seconds.) Tj
+T*
+(- API unlock session state now persists across calls while key-file fingerprint is unchanged) Tj
+T*
+(\(prevents accidental relock-on-every-request\).) Tj
+T*
+(- wallet_unlock_status no longer exposes absolute key-file paths by default.) Tj
+T*
+() Tj
+T*
+(Addresses and HPK) Tj
+T*
+(- Public keys are hashed \(SHA3-384\) ? HPK ? encoded to Base56 for display.) Tj
+T*
+(- Base56 avoids ambiguous characters and is used consistently across CLI and wallet displays.) Tj
+T*
+(- Transaction witness wire format uses canonical base64 for pubkey/signature; KeyManager still) Tj
+T*
+(operates on internal hex/bytes for Falcon signing and verification.) Tj
+T*
+() Tj
+T*
+(Defaults and generation) Tj
+T*
+(- At load, the manager ensures at least miner_1 and miner_2 exist on mainnet, testnet, and) Tj
+T*
+(regnet; defaults are set to miner_1 if missing.) Tj
+T*
+(- Canonical miner slots are miner_1 and miner_2; additional miner identifiers \(miner_3+\) are) Tj
+T*
+(still supported and preserved.) Tj
+T*
+(- Only CLI-format keys are kept. Legacy/non-CLI records are regenerated as CLI keys.) Tj
+T*
+(- New key generation defaults to mnemonic-backed derivation with 24 words unless explicitly) Tj
+T*
+(overridden.) Tj
+T*
+(- CLI key-creation/import/recovery flow now prompts \(interactive TTY only\) to enable encryption) Tj
+T*
+(before proceeding when wallet is still unencrypted.) Tj
+T*
+(- Changing the default key updates all roles for that network and is enforced by the API and) Tj
+T*
+(GUI.) Tj
+T*
+() Tj
+T*
+(Recovery audit trail) Tj
+T*
+(- Mnemonic recovery operations are written to:) Tj
+T*
+(- logs/.../wallet/wallet_recovery_audit.log) Tj
+T*
+(- Audit records include timestamp, network, identifier, canonical source, and canonical flag so) Tj
+T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 2592 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(recovery decisions are traceable.) Tj
+T*
+() Tj
+T*
+(Importing existing keys \(wallet/CLI\)) Tj
+T*
+(You can import a Falcon keypair instead of pasting long values into the terminal:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Supported file formats:) Tj
+T*
+(- Wallet/GUI import: Atho wallet export .txt \(current structured text export format is) Tj
+T*
+(supported; legacy warning-header export format is still accepted for backward compatibility\).) Tj
+T*
+(- CLI helper \(change_default_key.py import\): still accepts JSON with fields public_key, f, g, F,) Tj
+T*
+(G, optional hpk/address_base56 \(HPK/Base56 are recomputed when present\).) Tj
+T*
+() Tj
+T*
+(Import safeguards:) Tj
+T*
+(- Rejects/ignores duplicates by HPK or Base56; identifier collisions are auto-renamed \(import_1,) Tj
+T*
+(import_2, ?\) when HPK/Base56 are unique.) Tj
+T*
+(- Recomputes HPK and ensures provided HPK/Base56 matches.) Tj
+T*
+(- Runs a test sign before persisting.) Tj
+T*
+(- Requires at least one key per network; deletion is blocked only if it would remove the last) Tj
+T*
+(key.) Tj
+T*
+(- GUI export enforces read-only .txt; imports are no longer hard-coupled to one literal) Tj
+T*
+(warning-header line.) Tj
+T*
+() Tj
+T*
+(Exporting keys \(wallet\) for offline storage) Tj
+T*
+(- From the wallet tab, use the export/download icon to save a single key to a .txt file. The) Tj
+T*
+(file:) Tj
+T*
+(- Is forced to .txt and marked read-only on save.) Tj
+T*
+(- Contains private/public key material, HPK/Base56, and mnemonic phrase/word list sections when) Tj
+T*
+(the key is mnemonic-derived.) Tj
+T*
+(- Explicitly warns that mnemonic passphrase is not stored.) Tj
+T*
+(- Offline workflow:) Tj
+T*
+(- Export the desired key\(s\) to .txt and store them securely \(offline/backup\).) Tj
+T*
+(- When re-importing later, use the wallet import button \(or import_export_file in KeyManager\) to) Tj
+T*
+(load the .txt.) Tj
+T*
+(- Imports reject duplicate HPK/Base56; identifier clashes are auto-renamed to import_#.) Tj
+T*
+(- Defaults are reassigned as needed; deletion is blocked only if it would leave zero keys on) Tj
+T*
+(that network.) Tj
+T*
+(- For extra protection, you can manually encrypt exported files using the AES-GCM + scrypt) Tj
+T*
+(helper at Src/Accounts/ecript.py before storing them offline.) Tj
+T*
+() Tj
+T*
+(GUI actions backed by the key manager) Tj
+T*
+(- Wallet tab actions \(copy, rename, delete, set default/star\) call the wallet API endpoints) Tj
+T*
+(above.) Tj
+T*
+(- Hover tooltips and click animations are provided for clarity; the star indicates the current) Tj
+T*
+(default.) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 12
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000140 00000 n 
+0000000208 00000 n 
+0000000334 00000 n 
+0000003261 00000 n 
+0000003387 00000 n 
+0000006266 00000 n 
+0000006392 00000 n 
+0000009953 00000 n 
+0000010081 00000 n 
+trailer
+<< /Size 12 /Root 1 0 R >>
+startxref
+12726
+%%EOF

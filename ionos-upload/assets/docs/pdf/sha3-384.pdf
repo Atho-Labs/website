@@ -1,0 +1,283 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 3145 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(SHA3-384, HPK, and Base56 Addressing) Tj
+T*
+() Tj
+T*
+(Status: Alpha documentation snapshot \(2026-03-12\).) Tj
+T*
+() Tj
+T*
+(This document describes how Atho uses SHA3-384 for identity, transaction hashing, and) Tj
+T*
+(addressing, and how Base56 encoding wraps hashed public keys \(HPK\). It also lists the code paths) Tj
+T*
+(involved and audit notes.) Tj
+T*
+() Tj
+T*
+(Hash primitives \(Src/Utility/hash.py\)) Tj
+T*
+(- sha3\(data\): SHA3-384, returns 48-byte digest.) Tj
+T*
+(- sha3_hex\(data\): SHA3-384, returns 96-char lowercase hex.) Tj
+T*
+(- sha3_256 / sha3_256_hex: SHA3-256 helpers \(used for checksums\).) Tj
+T*
+(- Merkle helpers use SHA3-384 for parent/root computation.) Tj
+T*
+() Tj
+T*
+(HPK \(hashed public key\) generation and storage) Tj
+T*
+(- Public keys are Falcon-512 \(2048 hex chars\). HPK is sha3_384\(pubkey_bytes\).hex\(\) \(96 hex) Tj
+T*
+(chars\), typically prefixed with the internal network tag \(ATHO mainnet, ATHT testnet\).) Tj
+T*
+(- Key import/generation:) Tj
+T*
+(- Src/Accounts/key_manager.py: derives HPK when adding keys; enforce_cli_only\(\) ensures) Tj
+T*
+(CLI-format keys with HPK present; also uses sha3_384 in address export helpers.) Tj
+T*
+(- Src/Accounts/change_default_key.py: import helper routes materials through KeyManager) Tj
+T*
+(validation/HPK recompute before persistence.) Tj
+T*
+(- HPK is the canonical on-chain address binding \(hashed_public_key fields in outputs/UTXO\).) Tj
+T*
+() Tj
+T*
+(Base56 address encoding \(Src/Blockchain/base56.py\)) Tj
+T*
+(- Alphabet: 23456789ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz \(56 chars, no visually) Tj
+T*
+(ambiguous symbols\).) Tj
+T*
+(- Input: HPK hex \(96 chars\), with or without internal prefix \(ATHO/ATHT\).) Tj
+T*
+(- Encoding:) Tj
+T*
+(- Convert HPK hex ? 48 bytes.) Tj
+T*
+(- Prefix: A \(mainnet\) or T \(testnet/regnet\).) Tj
+T*
+(- Body: prefix + base56\(raw_hpk_bytes\).) Tj
+T*
+(- Checksum: first 4 bytes of sha3_256\(body\) encoded base56, padded to 6 chars.) Tj
+T*
+(- Final address: <prefix><body><checksum>.) Tj
+T*
+(- Decoding:) Tj
+T*
+(- Verifies prefix matches expected network \(or Constants.NETWORK when enforced\).) Tj
+T*
+(- Recomputes checksum with sha3_256 and compares.) Tj
+T*
+(- Returns HPK hex \(padded to 96 chars\) and network; can re-add internal prefix.) Tj
+T*
+(- Normalization helper: normalize_hpk accepts either Base56 address or prefixed HPK and returns) Tj
+T*
+(the internal HPK string.) Tj
+T*
+(- Consumers:) Tj
+T*
+(- Wallet/CLI: Src/GUI/cliui.py and wallet APIs render Base56 for users, normalize back to HPK) Tj
+T*
+(internally.) Tj
+T*
+(- Tx construction: Src/Main/send.py resolves recipient/change via normalize_hpk.) Tj
+T*
+(- UTXO lookup: Src/Transactions/txmanager.py normalizes HPK for spend selection.) Tj
+T*
+() Tj
+T*
+(Transaction hashing and signing \(SHA3-384\)) Tj
+T*
+(- Canonical txid \(no witness\):) Tj
+T*
+(- Src/Utility/txdhash.py::canonical_tx_id hashes a normalized transaction dict \(without witness) Tj
+T*
+(fields, with hashed_public_key normalized\) using SHA3-384 hex.) Tj
+T*
+(- Used for tx identifiers, merkle inclusion, and signing payloads.) Tj
+T*
+(- Signing payload:) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 3578 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- signing_message_hex_digest\(tx\) builds a deterministic string from version, lock_time, sorted) Tj
+T*
+(inputs/outputs, metadata, and tx_id, then sha3_384\(...\).hexdigest\(\).lower\(\).) Tj
+T*
+(- Excludes witness/signature/pubkey; SegWit-style.) Tj
+T*
+(- Signing path:) Tj
+T*
+(- Src/Main/send.py builds the tx, then calls KeyManager.sign_transaction.) Tj
+T*
+(- KeyManager.sign_transaction normalizes the signing message to hex \(detects 48-byte or 96-char) Tj
+T*
+(SHA3-384 digests\), then calls FalconCLI.sign on that hex string.) Tj
+T*
+(- Signature is stored once at tx.signature \(witness\); inputs do not carry the full sig.) Tj
+T*
+(- On wire, witness signature/pubkey are canonical base64; verifier decodes them back to) Tj
+T*
+(bytes/hex before Falcon checks.) Tj
+T*
+(- Verification path:) Tj
+T*
+(- Src/Transactions/txvalidation.py::_validate_signature strips witness \(SegWit.strip_witness\),) Tj
+T*
+(recomputes signing_message_hex_digest, and calls KeyManager.verify_transaction.) Tj
+T*
+(- KeyManager.verify_transaction prefers 96-char SHA3-384 hex inputs, normalizes signature, and) Tj
+T*
+(drives FalconCLI.verify \(CLI-first, optional FFI\) with multiple argument orders.) Tj
+T*
+(- Failure rejects the transaction before fee/UTXO checks.) Tj
+T*
+(- Merkle/txid use:) Tj
+T*
+(- Src/SigWit/sigwit.py and Src/Utility/hash.py::merkle_root_from_hex use SHA3-384 for merkle) Tj
+T*
+(parents; txids are assumed to be SHA3-384 hex.) Tj
+T*
+() Tj
+T*
+(Block/state hashing \(SHA3-384\)) Tj
+T*
+(- Merkle roots inside blocks are SHA3-384 over txids.) Tj
+T*
+(- Src/Main/state.py: state tracker builds leaves sha3_384\(f\\"{height}:{block_hash}\\"\), and) Tj
+T*
+(chain_hash = sha3_384\(prev_chain_hash + block_hash\) for divergence checks.) Tj
+T*
+(- Src/Storage/blockstorage.py: uses SHA3-384 to build cumulative file hashes when appending) Tj
+T*
+(blocks.) Tj
+T*
+() Tj
+T*
+(Binary integrity \(hash pin\)) Tj
+T*
+(- Src/Accounts/falconcli.py::_verify_cli_hash enforces strict version-bound pinning on required) Tj
+T*
+(networks using:) Tj
+T*
+(- Constants.FALCONCLI_PIN_DOMAIN) Tj
+T*
+(- Constants.FALCONCLI_PIN_REQUIRED_NETWORKS) Tj
+T*
+(- Constants.FALCONCLI_PINNED_VERSION_DIGESTS) Tj
+T*
+(- Legacy raw-binary pinning via Constants.FALCONCLI_EXPECTED_HASH is a fallback path only.) Tj
+T*
+() Tj
+T*
+(Audit notes / risks) Tj
+T*
+(- HPK derivation is deterministic SHA3-384; ensure all key import paths use the same) Tj
+T*
+(normalization \(they do via key_manager.py and change_default_key.py import flow\). Mixing) Tj
+T*
+(uppercase/lowercase hex could break checksum/user display if altered before hashing; current) Tj
+T*
+(code lowercases.) Tj
+T*
+(- Base56 checksum uses SHA3-256 \(not 384\). Address integrity depends on this checksum plus) Tj
+T*
+(network prefix; no Bech32-style polymod?keep checksum verification intact.) Tj
+T*
+(- Signature acceptance allows 1024-hex signatures as well as 2048-hex \(in) Tj
+T*
+(KeyManager.verify_transaction\); tighten to 2048 if only Falcon-512 is intended.) Tj
+T*
+(- Signing temp files \(for Falcon CLI\) contain private key components; they are overwritten and) Tj
+T*
+(deleted best-effort. Use secured temp dirs or in-memory pipes if higher assurance is needed.) Tj
+T*
+(- On required networks, startup fails if Falcon pinning is required and no expected digest is) Tj
+T*
+(configured for the active consensus version.) Tj
+T*
+(- Witness exclusion: txid/signing digest intentionally exclude tx.signature; ensure downstream) Tj
+T*
+(tools don?t accidentally rehash with witness included.) Tj
+T*
+() Tj
+T*
+(Operational tips) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 375 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Always normalize addresses with normalize_hpk before storage/spend to avoid prefix/case drift.) Tj
+T*
+(- When exposing addresses to users, use Base56 with checksum; log/store HPK internally.) Tj
+T*
+(- In CI, add a smoke test that encodes/decodes HPK ? Base56 and round-trips) Tj
+T*
+(signing_message_hex_digest against a known vector.) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000003524 00000 n 
+0000003650 00000 n 
+0000007280 00000 n 
+0000007406 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+7832
+%%EOF

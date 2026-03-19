@@ -1,0 +1,420 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 4 /Kids [4 0 R 6 0 R 8 0 R 10 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2559 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Atho Whitepaper \(Core Brief\)) Tj
+T*
+() Tj
+T*
+(Status: Alpha documentation snapshot \(2026-03-15\).) Tj
+T*
+() Tj
+T*
+(Table of Contents) Tj
+T*
+(- Executive Summary) Tj
+T*
+(- Origin and History) Tj
+T*
+(- Vision and Principles) Tj
+T*
+(- Problems Atho Solves) Tj
+T*
+(- Architecture and Network Design) Tj
+T*
+(- PQC Full-Stack Key Protection at Rest) Tj
+T*
+(- Economics and Incentives) Tj
+T*
+(- Threat Model and Defenses) Tj
+T*
+(- Operations and Governance Direction) Tj
+T*
+(- Roadmap Priorities) Tj
+T*
+(- Conclusion) Tj
+T*
+(- Primary Technical References) Tj
+T*
+(- Executive Summary) Tj
+T*
+(Atho is a UTXO blockchain built for deterministic validation, operational clarity, and) Tj
+T*
+(post-quantum readiness. It combines Falcon-512 signatures, SHA3-based hashing, Base56 user) Tj
+T*
+(addresses, and LMDB-backed state storage.) Tj
+T*
+() Tj
+T*
+(The objective is to keep consensus behavior explainable, node roles explicit, and state drift) Tj
+T*
+(low across node, wallet, GUI, and explorer surfaces.) Tj
+T*
+() Tj
+T*
+(Project phase at this snapshot: **Alpha hardening**.) Tj
+T*
+(- Origin and History) Tj
+T*
+(Atho started as an operator-first chain project. Early development exposed role confusion, stale) Tj
+T*
+(UI/API state, weak incident traceability, and fragile restart behavior.) Tj
+T*
+() Tj
+T*
+(Development then shifted toward hardening:) Tj
+T*
+(- stronger validation and payout checks,) Tj
+T*
+(- cleaner role boundaries,) Tj
+T*
+(- more explicit node lifecycle control,) Tj
+T*
+(- and better structured logs for audit and recovery.) Tj
+T*
+() Tj
+T*
+(This paper preserves mission and context while removing stale implementation detail.) Tj
+T*
+(- Vision and Principles) Tj
+T*
+(Atho follows five principles:) Tj
+T*
+(- Determinism: identical data should produce identical validation outcomes.) Tj
+T*
+(- Auditability: operators must be able to explain failures quickly.) Tj
+T*
+(- Role clarity: full/miner/wallet behavior must remain explicit.) Tj
+T*
+(- Cryptographic modernization: post-quantum and SHA3-first direction.) Tj
+T*
+(- Operational resilience: failures should be visible and recoverable.) Tj
+T*
+(- Problems Atho Solves) Tj
+T*
+(Atho targets practical infrastructure issues:) Tj
+T*
+(- state drift across chain, mempool, wallet, and explorer,) Tj
+T*
+(- miner payout mismatches from stale defaults,) Tj
+T*
+(- limited visibility into emission, fee, and coinbase anomalies,) Tj
+T*
+(- and long-term risk from legacy cryptographic assumptions.) Tj
+T*
+(- Architecture and Network Design) Tj
+T*
+(5.1 Identity and Addressing) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 3025 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Falcon-512 for signatures.) Tj
+T*
+(- SHA3-384-derived key and transaction hashing.) Tj
+T*
+(- Base56 address format for user-facing workflows.) Tj
+T*
+(- Internal normalized HPK representation for deterministic processing.) Tj
+T*
+() Tj
+T*
+(5.2 Ledger and Validation) Tj
+T*
+(Atho uses a UTXO ledger with explicit spent/locked semantics, canonical transaction hashing, fee) Tj
+T*
+(and dust policy enforcement, and coinbase limits tied to reward schedule plus fees.) Tj
+T*
+() Tj
+T*
+(5.3 Consensus and Chain Integrity) Tj
+T*
+(Block acceptance verifies linkage, structure, signatures, target bounds, and payout correctness.) Tj
+T*
+(Reorg/orphan handling is treated as a normal consensus path.) Tj
+T*
+() Tj
+T*
+(Current PoW retargeting uses a deterministic interval-based weighted-median window on production) Tj
+T*
+(networks: target block time is 120 seconds, retarget every 360 blocks, clamp per-epoch) Tj
+T*
+(adjustment ratio to 0.60..1.85, clamp interval outliers, and weight recent intervals more) Tj
+T*
+(heavily for responsiveness without excessive volatility. Timestamp safety uses median-time-past) Tj
+T*
+(\(MTP_WINDOW=13\) plus bounded future drift \(MAX_TIME_DRIFT=120 seconds\) across verifier and) Tj
+T*
+(direct chain-accept paths to reduce timestamp-manipulation attack surface. User-facing) Tj
+T*
+(confirmation policy is 10 confirmations for regular transactions and 400 confirmations for) Tj
+T*
+(coinbase maturity.) Tj
+T*
+() Tj
+T*
+(5.4 Storage and APIs) Tj
+T*
+(LMDB-backed stores track blocks, UTXOs, mempool data, and state metadata. The API surface is) Tj
+T*
+(role-aware:) Tj
+T*
+(- full node for canonical chain state,) Tj
+T*
+(- miner for PoW and candidate flow,) Tj
+T*
+(- wallet/API for address and transaction operations.) Tj
+T*
+(- PQC Full-Stack Key Protection at Rest) Tj
+T*
+(Atho?s key-at-rest model is hybrid by design: it combines post-quantum key encapsulation with) Tj
+T*
+(high-assurance symmetric encryption.) Tj
+T*
+() Tj
+T*
+(6.1 What is encrypted) Tj
+T*
+(- Wallet secret payload: Falcon private key parts and mnemonic recovery material.) Tj
+T*
+(- Payload is encrypted with **AES-256-GCM** using a random DEK \(data-encryption key\).) Tj
+T*
+() Tj
+T*
+(6.2 How unlock works \(two control planes\)) Tj
+T*
+(- Password plane:) Tj
+T*
+(- User password -> Argon2id -> KEK.) Tj
+T*
+(- KEK unwraps DEK \(AES-256-GCM wrap record\).) Tj
+T*
+(- DEK decrypts payload.) Tj
+T*
+(- PQ plane:) Tj
+T*
+(- Kyber KEM record \(ciphertext + metadata\) also wraps the same DEK.) Tj
+T*
+(- Advanced unlock/recovery mode can restore DEK through Kyber material.) Tj
+T*
+() Tj
+T*
+(6.3 Why Kyber + AES together) Tj
+T*
+(- AES-256-GCM is efficient and authenticated for bulk payload encryption.) Tj
+T*
+(- Kyber is used for KEM/wrap semantics, not bulk data encryption.) Tj
+T*
+(- Using both gives practical performance now and a post-quantum recovery path.) Tj
+T*
+() Tj
+T*
+(6.4 Security interpretation) Tj
+T*
+(- If password handling is weak, Kyber path still gives a separate cryptographic control plane) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 2635 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(for backup/recovery policy.) Tj
+T*
+(- If future cryptanalytic pressure changes assumptions, DEK wrap policy can be tightened without) Tj
+T*
+(redesigning payload encryption format.) Tj
+T*
+(- This keeps wallet-at-rest protection modular and upgradeable.) Tj
+T*
+() Tj
+T*
+(6.5 Operator-facing result) Tj
+T*
+(- Falcon signs chain data.) Tj
+T*
+(- Kyber protects DEK recovery path.) Tj
+T*
+(- AES-256-GCM protects serialized wallet secrets at rest.) Tj
+T*
+() Tj
+T*
+(That is Atho?s current ?PQC full-stack? posture for key custody.) Tj
+T*
+(- Economics and Incentives) Tj
+T*
+(Atho uses scheduled rewards with fee participation and long-tail issuance behavior. Economic) Tj
+T*
+(goals are predictable issuance, transparent accounting, and sustained miner incentives.) Tj
+T*
+() Tj
+T*
+(Emission and burn monitors compare expected and observed supply behavior to detect drift early.) Tj
+T*
+(- Threat Model and Defenses) Tj
+T*
+(Atho defends at three layers.) Tj
+T*
+() Tj
+T*
+(Protocol layer:) Tj
+T*
+(- strict signature and UTXO checks,) Tj
+T*
+(- coinbase and fee enforcement,) Tj
+T*
+(- block linkage and target validation.) Tj
+T*
+() Tj
+T*
+(Network layer:) Tj
+T*
+(- mempool policy controls,) Tj
+T*
+(- peer visibility and node telemetry,) Tj
+T*
+(- deterministic payload handling.) Tj
+T*
+() Tj
+T*
+(Operational layer:) Tj
+T*
+(- wallet lock/unlock controls,) Tj
+T*
+(- API credential/HMAC support,) Tj
+T*
+(- role-pinned API routing to reduce stale endpoint confusion.) Tj
+T*
+(- Operations and Governance Direction) Tj
+T*
+(Atho favors explicit operations over hidden automation:) Tj
+T*
+(- clear start/stop/restart/switch behavior,) Tj
+T*
+(- persistent runtime configuration,) Tj
+T*
+(- structured logs for incident audit and recovery.) Tj
+T*
+() Tj
+T*
+(Governance direction is engineering-led: improve safety, correctness, and observability before) Tj
+T*
+(expanding protocol complexity.) Tj
+T*
+(- Roadmap Priorities) Tj
+T*
+(- Continue role-isolation hardening across node, wallet, GUI, and explorer.) Tj
+T*
+(- Expand mempool and peer policy depth under adversarial conditions.) Tj
+T*
+(- Improve key-management UX while preserving strict security defaults.) Tj
+T*
+(- Improve diagnostics and explorer drill-down for faster audits.) Tj
+T*
+(- Increase automated coverage for consensus, reorg, and high-volume transaction edges.) Tj
+T*
+(- Conclusion) Tj
+T*
+(Atho is built to address real operating pain: stale state surfaces, unclear role boundaries,) Tj
+T*
+(payout drift risk, and weak observability. The long-term goal is a resilient network where) Tj
+T*
+(protocol integrity and operator usability improve together.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 661 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(For deeper technical material:) Tj
+T*
+(- Docs/Consensus.md) Tj
+T*
+(- Docs/Falcon512.md) Tj
+T*
+(- Docs/Sha3-384.md) Tj
+T*
+(- Docs/LMDB.md) Tj
+T*
+(- Docs/Threat.md) Tj
+T*
+(- Docs/Emissions.md) Tj
+T*
+(- Primary Technical References) Tj
+T*
+(- Docs/falcon Docs.pdf \(Falcon/NIST context and package-level reference\)) Tj
+T*
+(- Docs/Falcon512.md \(integration and pinning implementation notes\)) Tj
+T*
+(- Docs/Consensus.md \(validation and chain-integrity flow\)) Tj
+T*
+(- Docs/Tx.md \(transaction rules, witness, fee policy, and sizing\)) Tj
+T*
+(- Src/Main/checksum.py release checksum/signature workflow \(release integrity\)) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 12
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000140 00000 n 
+0000000208 00000 n 
+0000000334 00000 n 
+0000002945 00000 n 
+0000003071 00000 n 
+0000006148 00000 n 
+0000006274 00000 n 
+0000008961 00000 n 
+0000009089 00000 n 
+trailer
+<< /Size 12 /Root 1 0 R >>
+startxref
+9802
+%%EOF

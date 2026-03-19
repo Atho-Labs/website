@@ -1,0 +1,256 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 2 /Kids [4 0 R 6 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 1244 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Packaging & Snapshot \(Alpha\)) Tj
+T*
+() Tj
+T*
+(Status: Alpha release packaging workflow \(2026-03-12\).) Tj
+T*
+() Tj
+T*
+(Goal) Tj
+T*
+(Create a portable package you can launch directly into the GUI while preserving a timestamped) Tj
+T*
+(copy of the current project state.) Tj
+T*
+() Tj
+T*
+(This workflow keeps Atho in its repository layout so existing relative paths continue to work.) Tj
+T*
+() Tj
+T*
+(Quick Start) Tj
+T*
+() Tj
+T*
+(From the project root:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(To include a prebuilt Windows .exe in the package:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Build Native Binary Artifacts) Tj
+T*
+() Tj
+T*
+(To build per-OS GUI binaries \(plus source fallback package\):) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Examples:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Binary output root:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Output goes to:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Inside each package:) Tj
+T*
+(- Atho-Alpha/ \(portable project copy\)) Tj
+T*
+(- Atho-Alpha-<UTC_TIMESTAMP>-p<PID>.tar.gz) Tj
+T*
+(- Atho-Alpha-<UTC_TIMESTAMP>-p<PID>.zip \(if zip exists\)) Tj
+T*
+() Tj
+T*
+(Run The Packaged Copy) Tj
+T*
+() Tj
+T*
+(Inside the packaged Atho-Alpha folder:) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 1637 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- macOS: double-click Atho.command) Tj
+T*
+(- Linux: run ./run_gui.sh) Tj
+T*
+(- Windows: run run_gui.bat \(it uses AthoAlpha.exe first if present\)) Tj
+T*
+() Tj
+T*
+(Keep Or Exclude Sensitive Data) Tj
+T*
+() Tj
+T*
+(Default package behavior:) Tj
+T*
+(- Includes Keys/ and project data.) Tj
+T*
+(- Excludes .venv unless --with-venv is used.) Tj
+T*
+(- Excludes Src/Test/ \(production payload default\).) Tj
+T*
+() Tj
+T*
+(Options:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Release checksums and signature) Tj
+T*
+() Tj
+T*
+(Create checksums, sign the checksum hash, and verify on another machine:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(If you publish an expected checksum-file hash with the release note:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Local One-Click Launch \(Current Working Copy\)) Tj
+T*
+() Tj
+T*
+(From the repository root, you can launch GUI directly with:) Tj
+T*
+(- macOS: ./run_gui.command) Tj
+T*
+(- Linux/macOS shell: ./run_gui.sh) Tj
+T*
+(- Windows: run_gui.bat) Tj
+T*
+() Tj
+T*
+(These launchers now start the GUI detached in background so terminal can be closed.) Tj
+T*
+(Launcher log path:) Tj
+T*
+(- logs/gui/gui_launcher.log) Tj
+T*
+() Tj
+T*
+(To force foreground mode for debugging:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Notes) Tj
+T*
+(- This is the safest packaging path for current alpha architecture because many modules use) Tj
+T*
+(repo-relative roots.) Tj
+T*
+(- If you want a single binary installer later \(.app, .dmg, .exe, .deb\), first migrate runtime) Tj
+T*
+(paths \(logs/keys/db/config\) to OS app-data directories and then freeze with) Tj
+T*
+(PyInstaller/Briefcase.) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000127 00000 n 
+0000000195 00000 n 
+0000000321 00000 n 
+0000001617 00000 n 
+0000001743 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R >>
+startxref
+3432
+%%EOF

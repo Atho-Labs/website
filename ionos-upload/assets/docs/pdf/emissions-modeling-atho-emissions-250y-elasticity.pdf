@@ -1,0 +1,93 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 1 /Kids [4 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2238 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(scenario_key,scenario_label,year,no_burn_circulating_atho,scenario_circulating_atho,supply_reduc) Tj
+T*
+(tion_pct,price_impact_pct_at_ed_0_5,price_impact_pct_at_ed_1_0,price_impact_pct_at_ed_1_5) Tj
+T*
+(burn_25,Burn On \(25% block capacity\),25,25458750.00000000,25458750.00000000,0E-8,0E-8,0E-8,0E-8) Tj
+T*
+(burn_25,Burn On \(25% block capacity\),50,27511875.00000000,27511875.00000000,0E-8,0E-8,0E-8,0E-8) Tj
+T*
+(burn_25,Burn On \(25% block) Tj
+T*
+(capacity\),100,31294500.00000000,30637500.00000000,2.09941044,4.19882088,2.09941044,1.39960696) Tj
+T*
+(burn_25,Burn On \(25% block) Tj
+T*
+(capacity\),250,41149500.00000000,35565000.00000000,13.57124631,27.14249262,13.57124631,9.04749754) Tj
+T*
+(burn_50,Burn On \(50% block capacity\),25,25458750.00000000,25458750.00000000,0E-8,0E-8,0E-8,0E-8) Tj
+T*
+(burn_50,Burn On \(50% block capacity\),50,27511875.00000000,27511875.00000000,0E-8,0E-8,0E-8,0E-8) Tj
+T*
+(burn_50,Burn On \(50% block) Tj
+T*
+(capacity\),100,31294500.00000000,29980500.00000000,4.19882088,8.39764176,4.19882088,2.79921392) Tj
+T*
+(burn_50,Burn On \(50% block capacity\),250,41149500.00000000,29980500.00000000,27.14249262,54.2849) Tj
+T*
+(8524,27.14249262,18.09499508) Tj
+T*
+(burn_75,Burn On \(75% block capacity\),25,25458750.00000000,25458750.00000000,0E-8,0E-8,0E-8,0E-8) Tj
+T*
+(burn_75,Burn On \(75% block capacity\),50,27511875.00000000,27511875.00000000,0E-8,0E-8,0E-8,0E-8) Tj
+T*
+(burn_75,Burn On \(75% block) Tj
+T*
+(capacity\),100,31294500.00000000,29323500.00000000,6.29823132,12.59646264,6.29823132,4.19882088) Tj
+T*
+(burn_75,Burn On \(75% block capacity\),250,41149500.00000000,24396000.00000000,40.71373893,81.4274) Tj
+T*
+(7786,40.71373893,27.14249262) Tj
+T*
+(burn_100,Burn On \(100% block) Tj
+T*
+(capacity\),25,25458750.00000000,25458750.00000000,0E-8,0E-8,0E-8,0E-8) Tj
+T*
+(burn_100,Burn On \(100% block) Tj
+T*
+(capacity\),50,27511875.00000000,27511875.00000000,0E-8,0E-8,0E-8,0E-8) Tj
+T*
+(burn_100,Burn On \(100% block) Tj
+T*
+(capacity\),100,31294500.00000000,28666500.00000000,8.39764176,16.79528352,8.39764176,5.59842784) Tj
+T*
+(burn_100,Burn On \(100% block capacity\),250,41149500.00000000,21000000.00000000,48.96657311,97.93) Tj
+T*
+(314621,48.96657311,32.64438207) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000189 00000 n 
+0000000315 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+2605
+%%EOF
