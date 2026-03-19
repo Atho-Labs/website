@@ -5,6 +5,7 @@ import { initReveal } from "./modules/reveal.js";
 import { initCounters } from "./modules/counters.js";
 import { initYear } from "./modules/year.js";
 import { initDocsCatalog } from "./modules/docs.js";
+import { initInteractionEffects } from "./modules/interaction-effects.js";
 
 function boot() {
   renderMetricCards(document.querySelector("#metric-grid"), metricCards);
@@ -16,6 +17,7 @@ function boot() {
   initCounters();
   initYear();
   initDocsCatalog();
+  initInteractionEffects();
 }
 
 if (document.readyState === "loading") {

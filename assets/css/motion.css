@@ -81,3 +81,84 @@
     transform: none !important;
   }
 }
+
+.card,
+.btn,
+.social-link,
+.section-eyebrow,
+.nav-live-pill,
+.menu-toggle {
+  will-change: transform;
+}
+
+.card {
+  transition: transform 0.2s ease, border-color 0.24s ease, box-shadow 0.24s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 126, 87, 0.28);
+  box-shadow: 0 16px 34px rgba(0, 126, 87, 0.14);
+}
+
+.fx-host {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.surface-ripple {
+  position: absolute;
+  border-radius: 999px;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.2);
+  background: radial-gradient(
+    circle,
+    rgba(14, 151, 106, 0.28) 0%,
+    rgba(14, 151, 106, 0.18) 38%,
+    rgba(14, 151, 106, 0.06) 58%,
+    rgba(14, 151, 106, 0) 74%
+  );
+  mix-blend-mode: multiply;
+  animation: surface-ripple 0.62s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.site-click-pulse {
+  position: fixed;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(14, 151, 106, 0.44);
+  background: radial-gradient(circle, rgba(14, 151, 106, 0.3), rgba(14, 151, 106, 0));
+  transform: translate(-50%, -50%) scale(0.65);
+  pointer-events: none;
+  z-index: 60;
+  animation: site-click-pulse 0.52s ease-out forwards;
+}
+
+@keyframes surface-ripple {
+  to {
+    transform: translate(-50%, -50%) scale(1.6);
+    opacity: 0;
+  }
+}
+
+@keyframes site-click-pulse {
+  to {
+    transform: translate(-50%, -50%) scale(8);
+    opacity: 0;
+    border-color: rgba(14, 151, 106, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card:hover {
+    transform: none !important;
+    box-shadow: var(--shadow-soft) !important;
+  }
+
+  .surface-ripple,
+  .site-click-pulse {
+    display: none !important;
+  }
+}
