@@ -79,14 +79,9 @@
 .brand-title {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 1.2rem;
-  letter-spacing: 0.01em;
-}
-
-.brand-sub {
-  color: var(--ink-500);
-  font-size: 0.82rem;
-  margin-top: 2px;
+  font-size: 1.78rem;
+  line-height: 1;
+  letter-spacing: 0.005em;
 }
 
 .header-right {
@@ -185,8 +180,16 @@
 
 .footer-row {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  text-align: center;
   align-items: center;
-  gap: var(--space-4);
-  font-size: 0.92rem;
+  gap: 0.38rem;
+  font-size: 0.9rem;
+}
+
+.footer-social-row {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid rgba(144, 204, 182, 0.45);
 }

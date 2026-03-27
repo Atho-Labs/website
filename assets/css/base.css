@@ -24,12 +24,8 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background:
-    url("../media/grid.svg") repeat,
-    url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27420%27%20height=%27220%27%20viewBox=%270%200%20420%20220%27%3E%3Cg%20fill=%27%230f8f74%27%20fill-opacity=%270.24%27%20font-family=%27monospace%27%20font-size=%2712%27%3E%3Ctext%20x=%2712%27%20y=%2724%27%3E0101%200011%201010%201100%200110%200101%201001%3C/text%3E%3Ctext%20x=%2712%27%20y=%2752%27%3E1010%201101%200010%200101%201110%200001%200101%3C/text%3E%3Ctext%20x=%2712%27%20y=%2780%27%3E0011%200101%201000%201110%200101%200011%201010%3C/text%3E%3Ctext%20x=%2712%27%20y=%27108%27%3E1100%200010%200111%200101%201001%200011%200101%3C/text%3E%3Ctext%20x=%2712%27%20y=%27136%27%3E0101%201110%200011%200101%201010%201100%200010%3C/text%3E%3Ctext%20x=%2712%27%20y=%27164%27%3E1010%200011%200101%201001%200010%201110%200101%3C/text%3E%3Ctext%20x=%2712%27%20y=%27192%27%3E0010%201101%200101%201010%200011%200101%201100%3C/text%3E%3C/g%3E%3C/svg%3E") repeat;
-  background-size: auto, 420px 220px;
-  background-position: 0 0, 24px 10px;
-  opacity: 0.5;
+  background: url("../media/grid.svg") repeat;
+  opacity: 0.53;
   pointer-events: none;
   z-index: -1;
 }

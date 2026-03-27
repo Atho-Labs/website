@@ -23,6 +23,33 @@ function deferVisualWork(task, liteEffects) {
   window.setTimeout(task, liteEffects ? 120 : 220);
 }
 
+function mountFooterSocialLinks(isHomePage) {
+  if (isHomePage) {
+    return;
+  }
+
+  const footer = document.querySelector(".site-footer");
+  if (!(footer instanceof HTMLElement) || footer.querySelector(".footer-social-row")) {
+    return;
+  }
+
+  const source = document.querySelector(".header-right .social-links");
+  if (!(source instanceof HTMLElement)) {
+    return;
+  }
+
+  const row = document.createElement("div");
+  row.className = "wrap footer-social-row";
+
+  const socialClone = source.cloneNode(true);
+  if (socialClone instanceof HTMLElement) {
+    socialClone.className = "footer-social-links";
+    socialClone.setAttribute("aria-label", "Footer social media");
+    row.appendChild(socialClone);
+    footer.appendChild(row);
+  }
+}
+
 async function initRenderedSections() {
   const metricTarget = document.querySelector("#metric-grid");
   const featureTarget = document.querySelector("#feature-grid");
@@ -85,6 +112,7 @@ function boot() {
 
   initNavigation();
   initYear();
+  mountFooterSocialLinks(isHomePage);
 
   Promise.all([initRenderedSections(), initDocsCatalogIfNeeded()])
     .catch(() => {})
