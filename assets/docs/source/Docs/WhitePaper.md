@@ -1,160 +1,312 @@
-# Atho Whitepaper (Core Brief)
+# Atho Complete Whitepaper
 
-Status: Alpha documentation snapshot (2026-03-15).
+Date: 2026-03-27
 
-## Table of Contents
-1. [Executive Summary](#1-executive-summary)
-2. [Origin and History](#2-origin-and-history)
-3. [Vision and Principles](#3-vision-and-principles)
-4. [Problems Atho Solves](#4-problems-atho-solves)
-5. [Architecture and Network Design](#5-architecture-and-network-design)
-6. [PQC Full-Stack Key Protection at Rest](#6-pqc-full-stack-key-protection-at-rest)
-7. [Economics and Incentives](#7-economics-and-incentives)
-8. [Threat Model and Defenses](#8-threat-model-and-defenses)
-9. [Operations and Governance Direction](#9-operations-and-governance-direction)
-10. [Roadmap Priorities](#10-roadmap-priorities)
-11. [Conclusion](#11-conclusion)
-12. [Primary Technical References](#12-primary-technical-references)
+Complete PDF artifact: `Docs/Atho_Complete_Whitepaper_v2.0.pdf`
 
 ## 1. Executive Summary
-Atho is a UTXO blockchain built for deterministic validation, operational clarity, and post-quantum readiness. It combines Falcon-512 signatures, SHA3-based hashing, Base56 user addresses, and LMDB-backed state storage.
+Atho is a post-quantum UTXO blockchain that uses Falcon-512 signatures, SHA3-384 hashing, and a 120-second block target. The system is optimized around a hybrid architecture:
+- Python for orchestration, APIs, and operator control.
+- Native C/C++ binaries for cryptographic and performance-critical loops.
 
-The objective is to keep consensus behavior explainable, node roles explicit, and state drift low across node, wallet, GUI, and explorer surfaces.
+The current direction is throughput and determinism:
+- compact binary transaction wire format,
+- integer atom accounting end-to-end,
+- hash-pinned native binary loading,
+- CPU/GPU miner backends under one consensus path.
+- Bonded Proof of Work (BPoW) with wallet staking as a separate role.
 
-Project phase at this snapshot: **Alpha hardening**.
+## 2. Current Protocol Direction
+Compared with earlier snapshots, the current implementation formalizes these changes:
 
-## 2. Origin and History
-Atho started as an operator-first chain project. Early development exposed role confusion, stale UI/API state, weak incident traceability, and fragile restart behavior.
+1. Binary-first transaction transport:
+- Canonical transport codec is compact binary (`ATX2`, with `ATX1` decode compatibility).
+- Witness is handled as raw bytes internally.
 
-Development then shifted toward hardening:
-- stronger validation and payout checks,
-- cleaner role boundaries,
-- more explicit node lifecycle control,
-- and better structured logs for audit and recovery.
+2. Integer accounting standardization:
+- Consensus-critical value math is integer atoms.
+- Display formats remain user-facing (`ATHO`, decimal strings, Base56 addresses) without changing internal math semantics.
 
-This paper preserves mission and context while removing stale implementation detail.
+3. Native acceleration and binary governance:
+- Native bridges for signing-body hashing, UTXO batch checks, and CPU mining loops.
+- GPU miner binaries (OpenCL baseline, CUDA where available).
+- Per-binary SHA3-384 pinning and metadata in `Binaries/`.
 
-## 3. Vision and Principles
-Atho follows five principles:
-- Determinism: identical data should produce identical validation outcomes.
-- Auditability: operators must be able to explain failures quickly.
-- Role clarity: full/miner/wallet behavior must remain explicit.
-- Cryptographic modernization: post-quantum and SHA3-first direction.
-- Operational resilience: failures should be visible and recoverable.
+4. Updated throughput model:
+- Capacity estimates now use measured/derived `vsize` distributions rather than a fixed baseline tx size.
 
-## 4. Problems Atho Solves
-Atho targets practical infrastructure issues:
-- state drift across chain, mempool, wallet, and explorer,
-- miner payout mismatches from stale defaults,
-- limited visibility into emission, fee, and coinbase anomalies,
-- and long-term risk from legacy cryptographic assumptions.
+5. BPoW + wallet staking economics:
+- miner eligibility is controlled by deterministic bond state,
+- staking remains separate from block production,
+- fee routing is deterministic and auditable at block level.
 
-## 5. Architecture and Network Design
-### 5.1 Identity and Addressing
-- Falcon-512 for signatures.
-- SHA3-384-derived key and transaction hashing.
-- Base56 address format for user-facing workflows.
-- Internal normalized HPK representation for deterministic processing.
+## 3. Protocol Snapshot
+- Block interval target: `120` seconds.
+- Difficulty retarget interval: `180` blocks.
+- Transaction confirmations required: `10`.
+- Coinbase maturity: `150` blocks.
+- Block cap: `2,500,000` base bytes, `10,000,000` weight units.
+- Transaction policy cap: `250,000 vB` per transaction.
+- Transaction policy metric: SegWit-style `vsize`.
+- Addressing: Base56 for users, HPK-based internal destination binding.
+- Signature system: Falcon-512.
+- Hashing: SHA3-384 for canonical tx/block identity operations.
+- Active fee floor: `225 atoms/vB`.
+- Active min tx fee: `150,000 atoms`.
 
-### 5.2 Ledger and Validation
-Atho uses a UTXO ledger with explicit spent/locked semantics, canonical transaction hashing, fee and dust policy enforcement, and coinbase limits tied to reward schedule plus fees.
+### 3.1 Network Parameters (Operator Reference)
+- Network mode set: `mainnet`, `testnet`, `regnet`
+- Target block cadence: `120s`
+- Difficulty retarget window: `180` blocks
+- Median-time-past window: `13` blocks
+- Future drift bound: `30s`
+- Tx confirmations (standard): `10`
+- Coinbase maturity: `150`
+- Max block size: `2,500,000` bytes
+- Max block weight: `10,000,000`
+- Max transaction size policy: `250,000 vB`
+- Fee floor: `225 atoms/vB`
+- Minimum transaction fee: `150,000 atoms`
+- Dust threshold: `250 atoms`
+- BPoW enforcement height: `100`
+- Bond requirement: `25 ATHO`
+- Bond activation confirmations: `25`
+- Slash penalty: `2.5 ATHO`
+- Epoch/finalization windows: `720 / 720` blocks
 
-### 5.3 Consensus and Chain Integrity
-Block acceptance verifies linkage, structure, signatures, target bounds, and payout correctness. Reorg/orphan handling is treated as a normal consensus path.
+## 4. Transaction Encoding and Capacity
+Atho no longer relies on one static tx-size assumption. Effective tx size depends on:
+- input count,
+- output count,
+- amount varint widths,
+- witness lengths,
+- optional metadata inclusion.
 
-Current PoW retargeting uses a deterministic interval-based weighted-median window on production networks: target block time is 120 seconds, retarget every 360 blocks, clamp per-epoch adjustment ratio to 0.60..1.85, clamp interval outliers, and weight recent intervals more heavily for responsiveness without excessive volatility. Timestamp safety uses median-time-past (`MTP_WINDOW=13`) plus bounded future drift (`MAX_TIME_DRIFT=120` seconds) across verifier and direct chain-accept paths to reduce timestamp-manipulation attack surface. User-facing confirmation policy is 10 confirmations for regular transactions and 400 confirmations for coinbase maturity.
+Current reference witness targets:
+- Falcon signature: ~666 bytes (compressed range policy).
+- Falcon public key: 897 bytes canonical (legacy-size acceptance can be policy-gated).
 
-### 5.4 Storage and APIs
-LMDB-backed stores track blocks, UTXOs, mempool data, and state metadata. The API surface is role-aware:
-- full node for canonical chain state,
-- miner for PoW and candidate flow,
-- wallet/API for address and transaction operations.
+Representative current estimates (metadata empty, compressed witness, binary sizing path):
+- `1 in / 1 out`: ~513 vB
+- `1 in / 2 out`: ~566 vB
+- `2 in / 2 out`: ~615 vB
+- `3 in / 2 out`: ~664 vB
 
-## 6. PQC Full-Stack Key Protection at Rest
-Atho’s key-at-rest model is hybrid by design: it combines post-quantum key encapsulation with high-assurance symmetric encryption.
+At 120-second blocks and 2.5M vbytes/block, this maps to approximately:
+- ~40.6 TPS (`1 in / 1 out`)
+- ~36.8 TPS (`1 in / 2 out`)
+- ~33.9 TPS (`2 in / 2 out`)
+- ~31.4 TPS (`3 in / 2 out`)
 
-### 6.1 What is encrypted
-- Wallet secret payload: Falcon private key parts and mnemonic recovery material.
-- Payload is encrypted with **AES-256-GCM** using a random DEK (data-encryption key).
+This supports the target operating band of sustained ~30-35 TPS under realistic mixes.
 
-### 6.2 How unlock works (two control planes)
-- Password plane:
-  - User password -> Argon2id -> KEK.
-  - KEK unwraps DEK (AES-256-GCM wrap record).
-  - DEK decrypts payload.
-- PQ plane:
-  - Kyber KEM record (ciphertext + metadata) also wraps the same DEK.
-  - Advanced unlock/recovery mode can restore DEK through Kyber material.
+## 5. BPoW and Wallet Staking Architecture
+### 5.1 Why BPoW Exists
+Atho separates:
+- **block production security** (PoW + miner bond),
+- **capital participation rewards** (wallet staking).
 
-### 6.3 Why Kyber + AES together
-- AES-256-GCM is efficient and authenticated for bulk payload encryption.
-- Kyber is used for KEM/wrap semantics, not bulk data encryption.
-- Using both gives practical performance now and a post-quantum recovery path.
+This avoids validator-complexity while still adding economic commitment to mining behavior.
 
-### 6.4 Security interpretation
-- If password handling is weak, Kyber path still gives a separate cryptographic control plane for backup/recovery policy.
-- If future cryptanalytic pressure changes assumptions, DEK wrap policy can be tightened without redesigning payload encryption format.
-- This keeps wallet-at-rest protection modular and upgradeable.
+### 5.2 Core Parameters
+- BPoW enforcement height: `100` (all networks by default).
+- Bond requirement: `25 ATHO`.
+- Bond activation confirmations: `25`.
+- Unbonding delay: `10,080` blocks.
+- Slash penalty: `2.5 ATHO`.
+- Epoch length: `720` blocks.
+- Finalization buffer: `720` blocks.
+- Bootstrap allocation: `50,000 ATHO` at block `1`.
 
-### 6.5 Operator-facing result
-- Falcon signs chain data.
-- Kyber protects DEK recovery path.
-- AES-256-GCM protects serialized wallet secrets at rest.
+### 5.3 Deterministic Address Role Derivation
+All role destinations are derived from raw Falcon public key bytes with domain separation.
 
-That is Atho’s current “PQC full-stack” posture for key custody.
+Conceptual digest rules:
+- regular: `SHA3-384("ATHO_ADDR_V1" || network || pubkey)`
+- bond: `SHA3-384("ATHO_BOND_V1" || network || pubkey)`
+- stake: `SHA3-384("ATHO_STAKE_V1" || network || pubkey)`
 
-## 7. Economics and Incentives
-Atho uses scheduled rewards with fee participation and long-tail issuance behavior. Economic goals are predictable issuance, transparent accounting, and sustained miner incentives.
+User-facing Base56 prefixes:
+- mainnet: `A` regular, `B` bond, `S` stake
+- testnet/regnet: `T` regular, `D` bond, `E` stake
 
-Emission and burn monitors compare expected and observed supply behavior to detect drift early.
+Security intent:
+- same key, different deterministic role address,
+- no role confusion,
+- no cross-replay between roles.
 
-## 8. Threat Model and Defenses
-Atho defends at three layers.
+### 5.4 Miner Bond Lifecycle
+Bond states:
+- `pending`
+- `active`
+- `exiting`
+- `unlockable`
+- `withdrawn`
 
-Protocol layer:
-- strict signature and UTXO checks,
-- coinbase and fee enforcement,
-- block linkage and target validation.
+Transitions:
+1. deposit to bond address -> `pending`
+2. `25` confirmations -> `active`
+3. explicit exit request -> `exiting`
+4. unbond delay reached -> `unlockable`
+5. withdrawal -> `withdrawn`
 
-Network layer:
-- mempool policy controls,
-- peer visibility and node telemetry,
-- deterministic payload handling.
+Top-up:
+- if slashed below threshold, additional bond deposit + confirmations restore eligibility.
 
-Operational layer:
-- wallet lock/unlock controls,
-- API credential/HMAC support,
-- role-pinned API routing to reduce stale endpoint confusion.
+### 5.5 Wallet Stake Lifecycle
+Stake states mirror deterministic lockup handling:
+- deposit,
+- activation,
+- active accrual,
+- exit request,
+- unlock delay,
+- withdrawal.
 
-## 9. Operations and Governance Direction
-Atho favors explicit operations over hidden automation:
-- clear start/stop/restart/switch behavior,
-- persistent runtime configuration,
-- structured logs for incident audit and recovery.
+Wallet staking does not sign blocks and does not independently grant mining rights.
 
-Governance direction is engineering-led: improve safety, correctness, and observability before expanding protocol complexity.
+### 5.6 Block-Level Miner Proof (Consensus-Critical)
+Each mined block carries:
+- `miner_pubkey`
+- `reward_address`
+- `miner_signature`
+- role tag (`bonded_pow_v1`)
 
-## 10. Roadmap Priorities
-1. Continue role-isolation hardening across node, wallet, GUI, and explorer.
-2. Expand mempool and peer policy depth under adversarial conditions.
-3. Improve key-management UX while preserving strict security defaults.
-4. Improve diagnostics and explorer drill-down for faster audits.
-5. Increase automated coverage for consensus, reorg, and high-volume transaction edges.
+Miner signature commits to block identity and reward destination so payout rewriting is prevented.
 
-## 11. Conclusion
-Atho is built to address real operating pain: stale state surfaces, unclear role boundaries, payout drift risk, and weak observability. The long-term goal is a resilient network where protocol integrity and operator usability improve together.
+### 5.7 Validation and Slashing Classification
+A block is slashable only when:
+1. PoW is valid, and
+2. deterministic consensus validity fails.
 
-For deeper technical material:
-- `Docs/Consensus.md`
-- `Docs/Falcon512.md`
-- `Docs/Sha3-384.md`
-- `Docs/LMDB.md`
-- `Docs/Threat.md`
-- `Docs/Emissions.md`
+Examples:
+- invalid miner signature,
+- missing/invalid bond eligibility,
+- invalid tx set / malformed structure / payout violation.
 
-## 12. Primary Technical References
-- `Docs/falcon Docs.pdf` (Falcon/NIST context and package-level reference)
-- `Docs/Falcon512.md` (integration and pinning implementation notes)
-- `Docs/Consensus.md` (validation and chain-integrity flow)
-- `Docs/Tx.md` (transaction rules, witness, fee policy, and sizing)
-- `Src/Main/checksum.py` release checksum/signature workflow (release integrity)
+Non-slashable cases:
+- stale/orphan block from honest race,
+- reorged-out valid block,
+- late but valid propagation.
+
+### 5.8 Fee Routing and Epoch Settlement
+Per block fee policy:
+- +25% fee policy uplift over base constants,
+- 20% to consensus-managed pool,
+- 80% to burn/miner path (tail burn-floor logic applies there).
+
+Pool split:
+- 10% miner-side pool
+- 10% wallet-stake pool
+
+Miner-side sub-split:
+- 7% winner-proportional
+- 3% bonded-idle distribution
+
+Settlement windows:
+- epoch: `720` blocks
+- finalization buffer: `720` blocks
+
+### 5.9 Consensus-Managed Pool Address
+Pool sink is deterministic and network-separated:
+- mainnet: `P + Base56(SHA3-384("ATHO_PROTOCOL_POOL_MAINNET"))`
+- testnet: `L + Base56(SHA3-384("ATHO_PROTOCOL_POOL_TESTNET"))`
+- regnet: `L + Base56(SHA3-384("ATHO_PROTOCOL_POOL_REGNET"))`
+
+### 5.10 Bootstrap and Activation Timeline
+- Block `0`: genesis block (special bootstrap context).
+- Block `1`: bootstrap allocation and normal state tracking begins.
+- Height `100`: BPoW enforcement activates.
+
+This gives miners deterministic onboarding runway before strict bond gating.
+
+### 5.11 Bootstrap Allocation ("Premine") Clarification
+Current bootstrap allocation:
+- `50,000 ATHO` at block `1` (not block `0`).
+
+Purpose:
+- initial network bootstrapping,
+- miner/bond onboarding runway before strict BPoW gating,
+- deterministic launch allocation tracked under consensus rules.
+
+Accounting posture:
+- this allocation is consensus-accounted,
+- included in supply/economic modeling,
+- observable and auditable in block history.
+
+## 6. Network Stack
+The stack is layered for operational clarity and speed:
+- Binary runtime + pinning (`Binaries/`, pin registry).
+- Cryptographic runtime (Falcon CLI + optional FFI verifier).
+- Transaction wire/validation pipeline (binary codec + integer accounting).
+- Mining engines (CPU native bridge + GPU backends).
+- API/GUI control plane.
+
+Detailed architecture doc:
+- [Network_Stack.md](Network_Stack.md)
+
+## 7. Security Model
+Security posture combines protocol-level rules and runtime integrity controls.
+
+Protocol controls:
+- deterministic transaction verification,
+- strict fee and coinbase accounting,
+- bounded PoW validation,
+- UTXO spend checks and duplicate prevention.
+
+Runtime controls:
+- binary hash pinning,
+- optional strict binary-path mode,
+- explicit env-gated native library loading,
+- authenticated API access and operator role boundaries.
+
+## 8. Emissions and Incentives
+Monetary policy remains atom-based and deterministic:
+- pre-tail schedule reaches 30,000,000 ATHO target,
+- tail reward: 0.25 ATHO/block,
+- fee policy uplift: +25% over base fee constants (`225 atoms/vB` effective floor),
+- fee routing: 20% to consensus pool, 80% to burn/miner path,
+- tail burn target: 100% burn on routed non-pool fees with floor clipping safeguards.
+
+Deterministic consensus-managed fee pool address is network-separated:
+- mainnet: `P + Base56(SHA3-384("ATHO_PROTOCOL_POOL_MAINNET"))`
+- testnet: `L + Base56(SHA3-384("ATHO_PROTOCOL_POOL_TESTNET"))`
+- regnet: `L + Base56(SHA3-384("ATHO_PROTOCOL_POOL_REGNET"))`
+
+Important modeling update:
+- fee and throughput analysis uses dynamic `vsize` distributions, not a fixed tx byte baseline.
+
+See:
+- [Emissions.md](Emissions.md)
+- [Emissions Modeling/Entire_Overview.md](Emissions Modeling/Entire_Overview.md)
+
+## 9. Practical Operator Visibility
+Operationally important observability surfaces include:
+- block-level fee decomposition fields,
+- bond/stake state DB tracking (`bond.lmdb`, `stake.lmdb`),
+- consensus and emission logs,
+- explorer/API paths for pool and payout visibility.
+
+This is required so policy behavior is independently auditable in running networks.
+
+## 10. Development and Hard-Fork Context
+Atho is in active development. Consensus and encoding evolution can be introduced intentionally with network coordination and upgrade planning. This documentation reflects the current implementation path and expected migration model for future rule changes.
+
+## 11. FAQ (Core)
+### Q: What is the premine/bootstrap amount, and what is it for?
+A: Atho currently uses a `50,000 ATHO` bootstrap allocation at block `1`. Its role is launch bootstrapping: enabling early miner/bond onboarding and predictable network activation before strict BPoW enforcement. It is consensus-accounted and visible on-chain.
+
+### Q: Is block `0` treated the same as block `1`?
+A: No. Block `0` is the genesis context. The bootstrap allocation is enforced at block `1`, and BPoW enforcement starts at height `100`.
+
+### Q: What are the most important network parameters to know first?
+A: `120s` block target, `180`-block retarget interval, `10` tx confirmations, `150` coinbase maturity, `225 atoms/vB` fee floor, and BPoW bond requirement `25 ATHO` with `25` confirmations.
+
+### Q: Does wallet staking allow block production by itself?
+A: No. Wallet staking is an economic participation role. Mining eligibility is determined by PoW plus active bond state under BPoW rules.
+
+## 12. Conclusion
+Atho is designed for a practical outcome: higher deterministic throughput while preserving post-quantum cryptographic direction and operator control. The architecture explicitly separates:
+- control-plane ergonomics (Python), and
+- execution-plane performance (native binaries).
+
+That split is the core engineering strategy behind the chain's current optimization roadmap.

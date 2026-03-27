@@ -1,9 +1,9 @@
 # Packaging & Snapshot (Alpha)
 
-Status: Alpha release packaging workflow (2026-03-12).
+Last refresh: 2026-03-27.
 
 ## Goal
-Create a portable package you can launch directly into the GUI while preserving a timestamped copy of the current project state.
+Create a portable package you can launch directly into the GUI while preserving a timestamped copy of the current project runtime snapshot.
 
 This workflow keeps Atho in its repository layout so existing relative paths continue to work.
 

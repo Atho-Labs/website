@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2852 >>
+<< /Length 2832 >>
 stream
 BT
 /F1 10 Tf
@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Status: Alpha documentation snapshot \(2026-03-12\).) Tj
+(Last refresh: 2026-03-27.) Tj
 T*
 () Tj
 T*
@@ -109,9 +109,9 @@ T*
 T*
 (- API keys: Src/Config/Api_Keys.json) Tj
 T*
-(- Auto-creation: the entrypoint \(docker-entrypoint.sh\) calls ensure_api_key_auto\(\) if no keys) Tj
+(- Auto-creation: the entrypoint \(docker/docker-entrypoint.sh\) calls ensure_api_key_auto\(\) if no) Tj
 T*
-(exist; cliui/runnode call interactive setup.) Tj
+(keys exist; cliui/runnode call interactive setup.) Tj
 T*
 () Tj
 T*
@@ -247,7 +247,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 1989 >>
+<< /Length 2002 >>
 stream
 BT
 /F1 10 Tf
@@ -285,11 +285,11 @@ T*
 T*
 (- GET /emission/status) Tj
 T*
-(- reads emission tracker state \(emission_state.json\)) Tj
+(- reads emission tracker record \(emission_state.json\)) Tj
 T*
 (- GET /burn/status) Tj
 T*
-(- reads burn tracker state \(burn_state.json\)) Tj
+(- reads burn tracker record \(burn_state.json\)) Tj
 T*
 () Tj
 T*
@@ -319,9 +319,9 @@ T*
 T*
 (- Reusing an intent_id with a different payload is rejected.) Tj
 T*
-(- GET /tx/intent/{intent_id} returns current intent state so clients can poll send progress) Tj
+(- GET /tx/intent/{intent_id} returns current intent lifecycle status so clients can poll send) Tj
 T*
-(without resubmitting the payment payload.) Tj
+(progress without resubmitting the payment payload.) Tj
 T*
 ET
 endstream
@@ -334,12 +334,12 @@ xref
 0000000133 00000 n 
 0000000201 00000 n 
 0000000327 00000 n 
-0000003231 00000 n 
-0000003357 00000 n 
-0000006873 00000 n 
-0000006999 00000 n 
+0000003211 00000 n 
+0000003337 00000 n 
+0000006853 00000 n 
+0000006979 00000 n 
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-9040
+9033
 %%EOF

@@ -1,6 +1,6 @@
 # API Authentication & Permissions
 
-Status: Alpha documentation snapshot (2026-03-12).
+Last refresh: 2026-03-27.
 
 This note explains how Atho secures its HTTP API, how passwords/permissions work, and why this matters for protecting your node and funds.
 
@@ -35,7 +35,7 @@ This note explains how Atho secures its HTTP API, how passwords/permissions work
 
 ## File locations
 - API keys: `Src/Config/Api_Keys.json`
-- Auto-creation: the entrypoint (`docker-entrypoint.sh`) calls `ensure_api_key_auto()` if no keys exist; `cliui`/`runnode` call interactive setup.
+- Auto-creation: the entrypoint (`docker/docker-entrypoint.sh`) calls `ensure_api_key_auto()` if no keys exist; `cliui`/`runnode` call interactive setup.
 
 ## Why this matters
 - The API can submit transactions, manage mining, and expose node data. Without authentication, anyone could double-spend, drain wallets, or disrupt your node.
@@ -100,9 +100,9 @@ Notes:
 - `POST /storage/root`
   - move/set block storage root; requires nodes stopped + admin approval token
 - `GET /emission/status`
-  - reads emission tracker state (`emission_state.json`)
+  - reads emission tracker record (`emission_state.json`)
 - `GET /burn/status`
-  - reads burn tracker state (`burn_state.json`)
+  - reads burn tracker record (`burn_state.json`)
 
 ## Send idempotency (duplicate-payment protection)
 - `POST /tx/send` now requires a client-provided `intent_id` (idempotency key).
@@ -116,4 +116,4 @@ Notes:
   - `failed` — send attempt failed
 - If the same `intent_id` is submitted again with the same payload, the API returns the prior saved result (`idempotent_replay=true`) instead of creating new transactions.
 - Reusing an `intent_id` with a different payload is rejected.
-- `GET /tx/intent/{intent_id}` returns current intent state so clients can poll send progress without resubmitting the payment payload.
+- `GET /tx/intent/{intent_id}` returns current intent lifecycle status so clients can poll send progress without resubmitting the payment payload.

@@ -1,6 +1,6 @@
 # Docker Guide (Atho)
 
-Status: Alpha documentation snapshot (2026-03-12).
+Last refresh: 2026-03-27.
 
 This guide walks through building and running Atho nodes with Docker/Compose on Linux, macOS, and Windows (Docker Desktop). It also shows how to run multiple nodes without port conflicts and how to use the CLI container.
 
@@ -9,16 +9,16 @@ This guide walks through building and running Atho nodes with Docker/Compose on 
 - Optional: docker-compose v1/v2 (Compose v2 is built into recent Docker Desktop).
 
 ## What’s in the repo
-- `Dockerfile`: builds a Python 3.11 image, installs deps, builds `falcon_cli`, and runs `Src/Node/fullnode.py` by default.
-- `docker-entrypoint.sh`: simple entrypoint wrapper.
-- `docker-compose.yml`: services `fullnode`, `miner`, `miner2`, optional `fullnode2`, and `cli`. P2P is fixed to 56000 in-container; host ports are distinct (56000/56001/56002/56003). Miner APIs use randomized host ports (still 10200/10250 in-container) to avoid conflicts.
+- `docker/Dockerfile`: builds a Python 3.11 image, installs deps, builds `falcon_cli`, and runs `Src/Node/fullnode.py` by default.
+- `docker/docker-entrypoint.sh`: simple entrypoint wrapper.
+- `docker/docker-compose.yml`: services `fullnode`, `miner`, `miner2`, optional `fullnode2`, and `cli`. P2P is fixed to 56000 in-container; host ports are distinct (56000/56001/56002/56003). Miner APIs use randomized host ports (still 10200/10250 in-container) to avoid conflicts.
 - Bootstrap defaults: fullnode sets `ATHO_BOOTSTRAP=""` (no external seed); miners bootstrap to `fullnode:56000` on the compose network.
 - P2P bootstrap seeds are now **env-only** (`ATHO_BOOTSTRAP` as comma-separated `host:port`); no hardcoded seeds.
 
 ## Quick start (full node + miners + CLI, internal networking)
 ```bash
 export ATHO_ADVERTISE_HOST=host.docker.internal   # avoids blank-variable compose warnings
-docker compose up --build fullnode miner miner2 cli
+docker compose -f docker/docker-compose.yml -f docker/docker-compose.override.yml up --build fullnode miner miner2 cli
 ```
 This builds the image and starts:
 - `fullnode`: P2P 56000 and API 10100 inside the compose network.
@@ -26,28 +26,28 @@ This builds the image and starts:
 - `miner2`: P2P 56000 (host bind 56003) and API 10250 in-container (host port randomized); bootstraps to `fullnode:56000`.
 - `cli`: interactive CLI pointing at `http://fullnode:10100`.
 
-Stop: `docker compose down`
+Stop: `docker compose -f docker/docker-compose.yml -f docker/docker-compose.override.yml down`
 
 ### Run just a full node (no miner/cli)
 ```bash
-docker compose up --build fullnode
+docker compose -f docker/docker-compose.yml -f docker/docker-compose.override.yml up --build fullnode
 ```
 
 ### Run just a miner (no full/cli)
 Be sure there’s a peer to bootstrap to (in this repo the compose default is `fullnode:56000`):
 ```bash
-docker compose up --build miner
+docker compose -f docker/docker-compose.yml -f docker/docker-compose.override.yml up --build miner
 ```
 
 ### Run both nodes (no cli)
 ```bash
-docker compose up --build fullnode miner
+docker compose -f docker/docker-compose.yml -f docker/docker-compose.override.yml up --build fullnode miner
 ```
 
 ## Accessing the CLI
 If the CLI container exits (after a session), rerun it:
 ```bash
-docker compose run --rm cli
+docker compose -f docker/docker-compose.yml -f docker/docker-compose.override.yml run --rm cli
 ```
 
 ## Running multiple nodes (no host port conflicts)
@@ -71,7 +71,7 @@ Use the built-in services; they run on internal ports (P2P 56000, APIs 10100/102
       - fullnode
     command: ["python", "Src/Node/fullnode.py"]
 ```
-Now run `docker compose up --build` and both nodes run on internal ports (56000/10100/10300). CLI can target either by setting `ATHO_API_URL` to `http://fullnode:10100` or `http://fullnode2:10300`.
+Now run `docker compose -f docker/docker-compose.yml -f docker/docker-compose.override.yml up --build` and both nodes run on internal ports (56000/10100/10300). CLI can target either by setting `ATHO_API_URL` to `http://fullnode:10100` or `http://fullnode2:10300`.
 
 ## Exposing ports to the host (optional)
 If you want to reach a node from the host, add `ports:` with unique host mappings:
@@ -84,7 +84,7 @@ Use different host ports per node (e.g., 56001/10101, 56002/10102, etc.). Then s
 
 ## Running the image manually (without compose)
 ```bash
-docker build -t atho-node .
+docker build -f docker/Dockerfile -t atho-node .
 docker run -d --name n1 \
   -e ATHO_P2P_PORT=56000 -e ATHO_FULLNODE_API_PORT=10100 \
   -v $(pwd)/node1:/app/blockchain_storage \
@@ -132,4 +132,5 @@ docker run -d --name n2 \
 - Map full errors: ensure the mounted volume has free space and raise the relevant LMDB size ceiling if a store reaches its configured max; bounded `AUTO_RESIZE_LMDB` growth is already supported and enabled in current code.
 - CLI can’t connect: check `NodePorts.json` and `ATHO_API_URL`; ensure correct host/port mapping if accessing from host.
 - Miner not starting: ensure you’re running the `miner` service (`docker compose up miner`) and that it can reach a bootstrap peer (defaults to `fullnode:56000` in compose).
+- Miner not starting: ensure you’re running the `miner` service (`docker compose -f docker/docker-compose.yml -f docker/docker-compose.override.yml up miner`) and that it can reach a bootstrap peer (defaults to `fullnode:56000` in compose).
 - Hashrate telemetry check: query `/network/hashrate/live` on your API port to verify local and peer reports are being aggregated.

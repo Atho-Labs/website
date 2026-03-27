@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2576 >>
+<< /Length 2702 >>
 stream
 BT
 /F1 10 Tf
@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Status: Alpha documentation snapshot \(2026-03-12\).) Tj
+(Last refresh: 2026-03-27.) Tj
 T*
 () Tj
 T*
@@ -35,19 +35,9 @@ T*
 T*
 (can lag behind active consensus/policy details.) Tj
 T*
-(Last refresh: 2026-03-12.) Tj
-T*
 () Tj
 T*
 (Src/Accounts/__init__.py) Tj
-T*
-() Tj
-T*
-(*\(No classes, functions, or module docstring found.\)*) Tj
-T*
-() Tj
-T*
-(Src/Accounts/backup.py) Tj
 T*
 () Tj
 T*
@@ -123,19 +113,6 @@ T*
 T*
 (**Top-level functions:**) Tj
 T*
-ET
-endstream
-endobj
-6 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
-endobj
-7 0 obj
-<< /Length 3473 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- b64e\(data\) ? \(no docstring\)) Tj
 T*
 (- b64d\(data\) ? \(no docstring\)) Tj
@@ -146,15 +123,20 @@ T*
 T*
 (- decrypt_file\(enc_path, out_path, password\) ? \(no docstring\)) Tj
 T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 3778 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- menu\(\) ? \(no docstring\)) Tj
-T*
-() Tj
-T*
-(Src/Accounts/encrypt.py) Tj
-T*
-() Tj
-T*
-(*\(No classes, functions, or module docstring found.\)*) Tj
 T*
 () Tj
 T*
@@ -240,19 +222,6 @@ T*
 T*
 (only when the CLI) Tj
 T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 3397 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- _verify_as_raw_bytes\(self, pub, msg_hex, sig\) ? Verify by treating hex message as raw bytes) Tj
 T*
 (- _verify_as_hex_message\(self, pub, msg_hex, sig\) ? Verify using hex message directly) Tj
@@ -271,6 +240,19 @@ T*
 T*
 (- verify_raw\(pub_hex, msg_hex, sig_hex\) ? \(no docstring\)) Tj
 T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 3291 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- verify_from_file\(self, pubkey_path, message, signature_path\) ? Verify a signature from files) Tj
 T*
 () Tj
@@ -357,19 +339,6 @@ T*
 T*
 (default; CLI seeded/raw path supported\).) Tj
 T*
-ET
-endstream
-endobj
-10 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
-endobj
-11 0 obj
-<< /Length 3752 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- import_cli_key\(self, network, role, identifier, public_key_hex, private_parts,) Tj
 T*
 (hashed_public_key\) ? Import an existing Falcon key \(CLI format\). Validates components, computes) Tj
@@ -388,6 +357,19 @@ T*
 T*
 (key.) Tj
 T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 3767 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- _compute_base56\(self, hashed_pubkey, network\) ? Compute Base56 address from hashed public key) Tj
 T*
 (\(with internal prefix\).) Tj
@@ -474,19 +456,6 @@ T*
 T*
 (- _resolve_pub_from_identifier\(self, network, identifier\) ? Resolve a usable Falcon pubkey hex) Tj
 T*
-ET
-endstream
-endobj
-12 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
-endobj
-13 0 obj
-<< /Length 2882 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (and its hashed form from any identifier:) Tj
 T*
 (- get_address\(self, network, identifier\) ? Get the hashed public key address for the default or) Tj
@@ -505,6 +474,19 @@ T*
 T*
 (hashed public key by recomputing it from the raw public key.) Tj
 T*
+ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 3132 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- get_identifier_by_hashed_pubkey\(self, hashed_pubkey, network\) ? Find the key identifier for a) Tj
 T*
 (given hashed public key \(address\) in the specified network.) Tj
@@ -512,14 +494,6 @@ T*
 (- generate_qr_code\(self, private_key, public_key, hashed_public_key, identifier\) ? Generates QR) Tj
 T*
 (codes for:) Tj
-T*
-() Tj
-T*
-(Src/Accounts/keysqr.py) Tj
-T*
-() Tj
-T*
-(*\(No classes, functions, or module docstring found.\)*) Tj
 T*
 () Tj
 T*
@@ -591,19 +565,6 @@ T*
 T*
 (- delete_wallet_address\(self, network, key\) ? Delete a key \(by id/base56/HPK\). Requires at least) Tj
 T*
-ET
-endstream
-endobj
-14 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 15 0 R >>
-endobj
-15 0 obj
-<< /Length 3811 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (one key to remain in the network.) Tj
 T*
 (Defaults pointing to the deleted key are reassigned to another existing key.) Tj
@@ -630,6 +591,19 @@ T*
 T*
 (recipient.) Tj
 T*
+ET
+endstream
+endobj
+14 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 15 0 R >>
+endobj
+15 0 obj
+<< /Length 3316 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- get_transaction\(self, txid\) ? Get transaction by ID from mempool or blockchain.) Tj
 T*
 (- estimate_fee\(self, recipient, amount, network\) ? Estimate transaction fee.) Tj
@@ -708,19 +682,6 @@ T*
 T*
 (- blockchain_status\(\) ? Simple function to get blockchain status.) Tj
 T*
-ET
-endstream
-endobj
-16 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 17 0 R >>
-endobj
-17 0 obj
-<< /Length 2456 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- system_status\(\) ? Simple function to get system status.) Tj
 T*
 (- validate_block\(block\) ? \(no docstring\)) Tj
@@ -747,6 +708,19 @@ T*
 T*
 (- __init__\(self, path\) ? \(no docstring\)) Tj
 T*
+ET
+endstream
+endobj
+16 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 17 0 R >>
+endobj
+17 0 obj
+<< /Length 2385 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- reload\(self\) ? \(no docstring\)) Tj
 T*
 (- get\(self, token\) ? \(no docstring\)) Tj
@@ -825,19 +799,6 @@ T*
 T*
 (Otherwise derive a secret from the token using SHA3-256.) Tj
 T*
-ET
-endstream
-endobj
-18 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 19 0 R >>
-endobj
-19 0 obj
-<< /Length 2936 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- _verify_hmac\(req, api_token, entry, x_ts, x_sig\) ? \(no docstring\)) Tj
 T*
 (- require_key\(scopes\) ? Dependency factory enforcing:) Tj
@@ -864,6 +825,19 @@ T*
 T*
 () Tj
 T*
+ET
+endstream
+endobj
+18 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 19 0 R >>
+endobj
+19 0 obj
+<< /Length 3502 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (**Top-level functions:**) Tj
 T*
 (- _current_network\(\) ? \(no docstring\)) Tj
@@ -942,19 +916,6 @@ T*
 T*
 (structure.) Tj
 T*
-ET
-endstream
-endobj
-20 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 21 0 R >>
-endobj
-21 0 obj
-<< /Length 3381 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (The exact shape is flexible; consumers just need to know it's aux data.) Tj
 T*
 (- _ensure_witnesses_materialized\(self\) ? If witnesses map is empty but transactions carry) Tj
@@ -981,6 +942,19 @@ T*
 T*
 (- _calc_size_from_std\(self, std\) ? Compute encoded size in bytes based on the COMPACT) Tj
 T*
+ET
+endstream
+endobj
+20 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 21 0 R >>
+endobj
+21 0 obj
+<< /Length 3267 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (representation,) Tj
 T*
 (without calling to_dict\(\) again \(no recursion\).) Tj
@@ -1059,19 +1033,6 @@ T*
 T*
 (\(no docstring\)) Tj
 T*
-ET
-endstream
-endobj
-22 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 23 0 R >>
-endobj
-23 0 obj
-<< /Length 2912 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- load_chain_from_storage\(self\) ? Hydrate in-memory chain from LMDB full-block store.) Tj
 T*
 (We trust validation at insert time; still check minimal structure & linkage.) Tj
@@ -1098,6 +1059,19 @@ T*
 T*
 (difficulty/target.) Tj
 T*
+ET
+endstream
+endobj
+22 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 23 0 R >>
+endobj
+23 0 obj
+<< /Length 2835 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- _apply_block_to_utxo\(self, block_std\) ? Apply UTXO changes for the block - FIXED VERSION) Tj
 T*
 (Now properly validates UTXOs before spending and fails on errors) Tj
@@ -1176,19 +1150,6 @@ T*
 T*
 (Skips anchors that are higher than the current tip \(not synced yet\).) Tj
 T*
-ET
-endstream
-endobj
-24 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 25 0 R >>
-endobj
-25 0 obj
-<< /Length 2806 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- create_and_mine_genesis_block\(self\) ? Create + mine the genesis block:) Tj
 T*
 (- validate_genesis_block\(self, block_std\) ? Validate genesis:) Tj
@@ -1215,6 +1176,19 @@ T*
 T*
 () Tj
 T*
+ET
+endstream
+endobj
+24 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 25 0 R >>
+endobj
+25 0 obj
+<< /Length 2605 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (**Module docstring:**) Tj
 T*
 () Tj
@@ -1293,19 +1267,6 @@ T*
 T*
 (**Top-level functions:**) Tj
 T*
-ET
-endstream
-endobj
-26 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 27 0 R >>
-endobj
-27 0 obj
-<< /Length 2907 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- _load_font\(size, bold\) ? \(no docstring\)) Tj
 T*
 (- _measure\(draw, text, font\) ? \(no docstring\)) Tj
@@ -1332,6 +1293,19 @@ T*
 T*
 (Command-line interface for interacting with the Atho blockchain) Tj
 T*
+ET
+endstream
+endobj
+26 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 27 0 R >>
+endobj
+27 0 obj
+<< /Length 3102 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 () Tj
 T*
 (**Classes:**) Tj
@@ -1410,19 +1384,6 @@ T*
 T*
 (- show_block_by_hash\(self, block_hash\) ? Show block by hash) Tj
 T*
-ET
-endstream
-endobj
-28 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 29 0 R >>
-endobj
-29 0 obj
-<< /Length 2790 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- show_latest_block\(self\) ? Show latest block) Tj
 T*
 (- show_previous_block\(self\) ? Show previous block) Tj
@@ -1449,6 +1410,19 @@ T*
 T*
 (- show_network_info\(self\) ? Show network information) Tj
 T*
+ET
+endstream
+endobj
+28 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 29 0 R >>
+endobj
+29 0 obj
+<< /Length 2803 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- do_tools\(self, arg\) ? Tools and utilities commands) Tj
 T*
 (Usage: tools [sign|verify|export_keys|validate|compact|clear_mempool]) Tj
@@ -1527,19 +1501,6 @@ T*
 T*
 (- _request\(self, method, path, json_body\) ? \(no docstring\)) Tj
 T*
-ET
-endstream
-endobj
-30 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 31 0 R >>
-endobj
-31 0 obj
-<< /Length 3210 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- get_wallet_addresses\(self\) ? \(no docstring\)) Tj
 T*
 (- get_balance\(self, address\) ? \(no docstring\)) Tj
@@ -1566,6 +1527,19 @@ T*
 T*
 (- get_mempool_info\(self\) ? \(no docstring\)) Tj
 T*
+ET
+endstream
+endobj
+30 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 31 0 R >>
+endobj
+31 0 obj
+<< /Length 3126 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- get_system_status\(self\) ? \(no docstring\)) Tj
 T*
 (- get_network_info\(self\) ? \(no docstring\)) Tj
@@ -1644,19 +1618,6 @@ T*
 T*
 (- __init__\(self, **kwargs\) ? \(no docstring\)) Tj
 T*
-ET
-endstream
-endobj
-32 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 33 0 R >>
-endobj
-33 0 obj
-<< /Length 3066 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- NestedScrollView ? ScrollView that temporarily disables parent scroll to allow inner) Tj
 T*
 (scrolling.) Tj
@@ -1683,6 +1644,19 @@ T*
 T*
 (- on_pending\(self, *_\) ? \(no docstring\)) Tj
 T*
+ET
+endstream
+endobj
+32 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 33 0 R >>
+endobj
+33 0 obj
+<< /Length 3164 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- set_hide_balances\(self, hide\) ? \(no docstring\)) Tj
 T*
 (- _refresh_balance_labels\(self\) ? \(no docstring\)) Tj
@@ -1761,19 +1735,6 @@ T*
 T*
 (- set_hide_balances\(self, hide\) ? \(no docstring\)) Tj
 T*
-ET
-endstream
-endobj
-34 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 35 0 R >>
-endobj
-35 0 obj
-<< /Length 3346 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- _render_sender_note\(self\) ? \(no docstring\)) Tj
 T*
 (- DashboardTab ? \(no docstring\)) Tj
@@ -1800,6 +1761,19 @@ T*
 T*
 (- _show_tx_spinner\(self\) ? \(no docstring\)) Tj
 T*
+ET
+endstream
+endobj
+34 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 35 0 R >>
+endobj
+35 0 obj
+<< /Length 3237 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- _hide_tx_spinner\(self\) ? \(no docstring\)) Tj
 T*
 (- _show_success_toast\(self, msg\) ? \(no docstring\)) Tj
@@ -1878,19 +1852,6 @@ T*
 T*
 (- _show_readonly_notice\(self\) ? \(no docstring\)) Tj
 T*
-ET
-endstream
-endobj
-36 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 37 0 R >>
-endobj
-37 0 obj
-<< /Length 3143 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- NodesTab ? \(no docstring\)) Tj
 T*
 (- __init__\(self, api_client, **kwargs\) ? \(no docstring\)) Tj
@@ -1917,6 +1878,19 @@ T*
 T*
 (- search_block\(self, instance\) ? \(no docstring\)) Tj
 T*
+ET
+endstream
+endobj
+36 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 37 0 R >>
+endobj
+37 0 obj
+<< /Length 3030 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- get_latest_block\(self, instance\) ? \(no docstring\)) Tj
 T*
 (- next_block\(self, instance\) ? \(no docstring\)) Tj
@@ -1995,19 +1969,6 @@ T*
 T*
 (- on_stop\(self\) ? \(no docstring\)) Tj
 T*
-ET
-endstream
-endobj
-38 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 39 0 R >>
-endobj
-39 0 obj
-<< /Length 2515 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- _prepare_icon\(self\) ? \(no docstring\)) Tj
 T*
 () Tj
@@ -2034,6 +1995,19 @@ T*
 T*
 () Tj
 T*
+ET
+endstream
+endobj
+38 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 39 0 R >>
+endobj
+39 0 obj
+<< /Length 2602 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (Src/Main/__init__.py) Tj
 T*
 () Tj
@@ -2112,19 +2086,6 @@ T*
 T*
 (- verify_chain_tip\(self\) ? \(no docstring\)) Tj
 T*
-ET
-endstream
-endobj
-40 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 41 0 R >>
-endobj
-41 0 obj
-<< /Length 2289 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- verify_full_chain_once\(self\) ? \(no docstring\)) Tj
 T*
 (- sweep_mempool\(self, limit\) ? \(no docstring\)) Tj
@@ -2151,6 +2112,19 @@ T*
 T*
 (- validate_address\(hpk\) ? \(no docstring\)) Tj
 T*
+ET
+endstream
+endobj
+40 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 41 0 R >>
+endobj
+41 0 obj
+<< /Length 2291 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- full_tx_size_bytes\(tx\) ? \(no docstring\)) Tj
 T*
 (- fee_and_size\(tx\) ? \(no docstring\)) Tj
@@ -2229,19 +2203,6 @@ T*
 T*
 (- ensure_dirs\(\) ? Make sure database and logs folders exist for the selected network.) Tj
 T*
-ET
-endstream
-endobj
-42 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 43 0 R >>
-endobj
-43 0 obj
-<< /Length 3205 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- _enforce_network\(obj, network, name\) ? Best-effort network enforcement for security hardening.) Tj
 T*
 (Tries common attribute/method patterns; logs if constructor-only.) Tj
@@ -2268,6 +2229,19 @@ T*
 T*
 (with overrides applied.) Tj
 T*
+ET
+endstream
+endobj
+42 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 43 0 R >>
+endobj
+43 0 obj
+<< /Length 3535 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- main\(\) ? \(no docstring\)) Tj
 T*
 () Tj
@@ -2346,19 +2320,6 @@ T*
 T*
 (- _build_outputs\(self, recipient_hpk, amount, change_hpk, change\) ? Create recipient \(+ optional) Tj
 T*
-ET
-endstream
-endobj
-44 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 45 0 R >>
-endobj
-45 0 obj
-<< /Length 3138 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (change\) outputs using HPK only. Drop dust change.) Tj
 T*
 (- _calculate_tx_size\(self, tx\) ? Compute canonical policy transaction size \(vsize\).) Tj
@@ -2385,6 +2346,19 @@ T*
 T*
 (- _get_current_block_height\(self\) ? Get current block height for confirmation calculations) Tj
 T*
+ET
+endstream
+endobj
+44 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 45 0 R >>
+endobj
+45 0 obj
+<< /Length 2626 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- _parse_tx_out_id\(self, tx_out_id\) ? Parse tx_out_id into \(txid, vout\)) Tj
 T*
 (- _ell\(s, n\) ? \(no docstring\)) Tj
@@ -2463,19 +2437,6 @@ T*
 T*
 (- run_once\(self\) ? Process any new blocks since last recorded height, append leaves, and return) Tj
 T*
-ET
-endstream
-endobj
-46 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 47 0 R >>
-endobj
-47 0 obj
-<< /Length 3565 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (latest checkpoint.) Tj
 T*
 (- loop\(self, interval_sec\) ? \(no docstring\)) Tj
@@ -2502,6 +2463,19 @@ T*
 T*
 () Tj
 T*
+ET
+endstream
+endobj
+46 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 47 0 R >>
+endobj
+47 0 obj
+<< /Length 3617 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (**Classes:**) Tj
 T*
 (- TransactionVerifier ? Comprehensive transaction verification system that handles:) Tj
@@ -2580,19 +2554,6 @@ T*
 T*
 (- clear_statistics\(self\) ? Clear all statistics \(except start time\)) Tj
 T*
-ET
-endstream
-endobj
-48 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 49 0 R >>
-endobj
-49 0 obj
-<< /Length 2927 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- get_transaction_by_id\(self, tx_id\) ? Find a transaction by ID across blocks and mempool) Tj
 T*
 (- health_check\(self\) ? Perform health check of all components) Tj
@@ -2619,6 +2580,19 @@ T*
 T*
 (Src/Miner/miner.py) Tj
 T*
+ET
+endstream
+endobj
+48 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 49 0 R >>
+endobj
+49 0 obj
+<< /Length 3316 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 () Tj
 T*
 (**Classes:**) Tj
@@ -2697,19 +2671,6 @@ T*
 T*
 (- _iter_blocks_up_to\(self, height_inclusive, count\) ? Fetch up to count blocks ending at) Tj
 T*
-ET
-endstream
-endobj
-50 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 51 0 R >>
-endobj
-51 0 obj
-<< /Length 3389 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (height_inclusive \(oldest?newest\).) Tj
 T*
 (- _iter_last_blocks\(self, count\) ? Fetch the last count blocks as dicts \(oldest?newest\).) Tj
@@ -2736,6 +2697,19 @@ T*
 T*
 (- _remove_time_outliers\(self, block_times, max_deviation\) ? Remove outlier block times that) Tj
 T*
+ET
+endstream
+endobj
+50 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 51 0 R >>
+endobj
+51 0 obj
+<< /Length 3059 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (deviate too much from the median.) Tj
 T*
 (- _calculate_ema_timespan\(self, blocks, alpha\) ? Calculate Exponential Moving Average of block) Tj
@@ -2814,19 +2788,6 @@ T*
 T*
 () Tj
 T*
-ET
-endstream
-endobj
-52 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 53 0 R >>
-endobj
-53 0 obj
-<< /Length 2180 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (**Classes:**) Tj
 T*
 (- SeedEntry ? \(no docstring\)) Tj
@@ -2853,6 +2814,19 @@ T*
 T*
 () Tj
 T*
+ET
+endstream
+endobj
+52 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 53 0 R >>
+endobj
+53 0 obj
+<< /Length 2317 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (**Top-level functions:**) Tj
 T*
 (- _now\(\) ? \(no docstring\)) Tj
@@ -2931,19 +2905,6 @@ T*
 T*
 () Tj
 T*
-ET
-endstream
-endobj
-54 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 55 0 R >>
-endobj
-55 0 obj
-<< /Length 2851 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (**Classes:**) Tj
 T*
 (- P2PServer ? Minimal public P2P server:) Tj
@@ -2970,6 +2931,19 @@ T*
 T*
 (- _tip\(self\) ? \(no docstring\)) Tj
 T*
+ET
+endstream
+endobj
+54 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 55 0 R >>
+endobj
+55 0 obj
+<< /Length 2890 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- _state_hash\(self\) ? \(no docstring\)) Tj
 T*
 (- _build_hello\(self\) ? \(no docstring\)) Tj
@@ -3048,19 +3022,6 @@ T*
 T*
 (target_outbound\) ? \(no docstring\)) Tj
 T*
-ET
-endstream
-endobj
-56 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 57 0 R >>
-endobj
-57 0 obj
-<< /Length 2651 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- _tip\(self\) ? \(no docstring\)) Tj
 T*
 (- _log_peer_event\(self, event, rec, **fields\) ? \(no docstring\)) Tj
@@ -3087,6 +3048,19 @@ T*
 T*
 (- _maybe_log_peer_summary\(self, peers\) ? \(no docstring\)) Tj
 T*
+ET
+endstream
+endobj
+56 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 57 0 R >>
+endobj
+57 0 obj
+<< /Length 2710 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- _sync_mempool\(self\) ? \(no docstring\)) Tj
 T*
 (- _refresh_seeds\(self\) ? \(no docstring\)) Tj
@@ -3165,19 +3139,6 @@ T*
 T*
 (- _drain_missing_parents\(self\) ? \(no docstring\)) Tj
 T*
-ET
-endstream
-endobj
-58 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 59 0 R >>
-endobj
-59 0 obj
-<< /Length 2062 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- _fetch_blocks_multi\(self, hashes, prefer_peer\) ? \(no docstring\)) Tj
 T*
 (- _log_sync_event\(self, blk, status, reason, peer\) ? \(no docstring\)) Tj
@@ -3204,6 +3165,19 @@ T*
 T*
 (headers are returned.) Tj
 T*
+ET
+endstream
+endobj
+58 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 59 0 R >>
+endobj
+59 0 obj
+<< /Length 2027 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- _notice\(self, peer, reason, fields\) ? \(no docstring\)) Tj
 T*
 (- _loop\(self\) ? \(no docstring\)) Tj
@@ -3282,19 +3256,6 @@ T*
 T*
 () Tj
 T*
-ET
-endstream
-endobj
-60 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 61 0 R >>
-endobj
-61 0 obj
-<< /Length 3260 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (Src/SigWit/sigwit.py) Tj
 T*
 () Tj
@@ -3321,6 +3282,19 @@ T*
 T*
 (- extract_witness\(tx\) ? Extract witness-only fields from a tx \(non-mutating\):) Tj
 T*
+ET
+endstream
+endobj
+60 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 61 0 R >>
+endobj
+61 0 obj
+<< /Length 3273 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- strip_witness\(tx\) ? Return a base-only tx \(no witness\). Non-mutating.) Tj
 T*
 (- attach_witness\(base_tx, witness\) ? Merge a base-only tx with witness fields \(non-mutating\).) Tj
@@ -3399,19 +3373,6 @@ T*
 T*
 (than the retention window) Tj
 T*
-ET
-endstream
-endobj
-62 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 63 0 R >>
-endobj
-63 0 obj
-<< /Length 3454 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (relative to current tip; otherwise return the original dict.) Tj
 T*
 (- _load_chain_log_state\(self\) ? Return \(last_height, cumulative_hash\) from the state hash log.) Tj
@@ -3438,6 +3399,19 @@ T*
 T*
 (- _assert_consensus_write\(\) ? \(no docstring\)) Tj
 T*
+ET
+endstream
+endobj
+62 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 63 0 R >>
+endobj
+63 0 obj
+<< /Length 3426 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- _merge_witness_from_full\(std\) ? \(no docstring\)) Tj
 T*
 (- _json_dumps\(obj\) ? \(no docstring\)) Tj
@@ -3516,19 +3490,6 @@ T*
 T*
 (- has_new_transactions_since\(self, last_check_time\) ? Check if new transactions have arrived) Tj
 T*
-ET
-endstream
-endobj
-64 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 65 0 R >>
-endobj
-65 0 obj
-<< /Length 3556 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (since the given timestamp.) Tj
 T*
 (- get_new_transactions_since\(self, last_check_time, known_tx_ids\) ? Get only new transactions) Tj
@@ -3555,6 +3516,19 @@ T*
 T*
 (- _fee_per_byte\(self, fee, size\) ? \(no docstring\)) Tj
 T*
+ET
+endstream
+endobj
+64 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 65 0 R >>
+endobj
+65 0 obj
+<< /Length 3353 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- _accept_key\(self, key_b\) ? \(no docstring\)) Tj
 T*
 (- _canonical_key_for_txid\(self, txid\) ? \(no docstring\)) Tj
@@ -3633,19 +3607,6 @@ T*
 T*
 (addition) Tj
 T*
-ET
-endstream
-endobj
-66 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 67 0 R >>
-endobj
-67 0 obj
-<< /Length 2911 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- cleanup_mempool\(self\) ? Clean up mempool by removing invalid transactions \(double spends,) Tj
 T*
 (etc.\)) Tj
@@ -3672,6 +3633,19 @@ T*
 T*
 () Tj
 T*
+ET
+endstream
+endobj
+66 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 67 0 R >>
+endobj
+67 0 obj
+<< /Length 2671 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (Src/Storage/utxostorage.py) Tj
 T*
 () Tj
@@ -3750,19 +3724,6 @@ T*
 T*
 (- _open_env\(path, *, map_size, max_dbs, max_readers\) ? \(no docstring\)) Tj
 T*
-ET
-endstream
-endobj
-68 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 69 0 R >>
-endobj
-69 0 obj
-<< /Length 3140 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 () Tj
 T*
 (Src/Test/__init__.py) Tj
@@ -3789,6 +3750,19 @@ T*
 T*
 (- _prompt\(msg\) ? \(no docstring\)) Tj
 T*
+ET
+endstream
+endobj
+68 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 69 0 R >>
+endobj
+69 0 obj
+<< /Length 3677 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- do_encode\(\) ? \(no docstring\)) Tj
 T*
 (- do_decode\(\) ? \(no docstring\)) Tj
@@ -3867,19 +3841,6 @@ T*
 T*
 (- create_block_with_future_timestamp\(self\) ? Create block with future timestamp) Tj
 T*
-ET
-endstream
-endobj
-70 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 71 0 R >>
-endobj
-71 0 obj
-<< /Length 3225 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- create_transaction_with_low_fee\(self\) ? Create transaction with fee below minimum) Tj
 T*
 (- create_oversized_transaction\(self\) ? Create transaction that exceeds size limits) Tj
@@ -3906,6 +3867,19 @@ T*
 T*
 (- main\(\) ? Main function to run security tests) Tj
 T*
+ET
+endstream
+endobj
+70 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 71 0 R >>
+endobj
+71 0 obj
+<< /Length 2910 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 () Tj
 T*
 (Src/Test/condebugger.py) Tj
@@ -3984,19 +3958,6 @@ T*
 T*
 (- hex_len\(n\) ? Hex length for n raw bytes \(2 ASCII chars per byte\).) Tj
 T*
-ET
-endstream
-endobj
-72 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 73 0 R >>
-endobj
-73 0 obj
-<< /Length 1875 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- fmt_bytes\(n\) ? \(no docstring\)) Tj
 T*
 (- parse_block_caps\(caps\) ? \(no docstring\)) Tj
@@ -4023,6 +3984,19 @@ T*
 T*
 (- _clean_test_dbs\(test_root\) ? \(no docstring\)) Tj
 T*
+ET
+endstream
+endobj
+72 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 73 0 R >>
+endobj
+73 0 obj
+<< /Length 2127 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- _make_block\(height, prev_hash\) ? \(no docstring\)) Tj
 T*
 (- main\(\) ? \(no docstring\)) Tj
@@ -4101,19 +4075,6 @@ T*
 T*
 (- fingerprint\(hexstr, head, tail\) ? \(no docstring\)) Tj
 T*
-ET
-endstream
-endobj
-74 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 75 0 R >>
-endobj
-75 0 obj
-<< /Length 2804 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- normalize_hex\(h\) ? \(no docstring\)) Tj
 T*
 (- extract_sig_from_script\(script_sig_blob\) ? Attempt to find a 2048-hex signature in the blob.) Tj
@@ -4140,6 +4101,19 @@ T*
 T*
 (falcon CLI on candidate combos.) Tj
 T*
+ET
+endstream
+endobj
+74 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 75 0 R >>
+endobj
+75 0 obj
+<< /Length 2581 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (Returns a dict of findings.) Tj
 T*
 (- configure_logger\(out_path, level\) ? \(no docstring\)) Tj
@@ -4218,19 +4192,6 @@ T*
 T*
 (- _ell\(s, n\) ? \(no docstring\)) Tj
 T*
-ET
-endstream
-endobj
-76 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 77 0 R >>
-endobj
-77 0 obj
-<< /Length 3089 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- get_confirmation_info\(self, current_block_height\) ? Get confirmation information for coinbase) Tj
 T*
 (transaction) Tj
@@ -4257,6 +4218,19 @@ T*
 T*
 (- calculate_fee\(self, block_size, amount, tx_size, payment_type\) ? Calculate fee for a) Tj
 T*
+ET
+endstream
+endobj
+76 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 77 0 R >>
+endobj
+77 0 obj
+<< /Length 3174 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (transaction:) Tj
 T*
 (- fee_per_byte × tx_size) Tj
@@ -4335,19 +4309,6 @@ T*
 T*
 (- _outputs_to_dict_for_signing\(self\) ? \(no docstring\)) Tj
 T*
-ET
-endstream
-endobj
-78 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 79 0 R >>
-endobj
-79 0 obj
-<< /Length 3208 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- validate_consistency\(self\) ? Ensure current derived hash equals the frozen/embedded) Tj
 T*
 (signing_hash.) Tj
@@ -4374,6 +4335,19 @@ T*
 T*
 (- cleared_for_txid\(self\) ? Emit a base \(no-witness\) view of this input for TXID/signing-hash) Tj
 T*
+ET
+endstream
+endobj
+78 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 79 0 R >>
+endobj
+79 0 obj
+<< /Length 3316 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (computation.) Tj
 T*
 (script_sig is intentionally blank.) Tj
@@ -4452,19 +4426,6 @@ T*
 T*
 (instead of raw bytes.) Tj
 T*
-ET
-endstream
-endobj
-80 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 81 0 R >>
-endobj
-81 0 obj
-<< /Length 3298 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- _split_tx_out_id\(self, tx_out_id\) ? Returns \(txid_hex, vout\)) Tj
 T*
 (- _sign_transaction_with_key_manager\(self, tx\) ? Ask the injected key_manager to sign. We pass) Tj
@@ -4491,6 +4452,19 @@ T*
 T*
 (- __post_init__\(self\) ? \(no docstring\)) Tj
 T*
+ET
+endstream
+endobj
+80 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 81 0 R >>
+endobj
+81 0 obj
+<< /Length 3381 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- _fallback_tx_out_id\(self\) ? Generate a salted SHA3-384 id from \(hashed_pubkey, amount, locked,) Tj
 T*
 (flag, salt\).) Tj
@@ -4569,19 +4543,6 @@ T*
 T*
 (Returns \(ok, input_sum, output_sum\).) Tj
 T*
-ET
-endstream
-endobj
-82 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 83 0 R >>
-endobj
-83 0 obj
-<< /Length 3445 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- _parse_tx_out_id\(tx_out_id\) ? \(no docstring\)) Tj
 T*
 (- estimate_size_bytes\(self, tx\) ? Estimate canonical tx vsize.) Tj
@@ -4608,6 +4569,19 @@ T*
 T*
 (- _validate_fee\(self, tx\) ? Validate fee for non-coinbase transactions.) Tj
 T*
+ET
+endstream
+endobj
+82 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 83 0 R >>
+endobj
+83 0 obj
+<< /Length 3322 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (Now uses the enforce_fee_requirements helper.) Tj
 T*
 (- build_coinbase\(self, *, block_height, miner_hpk, metadata\) ? Construct a CoinbaseTx object) Tj
@@ -4686,19 +4660,6 @@ T*
 T*
 (- register_outputs_from_tx\(self, tx_std, *, block_height\) ? Add UTXOs for each TX output \(using) Tj
 T*
-ET
-endstream
-endobj
-84 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 85 0 R >>
-endobj
-85 0 obj
-<< /Length 2915 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (standardized tx dict\).) Tj
 T*
 (- consume_inputs_from_tx\(self, tx_std, *, spend_height\) ? Mark each input's referenced UTXO as) Tj
@@ -4725,6 +4686,19 @@ T*
 T*
 (- get_available_balance\(self, hashed_public_key, current_height\) ? Get both confirmed and) Tj
 T*
+ET
+endstream
+endobj
+84 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 85 0 R >>
+endobj
+85 0 obj
+<< /Length 3283 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (pending balance with proper confirmation enforcement.) Tj
 T*
 (COINBASE: 400 confirmations required) Tj
@@ -4803,19 +4777,6 @@ T*
 T*
 (ATHT for testnet, ATHT for regnet\).) Tj
 T*
-ET
-endstream
-endobj
-86 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 87 0 R >>
-endobj
-87 0 obj
-<< /Length 3573 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- INITIAL_COINBASE_REWARD\(\) ? Returns the initial coinbase reward at block 0,) Tj
 T*
 (using the hard-coded emission schedule.) Tj
@@ -4842,6 +4803,19 @@ T*
 T*
 (- verify_emissions\(\) ? Verifies boundary rewards and the exact pre-tail supply ? prints results.) Tj
 T*
+ET
+endstream
+endobj
+86 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 87 0 R >>
+endobj
+87 0 obj
+<< /Length 3100 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- _resolve_reward_from_mapping\(height\) ? Back-compat shim ? mapping no longer used for) Tj
 T*
 (consensus.) Tj
@@ -4920,19 +4894,6 @@ T*
 T*
 (- to_bytes\(x\) ? Canonical: str -> utf-8 bytes; bytes pass-through.) Tj
 T*
-ET
-endstream
-endobj
-88 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 89 0 R >>
-endobj
-89 0 obj
-<< /Length 2856 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- to_hex\(b\) ? Canonical hex formatter \(lowercase\).) Tj
 T*
 (- from_hex\(h\) ? Strict hex -> bytes \(accepts any case, normalizes by caller\).) Tj
@@ -4959,6 +4920,19 @@ T*
 T*
 (- MirrorConfig ? \(no docstring\)) Tj
 T*
+ET
+endstream
+endobj
+88 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 89 0 R >>
+endobj
+89 0 obj
+<< /Length 2919 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- _DedupCache ? \(no docstring\)) Tj
 T*
 (- __init__\(self, window_s, max_cache\) ? \(no docstring\)) Tj
@@ -5037,19 +5011,6 @@ T*
 T*
 (If include_only is provided, only include those standardized keys.) Tj
 T*
-ET
-endstream
-endobj
-90 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 91 0 R >>
-endobj
-91 0 obj
-<< /Length 2753 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- from_compact\(kind, data\) ? Convert compact dict to standardized dict.) Tj
 T*
 (Ignores unknown keys gracefully.) Tj
@@ -5076,6 +5037,19 @@ T*
 T*
 (Useful for short checksums \(e.g., address checksums\).) Tj
 T*
+ET
+endstream
+endobj
+90 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 91 0 R >>
+endobj
+91 0 obj
+<< /Length 2723 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- sha3_256_hex\(data\) ? Single SHA3-256; returns lowercase hex string.) Tj
 T*
 (- merkle_parent\(left, right\) ? Parent = SHA3-384\(left || right\). Inputs must be bytes \(digests\).) Tj
@@ -5154,19 +5128,6 @@ T*
 T*
 (- __init__\(self\) ? \(no docstring\)) Tj
 T*
-ET
-endstream
-endobj
-92 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 93 0 R >>
-endobj
-93 0 obj
-<< /Length 1527 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- _log_to_file\(self, message, file_path\) ? Log message to specific file) Tj
 T*
 (- log_function_call\(self, function_name, tx_id, data, note\) ? Log a function call with) Tj
@@ -5193,6 +5154,19 @@ T*
 T*
 (- Provides release-manifest build/verify helpers and runtime drift checks.) Tj
 T*
+ET
+endstream
+endobj
+92 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 93 0 R >>
+endobj
+93 0 obj
+<< /Length 836 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 () Tj
 T*
 (**Top-level functions \(high-impact\):**) Tj
@@ -5226,96 +5200,96 @@ xref
 0000000428 00000 n 
 0000000496 00000 n 
 0000000622 00000 n 
-0000003250 00000 n 
 0000003376 00000 n 
-0000006901 00000 n 
-0000007027 00000 n 
-0000010476 00000 n 
-0000010604 00000 n 
-0000014409 00000 n 
-0000014537 00000 n 
-0000017472 00000 n 
-0000017600 00000 n 
-0000021464 00000 n 
-0000021592 00000 n 
-0000024101 00000 n 
-0000024229 00000 n 
-0000027218 00000 n 
-0000027346 00000 n 
-0000030780 00000 n 
-0000030908 00000 n 
-0000033873 00000 n 
-0000034001 00000 n 
-0000036860 00000 n 
-0000036988 00000 n 
-0000039948 00000 n 
-0000040076 00000 n 
-0000042919 00000 n 
-0000043047 00000 n 
-0000046310 00000 n 
-0000046438 00000 n 
-0000049557 00000 n 
-0000049685 00000 n 
-0000053084 00000 n 
-0000053212 00000 n 
-0000056408 00000 n 
-0000056536 00000 n 
-0000059104 00000 n 
-0000059232 00000 n 
-0000061574 00000 n 
-0000061702 00000 n 
-0000064960 00000 n 
-0000065088 00000 n 
-0000068279 00000 n 
-0000068407 00000 n 
-0000072025 00000 n 
-0000072153 00000 n 
-0000075133 00000 n 
-0000075261 00000 n 
-0000078703 00000 n 
-0000078831 00000 n 
-0000081064 00000 n 
-0000081192 00000 n 
-0000084096 00000 n 
-0000084224 00000 n 
-0000086928 00000 n 
-0000087056 00000 n 
-0000089171 00000 n 
-0000089299 00000 n 
-0000092612 00000 n 
-0000092740 00000 n 
-0000096247 00000 n 
-0000096375 00000 n 
-0000099984 00000 n 
-0000100112 00000 n 
-0000103076 00000 n 
-0000103204 00000 n 
-0000106397 00000 n 
-0000106525 00000 n 
-0000109803 00000 n 
-0000109931 00000 n 
-0000111859 00000 n 
-0000111987 00000 n 
-0000114844 00000 n 
-0000114972 00000 n 
-0000118114 00000 n 
-0000118242 00000 n 
-0000121503 00000 n 
-0000121631 00000 n 
-0000124982 00000 n 
-0000125110 00000 n 
-0000128608 00000 n 
-0000128736 00000 n 
-0000131704 00000 n 
-0000131832 00000 n 
-0000135458 00000 n 
-0000135586 00000 n 
-0000138495 00000 n 
-0000138623 00000 n 
-0000141429 00000 n 
-0000141557 00000 n 
+0000003502 00000 n 
+0000007332 00000 n 
+0000007458 00000 n 
+0000010801 00000 n 
+0000010929 00000 n 
+0000014749 00000 n 
+0000014877 00000 n 
+0000018062 00000 n 
+0000018190 00000 n 
+0000021559 00000 n 
+0000021687 00000 n 
+0000024125 00000 n 
+0000024253 00000 n 
+0000027808 00000 n 
+0000027936 00000 n 
+0000031256 00000 n 
+0000031384 00000 n 
+0000034272 00000 n 
+0000034400 00000 n 
+0000037058 00000 n 
+0000037186 00000 n 
+0000040341 00000 n 
+0000040469 00000 n 
+0000043325 00000 n 
+0000043453 00000 n 
+0000046632 00000 n 
+0000046760 00000 n 
+0000049977 00000 n 
+0000050105 00000 n 
+0000053395 00000 n 
+0000053523 00000 n 
+0000056606 00000 n 
+0000056734 00000 n 
+0000059389 00000 n 
+0000059517 00000 n 
+0000061861 00000 n 
+0000061989 00000 n 
+0000065577 00000 n 
+0000065705 00000 n 
+0000068384 00000 n 
+0000068512 00000 n 
+0000072182 00000 n 
+0000072310 00000 n 
+0000075679 00000 n 
+0000075807 00000 n 
+0000078919 00000 n 
+0000079047 00000 n 
+0000081417 00000 n 
+0000081545 00000 n 
+0000084488 00000 n 
+0000084616 00000 n 
+0000087379 00000 n 
+0000087507 00000 n 
+0000089587 00000 n 
+0000089715 00000 n 
+0000093041 00000 n 
+0000093169 00000 n 
+0000096648 00000 n 
+0000096776 00000 n 
+0000100182 00000 n 
+0000100310 00000 n 
+0000103034 00000 n 
+0000103162 00000 n 
+0000106892 00000 n 
+0000107020 00000 n 
+0000109983 00000 n 
+0000110111 00000 n 
+0000112291 00000 n 
+0000112419 00000 n 
+0000115053 00000 n 
+0000115181 00000 n 
+0000118408 00000 n 
+0000118536 00000 n 
+0000121905 00000 n 
+0000122033 00000 n 
+0000125467 00000 n 
+0000125595 00000 n 
+0000128970 00000 n 
+0000129098 00000 n 
+0000132434 00000 n 
+0000132562 00000 n 
+0000135715 00000 n 
+0000135843 00000 n 
+0000138815 00000 n 
+0000138943 00000 n 
+0000141719 00000 n 
+0000141847 00000 n 
 trailer
 << /Size 94 /Root 1 0 R >>
 startxref
-143137
+142735
 %%EOF

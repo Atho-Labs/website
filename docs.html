@@ -31,6 +31,7 @@
         <nav id="main-nav" class="nav-links" data-nav-links>
           <a class="nav-link" href="./index.html">Home</a>
           <a class="nav-link" href="./join.html">Join</a>
+          <a class="nav-link" href="./rewards.html">Rewards</a>
           <a class="nav-link" href="./docs.html">Docs</a>
           <a class="nav-link" href="./changelog.html">Changelog</a>
           <a class="nav-link" href="#docs-index">Index</a>
@@ -83,12 +84,12 @@
           </div>
           <h1>Everything about the protocol, in one indexed place.</h1>
           <p>
-            This hub aggregates whitepaper materials, setup runbooks, consensus references, security docs, tokenomics modeling, and release operations from the current Atho documentation corpus.
+            This hub aggregates the latest whitepaper materials, BPoW/rewards references, setup runbooks, consensus docs, and binary-operation guides from the current Atho documentation corpus.
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary btn-inline" href="#docs-index">Search Docs</a>
             <a class="btn btn-primary btn-inline" href="./join.html">Join The Network</a>
-            <a class="btn btn-primary btn-inline" href="./changelog.html">Open Changelog</a>
+            <a class="btn btn-primary btn-inline" href="./rewards.html">Open Rewards</a>
           </div>
         </div>
 
@@ -96,11 +97,11 @@
           <div class="card card-pad">
             <h2 class="panel-title">Whitepaper Download</h2>
             <p class="panel-copy">
-              Download the complete Atho whitepaper PDF.
+              Download the latest complete Atho whitepaper (v2.0).
             </p>
             <div class="hero-actions docs-download-actions">
-              <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/atho-complete-whitepaper.pdf" download>
-                Download Complete Whitepaper
+              <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/atho-complete-whitepaper-v2-0.pdf" download>
+                Download Whitepaper v2.0
               </a>
             </div>
           </div>
@@ -149,7 +150,7 @@
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Consensus + Validation</strong>
-                <span>Target timing, retarget behavior, block admission, reorg limits, and deterministic rule enforcement.</span>
+                <span>Target timing, retarget behavior, block admission, reorg limits, deterministic rule enforcement, and hardcoded genesis references for mainnet/testnet.</span>
               </span>
             </li>
             <li class="key-item">
@@ -213,15 +214,15 @@
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
-                <strong>30,000,000 Pre-Tail Path</strong>
-                <span>Current schedule, transition behavior, and tail-emission policy references are documented and modeled.</span>
+                <strong>Pre-Tail + Tail Path</strong>
+                <span>Emission schedule to 30,000,000 ATHO pre-tail and 0.25 ATHO tail policy are documented with auditable assumptions.</span>
               </span>
             </li>
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
-                <strong>Fee + Burn Dynamics</strong>
-                <span>Byte-fee policy and floor-clipped burn logic with utilization-linked inflation/deflation scenarios.</span>
+                <strong>BPoW Rewards + Fee Routing</strong>
+                <span>Bond/stake reward splits, deterministic consensus pool routing, and floor-clipped burn policy are documented end-to-end.</span>
               </span>
             </li>
             <li class="key-item">
@@ -241,7 +242,7 @@
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Quickstart + Join Flow</strong>
-                <span>Clone, venv, dependencies, API key setup, binary checks, node launch, and verification sequence.</span>
+                <span>Clone, venv, dependency install, binary build/register, API auth, node launch, and verification sequence.</span>
               </span>
             </li>
             <li class="key-item">
@@ -255,7 +256,7 @@
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Release Integrity</strong>
-                <span>Packaging, checksum/signature workflow, runtime guard expectations, and upgrade safety notes.</span>
+                <span>Binary pinning metadata, strict canonical binary paths, packaging checksums, and upgrade safety notes.</span>
               </span>
             </li>
           </ul>

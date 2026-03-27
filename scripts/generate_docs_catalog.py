@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 import shutil
 import textwrap
@@ -11,9 +12,27 @@ from pathlib import Path
 
 SITE_ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = SITE_ROOT.parent.parent
-DOCS_ROOT = REPO_ROOT / "Docs"
 PDF_ROOT = SITE_ROOT / "assets" / "docs" / "pdf"
 CATALOG_OUT = SITE_ROOT / "assets" / "js" / "data" / "docs-catalog.js"
+LOCAL_DOCS_ROOT = SITE_ROOT / "assets" / "docs" / "source" / "Docs"
+ATHO_BETA_DOCS_ROOT = REPO_ROOT / "Atho-Beta-main" / "Docs"
+LEGACY_DOCS_ROOT = REPO_ROOT / "Docs"
+
+
+def resolve_docs_root() -> Path:
+    env_root = os.getenv("ATHO_DOCS_ROOT")
+    candidates = []
+    if env_root:
+        candidates.append(Path(env_root).expanduser())
+    candidates.extend([LOCAL_DOCS_ROOT, ATHO_BETA_DOCS_ROOT, LEGACY_DOCS_ROOT])
+    for candidate in candidates:
+        if candidate.exists() and candidate.is_dir():
+            return candidate.resolve()
+    locations = "\n".join(f"  - {p}" for p in candidates)
+    raise SystemExit(f"Missing docs root. Checked:\\n{locations}")
+
+
+DOCS_ROOT = resolve_docs_root()
 
 INCLUDE_EXT = {".md", ".txt", ".csv", ".json", ".pdf"}
 DATE_RE = re.compile(r"\b\d{4}[-_ ]\d{2}[-_ ]\d{2}\b")

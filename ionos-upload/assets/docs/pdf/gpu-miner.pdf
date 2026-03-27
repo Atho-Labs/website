@@ -1,0 +1,135 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 1 /Kids [4 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 1677 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Atho GPU Miner) Tj
+T*
+() Tj
+T*
+(Date: 2026-03-27) Tj
+T*
+() Tj
+T*
+(This document defines the active GPU miner runtime and build path.) Tj
+T*
+() Tj
+T*
+(Implemented Components) Tj
+T*
+(- Src/Miner/GPU/sha3_384.cl: OpenCL SHA3-384 kernels.) Tj
+T*
+(- Src/Miner/GPU/gpu_miner.cpp: OpenCL host binary and probing/runtime entry.) Tj
+T*
+(- Src/Miner/GPU/gpu_interface.py: Python wrapper with backend autodetect \(auto/opencl/cuda\).) Tj
+T*
+(- Src/Miner/GPU/compat.py: backend compatibility and runtime checks.) Tj
+T*
+(- Src/Miner/GPU/audit_gpu_miner.py: correctness/security checks.) Tj
+T*
+(- Src/Miner/GPU/compare_cpu_gpu_blocks.py: CPU vs GPU hash/vector consistency checks.) Tj
+T*
+() Tj
+T*
+(Build) Tj
+T*
+(From repository root:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(OpenCL Binary Usage) Tj
+T*
+(Probe:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Fixed-header mode:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Template mode:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Runtime Tuning \(runtime_tuning.json -> miner\)) Tj
+T*
+(- miner_type: CPU or GPU) Tj
+T*
+(- gpu_backend: auto, opencl, cuda) Tj
+T*
+(- gpu_batch_size: integer batch size) Tj
+T*
+(- gpu_batch_timeout_sec: per-batch timeout) Tj
+T*
+(- gpu_auto_tune: adaptive batch-size tuning) Tj
+T*
+(- gpu_target_batch_ms: target batch wall-time) Tj
+T*
+(- gpu_strict: fail instead of CPU fallback on GPU errors) Tj
+T*
+(- gpu_sandbox: apply subprocess resource limits) Tj
+T*
+(- gpu_verify_runtime: require successful backend probe) Tj
+T*
+() Tj
+T*
+(Relevant Logs) Tj
+T*
+(- logs/<network>/pow/pow_runtime.log) Tj
+T*
+(- logs/<network>/miner/miner_runtime.log) Tj
+T*
+(- logs/<network>/miner/gpu_runtime.log) Tj
+T*
+() Tj
+T*
+(Validation) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000189 00000 n 
+0000000315 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+2044
+%%EOF

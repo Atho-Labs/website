@@ -4,7 +4,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
+<< /Type /Pages /Count 2 /Kids [4 0 R 6 0 R] >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Courier >>
@@ -13,115 +13,115 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 3145 >>
+<< /Length 2136 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(SHA3-384, HPK, and Base56 Addressing) Tj
+(SHA3-384, HPK, and Addressing) Tj
 T*
 () Tj
 T*
-(Status: Alpha documentation snapshot \(2026-03-12\).) Tj
+(Date: 2026-03-27) Tj
 T*
 () Tj
 T*
-(This document describes how Atho uses SHA3-384 for identity, transaction hashing, and) Tj
+(This document describes how Atho uses SHA3-384 for identity and transaction hashing.) Tj
 T*
-(addressing, and how Base56 encoding wraps hashed public keys \(HPK\). It also lists the code paths) Tj
+(- Hash Primitives) Tj
 T*
-(involved and audit notes.) Tj
+(Core implementation:) Tj
 T*
-() Tj
-T*
-(Hash primitives \(Src/Utility/hash.py\)) Tj
-T*
-(- sha3\(data\): SHA3-384, returns 48-byte digest.) Tj
-T*
-(- sha3_hex\(data\): SHA3-384, returns 96-char lowercase hex.) Tj
-T*
-(- sha3_256 / sha3_256_hex: SHA3-256 helpers \(used for checksums\).) Tj
-T*
-(- Merkle helpers use SHA3-384 for parent/root computation.) Tj
+(- Src/Utility/hash.py) Tj
 T*
 () Tj
 T*
-(HPK \(hashed public key\) generation and storage) Tj
+(Primary primitives:) Tj
 T*
-(- Public keys are Falcon-512 \(2048 hex chars\). HPK is sha3_384\(pubkey_bytes\).hex\(\) \(96 hex) Tj
+(- SHA3-384 for canonical tx/block identity workflows.) Tj
 T*
-(chars\), typically prefixed with the internal network tag \(ATHO mainnet, ATHT testnet\).) Tj
+(- SHA3-256 for checksum/helper cases \(for example address checksum paths\).) Tj
 T*
-(- Key import/generation:) Tj
+(- HPK \(Hashed Public Key\)) Tj
 T*
-(- Src/Accounts/key_manager.py: derives HPK when adding keys; enforce_cli_only\(\) ensures) Tj
+(- HPK is derived from public key bytes using SHA3-384.) Tj
 T*
-(CLI-format keys with HPK present; also uses sha3_384 in address export helpers.) Tj
+(- Raw digest size: 48 bytes.) Tj
 T*
-(- Src/Accounts/change_default_key.py: import helper routes materials through KeyManager) Tj
-T*
-(validation/HPK recompute before persistence.) Tj
-T*
-(- HPK is the canonical on-chain address binding \(hashed_public_key fields in outputs/UTXO\).) Tj
+(- Hex representation: 96 hex chars.) Tj
 T*
 () Tj
 T*
-(Base56 address encoding \(Src/Blockchain/base56.py\)) Tj
+(Internal destination binding uses HPK form \(ATHO/ATHT tagged form in many paths\).) Tj
 T*
-(- Alphabet: 23456789ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz \(56 chars, no visually) Tj
+(- Public Key Size Policy \(Falcon\)) Tj
 T*
-(ambiguous symbols\).) Tj
+(Current policy in constants:) Tj
 T*
-(- Input: HPK hex \(96 chars\), with or without internal prefix \(ATHO/ATHT\).) Tj
+(- Canonical Falcon public key length: 897 bytes.) Tj
 T*
-(- Encoding:) Tj
-T*
-(- Convert HPK hex ? 48 bytes.) Tj
-T*
-(- Prefix: A \(mainnet\) or T \(testnet/regnet\).) Tj
-T*
-(- Body: prefix + base56\(raw_hpk_bytes\).) Tj
-T*
-(- Checksum: first 4 bytes of sha3_256\(body\) encoded base56, padded to 6 chars.) Tj
-T*
-(- Final address: <prefix><body><checksum>.) Tj
-T*
-(- Decoding:) Tj
-T*
-(- Verifies prefix matches expected network \(or Constants.NETWORK when enforced\).) Tj
-T*
-(- Recomputes checksum with sha3_256 and compares.) Tj
-T*
-(- Returns HPK hex \(padded to 96 chars\) and network; can re-add internal prefix.) Tj
-T*
-(- Normalization helper: normalize_hpk accepts either Base56 address or prefixed HPK and returns) Tj
-T*
-(the internal HPK string.) Tj
-T*
-(- Consumers:) Tj
-T*
-(- Wallet/CLI: Src/GUI/cliui.py and wallet APIs render Base56 for users, normalize back to HPK) Tj
-T*
-(internally.) Tj
-T*
-(- Tx construction: Src/Main/send.py resolves recipient/change via normalize_hpk.) Tj
-T*
-(- UTXO lookup: Src/Transactions/txmanager.py normalizes HPK for spend selection.) Tj
+(- Optional legacy acceptance path can allow 1024 byte format during migration.) Tj
 T*
 () Tj
 T*
-(Transaction hashing and signing \(SHA3-384\)) Tj
+(HPK derivation is always based on raw bytes, regardless of display encoding.) Tj
 T*
-(- Canonical txid \(no witness\):) Tj
+(- Base56 Address Layer) Tj
 T*
-(- Src/Utility/txdhash.py::canonical_tx_id hashes a normalized transaction dict \(without witness) Tj
+(Base56 is user-facing representation on top of HPK.) Tj
 T*
-(fields, with hashed_public_key normalized\) using SHA3-384 hex.) Tj
+() Tj
 T*
-(- Used for tx identifiers, merkle inclusion, and signing payloads.) Tj
+(Relevant code:) Tj
 T*
-(- Signing payload:) Tj
+(- Src/Blockchain/base56.py) Tj
+T*
+() Tj
+T*
+(Behavior:) Tj
+T*
+(- decode Base56 -> canonical HPK binding,) Tj
+T*
+(- encode HPK -> Base56 with checksum,) Tj
+T*
+(- keep display-friendly address format while internal flows stay hash-based.) Tj
+T*
+(- Transaction Hashing Roles) Tj
+T*
+(- txid: no-witness deterministic hash path.) Tj
+T*
+(- wtxid: full-transaction hash including witness.) Tj
+T*
+(- Signing digest: deterministic no-witness signing body digest.) Tj
+T*
+() Tj
+T*
+(Relevant code:) Tj
+T*
+(- Src/Utility/txdhash.py) Tj
+T*
+(- Src/Transactions/tx.py) Tj
+T*
+(- Src/Transactions/txvalidation.py) Tj
+T*
+(- Binary Integrity Pinning) Tj
+T*
+(SHA3-384 is also used for native binary integrity metadata and pin checks.) Tj
+T*
+() Tj
+T*
+(Related files:) Tj
+T*
+(- Binaries/pin_registry.json) Tj
+T*
+(- Binaries/<platform-tag>/binary_meta.json) Tj
+T*
+(- Src/Utility/binarypin.py) Tj
+T*
+(- Src/Accounts/falconcli.py) Tj
+T*
+(- Operational Notes) Tj
 T*
 ET
 endstream
@@ -130,154 +130,33 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 3578 >>
+<< /Length 266 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(- signing_message_hex_digest\(tx\) builds a deterministic string from version, lock_time, sorted) Tj
+(- Keep address normalization centralized via existing helper paths.) Tj
 T*
-(inputs/outputs, metadata, and tx_id, then sha3_384\(...\).hexdigest\(\).lower\(\).) Tj
+(- Keep user-facing Base56 stable; do not alter internal HPK digest length.) Tj
 T*
-(- Excludes witness/signature/pubkey; SegWit-style.) Tj
-T*
-(- Signing path:) Tj
-T*
-(- Src/Main/send.py builds the tx, then calls KeyManager.sign_transaction.) Tj
-T*
-(- KeyManager.sign_transaction normalizes the signing message to hex \(detects 48-byte or 96-char) Tj
-T*
-(SHA3-384 digests\), then calls FalconCLI.sign on that hex string.) Tj
-T*
-(- Signature is stored once at tx.signature \(witness\); inputs do not carry the full sig.) Tj
-T*
-(- On wire, witness signature/pubkey are canonical base64; verifier decodes them back to) Tj
-T*
-(bytes/hex before Falcon checks.) Tj
-T*
-(- Verification path:) Tj
-T*
-(- Src/Transactions/txvalidation.py::_validate_signature strips witness \(SegWit.strip_witness\),) Tj
-T*
-(recomputes signing_message_hex_digest, and calls KeyManager.verify_transaction.) Tj
-T*
-(- KeyManager.verify_transaction prefers 96-char SHA3-384 hex inputs, normalizes signature, and) Tj
-T*
-(drives FalconCLI.verify \(CLI-first, optional FFI\) with multiple argument orders.) Tj
-T*
-(- Failure rejects the transaction before fee/UTXO checks.) Tj
-T*
-(- Merkle/txid use:) Tj
-T*
-(- Src/SigWit/sigwit.py and Src/Utility/hash.py::merkle_root_from_hex use SHA3-384 for merkle) Tj
-T*
-(parents; txids are assumed to be SHA3-384 hex.) Tj
-T*
-() Tj
-T*
-(Block/state hashing \(SHA3-384\)) Tj
-T*
-(- Merkle roots inside blocks are SHA3-384 over txids.) Tj
-T*
-(- Src/Main/state.py: state tracker builds leaves sha3_384\(f\\"{height}:{block_hash}\\"\), and) Tj
-T*
-(chain_hash = sha3_384\(prev_chain_hash + block_hash\) for divergence checks.) Tj
-T*
-(- Src/Storage/blockstorage.py: uses SHA3-384 to build cumulative file hashes when appending) Tj
-T*
-(blocks.) Tj
-T*
-() Tj
-T*
-(Binary integrity \(hash pin\)) Tj
-T*
-(- Src/Accounts/falconcli.py::_verify_cli_hash enforces strict version-bound pinning on required) Tj
-T*
-(networks using:) Tj
-T*
-(- Constants.FALCONCLI_PIN_DOMAIN) Tj
-T*
-(- Constants.FALCONCLI_PIN_REQUIRED_NETWORKS) Tj
-T*
-(- Constants.FALCONCLI_PINNED_VERSION_DIGESTS) Tj
-T*
-(- Legacy raw-binary pinning via Constants.FALCONCLI_EXPECTED_HASH is a fallback path only.) Tj
-T*
-() Tj
-T*
-(Audit notes / risks) Tj
-T*
-(- HPK derivation is deterministic SHA3-384; ensure all key import paths use the same) Tj
-T*
-(normalization \(they do via key_manager.py and change_default_key.py import flow\). Mixing) Tj
-T*
-(uppercase/lowercase hex could break checksum/user display if altered before hashing; current) Tj
-T*
-(code lowercases.) Tj
-T*
-(- Base56 checksum uses SHA3-256 \(not 384\). Address integrity depends on this checksum plus) Tj
-T*
-(network prefix; no Bech32-style polymod?keep checksum verification intact.) Tj
-T*
-(- Signature acceptance allows 1024-hex signatures as well as 2048-hex \(in) Tj
-T*
-(KeyManager.verify_transaction\); tighten to 2048 if only Falcon-512 is intended.) Tj
-T*
-(- Signing temp files \(for Falcon CLI\) contain private key components; they are overwritten and) Tj
-T*
-(deleted best-effort. Use secured temp dirs or in-memory pipes if higher assurance is needed.) Tj
-T*
-(- On required networks, startup fails if Falcon pinning is required and no expected digest is) Tj
-T*
-(configured for the active consensus version.) Tj
-T*
-(- Witness exclusion: txid/signing digest intentionally exclude tx.signature; ensure downstream) Tj
-T*
-(tools don?t accidentally rehash with witness included.) Tj
-T*
-() Tj
-T*
-(Operational tips) Tj
-T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 375 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
-(- Always normalize addresses with normalize_hpk before storage/spend to avoid prefix/case drift.) Tj
-T*
-(- When exposing addresses to users, use Base56 with checksum; log/store HPK internally.) Tj
-T*
-(- In CI, add a smoke test that encodes/decodes HPK ? Base56 and round-trips) Tj
-T*
-(signing_message_hex_digest against a known vector.) Tj
+(- Keep binary pin metadata refreshed whenever binaries are rebuilt.) Tj
 T*
 ET
 endstream
 endobj
 xref
-0 10
+0 8
 0000000000 65535 f 
 0000000015 00000 n 
 0000000064 00000 n 
-0000000133 00000 n 
-0000000201 00000 n 
-0000000327 00000 n 
-0000003524 00000 n 
-0000003650 00000 n 
-0000007280 00000 n 
-0000007406 00000 n 
+0000000127 00000 n 
+0000000195 00000 n 
+0000000321 00000 n 
+0000002509 00000 n 
+0000002635 00000 n 
 trailer
-<< /Size 10 /Root 1 0 R >>
+<< /Size 8 /Root 1 0 R >>
 startxref
-7832
+2952
 %%EOF

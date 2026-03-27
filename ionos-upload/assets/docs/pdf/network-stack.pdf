@@ -1,0 +1,339 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2368 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Atho Network Stack) Tj
+T*
+() Tj
+T*
+(Date: 2026-03-27) Tj
+T*
+() Tj
+T*
+(This document explains the current stack, why each layer exists, and where the implementation) Tj
+T*
+(lives.) Tj
+T*
+() Tj
+T*
+(Design Goal) Tj
+T*
+(Atho keeps Python as the controller while moving performance-critical execution into native code) Tj
+T*
+(where practical. The result is maintainability + speed:) Tj
+T*
+(- Python owns orchestration, APIs, configuration, and UI.) Tj
+T*
+(- C/C++ binaries own heavy loops and cryptographic hot paths.) Tj
+T*
+() Tj
+T*
+(Layer 0: Binary Runtime and Hash Pinning) Tj
+T*
+(Purpose: load native components safely and consistently across OS/arch.) Tj
+T*
+() Tj
+T*
+(Key behavior:) Tj
+T*
+(- Canonical binary location: Binaries/<platform-tag>/.) Tj
+T*
+(- Every built binary is registered with SHA3-384 hash in:) Tj
+T*
+(- Binaries/pin_registry.json) Tj
+T*
+(- Binaries/<platform-tag>/binary_meta.json) Tj
+T*
+(- Strict load mode via ATHO_BINARIES_STRICT=1 prevents fallback to legacy paths.) Tj
+T*
+() Tj
+T*
+(Code paths:) Tj
+T*
+(- Src/Utility/oscompat.py) Tj
+T*
+(- Src/Utility/binarypin.py) Tj
+T*
+(- Src/Falcon/Falcon/install_platform_binary.py) Tj
+T*
+() Tj
+T*
+(Why: runtime integrity, reproducible deployments, and safer upgrades.) Tj
+T*
+() Tj
+T*
+(Layer 1: Cryptography) Tj
+T*
+(Purpose: deterministic post-quantum signing and verification with pinned binaries.) Tj
+T*
+() Tj
+T*
+(Components:) Tj
+T*
+(- falcon_cli binary for keygen/sign/verify.) Tj
+T*
+(- Optional FFI verify library \(libatho_falcon_verify\) for in-process verification acceleration.) Tj
+T*
+() Tj
+T*
+(Code paths:) Tj
+T*
+(- Src/Accounts/falconcli.py) Tj
+T*
+(- Src/Falcon/Falcon/build_falcon_verify_shared.sh) Tj
+T*
+(- Src/Utility/const.py \(pin policy and verifier settings\)) Tj
+T*
+() Tj
+T*
+(Why: keep Falcon verification fast while preserving strict binary trust policy.) Tj
+T*
+() Tj
+T*
+(Layer 2: Transaction Wire and Integer Accounting) Tj
+T*
+(Purpose: compact tx transport and exact accounting.) Tj
+T*
+() Tj
+T*
+(Current behavior:) Tj
+T*
+(- Transport codec is compact binary \(ATX2; ATX1 decode compatibility\).) Tj
+T*
+(- Inputs/outputs are encoded using varints and fixed-size digests where appropriate.) Tj
+T*
+(- Witness is encoded as raw bytes internally.) Tj
+T*
+(- API/UI display remains stable \(human-readable fields, canonical encoding\), while internal math) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2336 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(stays integer-atom based.) Tj
+T*
+(- Fee policy is enforced on canonical vsize with current floor 225 atoms/vB.) Tj
+T*
+() Tj
+T*
+(Code paths:) Tj
+T*
+(- Src/Transactions/txbinary.py) Tj
+T*
+(- Src/SigWit/sigwit.py) Tj
+T*
+(- Src/Utility/wirecodec.py) Tj
+T*
+(- Src/Utility/const.py) Tj
+T*
+() Tj
+T*
+(Why: reduce wire overhead and avoid float/decimal drift in consensus-critical math.) Tj
+T*
+() Tj
+T*
+(Capacity Snapshot \(Current Policy\)) Tj
+T*
+(With 2,500,000 vB block budget and 120s block time:) Tj
+T*
+(- 1 in / 2 out \(~566 vB\) -> ~36.8 TPS) Tj
+T*
+(- 2 in / 2 out \(~615 vB\) -> ~33.9 TPS) Tj
+T*
+(- 3 in / 2 out \(~664 vB\) -> ~31.4 TPS) Tj
+T*
+() Tj
+T*
+(This is why tx-shape distribution directly drives sustained throughput.) Tj
+T*
+() Tj
+T*
+(Layer 3: Validation and Consensus) Tj
+T*
+(Purpose: deterministic acceptance rules and consistent mempool/block behavior.) Tj
+T*
+() Tj
+T*
+(Components:) Tj
+T*
+(- Transaction verification with parallel workers.) Tj
+T*
+(- Optional C UTXO batch checker for fast LMDB existence checks.) Tj
+T*
+(- Block verification and consensus admission gates.) Tj
+T*
+(- BPoW bond/stake state machines \(bond.lmdb, stake.lmdb\) and fee-pool routing logic.) Tj
+T*
+() Tj
+T*
+(BPoW execution in this layer:) Tj
+T*
+(- validates miner proof fields in block body \(miner_pubkey, reward_address, miner_signature\),) Tj
+T*
+(- derives expected bond identity from raw pubkey + role domain,) Tj
+T*
+(- enforces bond state/confirmations/threshold at active heights,) Tj
+T*
+(- classifies slashable-invalid vs stale/orphan conditions deterministically.) Tj
+T*
+() Tj
+T*
+(Code paths:) Tj
+T*
+(- Src/Main/txveri.py) Tj
+T*
+(- Src/Transactions/txvalidation.py) Tj
+T*
+(- Src/Main/blockveri.py) Tj
+T*
+(- Src/Main/consensus.py) Tj
+T*
+(- Src/Transactions/build_utxo_batch_check.sh) Tj
+T*
+() Tj
+T*
+(Why: keep rule execution deterministic while scaling throughput under load.) Tj
+T*
+() Tj
+T*
+(Layer 4: Mining Engines) Tj
+T*
+(Purpose: support CPU and GPU mining without changing consensus outputs.) Tj
+T*
+() Tj
+T*
+(CPU path:) Tj
+T*
+(- Native PoW loop bridge \(libatho_pow_cpu\) called from Python orchestrator.) Tj
+T*
+() Tj
+T*
+(GPU path:) Tj
+T*
+(- OpenCL miner binary \(gpu_miner_opencl\) for cross-platform GPU execution.) Tj
+T*
+(- CUDA miner binary \(gpu_miner_cuda\) for NVIDIA systems where supported.) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1399 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Runtime backend auto/probe logic with explicit error reporting.) Tj
+T*
+() Tj
+T*
+(Code paths:) Tj
+T*
+(- Src/Miner/pow.py) Tj
+T*
+(- Src/Miner/build_pow_cpu_bridge.sh) Tj
+T*
+(- Src/Miner/GPU/build_gpu_miner.sh) Tj
+T*
+(- Src/Miner/GPU/gpu_interface.py) Tj
+T*
+() Tj
+T*
+(Why: maximize hash throughput while keeping one control plane and one consensus path.) Tj
+T*
+() Tj
+T*
+(Layer 5: Node APIs, GUI, and Operator Control) Tj
+T*
+(Purpose: operational usability without exposing consensus internals to accidental mutation.) Tj
+T*
+() Tj
+T*
+(Components:) Tj
+T*
+(- FastAPI auth and role-controlled endpoints.) Tj
+T*
+(- GUI controls for node lifecycle, miner mode, backend selection, and runtime tuning.) Tj
+T*
+(- Launcher and stop tooling for deterministic process management.) Tj
+T*
+() Tj
+T*
+(Code paths:) Tj
+T*
+(- Src/Api/auth.py) Tj
+T*
+(- Src/Api/apis.py) Tj
+T*
+(- Src/GUI/gui.py) Tj
+T*
+(- Src/Main/runnode.py) Tj
+T*
+(- Src/Main/stop.py) Tj
+T*
+() Tj
+T*
+(Why: keep operator workflows stable while internals evolve for speed.) Tj
+T*
+() Tj
+T*
+(Why This Stack Works) Tj
+T*
+(- Security: binary pinning + explicit env-gated native loading.) Tj
+T*
+(- Performance: native execution in PoW and validation hot paths.) Tj
+T*
+(- Correctness: consensus/accounting remain integer-atom and deterministic.) Tj
+T*
+(- Maintainability: Python still coordinates lifecycle, APIs, and UX.) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000002747 00000 n 
+0000002873 00000 n 
+0000005261 00000 n 
+0000005387 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+6838
+%%EOF

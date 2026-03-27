@@ -1,6 +1,6 @@
 # Base56 Address Encoding
 
-Status: Alpha documentation snapshot (2026-03-12).
+Last refresh: 2026-03-27.
 
 This note explains why Atho uses Base56 for addresses instead of Base58 or other alphabets.
 

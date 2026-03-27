@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2142 >>
+<< /Length 2122 >>
 stream
 BT
 /F1 10 Tf
@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Status: Alpha documentation snapshot \(2026-03-12\).) Tj
+(Last refresh: 2026-03-27.) Tj
 T*
 () Tj
 T*
@@ -49,7 +49,7 @@ T*
 T*
 (- Docs/ ? protocol and component docs) Tj
 T*
-(- docker-compose.yml ? Docker services \(fullnode/miner/etc.\)) Tj
+(- docker/docker-compose.yml ? Docker services \(fullnode/miner/etc.\)) Tj
 T*
 (- Src/Main/runnode.py ? local launcher for full/miner/wallet nodes) Tj
 T*
@@ -130,7 +130,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 2483 >>
+<< /Length 2475 >>
 stream
 BT
 /F1 10 Tf
@@ -224,7 +224,7 @@ T*
 T*
 (- Src/Storage/) Tj
 T*
-(- LMDB stores for blocks, UTXO, mempool, orphan blocks, state hashes.) Tj
+(- LMDB stores for blocks, UTXO, mempool, and orphan branches.) Tj
 T*
 (- Src/Transactions/) Tj
 T*
@@ -247,7 +247,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 1011 >>
+<< /Length 1021 >>
 stream
 BT
 /F1 10 Tf
@@ -257,9 +257,9 @@ BT
 T*
 (- Miner/* builds candidates ? validates via Blockchain/* + Transactions/*.) Tj
 T*
-(- Api/* exposes state/txs ? uses Storage/*, Transactions/*, and Accounts/* key/material) Tj
+(- Api/* exposes chain/tx/miner data ? uses Storage/*, Transactions/*, and Accounts/*) Tj
 T*
-(services.) Tj
+(key/material services.) Tj
 T*
 (- Full per?file / per?class map \(auto?generated\)) Tj
 T*
@@ -298,12 +298,12 @@ xref
 0000000133 00000 n 
 0000000201 00000 n 
 0000000327 00000 n 
-0000002521 00000 n 
-0000002647 00000 n 
-0000005182 00000 n 
-0000005308 00000 n 
+0000002501 00000 n 
+0000002627 00000 n 
+0000005154 00000 n 
+0000005280 00000 n 
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-6371
+6353
 %%EOF

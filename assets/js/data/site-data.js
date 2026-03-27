@@ -15,9 +15,9 @@ export const featureCards = [
     tag: "Hashing"
   },
   {
-    title: "Deterministic Economics",
-    body: "Supply, rewards, burn, and floor logic are explicit and auditable with clear integer-based rules.",
-    tag: "Economics"
+    title: "BPoW + Wallet Staking",
+    body: "Bonded Proof of Work secures block production while wallet staking remains a separate deterministic reward role.",
+    tag: "Consensus"
   },
   {
     title: "UTXO by Design",
@@ -55,8 +55,8 @@ export const featureCards = [
     tag: "SegWit"
   },
   {
-    title: "Predictable Fees + Burn Floor",
-    body: "Simple byte-based fees and floor-clipped burn policy link usage to supply without risking over-deflation.",
+    title: "Deterministic Fee Routing",
+    body: "Fee uplift, pool routing, burn, and miner/stake splits are consensus-accounted so reward flows can be independently audited.",
     tag: "Tokenomics"
   }
 ];
@@ -92,33 +92,33 @@ export const metricCards = [
     foot: "Fast, steady chain cadence"
   },
   {
-    label: "Throughput Ceiling",
-    value: 15,
+    label: "Peak Policy Throughput",
+    value: 40.6,
     suffix: " TPS",
-    foot: "Up to 15 transactions per second"
+    foot: "High-headroom throughput under the current policy model"
+  },
+  {
+    label: "Bootstrap Budget",
+    value: 50000,
+    suffix: " ATHO",
+    foot: "Consensus bootstrap allocation at block 1"
+  },
+  {
+    label: "Bond Requirement",
+    value: 25,
+    suffix: " ATHO",
+    foot: "Required for miner eligibility under BPoW"
+  },
+  {
+    label: "Base Emission Supply",
+    value: 30000000,
+    suffix: " ATHO",
+    foot: "Pre-tail supply path before tail emission"
   },
   {
     label: "Transaction Confirmations",
     value: 10,
     suffix: "",
     foot: "Recommended finality target"
-  },
-  {
-    label: "Pre-Tail Supply Target",
-    value: 30000000,
-    suffix: " ATHO",
-    foot: "Fixed pre-tail issuance target"
-  },
-  {
-    label: "Tail Emission",
-    value: 0.25,
-    suffix: " ATHO",
-    foot: "Per block, perpetual security budget"
-  },
-  {
-    label: "Max Block Size",
-    value: 2.5,
-    suffix: " MB",
-    foot: "2.5 MB base block size cap"
   }
 ];

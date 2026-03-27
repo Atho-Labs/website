@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 1244 >>
+<< /Length 1224 >>
 stream
 BT
 /F1 10 Tf
@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Status: Alpha release packaging workflow \(2026-03-12\).) Tj
+(Last refresh: 2026-03-27.) Tj
 T*
 () Tj
 T*
@@ -31,7 +31,7 @@ T*
 T*
 (Create a portable package you can launch directly into the GUI while preserving a timestamped) Tj
 T*
-(copy of the current project state.) Tj
+(copy of the current project runtime snapshot.) Tj
 T*
 () Tj
 T*
@@ -247,10 +247,10 @@ xref
 0000000127 00000 n 
 0000000195 00000 n 
 0000000321 00000 n 
-0000001617 00000 n 
-0000001743 00000 n 
+0000001597 00000 n 
+0000001723 00000 n 
 trailer
 << /Size 8 /Root 1 0 R >>
 startxref
-3432
+3412
 %%EOF

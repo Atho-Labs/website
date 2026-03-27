@@ -13,77 +13,35 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 1921 >>
+<< /Length 1964 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(Atho SegWit + Throughput Reference \(Updated\)) Tj
+(Atho SegWit Sizing and Throughput Reference) Tj
 T*
 () Tj
 T*
-(Status: Alpha documentation snapshot \(2026-03-12\).) Tj
+(Date: 2026-03-27) Tj
 T*
 () Tj
 T*
-(This document explains how witness data is handled, how block/tx size is measured, and how to) Tj
+(This document describes how Atho computes size/weight and how to estimate TPS.) Tj
 T*
-(estimate TPS from real chain data.) Tj
-T*
-() Tj
-T*
-(Canonical limits) Tj
+(- Active Limits) Tj
 T*
 (From Src/Utility/const.py:) Tj
 T*
-(- MAX_BLOCK_SIZE_BYTES = 2,500,000 \(base-byte ceiling\)) Tj
+(- MAX_BLOCK_SIZE_BYTES = 2,500,000) Tj
 T*
 (- MAX_BLOCK_WEIGHT = 10,000,000) Tj
 T*
-(- MAX_TRANSACTION_SIZE_BYTES = 250,000 \(applied as max tx vsize\)) Tj
+(- MAX_TRANSACTION_SIZE_BYTES = 250,000 \(policy vsize cap\)) Tj
 T*
 (- WITNESS_SCALE_FACTOR = 4) Tj
 T*
-() Tj
-T*
-(Witness model) Tj
-T*
-(- Witness fields:) Tj
-T*
-(- top-level signature, pubkey, witness) Tj
-T*
-(- per-input script_sig) Tj
-T*
-(- Base transaction:) Tj
-T*
-(- witness removed at top-level) Tj
-T*
-(- inputs[].script_sig blanked) Tj
-T*
-(- Hashing:) Tj
-T*
-(- txid = no-witness hash) Tj
-T*
-(- wtxid = full hash) Tj
-T*
-(- Block commitment:) Tj
-T*
-(- block header carries witness_commitment when witnesses are present) Tj
-T*
-() Tj
-T*
-(Wire encoding) Tj
-T*
-(- Witness signature and pubkey are canonical base64 on wire.) Tj
-T*
-(- Internal verification uses decoded hex/bytes.) Tj
-T*
-(- Legacy hex witness wire is disabled by default \(WITNESS_WIRE_ALLOW_HEX_LEGACY = False\).) Tj
-T*
-() Tj
-T*
-(Exact size formulas) Tj
+(- Metric Definitions) Tj
 T*
 (- weight = base_bytes * 3 + total_bytes) Tj
 T*
@@ -91,37 +49,79 @@ T*
 T*
 () Tj
 T*
-(vsize is the canonical policy metric for:) Tj
+(Atho fee and admission logic uses canonical vsize.) Tj
 T*
-(- tx fee floor,) Tj
+(- How Base vs Witness Is Counted) Tj
 T*
-(- tx size acceptance,) Tj
+(Base view:) Tj
 T*
-(- mempool admission,) Tj
+(- top-level witness fields removed,) Tj
 T*
-(- miner selection.) Tj
-T*
-() Tj
-T*
-(Why logs show multiple size fields) Tj
-T*
-(Transaction logs include:) Tj
-T*
-(- size_bytes \(canonical vsize used by fee policy\),) Tj
-T*
-(- size_base_bytes,) Tj
-T*
-(- weight,) Tj
-T*
-(- vsize \(same policy value as size_bytes\).) Tj
+(- input script_sig blanked for no-witness form.) Tj
 T*
 () Tj
 T*
-(So for policy/TPS planning, use vsize.) Tj
+(Total view:) Tj
+T*
+(- includes witness payload.) Tj
 T*
 () Tj
 T*
-(Consensus size vs relay payload size) Tj
+(Sizing implementation:) Tj
+T*
+(- Src/SigWit/sigwit.py::SegWit.sizes_bytes) Tj
+T*
+(- binary codec length is used when available.) Tj
+T*
+(- Throughput Formula) Tj
+T*
+(Let:) Tj
+T*
+(- Bv = 2,500,000 effective vbytes per block cap,) Tj
+T*
+(- T = 120 seconds,) Tj
+T*
+(- F = packing factor \(0.95 for conservative planning\),) Tj
+T*
+(- Savg = avg non-coinbase tx vsize.) Tj
+T*
+() Tj
+T*
+(Then:) Tj
+T*
+(- TPS ~= \(Bv * F\) / \(T * Savg\)) Tj
+T*
+(- Current Reference Sizes) Tj
+T*
+(Current representative estimates \(compressed witness, no metadata\):) Tj
+T*
+(- 1 in / 1 out: ~513 vB) Tj
+T*
+(- 1 in / 2 out: ~566 vB) Tj
+T*
+(- 2 in / 2 out: ~615 vB) Tj
+T*
+(- 3 in / 2 out: ~664 vB) Tj
+T*
+(- 4 in / 2 out: ~713 vB) Tj
+T*
+(- TPS Bands \(F=1.0 and F=0.95\)) Tj
+T*
+(Using T=120:) Tj
+T*
+(- 566 vB: 36.8 TPS ideal, 35.0 TPS at F=0.95) Tj
+T*
+(- 615 vB: 33.9 TPS ideal, 32.2 TPS at F=0.95) Tj
+T*
+(- 664 vB: 31.4 TPS ideal, 29.8 TPS at F=0.95) Tj
+T*
+(- Key Interpretation) Tj
+T*
+(There is no single static network tx size. Real capacity depends on tx mix and utilization.) Tj
+T*
+() Tj
+T*
+(For planning:) Tj
 T*
 ET
 endstream
@@ -130,89 +130,17 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 1706 >>
+<< /Length 165 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(- vsize/weight drives fee policy and block admission.) Tj
+(- measure rolling Savg from your own blocks,) Tj
 T*
-(- Separate relay optimizations \(for example lean block wire payloads that omit export-only) Tj
+(- measure real utilization,) Tj
 T*
-(fields like tx_list_full\) improve propagation latency but do not change consensus tx vsize.) Tj
-T*
-(- For TPS/capacity math, always use consensus tx vsize, not transport JSON byte counts from) Tj
-T*
-(relay wrappers.) Tj
-T*
-() Tj
-T*
-(TPS formula) Tj
-T*
-(Let:) Tj
-T*
-(- B = 2,500,000 \(effective vbytes per block ceiling from weight/base caps\)) Tj
-T*
-(- T = block interval in seconds) Tj
-T*
-(- F = packing factor \(use 0.95 for practical estimate\)) Tj
-T*
-(- S = average non-coinbase tx vsize) Tj
-T*
-() Tj
-T*
-(Then:) Tj
-T*
-(- TPS ~= \(B * F\) / \(T * S\)) Tj
-T*
-() Tj
-T*
-(Production vs dev timing) Tj
-T*
-(- Production planning target: T = 120s.) Tj
-T*
-(- Some dev runs use shorter block intervals for testing. TPS scales linearly with 1/T.) Tj
-T*
-() Tj
-T*
-(Observed tx shapes \(2026-03-07 logs\)) Tj
-T*
-(- 1 in / 2 out: vsize=1371) Tj
-T*
-(- 3 in / 2 out: vsize=1646) Tj
-T*
-(- 16 in / 2 out: vsize=3428) Tj
-T*
-(- 31 in / 2 out: vsize=5483 \(older pre-cleanup sample was 10012\)) Tj
-T*
-() Tj
-T*
-(Estimated practical TPS at T=120, F=0.95:) Tj
-T*
-(- 1371 vB -> ~14.44 TPS) Tj
-T*
-(- 1646 vB -> ~12.02 TPS) Tj
-T*
-(- 3428 vB -> ~5.77 TPS) Tj
-T*
-(- 5483 vB -> ~3.61 TPS) Tj
-T*
-() Tj
-T*
-(Verify from your own chain) Tj
-T*
-(Use your transaction log or exported blocks and compute:) Tj
-T*
-(- average non-coinbase vsize,) Tj
-T*
-(- observed average block interval,) Tj
-T*
-(- observed TPS over a recent window.) Tj
-T*
-() Tj
-T*
-(Always publish all three together \(size, interval, TPS\) to avoid misleading comparisons.) Tj
+(- recompute TPS from these formulas.) Tj
 T*
 ET
 endstream
@@ -225,10 +153,10 @@ xref
 0000000127 00000 n 
 0000000195 00000 n 
 0000000321 00000 n 
-0000002294 00000 n 
-0000002420 00000 n 
+0000002337 00000 n 
+0000002463 00000 n 
 trailer
 << /Size 8 /Root 1 0 R >>
 startxref
-4178
+2679
 %%EOF

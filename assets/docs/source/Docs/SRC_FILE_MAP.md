@@ -1,16 +1,11 @@
 # Src File Map (Generated)
 
-Status: Alpha documentation snapshot (2026-03-12).
+Last refresh: 2026-03-27.
 
 This document is generated from `Src/` using AST parsing. It lists each module, its docstring (if any), classes, methods, and top-level functions with signatures and docstrings.
 If behavior changed recently, regenerate this map from current code; this file is a snapshot and can lag behind active consensus/policy details.
-Last refresh: 2026-03-12.
 
 ## `Src/Accounts/__init__.py`
-
-*(No classes, functions, or module docstring found.)*
-
-## `Src/Accounts/backup.py`
 
 *(No classes, functions, or module docstring found.)*
 
@@ -48,10 +43,6 @@ Atho Wallet — Encrypting Keys at Rest (AES-256)
 - `encrypt_file(plain_path, enc_path, password)` — (no docstring)
 - `decrypt_file(enc_path, out_path, password)` — (no docstring)
 - `menu()` — (no docstring)
-
-## `Src/Accounts/encrypt.py`
-
-*(No classes, functions, or module docstring found.)*
 
 ## `Src/Accounts/falconcli.py`
 
@@ -170,10 +161,6 @@ Offers an option to generate QR codes for each key.
   - `verify_and_update_hashed_public_key(self, network, identifier)` — Verify and update the stored hashed public key by recomputing it from the raw public key.
   - `get_identifier_by_hashed_pubkey(self, hashed_pubkey, network)` — Find the key identifier for a given hashed public key (address) in the specified network.
   - `generate_qr_code(self, private_key, public_key, hashed_public_key, identifier)` — Generates QR codes for:
-
-## `Src/Accounts/keysqr.py`
-
-*(No classes, functions, or module docstring found.)*
 
 ## `Src/Accounts/wordlistm.py`
 

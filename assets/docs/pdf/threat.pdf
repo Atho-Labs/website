@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 3693 >>
+<< /Length 3811 >>
 stream
 BT
 /F1 10 Tf
@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Status: Alpha documentation snapshot \(2026-03-15\).) Tj
+(Last refresh: 2026-03-27.) Tj
 T*
 () Tj
 T*
@@ -37,7 +37,9 @@ T*
 T*
 (Overview: high-risk areas) Tj
 T*
-(- Private keys stored unencrypted on disk.) Tj
+(- Key files can still be left unencrypted in legacy/plain mode; lockbox encryption should be) Tj
+T*
+(enabled for production wallets.) Tj
 T*
 (- Falcon CLI integrity depends on maintaining the pinned digest map per release;) Tj
 T*
@@ -49,7 +51,9 @@ T*
 T*
 (- API auth relies on key+user+pass; HMAC optional; no TLS termination described.) Tj
 T*
-(- Signature verification accepts 1024-hex sigs in addition to Falcon-512 \(2048-hex\).) Tj
+(- Signature policy currently allows legacy 1024-byte pubkey compatibility in some paths; keep) Tj
+T*
+(rollout policy explicit and minimize compatibility windows.) Tj
 T*
 (- Verbose logging leaks metadata \(key lengths/previews, tx details\).) Tj
 T*
@@ -67,11 +71,11 @@ T*
 T*
 (Cryptography and key management) Tj
 T*
-(- **Key storage**: Keys/KeyManager_Public_Private_Keys.json stored in plaintext \(no) Tj
+(- **Key storage**: Keys/KeyManager_Public_Private_Keys.json supports encrypted lockbox mode, but) Tj
 T*
-(encryption/at-rest protection\). Impact: disk compromise ? key theft. Mitigation: encrypt key) Tj
+(legacy/plain mode is still possible. Impact if plaintext mode is used: disk compromise ? key) Tj
 T*
-(store \(passphrase + PBKDF + AES-GCM\), permissions \(0600\), or hardware-backed keys.) Tj
+(theft. Mitigation: enforce lockbox encryption, 0600 permissions, and hardened backup handling.) Tj
 T*
 (- **Key generation/import**: Src/Accounts/key_manager.py, wimport.py accept CLI-format) Tj
 T*
@@ -87,11 +91,13 @@ T*
 T*
 (lifetime in RAM, consider hardware signing.) Tj
 T*
-(- **Signature verification**: KeyManager.verify_transaction accepts 1024- or 2048-hex sigs.) Tj
+(- **Signature verification**: transaction validation enforces signature byte bounds and pubkey) Tj
 T*
-(Impact: ambiguity or acceptance of non-Falcon-512 artifacts. Mitigation: enforce 2048-hex length) Tj
+(length policy from Constants \(compressed-signature range with canonical/legacy pubkey rules\).) Tj
 T*
-(for Falcon-512.) Tj
+(Impact: overly broad compatibility windows can increase ambiguity. Mitigation: tighten) Tj
+T*
+(compatibility flags as rollout completes.) Tj
 T*
 (- **Hashing**: SHA3-384 for txid/signing/HPK and SHA3-256 for address checksum. Consistent; risk) Tj
 T*
@@ -117,12 +123,6 @@ T*
 T*
 (- **FFI fallback**: loads FALCON_VERIFY_SO if present. Impact: loading untrusted shared object) Tj
 T*
-(can run arbitrary code. Mitigation: restrict/disable unless explicitly configured and pinned.) Tj
-T*
-() Tj
-T*
-(Runtime integrity controls \(implemented\)) Tj
-T*
 ET
 endstream
 endobj
@@ -130,12 +130,18 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 3690 >>
+<< /Length 3606 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(can run arbitrary code. Mitigation: restrict/disable unless explicitly configured and pinned.) Tj
+T*
+() Tj
+T*
+(Runtime integrity controls \(implemented\)) Tj
+T*
 (- **Runtime guard**: Src/Utility/versioning.py snapshots critical constants and critical file) Tj
 T*
 (hashes at startup and checks drift periodically.) Tj
@@ -216,9 +222,9 @@ T*
 T*
 (model \(too low ? censorship risk; too high ? reduced safety\).) Tj
 T*
-(- **Signature policy**: Accepting 1024-hex sigs is a loosened rule; tighten to 2048-hex to) Tj
+(- **Signature policy**: legacy pubkey compatibility should be phased out when network migration) Tj
 T*
-(reduce ambiguity.) Tj
+(allows; keep canonical compressed-signature ranges enforced.) Tj
 T*
 (- **Witness policy**: Pruning controlled by WITNESS_*; ensure pruning doesn?t break validation) Tj
 T*
@@ -234,12 +240,6 @@ T*
 T*
 (lmdb_memory_status, size ceilings appropriately, and prune/archive before a store hits its cap.) Tj
 T*
-(- **Permissions**: LMDB files under blockchain_storage/... require writable perms; lack of) Tj
-T*
-(checking could cause silent failures. Mitigation: startup checks for writability.) Tj
-T*
-(- **Backups**: No built-in consistent snapshot; copying live env during writes risks corruption.) Tj
-T*
 ET
 endstream
 endobj
@@ -247,12 +247,18 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 3353 >>
+<< /Length 3482 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(- **Permissions**: LMDB files under blockchain_storage/... require writable perms; lack of) Tj
+T*
+(checking could cause silent failures. Mitigation: startup checks for writability.) Tj
+T*
+(- **Backups**: No built-in consistent snapshot; copying live env during writes risks corruption.) Tj
+T*
 (Mitigation: document stopping writers or use LMDB copy\(\); periodic backups.) Tj
 T*
 (- **State logs**: BlockStore writes cumulative header hash log; not a hard guarantee?tampering) Tj
@@ -351,12 +357,6 @@ T*
 T*
 (defaults\) in CI.) Tj
 T*
-(- No automated map-size smoke tests to catch LMDB misconfig.) Tj
-T*
-(- No fuzzing of address decode, tx normalization, or orphan handling observed.) Tj
-T*
-() Tj
-T*
 ET
 endstream
 endobj
@@ -364,12 +364,18 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
 endobj
 11 0 obj
-<< /Length 3798 >>
+<< /Length 3709 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(- No automated map-size smoke tests to catch LMDB misconfig.) Tj
+T*
+(- No fuzzing of address decode, tx normalization, or orphan handling observed.) Tj
+T*
+() Tj
+T*
 (Recommendations \(prioritized\)) Tj
 T*
 (- **Run live nodes in enforce mode with signed manifests**: set runtime guard to enforce,) Tj
@@ -390,7 +396,9 @@ T*
 T*
 (signing; consider hardware/MPC options.) Tj
 T*
-(- **Tighten signature policy**: Enforce 2048-hex Falcon-512 signatures only; reject 1024-hex.) Tj
+(- **Tighten compatibility policy**: disable legacy Falcon pubkey acceptance once migration is) Tj
+T*
+(complete; keep compressed-signature bounds strict.) Tj
 T*
 (- **Default to HMAC + TLS**: Require ATHO_API_HMAC=true and document TLS/proxy as baseline;) Tj
 T*
@@ -466,6 +474,19 @@ T*
 T*
 (Add rotation commands and expiry; consider scoping \(send/mine/admin\).) Tj
 T*
+ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 3577 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- **Secrets in env**: ATHO_API_KEY/USER/PASS may leak in shell history/process list. Encourage) Tj
 T*
 (env files with restricted perms and avoid echoing.) Tj
@@ -474,19 +495,6 @@ T*
 T*
 (tamper-evident logs or remote shipping.) Tj
 T*
-ET
-endstream
-endobj
-12 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
-endobj
-13 0 obj
-<< /Length 3460 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 () Tj
 T*
 (Time/difficulty correctness) Tj
@@ -583,6 +591,19 @@ T*
 T*
 (rotation/compression and monitoring.) Tj
 T*
+ET
+endstream
+endobj
+14 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 15 0 R >>
+endobj
+15 0 obj
+<< /Length 848 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- **Sensitive fields**: Some logs may capture auth failures or API keys if exceptions include) Tj
 T*
 (headers. Audit log formatting to redact secrets.) Tj
@@ -591,19 +612,6 @@ T*
 T*
 (Operational hygiene) Tj
 T*
-ET
-endstream
-endobj
-14 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 15 0 R >>
-endobj
-15 0 obj
-<< /Length 652 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- **Process privileges**: Runs as invoking user; no sandbox/chroot. For production, run under) Tj
 T*
 (dedicated unprivileged user, consider seccomp/AppArmor if feasible.) Tj
@@ -629,18 +637,18 @@ xref
 0000000154 00000 n 
 0000000222 00000 n 
 0000000348 00000 n 
-0000004093 00000 n 
-0000004219 00000 n 
-0000007961 00000 n 
-0000008087 00000 n 
-0000011492 00000 n 
-0000011620 00000 n 
-0000015471 00000 n 
-0000015599 00000 n 
-0000019112 00000 n 
-0000019240 00000 n 
+0000004211 00000 n 
+0000004337 00000 n 
+0000007995 00000 n 
+0000008121 00000 n 
+0000011655 00000 n 
+0000011783 00000 n 
+0000015545 00000 n 
+0000015673 00000 n 
+0000019303 00000 n 
+0000019431 00000 n 
 trailer
 << /Size 16 /Root 1 0 R >>
 startxref
-19944
+20331
 %%EOF

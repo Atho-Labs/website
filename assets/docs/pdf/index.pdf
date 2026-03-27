@@ -1,0 +1,123 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 1 /Kids [4 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 1324 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Atho Documentation Index) Tj
+T*
+() Tj
+T*
+(Date: 2026-03-27) Tj
+T*
+() Tj
+T*
+(This is the canonical documentation map for current development builds.) Tj
+T*
+() Tj
+T*
+(Start Here) Tj
+T*
+(- quickstart.md - install, build native binaries, run node and GUI.) Tj
+T*
+(- Binaries.md - binary layout, hash pinning, and strict runtime mode.) Tj
+T*
+(- Troubleshooting.md - common runtime/build failures and fixes.) Tj
+T*
+() Tj
+T*
+(Core Protocol) Tj
+T*
+(- WhitePaper.md) Tj
+T*
+(- Consensus.md) Tj
+T*
+(- Tx.md) Tj
+T*
+(- Sigwit.md) Tj
+T*
+(- Sha3-384.md) Tj
+T*
+(- Falcon512.md) Tj
+T*
+(- Emissions.md) Tj
+T*
+(- Inflation_Deflationary.md) Tj
+T*
+(- Emissions Modeling/Entire_Overview.md) Tj
+T*
+() Tj
+T*
+(For BPoW, miner bonding, and wallet staking:) Tj
+T*
+(- start with WhitePaper.md section 5,) Tj
+T*
+(- then read Consensus.md sections 2, 2.1, 2.2, and 6.1,) Tj
+T*
+(- then Tx.md section 9.1 for role-aware lockup transaction behavior.) Tj
+T*
+() Tj
+T*
+(Runtime and Operations) Tj
+T*
+(- Network_Stack.md) Tj
+T*
+(- ApiAuth.md) Tj
+T*
+(- LMDB.md) Tj
+T*
+(- KeyManager.md) Tj
+T*
+(- Base56.md) Tj
+T*
+(- GPU_Miner.md) Tj
+T*
+(- Docker.md) Tj
+T*
+(- dockertest.md) Tj
+T*
+(- Packaging.md) Tj
+T*
+(- Node_Stop.md) Tj
+T*
+() Tj
+T*
+(Developer References) Tj
+T*
+(- ONBOARDING.md) Tj
+T*
+(- SRC_FILE_MAP.md) Tj
+T*
+(- gui.md) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000189 00000 n 
+0000000315 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1691
+%%EOF

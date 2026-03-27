@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2392 >>
+<< /Length 2453 >>
 stream
 BT
 /F1 10 Tf
@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Status: Alpha documentation snapshot \(2026-03-12\).) Tj
+(Last refresh: 2026-03-27.) Tj
 T*
 () Tj
 T*
@@ -45,17 +45,17 @@ T*
 T*
 (What?s in the repo) Tj
 T*
-(- Dockerfile: builds a Python 3.11 image, installs deps, builds falcon_cli, and runs) Tj
+(- docker/Dockerfile: builds a Python 3.11 image, installs deps, builds falcon_cli, and runs) Tj
 T*
 (Src/Node/fullnode.py by default.) Tj
 T*
-(- docker-entrypoint.sh: simple entrypoint wrapper.) Tj
+(- docker/docker-entrypoint.sh: simple entrypoint wrapper.) Tj
 T*
-(- docker-compose.yml: services fullnode, miner, miner2, optional fullnode2, and cli. P2P is) Tj
+(- docker/docker-compose.yml: services fullnode, miner, miner2, optional fullnode2, and cli. P2P) Tj
 T*
-(fixed to 56000 in-container; host ports are distinct \(56000/56001/56002/56003\). Miner APIs use) Tj
+(is fixed to 56000 in-container; host ports are distinct \(56000/56001/56002/56003\). Miner APIs) Tj
 T*
-(randomized host ports \(still 10200/10250 in-container\) to avoid conflicts.) Tj
+(use randomized host ports \(still 10200/10250 in-container\) to avoid conflicts.) Tj
 T*
 (- Bootstrap defaults: fullnode sets ATHO_BOOTSTRAP="" \(no external seed\); miners bootstrap to) Tj
 T*
@@ -89,7 +89,7 @@ T*
 T*
 () Tj
 T*
-(Stop: docker compose down) Tj
+(Stop: docker compose -f docker/docker-compose.yml -f docker/docker-compose.override.yml down) Tj
 T*
 () Tj
 T*
@@ -130,7 +130,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 2851 >>
+<< /Length 2822 >>
 stream
 BT
 /F1 10 Tf
@@ -154,9 +154,11 @@ T*
 T*
 () Tj
 T*
-(Now run docker compose up --build and both nodes run on internal ports \(56000/10100/10300\). CLI) Tj
+(Now run docker compose -f docker/docker-compose.yml -f docker/docker-compose.override.yml up) Tj
 T*
-(can target either by setting ATHO_API_URL to http://fullnode:10100 or http://fullnode2:10300.) Tj
+(--build and both nodes run on internal ports \(56000/10100/10300\). CLI can target either by) Tj
+T*
+(setting ATHO_API_URL to http://fullnode:10100 or http://fullnode2:10300.) Tj
 T*
 () Tj
 T*
@@ -238,8 +240,6 @@ T*
 T*
 (Platform notes) Tj
 T*
-(- macOS/Windows: use Docker Desktop; commands are the same. Host volume paths may differ \(%cd%) Tj
-T*
 ET
 endstream
 endobj
@@ -247,12 +247,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 1248 >>
+<< /Length 1615 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(- macOS/Windows: use Docker Desktop; commands are the same. Host volume paths may differ \(%cd%) Tj
+T*
 (or absolute paths\).) Tj
 T*
 (- ARM hosts: AVX2 is opt-in \(FALCON_USE_AVX2=true\). Keep the default \(false\) on ARM/older CPUs,) Tj
@@ -283,6 +285,12 @@ T*
 T*
 (it can reach a bootstrap peer \(defaults to fullnode:56000 in compose\).) Tj
 T*
+(- Miner not starting: ensure you?re running the miner service \(docker compose -f) Tj
+T*
+(docker/docker-compose.yml -f docker/docker-compose.override.yml up miner\) and that it can reach) Tj
+T*
+(a bootstrap peer \(defaults to fullnode:56000 in compose\).) Tj
+T*
 (- Hashrate telemetry check: query /network/hashrate/live on your API port to verify local and) Tj
 T*
 (peer reports are being aggregated.) Tj
@@ -298,12 +306,12 @@ xref
 0000000133 00000 n 
 0000000201 00000 n 
 0000000327 00000 n 
-0000002771 00000 n 
-0000002897 00000 n 
-0000005800 00000 n 
-0000005926 00000 n 
+0000002832 00000 n 
+0000002958 00000 n 
+0000005832 00000 n 
+0000005958 00000 n 
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-7226
+7625
 %%EOF

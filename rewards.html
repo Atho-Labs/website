@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Atho rewards: BPoW bonding, wallet staking, deterministic pool routing, and network pool addresses.">
+  <title>Atho Rewards</title>
+  <link rel="icon" type="image/png" href="./assets/media/round-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/variables.css">
+  <link rel="stylesheet" href="./assets/css/base.css">
+  <link rel="stylesheet" href="./assets/css/layout.css">
+  <link rel="stylesheet" href="./assets/css/components.css">
+  <link rel="stylesheet" href="./assets/css/motion.css">
+  <link rel="stylesheet" href="./assets/css/responsive.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-shell">
+      <a class="brand" href="./index.html#overview" aria-label="Atho home">
+        <img class="brand-mark" src="./assets/media/round-logo.png" alt="Atho logo">
+        <span>
+          <span class="brand-title">Atho</span>
+          <span class="brand-sub">The Platinum Standard Of The Quantum Age</span>
+        </span>
+      </a>
+
+      <div class="header-right">
+        <nav id="main-nav" class="nav-links" data-nav-links>
+          <a class="nav-link" href="./index.html">Home</a>
+          <a class="nav-link" href="./join.html">Join</a>
+          <a class="nav-link" href="./rewards.html">Rewards</a>
+          <a class="nav-link" href="./docs.html">Docs</a>
+          <a class="nav-link" href="./changelog.html">Changelog</a>
+          <a class="nav-link" href="#bpow">BPoW</a>
+          <a class="nav-link" href="#bonding-staking">Bonding</a>
+          <a class="nav-link" href="#pool-addresses">Pool Addresses</a>
+          <a class="nav-link" href="#reward-schedule">Schedule</a>
+          <a class="nav-link" href="#reward-flow">Reward Flow</a>
+        </nav>
+
+        <div class="social-links" aria-label="Social media">
+          <a class="social-link" href="https://github.com/Atho-Labs" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.1.68-.21.68-.48v-1.7c-2.78.6-3.37-1.18-3.37-1.18-.45-1.14-1.11-1.45-1.11-1.45-.9-.62.07-.61.07-.61 1 .08 1.53 1.03 1.53 1.03.89 1.52 2.33 1.08 2.9.83.09-.64.35-1.08.64-1.33-2.22-.25-4.56-1.11-4.56-4.95 0-1.1.39-2 1.03-2.71-.11-.26-.45-1.29.1-2.69 0 0 .84-.27 2.75 1.03a9.46 9.46 0 0 1 5 0c1.9-1.3 2.74-1.03 2.74-1.03.56 1.4.22 2.43.11 2.69.64.71 1.03 1.61 1.03 2.71 0 3.85-2.34 4.69-4.57 4.94.36.31.68.91.68 1.84v2.73c0 .27.18.59.69.48A10 10 0 0 0 12 2Z"/></svg>
+          </a>
+          <a class="social-link" href="https://x.com/Atho_io" target="_blank" rel="noopener noreferrer" aria-label="X" title="X">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.24 3h2.94l-6.43 7.35L22 21h-5.64l-4.42-5.78L6.88 21H3.94l6.88-7.86L2 3h5.78l4 5.28L18.24 3Zm-.99 16.3h1.56L6.93 4.62H5.26L17.25 19.3Z"/></svg>
+          </a>
+          <a class="social-link" href="https://www.reddit.com/r/Atho/" target="_blank" rel="noopener noreferrer" aria-label="Reddit" title="Reddit">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a2.5 2.5 0 0 0-4.6-1.4 11.1 11.1 0 0 0-2.8-.8l.6-2.8 2 .4a1.8 1.8 0 1 0 .2-1.2l-2.4-.5a.7.7 0 0 0-.8.5l-.7 3.3a11.8 11.8 0 0 0-3 .9A2.5 2.5 0 1 0 4 11.5c0 .4.1.8.3 1.1a4.9 4.9 0 0 0-.1.9c0 2.9 3.5 5.2 7.8 5.2s7.8-2.3 7.8-5.2c0-.3 0-.6-.1-.9.2-.3.3-.7.3-1.1Zm-11 2.9a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2Zm6 0a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2Zm-5 2.6a.7.7 0 0 1 1-.1 2 2 0 0 0 2.2 0 .7.7 0 0 1 .9 1 3.4 3.4 0 0 1-4 0 .7.7 0 0 1-.1-1Z"/></svg>
+          </a>
+          <a class="social-link" href="https://www.instagram.com/atho.io" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm11 1.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>
+          </a>
+          <a class="social-link" href="https://discord.gg/W5fV4aGcUR" target="_blank" rel="noopener noreferrer" aria-label="Discord" title="Discord">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.54 5.23A16.4 16.4 0 0 0 15.35 4l-.2.41a15.3 15.3 0 0 1 3.72 1.14 11.7 11.7 0 0 0-3.35-1.03 11.1 11.1 0 0 0-.5 1.02 14.4 14.4 0 0 0-6.04 0 10.7 10.7 0 0 0-.5-1.02 11.3 11.3 0 0 0-3.36 1.03 15.1 15.1 0 0 1 3.72-1.14L8.66 4a16.3 16.3 0 0 0-4.2 1.23C1.9 9.08 1.2 12.82 1.55 16.5a16.5 16.5 0 0 0 5.15 2.62l1.12-1.5c-.62-.22-1.21-.5-1.77-.83.15.11.31.22.47.32 1.52.9 3.27 1.37 5.48 1.37s3.96-.47 5.48-1.37c.16-.1.32-.2.47-.32-.56.33-1.15.61-1.77.83l1.12 1.5a16.4 16.4 0 0 0 5.15-2.62c.42-4.27-.72-7.97-2.91-11.27ZM8.86 14.23c-.96 0-1.74-.88-1.74-1.95s.77-1.95 1.74-1.95c.98 0 1.75.88 1.74 1.95 0 1.07-.77 1.95-1.74 1.95Zm6.28 0c-.96 0-1.74-.88-1.74-1.95s.77-1.95 1.74-1.95c.98 0 1.75.88 1.74 1.95 0 1.07-.77 1.95-1.74 1.95Z"/></svg>
+          </a>
+          <a class="social-link" href="https://t.me/atho_labs" target="_blank" rel="noopener noreferrer" aria-label="Telegram" title="Telegram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.8 4.2a1.3 1.3 0 0 0-1.4-.2L3 10.8a1.2 1.2 0 0 0 .1 2.3l4.4 1.4 1.7 5.2a1.2 1.2 0 0 0 2 .5l2.4-2.5 4.5 3.3a1.2 1.2 0 0 0 1.9-.7L22 5.4a1.3 1.3 0 0 0-.2-1.2ZM9.2 14.8l-.8-2.3 8.5-5.3-7.7 7.6Z"/></svg>
+          </a>
+          <a class="social-link" href="./contact.html" aria-label="Email" title="Email">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h13A2.5 2.5 0 0 1 21 6.5v11a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5v-11Zm2 .46V17.5c0 .28.22.5.5.5h13a.5.5 0 0 0 .5-.5V6.96l-6.4 5.04a1 1 0 0 1-1.24 0L5 6.96Zm12.33-.96H6.67L12 10.2 17.33 6Z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <button class="menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="main-nav" aria-label="Toggle menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="wrap hero-grid">
+        <div class="hero-copy" data-reveal>
+          <div class="eyebrow-row">
+            <span class="section-eyebrow section-eyebrow-hot">Rewards Engine</span>
+            <span class="section-eyebrow">Bonded Proof of Work</span>
+          </div>
+          <h1>Deterministic rewards for miners, bonders, and stakers.</h1>
+          <p>
+            Atho uses BPoW to require miner bonds for block production, while wallet staking stays a separate participation lane. The model is anchored by a 50,000 ATHO bootstrap budget and a 30,000,000 ATHO base emission supply path before tail emission.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-inline" href="#pool-addresses">Pool Addresses</a>
+            <a class="btn btn-primary btn-inline" href="#reward-schedule">Reward Schedule</a>
+            <a class="btn btn-primary btn-inline" href="#reward-flow">Reward Flow</a>
+            <a class="btn btn-primary btn-inline" href="./join.html">Join The Network</a>
+          </div>
+        </div>
+
+        <div class="hero-panel" data-reveal>
+          <div class="card card-pad">
+            <h2 class="panel-title">Current Reward Constants</h2>
+            <ul class="key-list">
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>BPoW enforcement height</strong>
+                  <span><code>100</code> on mainnet, testnet, and regnet.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Miner bond requirement</strong>
+                  <span><code>25 ATHO</code> with <code>25</code> confirmations for activation.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Bootstrap budget</strong>
+                  <span><code>50,000 ATHO</code> consensus bootstrap allocation at block <code>1</code>.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Base emission supply</strong>
+                  <span><code>30,000,000 ATHO</code> pre-tail supply path before perpetual tail emission.</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="bpow" class="section">
+      <div class="wrap split-grid">
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">How BPoW Works</h3>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Mining eligibility is bond-gated</strong>
+                <span>After activation height, blocks require valid PoW and an active bond state for the miner key.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Wallet staking is separate</strong>
+                <span>Staking does not grant block production rights. It is an economic participation role with its own deterministic state path.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Consensus state machines</strong>
+                <span>Both bond and stake flows use enforced states: <code>pending</code> -> <code>active</code> -> <code>exiting</code> -> <code>unlockable</code> -> <code>withdrawn</code>.</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Role Address Model</h3>
+          <p class="panel-copy">
+            Addresses are domain-separated by role from the same Falcon pubkey, so regular, bond, and stake destinations cannot be confused by prefix alone.
+          </p>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Mainnet role prefixes</strong>
+                <span><code>A</code> regular, <code>B</code> bond, <code>S</code> stake.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Testnet/Regnet role prefixes</strong>
+                <span><code>T</code> regular, <code>D</code> bond, <code>E</code> stake.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Slash penalty</strong>
+                <span><code>2.5 ATHO</code> for slashable invalid mined blocks under BPoW rules.</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="bonding-staking" class="section">
+      <div class="wrap split-grid">
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Bonding Deep Dive</h3>
+          <p class="panel-copy">
+            Bonding is the miner security gate in BPoW. Mining rights are only active when bond state is valid under consensus checks.
+          </p>
+          <ol class="join-step-list">
+            <li>Derive your deterministic bond role address from your Falcon public key.</li>
+            <li>Deposit at least <code>25 ATHO</code> to that bond address.</li>
+            <li>Wait <code>25</code> confirmations to transition from <code>pending</code> to <code>active</code>.</li>
+            <li>Mine with valid PoW + active bond after enforcement height <code>100</code>.</li>
+            <li>If slashed by <code>2.5 ATHO</code>, top up and reconfirm to restore eligibility.</li>
+            <li>When exiting, unbond delay is <code>10,080</code> blocks before unlock.</li>
+          </ol>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Slashable condition</strong>
+                <span>PoW-valid block that fails deterministic consensus validity checks.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Not slashable</strong>
+                <span>Honest stale/orphan races and valid reorged-out blocks are not slash conditions.</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Staking Deep Dive</h3>
+          <p class="panel-copy">
+            Staking is a dedicated economic participation lane. It does not produce blocks, but it participates in deterministic pool settlement.
+          </p>
+          <ol class="join-step-list">
+            <li>Derive your deterministic stake role address from the same Falcon key.</li>
+            <li>Deposit to the stake address to enter <code>pending</code>.</li>
+            <li>After activation, stake is tracked in the same deterministic lifecycle model.</li>
+            <li>Rewards are accounted via the stake pool bucket during epoch settlement.</li>
+            <li>Exit moves to <code>exiting</code>, then unlockability after required delay.</li>
+          </ol>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Stake pool allocation</strong>
+                <span><code>10%</code> of total block fees route to the wallet-stake pool bucket.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Settlement cadence</strong>
+                <span>Accounting windows use <code>720</code>-block epochs plus a <code>720</code>-block finalization buffer.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Role separation</strong>
+                <span>Stake balance alone never grants mining rights; active miner bond is still required.</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="pool-addresses" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Consensus Pool Addresses</span>
+        <h2 class="section-title">Deterministic network pool sinks</h2>
+        <p class="section-copy">
+          These addresses are derived by consensus from network-specific domains and are not regular user wallets. They track protocol fee-pool accounting for rewards settlement.
+        </p>
+
+        <div class="feature-grid">
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Mainnet Protocol Pool</h3>
+            <pre class="join-code"><code>P6C5KUr8cdwJqASn7Fb9N2wPvFJXrG2RbYBVFBDmdY4d7dbTS65aH2GguEtFdZ48jPUE</code></pre>
+            <span class="feature-tag">Mainnet</span>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Testnet Protocol Pool</h3>
+            <pre class="join-code"><code>LAdyCWxVYEkGFWr5Mdkr4gWYfStvtx7DQkVbqh3dff8avwre2yT69JVjYNBVhtEQ3WGQ</code></pre>
+            <span class="feature-tag">Testnet</span>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Regnet Protocol Pool</h3>
+            <pre class="join-code"><code>LC9Z3kx9zw6NUa7sBUVZ5Zb9G9wvTMpXHd96pxKAYzkxgvVDmuXNU6RHw2hJeRcWBnBG</code></pre>
+            <span class="feature-tag">Regnet</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="reward-schedule" class="section">
+      <div class="wrap split-grid">
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Reward Schedule (Code-Defined)</h3>
+          <p class="panel-copy">
+            Block subsidy is hardcoded by height in <code>Constants.get_block_subsidy_atoms(height)</code> with a fixed <code>120s</code> target block time.
+          </p>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Era 1</strong>
+                <span>Blocks <code>0-1,313,999</code>: <code>10 ATHO</code> per block.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Era 2</strong>
+                <span>Blocks <code>1,314,000-2,627,999</code>: <code>5 ATHO</code> per block.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Era 3</strong>
+                <span>Blocks <code>2,628,000-3,941,999</code>: <code>2.5 ATHO</code> per block.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Era 4</strong>
+                <span>Blocks <code>3,942,000-5,255,999</code>: <code>1.25 ATHO</code> per block.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Era 5</strong>
+                <span>Blocks <code>5,256,000-6,569,999</code>: <code>0.625 ATHO</code> per block.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Transition + Tail</strong>
+                <span>Blocks <code>6,570,000-21,101,999</code>: <code>0.3125 ATHO</code>, then block <code>21,102,000+</code>: <code>0.25 ATHO</code> tail reward.</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">How Rewards Are Released</h3>
+          <ol class="join-step-list">
+            <li>For each block, consensus computes subsidy by height and adds miner fee share to build coinbase payout.</li>
+            <li>At height <code>1</code>, bootstrap allocation (<code>50,000 ATHO</code>) and fee-pool routing activate under policy constants.</li>
+            <li><code>20%</code> of block fees route to the protocol pool. The remaining route follows burn/miner rules for that height.</li>
+            <li>At tail start (<code>21,102,000</code>), routed non-pool fees are burn-targeted and clipped by the <code>21,000,000 ATHO</code> supply floor.</li>
+            <li>Coinbase outputs unlock after <code>150</code> confirmations, so mined rewards are released with deterministic maturity delay.</li>
+          </ol>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Base supply target</strong>
+                <span>Pre-tail schedule is fixed to <code>30,000,000 ATHO</code> before perpetual tail emission.</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="reward-flow" class="section">
+      <div class="wrap split-grid">
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Per-Block Reward Routing</h3>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Fee uplift</strong>
+                <span>Policy applies a <code>+25%</code> uplift over base fee constants.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Pool route</strong>
+                <span><code>20%</code> of total fees route to the consensus pool (<code>10%</code> miner bucket, <code>10%</code> stake bucket).</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Miner bucket split</strong>
+                <span><code>7%</code> winner-proportional plus <code>3%</code> bonded-idle distribution.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Supply context</strong>
+                <span>Routing and settlement run on top of the <code>50,000 ATHO</code> bootstrap and <code>30,000,000 ATHO</code> base emission schedule.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Epoch settlement</strong>
+                <span>Reward accounting settles on deterministic <code>720</code>-block epochs with <code>720</code>-block finalization buffer.</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Bonding and Staking Lifecycle</h3>
+          <ol class="join-step-list">
+            <li>Derive role addresses from your Falcon key (regular, bond, stake).</li>
+            <li>Deposit to bond address and wait <code>25</code> confirmations to become active.</li>
+            <li>For staking, deposit to stake role address and enter active accrual once confirmed.</li>
+            <li>Request exit to move into <code>exiting</code>, then wait unlock delay for withdrawal eligibility.</li>
+          </ol>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-inline" href="./join.html">Join Setup</a>
+            <a class="btn btn-primary btn-inline" href="./docs.html">Open Docs</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap cta-shell" data-reveal>
+        <article class="cta-box">
+          <h2 class="cta-title">Reward policy is only useful if everyone can verify it.</h2>
+          <p class="cta-copy">
+            Atho exposes bootstrap, base emission supply, bonding, staking, and pool routing semantics through deterministic rules and docs so operators can validate behavior from chain data and runtime logs.
+          </p>
+          <div class="badge-row">
+            <span class="badge">BPoW enforcement at height 100</span>
+            <span class="badge">25 ATHO miner bond requirement</span>
+            <span class="badge">50,000 ATHO bootstrap budget</span>
+            <span class="badge">30,000,000 ATHO base emission path</span>
+            <span class="badge">20% deterministic fee pool route</span>
+            <span class="badge">7% + 3% miner bucket split</span>
+            <span class="badge">10% wallet-stake pool bucket</span>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <span>Atho Labs</span>
+      <span class="footer-contact">
+        To report bugs, security issues, or general inquiries:
+        <a href="./contact.html">Contact</a>
+        or
+        <a href="mailto:labs@atho.io">labs@atho.io</a>
+      </span>
+      <span>&copy; <span data-year></span> Atho Labs. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>

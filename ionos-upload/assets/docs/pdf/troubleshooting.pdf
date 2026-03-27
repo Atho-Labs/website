@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 3083 >>
+<< /Length 3056 >>
 stream
 BT
 /F1 10 Tf
@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Status: Alpha documentation snapshot \(2026-03-12\).) Tj
+(Last refresh: 2026-03-27.) Tj
 T*
 () Tj
 T*
@@ -247,7 +247,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 3902 >>
+<< /Length 3909 >>
 stream
 BT
 /F1 10 Tf
@@ -283,9 +283,9 @@ T*
 T*
 (whitespace/newlines were copied and network prefix matches the selected chain.) Tj
 T*
-(- **Explorer page feels stale:** click Refresh in explorer, then refresh node/API state in GUI) Tj
+(- **Explorer page feels stale:** click Refresh in explorer, then refresh node/API runtime data) Tj
 T*
-(if local node role changed.) Tj
+(in GUI if local node role changed.) Tj
 T*
 () Tj
 T*
@@ -481,7 +481,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
 endobj
 13 0 obj
-<< /Length 1525 >>
+<< /Length 1532 >>
 stream
 BT
 /F1 10 Tf
@@ -531,9 +531,9 @@ T*
 T*
 (- Align versions across all nodes; mismatched code can reject blocks/tx.) Tj
 T*
-(- When in doubt, clean state: stop nodes, docker compose down -v, remove blockchain_storage*,) Tj
+(- When in doubt, clean runtime data: stop nodes, docker compose down -v, remove) Tj
 T*
-(Keys*, Logs*, Src/Config/Peers.json, then restart with correct env.) Tj
+(blockchain_storage*, Keys*, Logs*, Src/Config/Peers.json, then restart with correct env.) Tj
 T*
 (- Check logs at source \(not just grep\): docker compose logs -f fullnode miner miner2 or tail) Tj
 T*
@@ -558,16 +558,16 @@ xref
 0000000147 00000 n 
 0000000215 00000 n 
 0000000341 00000 n 
-0000003476 00000 n 
-0000003602 00000 n 
-0000007193 00000 n 
-0000007319 00000 n 
-0000011273 00000 n 
-0000011401 00000 n 
-0000015307 00000 n 
-0000015435 00000 n 
+0000003449 00000 n 
+0000003575 00000 n 
+0000007166 00000 n 
+0000007292 00000 n 
+0000011253 00000 n 
+0000011381 00000 n 
+0000015287 00000 n 
+0000015415 00000 n 
 trailer
 << /Size 14 /Root 1 0 R >>
 startxref
-17013
+17000
 %%EOF

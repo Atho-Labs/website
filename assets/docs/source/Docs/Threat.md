@@ -1,25 +1,25 @@
 # Threat Model and Security Posture
 
-Status: Alpha documentation snapshot (2026-03-15).
+Last refresh: 2026-03-27.
 
 This document reviews current security posture across keys, signing, networking/auth, consensus, storage, and operational controls. It calls out weaknesses, impacts, and recommended improvements with code references.
 
 ## Overview: high-risk areas
-- Private keys stored unencrypted on disk.
+- Key files can still be left unencrypted in legacy/plain mode; lockbox encryption should be enabled for production wallets.
 - Falcon CLI integrity depends on maintaining the pinned digest map per release; misconfigured/empty pins on required networks block startup.
 - Runtime guard exists but may be left in `audit` mode; live networks should run enforce mode + signed manifest requirement.
 - API auth relies on key+user+pass; HMAC optional; no TLS termination described.
-- Signature verification accepts 1024-hex sigs in addition to Falcon-512 (2048-hex).
+- Signature policy currently allows legacy 1024-byte pubkey compatibility in some paths; keep rollout policy explicit and minimize compatibility windows.
 - Verbose logging leaks metadata (key lengths/previews, tx details).
 - Tail issuance is active, with post-tail fee burn target (100%, floor-clipped) and a hard circulating-supply floor (21M ATHO).
 - LMDB map-size/permissions misconfiguration can cause DoS; no WAL/backup guidance in code.
 - P2P now has basic per-IP request rate limits, but API-level throttling and global mempool caps are still limited.
 
 ## Cryptography and key management
-- **Key storage**: `Keys/KeyManager_Public_Private_Keys.json` stored in plaintext (no encryption/at-rest protection). Impact: disk compromise → key theft. Mitigation: encrypt key store (passphrase + PBKDF + AES-GCM), permissions (0600), or hardware-backed keys.
+- **Key storage**: `Keys/KeyManager_Public_Private_Keys.json` supports encrypted lockbox mode, but legacy/plain mode is still possible. Impact if plaintext mode is used: disk compromise → key theft. Mitigation: enforce lockbox encryption, 0600 permissions, and hardened backup handling.
 - **Key generation/import**: `Src/Accounts/key_manager.py`, `wimport.py` accept CLI-format Falcon-512 keys. Some import paths log previews. Impact: logs can leak key material previews. Mitigation: remove previews, restrict logs in production.
 - **Signing pipeline**: `KeyManager.sign_transaction` → `FalconCLI.sign` now passes key material via stdin (`--key-stdin`) instead of temp files. Impact reduced vs disk temp files; residual risk remains in process memory and local host compromise. Mitigation: keep debug off, reduce key lifetime in RAM, consider hardware signing.
-- **Signature verification**: `KeyManager.verify_transaction` accepts 1024- or 2048-hex sigs. Impact: ambiguity or acceptance of non-Falcon-512 artifacts. Mitigation: enforce 2048-hex length for Falcon-512.
+- **Signature verification**: transaction validation enforces signature byte bounds and pubkey length policy from `Constants` (compressed-signature range with canonical/legacy pubkey rules). Impact: overly broad compatibility windows can increase ambiguity. Mitigation: tighten compatibility flags as rollout completes.
 - **Hashing**: SHA3-384 for txid/signing/HPK and SHA3-256 for address checksum. Consistent; risk is mostly around normalization (handled in `txdhash.py`).
 
 ## Falcon CLI binary integrity
@@ -50,7 +50,7 @@ This document reviews current security posture across keys, signing, networking/
 - **Tail issuance and burn floor**: Tail reward continues, and post-tail fees target 100% burn (0% miner fee share) with burn clipped by a 21M ATHO floor. Impact: under high utilization the protocol can be net deflationary, but burn accounting cannot push circulating supply below floor.
 - **PoW target**: Blocks carry `target`; `BlockVerifier` enforces bounds and compares to `PowManager.expected_target_for_height` best-effort. If expected-target check fails (exceptions ignored), a wrong-but-in-bounds target could pass. Mitigation: make expected-target check mandatory with clear failure.
 - **Checkpoint lock**: `CHECKPOINT_INTERVAL_BLOCKS` prevents deep reorgs; verify value fits threat model (too low → censorship risk; too high → reduced safety).
-- **Signature policy**: Accepting 1024-hex sigs is a loosened rule; tighten to 2048-hex to reduce ambiguity.
+- **Signature policy**: legacy pubkey compatibility should be phased out when network migration allows; keep canonical compressed-signature ranges enforced.
 - **Witness policy**: Pruning controlled by `WITNESS_*`; ensure pruning doesn’t break validation for older blocks if full verification required.
 
 ## Storage (LMDB) and data integrity
@@ -93,7 +93,7 @@ These are operational hardening improvements; they do not alter core cryptograph
 2) **Pin the Falcon CLI binary correctly**: Maintain `Constants.FALCONCLI_PINNED_VERSION_DIGESTS` per consensus release; fail fast on mismatch; keep bundled binaries and digest publication in the release process.
 3) **Encrypt keys at rest**: Wrap `Keys/KeyManager_Public_Private_Keys.json` with passphrase-based encryption; enforce 0600 perms; avoid key previews in logs.
 4) **Harden signing**: Move temp key handling to in-memory or tmpfs; minimize logging during signing; consider hardware/MPC options.
-5) **Tighten signature policy**: Enforce 2048-hex Falcon-512 signatures only; reject 1024-hex.
+5) **Tighten compatibility policy**: disable legacy Falcon pubkey acceptance once migration is complete; keep compressed-signature bounds strict.
 6) **Default to HMAC + TLS**: Require `ATHO_API_HMAC=true` and document TLS/proxy as baseline; consider rejecting non-localhost without TLS.
 7) **Rate limiting/mempool caps**: Add request throttling and max mempool size/eviction policy; expose metrics/alerts.
 8) **LMDB resilience**: Keep `AUTO_RESIZE_LMDB` enabled, size the per-store ceilings correctly, add startup checks for writable dirs and free space, and provide backup guidance.

@@ -1,8 +1,6 @@
 # Atho GUI Guide
 
-Status: Alpha documentation snapshot (2026-03-12).
-
-Last refresh: 2026-03-12.
+Last refresh: 2026-03-27.
 
 This document covers the desktop client (`Src/GUI/gui.py`) and the integrated Web Explorer served from `Src/GUI/web_explorer.html`.
 
@@ -10,7 +8,7 @@ This document covers the desktop client (`Src/GUI/gui.py`) and the integrated We
 - From project root:
   - `source .venv/bin/activate`
   - `./.venv/bin/python Src/GUI/gui.py`
-- Keep a local API/full node reachable (GUI calls API routes for wallet, chain, tx, and node state).
+- Keep a local API/full node reachable (GUI calls API routes for wallet, chain, tx, and node runtime data).
 
 ## Main areas
 - **Dashboard**: balance, pending, transaction history, send/receive actions, copy controls.

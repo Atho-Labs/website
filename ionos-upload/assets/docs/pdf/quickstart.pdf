@@ -4,7 +4,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Count 4 /Kids [4 0 R 6 0 R 8 0 R 10 0 R] >>
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Courier >>
@@ -13,105 +13,49 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2438 >>
+<< /Length 1680 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(Atho Node Quickstart) Tj
+(Atho Quickstart) Tj
 T*
 () Tj
 T*
-(Status: Alpha documentation snapshot \(2026-03-12\).) Tj
+(Date: 2026-03-27) Tj
 T*
 () Tj
 T*
-(This walks you through running a full node, miner node, and wallet/API node, then using the CLI.) Tj
+(This guide is the canonical setup path for current development builds.) Tj
 T*
-(All auth is secured via API key + user/pass, and ports are auto-assigned to avoid collisions.) Tj
+(- Prerequisites) Tj
 T*
-() Tj
+(- Python 3.9+) Tj
 T*
-(This is the fastest setup path. For the full docs map, start at the documentation index. For) Tj
+(- git) Tj
 T*
-(developer-oriented setup, use ONBOARDING.md.) Tj
+(- C/C++ compiler \(clang or gcc\)) Tj
 T*
-(If anything fails during setup, check Troubleshooting.md first.) Tj
+(- Bash shell for build scripts \(.sh\) on macOS/Linux/WSL) Tj
 T*
-() Tj
+(- For GPU OpenCL build: OpenCL runtime + headers) Tj
 T*
-(Prereqs \(why you need them\)) Tj
-T*
-(- Python 3.11+ \(or 3.9+\) to run nodes and CLI.) Tj
-T*
-(- git and curl for fetching code and checking APIs.) Tj
-T*
-(- macOS/Linux/WSL recommended \(Windows native works but WSL is smoother for toolchains\).) Tj
-T*
-(- Prefer containers? See the Docker guide for building/running via docker compose) Tj
-T*
-(\(full/miner/wallet\) as an alternative to local toolchains.) Tj
-T*
-(- Hardware guidance: OpenGL 2.0 compatible system, i3-class CPU or better, 4-8 GB RAM minimum,) Tj
-T*
-(120 GB SSD recommended.) Tj
-T*
-(- Get the code + venv + deps) Tj
-T*
-(macOS / Linux / WSL:) Tj
+(- For CUDA build \(optional\): NVIDIA GPU + nvcc \(non-macOS\)) Tj
 T*
 () Tj
 T*
-() Tj
+(LMDB native headers are required for the UTXO batch checker build.) Tj
 T*
-(Windows \(PowerShell\):) Tj
+(- macOS: brew install lmdb) Tj
 T*
-() Tj
+(- Ubuntu/Debian: sudo apt-get install liblmdb-dev) Tj
 T*
-() Tj
-T*
-(Why: venv keeps deps isolated; requirements pulls FastAPI/LMDB/requests, etc.) Tj
-T*
-(If install fails \(especially lmdb/kivy/cryptography\), go to Troubleshooting.md -> Dependency) Tj
-T*
-(install issues \(venv + pip\).) Tj
-T*
-(- Create an API key \(required\)) Tj
-T*
-(- Pick a username/password \(default user is atho\). Password set = full permissions; blank) Tj
-T*
-(password = read-only.) Tj
-T*
-(- Writes Src/Config/Api_Keys.json \(keep private; chmod 600\).) Tj
-T*
-(Why: All API calls \(including CLI\) require X-API-Key/X-User/X-Pass to prevent misuse.) Tj
+(- Clone + virtualenv + dependencies) Tj
 T*
 () Tj
 T*
-(2.5\) Falcon + Kyber binary/runtime check \(important\)) Tj
-T*
-(Falcon:) Tj
-T*
-(- Runtime expects falcon_cli for your host platform.) Tj
-T*
-(- Install/register current host binary:) Tj
-T*
-(- If Falcon is missing, build with platform compiler first:) Tj
-T*
-(- macOS: clang \(Xcode Command Line Tools\)) Tj
-T*
-(- Linux: gcc/clang \(build-essential\)) Tj
-T*
-(- Windows: MSYS2 MinGW-w64 \(gcc\) or Visual Studio Build Tools \(cl\)) Tj
-T*
-() Tj
-T*
-(Falcon compile commands \(full flags\):) Tj
-T*
-() Tj
-T*
-(macOS \(Apple Silicon/Intel\):) Tj
+(macOS/Linux:) Tj
 T*
 () Tj
 T*
@@ -119,9 +63,65 @@ T*
 T*
 () Tj
 T*
-(Linux:) Tj
+(Windows PowerShell:) Tj
+T*
+(- Build and register all binaries) Tj
 T*
 () Tj
+T*
+(All native outputs are placed under:) Tj
+T*
+(- Binaries/<platform-tag>/...) Tj
+T*
+(- with hash metadata/pinning auto-updated in Binaries/pin_registry.json and) Tj
+T*
+(Binaries/<platform-tag>/binary_meta.json) Tj
+T*
+() Tj
+T*
+(2.1 Falcon CLI \(required\)) Tj
+T*
+(Build + auto-register falcon_cli into Binaries/<platform-tag>/:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(If you already have a prebuilt falcon_cli, register it directly:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(2.2 Falcon FFI verify shared library \(required for fastest verify path\)) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(This prints export lines for:) Tj
+T*
+(- ATHO_FALCON_FFI_ENABLE=1) Tj
+T*
+(- FALCON_VERIFY_SO=<path>) Tj
+T*
+(- FALCON_VERIFY_SO_SHA3_384=<hash>) Tj
+T*
+() Tj
+T*
+(2.3 TX signing-body native bridge) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Exports printed by script:) Tj
+T*
+(- ATHO_TX_SIGNING_SO=<path>) Tj
 T*
 ET
 endstream
@@ -130,115 +130,115 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 2118 >>
+<< /Length 2065 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-() Tj
+(- ATHO_TX_SIGNING_SO_SHA3_384=<hash>) Tj
 T*
 () Tj
 T*
-(Windows \(MSYS2 MinGW-w64\):) Tj
-T*
-() Tj
-T*
-() Tj
-T*
-() Tj
-T*
-(Kyber:) Tj
-T*
-(- Wallet encryption/decryption paths use vendored Kyber and can auto-build shared libs.) Tj
-T*
-(- Ensure a C compiler is installed \(cc/clang/gcc\) so Kyber build can succeed when first needed.) Tj
-T*
-() Tj
-T*
-(Kyber compile commands \(full flags, Kyber-1024 / KYBER_K=4\):) Tj
-T*
-() Tj
-T*
-(macOS:) Tj
+(2.4 UTXO batch checker native library) Tj
 T*
 () Tj
 T*
 () Tj
 T*
-() Tj
+(Exports printed by script:) Tj
 T*
-(Linux:) Tj
+(- ATHO_UTXO_BATCH_CHECK_SO=<path>) Tj
 T*
-() Tj
-T*
-() Tj
+(- ATHO_UTXO_BATCH_CHECK_SO_SHA3_384=<hash>) Tj
 T*
 () Tj
 T*
-(Windows \(MSYS2 MinGW-w64\):) Tj
-T*
-(- Join the network \(start nodes\)) Tj
-T*
-(- Ports auto-assign and are saved to Src/Config/NodePorts.json \(P2P base is 56000\).) Tj
-T*
-(- To point at an existing seed:) Tj
-T*
-(- Check sync: tail -f logs/<network>/network/network.log and look for handshake_ok /) Tj
-T*
-(sync_progress with growing tip_height.) Tj
-T*
-(- Verify via API \(optional but recommended\)) Tj
-T*
-(- Full API port is in NodePorts.json \(default ~10100\). Success shows network, tip height/hash.) Tj
-T*
-(- Optional network hashrate telemetry check:) Tj
-T*
-(- Use the CLI) Tj
-T*
-(macOS / Linux / WSL:) Tj
+(2.5 CPU PoW native bridge) Tj
 T*
 () Tj
 T*
 () Tj
 T*
-(Windows \(PowerShell\):) Tj
+(Exports printed by script:) Tj
 T*
-(- CLI loads Api_Keys.json and NodePorts.json; prompts for password if not set in env.) Tj
+(- ATHO_POW_NATIVE_SO=<path>) Tj
 T*
-(- Common commands: wallet addresses|balance|new [12|24|48]|recover|import|export|send, blocks) Tj
+(- ATHO_POW_NATIVE_SO_SHA3_384=<hash>) Tj
 T*
-(recent|height <n>|hash <hash>|latest|tx <txid>|export500, mining start|stop|status, system) Tj
+() Tj
 T*
-(peers.) Tj
-T*
-(- wallet new defaults to 24-word mnemonic generation when word count is not provided.) Tj
-T*
-(- Launch desktop GUI + Web Explorer \(optional\)) Tj
-T*
-(macOS / Linux / WSL:) Tj
+(2.6 GPU miner binaries \(OpenCL + optional CUDA\)) Tj
 T*
 () Tj
 T*
 () Tj
 T*
-(Windows \(PowerShell\):) Tj
+(Outputs:) Tj
 T*
-(- From the GUI, click the explorer icon to open the browser-based explorer.) Tj
+(- gpu_miner_opencl \(always attempted\)) Tj
 T*
-(- Explorer supports search by block/tx/address and accepts Base56 or HPK address input.) Tj
+(- gpu_miner_cuda \(only when nvcc exists and OS supports CUDA\)) Tj
 T*
-(- Explorer runs through a local GUI bridge \(127.0.0.1, random free port\) and proxies to your) Tj
+(- Strict binary mode \(default\)) Tj
 T*
-(authenticated node API.) Tj
+(Runtime now uses only Binaries/<platform-tag>/ paths by default.) Tj
+T*
+(Explicitly set for clarity:) Tj
+T*
+(- Create API credentials) Tj
+T*
+(- Run node launcher) Tj
 T*
 () Tj
 T*
-(6.5\) GUI first-run checklist) Tj
+() Tj
 T*
-(- Open GUI.) Tj
+(Recommended first run:) Tj
 T*
-(- Go to Settings.) Tj
+(- start full + wallet/API) Tj
+T*
+(- then add miner role after baseline sync is healthy) Tj
+T*
+(- Run GUI \(optional\)) Tj
+T*
+(- Performance-related runtime knobs) Tj
+T*
+(- ATHO_TX_VERIFY_WORKERS=<n>: parallel tx verification workers.) Tj
+T*
+(- ATHO_UTXO_BATCH_CHECK_ENABLE=1: enable native UTXO batch path \(default on\).) Tj
+T*
+(- ATHO_GPU_BACKEND=auto|opencl|cuda: GPU backend selection override.) Tj
+T*
+(- ATHO_BINARIES_STRICT=1: require canonical binary locations.) Tj
+T*
+(- Basic health checks) Tj
+T*
+(- Common failure points) Tj
+T*
+(- Falcon binary not installed for current platform tag.) Tj
+T*
+(- LMDB headers missing when building libutxo_batch_check.) Tj
+T*
+(- CUDA expected on macOS \(CUDA build is skipped there\).) Tj
+T*
+(- API auth not initialized.) Tj
+T*
+(- Stale background processes holding ports.) Tj
+T*
+(- Current Consensus Runtime Defaults) Tj
+T*
+(Useful verification values for deployment checks:) Tj
+T*
+(- block target: 120s) Tj
+T*
+(- difficulty retarget interval: 180 blocks) Tj
+T*
+(- transaction confirmations required: 10) Tj
+T*
+(- coinbase maturity: 150 blocks) Tj
+T*
+(- fee floor: 225 atoms/vB) Tj
 T*
 ET
 endstream
@@ -247,164 +247,45 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 3215 >>
+<< /Length 238 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(- Set API key, username, password.) Tj
+(- min tx fee: 150,000 atoms) Tj
 T*
-(- Open Node tab and start nodes.) Tj
+(- BPoW enforcement height: 100) Tj
 T*
-(- If miner is not needed, run full + wallet only.) Tj
-T*
-() Tj
-T*
-(6.6\) Request inbox workflow \(GUI\)) Tj
-T*
-(- Request inbox UI is currently disabled by default in this alpha build for stability.) Tj
-T*
-(- If enabled in code/runtime, the flow is:) Tj
-T*
-(- Open inbox tab.) Tj
-T*
-(- Select a request and click Send.) Tj
-T*
-(- Copy requester address.) Tj
-T*
-(- Paste same address into verify field \(must match exactly\).) Tj
-T*
-(- Continue to Send modal \(recipient + amount prefilled; amount can be edited\).) Tj
-T*
-(- The verify step prevents accidental/misdirected sends.) Tj
+(- bond requirement: 25 ATHO) Tj
 T*
 () Tj
 T*
-(Common env vars \(set before runnode/CLI\)) Tj
+(Use:) Tj
 T*
-(- ATHO_API_URL ? override API base \(CLI target\).) Tj
+(- Troubleshooting.md) Tj
 T*
-(- ATHO_API_KEY, ATHO_API_USER, ATHO_API_PASS ? avoid prompts.) Tj
+(- Binaries.md) Tj
 T*
-(- ATHO_P2P_PORT ? set specific P2P port; otherwise auto.) Tj
-T*
-(- ATHO_BOOTSTRAP ? seed list \(ip:port[,...]\) to join existing network.) Tj
-T*
-(- ATHO_API_URL + wallet recent pagination can be used to pull bounded history pages) Tj
-T*
-(\(limit/cursor\) efficiently from the CLI/API.) Tj
-T*
-() Tj
-T*
-(Security essentials) Tj
-T*
-(- Every API call needs X-API-Key, X-User, X-Pass; keys live in Src/Config/Api_Keys.json.) Tj
-T*
-(- Local dev: HTTPS off by default; if exposing, run behind TLS/reverse proxy and consider) Tj
-T*
-(enabling HMAC.) Tj
-T*
-(- Protect Api_Keys.json and backups; rotate keys/passwords; use read-only keys where possible.) Tj
-T*
-(- For release artifact integrity, generate and sign release file checksums:) Tj
-T*
-(- ./.venv/bin/python Src/Main/checksum.py build --root <release_payload_dir> --out) Tj
-T*
-(<release_payload_dir>/checksums.sha256) Tj
-T*
-(- ./.venv/bin/python Src/Main/checksum.py sign --checksums <...>/checksums.sha256 --key-json) Tj
-T*
-(<falcon_key.json> --release <version>) Tj
-T*
-(- ./.venv/bin/python Src/Main/checksum.py verify --checksums <...>/checksums.sha256 --signature) Tj
-T*
-(<...>/checksums.sha256.sig.json --root <release_payload_dir>) Tj
-T*
-() Tj
-T*
-(Quick troubleshooting) Tj
-T*
-(- Port in use: rerun runnode.py \(auto-assign\) or set a free ATHO_P2P_PORT/API port.) Tj
-T*
-(- 401/403: wrong/missing headers or missing permissions \(send_tx, mining\).) Tj
-T*
-(- Stuck tip / sync_no_headers: check ATHO_NETWORK and ATHO_BOOTSTRAP; ensure seed is correct and) Tj
-T*
-(reachable.) Tj
-T*
-(- CLI can?t connect: verify API port in NodePorts.json, set ATHO_API_URL, ensure API is running.) Tj
-T*
-(- unsupported hash type during mnemonic keygen: ensure dependencies are installed from) Tj
-T*
-(requirements.txt \(cryptography provides the SHA3-512 PBKDF2 path on Python builds lacking native) Tj
-T*
-(support\).) Tj
-T*
-(- falcon_cli/toolchain pain: use Docker as an easy path:) Tj
-T*
-(- GUI node start issues / stale PIDs:) Tj
-T*
-(- list: ./.venv/bin/python Src/Main/stop.py --active) Tj
-T*
-(- stop all: ./.venv/bin/python Src/Main/stop.py --all) Tj
-T*
-(- restart from GUI Node tab or via Src/Main/runnode.py) Tj
-T*
-(- Check live P2P behavior in:) Tj
-T*
-(- logs/mainnet/network/network.log) Tj
-T*
-(- look for peer_connected, header sync, mempool activity, and block acceptance) Tj
-T*
-ET
-endstream
-endobj
-10 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
-endobj
-11 0 obj
-<< /Length 353 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
-(- On low-power systems, skip miner and run only full + wallet.) Tj
-T*
-() Tj
-T*
-(Support: labs@atho.io) Tj
-T*
-() Tj
-T*
-(What to read next) Tj
-T*
-(- ONBOARDING.md for repo layout and developer workflow.) Tj
-T*
-(- ApiAuth.md for the full auth model.) Tj
-T*
-(- Troubleshooting.md if ports, sync, auth, or builds fail.) Tj
+(- Node_Stop.md) Tj
 T*
 ET
 endstream
 endobj
 xref
-0 12
+0 10
 0000000000 65535 f 
 0000000015 00000 n 
 0000000064 00000 n 
-0000000140 00000 n 
-0000000208 00000 n 
-0000000334 00000 n 
-0000002824 00000 n 
-0000002950 00000 n 
-0000005120 00000 n 
-0000005246 00000 n 
-0000008513 00000 n 
-0000008641 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000002059 00000 n 
+0000002185 00000 n 
+0000004302 00000 n 
+0000004428 00000 n 
 trailer
-<< /Size 12 /Root 1 0 R >>
+<< /Size 10 /Root 1 0 R >>
 startxref
-9046
+4717
 %%EOF

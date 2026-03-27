@@ -10,8 +10,10 @@ const SURFACE_SELECTOR = [
 
 const INTERACTIVE_SELECTOR = "a, button, input, textarea, select, label, [role='button']";
 
-export function initInteractionEffects() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+export function initInteractionEffects(options = {}) {
+  const { liteEffects = false } = options;
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || liteEffects) {
     return;
   }
 

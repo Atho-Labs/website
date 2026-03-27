@@ -88,6 +88,7 @@ export function initDocsCatalog() {
 
   let activeCategory = categories.includes(defaultCategory) ? defaultCategory : categories[0];
   let query = "";
+  let searchRaf = 0;
 
   if (searchInput) {
     searchInput.value = "";
@@ -135,13 +136,21 @@ export function initDocsCatalog() {
     }
 
     if (emptyHost) emptyHost.hidden = true;
-    filtered.forEach((entry) => container.appendChild(buildDocCard(entry)));
+    const fragment = document.createDocumentFragment();
+    filtered.forEach((entry) => fragment.appendChild(buildDocCard(entry)));
+    container.appendChild(fragment);
   };
 
   if (searchInput) {
     searchInput.addEventListener("input", (event) => {
       query = String(event.target?.value || "");
-      renderResults();
+      if (searchRaf) {
+        window.cancelAnimationFrame(searchRaf);
+      }
+      searchRaf = window.requestAnimationFrame(() => {
+        searchRaf = 0;
+        renderResults();
+      });
     });
   }
 

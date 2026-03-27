@@ -4,7 +4,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Count 5 /Kids [4 0 R 6 0 R 8 0 R 10 0 R 12 0 R] >>
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Courier >>
@@ -13,115 +13,115 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 3272 >>
+<< /Length 2241 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(Consensus Overview) Tj
+(Atho Consensus \(Current\)) Tj
 T*
 () Tj
 T*
-(Status: Alpha documentation snapshot \(2026-03-15\).) Tj
+(Date: 2026-03-27) Tj
 T*
 () Tj
 T*
-(This document explains Atho?s consensus logic, how blocks/transactions are validated, how) Tj
+(This document defines active consensus-enforced behavior for blocks, transactions, fee routing,) Tj
 T*
-(PoW/difficulty and rewards are enforced, and where the code lives. File references are relative) Tj
+(and BPoW state transitions.) Tj
 T*
-(to repo root.) Tj
+(- Core Constants) Tj
 T*
-() Tj
+(From Src/Utility/const.py:) Tj
 T*
-(Core constants and parameters \(Src/Utility/const.py\)) Tj
+(- Block target time: 120 seconds) Tj
 T*
-(- Network: Constants.NETWORK \(mainnet/testnet/regnet\), address prefixes, block/tx size/weight) Tj
+(- Difficulty retarget interval: 180 blocks) Tj
 T*
-(limits, witness policy, time drift, checkpoint depth.) Tj
+(- Transaction confirmations required: 10 blocks) Tj
 T*
-(- Hard size limits: MAX_BLOCK_SIZE_BYTES = 2,500,000 \(2.5 MB base bytes\), MAX_BLOCK_WEIGHT =) Tj
+(- Coinbase maturity: 150 blocks) Tj
 T*
-(10,000,000, MAX_TRANSACTION_SIZE_BYTES = 250,000.) Tj
+(- Max block base bytes: 2,500,000) Tj
 T*
-(- Supply: _reward_atoms schedule ? Constants.get_block_reward\(height\); current pre-tail issuance) Tj
+(- Max block weight: 10,000,000) Tj
 T*
-(target is 30,000,000 ATHO, tail starts at height 21,102,000 \(0.25 ATHO\).) Tj
+(- Max tx policy size \(vsize\): 250,000) Tj
 T*
-(- Burn/floor: post-tail fee split target is 0% miner / 100% burn \(floor-clipped\), with a) Tj
+(- Fee floor: 225 atoms per policy byte \(vsize\)) Tj
 T*
-(21,000,000 ATHO supply floor enforced by burn clipping.) Tj
+(- Min tx fee: 150,000 atoms) Tj
 T*
-(- Fees: FEE_PER_BYTE_ATOMS, MIN_TRANSACTION_FEE_ATOMS, DUST_LIMIT_ATOMS, TXID_EXCLUDE_FIELDS,) Tj
+(- Dust limit: 250 atoms) Tj
 T*
-(TXID_INCLUDE_PUBKEY.) Tj
+(- BPoW and Stake Constants) Tj
 T*
-(- Current fee/dust constants:) Tj
+(- BPoW enforcement height: 100 \(mainnet, testnet, regnet\)) Tj
 T*
-(- FEE_PER_BYTE_ATOMS = 200) Tj
+(- Bond requirement: 25 ATHO) Tj
 T*
-(- MIN_TRANSACTION_FEE_ATOMS = 187,500) Tj
+(- Bond activation confirmations: 25) Tj
 T*
-(- DUST_LIMIT_ATOMS = 5) Tj
+(- Unbond delay: 10,080 blocks) Tj
 T*
-(- Current production retarget constants:) Tj
+(- Slash penalty: 2.5 ATHO) Tj
 T*
-(- TARGET_BLOCK_TIME = 120) Tj
+(- Epoch length: 720 blocks) Tj
 T*
-(- DIFFICULTY_ADJUSTMENT_INTERVAL = 360) Tj
+(- Finalization buffer: 720 blocks) Tj
 T*
-(- ratio clamps: 0.60 .. 1.85 \(MIN_DIFFICULTY_FACTOR, MAX_DIFFICULTY_FACTOR\)) Tj
-T*
-(- timestamp guards: MTP_WINDOW = 13, MAX_TIME_DRIFT = 120) Tj
-T*
-(- confirmation policy: TX_CONFIRMATIONS_REQUIRED = 10, COINBASE_MATURITY_BLOCKS = 400) Tj
-T*
-(- Difficulty bounds: MIN_DIFFICULTY, MAX_DIFFICULTY; target validation uses these in block) Tj
-T*
-(verification.) Tj
+(- Bootstrap allocation: 50,000 ATHO at block 1) Tj
 T*
 () Tj
 T*
-(How block size works \(end-to-end\)) Tj
+(Primary data stores:) Tj
 T*
-(- Canonical limits are defined in Src/Utility/const.py:) Tj
+(- bond.lmdb for miner bond lifecycle state) Tj
 T*
-(- MAX_BLOCK_SIZE_BYTES = 2,500,000) Tj
+(- stake.lmdb for wallet staking lifecycle state) Tj
 T*
-(- MAX_BLOCK_WEIGHT = 10,000,000) Tj
-T*
-(- MAX_TRANSACTION_SIZE_BYTES = 250,000) Tj
-T*
-(- During mining/template build \(Src/Miner/miner.py\), candidate transactions are selected with) Tj
-T*
-(both per-tx and per-block byte caps in mind before PoW starts.) Tj
-T*
-(- Block byte size is computed from canonical compact JSON serialization in Block.to_dict\(\) /) Tj
-T*
-(_calc_size_from_std\(\) \(Src/Blockchain/block.py\) and stored as size_bytes.) Tj
-T*
-(- On validation \(Src/Main/blockveri.py\), a block is rejected if either:) Tj
-T*
-(- Constants.block_weight_ok_from_obj\(...\) fails, or) Tj
-T*
-(- size_bytes > MAX_BLOCK_SIZE_BYTES.) Tj
-T*
-(- ConsensusSupervisor.accept_block \(Src/Main/consensus.py\) also enforces that each included) Tj
-T*
-(transaction is at or below MAX_TX_SIZE_BYTES before full acceptance.) Tj
-T*
-(- Practical result: both caps are active; whichever limit is reached first rejects the block.) Tj
+(- utxo.lmdb for standard spendable outputs) Tj
 T*
 () Tj
 T*
-(Runtime optimization path \(non-consensus semantics\)) Tj
+(2.1 Deterministic Role Address Rules) Tj
 T*
-(These changes improve liveness and throughput behavior without changing core) Tj
+(Consensus role derivation is domain-separated from raw Falcon pubkey bytes:) Tj
 T*
-(monetary/cryptographic rules:) Tj
+(- regular: SHA3-384\("ATHO_ADDR_V1" || network || pubkey\)) Tj
 T*
-(- Miner tx-in-chain checks use tx index fast path \(block_store.get_tx_location\) before fallback) Tj
+(- bond: SHA3-384\("ATHO_BOND_V1" || network || pubkey\)) Tj
+T*
+(- stake: SHA3-384\("ATHO_STAKE_V1" || network || pubkey\)) Tj
+T*
+() Tj
+T*
+(Consensus does not trust user-facing string prefix alone. It validates deterministic derivation) Tj
+T*
+(rules plus network role domains.) Tj
+T*
+() Tj
+T*
+(2.2 State Machines) Tj
+T*
+(Bond state machine:) Tj
+T*
+(- pending -> active -> exiting -> unlockable -> withdrawn) Tj
+T*
+() Tj
+T*
+(Stake state machine:) Tj
+T*
+(- pending -> active -> exiting -> unlockable -> withdrawn) Tj
+T*
+() Tj
+T*
+(Both are enforced by deterministic height and confirmation checks. No state transition is) Tj
+T*
+(accepted if preconditions fail.) Tj
+T*
+(- Fee Routing and Pool Rules) Tj
 T*
 ET
 endstream
@@ -130,115 +130,115 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 3887 >>
+<< /Length 2418 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(scans.) Tj
+(- Fee uplift policy: +25%) Tj
 T*
-(- Miner template assembly is revision-cached and incrementally sized \(running payload) Tj
+(- Fee pool routing: 20% of total fees) Tj
 T*
-(accounting\) instead of repeated full-candidate reserialization.) Tj
+(- Pool bucket split: 10% miner-side, 10% stake-side) Tj
 T*
-(- Mempool readers are revision-gated with mempool:meta:revision, reducing unnecessary LMDB) Tj
+(- Miner-side split: 7% winner-proportional, 3% bonded-idle split) Tj
 T*
-(rebuild scans across full/miner/wallet processes.) Tj
-T*
-(- P2P block relay uses lean payloads \(drops export/duplicate fields on wire\) and response) Tj
-T*
-(fitting to message limits.) Tj
-T*
-(- API history/recent paths use hard scan caps and cursor pagination to avoid unbounded) Tj
-T*
-(request-time scans.) Tj
+(- Burn policy at tail: 100% burn on routed non-pool fees \(subject to floor clipping\)) Tj
 T*
 () Tj
 T*
-(Proof of Work and targets \(Src/Miner/pow.py\)) Tj
+(Consensus-managed pool address is deterministic and network-separated:) Tj
 T*
-(- PowManager.expected_target_for_height / expected_target_for_candidate compute target) Tj
+(- mainnet: "P" + Base56\(SHA3-384\("ATHO_PROTOCOL_POOL_MAINNET"\)\)) Tj
 T*
-(deterministically from interval statistics at retarget boundaries.) Tj
+(- testnet: "L" + Base56\(SHA3-384\("ATHO_PROTOCOL_POOL_TESTNET"\)\)) Tj
 T*
-(- Mainnet/testnet retarget flow:) Tj
+(- regnet: "L" + Base56\(SHA3-384\("ATHO_PROTOCOL_POOL_REGNET"\)\)) Tj
 T*
-(- retarget every 360 blocks,) Tj
+(- Transaction Consensus Path) Tj
 T*
-(- build consecutive block intervals \(dt = ts[i] - ts[i-1]\) from the active window,) Tj
+(Primary code:) Tj
 T*
-(- clamp per-interval times with RETARGET_INTERVAL_MIN_SECONDS / RETARGET_INTERVAL_MAX_SECONDS,) Tj
+(- Src/Main/txveri.py) Tj
 T*
-(- apply weighted-median by recency \(oldest 25% = 1, middle 25% = 2, newest 50% = 4\),) Tj
-T*
-(- compute ratio using fixed-point integer math \(DIFFICULTY_FACTOR_SCALE\) and clamp it to) Tj
-T*
-(0.60..1.85.) Tj
-T*
-(- Consensus math in the active target path is integer/fixed-point \(no float ratio multiplication) Tj
-T*
-(in retarget commit\).) Tj
-T*
-(- PowManager.difficulty_to_human_float \(not shown\) is used for logging.) Tj
-T*
-(- PowManager logs adjustments to logs/<network>/pow/adjustments.log with before/after targets) Tj
-T*
-(and human-readable difficulty.) Tj
-T*
-(- Blocks carry target; validators enforce strict PoW inequality hash_int < target and bounds.) Tj
-T*
-(- PoW runtime supports multiprocess worker mode with POW_WORKER_CORES and) Tj
-T*
-(POW_WORKER_NONCE_CHUNK; worker count is runtime-capped to available CPU cores, and) Tj
-T*
-(capped/fallback behavior is logged to PoW runtime logs.) Tj
+(- Src/Transactions/txvalidation.py) Tj
 T*
 () Tj
 T*
-(Transaction validation \(Src/Main/txveri.py + Src/Transactions/txvalidation.py\)) Tj
+(Consensus checks include:) Tj
 T*
-(- Shape: TransactionVerifier normalizes addresses \(normalize_hpk\), checks structure, network,) Tj
+(- canonical serialization/hash consistency,) Tj
 T*
-(atom alignment, and duplicates.) Tj
+(- Falcon signature validity,) Tj
 T*
-(- Txid / signing: signing_message_hex_digest \(SHA3-384\) over no-witness body; txid is also) Tj
+(- UTXO existence + unspent state,) Tj
 T*
-(SHA3-384 without witness.) Tj
+(- no in-block or mempool double spend,) Tj
 T*
-(- Signatures: TxValidation._validate_signature strips witness, recomputes digest, and calls) Tj
+(- strict integer-atom conservation,) Tj
 T*
-(KeyManager.verify_transaction \(Falcon-512 via CLI, multiple verify strategies\). Witness) Tj
+(- fee floor by canonical vsize,) Tj
 T*
-(signature stored once at tx.signature; inputs do not embed full sig.) Tj
+(- role/address consistency checks for bond/stake specific flows.) Tj
 T*
-(- Fees: required_fee via size \(SegWit vsize\) enforces MIN_TRANSACTION_FEE_ATOMS and per-vB) Tj
+(- rejection if role-targeted lockup paths do not match derived ownership semantics.) Tj
 T*
-(policy; fee, dust, and output comparisons are performed in atomic units.) Tj
+(- Signature and Witness Rules) Tj
 T*
-(- Canonical size metric is vsize from Constants.tx_policy_metrics\(...\). Internal bookkeeping) Tj
+(- Transport codec is binary \(ATX2; ATX1 decode compatibility\).) Tj
 T*
-(keys \(block_height, size*, weight, vsize\) are stripped before policy sizing to avoid) Tj
+(- Witness is processed as bytes in consensus paths.) Tj
 T*
-(send/mempool/block mismatch.) Tj
+(- Falcon witness policy:) Tj
 T*
-(- Fee accounting strictness: non-coinbase transactions must satisfy inputs_atoms ==) Tj
+(- signature bytes in 600..690 \(target 666\)) Tj
 T*
-(outputs_atoms + fee_atoms exactly \(no implicit/unallocated remainder\).) Tj
+(- pubkey bytes 897 canonical) Tj
 T*
-(- UTXO/double-spend: checks inputs exist, unspent, not locked; mempool conflicts screened.) Tj
+(- legacy 1024-byte pubkey acceptance is disabled by default.) Tj
 T*
-(- Witness wire is strict canonical base64 for signature/pubkey \(legacy hex disabled unless) Tj
+(- Block Consensus Path) Tj
 T*
-(explicitly allowed by constants\).) Tj
+(Primary code:) Tj
 T*
-(- Input script_sig must be canonical SIG_REF:<16hex> in signed context; this rule is aligned) Tj
+(- Src/Main/blockveri.py) Tj
 T*
-(across send path, mempool, tx validation, and block validation.) Tj
+(- Src/Main/consensus.py) Tj
 T*
-(- Coinbase: no inputs, one output to miner HPK, amount must match schedule in txvalidation;) Tj
+() Tj
 T*
-(block-level check enforces exact payout = base_reward + miner_fee_share.) Tj
+(Block acceptance enforces:) Tj
+T*
+(- parent linkage and index continuity,) Tj
+T*
+(- PoW target validation,) Tj
+T*
+(- merkle/witness commitment checks,) Tj
+T*
+(- byte and weight limits,) Tj
+T*
+(- coinbase payout invariants,) Tj
+T*
+(- tx list validity under active tx rules,) Tj
+T*
+(- BPoW miner metadata checks \(miner_pubkey, reward_address, miner_signature, role tag\),) Tj
+T*
+(- active bond eligibility once BPoW is active.) Tj
+T*
+() Tj
+T*
+(6.1 Slashable vs Non-Slashable) Tj
+T*
+(Slashable:) Tj
+T*
+(- PoW-valid block that is consensus-invalid \(miner proof, bond eligibility, tx validity,) Tj
+T*
+(structure, or reward correctness\).) Tj
+T*
+() Tj
+T*
+(Not slashable:) Tj
 T*
 ET
 endstream
@@ -247,299 +247,93 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 3770 >>
+<< /Length 1367 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-() Tj
+(- stale/orphan valid block from honest race,) Tj
 T*
-(Block validation \(Src/Main/blockveri.py\)) Tj
+(- reorged-out valid block,) Tj
 T*
-(- Structural: block version must be in the allowed set for the active ruleset at that height,) Tj
-T*
-(network match, hash length/hex, prev_hash linkage, timestamp not in future and not before) Tj
-T*
-(parent, height/index consistency.) Tj
-T*
-(- Timestamp defense: MTP \(MTP_WINDOW=13\) and future-drift \(MAX_TIME_DRIFT=120\) checks are) Tj
-T*
-(enforced during block verification.) Tj
-T*
-(- Merkle: recomputes Merkle root \(SHA3-384\) over txids; witness commitment checked if enabled.) Tj
-T*
-(- PoW: validates block.hash against block.target and bounds with strict < target; optional) Tj
-T*
-(expected target via PowManager.expected_target_for_height.) Tj
-T*
-(- Size/weight: enforces MAX_BLOCK_SIZE_BYTES, MAX_BLOCK_WEIGHT.) Tj
-T*
-(- Coinbase: ensures exactly one coinbase \(first tx\), output to miner HPK, payout equals) Tj
-T*
-(reward\(height\) + fees_miner.) Tj
-T*
-(- Fee-burn accounting: validates fees_total_atoms, fees_miner_atoms, fees_burned_atoms, and) Tj
-T*
-(cumulative_burned_atoms \(required once burn is active\).) Tj
-T*
-(- Checkpoint lock: prevents replacing blocks deeper than Constants.CHECKPOINT_INTERVAL_BLOCKS.) Tj
-T*
-(- Logging: writes JSON lines to logs/<network>/verified_blocks/verified_blocks.log; last_error) Tj
-T*
-(exposed for callers.) Tj
+(- late but otherwise valid relay.) Tj
 T*
 () Tj
 T*
-(Consensus gateway/supervisor \(Src/Main/consensus.py\)) Tj
+(This distinction is deterministic and required for safe slashing enforcement.) Tj
 T*
-(- ConsensusSupervisor.accept_tx:) Tj
+(- Monetary Invariants) Tj
 T*
-(- Runs runtime guard check first; in enforce mode, rejects with runtime_guard_violation when) Tj
+(- All consensus value math is integer atoms.) Tj
 T*
-(critical runtime drift is detected.) Tj
+(- Coinbase payout must match:) Tj
 T*
-(- Resolve the active placeholder ruleset by height, require tx version in that ruleset's allowed) Tj
+(- block subsidy +) Tj
 T*
-(version set, construct Transaction, run TransactionVerifier.verify_transaction.) Tj
+(- miner-routed fee share for that height.) Tj
 T*
-(- Enforce hard max transaction size \(MAX_TX_SIZE_BYTES\) before verifier/mempool admission.) Tj
+(- Tail-era floor clipping guarantees effective circulating supply cannot burn below 21,000,000) Tj
 T*
-(- Enforce fee ? required \(size-based\).) Tj
+(ATHO.) Tj
 T*
-(- Add to mempool under mempool.consensus_write_context.) Tj
+(- Pool routing is consensus-accounted independently \(fees_pool_atoms\) and cannot be user-spent) Tj
 T*
-(- ConsensusSupervisor.accept_block:) Tj
+(by arbitrary keys.) Tj
 T*
-(- Runs runtime guard check first; in enforce mode, rejects with runtime_guard_violation when) Tj
+(- Throughput Framing \(Policy\)) Tj
 T*
-(critical runtime drift is detected.) Tj
+(At 2,500,000 vB and 120s:) Tj
 T*
-(- Resolve the active placeholder ruleset by block height, require block version in the allowed) Tj
+(- 566 vB avg tx -> ~36.8 TPS) Tj
 T*
-(version set, reject configured invalid block hashes, enforce configured checkpoints when) Tj
+(- 615 vB avg tx -> ~33.9 TPS) Tj
 T*
-(present, then run BlockVerifier.verify_block.) Tj
-T*
-(- Run full in-block transaction verification \(TransactionVerifier.verify_transactions_in_block\)) Tj
-T*
-(before state commit; reject block on any tx failure.) Tj
-T*
-(- Enforce that every transaction in the candidate block is at or below MAX_TX_SIZE_BYTES) Tj
-T*
-(\(block_contains_oversize_tx reject\).) Tj
-T*
-(- Emission guard via EmissionMonitor._process_block \(rejects if coinbase overpays schedule; fees) Tj
-T*
-(not minted\).) Tj
-T*
-(- If not extending tip, pre-store block; delegate to OrphanReorgManager.handle_block for) Tj
-T*
-(side/orphan/reorg handling.) Tj
-T*
-(- Applies block to blockchain.add_block when available \(updates UTXO/mempool\), otherwise stores) Tj
-T*
-(and optionally utxo_store.apply_block.) Tj
-T*
-(- blockchain.add_block also enforces timestamp safety \(MTP + future drift\), so direct) Tj
-T*
-(chain-accept paths do not depend solely on BlockVerifier for time checks.) Tj
-T*
-(- Cleans mempool of confirmed txs; runs StateTracker and EmissionMonitor best-effort.) Tj
-T*
-(- Supervisory loop: run_loop periodically verifies tip \(and two predecessors\), sweeps mempool,) Tj
-T*
-(and logs the active placeholder consensus policy \(ruleset id, label, flags, tighten-only mode\)) Tj
-T*
-(to logs/<network>/consensus/consensus.log.) Tj
+(- 664 vB avg tx -> ~31.4 TPS) Tj
 T*
 () Tj
 T*
-(Chain selection and reorgs) Tj
+(These are policy-capacity estimates. Real throughput depends on tx mix and sustained) Tj
 T*
-ET
-endstream
-endobj
-10 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
-endobj
-11 0 obj
-<< /Length 3443 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
-(- OrphanReorgManager \(Src/Blockchain/orphreorgs.py\) handles side branches and reorg application) Tj
+(utilization.) Tj
 T*
-(\(UTXO rewinds/forwards\). accept_block delegates reorg decisions; on reorg_failed, block is) Tj
+(- Engine Independence) Tj
 T*
-(rejected.) Tj
+(CPU and GPU miners are execution backends only. Consensus validity is engine-independent: a) Tj
 T*
-(- Reorg depth is capped by policy \(Constants.max_reorg_depth_blocks\(\)\): if a competing branch) Tj
+(valid block verifies identically regardless of mining backend.) Tj
 T*
-(requires deeper rollback than allowed, result is reorg_depth_exceeded and block acceptance) Tj
+(- Related Docs) Tj
 T*
-(fails.) Tj
+(- Network_Stack.md) Tj
 T*
-(- Blocks not on tip are stored; future arrivals may trigger reorg.) Tj
+(- Tx.md) Tj
 T*
-() Tj
+(- Sigwit.md) Tj
 T*
-(State and emission monitoring) Tj
+(- Falcon512.md) Tj
 T*
-(- EmissionMonitor \(Src/Main/emission.py\): tracks expected coinbase payout, burned fees,) Tj
+(- Emissions.md) Tj
 T*
-(cumulative burned supply, and floor-aware circulating supply; alerts on overpay and floor) Tj
-T*
-(violations.) Tj
-T*
-(- BurnMonitor \(Src/Main/burn.py\): dedicated burn accounting tracker; logs per-block fee split) Tj
-T*
-(and cumulative burned totals to burn-specific logs/state.) Tj
-T*
-(- StateTracker \(Src/Main/state.py\): builds Merkle accumulator over \(height, block_hash\) leaves;) Tj
-T*
-(logs to logs/<network>/State/detailed_state_hashes.log; uses the same bounded LMDB growth) Tj
-T*
-(helpers and pressure logging as the other stores; used for divergence checks.) Tj
-T*
-() Tj
-T*
-(Addressing and identity) Tj
-T*
-(- HPK = SHA3-384\(pubkey bytes\) hex; internal prefixes ATHO/ATHT.) Tj
-T*
-(- Base56 addresses \(Src/Blockchain/base56.py\): prefix \(A/T\), base56 of HPK bytes, checksum =) Tj
-T*
-(first 4 bytes of sha3_256\(body\) encoded base56. normalize_hpk converts address?HPK for tx) Tj
-T*
-(building/validation.) Tj
-T*
-() Tj
-T*
-(Serialization and hashing) Tj
-T*
-(- Canonical txid/signing hash: SHA3-384 over normalized, no-witness JSON) Tj
-T*
-(\(signing_message_hex_digest, canonical_tx_id in Src/Utility/txdhash.py\). Fee serialization is) Tj
-T*
-(fixed at 9 decimal places, matching atom precision, so new transaction hashes follow the) Tj
-T*
-(canonical width.) Tj
-T*
-(- Merkle: SHA3-384 in SigWit and hash.py.) Tj
-T*
-(- Block hash: computed on block header/body \(Block.compute_hash\) and checked against PoW target.) Tj
-T*
-() Tj
-T*
-(Mempool policy \(Src/Storage/mempool.py usage\)) Tj
-T*
-(- accept_tx calls mempool.add_transaction; sweep_mempool re-verifies pending txs and evicts) Tj
-T*
-(failures.) Tj
-T*
-(- After block acceptance, confirmed txids are removed from mempool.) Tj
-T*
-() Tj
-T*
-(Genesis and reward usage) Tj
-T*
-(- Genesis creation uses Constants.get_block_reward\(0\) \(Src/Blockchain/genblock.py\).) Tj
-T*
-(- Miner coinbase creation: Miner.create_coinbase pays reward\(height\)+fees_miner and carries) Tj
-T*
-(fee/burn accounting fields into the block \(Src/Miner/miner.py\).) Tj
-T*
-() Tj
-T*
-(Audit notes / risks) Tj
-T*
-(- PoW target expectation is best-effort; block carries its own target. Ensure) Tj
-T*
-(PowManager.expected_target_for_height aligns with miners or blocks can be accepted with) Tj
-T*
-(unexpected targets \(still bounded by min/max\).) Tj
-T*
-(- Tail issuance is perpetual, but fee burn starts at tail and is capped by a hard supply floor) Tj
-T*
-(\(21,000,000 ATHO\).) Tj
-T*
-(- The upgrade framework now includes active runtime integrity controls \(runtime guard + optional) Tj
-T*
-(signed manifest checks\), but only the baseline ruleset is active until future activation entries) Tj
-T*
-(are added.) Tj
-T*
-(- Signature acceptance allows 1024-hex sigs in verification path; tighten to 2048 if only) Tj
-T*
-ET
-endstream
-endobj
-12 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
-endobj
-13 0 obj
-<< /Length 1051 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
-(Falcon-512 is valid.) Tj
-T*
-(- Falcon CLI pinning is strict on required networks \(mainnet/testnet\) and enforced via) Tj
-T*
-(Constants.FALCONCLI_PINNED_VERSION_DIGESTS \(with legacy raw-hash fallback only when explicitly) Tj
-T*
-(configured\).) Tj
-T*
-(- Logging is verbose \(keys/lengths/previews\); reduce in production to limit metadata leakage.) Tj
-T*
-(- Temp key file handling during signing is best-effort; consider in-memory signing to avoid disk) Tj
-T*
-(residue.) Tj
-T*
-() Tj
-T*
-(Operational tips) Tj
-T*
-(- Run ConsensusSupervisor.run_loop \(or via node runner\) to keep mempool clean and tip verified.) Tj
-T*
-(- For diagnostics: BlockVerifier.verify_full_chain_once\(\) then verify_latest_chain_tip\(\);) Tj
-T*
-(EmissionMonitor.run_once\(\); StateTracker.run_once\(\).) Tj
-T*
-(- To test PoW/target logic, log PowManager adjustments and compare against observed block) Tj
-T*
-(intervals.) Tj
-T*
-(- For live hardening, require signed release checksums and strict binary verification before) Tj
-T*
-(rollout.) Tj
+(- WhitePaper.md) Tj
 T*
 ET
 endstream
 endobj
 xref
-0 14
+0 10
 0000000000 65535 f 
 0000000015 00000 n 
 0000000064 00000 n 
-0000000147 00000 n 
-0000000215 00000 n 
-0000000341 00000 n 
-0000003665 00000 n 
-0000003791 00000 n 
-0000007730 00000 n 
-0000007856 00000 n 
-0000011678 00000 n 
-0000011806 00000 n 
-0000015302 00000 n 
-0000015430 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000002620 00000 n 
+0000002746 00000 n 
+0000005216 00000 n 
+0000005342 00000 n 
 trailer
-<< /Size 14 /Root 1 0 R >>
+<< /Size 10 /Root 1 0 R >>
 startxref
-16534
+6761
 %%EOF

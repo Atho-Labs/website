@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="./assets/css/motion.css">
   <link rel="stylesheet" href="./assets/css/responsive.css">
 </head>
-<body>
+<body class="home-page">
   <header class="site-header">
     <div class="wrap nav-shell">
       <a class="brand" href="./index.html#overview" aria-label="Atho home">
@@ -31,6 +31,7 @@
         <nav id="main-nav" class="nav-links" data-nav-links>
           <a class="nav-link" href="./index.html">Home</a>
           <a class="nav-link" href="./join.html">Join</a>
+          <a class="nav-link" href="./rewards.html">Rewards</a>
           <a class="nav-link" href="./docs.html">Docs</a>
           <a class="nav-link" href="./changelog.html">Changelog</a>
           <a class="nav-link" href="#technology">Technology</a>
@@ -75,20 +76,26 @@
   <main>
     <section id="overview" class="section">
       <div class="wrap hero-grid">
-        <div class="hero-copy" data-reveal>
+        <div class="hero-copy home-hero-copy" data-reveal>
           <div class="eyebrow-row overview-eyebrow-row">
-            <span class="section-eyebrow section-eyebrow-hot">Private Testnet Live Now</span>
+            <span class="section-eyebrow section-eyebrow-hot">Protocol Refresh • March 2026</span>
             <span class="section-eyebrow">Atho Network</span>
             <span class="nav-live-pill hero-live-pill" aria-label="Live">LIVE</span>
           </div>
-          <p class="hero-footnote hero-footnote-inline"><sup>1</sup> To join private testnet, email <a href="mailto:labs@atho.io">labs@atho.io</a>.</p>
+          <p class="hero-footnote hero-footnote-inline"><sup>1</sup> Latest docs and whitepaper are published in the <a href="./docs.html">Docs Hub</a>.</p>
           <h1>The Platinum Standard of the Quantum Age.</h1>
           <p>
-            Atho is a UTXO blockchain built for deterministic validation, operational clarity, and post-quantum readiness with Falcon-512 signatures, SHA3-384 hashing, and LMDB-backed state.
+            Compressed Falcon-512 provides next-generation security with high-performance execution, giving Atho a fast, durable foundation for real-world blockchain scale.
           </p>
+          <div class="badge-row home-hero-badges">
+            <span class="badge">Compressed Falcon-512</span>
+            <span class="badge">BPoW Bonding + Staking</span>
+            <span class="badge">50,000 ATHO Bootstrap</span>
+            <span class="badge">30,000,000 ATHO Base Emission</span>
+          </div>
           <div class="hero-actions">
             <a class="btn btn-primary btn-inline" href="./join.html">Join Now</a>
-            <a class="btn btn-primary btn-inline" href="#technology">Explore Technology</a>
+            <a class="btn btn-primary btn-inline" href="./rewards.html">View Rewards</a>
             <a class="btn btn-primary btn-inline" href="./docs.html">Open Docs Hub</a>
           </div>
         </div>
@@ -110,7 +117,7 @@
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
                   <strong>Economics You Can Audit</strong>
-                  <span>Policy is explicit: at 50% utilization fee burn offsets tail emission; above 50%, net supply trends deflationary until floor clipping.</span>
+                  <span>From the 50,000 ATHO bootstrap budget to the long-term emission path, reward flows are deterministic, transparent, and built for public verification.</span>
                 </span>
               </li>
               <li class="key-item">
@@ -231,7 +238,7 @@
         <article class="card card-pad" data-reveal>
           <h3 class="panel-title">Monetary Design</h3>
           <p class="panel-copy">
-            Atho targets a 30,000,000 ATHO pre-tail issuance path, then transitions to perpetual tail economics and fee-burn behavior designed for long-term network security.
+            Atho targets a 30,000,000 ATHO pre-tail path, then continues with 0.25 ATHO tail emission, BPoW miner bonding, and deterministic fee routing for long-run network security.
           </p>
           <ul class="key-list">
             <li class="key-item">
@@ -244,15 +251,15 @@
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
-                <strong>50% Utilization Deflation Threshold</strong>
-                <span>At 50% utilization, fee burn offsets tail emission; above that, net supply trends deflationary until floor clipping.</span>
+                <strong>Deterministic Fee Pool Split</strong>
+                <span>20% of fees route to a consensus-managed pool: 10% miner bucket (7% winner + 3% bonded-idle) and 10% stake bucket.</span>
               </span>
             </li>
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
-                <strong>Tail Security Budget</strong>
-                <span>Permanent issuance keeps miner incentives alive over very long time horizons.</span>
+                <strong>BPoW + Wallet Staking Roles</strong>
+                <span>Mining requires an active 25 ATHO bond while wallet staking accrues rewards as a separate participation role.</span>
               </span>
             </li>
           </ul>
@@ -265,6 +272,7 @@
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary btn-inline" href="./docs.html">Open Documentation</a>
+            <a class="btn btn-primary btn-inline" href="./rewards.html">Open Rewards</a>
           </div>
         </article>
       </div>
@@ -280,7 +288,7 @@
           <div class="badge-row">
             <span class="badge">Falcon-512 + SHA3-384 core</span>
             <span class="badge">UTXO deterministic validation</span>
-            <span class="badge">50% utilization net-neutral point</span>
+            <span class="badge">BPoW miner bonding + wallet staking</span>
             <span class="badge">Runtime guardrails fail closed</span>
             <span class="badge">Node-side signing only</span>
           </div>
@@ -307,7 +315,7 @@
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Practical Throughput + Clear Limits</strong>
-                <span>120-second blocks, up to 15 TPS, and a 2.5 MB block-size cap keep performance predictable for real workloads.</span>
+                <span>120-second blocks, 2,500,000 vB capacity, and compact tx sizing deliver a realistic ~30-35 TPS band with ~40 TPS policy headroom.</span>
               </span>
             </li>
             <li class="key-item">

@@ -1,10 +1,10 @@
 # Atho Network — Developer Onboarding
 
-Status: Alpha documentation snapshot (2026-03-12).
+Last refresh: 2026-03-27.
 
 This doc is a practical, minimal path to get a new developer productive fast.
 
-All detailed docs live in `Docs/`. Use the [documentation index](README.md) in this folder as the central map, and keep this file for the developer path.
+All detailed docs live in `Docs/`. Use the [documentation index](INDEX.md) in this folder as the central map, and keep this file for the developer path.
 
 ## 0) Prerequisites
 - Python 3.9+
@@ -14,7 +14,7 @@ All detailed docs live in `Docs/`. Use the [documentation index](README.md) in t
 ## 1) Repo layout (high‑level)
 - `Src/` — core code (nodes, blockchain, storage, P2P, miner, API, CLI)
 - `Docs/` — protocol and component docs
-- `docker-compose.yml` — Docker services (fullnode/miner/etc.)
+- `docker/docker-compose.yml` — Docker services (fullnode/miner/etc.)
 - `Src/Main/runnode.py` — local launcher for full/miner/wallet nodes
 - `logs/` — runtime logs (ignored in onboarding)
 
@@ -40,14 +40,14 @@ Start full node in one terminal:
 ```bash
 cd /path/to/<repo-dir>
 docker compose down -v
-docker compose build
-docker compose up fullnode
+docker compose -f docker/docker-compose.yml -f docker/docker-compose.override.yml build
+docker compose -f docker/docker-compose.yml -f docker/docker-compose.override.yml up fullnode
 ```
 
 Start miner in another terminal:
 ```bash
 cd /path/to/<repo-dir>
-docker compose up miner
+docker compose -f docker/docker-compose.yml -f docker/docker-compose.override.yml up miner
 ```
 
 ## 5) Logs to watch
@@ -119,7 +119,7 @@ This project is modular by domain. Below is a quick map of every top‑level mod
 - `Src/SigWit/`
   - Witness model, commitments, wtxid logic, pruning helpers.
 - `Src/Storage/`
-  - LMDB stores for blocks, UTXO, mempool, orphan blocks, state hashes.
+  - LMDB stores for blocks, UTXO, mempool, and orphan branches.
 - `Src/Transactions/`
   - Transaction model, inputs/outputs, signing, verification, coinbase.
 - `Src/Utility/`
@@ -129,7 +129,7 @@ This project is modular by domain. Below is a quick map of every top‑level mod
 1. `Node/*` starts services → initializes `Storage/*`, `Blockchain/*`, `Transactions/*`.
 2. `Network/*` handles P2P, peers, sync → feeds blocks/tx into `Blockchain/*` + `Transactions/*`.
 3. `Miner/*` builds candidates → validates via `Blockchain/*` + `Transactions/*`.
-4. `Api/*` exposes state/txs → uses `Storage/*`, `Transactions/*`, and `Accounts/*` key/material services.
+4. `Api/*` exposes chain/tx/miner data → uses `Storage/*`, `Transactions/*`, and `Accounts/*` key/material services.
 
 ## 9) Full per‑file / per‑class map (auto‑generated)
 For extreme detail (every `Src/` file, class, method, and top‑level function with signatures + docstrings), see:
@@ -144,5 +144,4 @@ For extreme detail (every `Src/` file, class, method, and top‑level function w
 ## 11) Next steps (recommended)
 - Read: [Consensus.md](Consensus.md), [Tx.md](Tx.md), [Sigwit.md](Sigwit.md)
 - Run: local full + miner, then Docker full + miner, compare tip heights.
-- Keep the [documentation index](README.md) open while you work.
-
+- Keep the [documentation index](INDEX.md) open while you work.

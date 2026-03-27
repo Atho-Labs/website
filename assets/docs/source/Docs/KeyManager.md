@@ -1,6 +1,6 @@
 # Key Manager (Atho)
 
-Status: Alpha documentation snapshot (2026-03-12).
+Last refresh: 2026-03-27.
 
 This note explains how Atho’s key manager stores, loads, and uses keys for wallets, mining rewards, and API authentication.
 
@@ -16,7 +16,7 @@ This note explains how Atho’s key manager stores, loads, and uses keys for wal
 - Path (by default): `Keys/KeyManager_Public_Private_Keys.json`
 - Structure:
   - `miner_1`, `miner_2`, …: labels for each managed key.
-  - `public_key`: Falcon public key (stored as 2048-char hex in key files).
+  - `public_key`: Falcon public key (stored as normalized hex; canonical policy target is 897 bytes, legacy 1024-byte compatibility may still be accepted by current policy).
   - `private_key`: Falcon private key components (`F`, `G`, `f`, `g`).
   - `mnemonic_phrase`, `mnemonic_words`, `mnemonic_text`, `mnemonic_meta` for mnemonic-derived keys.
   - Metadata: creation time, role (e.g., miner), network.
@@ -106,7 +106,7 @@ This gives:
   - default unlock window is `30` seconds (`_wallet_policy.unlock_ttl_seconds`),
   - `0` disables auto-relock timer,
   - lock status includes `unlock_expires_in_seconds`.
-- API unlock session state now persists across calls while key-file fingerprint is unchanged (prevents accidental relock-on-every-request).
+- API unlock session context now persists across calls while key-file fingerprint is unchanged (prevents accidental relock-on-every-request).
 - `wallet_unlock_status` no longer exposes absolute key-file paths by default.
 
 ## Addresses and HPK

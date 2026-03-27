@@ -1,6 +1,6 @@
 # Troubleshooting Guide (Atho)
 
-Status: Alpha documentation snapshot (2026-03-12).
+Last refresh: 2026-03-27.
 
 This guide collects common issues and fixes by area (network/P2P, APIs/auth, storage/LMDB, mining, Docker, build/tooling).
 
@@ -99,7 +99,7 @@ This guide collects common issues and fixes by area (network/P2P, APIs/auth, sto
 - **Explorer popup says it cannot start bridge:** Ensure GUI can read/write `Src/GUI/web_explorer.html` and that local loopback bind is available (`127.0.0.1`). Restart GUI and try again.
 - **Explorer opens but stats show `--` / no peers/tip hash:** Verify node API is reachable and authenticated by GUI; check `/chain/info` and `/network/node_count` from the active API port.
 - **Address search returns `invalid_address`:** Explorer accepts Base56 or HPK; verify no whitespace/newlines were copied and network prefix matches the selected chain.
-- **Explorer page feels stale:** click `Refresh` in explorer, then refresh node/API state in GUI if local node role changed.
+- **Explorer page feels stale:** click `Refresh` in explorer, then refresh node/API runtime data in GUI if local node role changed.
 
 ## Storage / LMDB
 - **LMDB file not found / map full:** Ensure storage paths exist; increase map size if needed. Clean start: remove `blockchain_storage*` if you intend to resync.
@@ -175,7 +175,7 @@ python -m pip install -r requirements.txt
 
 ## General tips
 - Align versions across all nodes; mismatched code can reject blocks/tx.
-- When in doubt, clean state: stop nodes, `docker compose down -v`, remove `blockchain_storage*`, `Keys*`, `Logs*`, `Src/Config/Peers.json`, then restart with correct env.
+- When in doubt, clean runtime data: stop nodes, `docker compose down -v`, remove `blockchain_storage*`, `Keys*`, `Logs*`, `Src/Config/Peers.json`, then restart with correct env.
 - Check logs at source (not just grep): `docker compose logs -f fullnode miner miner2` or tail `Logs*/network.log` for detailed reasons.
 - For hashrate telemetry validation, query:
   - `/network/hashrate/live`

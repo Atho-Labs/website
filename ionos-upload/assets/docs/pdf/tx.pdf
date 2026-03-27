@@ -13,115 +13,115 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2124 >>
+<< /Length 1908 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(Atho Transactions \(Current Canonical Behavior\)) Tj
+(Atho Transaction Reference \(Current\)) Tj
 T*
 () Tj
 T*
-(Status: Alpha documentation snapshot \(2026-03-12\).) Tj
+(Date: 2026-03-27) Tj
 T*
 () Tj
 T*
-(This is the current tx reference for structure, hashing, witness handling, sizing, fee policy,) Tj
+(This is the authoritative transaction behavior reference for current development builds.) Tj
 T*
-(and validation flow.) Tj
+(- Canonical Policy Metric) Tj
 T*
-() Tj
+(Atho uses SegWit-style policy metrics:) Tj
 T*
-(Wire format \(compact, current\)) Tj
+(- weight = base_bytes * 3 + total_bytes) Tj
 T*
-(Top-level fields:) Tj
-T*
-(- tx_id) Tj
-T*
-(- fee \(fixed 9-decimal string; atom-aligned\)) Tj
-T*
-(- timestamp) Tj
-T*
-(- inputs) Tj
-T*
-(- outputs) Tj
-T*
-(- signature \(witness, canonical base64 on wire\)) Tj
-T*
-(- pubkey \(witness, canonical base64 on wire\)) Tj
-T*
-(- network) Tj
-T*
-(- coinbase) Tj
-T*
-(- metadata \(only when non-empty\)) Tj
-T*
-(- block_height \(optional metadata field; not consensus payload for fee sizing\)) Tj
+(- vsize = ceil\(weight / 4\)) Tj
 T*
 () Tj
 T*
-(Input fields:) Tj
+(vsize is used for:) Tj
 T*
-(- tx_out_id \(<prev_txid>:<vout>\)) Tj
+(- fee floor checks,) Tj
 T*
-(- script_sig \(canonical SIG_REF:<16hex>\)) Tj
+(- mempool admission,) Tj
 T*
-(- sequence \(only included when non-zero\)) Tj
+(- miner packing,) Tj
 T*
-() Tj
-T*
-(Output fields:) Tj
-T*
-(- amount \(fixed 9-decimal string\)) Tj
-T*
-(- hashed_public_key) Tj
-T*
-(- is_locked \(only included when true\)) Tj
+(- transaction size policy limits.) Tj
 T*
 () Tj
 T*
-(Removed redundant wire fields) Tj
+(Active policy constants:) Tj
 T*
-(The wire format no longer depends on older redundant fields:) Tj
+(- fee floor: 225 atoms/vB) Tj
 T*
-(- input tx_id, index, address duplicates) Tj
+(- minimum tx fee: 150,000 atoms) Tj
 T*
-(- output tx_out_id payload duplication) Tj
+(- tx confirmations required for regular spend visibility: 10) Tj
 T*
-(- tx pubkey_size, signing_hash, signing_hash_mode) Tj
+(- Binary Transport Codec) Tj
 T*
-(- always-on default flags/fields that can be derived) Tj
+(Current serializer emits compact binary payload magic:) Tj
 T*
-() Tj
-T*
-(This materially reduced high-input tx size.) Tj
+(- ATX2 \(current\)) Tj
 T*
 () Tj
 T*
-(High-input impact:) Tj
+(Decoder accepts:) Tj
 T*
-(- each extra input now carries only the spend reference \(tx_out_id\) + compact script reference) Tj
+(- ATX2) Tj
 T*
-(\(SIG_REF\) plus optional non-zero sequence,) Tj
-T*
-(- no duplicated per-input alias fields are emitted on wire.) Tj
+(- ATX1 \(legacy decode compatibility\)) Tj
 T*
 () Tj
 T*
-(Witness encoding) Tj
+(Code:) Tj
 T*
-(- Internal signing/verification still uses Falcon hex values.) Tj
+(- Src/Transactions/txbinary.py) Tj
 T*
-(- Wire format uses canonical base64 for signature and pubkey.) Tj
+(- Src/SigWit/sigwit.py) Tj
 T*
-(- Decoder is strict canonical base64 \(wire_to_hex\(...\)\), with legacy hex disabled by default:) Tj
+(- Field Strategy \(Compact\)) Tj
 T*
-(- WITNESS_WIRE_ALLOW_HEX_LEGACY = False) Tj
+(Inputs:) Tj
+T*
+(- spend reference: tx_out_id \(<96-hex-txid>:<vout>\)) Tj
+T*
+(- optional non-zero sequence via bitmap + varint in binary codec) Tj
+T*
+(- no full signature embedded per-input) Tj
 T*
 () Tj
 T*
-(Hashing model) Tj
+(Outputs:) Tj
+T*
+(- amount encoded from integer atoms) Tj
+T*
+(- destination binding encoded as 48-byte raw HPK digest) Tj
+T*
+(- lock flags compacted with bitmap) Tj
+T*
+() Tj
+T*
+(Witness:) Tj
+T*
+(- signature and public key are raw bytes in binary payload) Tj
+T*
+(- API/UI wire display remains canonicalized for compatibility/human tooling) Tj
+T*
+(- Signature Reference Token) Tj
+T*
+(Input script_sig is a compact reference token, not a full signature blob.) Tj
+T*
+() Tj
+T*
+(Current canonical prefix:) Tj
+T*
+(- SR:<16-hex>) Tj
+T*
+() Tj
+T*
+(Legacy SIG_REF:* acceptance is policy-gated and disabled in current defaults.) Tj
 T*
 ET
 endstream
@@ -130,115 +130,115 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 2276 >>
+<< /Length 2214 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(- txid: SHA3-384 over no-witness tx \(SegWit-style\).) Tj
+(- Integer Accounting) Tj
 T*
-(- Signing digest: SHA3-384 over deterministic no-witness signing payload.) Tj
+(Consensus-critical tx value logic uses integer atoms. Display conversion to decimal strings is) Tj
 T*
-(- wtxid: SHA3-384 over full tx \(with witness\).) Tj
-T*
-(- Witness never changes txid or signing digest.) Tj
+(presentation-only.) Tj
 T*
 () Tj
 T*
-(Size and weight model) Tj
+(Examples:) Tj
 T*
-(Canonical metrics are:) Tj
+(- amount_atoms) Tj
 T*
-(- base_bytes) Tj
+(- fee_atoms) Tj
 T*
-(- total_bytes) Tj
+(- exact conservation checks in verifier paths) Tj
 T*
-(- weight = base_bytes * 3 + total_bytes) Tj
+(- Witness Size Policy) Tj
 T*
-(- vsize = ceil\(weight / 4\)) Tj
+(Current Falcon witness policy bounds:) Tj
 T*
-() Tj
+(- signature target ~666 bytes \(compressed range accepted by policy\)) Tj
 T*
-(Helper: Constants.tx_policy_metrics\(tx\) returns \(base_bytes, total_bytes, weight, vsize\).) Tj
+(- canonical public key length 897 bytes) Tj
 T*
-() Tj
+(- legacy public key length acceptance is migration-policy controlled) Tj
 T*
-(Policy and consensus sizing both use vsize as the canonical fee/limit unit.) Tj
+(- Why There Is No Single "Base Tx Size") Tj
 T*
-() Tj
+(There is no universal fixed tx size because encoded size varies with:) Tj
 T*
-(Important:) Tj
+(- input count,) Tj
 T*
-(- size_bytes in tx logs is the canonical vsize used for policy.) Tj
+(- output count,) Tj
 T*
-(- Raw serialized full bytes are reported separately as total_bytes in diagnostics when needed.) Tj
+(- varint widths for values and indexes,) Tj
 T*
-(- For block packing and fee checks, vsize is the authoritative metric.) Tj
+(- witness length,) Tj
 T*
-() Tj
-T*
-(Fee policy \(current constants\)) Tj
-T*
-(- FEE_PER_BYTE_ATOMS = 200) Tj
-T*
-(- MIN_TRANSACTION_FEE_ATOMS = 187,500 \(0.000187500 ATHO\)) Tj
-T*
-(- DUST_LIMIT_ATOMS = 5 \(0.000000005 ATHO\)) Tj
+(- optional metadata inclusion.) Tj
 T*
 () Tj
 T*
-(Required fee formula:) Tj
-T*
-(- required_fee_atoms = max\(vsize * 200, 187500\)) Tj
+(Use measured/derived vsize distributions, not one static byte number.) Tj
 T*
 () Tj
 T*
-(SIG_REF rule \(consistency fix\)) Tj
+(Representative estimates \(metadata empty, compressed witness\):) Tj
 T*
-(script_sig is a compact reference only, never a full embedded signature:) Tj
+(- 1 in / 1 out: ~513 vB) Tj
 T*
-(- required canonical pattern: SIG_REF:<16hex>) Tj
+(- 1 in / 2 out: ~566 vB) Tj
 T*
-(- same rule is enforced in send path, mempool validation, tx validation, and block validation) Tj
+(- 2 in / 2 out: ~615 vB) Tj
 T*
-() Tj
+(- 3 in / 2 out: ~664 vB) Tj
 T*
-(This removed the prior class of ?accepted in mempool, rejected in block? SIG_REF mismatches.) Tj
+(- 4 in / 2 out: ~713 vB) Tj
 T*
-() Tj
+(- Hashing Model) Tj
 T*
-(Bookkeeping field exclusion in policy math) Tj
+(- txid: no-witness hash) Tj
 T*
-(Constants.tx_policy_metrics\(...\) strips internal bookkeeping keys before sizing:) Tj
+(- wtxid: full-transaction hash \(with witness\)) Tj
 T*
-(- block_height) Tj
-T*
-(- size) Tj
-T*
-(- size_bytes) Tj
-T*
-(- size_base_bytes) Tj
-T*
-(- weight) Tj
-T*
-(- vsize) Tj
+(- Signing digest: deterministic no-witness signing body hash) Tj
 T*
 () Tj
 T*
-(This prevents fee drift when non-consensus metadata is attached during pipeline stages.) Tj
+(Hashing and signing internals:) Tj
+T*
+(- Src/Utility/txdhash.py) Tj
+T*
+(- Src/Transactions/tx.py) Tj
+T*
+(- Src/Transactions/txvalidation.py) Tj
+T*
+(- Validation Invariants) Tj
+T*
+(Transaction acceptance requires:) Tj
+T*
+(- valid structure and network identity,) Tj
+T*
+(- valid signature over no-witness digest,) Tj
+T*
+(- existing/unspent inputs,) Tj
+T*
+(- no double spend,) Tj
+T*
+(- atom-exact value conservation,) Tj
+T*
+(- fee >= required fee from canonical vsize.) Tj
 T*
 () Tj
 T*
-(Signing flow) Tj
+(9.1 Role-Aware Lockup Flows \(Bond and Stake\)) Tj
 T*
-(- Build base tx \(empty witness/signature refs\).) Tj
+(Bonding and staking are represented as normal transaction flows to deterministic role-derived) Tj
 T*
-(- Compute no-witness signing digest.) Tj
+(destinations, with additional consensus state handling:) Tj
 T*
-(- Sign via Falcon CLI.) Tj
+(- bond deposit/top-up to bond-derived address,) Tj
 T*
-(- Store witness once at tx top-level \(signature, pubkey\).) Tj
+(- stake deposit/top-up to stake-derived address,) Tj
 T*
 ET
 endstream
@@ -247,73 +247,43 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 1308 >>
+<< /Length 712 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(- Set each input script_sig = SIG_REF:<txid_prefix>.) Tj
-T*
-(- Recompute canonical policy metrics and required fee.) Tj
+(- exit/withdraw paths gated by state and height rules.) Tj
 T*
 () Tj
 T*
-(Validation flow) Tj
+(Consensus rejects malformed or unauthorized role-path interactions, even when base transaction) Tj
 T*
-(Validation requires:) Tj
-T*
-(- canonical tx normalization,) Tj
-T*
-(- strict witness decoding \(canonical base64\),) Tj
-T*
-(- canonical SIG_REF on signed inputs,) Tj
-T*
-(- txid/signing digest integrity,) Tj
-T*
-(- UTXO checks \(exists/unspent/unlocked\),) Tj
-T*
-(- atom-exact accounting,) Tj
-T*
-(- fee >= required by canonical vsize.) Tj
+(format is otherwise valid.) Tj
 T*
 () Tj
 T*
-(Recent observed sizes \(mainnet dev logs, 2026-03-07\)) Tj
+(Key point:) Tj
 T*
-(Accepted examples after optimization:) Tj
+(- display addresses can vary by UI form,) Tj
 T*
-(- 1 in / 2 out: vsize=1371, base_bytes=674, weight=5483) Tj
+(- consensus ownership/eligibility checks are driven by deterministic pubkey-derived role) Tj
 T*
-(- 3 in / 2 out: vsize=1646, base_bytes=937, weight=6583) Tj
+(digests.) Tj
 T*
-(- 16 in / 2 out: vsize=3428, base_bytes=2641, weight=13711) Tj
+(- Practical Throughput Mapping) Tj
 T*
-(- 31 in / 2 out: vsize=5483, base_bytes=4606, weight=21931) Tj
+(With 2,500,000 vbytes/block and 120s block time:) Tj
+T*
+(- 566 vB avg -> ~36.8 TPS) Tj
+T*
+(- 615 vB avg -> ~33.9 TPS) Tj
+T*
+(- 664 vB avg -> ~31.4 TPS) Tj
 T*
 () Tj
 T*
-(Compared to older 31-input examples \(vsize=10012\), this shows a major reduction from wire) Tj
-T*
-(cleanup.) Tj
-T*
-() Tj
-T*
-(Related code) Tj
-T*
-(- Src/Transactions/tx.py) Tj
-T*
-(- Src/Transactions/txin.py) Tj
-T*
-(- Src/Transactions/txout.py) Tj
-T*
-(- Src/Transactions/txvalidation.py) Tj
-T*
-(- Src/SigWit/sigwit.py) Tj
-T*
-(- Src/Utility/const.py) Tj
-T*
-(- Src/Utility/wirecodec.py) Tj
+(This is why tx-shape distribution directly drives sustained TPS.) Tj
 T*
 ET
 endstream
@@ -326,12 +296,12 @@ xref
 0000000133 00000 n 
 0000000201 00000 n 
 0000000327 00000 n 
-0000002503 00000 n 
-0000002629 00000 n 
-0000004957 00000 n 
-0000005083 00000 n 
+0000002287 00000 n 
+0000002413 00000 n 
+0000004679 00000 n 
+0000004805 00000 n 
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-6443
+5568
 %%EOF

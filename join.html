@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Join Atho network quickly: environment setup, API auth, binary checks, node launch, and verification.">
+  <meta name="description" content="Join Atho network with the latest runbook: environment setup, binary build/pinning, API auth, key setup, and node verification.">
   <title>Join Atho</title>
   <link rel="icon" type="image/png" href="./assets/media/round-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,6 +31,7 @@
         <nav id="main-nav" class="nav-links" data-nav-links>
           <a class="nav-link" href="./index.html">Home</a>
           <a class="nav-link" href="./join.html">Join</a>
+          <a class="nav-link" href="./rewards.html">Rewards</a>
           <a class="nav-link" href="./docs.html">Docs</a>
           <a class="nav-link" href="./changelog.html">Changelog</a>
           <a class="nav-link" href="#quickstart">Quickstart</a>
@@ -82,10 +83,10 @@
           </div>
           <h1>From fresh clone to active node in minutes.</h1>
           <p>
-            This page walks through setup, API auth, Falcon/Kyber checks, key creation and management, node launch, and verification. It follows the current Atho quickstart runbook and adds a dedicated key-manager flow for GUI and CLI operators.
+            This page follows the latest quickstart runbook: dependency setup, native binary build and registration, API auth, key management, node launch, and runtime verification.
           </p>
           <p class="hero-footnote join-network-note">
-            <strong>Network notice:</strong> Run on <code>testnet</code> until mainnet launch. Set <code>ATHO_NETWORK=testnet</code> before starting nodes.
+            <strong>Network notice:</strong> Atho supports <code>mainnet</code>, <code>testnet</code>, and <code>regnet</code>. Set <code>ATHO_NETWORK</code> explicitly before starting nodes.
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary btn-inline" href="#quickstart">Start Setup</a>
@@ -100,8 +101,8 @@
               <li class="key-item">
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
-                  <strong>Testnet-only until mainnet launch</strong>
-                  <span>Keep <code>ATHO_NETWORK=testnet</code> aligned across GUI, CLI, and node startup commands.</span>
+                  <strong>Select network profile first</strong>
+                  <span>Use <code>ATHO_NETWORK=mainnet|testnet|regnet</code> consistently across launcher, GUI, and CLI tools.</span>
                 </span>
               </li>
               <li class="key-item">
@@ -121,8 +122,8 @@
               <li class="key-item">
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
-                  <strong>Falcon/Kyber runtime checks + key setup</strong>
-                  <span>Install/register cryptographic binaries, then run key manager to create wallet keys before routine node operations.</span>
+                  <strong>Build and pin binaries before launch</strong>
+                  <span>Compile/register Falcon, signing, UTXO, PoW, and GPU binaries in canonical <code>Binaries/&lt;platform-tag&gt;/</code> paths.</span>
                 </span>
               </li>
             </ul>
@@ -134,19 +135,25 @@
     <section id="quickstart" class="section">
       <div class="wrap">
         <span class="section-eyebrow">Setup Steps</span>
-        <h2 class="section-title">Join flow by operating system</h2>
+        <h2 class="section-title">Join flow and binary bootstrap by operating system</h2>
         <div class="feature-grid">
           <article class="card card-pad feature-card" data-reveal>
             <h3>Linux Setup</h3>
-            <p>Clone repo, create virtual environment, install dependencies, then launch nodes.</p>
+            <p>Clone, install dependencies, build/register native binaries, then launch nodes.</p>
             <pre class="join-code"><code>git clone &lt;repo-url&gt;
 cd &lt;repo-dir&gt;
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip setuptools wheel
 python -m pip install -r requirements.txt
+./Src/Falcon/Falcon/compile_falcon.sh
+./Src/Falcon/Falcon/build_falcon_verify_shared.sh
+./Src/Utility/build_tx_signing_bridge.sh
+./Src/Transactions/build_utxo_batch_check.sh
+./Src/Miner/build_pow_cpu_bridge.sh
+./Src/Miner/GPU/build_gpu_miner.sh
+export ATHO_BINARIES_STRICT=1
 ./.venv/bin/python Src/Api/auth.py
-./.venv/bin/python Src/Falcon/Falcon/install_platform_binary.py
 ./.venv/bin/python Src/GUI/cliui.py
 # CLI: wallet new 24
 ./.venv/bin/python Src/Main/runnode.py</code></pre>
@@ -155,15 +162,22 @@ python -m pip install -r requirements.txt
 
           <article class="card card-pad feature-card" data-reveal>
             <h3>macOS Setup</h3>
-            <p>Use the same core flow as Linux with local build toolchain available for native dependencies.</p>
+            <p>Same flow as Linux. Install LMDB headers first, then build/register binaries and run.</p>
             <pre class="join-code"><code>git clone &lt;repo-url&gt;
 cd &lt;repo-dir&gt;
+brew install lmdb
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip setuptools wheel
 python -m pip install -r requirements.txt
+./Src/Falcon/Falcon/compile_falcon.sh
+./Src/Falcon/Falcon/build_falcon_verify_shared.sh
+./Src/Utility/build_tx_signing_bridge.sh
+./Src/Transactions/build_utxo_batch_check.sh
+./Src/Miner/build_pow_cpu_bridge.sh
+./Src/Miner/GPU/build_gpu_miner.sh
+export ATHO_BINARIES_STRICT=1
 ./.venv/bin/python Src/Api/auth.py
-./.venv/bin/python Src/Falcon/Falcon/install_platform_binary.py
 ./.venv/bin/python Src/GUI/cliui.py
 # CLI: wallet new 24
 ./.venv/bin/python Src/Main/runnode.py</code></pre>
@@ -172,15 +186,22 @@ python -m pip install -r requirements.txt
 
           <article class="card card-pad feature-card" data-reveal>
             <h3>Windows Setup (PowerShell)</h3>
-            <p>Install compiler/build tools first, then run the setup sequence below.</p>
+            <p>Use PowerShell for Python setup, then run binary build scripts in WSL/Git Bash.</p>
             <pre class="join-code"><code>git clone &lt;repo-url&gt;
 cd &lt;repo-dir&gt;
 py -3 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip setuptools wheel
 python -m pip install -r requirements.txt
+# run build scripts in Bash:
+# ./Src/Falcon/Falcon/compile_falcon.sh
+# ./Src/Falcon/Falcon/build_falcon_verify_shared.sh
+# ./Src/Utility/build_tx_signing_bridge.sh
+# ./Src/Transactions/build_utxo_batch_check.sh
+# ./Src/Miner/build_pow_cpu_bridge.sh
+# ./Src/Miner/GPU/build_gpu_miner.sh
+setx ATHO_BINARIES_STRICT 1
 python Src/Api/auth.py
-python Src/Falcon/Falcon/install_platform_binary.py
 python Src/GUI/cliui.py
 # CLI: wallet new 24
 python Src/Main/runnode.py</code></pre>
@@ -230,7 +251,7 @@ python Src/Main/runnode.py</code></pre>
           <article class="card card-pad feature-card" data-reveal>
             <h3>Recommended order (fast path)</h3>
             <ol class="join-step-list">
-              <li>Finish <code>venv</code>, dependencies, API key setup, and Falcon binary install.</li>
+              <li>Finish <code>venv</code>, dependencies, native binary build/register, and API key setup.</li>
               <li>Open CLI wallet/key manager and generate a mnemonic-backed key (default 24 words).</li>
               <li>Confirm addresses/default key, then start nodes and verify API health.</li>
             </ol>
@@ -247,10 +268,10 @@ wallet balance</code></pre>
             <h3>Manage keys in GUI or CLI</h3>
             <p>Use GUI Wallet tab for visual control, or CLI tools for operator scripting and precision changes.</p>
             <pre class="join-code"><code>./.venv/bin/python Src/Accounts/change_default_key.py list
-./.venv/bin/python Src/Accounts/change_default_key.py set-default --network testnet --id miner_1
-./.venv/bin/python Src/Accounts/change_default_key.py rename --network testnet --old miner_1 --new validator_main
-./.venv/bin/python Src/Accounts/change_default_key.py import --network testnet --id import_1 --file /path/to/key.txt
-./.venv/bin/python Src/Accounts/change_default_key.py delete --network testnet --key import_1</code></pre>
+./.venv/bin/python Src/Accounts/change_default_key.py set-default --network &lt;mainnet|testnet|regnet&gt; --id miner_1
+./.venv/bin/python Src/Accounts/change_default_key.py rename --network &lt;network&gt; --old miner_1 --new validator_main
+./.venv/bin/python Src/Accounts/change_default_key.py import --network &lt;network&gt; --id import_1 --file /path/to/key.txt
+./.venv/bin/python Src/Accounts/change_default_key.py delete --network &lt;network&gt; --key import_1</code></pre>
             <span class="feature-tag">GUI + CLI</span>
           </article>
 
@@ -415,9 +436,9 @@ Src/Utility/const.py</code></pre>
             </article>
 
             <article class="card card-pad feature-card join-error-card">
-              <h3>Wrong network mode (must stay on testnet)</h3>
-              <p>Symptoms: no headers, peers on a different chain, sync mismatch.</p>
-              <pre class="join-code"><code>export ATHO_NETWORK=testnet
+              <h3>Wrong network mode / mixed network processes</h3>
+              <p>Symptoms: no headers, peers on another chain, wallet balances appearing on the wrong network profile.</p>
+              <pre class="join-code"><code>export ATHO_NETWORK=mainnet   # or testnet / regnet
 ./.venv/bin/python Src/Main/runnode.py</code></pre>
               <div class="hero-actions">
                 <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/quickstart.pdf" download>Network Setup</a>

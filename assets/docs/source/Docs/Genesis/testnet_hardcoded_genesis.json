@@ -1,0 +1,83 @@
+{
+  "version": "1.00",
+  "index": 0,
+  "previous_hash": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+  "merkle_root": "6fe38992074617b98f4d966a5d1df22968205ab41fe8d9e41f6d1790ac6a46b6791f536a3392b86d0f6644bd685f9d74",
+  "timestamp": 1773360489,
+  "nonce": 2212,
+  "difficulty": 601226901190101306339707032778070279008174732520529886901066488712245510429339761526706943586500787976175353855,
+  "target": 601226901190101306339707032778070279008174732520529886901066488712245510429339761526706943586500787976175353855,
+  "tx_count": 1,
+  "miner_address": "ATHTfe89ad1b663bd8b316247b5b19368326184d2af14108577e562f3359ce84074ba900ca5616e0bfa9c3feb390681838a5",
+  "coinbase_tx": {
+    "tx_id": "6fe38992074617b98f4d966a5d1df22968205ab41fe8d9e41f6d1790ac6a46b6791f536a3392b86d0f6644bd685f9d74",
+    "timestamp": 1773360489,
+    "fee": "0",
+    "inputs": [],
+    "outputs": [
+      {
+        "amount": "10",
+        "hashed_public_key": "ATHTfe89ad1b663bd8b316247b5b19368326184d2af14108577e562f3359ce84074ba900ca5616e0bfa9c3feb390681838a5",
+        "is_locked": false
+      }
+    ],
+    "metadata": {
+      "anchor_btc_usd": "70496.97",
+      "anchor_eth_usd": "2073.69",
+      "anchor_geopolitical": "Iran Conflict 02/28/2026",
+      "anchor_ltc_usd": "54.59",
+      "anchor_message": "Bitcoin 70,496.97 | Litecoin 54.59 | Ethereum 2,073.69 | Iran Conflict 02/28/2026 | owner_hash_b64=DZPctQQDGbe5Pj9SKMynDqWA6wCVnRKperecMCVMjM/yD27lVnXCfYrFcP2bCJfR/BTVtiRn+f7PfU5TXonSGQ== | Owner Hash Digest is 100,000 Byte RNG Number :>)",
+      "network": "testnet",
+      "owner_hash": "0d93dcb5040319b7b93e3f5228cca70ea580eb00959d12a97ab79c30254c8ccff20f6ee55675c27d8ac570fd9b0897d1fc14d5b62467f9fecf7d4e535e89d219",
+      "owner_hash_b64": "DZPctQQDGbe5Pj9SKMynDqWA6wCVnRKperecMCVMjM/yD27lVnXCfYrFcP2bCJfR/BTVtiRn+f7PfU5TXonSGQ=="
+    },
+    "network": "testnet",
+    "size_bytes": 1062,
+    "block_height": 0,
+    "coinbase": true
+  },
+  "tx_list": [
+    {
+      "tx_id": "6fe38992074617b98f4d966a5d1df22968205ab41fe8d9e41f6d1790ac6a46b6791f536a3392b86d0f6644bd685f9d74",
+      "timestamp": 1773360489,
+      "fee": "0",
+      "inputs": [],
+      "outputs": [
+        {
+          "amount": "10",
+          "hashed_public_key": "ATHTfe89ad1b663bd8b316247b5b19368326184d2af14108577e562f3359ce84074ba900ca5616e0bfa9c3feb390681838a5",
+          "is_locked": false
+        }
+      ],
+      "metadata": {
+        "anchor_btc_usd": "70496.97",
+        "anchor_eth_usd": "2073.69",
+        "anchor_geopolitical": "Iran Conflict 02/28/2026",
+        "anchor_ltc_usd": "54.59",
+        "anchor_message": "Bitcoin 70,496.97 | Litecoin 54.59 | Ethereum 2,073.69 | Iran Conflict 02/28/2026 | owner_hash_b64=DZPctQQDGbe5Pj9SKMynDqWA6wCVnRKperecMCVMjM/yD27lVnXCfYrFcP2bCJfR/BTVtiRn+f7PfU5TXonSGQ== | Owner Hash Digest is 100,000 Byte RNG Number :>)",
+        "network": "testnet",
+        "owner_hash": "0d93dcb5040319b7b93e3f5228cca70ea580eb00959d12a97ab79c30254c8ccff20f6ee55675c27d8ac570fd9b0897d1fc14d5b62467f9fecf7d4e535e89d219",
+        "owner_hash_b64": "DZPctQQDGbe5Pj9SKMynDqWA6wCVnRKperecMCVMjM/yD27lVnXCfYrFcP2bCJfR/BTVtiRn+f7PfU5TXonSGQ=="
+      },
+      "network": "testnet",
+      "size_bytes": 1062,
+      "block_height": 0,
+      "coinbase": true
+    }
+  ],
+  "witnesses": {
+    "6fe38992074617b98f4d966a5d1df22968205ab41fe8d9e41f6d1790ac6a46b6791f536a3392b86d0f6644bd685f9d74": {
+      "inputs": []
+    }
+  },
+  "fees_total_atoms": 0,
+  "fees_miner_atoms": 0,
+  "fees_burned_atoms": 0,
+  "cumulative_burned_atoms": 0,
+  "hash": "0000163818b36c4be830e6dec9c84a180f552f903c653bdb371bfcb742a39a603ef637c2a048c9453b6f39124cc41e60",
+  "witness_commitment": "b55bc2eb30aa612d3647d5053e13e94f986e08abea9e7820cefccbc88ba80d50d72d36dd4078172a513743be412c545c",
+  "network": "testnet",
+  "flags": "",
+  "height": 0,
+  "size_bytes": 3022
+}

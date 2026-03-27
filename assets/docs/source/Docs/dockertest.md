@@ -1,10 +1,9 @@
 # Docker P2P Test Harness
 
-Status: Alpha documentation snapshot (2026-03-12).
+Last refresh: 2026-03-27.
 
 Run two full nodes plus two miners and CLI locally via Docker to exercise the P2P network. All nodes speak P2P on port 56000 inside the network; host bindings differ so they can coexist on one machine.
 For baseline Docker usage, start with `Docs/Docker.md`; this file is the higher-load harness.
-Last refresh: 2026-03-12.
 
 ## Prerequisites
 - Docker Desktop running
@@ -82,7 +81,7 @@ docker compose down
 # docker compose down -v
 ```
 
-## Reset to a clean state
+## Reset to clean runtime data
 If you need to wipe all local data/peers and start fresh:
 ```sh
 cd /path/to/<repo-dir>
