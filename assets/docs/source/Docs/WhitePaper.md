@@ -72,7 +72,7 @@ Compared with earlier snapshots, the current implementation formalizes these cha
 - Bond requirement: `25 ATHO`
 - Bond activation confirmations: `25`
 - Slash penalty: `2.5 ATHO`
-- Epoch/finalization windows: `720 / 720` blocks
+- Epoch/finalization windows: `720 / 3600` blocks
 
 ## 4. Transaction Encoding and Capacity
 Atho no longer relies on one static tx-size assumption. Effective tx size depends on:
@@ -115,7 +115,7 @@ This avoids validator-complexity while still adding economic commitment to minin
 - Unbonding delay: `10,080` blocks.
 - Slash penalty: `2.5 ATHO`.
 - Epoch length: `720` blocks.
-- Finalization buffer: `720` blocks.
+- Finalization buffer: `3600` blocks.
 - Bootstrap allocation: `50,000 ATHO` at block `1`.
 
 ### 5.3 Deterministic Address Role Derivation
@@ -204,7 +204,7 @@ Miner-side sub-split:
 
 Settlement windows:
 - epoch: `720` blocks
-- finalization buffer: `720` blocks
+- finalization buffer: `3600` blocks
 
 ### 5.9 Consensus-Managed Pool Address
 Pool sink is deterministic and network-separated:

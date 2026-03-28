@@ -24,7 +24,7 @@ From `Src/Utility/const.py`:
 - Unbond delay: `10,080` blocks
 - Slash penalty: `2.5 ATHO`
 - Epoch length: `720` blocks
-- Finalization buffer: `720` blocks
+- Finalization buffer: `3600` blocks
 - Bootstrap allocation: `50,000 ATHO` at block `1`
 
 Primary data stores:
