@@ -155,7 +155,7 @@ Useful verification values for deployment checks:
 - transaction confirmations required: `10`
 - coinbase maturity: `150` blocks
 - fee floor: `225 atoms/vB`
-- min tx fee: `150,000 atoms`
+- min tx fee: `100,000 atoms`
 - BPoW enforcement height: `100`
 - bond requirement: `25 ATHO`
 

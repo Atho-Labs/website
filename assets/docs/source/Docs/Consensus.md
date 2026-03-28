@@ -14,7 +14,7 @@ From `Src/Utility/const.py`:
 - Max block weight: `10,000,000`
 - Max tx policy size (`vsize`): `250,000`
 - Fee floor: `225 atoms` per policy byte (`vsize`)
-- Min tx fee: `150,000 atoms`
+- Min tx fee: `100,000 atoms`
 - Dust limit: `250 atoms`
 
 ## 2) BPoW and Stake Constants

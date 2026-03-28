@@ -52,7 +52,7 @@ Compared with earlier snapshots, the current implementation formalizes these cha
 - Signature system: Falcon-512.
 - Hashing: SHA3-384 for canonical tx/block identity operations.
 - Active fee floor: `225 atoms/vB`.
-- Active min tx fee: `150,000 atoms`.
+- Active min tx fee: `100,000 atoms`.
 
 ### 3.1 Network Parameters (Operator Reference)
 - Network mode set: `mainnet`, `testnet`, `regnet`
@@ -66,7 +66,7 @@ Compared with earlier snapshots, the current implementation formalizes these cha
 - Max block weight: `10,000,000`
 - Max transaction size policy: `250,000 vB`
 - Fee floor: `225 atoms/vB`
-- Minimum transaction fee: `150,000 atoms`
+- Minimum transaction fee: `100,000 atoms`
 - Dust threshold: `250 atoms`
 - BPoW enforcement height: `100`
 - Bond requirement: `25 ATHO`

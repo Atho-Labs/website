@@ -33,7 +33,7 @@ Tail:
 ## 3) Active Fee Policy
 Current constants:
 - `FEE_PER_BYTE_ATOMS = 225` (policy unit is `vsize`)
-- `MIN_TRANSACTION_FEE_ATOMS = 150,000`
+- `MIN_TRANSACTION_FEE_ATOMS = 100,000`
 - `DUST_LIMIT_ATOMS = 250`
 - Max block base cap: `2,500,000` bytes
 - Max block weight: `10,000,000`
