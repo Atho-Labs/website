@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Atho inflation and deflation mechanics: base emission path, tail policy, fee routing, burn model, and supply-floor protection.">
+  <title>Atho Inflation / Deflation</title>
+  <link rel="icon" type="image/png" href="./assets/media/logo2website.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/variables.css">
+  <link rel="stylesheet" href="./assets/css/base.css">
+  <link rel="stylesheet" href="./assets/css/layout.css">
+  <link rel="stylesheet" href="./assets/css/components.css">
+  <link rel="stylesheet" href="./assets/css/motion.css">
+  <link rel="stylesheet" href="./assets/css/responsive.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav-shell">
+      <a class="brand" href="./index.html#overview" aria-label="Atho home">
+        <img class="brand-mark" src="./assets/media/logo2website.png" alt="Atho logo">
+        <span class="brand-title">Atho</span>
+      </a>
+
+      <div class="header-right">
+        <nav id="main-nav" class="nav-links" data-nav-links>
+          <a class="nav-link" href="./index.html">Home</a>
+          <a class="nav-link" href="./join.html">Join</a>
+          <a class="nav-link" href="./rewards.html">Rewards</a>
+          <a class="nav-link" href="./docs.html">Docs</a>
+          <a class="nav-link" href="./changelog.html">Changelog</a>
+          <a class="nav-link" href="./bpow-docs.html">BPoW</a>
+          <a class="nav-link" href="#inflation-flow">Inflation Flow</a>
+          <a class="nav-link" href="#deflation-control">Deflation Control</a>
+          <a class="nav-link" href="#supply-balance">Supply Balance</a>
+        </nav>
+      </div>
+
+      <button class="menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="main-nav" aria-label="Toggle menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="wrap hero-grid">
+        <div class="hero-copy" data-reveal>
+          <div class="eyebrow-row">
+            <span class="section-eyebrow section-eyebrow-hot">Monetary Policy Lens</span>
+            <span class="section-eyebrow">Inflation / Deflation Mechanics</span>
+          </div>
+          <h1>How Atho supply expands, stabilizes, then hardens.</h1>
+          <p>
+            Atho starts with deterministic inflation via fixed block subsidies and transitions into a controlled tail era with fee-burn routing and supply-floor clipping. This page visualizes the full flow so miners, stakers, and operators can reason about policy behavior from chain data.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-inline" href="./bpow-docs.html">Open BPoW Deep Dive</a>
+            <a class="btn btn-primary btn-inline" href="./rewards.html">Open Rewards</a>
+            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/inflation-deflationary.pdf" download>Download Inflation/Deflation Spec</a>
+            <a class="btn btn-primary btn-inline" href="./docs.html#economics-docs">Open Economics Docs</a>
+          </div>
+        </div>
+
+        <div class="hero-panel" data-reveal>
+          <div class="card card-pad">
+            <h2 class="panel-title">Policy Constants</h2>
+            <ul class="key-list">
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Pre-tail target path</strong>
+                  <span><code>30,000,000 ATHO</code> deterministic base emission path.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Tail emission</strong>
+                  <span><code>0.25 ATHO</code> per block after height <code>21,102,000</code>.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Fee routing</strong>
+                  <span><code>20%</code> protocol pool route, <code>80%</code> routed non-pool path.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Deflation guardrail</strong>
+                  <span>Burn is clipped at effective floor <code>21,000,000 ATHO</code>.</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="inflation-flow" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Network Timeline</span>
+        <h2 class="section-title">Pre-tail and post-tail are different network modes.</h2>
+        <p class="section-copy">
+          Deflation mode is disabled before tail. It only becomes possible after the chain crosses tail start height <code>21,102,000</code>.
+        </p>
+
+        <article class="card card-pad phase-map-card" data-reveal>
+          <div class="phase-track-shell" aria-hidden="true">
+            <div class="phase-segment phase-segment-pre">
+              <strong>Pre-tail: blocks 0-21,101,999</strong>
+              <span>Emission schedule dominates. Inflation mode only.</span>
+              <span class="phase-runner phase-runner-pre"></span>
+            </div>
+            <div class="phase-switch-node">
+              <strong>Tail Switch</strong>
+              <span>Block 21,102,000</span>
+            </div>
+            <div class="phase-segment phase-segment-post">
+              <strong>Post-tail: blocks 21,102,000+</strong>
+              <span>Tail subsidy + burn logic. Deflation can occur.</span>
+              <span class="phase-runner phase-runner-post"></span>
+            </div>
+          </div>
+          <div class="phase-caption-row">
+            <span><strong>Rule 1:</strong> Before tail, treat the network as inflation-schedule mode.</span>
+            <span><strong>Rule 2:</strong> After tail, burn pressure can create deflation if it beats issuance.</span>
+          </div>
+        </article>
+
+        <div class="split-grid network-mode-grid">
+          <article class="card card-pad network-mode-card" data-reveal>
+            <h3 class="panel-title">Pre-tail Network (Deflation OFF)</h3>
+            <span class="feature-tag mode-tag mode-tag-off">Deflation Disabled</span>
+            <div class="mode-flow mode-flow-pre" aria-hidden="true">
+              <span class="mode-box">Subsidy by Era</span>
+              <span class="mode-arrow">-></span>
+              <span class="mode-box">Fee Split 20 / 80</span>
+              <span class="mode-arrow">-></span>
+              <span class="mode-box">Net Supply Expansion</span>
+              <span class="mode-dot mode-dot-pre"></span>
+            </div>
+            <p class="panel-copy">
+              Pre-tail behavior is deterministic expansion from hardcoded subsidy bands. Fee routing exists, but this phase is not the deflation mode.
+            </p>
+          </article>
+
+          <article class="card card-pad network-mode-card" data-reveal>
+            <h3 class="panel-title">Post-tail Network (Deflation Eligible)</h3>
+            <span class="feature-tag mode-tag mode-tag-on">Deflation Conditional</span>
+            <div class="mode-flow mode-flow-post" aria-hidden="true">
+              <span class="mode-box">Tail Subsidy 0.25</span>
+              <span class="mode-arrow">-></span>
+              <span class="mode-box">Burn Request (80% Routed Fees)</span>
+              <span class="mode-arrow">-></span>
+              <span class="mode-box">Floor Clip @ 21M</span>
+              <span class="mode-arrow">-></span>
+              <span class="mode-box">Net Delta</span>
+              <span class="mode-dot mode-dot-post"></span>
+            </div>
+            <p class="panel-copy">
+              Only after tail start can burn pressure produce deflation, and only when clipped burn outweighs issuance components.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="deflation-control" class="section">
+      <div class="wrap split-grid">
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Post-tail Net-Delta Rule (Deflation Logic)</h3>
+          <p class="panel-copy">
+            Deflation logic is gated by height. Before tail switch, deflation is not active. After tail switch, deflation can happen if clipped burn exceeds issuance.
+          </p>
+          <pre class="join-code"><code>if height < 21,102,000:
+  deflation_mode = OFF
+  network_mode = pre-tail inflation schedule
+else:
+  deflation_mode = ON (conditional)
+  net_delta = issuance_components - burned_clipped
+  where burned_clipped <= floor_headroom(21,000,000 ATHO)</code></pre>
+          <ol class="join-step-list">
+            <li>At block <code>21,102,000</code>, tail subsidy locks to <code>0.25 ATHO</code>.</li>
+            <li>Burn request comes from routed non-pool fees (<code>80%</code> fee path).</li>
+            <li>Burn is clipped to stay above the <code>21,000,000 ATHO</code> effective floor.</li>
+            <li>Deflation appears only if post-clip burn exceeds total issuance components.</li>
+          </ol>
+        </article>
+
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Visual Mode Matrix (Tail-Only Deflation)</h3>
+          <div class="deflation-matrix-shell" aria-hidden="true">
+            <div class="matrix-head">
+              <span>State</span>
+              <span>Condition</span>
+              <span>Network Result</span>
+            </div>
+            <div class="matrix-row">
+              <span class="matrix-state">Pre-tail</span>
+              <span>height &lt; <code>21,102,000</code></span>
+              <span class="matrix-result matrix-result-off">Deflation OFF</span>
+            </div>
+            <div class="matrix-row">
+              <span class="matrix-state">Post-tail / Low fees</span>
+              <span>burn &lt; issuance</span>
+              <span class="matrix-result matrix-result-infl">Net Inflation</span>
+            </div>
+            <div class="matrix-row">
+              <span class="matrix-state">Post-tail / Balanced fees</span>
+              <span>burn ~= issuance</span>
+              <span class="matrix-result matrix-result-flat">Near Neutral</span>
+            </div>
+            <div class="matrix-row">
+              <span class="matrix-state">Post-tail / High fees</span>
+              <span>burn &gt; issuance</span>
+              <span class="matrix-result matrix-result-defl">Net Deflation</span>
+            </div>
+          </div>
+          <p class="panel-copy">
+            Read this top to bottom: only post-tail rows can ever produce deflation, and even then it depends on the burn-vs-issuance balance.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="supply-balance" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Post-tail Scenarios</span>
+        <h2 class="section-title">After tail starts, fee pressure determines inflation vs deflation direction.</h2>
+        <p class="section-copy">
+          These scenarios apply only in post-tail mode. Before tail, the network remains in pre-tail inflation schedule mode by rule.
+        </p>
+
+        <div class="feature-grid economics-scenario-grid" data-stagger>
+          <article class="card card-pad feature-card economics-scenario-card" data-reveal>
+            <h3>Low Fee Activity</h3>
+            <p>Subsidy dominates. Net pressure is usually inflation-leaning because burn demand from fees is small.</p>
+            <div class="scenario-meter scenario-meter-low" aria-hidden="true"><span></span></div>
+            <span class="feature-tag">Inflation-Leaning</span>
+          </article>
+
+          <article class="card card-pad feature-card economics-scenario-card" data-reveal>
+            <h3>Balanced Throughput</h3>
+            <p>Fee burn pressure and subsidy partially offset each other. Net issuance trends flatter and more neutral.</p>
+            <div class="scenario-meter scenario-meter-mid" aria-hidden="true"><span></span></div>
+            <span class="feature-tag">Near-Balanced</span>
+          </article>
+
+          <article class="card card-pad feature-card economics-scenario-card" data-reveal>
+            <h3>High Fee Utilization</h3>
+            <p>Routed fees increase burn demand. Deflationary pressure rises, but floor clipping still hard-limits total burn.</p>
+            <div class="scenario-meter scenario-meter-high" aria-hidden="true"><span></span></div>
+            <span class="feature-tag">Deflation-Leaning</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap cta-shell" data-reveal>
+        <article class="cta-box">
+          <h2 class="cta-title">Emission math is transparent only when every path is visible.</h2>
+          <p class="cta-copy">
+            Atho publishes the constants, formulas, and lifecycle rules behind inflation and deflation so miners, stakers, and integrators can independently validate long-run behavior.
+          </p>
+          <div class="badge-row">
+            <span class="badge">30,000,000 ATHO pre-tail path</span>
+            <span class="badge">0.25 ATHO tail emission</span>
+            <span class="badge">20% deterministic fee pool route</span>
+            <span class="badge">21,000,000 ATHO floor clipping</span>
+            <span class="badge">BPoW bond + stake role separation</span>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <span>Atho Labs</span>
+      <span class="footer-contact">
+        <span class="footer-slogan">The Platinum Standard of the Quantum Age</span>
+        <span>
+          To report bugs, security issues, or general inquiries:
+          <a href="./contact.html">Contact</a>
+          or
+          <a href="mailto:labs@atho.io">labs@atho.io</a>
+        </span>
+      </span>
+      <span>&copy; <span data-year></span> Atho Labs. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>

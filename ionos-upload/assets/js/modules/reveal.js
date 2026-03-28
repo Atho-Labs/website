@@ -1,6 +1,12 @@
-export function initReveal() {
+export function initReveal(options = {}) {
+  const { immediate = false } = options;
   const nodes = Array.from(document.querySelectorAll("[data-reveal], [data-stagger]"));
   if (!nodes.length) return;
+
+  if (immediate || !("IntersectionObserver" in window)) {
+    nodes.forEach((node) => node.classList.add("is-visible"));
+    return;
+  }
 
   const reveal = new IntersectionObserver(
     (entries) => {

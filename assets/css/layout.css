@@ -10,6 +10,13 @@
   transition: background 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease;
 }
 
+body:not(.home-page) .site-header {
+  backdrop-filter: none;
+  background:
+    linear-gradient(180deg, rgba(247, 251, 249, 0.96), rgba(244, 250, 247, 0.93)),
+    repeating-linear-gradient(90deg, rgba(55, 182, 239, 0.03) 0 1px, transparent 1px 132px);
+}
+
 .perf-lite .site-header {
   backdrop-filter: none;
   background:
@@ -40,6 +47,11 @@
   opacity: 0.7;
   pointer-events: none;
   animation: header-signal 6.8s ease-in-out infinite;
+}
+
+body:not(.home-page) .site-header::before {
+  animation: none;
+  opacity: 0.28;
 }
 
 .site-header.is-scrolled {
@@ -185,6 +197,10 @@
   gap: var(--space-6);
   align-items: center;
   position: relative;
+}
+
+.home-page #overview .hero-grid {
+  align-items: start;
 }
 
 .hero-copy h1 {

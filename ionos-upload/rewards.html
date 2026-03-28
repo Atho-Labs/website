@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="./assets/css/motion.css">
   <link rel="stylesheet" href="./assets/css/responsive.css">
 </head>
-<body>
+<body class="rewards-page">
   <header class="site-header">
     <div class="wrap nav-shell">
       <a class="brand" href="./index.html#overview" aria-label="Atho home">
@@ -32,9 +32,7 @@
           <a class="nav-link" href="./docs.html">Docs</a>
           <a class="nav-link" href="./changelog.html">Changelog</a>
           <a class="nav-link" href="#bpow">BPoW</a>
-          <a class="nav-link" href="#bonding-staking">Bonding</a>
-          <a class="nav-link" href="#pool-addresses">Pool Addresses</a>
-          <a class="nav-link" href="#reward-schedule">Schedule</a>
+          <a class="nav-link" href="#reward-visuals">Visuals</a>
           <a class="nav-link" href="#reward-flow">Reward Flow</a>
         </nav>
 
@@ -84,9 +82,11 @@
             Atho uses BPoW to require miner bonds for block production, while wallet staking stays a separate participation lane. The model is anchored by a 50,000 ATHO bootstrap budget and a 30,000,000 ATHO base emission supply path before tail emission.
           </p>
           <div class="hero-actions">
+            <a class="btn btn-primary btn-inline" href="#reward-breakdown">Reward Split Math</a>
             <a class="btn btn-primary btn-inline" href="#pool-addresses">Pool Addresses</a>
             <a class="btn btn-primary btn-inline" href="#reward-schedule">Reward Schedule</a>
             <a class="btn btn-primary btn-inline" href="#reward-flow">Reward Flow</a>
+            <a class="btn btn-primary btn-inline" href="./inflation-deflation.html">Inflation / Deflation</a>
             <a class="btn btn-primary btn-inline" href="./join.html">Join The Network</a>
           </div>
         </div>
@@ -126,6 +126,256 @@
             </ul>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section id="reward-visuals" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Reward Journey Visuals</span>
+        <h2 class="section-title">A real user flow: person -> wallet action -> network rewards.</h2>
+        <p class="section-copy">
+          These animations show the human flow first: a miner bonds in wallet then mines, a holder stakes from wallet then waits through epoch settlement, and passive rewards accrue through deterministic routing.
+        </p>
+
+        <div class="feature-grid reward-story-grid" data-stagger>
+          <article class="card card-pad feature-card reward-visual-card" data-reveal>
+            <h3 class="panel-title">Miner Bond -> Mine -> Reward</h3>
+            <p class="panel-copy">
+              Miner deposits bond from wallet, reaches active state, mines valid blocks, then unlocks matured payout.
+            </p>
+            <div class="reward-story reward-story-miner" aria-hidden="true">
+              <span class="story-track"></span>
+              <span class="story-dot story-dot-a"></span>
+              <span class="story-dot story-dot-b"></span>
+
+              <div class="story-node story-node-1">
+                <span class="story-icon icon-person"></span>
+                <span class="story-text">Miner</span>
+              </div>
+              <div class="story-node story-node-2">
+                <span class="story-icon icon-wallet"></span>
+                <span class="story-text">Wallet</span>
+              </div>
+              <div class="story-node story-node-3">
+                <span class="story-icon icon-lock"></span>
+                <span class="story-text">Bond 25 ATHO</span>
+              </div>
+              <div class="story-node story-node-4">
+                <span class="story-icon icon-pickaxe"></span>
+                <span class="story-text">Mine + Payout</span>
+              </div>
+            </div>
+            <span class="feature-tag">Bonded Mining Flow</span>
+          </article>
+
+          <article class="card card-pad feature-card reward-visual-card" data-reveal>
+            <h3 class="panel-title">Wallet Staking -> Epoch Reward</h3>
+            <p class="panel-copy">
+              A holder stakes from wallet, enters active stake state, then earns deterministic rewards over epoch windows.
+            </p>
+            <div class="reward-story reward-story-stake" aria-hidden="true">
+              <span class="story-track"></span>
+              <span class="story-dot story-dot-a"></span>
+              <span class="story-dot story-dot-b"></span>
+
+              <div class="story-node story-node-1">
+                <span class="story-icon icon-person"></span>
+                <span class="story-text">Holder</span>
+              </div>
+              <div class="story-node story-node-2">
+                <span class="story-icon icon-wallet"></span>
+                <span class="story-text">Stake Wallet</span>
+              </div>
+              <div class="story-node story-node-3">
+                <span class="story-icon icon-clock"></span>
+                <span class="story-text">Epoch 720</span>
+              </div>
+              <div class="story-node story-node-4">
+                <span class="story-icon icon-coinstack"></span>
+                <span class="story-text">Stake Reward</span>
+              </div>
+            </div>
+            <span class="feature-tag">Staking Flow</span>
+          </article>
+
+          <article class="card card-pad feature-card reward-visual-card" data-reveal>
+            <h3 class="panel-title">Passive Accrual Routing</h3>
+            <p class="panel-copy">
+              Passive shares route into pool accounting and settle predictably to bonded-idle and stake participants.
+            </p>
+            <div class="reward-story reward-story-passive" aria-hidden="true">
+              <span class="story-track"></span>
+              <span class="story-dot story-dot-a"></span>
+              <span class="story-dot story-dot-b"></span>
+
+              <div class="story-node story-node-1">
+                <span class="story-icon icon-person"></span>
+                <span class="story-text">Participant</span>
+              </div>
+              <div class="story-node story-node-2">
+                <span class="story-icon icon-router"></span>
+                <span class="story-text">Fee Router</span>
+              </div>
+              <div class="story-node story-node-3">
+                <span class="story-icon icon-vault"></span>
+                <span class="story-text">Pool Bucket</span>
+              </div>
+              <div class="story-node story-node-4">
+                <span class="story-icon icon-coinstack"></span>
+                <span class="story-text">Passive Reward</span>
+              </div>
+            </div>
+            <span class="feature-tag">Passive Distribution</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="reward-breakdown" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Reward Split Breakdown</span>
+        <h2 class="section-title">Clear visual math for bond rewards, staking rewards, and fee routing.</h2>
+        <p class="section-copy">
+          The values below come directly from the active consensus docs: <code>20%</code> total fee-pool route, split into
+          <code>10%</code> miner-side and <code>10%</code> stake-side, with miner-side further split as <code>7%</code> winner-proportional
+          and <code>3%</code> bonded-idle distribution.
+        </p>
+
+        <div class="feature-grid reward-breakdown-grid" data-stagger>
+          <article class="card card-pad feature-card reward-breakdown-card" data-reveal>
+            <h3>Step 1: Per-Block Fee Split</h3>
+            <p class="panel-copy">
+              Every block fee total is split once: protocol pool gets <code>20%</code>, and <code>80%</code> follows the non-pool route.
+            </p>
+            <div class="reward-split-meter" aria-hidden="true">
+              <div class="reward-split-meter-fill reward-split-meter-pool">20% Protocol Pool</div>
+              <div class="reward-split-meter-fill reward-split-meter-route">80% Non-Pool Route</div>
+              <span class="reward-split-pulse reward-split-pulse-a"></span>
+              <span class="reward-split-pulse reward-split-pulse-b"></span>
+            </div>
+            <ul class="key-list reward-mini-list">
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Fixed by consensus policy</strong>
+                  <span>No operator can change this split locally without a coordinated consensus update.</span>
+                </span>
+              </li>
+            </ul>
+            <span class="feature-tag">Consensus.md - Section 3</span>
+          </article>
+
+          <article class="card card-pad feature-card reward-breakdown-card" data-reveal>
+            <h3>Step 2: Pool Bucket Split</h3>
+            <p class="panel-copy">
+              The <code>20%</code> pool route is divided evenly for mining and staking participation, then miner-side is split <code>7%</code>/<code>3%</code>.
+            </p>
+            <div class="reward-stack" aria-hidden="true">
+              <div class="reward-stack-row">
+                <span class="reward-stack-label">20% Pool Total</span>
+                <div class="reward-stack-bar">
+                  <span class="reward-stack-segment reward-stack-miner">10% Miner-Side</span>
+                  <span class="reward-stack-segment reward-stack-stake">10% Stake-Side</span>
+                </div>
+              </div>
+              <div class="reward-stack-row reward-stack-row-inner">
+                <span class="reward-stack-label">Miner 10%</span>
+                <div class="reward-stack-bar">
+                  <span class="reward-stack-segment reward-stack-winner">7% Winner</span>
+                  <span class="reward-stack-segment reward-stack-bonded">3% Bonded-Idle</span>
+                </div>
+              </div>
+            </div>
+            <pre class="join-code"><code>stake_payout_i_epoch
+  = stake_pool_epoch * (active_stake_i / total_active_stake_epoch)</code></pre>
+            <ul class="key-list reward-mini-list">
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Bonding vs staking role split</strong>
+                  <span>Bonded miners share winner + bonded-idle lanes, while wallet stakers accrue from the dedicated stake bucket.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Stake weighting rule (epoch settlement)</strong>
+                  <span>Wallet staking rewards are weighted by each staker's active percentage of total active stake in the epoch window (<code>720</code> blocks + <code>720</code> finalization buffer), matching whitepaper fee-pool and settlement semantics.</span>
+                </span>
+              </li>
+            </ul>
+            <span class="feature-tag">WhitePaper.md - 5.8 + Consensus.md - 2/3</span>
+          </article>
+
+          <article class="card card-pad feature-card reward-breakdown-card" data-reveal>
+            <h3>Step 3: Worked Examples</h3>
+            <p class="panel-copy">
+              Same consensus constants, shown with real numbers so miners and stakers can verify expected ranges.
+            </p>
+            <div class="reward-example-shell">
+              <div class="reward-example-block">
+                <h4>Example A: 100.00 ATHO fees in one block</h4>
+                <ul class="reward-example-list">
+                  <li><span>Pool total (20%)</span><strong>20.00 ATHO</strong></li>
+                  <li><span>Miner-side bucket (10%)</span><strong>10.00 ATHO</strong></li>
+                  <li><span>Stake-side bucket (10%)</span><strong>10.00 ATHO</strong></li>
+                  <li><span>Winner lane (7%)</span><strong>7.00 ATHO</strong></li>
+                  <li><span>Bonded-idle lane (3%)</span><strong>3.00 ATHO</strong></li>
+                </ul>
+              </div>
+              <div class="reward-example-block">
+                <h4>Example B: 12.50 ATHO fees in one block</h4>
+                <ul class="reward-example-list">
+                  <li><span>Pool total (20%)</span><strong>2.50 ATHO</strong></li>
+                  <li><span>Miner-side bucket (10%)</span><strong>1.25 ATHO</strong></li>
+                  <li><span>Stake-side bucket (10%)</span><strong>1.25 ATHO</strong></li>
+                  <li><span>Winner lane (7%)</span><strong>0.875 ATHO</strong></li>
+                  <li><span>Bonded-idle lane (3%)</span><strong>0.375 ATHO</strong></li>
+                </ul>
+              </div>
+              <div class="reward-example-block">
+                <h4>Example C: Stake-side split by pool share (epoch view)</h4>
+                <ul class="reward-example-list">
+                  <li><span>Stake pool for epoch</span><strong>900.00 ATHO</strong></li>
+                  <li><span>Staker A with 50% active stake share</span><strong>450.00 ATHO</strong></li>
+                  <li><span>Staker B with 30% active stake share</span><strong>270.00 ATHO</strong></li>
+                  <li><span>Staker C with 20% active stake share</span><strong>180.00 ATHO</strong></li>
+                </ul>
+              </div>
+              <p class="reward-example-epoch">
+                At <code>720</code> blocks/epoch with <code>12.50 ATHO</code> fees per block: pool accounting is <code>1,800 ATHO</code> total
+                (<code>900</code> miner-side, <code>900</code> stake-side; miner-side includes <code>630</code> winner and <code>270</code> bonded-idle).
+              </p>
+            </div>
+            <span class="feature-tag">Consensus + Emissions Docs Math</span>
+          </article>
+        </div>
+
+        <article class="card card-pad reward-address-strip" data-reveal>
+          <h3 class="panel-title">Protocol Pool Sink Addresses (By Network)</h3>
+          <p class="panel-copy">
+            The <code>20%</code> pool route settles into deterministic consensus pool sinks. These are protocol addresses, not normal user wallets.
+          </p>
+          <div class="reward-address-grid">
+            <div class="reward-address-card">
+              <strong>Mainnet Pool</strong>
+              <code>P6C5KUr8cdwJqASn7Fb9N2wPvFJXrG2RbYBVFBDmdY4d7dbTS65aH2GguEtFdZ48jPUE</code>
+            </div>
+            <div class="reward-address-card">
+              <strong>Testnet Pool</strong>
+              <code>LAdyCWxVYEkGFWr5Mdkr4gWYfStvtx7DQkVbqh3dff8avwre2yT69JVjYNBVhtEQ3WGQ</code>
+            </div>
+            <div class="reward-address-card">
+              <strong>Regnet Pool</strong>
+              <code>LC9Z3kx9zw6NUa7sBUVZ5Zb9G9wvTMpXHd96pxKAYzkxgvVDmuXNU6RHw2hJeRcWBnBG</code>
+            </div>
+          </div>
+          <div class="hero-actions reward-doc-actions">
+            <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/consensus.pdf" target="_blank" rel="noopener noreferrer">Consensus Source</a>
+            <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/emissions.pdf" target="_blank" rel="noopener noreferrer">Emissions Source</a>
+            <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/genesis-reference.pdf" target="_blank" rel="noopener noreferrer">Genesis Address Source</a>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -405,6 +655,13 @@
               <span>
                 <strong>Epoch settlement</strong>
                 <span>Reward accounting settles on deterministic <code>720</code>-block epochs with <code>720</code>-block finalization buffer.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Stake payout weighting</strong>
+                <span>Within each settled epoch, wallet-stake rewards scale by each address share of total active stake in that same epoch.</span>
               </span>
             </li>
           </ul>
