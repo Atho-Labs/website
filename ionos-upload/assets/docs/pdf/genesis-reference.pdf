@@ -130,7 +130,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 1325 >>
+<< /Length 1357 >>
 stream
 BT
 /F1 10 Tf
@@ -178,7 +178,7 @@ T*
 T*
 (- bootstrap allocation: 50,000 ATHO at block 1) Tj
 T*
-(- base emission supply path: 30,000,000 ATHO pre-tail) Tj
+(- total pre-tail base path: 30,000,000 ATHO \(29,950,000 subsidy + 50,000 bootstrap\)) Tj
 T*
 () Tj
 T*
@@ -208,5 +208,5 @@ xref
 trailer
 << /Size 8 /Root 1 0 R >>
 startxref
-4200
+4232
 %%EOF

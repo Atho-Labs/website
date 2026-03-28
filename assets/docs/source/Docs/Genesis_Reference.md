@@ -60,7 +60,7 @@ Derived from SHA3-384 network domain tags in `const.py`:
 - unbond delay: `10,080` blocks
 - slash penalty: `2.5 ATHO`
 - bootstrap allocation: `50,000 ATHO` at block `1`
-- base emission supply path: `30,000,000 ATHO` pre-tail
+- total pre-tail base path: `30,000,000 ATHO` (`29,950,000` subsidy + `50,000` bootstrap)
 
 ## Notes
 - Genesis entries above are read from hardcoded JSON artifacts and are consensus-critical references.

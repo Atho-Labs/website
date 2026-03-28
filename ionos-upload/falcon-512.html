@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Atho Falcon-512 architecture: implementation details, lattice vs elliptic signatures, and transaction-size efficiency design.">
+  <title>Atho Falcon-512</title>
+  <link rel="icon" type="image/png" href="./assets/media/logo2website.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/variables.css">
+  <link rel="stylesheet" href="./assets/css/base.css">
+  <link rel="stylesheet" href="./assets/css/layout.css">
+  <link rel="stylesheet" href="./assets/css/components.css">
+  <link rel="stylesheet" href="./assets/css/motion.css">
+  <link rel="stylesheet" href="./assets/css/responsive.css">
+</head>
+<body class="falcon-page">
+  <header class="site-header">
+    <div class="wrap nav-shell">
+      <a class="brand" href="./index.html#overview" aria-label="Atho home">
+        <img class="brand-mark" src="./assets/media/logo2website.png" alt="Atho logo" width="41" height="41" decoding="async">
+        <span class="brand-title">Atho</span>
+      </a>
+
+      <div class="header-right">
+        <nav id="main-nav" class="nav-links" data-nav-links>
+          <a class="nav-link" href="#falcon-vs-ecc">Falcon vs ECC</a>
+          <a class="nav-link" href="#tx-efficiency">Tx Efficiency</a>
+        </nav>
+      </div>
+
+      <button class="menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="main-nav" aria-label="Toggle menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <div class="global-nav-drawer" data-global-drawer>
+        <div class="global-nav-card">
+          <span class="global-nav-title">All Pages</span>
+          <div class="global-nav-grid">
+            <a class="global-nav-link" href="./index.html">Home</a>
+            <a class="global-nav-link" href="./docs.html">Docs</a>
+            <a class="global-nav-link" href="./falcon-512.html">Falcon-512</a>
+            <a class="global-nav-link" href="./join.html">Join</a>
+            <a class="global-nav-link" href="./rewards.html">Rewards</a>
+            <a class="global-nav-link" href="./wallet.html">Wallet</a>
+            <a class="global-nav-link" href="./bpow-docs.html">BPoW</a>
+            <a class="global-nav-link" href="./inflation-deflation.html">Inflation / Deflation</a>
+            <a class="global-nav-link" href="./changelog.html">Changelog</a>
+            <a class="global-nav-link" href="./contact.html">Contact</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="wrap hero-grid">
+        <div class="hero-copy" data-reveal>
+          <div class="eyebrow-row">
+            <span class="section-eyebrow section-eyebrow-hot">Post-Quantum Signature Layer</span>
+            <span class="section-eyebrow">Falcon-512 Implementation</span>
+          </div>
+          <h1>Why Atho chose Falcon-512 and how we made it practical.</h1>
+          <p>
+            Atho uses Falcon-512 to move beyond elliptic-curve-only security assumptions while still keeping transaction handling practical through SegWit-style sizing and compact binary encoding. This keeps operations in a Bitcoin/Litecoin-style UTXO workflow model while upgrading signature security assumptions.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/falcon512.pdf" download>Download Falcon Spec</a>
+            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/tx.pdf" download>Download Tx Spec</a>
+            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/sigwit.pdf" download>Download SegWit Spec</a>
+            <a class="btn btn-primary btn-inline" href="./bpow-docs.html">Open BPoW</a>
+          </div>
+        </div>
+
+        <div class="hero-panel" data-reveal>
+          <div class="card card-pad">
+            <h2 class="panel-title">Active Falcon Constants</h2>
+            <ul class="key-list">
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Canonical pubkey size</strong>
+                  <span><code>897 bytes</code> (legacy <code>1024 bytes</code> acceptance disabled by default).</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Compressed signature target</strong>
+                  <span><code>666 bytes</code> with consensus acceptance window <code>600..690 bytes</code>.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Consensus verification path</strong>
+                  <span>Witness size checks run before signature verify through Falcon CLI and policy-controlled verifier paths.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Binary hardening</strong>
+                  <span>Pinned Falcon binaries and strict runtime checks protect signing/verification integrity.</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="falcon-vs-ecc" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Falcon vs Elliptic Curve</span>
+        <h2 class="section-title">Lattice signatures and elliptic signatures have different strengths and size profiles.</h2>
+        <p class="section-copy">
+          Falcon-512 is lattice-based and selected for post-quantum resilience. Classical ECC signatures are smaller, but they rely on assumptions vulnerable to large-scale quantum attacks. Atho favors long-run security, then optimizes transaction structure to keep operations practical.
+        </p>
+
+        <div class="feature-grid falcon-compare-grid" data-stagger>
+          <article class="card card-pad feature-card falcon-compare-card" data-reveal>
+            <h3>Security Model Contrast</h3>
+            <p class="panel-copy">
+              Falcon-512 is designed for post-quantum threat models, while classical elliptic signatures target classical adversaries.
+            </p>
+            <div class="falcon-model-grid" aria-hidden="true">
+              <div class="falcon-model-node falcon-model-node-lattice">
+                <strong>Lattice (Falcon-512)</strong>
+                <span>Post-quantum oriented security assumptions.</span>
+              </div>
+              <div class="falcon-model-node falcon-model-node-ecc">
+                <strong>Elliptic (ECC)</strong>
+                <span>Smaller primitives, classical-security assumptions.</span>
+              </div>
+            </div>
+            <span class="feature-tag">Threat-Model Driven Choice</span>
+          </article>
+
+          <article class="card card-pad feature-card falcon-compare-card" data-reveal>
+            <h3>Signature and Key Size Visual</h3>
+            <p class="panel-copy">
+              Primitive-size comparison (not full transaction size): Falcon elements are larger, so Atho compensates through transaction layout and witness accounting.
+            </p>
+            <div class="falcon-size-compare" aria-hidden="true">
+              <div class="falcon-size-row">
+                <span class="falcon-size-label">Falcon signature</span>
+                <div class="falcon-size-bar"><span class="falcon-size-fill falcon-size-fill-falcon" style="--falcon-bar-fill: 100%;"></span></div>
+                <span class="falcon-size-value">~666 B</span>
+              </div>
+              <div class="falcon-size-row">
+                <span class="falcon-size-label">ECC signature (typical)</span>
+                <div class="falcon-size-bar"><span class="falcon-size-fill falcon-size-fill-ecc" style="--falcon-bar-fill: 11%;"></span></div>
+                <span class="falcon-size-value">~64-72 B</span>
+              </div>
+              <div class="falcon-size-row">
+                <span class="falcon-size-label">Falcon pubkey</span>
+                <div class="falcon-size-bar"><span class="falcon-size-fill falcon-size-fill-pub" style="--falcon-bar-fill: 100%;"></span></div>
+                <span class="falcon-size-value">897 B</span>
+              </div>
+              <div class="falcon-size-row">
+                <span class="falcon-size-label">ECC pubkey (compressed)</span>
+                <div class="falcon-size-bar"><span class="falcon-size-fill falcon-size-fill-ecc" style="--falcon-bar-fill: 4%;"></span></div>
+                <span class="falcon-size-value">33 B</span>
+              </div>
+            </div>
+            <p class="falcon-size-note">
+              Atho consensus enforces Falcon witness size bounds before verify, keeping validation deterministic.
+            </p>
+            <span class="feature-tag">Consensus Size Policy</span>
+          </article>
+
+          <article class="card card-pad feature-card falcon-compare-card" data-reveal>
+            <h3>Implementation Pipeline</h3>
+            <p class="panel-copy">
+              Atho keeps the signing path explicit: deterministic digesting, witness policy checks, and verified runtime binaries.
+            </p>
+            <div class="falcon-pipeline" aria-hidden="true">
+              <span class="falcon-pipeline-step falcon-step-a">No-Witness<br>Digest</span>
+              <span class="falcon-pipeline-step falcon-step-b">FalconCLI<br>Sign/Verify</span>
+              <span class="falcon-pipeline-step falcon-step-c">Witness Bounds<br>Enforced</span>
+              <span class="falcon-pipeline-step falcon-step-d">Consensus<br>Accept/Reject</span>
+              <span class="falcon-pipeline-packet"></span>
+              <span class="falcon-pipeline-packet falcon-pipeline-packet-b"></span>
+            </div>
+            <span class="feature-tag">Deterministic Validation Path</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="tx-efficiency" class="section">
+      <div class="wrap split-grid">
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">The Breakthrough: SegWit-Style Sizing + Compact Encoding</h3>
+          <p class="panel-copy">
+            The key breakthrough is not shrinking Falcon itself. The breakthrough is Atho’s transaction envelope: SegWit-style <code>vsize</code> accounting, compact binary transport (<code>ATX2</code>), compact input signature reference tokens, and witness separation. This keeps day-to-day transaction behavior in a practical UTXO operating range.
+          </p>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>SegWit metric model</strong>
+                <span><code>weight = base_bytes * 3 + total_bytes</code>, then <code>vsize = ceil(weight/4)</code>.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Compact field strategy</strong>
+                <span>Inputs avoid embedding full signature blobs in base fields; witness carries raw signature/pubkey bytes.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Result</strong>
+                <span>Atho remains operationally comparable to Bitcoin/Litecoin-style UTXO workflows while using post-quantum signatures.</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Current Reference Transaction Sizes</h3>
+          <div class="falcon-metric-table" aria-hidden="true">
+            <div class="falcon-metric-row falcon-metric-head">
+              <span>Shape</span>
+              <span>vsize</span>
+              <span>TPS @ 120s</span>
+            </div>
+            <div class="falcon-metric-row">
+              <span>1 in / 1 out</span>
+              <strong>~513 vB</strong>
+              <strong>~40.6 TPS</strong>
+            </div>
+            <div class="falcon-metric-row">
+              <span>1 in / 2 out</span>
+              <strong>~566 vB</strong>
+              <strong>~36.8 TPS</strong>
+            </div>
+            <div class="falcon-metric-row">
+              <span>2 in / 2 out</span>
+              <strong>~615 vB</strong>
+              <strong>~33.9 TPS</strong>
+            </div>
+            <div class="falcon-metric-row">
+              <span>3 in / 2 out</span>
+              <strong>~664 vB</strong>
+              <strong>~31.4 TPS</strong>
+            </div>
+          </div>
+
+          <div class="falcon-efficiency-shell" aria-hidden="true">
+            <div class="falcon-efficiency-row falcon-efficiency-row-a">
+              <span class="falcon-efficiency-label">1/1</span>
+              <div class="falcon-efficiency-track"><span style="--eff-fill: 77%;"></span></div>
+              <span class="falcon-efficiency-value">513 vB</span>
+            </div>
+            <div class="falcon-efficiency-row falcon-efficiency-row-b">
+              <span class="falcon-efficiency-label">1/2</span>
+              <div class="falcon-efficiency-track"><span style="--eff-fill: 85%;"></span></div>
+              <span class="falcon-efficiency-value">566 vB</span>
+            </div>
+            <div class="falcon-efficiency-row falcon-efficiency-row-c">
+              <span class="falcon-efficiency-label">2/2</span>
+              <div class="falcon-efficiency-track"><span style="--eff-fill: 92%;"></span></div>
+              <span class="falcon-efficiency-value">615 vB</span>
+            </div>
+            <div class="falcon-efficiency-row falcon-efficiency-row-d">
+              <span class="falcon-efficiency-label">3/2</span>
+              <div class="falcon-efficiency-track"><span style="--eff-fill: 100%;"></span></div>
+              <span class="falcon-efficiency-value">664 vB</span>
+            </div>
+          </div>
+          <p class="panel-copy">
+            These values are reference estimates from the current docs for compressed witness, no-metadata paths. The goal is practical fee-market behavior in the same operational class users expect from Bitcoin/Litecoin UTXO systems, even with larger Falcon witness primitives.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap cta-shell" data-reveal>
+        <article class="cta-box">
+          <h2 class="cta-title">Post-quantum signatures, practical transaction operations.</h2>
+          <p class="cta-copy">
+            Atho combines lattice-based signing, deterministic policy enforcement, and compact transaction engineering so the chain remains secure-forward and operationally efficient.
+          </p>
+          <div class="badge-row">
+            <span class="badge">Falcon-512 witness target ~666 B</span>
+            <span class="badge">Canonical Falcon pubkey 897 B</span>
+            <span class="badge">SegWit-style vsize policy</span>
+            <span class="badge">ATX2 compact binary codec</span>
+            <span class="badge">Runtime binary pinning controls</span>
+          </div>
+        </article>
+
+        <article class="card card-pad">
+          <h3 class="panel-title">Open References</h3>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Falcon Integration Doc</strong>
+                <span>Runtime model, byte policy, signing/verification flow, and binary pinning.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Transaction + SegWit Docs</strong>
+                <span>Full vsize rules, representative tx shapes, and throughput formula references.</span>
+              </span>
+            </li>
+          </ul>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/falcon-docs.pdf" download>Falcon Docs PDF</a>
+            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/tx.pdf" download>Tx Docs PDF</a>
+            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/sigwit.pdf" download>SegWit Docs PDF</a>
+            <a class="btn btn-primary btn-inline" href="./docs.html">Open Docs Hub</a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <span>Atho Labs</span>
+      <span class="footer-contact">
+        <span class="footer-slogan">The Platinum Standard of the Quantum Age</span>
+        <span>
+          To report bugs, security issues, or general inquiries:
+          <a href="./contact.html">Contact</a>
+          or
+          <a href="mailto:labs@atho.io">labs@atho.io</a>
+        </span>
+      </span>
+      <span>&copy; <span data-year></span> Atho Labs. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>

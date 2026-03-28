@@ -15,8 +15,9 @@ Canonical references:
 - Block time: `120` seconds (`262,800` blocks/year).
 - Era size: `1,314,000` blocks (`5` years).
 - First 5 eras: `10 -> 5 -> 2.5 -> 1.25 -> 0.625 ATHO/block`.
-- Transition: `0.3125 ATHO/block` until exact supply reaches `30,000,000 ATHO`.
-- Tail starts at height `21,102,000` (year `~80.3`) at `0.25 ATHO/block`.
+- Transition: `0.3125 ATHO/block` until exact subsidy emission reaches `29,950,000 ATHO`.
+- Bootstrap allocation: `50,000 ATHO` at block `1` (included in total pre-tail base).
+- Tail starts at height `20,942,000` (year `~79.7`, roughly `80 years`) at `0.25 ATHO/block`.
 - Tail annual issuance: `65,700 ATHO/year`.
 - Fee floor: `225 atoms/vB` (`2.25e-7 ATHO/vB`).
 - Fee routing: `20%` to consensus pool, `80%` to burn/miner split path.
@@ -33,8 +34,11 @@ Canonical references:
 | Era 3 | `2,628,000 .. 3,941,999` | 2.5 | 3,285,000 | 22,995,000 |
 | Era 4 | `3,942,000 .. 5,255,999` | 1.25 | 1,642,500 | 24,637,500 |
 | Era 5 | `5,256,000 .. 6,569,999` | 0.625 | 821,250 | 25,458,750 |
-| Transition | `6,570,000 .. 21,101,999` | 0.3125 | 4,541,250 | 30,000,000 |
-| Tail | `21,102,000+` | 0.25 | perpetual | perpetual |
+| Transition | `6,570,000 .. 20,941,999` | 0.3125 | 4,491,250 | 29,950,000 |
+| Tail | `20,942,000+` | 0.25 | perpetual | perpetual |
+
+Total pre-tail base including bootstrap:
+- `29,950,000 ATHO` subsidy path + `50,000 ATHO` bootstrap at block `1` = `30,000,000 ATHO`.
 
 ## Fee and Burn Math
 
@@ -100,7 +104,7 @@ Tail-active blocks carry auditable fields:
 
 ## Bottom Line
 Atho’s active model is:
-- **30M over ~80.3 years pre-tail**,
+- **30M total pre-tail base over ~79.7 years** (`29.95M` subsidy + `50k` bootstrap),
 - then fixed tail subsidy (`0.25 ATHO/block`),
 - with pool-routed fees and burn on routed non-pool share,
 - and a hard **21M supply floor**.

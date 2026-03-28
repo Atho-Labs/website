@@ -1,7 +1,7 @@
 # ENTIRE OVERVIEW - ATHO EMISSIONS MODELING
 
 
-Date: 2026-03-27 (UTC)
+Date: 2026-03-28 (UTC)
 
 This document is a complete observation-based report of the active Atho emissions and burn model. It
 explains what the model computes, why the outputs look the way they do, and where practical limits show up
@@ -17,10 +17,11 @@ framing bias. This report is observational rather than predictive; it does not t
 realized capacity as known values.
 
 Core constants used by the active model are: 120-second blocks, 262,800 blocks/year, 5 initial pre-tail
-eras of 1,314,000 blocks each, followed by a transition reward of 0.3125 ATHO/block until 30,000,000 ATHO,
-and a tail reward of 0.2500 ATHO/block, fee floor 0.00000023 ATHO per policy byte (225 atoms/byte), max
-block policy budget 2,500,000 vbytes, burn share 80.0%, miner fee share 0.0%, consensus-pool routing share
-20.0%, and supply floor 21,000,000 ATHO.
+eras of 1,314,000 blocks each, followed by a transition reward of 0.3125 ATHO/block until 29,950,000 ATHO
+subsidy emission, plus a one-time bootstrap allocation of 50,000 ATHO at block 1 for a total pre-tail base
+target of 30,000,000 ATHO, and a tail reward of 0.2500 ATHO/block, fee floor 0.00000023 ATHO per policy
+byte (225 atoms/byte), max block policy budget 2,500,000 vbytes, burn share 80.0%, miner fee share 0.0%,
+consensus-pool routing share 20.0%, and supply floor 21,000,000 ATHO.
 
 CONSENSUS ALIGNMENT STATUS
 
@@ -38,7 +39,7 @@ PASS: burn_100 post-tail net change matches tail_issuance - burned_fees.
 
 PASS: Annual burn never exceeds annual fee pool.
 
-PASS: Burn activation flips between year 80 (off) and 81 (on) in sampled yearly outputs.
+PASS: Burn activation flips between year 79 (off) and 80 (on) in sampled yearly outputs.
 
 Consensus alignment checks verify that the model schedule and policy math match live constants (tail
 start, fee floor, burn split, and supply floor). The same constants are enforced during block verification
@@ -47,9 +48,9 @@ and persistence in the node, so model and chain policy remain coupled.
 EMISSION SHAPE
 
 Pre-tail emission is fixed by the 5-era + transition reward sequence (10 -> 5 -> 2.5 -> 1.25 -> 0.625 ->
-0.3125 (until 30M) ATHO/block), producing an exact pre-tail issuance of 30,000,000.000 ATHO. Tail mode
-starts at height 21,102,000 (~year 80.30). Tail activation combines two transitions: reward moves from
-0.3125 to 0.2500 ATHO/block, and burn policy activates.
+0.3125 (until 29,950,000 subsidy) ATHO/block), producing an exact pre-tail issuance of 30,000,000.000
+ATHO. Tail mode starts at height 20,942,000 (~year 79.69). Tail activation combines two transitions:
+reward moves from 0.3125 to 0.2500 ATHO/block, and burn policy activates.
 
 Tail annual issuance is 65,700.000 ATHO. At 100% policy-budget utilization, annual fee pool is 147,825.000
 ATHO and max annual burn equals 118,260.000 ATHO. Therefore post-tail protocol net supply change is a
@@ -57,12 +58,12 @@ linear function of utilization: Delta_supply = tail_issuance - max_annual_burn *
 
 SCENARIO OUTCOMES
 
-Year-250 circulating supply ordering is strictly monotonic: NoBurn100=41,149,500.000 ATHO,
-Burn25=36,123,450.000, Burn50=31,097,400.000, Burn75=26,071,350.000, Burn100=21,045,300.000. This confirms
+Year-250 circulating supply ordering is strictly monotonic: NoBurn100=41,189,500.000 ATHO,
+Burn25=36,133,885.000, Burn50=31,078,270.000, Burn75=26,022,655.000, Burn100=21,000,000.000. This confirms
 expected policy behavior: greater sustained utilization under burn policy removes more aggregate fees from
 circulating supply.
 
-At year 100, NoBurn100 exceeds Burn100 by 2,365,200.000 ATHO. At year 250, Burn100 is 48.856% below
+At year 100, NoBurn100 exceeds Burn100 by 2,483,460.000 ATHO. At year 250, Burn100 is 49.016% below
 NoBurn100. These are material differences for long-horizon communications and treasury planning, so
 scenario labels must always accompany projected supply numbers.
 
@@ -112,25 +113,25 @@ during governance or investor communication.
 
 SCENARIO DEEP DIVE (YEAR CHECKPOINTS)
 
-No Burn (100% block capacity): year25 circulating=25,458,750.000 ATHO, year50=27,511,875.000,
-year100=31,294,500.000, year250=41,149,500.000. Annual net change at year250 is 65,700.000 ATHO with
+No Burn (100% block capacity): year25 circulating=25,508,750.000 ATHO, year50=27,561,875.000,
+year100=31,334,500.000, year250=41,189,500.000. Annual net change at year250 is 65,700.000 ATHO with
 annual net rate 0.160%.
 
-Burn On (25% block capacity): year25 circulating=25,458,750.000 ATHO, year50=27,511,875.000,
-year100=30,703,200.000, year250=36,123,450.000. Annual net change at year250 is 36,135.000 ATHO with
+Burn On (25% block capacity): year25 circulating=25,508,750.000 ATHO, year50=27,561,875.000,
+year100=30,713,635.000, year250=36,133,885.000. Annual net change at year250 is 36,135.000 ATHO with
 annual net rate 0.100%.
 
-Burn On (50% block capacity): year25 circulating=25,458,750.000 ATHO, year50=27,511,875.000,
-year100=30,111,900.000, year250=31,097,400.000. Annual net change at year250 is 6,570.000 ATHO with annual
+Burn On (50% block capacity): year25 circulating=25,508,750.000 ATHO, year50=27,561,875.000,
+year100=30,092,770.000, year250=31,078,270.000. Annual net change at year250 is 6,570.000 ATHO with annual
 net rate 0.021%.
 
-Burn On (75% block capacity): year25 circulating=25,458,750.000 ATHO, year50=27,511,875.000,
-year100=29,520,600.000, year250=26,071,350.000. Annual net change at year250 is -22,995.000 ATHO with
+Burn On (75% block capacity): year25 circulating=25,508,750.000 ATHO, year50=27,561,875.000,
+year100=29,471,905.000, year250=26,022,655.000. Annual net change at year250 is -22,995.000 ATHO with
 annual net rate -0.088%.
 
-Burn On (100% block capacity): year25 circulating=25,458,750.000 ATHO, year50=27,511,875.000,
-year100=28,929,300.000, year250=21,045,300.000. Annual net change at year250 is -52,560.000 ATHO with
-annual net rate -0.249%.
+Burn On (100% block capacity): year25 circulating=25,508,750.000 ATHO, year50=27,561,875.000,
+year100=28,851,040.000, year250=21,000,000.000. Annual net change at year250 is -19,600.000 ATHO with
+annual net rate -0.093%.
 
 CONCLUSIONS
 
@@ -147,7 +148,7 @@ explicit assumptions, publish versioned artifacts, and preserve strict separatio
 and external market assumptions.
 
 Appendix note 1: At year 10, scenario No Burn (100% block capacity) reports circulating supply
-19,710,000.000 ATHO, cumulative burned 0.000 ATHO, and annual net change 1,314,000.000 ATHO. This
+19,760,000.000 ATHO, cumulative burned 0.000 ATHO, and annual net change 1,314,000.000 ATHO. This
 checkpoint reinforces that cumulative burn tracks utilization and burn policy directly, while net-rate
 drift depends on the ratio of annual delta to existing circulating base.
 
@@ -161,7 +162,7 @@ estimate 36.800. Even though TPS is scenario-constrained in this model, net supp
 by utilization and burn policy rather than by nominal subsidy transitions after tail start.
 
 Appendix note 4: At year 75, scenario No Burn (100% block capacity) reports circulating supply
-29,565,000.000 ATHO, cumulative burned 0.000 ATHO, and annual net change 82,125.000 ATHO. This checkpoint
+29,615,000.000 ATHO, cumulative burned 0.000 ATHO, and annual net change 82,125.000 ATHO. This checkpoint
 reinforces that cumulative burn tracks utilization and burn policy directly, while net-rate drift depends
 on the ratio of annual delta to existing circulating base.
 
@@ -175,7 +176,7 @@ estimate 36.800. Even though TPS is scenario-constrained in this model, net supp
 by utilization and burn policy rather than by nominal subsidy transitions after tail start.
 
 Appendix note 7: At year 200, scenario No Burn (100% block capacity) reports circulating supply
-37,864,500.000 ATHO, cumulative burned 0.000 ATHO, and annual net change 65,700.000 ATHO. This checkpoint
+37,904,500.000 ATHO, cumulative burned 0.000 ATHO, and annual net change 65,700.000 ATHO. This checkpoint
 reinforces that cumulative burn tracks utilization and burn policy directly, while net-rate drift depends
 on the ratio of annual delta to existing circulating base.
 
@@ -184,12 +185,12 @@ and annual fee pool assumption is 147,825.000 ATHO. Under the configured burn sp
 is 0.000 ATHO and miner revenue is 213,525.000 ATHO. This makes token flow decomposition explicit for
 auditing and economics review.
 
-Appendix note 9: The Burn On (25% block capacity) curve at year 10 shows net rate 7.143% with TPS estimate
+Appendix note 9: The Burn On (25% block capacity) curve at year 10 shows net rate 7.123% with TPS estimate
 9.200. Even though TPS is scenario-constrained in this model, net supply behavior is controlled by
 utilization and burn policy rather than by nominal subsidy transitions after tail start.
 
 Appendix note 10: At year 25, scenario Burn On (25% block capacity) reports circulating supply
-25,458,750.000 ATHO, cumulative burned 0.000 ATHO, and annual net change 164,250.000 ATHO. This checkpoint
+25,508,750.000 ATHO, cumulative burned 0.000 ATHO, and annual net change 164,250.000 ATHO. This checkpoint
 reinforces that cumulative burn tracks utilization and burn policy directly, while net-rate drift depends
 on the ratio of annual delta to existing circulating base.
 
@@ -198,12 +199,12 @@ annual fee pool assumption is 36,956.250 ATHO. Under the configured burn split, 
 0.000 ATHO and miner revenue is 119,081.250 ATHO. This makes token flow decomposition explicit for
 auditing and economics review.
 
-Appendix note 12: The Burn On (25% block capacity) curve at year 75 shows net rate 0.279% with TPS
+Appendix note 12: The Burn On (25% block capacity) curve at year 75 shows net rate 0.278% with TPS
 estimate 9.200. Even though TPS is scenario-constrained in this model, net supply behavior is controlled
 by utilization and burn policy rather than by nominal subsidy transitions after tail start.
 
 Appendix note 13: At year 100, scenario Burn On (25% block capacity) reports circulating supply
-30,703,200.000 ATHO, cumulative burned 591,300.000 ATHO, and annual net change 36,135.000 ATHO. This
+30,713,635.000 ATHO, cumulative burned 620,865.000 ATHO, and annual net change 36,135.000 ATHO. This
 checkpoint reinforces that cumulative burn tracks utilization and burn policy directly, while net-rate
 drift depends on the ratio of annual delta to existing circulating base.
 
@@ -217,7 +218,7 @@ estimate 9.200. Even though TPS is scenario-constrained in this model, net suppl
 by utilization and burn policy rather than by nominal subsidy transitions after tail start.
 
 Appendix note 16: At year 250, scenario Burn On (25% block capacity) reports circulating supply
-36,123,450.000 ATHO, cumulative burned 5,026,050.000 ATHO, and annual net change 36,135.000 ATHO. This
+36,133,885.000 ATHO, cumulative burned 5,055,615.000 ATHO, and annual net change 36,135.000 ATHO. This
 checkpoint reinforces that cumulative burn tracks utilization and burn policy directly, while net-rate
 drift depends on the ratio of annual delta to existing circulating base.
 
@@ -226,12 +227,12 @@ and annual fee pool assumption is 73,912.500 ATHO. Under the configured burn spl
 is 0.000 ATHO and miner revenue is 1,387,912.500 ATHO. This makes token flow decomposition explicit for
 auditing and economics review.
 
-Appendix note 18: The Burn On (50% block capacity) curve at year 25 shows net rate 0.649% with TPS
+Appendix note 18: The Burn On (50% block capacity) curve at year 25 shows net rate 0.648% with TPS
 estimate 18.400. Even though TPS is scenario-constrained in this model, net supply behavior is controlled
 by utilization and burn policy rather than by nominal subsidy transitions after tail start.
 
 Appendix note 19: At year 50, scenario Burn On (50% block capacity) reports circulating supply
-27,511,875.000 ATHO, cumulative burned 0.000 ATHO, and annual net change 82,125.000 ATHO. This checkpoint
+27,561,875.000 ATHO, cumulative burned 0.000 ATHO, and annual net change 82,125.000 ATHO. This checkpoint
 reinforces that cumulative burn tracks utilization and burn policy directly, while net-rate drift depends
 on the ratio of annual delta to existing circulating base.
 
@@ -245,7 +246,7 @@ estimate 18.400. Even though TPS is scenario-constrained in this model, net supp
 by utilization and burn policy rather than by nominal subsidy transitions after tail start.
 
 Appendix note 22: At year 150, scenario Burn On (50% block capacity) reports circulating supply
-30,440,400.000 ATHO, cumulative burned 4,139,100.000 ATHO, and annual net change 6,570.000 ATHO. This
+30,421,270.000 ATHO, cumulative burned 4,198,230.000 ATHO, and annual net change 6,570.000 ATHO. This
 checkpoint reinforces that cumulative burn tracks utilization and burn policy directly, while net-rate
 drift depends on the ratio of annual delta to existing circulating base.
 
@@ -259,7 +260,7 @@ estimate 18.400. Even though TPS is scenario-constrained in this model, net supp
 by utilization and burn policy rather than by nominal subsidy transitions after tail start.
 
 Appendix note 25: At year 10, scenario Burn On (75% block capacity) reports circulating supply
-19,710,000.000 ATHO, cumulative burned 0.000 ATHO, and annual net change 1,314,000.000 ATHO. This
+19,760,000.000 ATHO, cumulative burned 0.000 ATHO, and annual net change 1,314,000.000 ATHO. This
 checkpoint reinforces that cumulative burn tracks utilization and burn policy directly, while net-rate
 drift depends on the ratio of annual delta to existing circulating base.
 
@@ -273,12 +274,7 @@ estimate 27.600. Even though TPS is scenario-constrained in this model, net supp
 by utilization and burn policy rather than by nominal subsidy transitions after tail start.
 
 Appendix note 28: At year 75, scenario Burn On (75% block capacity) reports circulating supply
-29,565,000.000 ATHO, cumulative burned 0.000 ATHO, and annual net change 82,125.000 ATHO. This checkpoint
+29,615,000.000 ATHO, cumulative burned 0.000 ATHO, and annual net change 82,125.000 ATHO. This checkpoint
 reinforces that cumulative burn tracks utilization and burn policy directly, while net-rate drift depends
 on the ratio of annual delta to existing circulating base.
-
-Appendix note 29: For Burn On (75% block capacity) at year 100, annual issuance remains 65,700.000 ATHO
-and annual fee pool assumption is 110,868.750 ATHO. Under the configured burn split, annual burned amount
-is 88,695.000 ATHO and miner revenue is 87,873.750 ATHO. This makes token flow decomposition explicit for
-auditing and economics review.
 

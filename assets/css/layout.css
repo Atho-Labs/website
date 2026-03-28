@@ -63,14 +63,17 @@ body:not(.home-page) .site-header::before {
 }
 
 .nav-shell {
+  position: relative;
   min-height: 82px;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  justify-content: space-between;
   gap: var(--space-4);
 }
 
 .brand {
+  grid-column: 1;
+  justify-self: start;
   display: inline-flex;
   align-items: center;
   gap: var(--space-3);
@@ -180,15 +183,38 @@ body:not(.home-page) .site-header::before {
 }
 
 .header-right {
+  grid-column: 2;
+  justify-self: center;
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  justify-content: center;
+  min-width: 0;
+  width: auto;
 }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  justify-content: center;
+  gap: var(--space-3);
+  min-width: 0;
+  max-width: clamp(230px, calc(100vw - 420px), 860px);
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+
+.nav-shell > .menu-toggle {
+  grid-column: 3;
+  justify-self: end;
+}
+
+.nav-links::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-links.is-scrollable {
+  mask-image: linear-gradient(90deg, transparent, black 16px, black calc(100% - 16px), transparent);
 }
 
 .hero-grid {
@@ -201,6 +227,10 @@ body:not(.home-page) .site-header::before {
 
 .home-page #overview .hero-grid {
   align-items: start;
+}
+
+.home-page #overview.section {
+  padding-top: clamp(60px, 7vw, 98px);
 }
 
 .hero-copy h1 {
@@ -223,6 +253,11 @@ body:not(.home-page) .site-header::before {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-3);
+}
+
+.hero-copy .hero-actions .btn {
+  font-size: 0.94rem;
+  padding: 0.66rem 0.96rem;
 }
 
 .hero-panel {

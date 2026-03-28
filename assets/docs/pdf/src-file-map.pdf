@@ -4693,7 +4693,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 85 0 R >>
 endobj
 85 0 obj
-<< /Length 3283 >>
+<< /Length 3287 >>
 stream
 BT
 /F1 10 Tf
@@ -4781,17 +4781,19 @@ T*
 T*
 (using the hard-coded emission schedule.) Tj
 T*
-(- BASE_SUPPLY\(\) ? Exact pre-tail issuance from the hard-coded emission schedule \(currently) Tj
+(- BASE_SUPPLY\(\) ? Exact pre-tail base target from the hard-coded emission schedule \(30,000,000) Tj
 T*
-(30,000,000 ATHO before tail starts\).) Tj
+(ATHO total, including 50,000 ATHO bootstrap at block 1\).) Tj
 T*
-(- BASE_SUPPLY_ATOMS\(\) ? Exact pre-tail issuance in atomic units for consensus math.) Tj
+(- BASE_SUPPLY_ATOMS\(\) ? Exact pre-tail base target in atomic units for consensus math.) Tj
 T*
 (- get_base_supply\(\) ? Preferred accessor for the pre-tail base-supply reference.) Tj
 T*
 (- get_base_supply_atoms\(\) ? Preferred accessor for the pre-tail base supply in atomic units.) Tj
 T*
-(- get_block_reward_atoms\(height\) ? Consensus reward for a given height in atomic units.) Tj
+(- get_block_reward_atoms\(height\) ? Consensus block subsidy for a given height in atomic units) Tj
+T*
+(\(includes bootstrap allocation at the configured bootstrap height\).) Tj
 T*
 (- get_block_reward\(height\) ? Consensus reward for a given height in display coins.) Tj
 T*
@@ -4801,8 +4803,6 @@ T*
 T*
 (- from_atoms\(atoms\) ? Convert integer atoms to a display Decimal amount.) Tj
 T*
-(- verify_emissions\(\) ? Verifies boundary rewards and the exact pre-tail supply ? prints results.) Tj
-T*
 ET
 endstream
 endobj
@@ -4810,12 +4810,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 87 0 R >>
 endobj
 87 0 obj
-<< /Length 3100 >>
+<< /Length 3165 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(- verify_emissions\(\) ? Verifies boundary rewards and the exact pre-tail supply ? prints results.) Tj
+T*
 (- _resolve_reward_from_mapping\(height\) ? Back-compat shim ? mapping no longer used for) Tj
 T*
 (consensus.) Tj
@@ -4918,8 +4920,6 @@ T*
 T*
 (**Classes:**) Tj
 T*
-(- MirrorConfig ? \(no docstring\)) Tj
-T*
 ET
 endstream
 endobj
@@ -4927,12 +4927,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 89 0 R >>
 endobj
 89 0 obj
-<< /Length 2919 >>
+<< /Length 2897 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(- MirrorConfig ? \(no docstring\)) Tj
+T*
 (- _DedupCache ? \(no docstring\)) Tj
 T*
 (- __init__\(self, window_s, max_cache\) ? \(no docstring\)) Tj
@@ -5035,8 +5037,6 @@ T*
 T*
 (- sha3_256\(data\) ? Single SHA3-256; ALWAYS returns raw bytes \(digest\).) Tj
 T*
-(Useful for short checksums \(e.g., address checksums\).) Tj
-T*
 ET
 endstream
 endobj
@@ -5044,12 +5044,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 91 0 R >>
 endobj
 91 0 obj
-<< /Length 2723 >>
+<< /Length 2704 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(Useful for short checksums \(e.g., address checksums\).) Tj
+T*
 (- sha3_256_hex\(data\) ? Single SHA3-256; returns lowercase hex string.) Tj
 T*
 (- merkle_parent\(left, right\) ? Parent = SHA3-384\(left || right\). Inputs must be bytes \(digests\).) Tj
@@ -5152,8 +5154,6 @@ T*
 T*
 (- Runtime integrity and upgrade-discipline utilities for live nodes.) Tj
 T*
-(- Provides release-manifest build/verify helpers and runtime drift checks.) Tj
-T*
 ET
 endstream
 endobj
@@ -5161,12 +5161,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 93 0 R >>
 endobj
 93 0 obj
-<< /Length 836 >>
+<< /Length 919 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(- Provides release-manifest build/verify helpers and runtime drift checks.) Tj
+T*
 () Tj
 T*
 (**Top-level functions \(high-impact\):**) Tj
@@ -5280,16 +5282,16 @@ xref
 0000125595 00000 n 
 0000128970 00000 n 
 0000129098 00000 n 
-0000132434 00000 n 
-0000132562 00000 n 
-0000135715 00000 n 
-0000135843 00000 n 
-0000138815 00000 n 
-0000138943 00000 n 
-0000141719 00000 n 
-0000141847 00000 n 
+0000132438 00000 n 
+0000132566 00000 n 
+0000135784 00000 n 
+0000135912 00000 n 
+0000138862 00000 n 
+0000138990 00000 n 
+0000141747 00000 n 
+0000141875 00000 n 
 trailer
 << /Size 94 /Root 1 0 R >>
 startxref
-142735
+142846
 %%EOF

@@ -37,38 +37,96 @@ function updateActiveByLocation(links) {
   });
 
   if (!matched) {
+    const defaultHashes = new Set(["#overview", "#docs-overview", "#contact-overview", "#wallet-overview"]);
     setActiveLink(links, (link) => {
       const href = link.getAttribute("href") || "";
       if (!href.startsWith("#")) return false;
-      return href === "#overview" || href === "#docs-overview";
+      return defaultHashes.has(href);
     });
   }
 }
 
 export function initNavigation() {
   const toggle = document.querySelector("[data-menu-toggle]");
-  const menu = document.querySelector("[data-nav-links]");
+  const drawer = document.querySelector("[data-global-drawer]");
+  const pageNav = document.querySelector("[data-nav-links]");
   const links = Array.from(document.querySelectorAll(".nav-link"));
+  const globalLinks = Array.from(document.querySelectorAll(".global-nav-link"));
 
-  if (toggle && menu) {
+  if (toggle && drawer) {
+    const closeDrawer = () => {
+      drawer.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "false");
+    };
+
     toggle.addEventListener("click", () => {
-      const open = menu.classList.toggle("is-open");
+      const open = !drawer.classList.contains("is-open");
+      drawer.classList.toggle("is-open", open);
       toggle.setAttribute("aria-expanded", String(open));
     });
 
-    links.forEach((link) => {
-      link.addEventListener("click", () => {
-        menu.classList.remove("is-open");
-        toggle.setAttribute("aria-expanded", "false");
-      });
+    document.addEventListener("click", (event) => {
+      if (!(event.target instanceof Element)) return;
+      if (!drawer.classList.contains("is-open")) return;
+      if (drawer.contains(event.target) || toggle.contains(event.target)) return;
+      closeDrawer();
     });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      closeDrawer();
+    });
+
+    globalLinks.forEach((link) => {
+      link.addEventListener("click", () => closeDrawer());
+    });
+  }
+
+  if (pageNav instanceof HTMLElement && pageNav.scrollWidth > pageNav.clientWidth) {
+    pageNav.classList.add("is-scrollable");
   }
 
   updateActiveByLocation(links);
   window.addEventListener("hashchange", () => updateActiveByLocation(links));
 
+  const currentPath = normalizePath(window.location.pathname);
+  setActiveLink(globalLinks, (link) => {
+    const href = link.getAttribute("href") || "";
+    if (!href) return false;
+    try {
+      const target = new URL(href, window.location.href);
+      return normalizePath(target.pathname) === currentPath;
+    } catch {
+      return false;
+    }
+  });
+
   const hashLinks = links.filter((link) => (link.getAttribute("href") || "").startsWith("#"));
   if (!hashLinks.length) return;
+
+  const scrollToTarget = (id) => {
+    const target = document.getElementById(id);
+    if (!(target instanceof HTMLElement)) return;
+    const header = document.querySelector(".site-header");
+    const headerHeight = header instanceof HTMLElement ? header.offsetHeight : 0;
+    const visualLead = Math.max(26, Math.round(window.innerHeight * 0.18));
+    const top = window.scrollY + target.getBoundingClientRect().top - headerHeight - visualLead;
+    window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+  };
+
+  hashLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const href = link.getAttribute("href") || "";
+      if (!href.startsWith("#") || href.length < 2) return;
+      const id = href.slice(1);
+      const target = document.getElementById(id);
+      if (!(target instanceof HTMLElement)) return;
+      event.preventDefault();
+      history.replaceState(null, "", href);
+      updateActiveByLocation(links);
+      scrollToTarget(id);
+    });
+  });
 
   const sections = Array.from(document.querySelectorAll("main section[id]"));
   if (!sections.length) return;
@@ -91,4 +149,10 @@ export function initNavigation() {
   );
 
   sections.forEach((section) => observer.observe(section));
+
+  if (window.location.hash && window.location.hash.length > 1) {
+    window.setTimeout(() => {
+      scrollToTarget(window.location.hash.slice(1));
+    }, 80);
+  }
 }

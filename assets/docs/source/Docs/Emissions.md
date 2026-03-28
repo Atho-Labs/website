@@ -21,10 +21,13 @@ Pre-tail eras:
 - Era 5: `0.625 ATHO/block`
 
 Transition:
-- `0.3125 ATHO/block` until exact pre-tail target supply reaches `30,000,000 ATHO`.
+- `0.3125 ATHO/block` until exact subsidy emission reaches `29,950,000 ATHO`.
+- One-time bootstrap allocation: `50,000 ATHO` at block `1`.
+- Total pre-tail base target = `29,950,000 + 50,000 = 30,000,000 ATHO`.
 
 Tail:
-- Tail reward `0.25 ATHO/block` from height `21,102,000` onward.
+- Tail reward `0.25 ATHO/block` from height `20,942,000` onward.
+- Tail activation occurs at `~79.7 years` from genesis (roughly `80 years`).
 - Tail annual issuance: `65,700 ATHO/year`.
 
 ## 3) Active Fee Policy

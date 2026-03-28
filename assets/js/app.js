@@ -54,8 +54,10 @@ const FALLBACK_SOCIAL_LINKS = [
   }
 ];
 
+let fallbackSocialTemplate = null;
+
 function getPerformanceProfile(options = {}) {
-  const { isHomePage = false } = options;
+  const { isHomePage = false, isWalletPage = false } = options;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const nav = navigator;
   const cores = typeof nav.hardwareConcurrency === "number" ? nav.hardwareConcurrency : 8;
@@ -65,7 +67,7 @@ function getPerformanceProfile(options = {}) {
   const effectiveType = String(connection?.effectiveType || "").toLowerCase();
   const slowerConnection = effectiveType === "slow-2g" || effectiveType === "2g" || effectiveType === "3g";
   const midRangeDevice = cores <= 6 || memory <= 6;
-  const nonHomeLite = !isHomePage;
+  const nonHomeLite = !isHomePage && !isWalletPage;
   const liteEffects = reduceMotion || saveData || slowerConnection || midRangeDevice || nonHomeLite;
 
   return { liteEffects };
@@ -118,6 +120,17 @@ function cloneOrBuildSocialLinks(className, ariaLabel) {
       socialClone.setAttribute("aria-label", ariaLabel);
       return socialClone;
     }
+  }
+
+  if (!(fallbackSocialTemplate instanceof HTMLElement)) {
+    fallbackSocialTemplate = buildFallbackSocialLinks("social-links", "Social media");
+  }
+
+  const fallbackClone = fallbackSocialTemplate.cloneNode(true);
+  if (fallbackClone instanceof HTMLElement) {
+    fallbackClone.className = className;
+    fallbackClone.setAttribute("aria-label", ariaLabel);
+    return fallbackClone;
   }
 
   return buildFallbackSocialLinks(className, ariaLabel);
@@ -206,19 +219,23 @@ async function initHomeVisualLayer(liteEffects) {
 
 function boot() {
   const isHomePage = document.body.classList.contains("home-page");
-  const { liteEffects } = getPerformanceProfile({ isHomePage });
+  const isWalletPage = document.body.classList.contains("wallet-page");
+  const { liteEffects } = getPerformanceProfile({ isHomePage, isWalletPage });
   document.documentElement.classList.toggle("perf-lite", liteEffects);
 
   initNavigation();
   initYear();
-  mountFooterSocialLinks();
-  mountHomeSocialLinks(isHomePage);
 
   Promise.all([initRenderedSections(), initDocsCatalogIfNeeded()])
     .catch(() => {})
     .finally(() => {
       initReveal({ immediate: liteEffects });
     });
+
+  deferVisualWork(() => {
+    mountFooterSocialLinks();
+    mountHomeSocialLinks(isHomePage);
+  }, liteEffects);
 
   deferVisualWork(() => {
     initInteractionLayer({ liteEffects, enableClickFx: isHomePage }).catch(() => {});

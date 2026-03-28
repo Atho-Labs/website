@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Atho wallet architecture: AES-256-GCM + Kyber lockbox protection, deterministic wallet staking math, and mobile wallet roadmap.">
+  <title>Atho Wallet</title>
+  <link rel="icon" type="image/png" href="./assets/media/logo2website.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/variables.css">
+  <link rel="stylesheet" href="./assets/css/base.css">
+  <link rel="stylesheet" href="./assets/css/layout.css">
+  <link rel="stylesheet" href="./assets/css/components.css">
+  <link rel="stylesheet" href="./assets/css/motion.css">
+  <link rel="stylesheet" href="./assets/css/responsive.css">
+</head>
+<body class="wallet-page">
+  <header class="site-header">
+    <div class="wrap nav-shell">
+      <a class="brand" href="./index.html#overview" aria-label="Atho home">
+        <img class="brand-mark" src="./assets/media/logo2website.png" alt="Atho logo" width="41" height="41" decoding="async">
+        <span class="brand-title">Atho</span>
+      </a>
+
+      <div class="header-right">
+        <nav id="main-nav" class="nav-links" data-nav-links>
+          <a class="nav-link" href="#wallet-overview">Overview</a>
+          <a class="nav-link" href="#wallet-addressing">Addressing</a>
+          <a class="nav-link" href="#wallet-protection">Protection</a>
+          <a class="nav-link" href="#wallet-staking">Staking</a>
+          <a class="nav-link" href="#wallet-recovery">Recovery</a>
+          <a class="nav-link" href="#mobile-wallet">Mobile</a>
+        </nav>
+      </div>
+
+      <button class="menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="main-nav" aria-label="Toggle menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <div class="global-nav-drawer" data-global-drawer>
+        <div class="global-nav-card">
+          <span class="global-nav-title">All Pages</span>
+          <div class="global-nav-grid">
+            <a class="global-nav-link" href="./index.html">Home</a>
+            <a class="global-nav-link" href="./docs.html">Docs</a>
+            <a class="global-nav-link" href="./falcon-512.html">Falcon-512</a>
+            <a class="global-nav-link" href="./join.html">Join</a>
+            <a class="global-nav-link" href="./rewards.html">Rewards</a>
+            <a class="global-nav-link" href="./wallet.html">Wallet</a>
+            <a class="global-nav-link" href="./bpow-docs.html">BPoW</a>
+            <a class="global-nav-link" href="./inflation-deflation.html">Inflation / Deflation</a>
+            <a class="global-nav-link" href="./changelog.html">Changelog</a>
+            <a class="global-nav-link" href="./contact.html">Contact</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="wallet-overview" class="section">
+      <div class="wrap hero-grid">
+        <div class="hero-copy" data-reveal>
+          <div class="eyebrow-row">
+            <span class="section-eyebrow section-eyebrow-hot">Wallet Security + Staking</span>
+            <span class="section-eyebrow">AES / Kyber Lockbox</span>
+          </div>
+          <h1>Wallet custody and staking designed for long-run network safety.</h1>
+          <p>
+            Atho wallet security uses encrypted-at-rest lockbox controls with Argon2id, AES-256-GCM payload encryption,
+            and mandatory Kyber DEK wrap. Wallet staking remains deterministic and auditable: payouts are weighted by
+            each address share of total active stake in the settled epoch.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/keymanager.pdf" download>Download Key Manager Spec</a>
+            <a class="btn btn-primary btn-inline" href="./rewards.html#reward-breakdown">Open Reward Split Math</a>
+            <a class="btn btn-primary btn-inline" href="./docs.html#security-docs">Open Security Docs</a>
+            <a class="btn btn-primary btn-inline" href="./join.html#key-manager">Open Key Manager Guide</a>
+          </div>
+        </div>
+
+        <div class="hero-panel" data-reveal>
+          <div class="card card-pad">
+            <h2 class="panel-title">Wallet Policy Snapshot</h2>
+            <ul class="key-list">
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Encryption stack</strong>
+                  <span>Argon2id KDF, AES-256-GCM payload encryption, AES-256-GCM DEK wrap, and mandatory Kyber DEK wrap.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Unlock modes</strong>
+                  <span><code>default</code> (password path) and <code>advanced</code> (password + Kyber unlock file import).</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Staking weighting rule</strong>
+                  <span><code>stake_payout_i = stake_pool_epoch * (active_stake_i / total_active_stake_epoch)</code>.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Settlement windows</strong>
+                  <span>Deterministic <code>720</code>-block epoch plus <code>720</code>-block finalization buffer.</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="wallet-addressing" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Wallet Addressing + Fees</span>
+        <h2 class="section-title">How Base56 addresses and fee-per-byte policy work in Atho wallets.</h2>
+        <p class="section-copy">
+          Wallet addresses are generated from Falcon public-key material through deterministic SHA3-384 pathways, then
+          encoded in Base56 for human use. Fee policy is calculated by <code>vsize</code> with a floor of
+          <code>225 atoms/vB</code> and minimum transaction fee <code>150,000 atoms</code>.
+        </p>
+
+        <div class="feature-grid wallet-address-grid" data-stagger>
+          <article class="card card-pad feature-card wallet-address-card" data-reveal>
+            <h3>Deterministic Address Pipeline</h3>
+            <p class="panel-copy">
+              One key source, multiple role-safe addresses. Domain-separated hashes prevent regular, bond, and stake
+              destination mix-ups.
+            </p>
+            <div class="wallet-address-flow" aria-hidden="true">
+              <span class="wallet-address-line"></span>
+              <span class="wallet-address-node node-pub">Falcon Pubkey</span>
+              <span class="wallet-address-node node-hpk">SHA3-384 -&gt; HPK</span>
+              <span class="wallet-address-node node-role">Role Domain</span>
+              <span class="wallet-address-node node-b56">Base56 Address</span>
+              <span class="wallet-address-packet"></span>
+              <span class="wallet-address-packet wallet-address-packet-b"></span>
+            </div>
+            <ul class="key-list wallet-mini-list">
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Role domains</strong>
+                  <span><code>ATHO_ADDR_V1</code>, <code>ATHO_BOND_V1</code>, <code>ATHO_STAKE_V1</code>.</span>
+                </span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="card card-pad feature-card wallet-address-card" data-reveal>
+            <h3>Base56 Format (Human-Safe Encoding)</h3>
+            <p class="panel-copy">
+              Base56 avoids ambiguous symbols to reduce copy/read mistakes in wallets, terminals, and printed records.
+            </p>
+            <div class="wallet-base56-shell" aria-hidden="true">
+              <span class="wallet-base56-label">Base56 character set (excerpt)</span>
+              <code class="wallet-base56-row">23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz</code>
+              <div class="wallet-base56-prefixes">
+                <span><strong>Mainnet:</strong> <code>A</code> regular, <code>B</code> bond, <code>S</code> stake</span>
+                <span><strong>Testnet/Regnet:</strong> <code>T</code> regular, <code>D</code> bond, <code>E</code> stake</span>
+              </div>
+            </div>
+            <span class="feature-tag">Role-Separated Base56 UX</span>
+          </article>
+
+          <article class="card card-pad feature-card wallet-address-card" data-reveal>
+            <h3>Fee-Per-Byte Policy in Wallet Send Flow</h3>
+            <p class="panel-copy">
+              Wallet send estimation uses virtual size (<code>vsize</code>) policy. Current floor is
+              <code>225 atoms/vB</code> with minimum tx fee <code>150,000 atoms</code> and dust limit
+              <code>250 atoms</code>.
+            </p>
+            <div class="wallet-fee-meter" aria-hidden="true">
+              <div class="wallet-fee-row">
+                <span>Policy Floor</span>
+                <strong>225 atoms/vB</strong>
+              </div>
+              <div class="wallet-fee-track"><span class="wallet-fee-fill"></span></div>
+              <div class="wallet-fee-row">
+                <span>Minimum Tx Fee</span>
+                <strong>150,000 atoms</strong>
+              </div>
+            </div>
+            <pre class="join-code"><code>required_fee_atoms = max(225 * vsize, 150000)</code></pre>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="wallet-protection" class="section">
+      <div class="wrap split-grid">
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Address Protection and Key Isolation</h3>
+          <p class="panel-copy">
+            Role addresses are deterministic and domain-separated from the same Falcon pubkey source bytes, so regular,
+            bond, and stake pathways cannot be confused or replayed across roles.
+          </p>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Role derivation domains</strong>
+                <span><code>ATHO_ADDR_V1</code>, <code>ATHO_BOND_V1</code>, and <code>ATHO_STAKE_V1</code> each hash to separate addresses.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Plaintext vs encrypted fields</strong>
+                <span>Display identifiers and Base56 addresses stay visible; raw keys, mnemonic material, and private components remain encrypted while locked.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Fail-closed lock policy</strong>
+                <span>Sensitive wallet operations refuse to run while lockbox is encrypted and locked.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Atomic + backup-safe writes</strong>
+                <span>Key file writes are lock-protected and backup-on-write to reduce corruption risk.</span>
+              </span>
+            </li>
+          </ul>
+
+          <div class="wallet-visibility-grid" aria-hidden="true">
+            <div class="wallet-visibility-card wallet-visibility-open">
+              <strong>Visible While Locked</strong>
+              <span>identifier</span>
+              <span>network / role</span>
+              <span>hashed public key</span>
+              <span>Base56 address</span>
+            </div>
+            <div class="wallet-visibility-card wallet-visibility-sealed">
+              <strong>Encrypted In Lockbox</strong>
+              <span>public/private key material</span>
+              <span>mnemonic fields + metadata</span>
+              <span>raw Falcon components</span>
+              <span>signing secrets</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Hybrid Security Stack Visual</h3>
+          <p class="panel-copy">
+            Kyber does not replace AES; it wraps the same DEK used by AES payload encryption. This keeps fast encrypted
+            payload handling plus a post-quantum recovery/control plane.
+          </p>
+
+          <div class="wallet-lockbox-shell" aria-hidden="true">
+            <span class="wallet-lockbox-line"></span>
+            <span class="wallet-lockbox-node wallet-node-kdf">Password<br>Argon2id</span>
+            <span class="wallet-lockbox-node wallet-node-aes">AES-256-GCM<br>Payload</span>
+            <span class="wallet-lockbox-node wallet-node-wrap">AES Wrap<br>+ Kyber Wrap</span>
+            <span class="wallet-lockbox-node wallet-node-store">Encrypted<br>Key File</span>
+            <span class="wallet-lockbox-packet wallet-lockbox-packet-a"></span>
+            <span class="wallet-lockbox-packet wallet-lockbox-packet-b"></span>
+          </div>
+
+          <pre class="join-code"><code>1) Generate random DEK
+2) Encrypt wallet payload with AES-256-GCM(DEK)
+3) Wrap DEK with Argon2id-derived KEK
+4) Wrap same DEK with Kyber metadata/ciphertext
+5) Persist lockbox metadata + encrypted payload</code></pre>
+        </article>
+      </div>
+    </section>
+
+    <section id="wallet-staking" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Wallet Staking Mechanics</span>
+        <h2 class="section-title">Staking rewards are weighted by active stake share, not fixed equally.</h2>
+        <p class="section-copy">
+          Wallet staking is separate from mining rights. Rewards are settled from the stake-side bucket and distributed
+          by proportional active share in each settled epoch.
+        </p>
+
+        <div class="feature-grid wallet-stake-grid" data-stagger>
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Staking Lifecycle</h3>
+            <p class="panel-copy">
+              Stake transitions follow deterministic state rules: <code>pending -&gt; active -&gt; exiting -&gt; unlockable -&gt; withdrawn</code>.
+            </p>
+            <div class="wallet-state-strip" aria-hidden="true">
+              <span>Pending</span>
+              <span>Active</span>
+              <span>Exiting</span>
+              <span>Unlockable</span>
+              <span>Withdrawn</span>
+              <i class="wallet-state-runner"></i>
+            </div>
+            <ul class="key-list wallet-mini-list">
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Epoch accounting</strong>
+                  <span><code>720</code>-block epoch with <code>720</code>-block finalization buffer.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Role separation</strong>
+                  <span>Staking accrues economic rewards only; block production still requires PoW + active bond.</span>
+                </span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Stake Pool Weighting Visual</h3>
+            <p class="panel-copy">
+              Example from reward docs: if epoch stake pool is <code>900 ATHO</code>, payout follows each staker's active share.
+            </p>
+            <div class="wallet-stake-radar" aria-hidden="true">
+              <span class="wallet-radar-ring wallet-radar-ring-a"></span>
+              <span class="wallet-radar-ring wallet-radar-ring-b"></span>
+              <span class="wallet-radar-core">Stake Pool</span>
+              <span class="wallet-radar-orbit wallet-orbit-a">A 50%<br>450 ATHO</span>
+              <span class="wallet-radar-orbit wallet-orbit-b">B 30%<br>270 ATHO</span>
+              <span class="wallet-radar-orbit wallet-orbit-c">C 20%<br>180 ATHO</span>
+            </div>
+            <pre class="join-code"><code>stake_payout_i_epoch
+  = stake_pool_epoch * (active_stake_i / total_active_stake_epoch)</code></pre>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>What This Means for Wallet Users</h3>
+            <ul class="key-list">
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Bigger active share = bigger payout</strong>
+                  <span>Rewards scale linearly with your active stake percentage in the settled epoch.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>No hidden manual overrides</strong>
+                  <span>Pool split and weighting rules are deterministic consensus/accounting pathways.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Auditability</strong>
+                  <span>Reward constants, split math, and epoch windows are documented across Whitepaper, Consensus, and Rewards docs.</span>
+                </span>
+              </li>
+            </ul>
+            <div class="hero-actions wallet-stake-actions">
+              <a class="btn btn-primary btn-inline" href="./rewards.html#reward-breakdown">Open Full Reward Breakdown</a>
+              <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/whitepaper.pdf" download>Download Whitepaper</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="wallet-recovery" class="section">
+      <div class="wrap split-grid">
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Mnemonic Recovery Options at Wallet Creation</h3>
+          <p class="panel-copy">
+            Wallet creation defaults to mnemonic-backed deterministic keys with <code>24</code> words. Creation flow
+            supports <code>12</code>, <code>24</code>, or <code>48</code> words, and recovery can import the same
+            mnemonic path later.
+          </p>
+          <div class="wallet-mnemonic-strip" aria-hidden="true">
+            <span class="wallet-mnemonic-pill">12 Words</span>
+            <span class="wallet-mnemonic-pill wallet-mnemonic-pill-hot">24 Words (Default)</span>
+            <span class="wallet-mnemonic-pill">48 Words</span>
+            <i class="wallet-mnemonic-runner"></i>
+          </div>
+          <ul class="key-list wallet-mini-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Creation options</strong>
+                <span>Generate new mnemonic wallet, recover from existing mnemonic, or import an existing Falcon key export.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Passphrase handling</strong>
+                <span>Mnemonic passphrases are never stored in key JSON or export files; keep passphrases separately.</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Recovery + Lockbox Flow</h3>
+          <p class="panel-copy">
+            After import or recovery, lockbox controls apply the same encrypted-at-rest policy and unlock controls used
+            for daily wallet operations.
+          </p>
+          <div class="wallet-recovery-lane" aria-hidden="true">
+            <span class="wallet-recovery-step">Create / Recover</span>
+            <span class="wallet-recovery-step">Verify Address + HPK</span>
+            <span class="wallet-recovery-step">Encrypt Lockbox</span>
+            <span class="wallet-recovery-step">Unlock to Sign</span>
+            <span class="wallet-recovery-pulse"></span>
+          </div>
+          <div class="hero-actions wallet-stake-actions">
+            <a class="btn btn-primary btn-inline" href="./join.html#key-manager">Wallet Setup + Recovery</a>
+            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/keymanager.pdf" download>Key Manager PDF</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="mobile-wallet" class="section">
+      <div class="wrap cta-shell" data-reveal>
+        <article class="cta-box wallet-mobile-cta">
+          <h2 class="cta-title">Mobile Wallet (App Store + Google Play) is in progress.</h2>
+          <p class="cta-copy">
+            Mobile clients are being prepared with the same custody posture: encrypted lockbox pathways, deterministic
+            role-address handling, and transparent staking controls. Release will prioritize security review, predictable
+            backup flows, and clear recovery UX before public launch.
+          </p>
+          <div class="badge-row">
+            <span class="badge">AES-256-GCM wallet lockbox</span>
+            <span class="badge">Kyber-based DEK wrap path</span>
+            <span class="badge">Base56 role-safe addresses</span>
+            <span class="badge">Wallet staking visibility</span>
+            <span class="badge">Recovery + export controls</span>
+          </div>
+        </article>
+
+        <article class="card card-pad wallet-store-card">
+          <h3 class="panel-title">Coming Soon</h3>
+          <p class="panel-copy">
+            iOS and Android releases are planned after wallet security QA, recovery-flow testing, and operator rollout validation.
+          </p>
+          <div class="wallet-store-grid" aria-label="Mobile store launch badges">
+            <div class="wallet-store-badge" aria-label="Apple App Store coming soon">
+              <span class="wallet-store-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M16.34 12.05c.03 2.78 2.44 3.7 2.46 3.71-.02.07-.38 1.33-1.25 2.63-.76 1.11-1.56 2.21-2.8 2.23-1.21.02-1.6-.72-2.99-.72s-1.82.7-2.97.75c-1.2.04-2.11-1.2-2.87-2.3-1.56-2.25-2.76-6.35-1.15-9.14.8-1.38 2.24-2.25 3.81-2.27 1.19-.02 2.32.8 2.99.8.67 0 1.94-.99 3.27-.85.56.02 2.13.23 3.14 1.71-.08.05-1.88 1.09-1.86 3.45Zm-2.2-6.5c.63-.76 1.06-1.82.94-2.87-.91.04-2.01.61-2.67 1.37-.58.67-1.09 1.75-.95 2.78 1.02.08 2.05-.52 2.68-1.28Z"/></svg>
+              </span>
+              <span class="wallet-store-copy">
+                <small>Coming Soon on</small>
+                <strong>App Store</strong>
+              </span>
+            </div>
+
+            <div class="wallet-store-badge" aria-label="Google Play coming soon">
+              <span class="wallet-store-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4.8 3.5 13.9 12 4.8 20.5a2 2 0 0 1-.8-1.6V5.1c0-.65.32-1.24.8-1.6Z"/>
+                  <path d="M14.8 12.9 17.6 15.5 8.4 20.7a2.1 2.1 0 0 1-2.3-.2l8.7-7.6Z"/>
+                  <path d="M17.6 8.5 14.8 11.1 6.1 3.5a2.1 2.1 0 0 1 2.3-.2l9.2 5.2Z"/>
+                  <path d="m20 10-2.1-1.2-2.3 2 2.3 2L20 11.9c.67-.37.67-1.33 0-1.7Z"/>
+                </svg>
+              </span>
+              <span class="wallet-store-copy">
+                <small>Coming Soon on</small>
+                <strong>Google Play</strong>
+              </span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <span>Atho Labs</span>
+      <span class="footer-contact">
+        <span class="footer-slogan">The Platinum Standard of the Quantum Age</span>
+        <span>
+          To report bugs, security issues, or general inquiries:
+          <a href="./contact.html">Contact</a>
+          or
+          <a href="mailto:labs@atho.io">labs@atho.io</a>
+        </span>
+      </span>
+      <span>&copy; <span data-year></span> Atho Labs. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>

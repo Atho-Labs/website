@@ -1934,11 +1934,11 @@ This marks inputs as temporarily spent and outputs as pending.
   - `get_address_prefix()` — Returns the address prefix for the current network (ATHO for mainnet, ATHT for testnet, ATHT for regnet).
   - `INITIAL_COINBASE_REWARD()` — Returns the initial coinbase reward at block 0,
 using the hard-coded emission schedule.
-  - `BASE_SUPPLY()` — Exact pre-tail issuance from the hard-coded emission schedule (currently 30,000,000 ATHO before tail starts).
-  - `BASE_SUPPLY_ATOMS()` — Exact pre-tail issuance in atomic units for consensus math.
+  - `BASE_SUPPLY()` — Exact pre-tail base target from the hard-coded emission schedule (30,000,000 ATHO total, including 50,000 ATHO bootstrap at block 1).
+  - `BASE_SUPPLY_ATOMS()` — Exact pre-tail base target in atomic units for consensus math.
   - `get_base_supply()` — Preferred accessor for the pre-tail base-supply reference.
   - `get_base_supply_atoms()` — Preferred accessor for the pre-tail base supply in atomic units.
-  - `get_block_reward_atoms(height)` — Consensus reward for a given height in atomic units.
+  - `get_block_reward_atoms(height)` — Consensus block subsidy for a given height in atomic units (includes bootstrap allocation at the configured bootstrap height).
   - `get_block_reward(height)` — Consensus reward for a given height in display coins.
   - `to_atoms(value)` — Convert a display coin amount to integer atoms.
   - `is_atom_aligned(value)` — True when a display coin amount maps exactly to integer atoms.

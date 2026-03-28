@@ -261,7 +261,8 @@ Runtime controls:
 
 ## 8. Emissions and Incentives
 Monetary policy remains atom-based and deterministic:
-- pre-tail schedule reaches 30,000,000 ATHO target,
+- pre-tail subsidy schedule reaches 29,950,000 ATHO and bootstrap adds 50,000 ATHO at block 1 (30,000,000 ATHO total pre-tail base),
+- tail activation occurs at block 20,942,000 (about 79.7 years, roughly 80 years) with 65,700 ATHO annual post-tail issuance,
 - tail reward: 0.25 ATHO/block,
 - fee policy uplift: +25% over base fee constants (`225 atoms/vB` effective floor),
 - fee routing: 20% to consensus pool, 80% to burn/miner path,

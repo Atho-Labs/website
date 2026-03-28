@@ -113,7 +113,7 @@ export const metricCards = [
     label: "Base Emission Supply",
     value: 30000000,
     suffix: " ATHO",
-    foot: "Pre-tail supply path before tail emission"
+    foot: "Total pre-tail base: 29,950,000 subsidy + 50,000 bootstrap"
   },
   {
     label: "Transaction Confirmations",

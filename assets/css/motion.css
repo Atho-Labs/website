@@ -517,6 +517,212 @@
   }
 }
 
+@keyframes falcon-bar-breathe {
+  0%,
+  100% {
+    transform: scaleX(0.92);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes falcon-pipeline-run {
+  0% {
+    left: 10%;
+    opacity: 0;
+  }
+  16% {
+    opacity: 1;
+  }
+  82% {
+    opacity: 1;
+  }
+  100% {
+    left: 90%;
+    opacity: 0;
+  }
+}
+
+@keyframes consensus-sheen {
+  0%,
+  12% {
+    transform: translateX(-120%) skewX(-18deg);
+    opacity: 0;
+  }
+  22% {
+    opacity: 0.8;
+  }
+  34% {
+    transform: translateX(420%) skewX(-18deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(420%) skewX(-18deg);
+    opacity: 0;
+  }
+}
+
+@keyframes consensus-progress-run {
+  0% {
+    left: 11%;
+    opacity: 0;
+  }
+  16% {
+    opacity: 1;
+  }
+  82% {
+    opacity: 1;
+  }
+  100% {
+    left: 89%;
+    opacity: 0;
+  }
+}
+
+@keyframes wallet-lockbox-flow {
+  0% {
+    left: 9%;
+    opacity: 0;
+  }
+  14% {
+    opacity: 1;
+  }
+  84% {
+    opacity: 1;
+  }
+  100% {
+    left: 91%;
+    opacity: 0;
+  }
+}
+
+@keyframes wallet-state-walk {
+  0%,
+  100% {
+    left: 9%;
+    background: linear-gradient(145deg, #00a874, #2fd89b);
+  }
+  30% {
+    left: 35%;
+    background: linear-gradient(145deg, #22ace2, #37b6ef);
+  }
+  60% {
+    left: 61%;
+    background: linear-gradient(145deg, #2d79cf, #37b6ef);
+  }
+  80% {
+    left: 81%;
+    background: linear-gradient(145deg, #d8a654, #ffd487);
+  }
+}
+
+@keyframes wallet-ring-pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(0.94);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.02);
+    opacity: 1;
+  }
+}
+
+@keyframes wallet-ring-rotate {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes wallet-address-flow {
+  0% {
+    left: 8%;
+    opacity: 0;
+  }
+  14% {
+    opacity: 1;
+  }
+  84% {
+    opacity: 1;
+  }
+  100% {
+    left: 92%;
+    opacity: 0;
+  }
+}
+
+@keyframes wallet-address-flow-mobile {
+  0% {
+    top: 14%;
+    opacity: 0;
+  }
+  14% {
+    opacity: 1;
+  }
+  84% {
+    opacity: 1;
+  }
+  100% {
+    top: 85%;
+    opacity: 0;
+  }
+}
+
+@keyframes wallet-base56-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(55, 182, 239, 0);
+  }
+  50% {
+    box-shadow: 0 10px 22px rgba(55, 182, 239, 0.14);
+  }
+}
+
+@keyframes wallet-fee-pulse {
+  0%,
+  100% {
+    transform: scaleX(0.92);
+    opacity: 0.86;
+  }
+  50% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes wallet-mnemonic-run {
+  0%,
+  100% {
+    left: 15%;
+  }
+  50% {
+    left: 83%;
+  }
+}
+
+@keyframes wallet-recovery-flow {
+  0% {
+    left: 8%;
+    opacity: 0;
+  }
+  14% {
+    opacity: 1;
+  }
+  84% {
+    opacity: 1;
+  }
+  100% {
+    left: 92%;
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;
@@ -559,7 +765,21 @@
 .perf-lite .section-eyebrow::after,
 .perf-lite .nav-live-pill,
 .perf-lite .nav-live-pill::before,
-.perf-lite .badge-row .badge:nth-child(even) {
+.perf-lite .badge-row .badge:nth-child(even),
+.perf-lite .consensus-compare-card::after,
+.perf-lite .consensus-progress-runner,
+.perf-lite .falcon-size-fill,
+.perf-lite .falcon-efficiency-track span,
+.perf-lite .falcon-pipeline-packet,
+.perf-lite .wallet-lockbox-packet,
+.perf-lite .wallet-state-runner,
+.perf-lite .wallet-radar-ring-a,
+.perf-lite .wallet-radar-ring-b,
+.perf-lite .wallet-address-packet,
+.perf-lite .wallet-base56-row,
+.perf-lite .wallet-fee-fill,
+.perf-lite .wallet-mnemonic-runner,
+.perf-lite .wallet-recovery-pulse {
   animation: none !important;
 }
 

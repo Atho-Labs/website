@@ -481,7 +481,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
 endobj
 13 0 obj
-<< /Length 2412 >>
+<< /Length 2474 >>
 stream
 BT
 /F1 10 Tf
@@ -579,17 +579,17 @@ T*
 T*
 (Monetary policy remains atom-based and deterministic:) Tj
 T*
-(- pre-tail schedule reaches 30,000,000 ATHO target,) Tj
+(- pre-tail subsidy schedule reaches 29,950,000 ATHO and bootstrap adds 50,000 ATHO at block 1) Tj
+T*
+(\(30,000,000 ATHO total pre-tail base\),) Tj
+T*
+(- tail activation occurs at block 20,942,000 \(about 79.7 years, roughly 80 years\) with 65,700) Tj
+T*
+(ATHO annual post-tail issuance,) Tj
 T*
 (- tail reward: 0.25 ATHO/block,) Tj
 T*
 (- fee policy uplift: +25% over base fee constants \(225 atoms/vB effective floor\),) Tj
-T*
-(- fee routing: 20% to consensus pool, 80% to burn/miner path,) Tj
-T*
-(- tail burn target: 100% burn on routed non-pool fees with floor clipping safeguards.) Tj
-T*
-() Tj
 T*
 ET
 endstream
@@ -598,12 +598,18 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 15 0 R >>
 endobj
 15 0 obj
-<< /Length 2849 >>
+<< /Length 3022 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(- fee routing: 20% to consensus pool, 80% to burn/miner path,) Tj
+T*
+(- tail burn target: 100% burn on routed non-pool fees with floor clipping safeguards.) Tj
+T*
+() Tj
+T*
 (Deterministic consensus-managed fee pool address is network-separated:) Tj
 T*
 (- mainnet: P + Base56\(SHA3-384\("ATHO_PROTOCOL_POOL_MAINNET"\)\)) Tj
@@ -719,10 +725,10 @@ xref
 0000007856 00000 n 
 0000009787 00000 n 
 0000009915 00000 n 
-0000012380 00000 n 
-0000012508 00000 n 
+0000012442 00000 n 
+0000012570 00000 n 
 trailer
 << /Size 16 /Root 1 0 R >>
 startxref
-15410
+15645
 %%EOF
