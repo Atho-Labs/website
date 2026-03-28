@@ -57,18 +57,12 @@ const FALLBACK_SOCIAL_LINKS = [
 let fallbackSocialTemplate = null;
 
 function getPerformanceProfile(options = {}) {
-  const { isHomePage = false, isWalletPage = false } = options;
+  const { isHomePage = false } = options;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const nav = navigator;
-  const cores = typeof nav.hardwareConcurrency === "number" ? nav.hardwareConcurrency : 8;
-  const memory = typeof nav.deviceMemory === "number" ? nav.deviceMemory : 8;
   const connection = nav.connection || nav.mozConnection || nav.webkitConnection;
   const saveData = Boolean(connection && connection.saveData);
-  const effectiveType = String(connection?.effectiveType || "").toLowerCase();
-  const slowerConnection = effectiveType === "slow-2g" || effectiveType === "2g" || effectiveType === "3g";
-  const midRangeDevice = cores <= 6 || memory <= 6;
-  const nonHomeLite = !isHomePage && !isWalletPage;
-  const liteEffects = reduceMotion || saveData || slowerConnection || midRangeDevice || nonHomeLite;
+  const liteEffects = reduceMotion || saveData;
 
   return { liteEffects };
 }
@@ -219,8 +213,7 @@ async function initHomeVisualLayer(liteEffects) {
 
 function boot() {
   const isHomePage = document.body.classList.contains("home-page");
-  const isWalletPage = document.body.classList.contains("wallet-page");
-  const { liteEffects } = getPerformanceProfile({ isHomePage, isWalletPage });
+  const { liteEffects } = getPerformanceProfile({ isHomePage });
   document.documentElement.classList.toggle("perf-lite", liteEffects);
 
   initNavigation();

@@ -3666,7 +3666,11 @@
   }
 
   .wallet-mnemonic-runner {
-    display: none;
+    display: block;
+    left: calc(50% - 6px);
+    top: 0.64rem;
+    bottom: auto;
+    animation-name: wallet-mnemonic-run-mobile;
   }
 
   .wallet-recovery-lane {
@@ -3675,7 +3679,10 @@
   }
 
   .wallet-recovery-pulse {
-    display: none;
+    display: block;
+    left: calc(50% - 5px);
+    top: 0.66rem;
+    animation-name: wallet-recovery-flow-mobile;
   }
 
   .wallet-store-grid {
@@ -3777,7 +3784,11 @@
   }
 
   .wallet-state-runner {
-    display: none;
+    display: block;
+    left: calc(50% - 6px);
+    top: 0.66rem;
+    bottom: auto;
+    animation-name: wallet-state-walk-mobile;
   }
 
   .wallet-address-flow {

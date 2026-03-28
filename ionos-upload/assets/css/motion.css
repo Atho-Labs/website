@@ -619,6 +619,26 @@
   }
 }
 
+@keyframes wallet-state-walk-mobile {
+  0%,
+  100% {
+    top: 12%;
+    background: linear-gradient(145deg, #00a874, #2fd89b);
+  }
+  30% {
+    top: 34%;
+    background: linear-gradient(145deg, #22ace2, #37b6ef);
+  }
+  60% {
+    top: 56%;
+    background: linear-gradient(145deg, #2d79cf, #37b6ef);
+  }
+  82% {
+    top: 78%;
+    background: linear-gradient(145deg, #d8a654, #ffd487);
+  }
+}
+
 @keyframes wallet-ring-pulse {
   0%,
   100% {
@@ -706,6 +726,18 @@
   }
 }
 
+@keyframes wallet-mnemonic-run-mobile {
+  0%,
+  100% {
+    top: 16%;
+    opacity: 0.88;
+  }
+  50% {
+    top: 76%;
+    opacity: 1;
+  }
+}
+
 @keyframes wallet-recovery-flow {
   0% {
     left: 8%;
@@ -719,6 +751,23 @@
   }
   100% {
     left: 92%;
+    opacity: 0;
+  }
+}
+
+@keyframes wallet-recovery-flow-mobile {
+  0% {
+    top: 12%;
+    opacity: 0;
+  }
+  14% {
+    opacity: 1;
+  }
+  84% {
+    opacity: 1;
+  }
+  100% {
+    top: 86%;
     opacity: 0;
   }
 }

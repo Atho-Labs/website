@@ -14,6 +14,9 @@ rm -rf "${OUT_DIR}"
 mkdir -p "${OUT_DIR}"
 
 rsync -a \
+  --exclude=".git/" \
+  --exclude=".github/" \
+  --exclude="ionos-upload.zip" \
   --exclude=".DS_Store" \
   --exclude="README.md" \
   --exclude="runweb.py" \
