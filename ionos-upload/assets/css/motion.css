@@ -163,6 +163,20 @@
   }
 }
 
+@keyframes sheen-sweep {
+  0% {
+    transform: translateX(-185%) skewX(-20deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.92;
+  }
+  100% {
+    transform: translateX(300%) skewX(-20deg);
+    opacity: 0;
+  }
+}
+
 @keyframes stagger-in {
   from {
     opacity: 0;
