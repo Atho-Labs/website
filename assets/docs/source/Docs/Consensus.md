@@ -18,7 +18,7 @@ From `Src/Utility/const.py`:
 - Dust limit: `250 atoms`
 
 ## 2) BPoW and Stake Constants
-- BPoW enforcement height: `100` (`mainnet`, `testnet`, `regnet`)
+- BPoW enforcement height: `250` (`mainnet`, `testnet`, `regnet`)
 - Bond requirement: `25 ATHO`
 - Bond activation confirmations: `25`
 - Unbond delay: `10,080` blocks

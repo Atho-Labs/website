@@ -92,7 +92,7 @@
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
                   <strong>BPoW enforcement height</strong>
-                  <span><code>100</code> on mainnet, testnet, and regnet.</span>
+                  <span><code>250</code> on mainnet, testnet, and regnet.</span>
                 </span>
               </li>
               <li class="key-item">
@@ -444,7 +444,7 @@
             <li>Derive your deterministic bond role address from your Falcon public key.</li>
             <li>Deposit at least <code>25 ATHO</code> to that bond address.</li>
             <li>Wait <code>25</code> confirmations to transition from <code>pending</code> to <code>active</code>.</li>
-            <li>Mine with valid PoW + active bond after enforcement height <code>100</code>.</li>
+            <li>Mine with valid PoW + active bond after enforcement height <code>250</code>.</li>
             <li>If slashed by <code>2.5 ATHO</code>, top up and reconfirm to restore eligibility.</li>
             <li>When exiting, unbond delay is <code>10,080</code> blocks before unlock.</li>
           </ol>
@@ -698,7 +698,7 @@
             Atho exposes bootstrap, base emission supply, bonding, staking, and pool routing semantics through deterministic rules and docs so operators can validate behavior from chain data and runtime logs.
           </p>
           <div class="badge-row">
-            <span class="badge">BPoW enforcement at height 100</span>
+            <span class="badge">BPoW enforcement at height 250</span>
             <span class="badge">25 ATHO miner bond requirement</span>
             <span class="badge">50,000 ATHO bootstrap budget</span>
             <span class="badge">30,000,000 ATHO base emission path</span>

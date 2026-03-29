@@ -68,7 +68,7 @@ Compared with earlier snapshots, the current implementation formalizes these cha
 - Fee floor: `225 atoms/vB`
 - Minimum transaction fee: `100,000 atoms`
 - Dust threshold: `250 atoms`
-- BPoW enforcement height: `100`
+- BPoW enforcement height: `250`
 - Bond requirement: `25 ATHO`
 - Bond activation confirmations: `25`
 - Slash penalty: `2.5 ATHO`
@@ -109,7 +109,7 @@ Atho separates:
 This avoids validator-complexity while still adding economic commitment to mining behavior.
 
 ### 5.2 Core Parameters
-- BPoW enforcement height: `100` (all networks by default).
+- BPoW enforcement height: `250` (all networks by default).
 - Bond requirement: `25 ATHO`.
 - Bond activation confirmations: `25`.
 - Unbonding delay: `10,080` blocks.
@@ -215,7 +215,7 @@ Pool sink is deterministic and network-separated:
 ### 5.10 Bootstrap and Activation Timeline
 - Block `0`: genesis block (special bootstrap context).
 - Block `1`: bootstrap allocation and normal state tracking begins.
-- Height `100`: BPoW enforcement activates.
+- Height `250`: BPoW enforcement activates.
 
 This gives miners deterministic onboarding runway before strict bond gating.
 
@@ -297,7 +297,7 @@ Atho is in active development. Consensus and encoding evolution can be introduce
 A: Atho currently uses a `50,000 ATHO` bootstrap allocation at block `1`. Its role is launch bootstrapping: enabling early miner/bond onboarding and predictable network activation before strict BPoW enforcement. It is consensus-accounted and visible on-chain.
 
 ### Q: Is block `0` treated the same as block `1`?
-A: No. Block `0` is the genesis context. The bootstrap allocation is enforced at block `1`, and BPoW enforcement starts at height `100`.
+A: No. Block `0` is the genesis context. The bootstrap allocation is enforced at block `1`, and BPoW enforcement starts at height `250`.
 
 ### Q: What are the most important network parameters to know first?
 A: `120s` block target, `180`-block retarget interval, `10` tx confirmations, `150` coinbase maturity, `225 atoms/vB` fee floor, and BPoW bond requirement `25 ATHO` with `25` confirmations.

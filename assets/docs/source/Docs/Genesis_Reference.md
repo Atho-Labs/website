@@ -54,7 +54,7 @@ Derived from SHA3-384 network domain tags in `const.py`:
 - max block size: `2,500,000` bytes
 - max transaction policy size: `250,000 vB`
 - fee floor: `225 atoms/vB`
-- BPoW enforcement height: `100`
+- BPoW enforcement height: `250`
 - bond requirement: `25 ATHO`
 - bond activation confirmations: `25`
 - unbond delay: `10,080` blocks
