@@ -1589,7 +1589,7 @@ export const docsCatalog = [
     "href": "./assets/docs/pdf/gui.pdf"
   },
   {
-    "title": "Home",
+    "title": "Index",
     "category": "Reference",
     "summary": "This is the canonical documentation map for current development builds.",
     "headings": [
@@ -1610,7 +1610,7 @@ export const docsCatalog = [
       "node",
       "gui",
       "miner",
-      "home",
+      "index",
       "canonical",
       "current",
       "development",
