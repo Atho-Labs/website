@@ -1,6 +1,7 @@
 function normalizePath(pathname = "") {
-  if (!pathname || pathname === "/") return "/index.html";
-  if (pathname.endsWith("/")) return `${pathname}index.html`;
+  if (!pathname || pathname === "/") return "/home.html";
+  if (pathname.endsWith("/")) return `${pathname}home.html`;
+  if (pathname.endsWith("/index.html")) return pathname.replace(/\/index\.html$/, "/home.html");
   return pathname;
 }
 
