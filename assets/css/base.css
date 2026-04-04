@@ -15,13 +15,15 @@ body {
   color: var(--ink-900);
   font-family: var(--font-body);
   background:
-    radial-gradient(920px 560px at 12% 112%, rgba(61, 186, 255, 0.12), transparent 63%),
-    radial-gradient(780px 500px at 92% 110%, rgba(0, 190, 140, 0.09), transparent 66%),
-    radial-gradient(1000px 620px at 3% -8%, rgba(0, 168, 116, 0.14), transparent 62%),
-    radial-gradient(880px 520px at 98% -8%, rgba(49, 140, 214, 0.1), transparent 62%),
-    linear-gradient(124deg, rgba(16, 56, 78, 0.045) 0%, rgba(16, 56, 78, 0) 36%),
+    radial-gradient(980px 620px at -6% -10%, rgba(0, 168, 116, 0.13), transparent 66%),
+    radial-gradient(920px 580px at 106% -8%, rgba(55, 182, 239, 0.11), transparent 68%),
+    radial-gradient(820px 520px at 12% 110%, rgba(0, 168, 116, 0.09), transparent 70%),
+    radial-gradient(760px 460px at 96% 108%, rgba(55, 182, 239, 0.08), transparent 70%),
+    linear-gradient(118deg, rgba(16, 56, 78, 0.035) 0%, rgba(16, 56, 78, 0) 42%),
     var(--bg);
-  line-height: 1.45;
+  line-height: 1.5;
+  min-height: 100vh;
+  text-rendering: optimizeLegibility;
 }
 
 body::before {
@@ -29,7 +31,7 @@ body::before {
   position: fixed;
   inset: 0;
   background: url("../media/grid.svg") repeat;
-  opacity: 0.53;
+  opacity: 0.42;
   pointer-events: none;
   z-index: -1;
 }
@@ -40,16 +42,16 @@ body::after {
   inset: 0;
   pointer-events: none;
   z-index: -1;
-  opacity: 0.11;
+  opacity: 0.06;
   background:
-    repeating-linear-gradient(180deg, rgba(5, 34, 27, 0.08) 0 1px, transparent 1px 3px),
-    linear-gradient(90deg, rgba(55, 182, 239, 0.04), rgba(0, 168, 116, 0.025), rgba(255, 212, 135, 0.03));
-  animation: screen-scan 18s linear infinite;
+    repeating-linear-gradient(180deg, rgba(5, 34, 27, 0.06) 0 1px, transparent 1px 4px),
+    linear-gradient(90deg, rgba(55, 182, 239, 0.03), rgba(0, 168, 116, 0.02), rgba(255, 212, 135, 0.025));
+  animation: screen-scan 22s linear infinite;
 }
 
 body:not(.home-page)::after {
   animation: none;
-  opacity: 0.07;
+  opacity: 0.05;
 }
 
 .byte-overlay-layer {
@@ -58,7 +60,7 @@ body:not(.home-page)::after {
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
-  opacity: 0.18;
+  opacity: 0.12;
   mix-blend-mode: normal;
 }
 
@@ -67,8 +69,8 @@ body:not(.home-page)::after {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(1200px 620px at 50% 112%, rgba(0, 168, 116, 0.08), transparent 67%),
-    radial-gradient(900px 460px at 88% -16%, rgba(55, 182, 239, 0.07), transparent 66%);
+    radial-gradient(1200px 620px at 50% 112%, rgba(0, 168, 116, 0.06), transparent 67%),
+    radial-gradient(900px 460px at 88% -16%, rgba(55, 182, 239, 0.05), transparent 66%);
 }
 
 .byte-overlay-text {
@@ -77,7 +79,7 @@ body:not(.home-page)::after {
   top: -38vh;
   width: 130vw;
   margin: 0;
-  color: rgba(9, 122, 102, 0.17);
+  color: rgba(9, 122, 102, 0.12);
   font-family: var(--font-mono);
   font-size: 9.8px;
   letter-spacing: 0.2em;
@@ -91,7 +93,7 @@ body:not(.home-page)::after {
 }
 
 .byte-overlay-text.byte-overlay-text-alt {
-  color: rgba(42, 132, 198, 0.11);
+  color: rgba(42, 132, 198, 0.08);
   transform: perspective(1300px) rotateX(62deg) rotateZ(1.8deg) translate3d(2vw, 5vh, 0);
   animation: byte-stream-alt 40s linear infinite;
   filter: none;
@@ -99,11 +101,11 @@ body:not(.home-page)::after {
 
 .perf-lite body::after {
   animation: none;
-  opacity: 0.08;
+  opacity: 0.05;
 }
 
 .perf-lite .byte-overlay-layer {
-  opacity: 0.12;
+  opacity: 0.08;
 }
 
 .perf-lite .byte-overlay-text.byte-overlay-text-alt {
@@ -132,13 +134,18 @@ select {
   color: var(--ink-900);
 }
 
+:focus-visible {
+  outline: 2px solid rgba(58, 184, 238, 0.6);
+  outline-offset: 2px;
+}
+
 .wrap {
-  width: min(100% - 2.2rem, var(--max-wrap));
+  width: min(100% - clamp(1.1rem, 2.8vw, 2.4rem), var(--max-wrap));
   margin-inline: auto;
 }
 
 .section {
-  padding: var(--space-8) 0;
+  padding: clamp(56px, 7.2vw, 92px) 0;
 }
 
 .section:not(:first-of-type) {
@@ -206,12 +213,13 @@ body:not(.home-page) .section-eyebrow::after {
   line-height: 1.12;
   letter-spacing: -0.015em;
   text-wrap: balance;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6), 0 10px 28px rgba(6, 90, 65, 0.08);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.56), 0 8px 20px rgba(6, 90, 65, 0.07);
 }
 
 .section-copy {
   margin: 0;
-  max-width: 68ch;
+  max-width: 70ch;
   color: var(--ink-500);
   font-size: 1.05rem;
+  line-height: 1.62;
 }

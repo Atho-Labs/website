@@ -1,6 +1,6 @@
 # Atho Documentation Index
 
-Date: 2026-03-27
+Date: 2026-04-04
 
 This is the canonical documentation map for current development builds.
 
@@ -13,12 +13,13 @@ This is the canonical documentation map for current development builds.
 - [WhitePaper.md](WhitePaper.md)
 - [Consensus.md](Consensus.md)
 - [Tx.md](Tx.md)
+- [PlatinumShield_Privacy.md](PlatinumShield_Privacy.md)
 - [Sigwit.md](Sigwit.md)
 - [Sha3-384.md](Sha3-384.md)
 - [Falcon512.md](Falcon512.md)
 - [Emissions.md](Emissions.md)
 - [Inflation_Deflationary.md](Inflation_Deflationary.md)
-- [Emissions Modeling/Entire_Overview.md](Emissions Modeling/Entire_Overview.md)
+- [Emissions Modeling/Entire_Overview.md](Emissions Modeling/Entire_Overview.md) (contains legacy-model body plus active-policy correction header)
 
 For BPoW, miner bonding, and wallet staking:
 - start with [WhitePaper.md](WhitePaper.md) section 5,

@@ -1,6 +1,6 @@
 # Packaging & Snapshot (Alpha)
 
-Last refresh: 2026-03-27.
+Last refresh: 2026-04-04.
 
 ## Goal
 Create a portable package you can launch directly into the GUI while preserving a timestamped copy of the current project runtime snapshot.

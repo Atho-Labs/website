@@ -1,6 +1,6 @@
 # Atho GUI Guide
 
-Last refresh: 2026-03-27.
+Last refresh: 2026-04-04.
 
 This document covers the desktop client (`Src/GUI/gui.py`) and the integrated Web Explorer served from `Src/GUI/web_explorer.html`.
 

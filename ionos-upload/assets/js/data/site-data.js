@@ -25,6 +25,11 @@ export const featureCards = [
     tag: "Ledger"
   },
   {
+    title: "Platinum Shield Privacy Layer",
+    body: "Public UTXO and private-note transaction paths coexist on Layer 1 with deterministic bridge rules and fail-closed validation.",
+    tag: "Privacy"
+  },
+  {
     title: "Tighten-Only Upgrades",
     body: "Protocol changes are meant to increase rigor over time, not quietly loosen core safety rules.",
     tag: "Policy"
@@ -92,14 +97,14 @@ export const metricCards = [
     foot: "Fast, steady chain cadence"
   },
   {
-    label: "Peak Policy Throughput",
-    value: 40.6,
+    label: "Simple-Flow Peak Throughput",
+    value: 56.86,
     suffix: " TPS",
-    foot: "High-headroom throughput under the current policy model"
+    foot: "Estimated 1-in/1-out peak at 3,500,000 vB and 120s blocks"
   },
   {
     label: "Bootstrap Budget",
-    value: 50000,
+    value: 390625,
     suffix: " ATHO",
     foot: "Consensus bootstrap allocation at block 1"
   },
@@ -111,9 +116,9 @@ export const metricCards = [
   },
   {
     label: "Base Emission Supply",
-    value: 30000000,
+    value: 100000000,
     suffix: " ATHO",
-    foot: "Total pre-tail base: 29,950,000 subsidy + 50,000 bootstrap"
+    foot: "Total pre-tail base: 99,609,375 subsidy + 390,625 bootstrap"
   },
   {
     label: "Transaction Confirmations",

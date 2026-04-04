@@ -1,3 +1,17 @@
+const SITE_PAGE_ORDER = [
+  { href: "./home.html", label: "Home" },
+  { href: "./docs.html", label: "Docs" },
+  { href: "./join.html", label: "Join" },
+  { href: "./wallet.html", label: "Wallet" },
+  { href: "./platinum-shield.html", label: "Platinum Shield" },
+  { href: "./bpow-docs.html", label: "BPoW" },
+  { href: "./rewards.html", label: "Rewards" },
+  { href: "./inflation-deflation.html", label: "Inflation/Deflation" },
+  { href: "./falcon-512.html", label: "Falcon-512" },
+  { href: "./changelog.html", label: "Changelog" },
+  { href: "./contact.html", label: "Contact" }
+];
+
 function normalizePath(pathname = "") {
   if (!pathname || pathname === "/") return "/home.html";
   if (pathname.endsWith("/")) return `${pathname}home.html`;
@@ -38,7 +52,19 @@ function updateActiveByLocation(links) {
   });
 
   if (!matched) {
-    const defaultHashes = new Set(["#overview", "#docs-overview", "#contact-overview", "#wallet-overview"]);
+    const defaultHashes = new Set([
+      "#overview",
+      "#docs-overview",
+      "#contact-overview",
+      "#wallet-overview",
+      "#quickstart",
+      "#bpow-overview",
+      "#version-releases",
+      "#falcon-vs-ecc",
+      "#inflation-flow",
+      "#bpow",
+      "#shield-overview"
+    ]);
     setActiveLink(links, (link) => {
       const href = link.getAttribute("href") || "";
       if (!href.startsWith("#")) return false;
@@ -47,12 +73,78 @@ function updateActiveByLocation(links) {
   }
 }
 
+function buildQuickNav(currentPath) {
+  const header = document.querySelector(".site-header");
+  if (!(header instanceof HTMLElement)) return null;
+  if (document.querySelector("[data-site-quick-nav]")) return null;
+
+  const shell = document.createElement("div");
+  shell.className = "site-quick-nav";
+  shell.setAttribute("data-site-quick-nav", "true");
+
+  const wrap = document.createElement("div");
+  wrap.className = "wrap site-quick-nav-wrap";
+  shell.appendChild(wrap);
+
+  const pageRail = document.createElement("div");
+  pageRail.className = "site-quick-pages";
+  wrap.appendChild(pageRail);
+
+  const quickPageLinks = [];
+  SITE_PAGE_ORDER.forEach((page) => {
+    const link = document.createElement("a");
+    link.className = "site-quick-link";
+    link.href = page.href;
+    link.textContent = page.label;
+
+    try {
+      const target = new URL(page.href, window.location.href);
+      const active = normalizePath(target.pathname) === currentPath;
+      link.classList.toggle("is-active", active);
+      if (active) link.setAttribute("aria-current", "page");
+    } catch {
+      // ignore malformed href
+    }
+
+    pageRail.appendChild(link);
+    quickPageLinks.push(link);
+  });
+
+  header.insertAdjacentElement("afterend", shell);
+
+  return {
+    setCurrentPath(pathname) {
+      setActiveLink(quickPageLinks, (link) => {
+        const href = link.getAttribute("href") || "";
+        if (!href) return false;
+        try {
+          const target = new URL(href, window.location.href);
+          const active = normalizePath(target.pathname) === pathname;
+          if (active) link.setAttribute("aria-current", "page");
+          else link.removeAttribute("aria-current");
+          return active;
+        } catch {
+          return false;
+        }
+      });
+    }
+  };
+}
+
 export function initNavigation() {
   const toggle = document.querySelector("[data-menu-toggle]");
   const drawer = document.querySelector("[data-global-drawer]");
   const pageNav = document.querySelector("[data-nav-links]");
   const links = Array.from(document.querySelectorAll(".nav-link"));
   const globalLinks = Array.from(document.querySelectorAll(".global-nav-link"));
+  const header = document.querySelector(".site-header");
+
+  const syncHeaderHeight = () => {
+    if (!(header instanceof HTMLElement)) return;
+    document.documentElement.style.setProperty("--site-header-height", `${Math.round(header.offsetHeight)}px`);
+  };
+  syncHeaderHeight();
+  window.addEventListener("resize", syncHeaderHeight);
 
   if (toggle && drawer) {
     const closeDrawer = () => {
@@ -88,7 +180,6 @@ export function initNavigation() {
   }
 
   updateActiveByLocation(links);
-  window.addEventListener("hashchange", () => updateActiveByLocation(links));
 
   const currentPath = normalizePath(window.location.pathname);
   setActiveLink(globalLinks, (link) => {
@@ -102,18 +193,31 @@ export function initNavigation() {
     }
   });
 
-  const hashLinks = links.filter((link) => (link.getAttribute("href") || "").startsWith("#"));
-  if (!hashLinks.length) return;
-
   const scrollToTarget = (id) => {
     const target = document.getElementById(id);
     if (!(target instanceof HTMLElement)) return;
     const header = document.querySelector(".site-header");
     const headerHeight = header instanceof HTMLElement ? header.offsetHeight : 0;
+    const quickNav = document.querySelector(".site-quick-nav");
+    const quickNavHeight = quickNav instanceof HTMLElement ? quickNav.offsetHeight : 0;
     const visualLead = Math.max(26, Math.round(window.innerHeight * 0.18));
-    const top = window.scrollY + target.getBoundingClientRect().top - headerHeight - visualLead;
+    const top = window.scrollY + target.getBoundingClientRect().top - headerHeight - quickNavHeight - visualLead;
     window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
   };
+
+  const hashLinks = links.filter((link) => (link.getAttribute("href") || "").startsWith("#"));
+  const enableQuickNav = window.matchMedia("(min-width: 981px)").matches;
+  const quickNav = enableQuickNav ? buildQuickNav(currentPath) : null;
+  if (quickNav) quickNav.setCurrentPath(currentPath);
+
+  const syncFromHash = () => {
+    updateActiveByLocation(links);
+  };
+
+  window.addEventListener("hashchange", syncFromHash);
+  syncFromHash();
+
+  if (!hashLinks.length) return;
 
   hashLinks.forEach((link) => {
     link.addEventListener("click", (event) => {

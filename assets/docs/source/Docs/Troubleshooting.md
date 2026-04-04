@@ -1,6 +1,6 @@
 # Troubleshooting Guide (Atho)
 
-Last refresh: 2026-03-27.
+Last refresh: 2026-04-04.
 
 This guide collects common issues and fixes by area (network/P2P, APIs/auth, storage/LMDB, mining, Docker, build/tooling).
 

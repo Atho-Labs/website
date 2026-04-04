@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Atho documentation hub: whitepaper, consensus, security, economics, operations, and release references.">
+  <meta name="description" content="Atho documentation hub: Platinum Shield privacy layer, consensus, wallet security, economics, operations, and release references.">
   <title>Atho Docs</title>
   <link rel="canonical" href="https://atho.io/docs.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Atho">
   <meta property="og:url" content="https://atho.io/docs.html">
   <meta property="og:title" content="Atho Docs">
-  <meta property="og:description" content="Atho documentation hub: whitepaper, consensus, security, economics, operations, and release references.">
+  <meta property="og:description" content="Atho documentation hub: Platinum Shield privacy layer, consensus, wallet security, economics, operations, and release references.">
   <meta property="og:image" content="https://image.thum.io/get/width/1200/crop/630/https://atho.io/docs.html">
   <meta property="og:image:secure_url" content="https://image.thum.io/get/width/1200/crop/630/https://atho.io/docs.html">
   <meta property="og:image:width" content="1200">
@@ -19,7 +19,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@Atho_io">
   <meta name="twitter:title" content="Atho Docs">
-  <meta name="twitter:description" content="Atho documentation hub: whitepaper, consensus, security, economics, operations, and release references.">
+  <meta name="twitter:description" content="Atho documentation hub: Platinum Shield privacy layer, consensus, wallet security, economics, operations, and release references.">
   <meta name="twitter:image" content="https://image.thum.io/get/width/1200/crop/630/https://atho.io/docs.html">
   <meta name="twitter:image:alt" content="Atho docs page preview">
   <link rel="icon" type="image/png" href="./assets/media/logo2website.png">
@@ -46,6 +46,7 @@
           <a class="nav-link" href="#docs-overview">Overview</a>
           <a class="nav-link" href="#docs-index">Index</a>
           <a class="nav-link" href="#protocol">Protocol</a>
+          <a class="nav-link" href="#privacy-docs">Privacy</a>
           <a class="nav-link" href="#bpow-docs">BPoW Docs</a>
           <a class="nav-link" href="#economics-docs">Economics</a>
         </nav>
@@ -67,6 +68,7 @@
             <a class="global-nav-link" href="./join.html">Join</a>
             <a class="global-nav-link" href="./rewards.html">Rewards</a>
             <a class="global-nav-link" href="./wallet.html">Wallet</a>
+            <a class="global-nav-link" href="./platinum-shield.html">Platinum Shield</a>
             <a class="global-nav-link" href="./bpow-docs.html">BPoW</a>
             <a class="global-nav-link" href="./inflation-deflation.html">Inflation / Deflation</a>
             <a class="global-nav-link" href="./changelog.html">Changelog</a>
@@ -91,8 +93,10 @@
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary btn-inline" href="#docs-index">Search Docs</a>
+            <a class="btn btn-primary btn-inline" href="#privacy-docs">Open Privacy Docs</a>
             <a class="btn btn-primary btn-inline" href="#bpow-docs">Open BPoW Docs</a>
             <a class="btn btn-primary btn-inline" href="./wallet.html">Open Wallet Page</a>
+            <a class="btn btn-primary btn-inline" href="./platinum-shield.html">Open Platinum Shield</a>
             <a class="btn btn-primary btn-inline" href="./inflation-deflation.html">Open Inflation / Deflation</a>
             <a class="btn btn-primary btn-inline" href="./join.html">Join The Network</a>
             <a class="btn btn-primary btn-inline" href="./rewards.html">Open Rewards</a>
@@ -246,6 +250,80 @@
       </div>
     </section>
 
+    <section id="privacy-docs" class="section">
+      <div class="wrap split-grid">
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Platinum Shield Privacy Documentation</h3>
+          <p class="panel-copy">
+            This set covers public/private coexistence on Layer 1, bundle and x-address binding policy, encrypted note payload handling,
+            nullifier replay protection, and wallet-node orchestration for public -> private, private -> private, and private -> public flows.
+          </p>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Flow semantics</strong>
+                <span>Deterministic transaction-path rules for all private and bridge transitions on the canonical chain timeline.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Validation boundaries</strong>
+                <span>Fail-closed mempool and block checks for malformed payloads, invalid witness data, or nullifier/index conflicts.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Operator observability</strong>
+                <span>Per-domain logs for private tx admit/reject paths, block inclusion outcomes, and note-state reconciliation.</span>
+              </span>
+            </li>
+          </ul>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-inline" href="./platinum-shield.html">Platinum Shield Page</a>
+            <a class="btn btn-primary btn-inline" href="./wallet.html#wallet-private">Wallet Private Flow</a>
+            <a class="btn btn-primary btn-inline" href="./join.html#private-testnet">Private Testnet Runbook</a>
+          </div>
+        </article>
+
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Core Privacy References</h3>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Consensus + Tx docs</strong>
+                <span>Private paths inherit chain version-gating, fee policy, and block-admission discipline from core consensus modules.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Wallet + key manager docs</strong>
+                <span>Deterministic note generation, lockbox policy, and send-time authorization requirements for private operations.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>STARK integration notes</strong>
+                <span>Bridge policy, prover/verifier backend integration expectations, and fail-closed behavior when proof backends are unavailable.</span>
+              </span>
+            </li>
+          </ul>
+          <div class="badge-row">
+            <span class="badge">Public <-> Private Bridge</span>
+            <span class="badge">Nullifier Integrity</span>
+            <span class="badge">Replay Domain Separation</span>
+            <span class="badge">Bundle Hash Binding</span>
+            <span class="badge">Node Responsibility Matrix</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
     <section id="economics-docs" class="section">
       <div class="wrap split-grid">
         <article class="card card-pad" data-reveal>
@@ -255,7 +333,7 @@
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Pre-Tail + Tail Path</strong>
-                <span>Emission schedule to 30,000,000 ATHO total pre-tail base (including 50,000 bootstrap), with tail activation at block 20,942,000 (about 79.7 years, roughly 80 years) and 65,700 ATHO annual post-tail issuance, is documented with auditable assumptions.</span>
+                <span>Emission schedule to 100,000,000 ATHO total pre-tail base (including 390,625 bootstrap), with tail activation at block 8,000,000 (about 30.44 years) and 51,328.125 ATHO annual post-tail issuance, is documented with auditable assumptions.</span>
               </span>
             </li>
             <li class="key-item">
@@ -309,7 +387,8 @@
     <div class="wrap footer-row">
       <span>Atho Labs</span>
       <span class="footer-contact">
-        <span class="footer-slogan">The Platinum Standard of the Quantum Age</span>
+        <span class="footer-slogan">Atho — Private. Secure. The Platinum Standard of the Quantum Age</span>
+        <span class="footer-updated">Last updated: April 4, 2026</span>
         <span>
           To report bugs, security issues, or general inquiries:
           <a href="./contact.html">Contact</a>

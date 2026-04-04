@@ -1,6 +1,6 @@
 # Node Stop Utility (`Src/Main/stop.py`)
 
-Last refresh: 2026-03-27.
+Last refresh: 2026-04-04.
 
 This utility stops Atho node processes even when they were started from another terminal/background session.
 

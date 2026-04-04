@@ -1,6 +1,6 @@
 # Threat Model and Security Posture
 
-Last refresh: 2026-03-27.
+Last refresh: 2026-04-04.
 
 This document reviews current security posture across keys, signing, networking/auth, consensus, storage, and operational controls. It calls out weaknesses, impacts, and recommended improvements with code references.
 

@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-03-27) Tj
+(Date: 2026-04-04) Tj
 T*
 () Tj
 T*
@@ -53,9 +53,9 @@ T*
 T*
 (Active policy constants:) Tj
 T*
-(- fee floor: 225 atoms/vB) Tj
+(- fee floor: 250 atoms/vB) Tj
 T*
-(- minimum tx fee: 150,000 atoms) Tj
+(- minimum tx fee: 100,000 atoms) Tj
 T*
 (- tx confirmations required for regular spend visibility: 10) Tj
 T*
@@ -273,13 +273,13 @@ T*
 T*
 (- Practical Throughput Mapping) Tj
 T*
-(With 2,500,000 vbytes/block and 120s block time:) Tj
+(With 3,500,000 vbytes/block and 120s block time:) Tj
 T*
-(- 566 vB avg -> ~36.8 TPS) Tj
+(- 566 vB avg -> ~51.5 TPS) Tj
 T*
-(- 615 vB avg -> ~33.9 TPS) Tj
+(- 615 vB avg -> ~47.4 TPS) Tj
 T*
-(- 664 vB avg -> ~31.4 TPS) Tj
+(- 664 vB avg -> ~43.9 TPS) Tj
 T*
 () Tj
 T*

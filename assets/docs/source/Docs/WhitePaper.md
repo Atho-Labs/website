@@ -1,6 +1,6 @@
 # Atho Complete Whitepaper
 
-Date: 2026-03-27
+Date: 2026-04-04
 
 Complete PDF artifact: `Docs/Atho_Complete_Whitepaper_v2.0.pdf`
 
@@ -45,13 +45,13 @@ Compared with earlier snapshots, the current implementation formalizes these cha
 - Difficulty retarget interval: `180` blocks.
 - Transaction confirmations required: `10`.
 - Coinbase maturity: `150` blocks.
-- Block cap: `2,500,000` base bytes, `10,000,000` weight units.
+- Block cap: `3,500,000` base bytes, `14,000,000` weight units.
 - Transaction policy cap: `250,000 vB` per transaction.
 - Transaction policy metric: SegWit-style `vsize`.
 - Addressing: Base56 for users, HPK-based internal destination binding.
 - Signature system: Falcon-512.
 - Hashing: SHA3-384 for canonical tx/block identity operations.
-- Active fee floor: `225 atoms/vB`.
+- Active fee floor: `250 atoms/vB`.
 - Active min tx fee: `100,000 atoms`.
 
 ### 3.1 Network Parameters (Operator Reference)
@@ -62,17 +62,17 @@ Compared with earlier snapshots, the current implementation formalizes these cha
 - Future drift bound: `30s`
 - Tx confirmations (standard): `10`
 - Coinbase maturity: `150`
-- Max block size: `2,500,000` bytes
-- Max block weight: `10,000,000`
+- Max block size: `3,500,000` bytes
+- Max block weight: `14,000,000`
 - Max transaction size policy: `250,000 vB`
-- Fee floor: `225 atoms/vB`
+- Fee floor: `250 atoms/vB`
 - Minimum transaction fee: `100,000 atoms`
 - Dust threshold: `250 atoms`
-- BPoW enforcement height: `250`
+- BPoW enforcement height: `10,000`
 - Bond requirement: `25 ATHO`
 - Bond activation confirmations: `25`
 - Slash penalty: `2.5 ATHO`
-- Epoch/finalization windows: `720 / 3600` blocks
+- Epoch/finalization windows: `720 / 3,600` blocks
 
 ## 4. Transaction Encoding and Capacity
 Atho no longer relies on one static tx-size assumption. Effective tx size depends on:
@@ -92,13 +92,13 @@ Representative current estimates (metadata empty, compressed witness, binary siz
 - `2 in / 2 out`: ~615 vB
 - `3 in / 2 out`: ~664 vB
 
-At 120-second blocks and 2.5M vbytes/block, this maps to approximately:
-- ~40.6 TPS (`1 in / 1 out`)
-- ~36.8 TPS (`1 in / 2 out`)
-- ~33.9 TPS (`2 in / 2 out`)
-- ~31.4 TPS (`3 in / 2 out`)
+At 120-second blocks and 3.5M vbytes/block, this maps to approximately:
+- ~56.9 TPS (`1 in / 1 out`)
+- ~51.5 TPS (`1 in / 2 out`)
+- ~47.4 TPS (`2 in / 2 out`)
+- ~43.9 TPS (`3 in / 2 out`)
 
-This supports the target operating band of sustained ~30-35 TPS under realistic mixes.
+This supports the target operating band of sustained ~44-52 TPS under realistic mixes.
 
 ## 5. BPoW and Wallet Staking Architecture
 ### 5.1 Why BPoW Exists
@@ -109,14 +109,14 @@ Atho separates:
 This avoids validator-complexity while still adding economic commitment to mining behavior.
 
 ### 5.2 Core Parameters
-- BPoW enforcement height: `250` (all networks by default).
+- BPoW enforcement height: `10,000` (all networks by default).
 - Bond requirement: `25 ATHO`.
 - Bond activation confirmations: `25`.
 - Unbonding delay: `10,080` blocks.
 - Slash penalty: `2.5 ATHO`.
 - Epoch length: `720` blocks.
-- Finalization buffer: `3600` blocks.
-- Bootstrap allocation: `50,000 ATHO` at block `1`.
+- Finalization buffer: `3,600` blocks.
+- Bootstrap allocation: `390,625 ATHO` at block `1`.
 
 ### 5.3 Deterministic Address Role Derivation
 All role destinations are derived from raw Falcon public key bytes with domain separation.
@@ -191,20 +191,20 @@ Non-slashable cases:
 ### 5.8 Fee Routing and Epoch Settlement
 Per block fee policy:
 - +25% fee policy uplift over base constants,
-- 20% to consensus-managed pool,
-- 80% to burn/miner path (tail burn-floor logic applies there).
+- pre-tail: 40% to consensus-managed pool, 60% to non-pool path,
+- post-tail: 50% to consensus-managed pool, 50% to non-pool path (tail burn-floor logic applies there).
 
 Pool split:
-- 10% miner-side pool
-- 10% wallet-stake pool
+- pre-tail: 20% miner-side pool, 20% wallet-stake pool
+- post-tail: 25% miner-side pool, 25% wallet-stake pool
 
 Miner-side sub-split:
-- 7% winner-proportional
-- 3% bonded-idle distribution
+- pre-tail: 0% winner-proportional, 20% bonded-idle distribution
+- post-tail: 20% winner-proportional, 5% bonded-idle distribution
 
 Settlement windows:
 - epoch: `720` blocks
-- finalization buffer: `3600` blocks
+- finalization buffer: `3,600` blocks
 
 ### 5.9 Consensus-Managed Pool Address
 Pool sink is deterministic and network-separated:
@@ -215,13 +215,13 @@ Pool sink is deterministic and network-separated:
 ### 5.10 Bootstrap and Activation Timeline
 - Block `0`: genesis block (special bootstrap context).
 - Block `1`: bootstrap allocation and normal state tracking begins.
-- Height `250`: BPoW enforcement activates.
+- Height `10,000`: BPoW enforcement activates.
 
 This gives miners deterministic onboarding runway before strict bond gating.
 
 ### 5.11 Bootstrap Allocation ("Premine") Clarification
 Current bootstrap allocation:
-- `50,000 ATHO` at block `1` (not block `0`).
+- `390,625 ATHO` at block `1` (not block `0`).
 
 Purpose:
 - initial network bootstrapping,
@@ -261,11 +261,11 @@ Runtime controls:
 
 ## 8. Emissions and Incentives
 Monetary policy remains atom-based and deterministic:
-- pre-tail subsidy schedule reaches 29,950,000 ATHO and bootstrap adds 50,000 ATHO at block 1 (30,000,000 ATHO total pre-tail base),
-- tail activation occurs at block 20,942,000 (about 79.7 years, roughly 80 years) with 65,700 ATHO annual post-tail issuance,
-- tail reward: 0.25 ATHO/block,
-- fee policy uplift: +25% over base fee constants (`225 atoms/vB` effective floor),
-- fee routing: 20% to consensus pool, 80% to burn/miner path,
+- pre-tail subsidy schedule reaches 99,609,375 ATHO and bootstrap adds 390,625 ATHO at block 1 (100,000,000 ATHO total pre-tail base),
+- tail activation occurs at block 8,000,000 (about 30.44 years) with 51,328.125 ATHO annual post-tail issuance,
+- tail reward: 0.1953125 ATHO/block,
+- fee policy uplift: +25% over base fee constants (`250 atoms/vB` effective floor),
+- fee routing: pre-tail 40% pool / 60% non-pool, post-tail 50% pool / 50% non-pool,
 - tail burn target: 100% burn on routed non-pool fees with floor clipping safeguards.
 
 Deterministic consensus-managed fee pool address is network-separated:
@@ -294,13 +294,13 @@ Atho is in active development. Consensus and encoding evolution can be introduce
 
 ## 11. FAQ (Core)
 ### Q: What is the premine/bootstrap amount, and what is it for?
-A: Atho currently uses a `50,000 ATHO` bootstrap allocation at block `1`. Its role is launch bootstrapping: enabling early miner/bond onboarding and predictable network activation before strict BPoW enforcement. It is consensus-accounted and visible on-chain.
+A: Atho currently uses a `390,625 ATHO` bootstrap allocation at block `1`. Its role is launch bootstrapping: enabling early miner/bond onboarding and predictable network activation before strict BPoW enforcement. It is consensus-accounted and visible on-chain.
 
 ### Q: Is block `0` treated the same as block `1`?
-A: No. Block `0` is the genesis context. The bootstrap allocation is enforced at block `1`, and BPoW enforcement starts at height `250`.
+A: No. Block `0` is the genesis context. The bootstrap allocation is enforced at block `1`, and BPoW enforcement starts at height `10,000`.
 
 ### Q: What are the most important network parameters to know first?
-A: `120s` block target, `180`-block retarget interval, `10` tx confirmations, `150` coinbase maturity, `225 atoms/vB` fee floor, and BPoW bond requirement `25 ATHO` with `25` confirmations.
+A: `120s` block target, `180`-block retarget interval, `10` tx confirmations, `150` coinbase maturity, `250 atoms/vB` fee floor, and BPoW bond requirement `25 ATHO` with `25` confirmations.
 
 ### Q: Does wallet staking allow block production by itself?
 A: No. Wallet staking is an economic participation role. Mining eligibility is determined by PoW plus active bond state under BPoW rules.

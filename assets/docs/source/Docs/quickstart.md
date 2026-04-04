@@ -1,6 +1,6 @@
 # Atho Quickstart
 
-Date: 2026-03-27
+Date: 2026-04-04
 
 This guide is the canonical setup path for current development builds.
 
@@ -118,9 +118,37 @@ Recommended first run:
 - start full + wallet/API
 - then add miner role after baseline sync is healthy
 
+Scripted terminal-only launch (no prompts):
+```bash
+./.venv/bin/python Src/Main/runnode.py --non-interactive --node-type full --network mainnet
+./.venv/bin/python Src/Main/runnode.py --non-interactive --node-type miner --network mainnet
+```
+
 ## 6) Run GUI (optional)
 ```bash
 ./.venv/bin/python Src/GUI/gui.py
+```
+
+## 6.1) Terminal sender + bond/stake flows
+```bash
+# transfer
+./.venv/bin/python Src/Main/send.py transfer <recipient_hpk_or_base56> <amount> --yes
+
+# role addresses + balances
+./.venv/bin/python Src/Main/send.py addresses
+./.venv/bin/python Src/Main/send.py balance
+
+# deposits
+./.venv/bin/python Src/Main/send.py bond-deposit <amount> --yes
+./.venv/bin/python Src/Main/send.py stake-deposit <amount> --yes
+
+# exit / unbond request
+./.venv/bin/python Src/Main/send.py bond-exit --yes
+./.venv/bin/python Src/Main/send.py stake-exit --yes
+
+# withdraw after unlockable state
+./.venv/bin/python Src/Main/send.py bond-withdraw <amount> --yes
+./.venv/bin/python Src/Main/send.py stake-withdraw <amount> --yes
 ```
 
 ## 7) Performance-related runtime knobs
@@ -154,9 +182,9 @@ Useful verification values for deployment checks:
 - difficulty retarget interval: `180` blocks
 - transaction confirmations required: `10`
 - coinbase maturity: `150` blocks
-- fee floor: `225 atoms/vB`
+- fee floor: `250 atoms/vB`
 - min tx fee: `100,000 atoms`
-- BPoW enforcement height: `250`
+- BPoW enforcement height: `10,000`
 - bond requirement: `25 ATHO`
 
 Use:

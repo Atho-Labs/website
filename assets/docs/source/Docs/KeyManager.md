@@ -1,6 +1,6 @@
 # Key Manager (Atho)
 
-Last refresh: 2026-03-27.
+Last refresh: 2026-04-04.
 
 This note explains how Atho’s key manager stores, loads, and uses keys for wallets, mining rewards, and API authentication.
 

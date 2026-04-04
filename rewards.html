@@ -67,6 +67,7 @@
             <a class="global-nav-link" href="./join.html">Join</a>
             <a class="global-nav-link" href="./rewards.html">Rewards</a>
             <a class="global-nav-link" href="./wallet.html">Wallet</a>
+            <a class="global-nav-link" href="./platinum-shield.html">Platinum Shield</a>
             <a class="global-nav-link" href="./bpow-docs.html">BPoW</a>
             <a class="global-nav-link" href="./inflation-deflation.html">Inflation / Deflation</a>
             <a class="global-nav-link" href="./changelog.html">Changelog</a>
@@ -87,7 +88,7 @@
           </div>
           <h1>Deterministic rewards for miners, bonders, and stakers.</h1>
           <p>
-            Atho uses BPoW to require miner bonds for block production, while wallet staking stays a separate participation lane. The model is anchored by a 50,000 ATHO bootstrap allocation and a 29,950,000 ATHO subsidy path, totaling 30,000,000 ATHO pre-tail. Tail mode begins at block 20,942,000 (about 79.7 years, roughly 80 years) with fixed post-tail issuance of 65,700 ATHO per year.
+            Atho uses BPoW to require miner bonds for block production, while wallet staking stays a separate participation lane. The model is anchored by a 390,625 ATHO bootstrap allocation and a 99,609,375 ATHO subsidy path, totaling 100,000,000 ATHO pre-tail. Tail mode begins at block 8,000,000 (about 30.44 years) with fixed post-tail issuance of 51,328.125 ATHO per year.
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary btn-inline" href="#reward-breakdown">Reward Split Math</a>
@@ -109,7 +110,7 @@
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
                   <strong>BPoW enforcement height</strong>
-                  <span><code>250</code> on mainnet, testnet, and regnet.</span>
+                  <span><code>10,000</code> on mainnet, testnet, and regnet.</span>
                 </span>
               </li>
               <li class="key-item">
@@ -123,14 +124,14 @@
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
                   <strong>Bootstrap budget</strong>
-                  <span><code>50,000 ATHO</code> consensus bootstrap allocation at block <code>1</code>.</span>
+                  <span><code>390,625 ATHO</code> consensus bootstrap allocation at block <code>1</code>.</span>
                 </span>
               </li>
               <li class="key-item">
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
                   <strong>Base emission supply</strong>
-                  <span><code>30,000,000 ATHO</code> total pre-tail base (<code>29,950,000</code> subsidy + <code>50,000</code> bootstrap).</span>
+                  <span><code>100,000,000 ATHO</code> total pre-tail base (<code>99,609,375</code> subsidy + <code>390,625</code> bootstrap).</span>
                 </span>
               </li>
             </ul>
@@ -246,20 +247,22 @@
         <span class="section-eyebrow">Reward Split Breakdown</span>
         <h2 class="section-title">Clear visual math for bond rewards, staking rewards, and fee routing.</h2>
         <p class="section-copy">
-          The values below come directly from the active consensus docs: <code>20%</code> total fee-pool route, split into
-          <code>10%</code> miner-side and <code>10%</code> stake-side, with miner-side further split as <code>7%</code> winner-proportional
-          and <code>3%</code> bonded-idle distribution.
+          The values below come directly from active consensus constants. Pre-tail routes <code>40%</code> to pool
+          (<code>20%</code> miner-side + <code>20%</code> stake-side), while post-tail routes <code>50%</code> to pool
+          (<code>25%</code> miner-side + <code>25%</code> stake-side). Miner-side split changes from
+          <code>0%</code> winner / <code>20%</code> bonded-idle pre-tail to <code>20%</code> winner / <code>5%</code> bonded-idle post-tail.
         </p>
 
         <div class="feature-grid reward-breakdown-grid" data-stagger>
           <article class="card card-pad feature-card reward-breakdown-card" data-reveal>
             <h3>Step 1: Per-Block Fee Split</h3>
             <p class="panel-copy">
-              Every block fee total is split once: protocol pool gets <code>20%</code>, and <code>80%</code> follows the non-pool route.
+              Pre-tail fee split is <code>40%</code> protocol pool and <code>60%</code> non-pool route. At tail,
+              the split becomes <code>50%</code> pool and <code>50%</code> non-pool.
             </p>
             <div class="reward-split-meter" aria-hidden="true">
-              <div class="reward-split-meter-fill reward-split-meter-pool">20% Protocol Pool</div>
-              <div class="reward-split-meter-fill reward-split-meter-route">80% Non-Pool Route</div>
+              <div class="reward-split-meter-fill reward-split-meter-pool">40% Protocol Pool (Pre-Tail)</div>
+              <div class="reward-split-meter-fill reward-split-meter-route">60% Non-Pool Route (Pre-Tail)</div>
               <span class="reward-split-pulse reward-split-pulse-a"></span>
               <span class="reward-split-pulse reward-split-pulse-b"></span>
             </div>
@@ -271,6 +274,13 @@
                   <span>No operator can change this split locally without a coordinated consensus update.</span>
                 </span>
               </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Tail-era switch</strong>
+                  <span>At height <code>8,000,000</code>, routing moves to <code>50%</code> pool / <code>50%</code> non-pool.</span>
+                </span>
+              </li>
             </ul>
             <span class="feature-tag">Consensus.md - Section 3</span>
           </article>
@@ -278,21 +288,22 @@
           <article class="card card-pad feature-card reward-breakdown-card" data-reveal>
             <h3>Step 2: Pool Bucket Split</h3>
             <p class="panel-copy">
-              The <code>20%</code> pool route is divided evenly for mining and staking participation, then miner-side is split <code>7%</code>/<code>3%</code>.
+              In pre-tail, the <code>40%</code> pool route is split into <code>20%</code> miner-side and <code>20%</code> stake-side.
+              In post-tail, pool route is <code>25%</code> miner-side and <code>25%</code> stake-side, and miner-side shifts to winner-heavy distribution.
             </p>
             <div class="reward-stack" aria-hidden="true">
               <div class="reward-stack-row">
-                <span class="reward-stack-label">20% Pool Total</span>
+                <span class="reward-stack-label">40% Pool Total (Pre-Tail)</span>
                 <div class="reward-stack-bar">
-                  <span class="reward-stack-segment reward-stack-miner">10% Miner-Side</span>
-                  <span class="reward-stack-segment reward-stack-stake">10% Stake-Side</span>
+                  <span class="reward-stack-segment reward-stack-miner">20% Miner-Side</span>
+                  <span class="reward-stack-segment reward-stack-stake">20% Stake-Side</span>
                 </div>
               </div>
               <div class="reward-stack-row reward-stack-row-inner">
-                <span class="reward-stack-label">Miner 10%</span>
+                <span class="reward-stack-label">Miner 20% (Pre-Tail)</span>
                 <div class="reward-stack-bar">
-                  <span class="reward-stack-segment reward-stack-winner">7% Winner</span>
-                  <span class="reward-stack-segment reward-stack-bonded">3% Bonded-Idle</span>
+                  <span class="reward-stack-segment reward-stack-winner">0% Winner</span>
+                  <span class="reward-stack-segment reward-stack-bonded">20% Bonded-Idle</span>
                 </div>
               </div>
             </div>
@@ -324,37 +335,40 @@
             </p>
             <div class="reward-example-shell">
               <div class="reward-example-block">
-                <h4>Example A: 100.00 ATHO fees in one block</h4>
+                <h4>Example A (Pre-Tail): 100.00 ATHO fees in one block</h4>
                 <ul class="reward-example-list">
-                  <li><span>Pool total (20%)</span><strong>20.00 ATHO</strong></li>
-                  <li><span>Miner-side bucket (10%)</span><strong>10.00 ATHO</strong></li>
-                  <li><span>Stake-side bucket (10%)</span><strong>10.00 ATHO</strong></li>
-                  <li><span>Winner lane (7%)</span><strong>7.00 ATHO</strong></li>
-                  <li><span>Bonded-idle lane (3%)</span><strong>3.00 ATHO</strong></li>
+                  <li><span>Pool total (40%)</span><strong>40.00 ATHO</strong></li>
+                  <li><span>Miner-side bucket (20%)</span><strong>20.00 ATHO</strong></li>
+                  <li><span>Stake-side bucket (20%)</span><strong>20.00 ATHO</strong></li>
+                  <li><span>Winner lane (0%)</span><strong>0.00 ATHO</strong></li>
+                  <li><span>Bonded-idle lane (20%)</span><strong>20.00 ATHO</strong></li>
+                  <li><span>Non-pool route (60%)</span><strong>60.00 ATHO</strong></li>
                 </ul>
               </div>
               <div class="reward-example-block">
-                <h4>Example B: 12.50 ATHO fees in one block</h4>
+                <h4>Example B (Post-Tail): 12.50 ATHO fees in one block</h4>
                 <ul class="reward-example-list">
-                  <li><span>Pool total (20%)</span><strong>2.50 ATHO</strong></li>
-                  <li><span>Miner-side bucket (10%)</span><strong>1.25 ATHO</strong></li>
-                  <li><span>Stake-side bucket (10%)</span><strong>1.25 ATHO</strong></li>
-                  <li><span>Winner lane (7%)</span><strong>0.875 ATHO</strong></li>
-                  <li><span>Bonded-idle lane (3%)</span><strong>0.375 ATHO</strong></li>
+                  <li><span>Pool total (50%)</span><strong>6.25 ATHO</strong></li>
+                  <li><span>Miner-side bucket (25%)</span><strong>3.125 ATHO</strong></li>
+                  <li><span>Stake-side bucket (25%)</span><strong>3.125 ATHO</strong></li>
+                  <li><span>Winner lane (20%)</span><strong>2.50 ATHO</strong></li>
+                  <li><span>Bonded-idle lane (5%)</span><strong>0.625 ATHO</strong></li>
+                  <li><span>Non-pool burn-target lane (50%)</span><strong>6.25 ATHO</strong></li>
                 </ul>
               </div>
               <div class="reward-example-block">
-                <h4>Example C: Stake-side split by pool share (epoch view)</h4>
+                <h4>Example C: Stake-side split by pool share (post-tail epoch view)</h4>
                 <ul class="reward-example-list">
-                  <li><span>Stake pool for epoch</span><strong>900.00 ATHO</strong></li>
-                  <li><span>Staker A with 50% active stake share</span><strong>450.00 ATHO</strong></li>
-                  <li><span>Staker B with 30% active stake share</span><strong>270.00 ATHO</strong></li>
-                  <li><span>Staker C with 20% active stake share</span><strong>180.00 ATHO</strong></li>
+                  <li><span>Stake pool for epoch</span><strong>2,250.00 ATHO</strong></li>
+                  <li><span>Staker A with 50% active stake share</span><strong>1,125.00 ATHO</strong></li>
+                  <li><span>Staker B with 30% active stake share</span><strong>675.00 ATHO</strong></li>
+                  <li><span>Staker C with 20% active stake share</span><strong>450.00 ATHO</strong></li>
                 </ul>
               </div>
               <p class="reward-example-epoch">
-                At <code>720</code> blocks/epoch with <code>12.50 ATHO</code> fees per block: pool accounting is <code>1,800 ATHO</code> total
-                (<code>900</code> miner-side, <code>900</code> stake-side; miner-side includes <code>630</code> winner and <code>270</code> bonded-idle).
+                At <code>720</code> blocks/epoch with <code>12.50 ATHO</code> fees per block (post-tail): pool accounting is
+                <code>4,500 ATHO</code> total (<code>2,250</code> miner-side, <code>2,250</code> stake-side; miner-side includes
+                <code>1,800</code> winner and <code>450</code> bonded-idle).
               </p>
             </div>
             <span class="feature-tag">Consensus + Emissions Docs Math</span>
@@ -364,7 +378,8 @@
         <article class="card card-pad reward-address-strip" data-reveal>
           <h3 class="panel-title">Protocol Pool Sink Addresses (By Network)</h3>
           <p class="panel-copy">
-            The <code>20%</code> pool route settles into deterministic consensus pool sinks. These are protocol addresses, not normal user wallets.
+            The phase-aware pool route (<code>40%</code> pre-tail, <code>50%</code> post-tail) settles into deterministic consensus pool sinks.
+            These are protocol addresses, not normal user wallets.
           </p>
           <div class="reward-address-grid">
             <div class="reward-address-card">
@@ -383,7 +398,7 @@
           <div class="hero-actions reward-doc-actions">
             <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/consensus.pdf" target="_blank" rel="noopener noreferrer">Consensus Source</a>
             <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/emissions.pdf" target="_blank" rel="noopener noreferrer">Emissions Source</a>
-            <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/genesis-reference.pdf" target="_blank" rel="noopener noreferrer">Genesis Address Source</a>
+            <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/genesis-network-hardcoded-genesis.pdf" target="_blank" rel="noopener noreferrer">Genesis Config Source</a>
           </div>
         </article>
       </div>
@@ -461,7 +476,7 @@
             <li>Derive your deterministic bond role address from your Falcon public key.</li>
             <li>Deposit at least <code>25 ATHO</code> to that bond address.</li>
             <li>Wait <code>25</code> confirmations to transition from <code>pending</code> to <code>active</code>.</li>
-            <li>Mine with valid PoW + active bond after enforcement height <code>250</code>.</li>
+            <li>Mine with valid PoW + active bond after enforcement height <code>10,000</code>.</li>
             <li>If slashed by <code>2.5 ATHO</code>, top up and reconfirm to restore eligibility.</li>
             <li>When exiting, unbond delay is <code>10,080</code> blocks before unlock.</li>
           </ol>
@@ -500,7 +515,7 @@
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Stake pool allocation</strong>
-                <span><code>10%</code> of total block fees route to the wallet-stake pool bucket.</span>
+                <span>Stake bucket is <code>20%</code> pre-tail and <code>25%</code> post-tail of total block fees.</span>
               </span>
             </li>
             <li class="key-item">
@@ -564,42 +579,63 @@
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Era 1</strong>
-                <span>Blocks <code>0-1,313,999</code>: <code>10 ATHO</code> per block.</span>
+                <span>Blocks <code>0-999,999</code>: <code>50 ATHO</code> per block.</span>
               </span>
             </li>
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Era 2</strong>
-                <span>Blocks <code>1,314,000-2,627,999</code>: <code>5 ATHO</code> per block.</span>
+                <span>Blocks <code>1,000,000-1,999,999</code>: <code>25 ATHO</code> per block.</span>
               </span>
             </li>
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Era 3</strong>
-                <span>Blocks <code>2,628,000-3,941,999</code>: <code>2.5 ATHO</code> per block.</span>
+                <span>Blocks <code>2,000,000-2,999,999</code>: <code>12.5 ATHO</code> per block.</span>
               </span>
             </li>
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Era 4</strong>
-                <span>Blocks <code>3,942,000-5,255,999</code>: <code>1.25 ATHO</code> per block.</span>
+                <span>Blocks <code>3,000,000-3,999,999</code>: <code>6.25 ATHO</code> per block.</span>
               </span>
             </li>
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Era 5</strong>
-                <span>Blocks <code>5,256,000-6,569,999</code>: <code>0.625 ATHO</code> per block.</span>
+                <span>Blocks <code>4,000,000-4,999,999</code>: <code>3.125 ATHO</code> per block.</span>
               </span>
             </li>
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
-                <strong>Transition + Tail</strong>
-                <span>Blocks <code>6,570,000-20,941,999</code>: <code>0.3125 ATHO</code>, then block <code>20,942,000+</code> (~year 80): <code>0.25 ATHO</code> tail reward (<code>65,700 ATHO/year</code>).</span>
+                <strong>Era 6</strong>
+                <span>Blocks <code>5,000,000-5,999,999</code>: <code>1.5625 ATHO</code> per block.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Era 7</strong>
+                <span>Blocks <code>6,000,000-6,999,999</code>: <code>0.78125 ATHO</code> per block.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Era 8</strong>
+                <span>Blocks <code>7,000,000-7,999,999</code>: <code>0.390625 ATHO</code> per block.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Tail</strong>
+                <span>Block <code>8,000,000+</code>: <code>0.1953125 ATHO</code> fixed tail reward (<code>51,328.125 ATHO/year</code>).</span>
               </span>
             </li>
           </ul>
@@ -609,9 +645,9 @@
           <h3 class="panel-title">How Rewards Are Released</h3>
           <ol class="join-step-list">
             <li>For each block, consensus computes subsidy by height and adds miner fee share to build coinbase payout.</li>
-            <li>At height <code>1</code>, bootstrap allocation (<code>50,000 ATHO</code>) and fee-pool routing activate under policy constants.</li>
-            <li><code>20%</code> of block fees route to the protocol pool. The remaining route follows burn/miner rules for that height.</li>
-            <li>At tail start (<code>20,942,000</code>, about 79.7 years), routed non-pool fees are burn-targeted and clipped by the <code>21,000,000 ATHO</code> supply floor while base issuance continues at <code>65,700 ATHO/year</code>.</li>
+            <li>At height <code>1</code>, bootstrap allocation (<code>390,625 ATHO</code>) and fee-pool routing activate under policy constants.</li>
+            <li>Fee routing is phase-aware: pre-tail is <code>40%</code> pool / <code>60%</code> non-pool; post-tail is <code>50%</code> pool / <code>50%</code> non-pool.</li>
+            <li>At tail start (<code>8,000,000</code>, about 30.44 years), routed non-pool fees are burn-targeted and clipped by the <code>21,000,000 ATHO</code> supply floor while base issuance continues at <code>51,328.125 ATHO/year</code>.</li>
             <li>Coinbase outputs unlock after <code>150</code> confirmations, so mined rewards are released with deterministic maturity delay.</li>
           </ol>
           <ul class="key-list">
@@ -619,7 +655,7 @@
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Base supply target</strong>
-                <span>Pre-tail total is fixed to <code>30,000,000 ATHO</code> (<code>29,950,000</code> subsidy + <code>50,000</code> bootstrap) before perpetual tail emission.</span>
+                <span>Pre-tail total is fixed to <code>100,000,000 ATHO</code> (<code>99,609,375</code> subsidy + <code>390,625</code> bootstrap) before perpetual tail emission.</span>
               </span>
             </li>
           </ul>
@@ -643,21 +679,21 @@
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Pool route</strong>
-                <span><code>20%</code> of total fees route to the consensus pool (<code>10%</code> miner bucket, <code>10%</code> stake bucket).</span>
+                <span>Pre-tail routes <code>40%</code> to pool (<code>20%</code> miner bucket + <code>20%</code> stake bucket); post-tail routes <code>50%</code> (<code>25%</code> + <code>25%</code>).</span>
               </span>
             </li>
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Miner bucket split</strong>
-                <span><code>7%</code> winner-proportional plus <code>3%</code> bonded-idle distribution.</span>
+                <span>Pre-tail miner lane is <code>0%</code> winner + <code>20%</code> bonded-idle; post-tail shifts to <code>20%</code> winner + <code>5%</code> bonded-idle.</span>
               </span>
             </li>
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Supply context</strong>
-                <span>Routing and settlement run on top of the <code>50,000 ATHO</code> bootstrap and <code>30,000,000 ATHO</code> base emission schedule.</span>
+                <span>Routing and settlement run on top of the <code>390,625 ATHO</code> bootstrap and <code>100,000,000 ATHO</code> base emission schedule.</span>
               </span>
             </li>
             <li class="key-item">
@@ -678,8 +714,8 @@
           <div class="econ-flow-shell" aria-hidden="true">
             <span class="econ-flow-node econ-node-source">Block Fee + Subsidy Inputs</span>
             <span class="econ-flow-node econ-node-circulating">Net Supply Delta</span>
-            <span class="econ-flow-node econ-node-pool">20% Pool Route</span>
-            <span class="econ-flow-node econ-node-burn">80% Routed Path</span>
+            <span class="econ-flow-node econ-node-pool">40% / 50% Pool Route</span>
+            <span class="econ-flow-node econ-node-burn">60% / 50% Routed Path</span>
 
             <span class="econ-flow-rail econ-flow-rail-main"></span>
             <span class="econ-flow-rail econ-flow-rail-branch-up"></span>
@@ -715,13 +751,13 @@
             Atho exposes bootstrap, base emission supply, bonding, staking, and pool routing semantics through deterministic rules and docs so operators can validate behavior from chain data and runtime logs.
           </p>
           <div class="badge-row">
-            <span class="badge">BPoW enforcement at height 250</span>
+            <span class="badge">BPoW enforcement at height 10,000</span>
             <span class="badge">25 ATHO miner bond requirement</span>
-            <span class="badge">50,000 ATHO bootstrap budget</span>
-            <span class="badge">30,000,000 ATHO base emission path</span>
-            <span class="badge">20% deterministic fee pool route</span>
-            <span class="badge">7% + 3% miner bucket split</span>
-            <span class="badge">10% wallet-stake pool bucket</span>
+            <span class="badge">390,625 ATHO bootstrap budget</span>
+            <span class="badge">100,000,000 ATHO base emission path</span>
+            <span class="badge">40% pre-tail / 50% post-tail pool route</span>
+            <span class="badge">0/20 pre-tail and 20/5 post-tail miner split</span>
+            <span class="badge">20% pre-tail / 25% post-tail stake bucket</span>
           </div>
         </article>
       </div>
@@ -732,7 +768,8 @@
     <div class="wrap footer-row">
       <span>Atho Labs</span>
       <span class="footer-contact">
-        <span class="footer-slogan">The Platinum Standard of the Quantum Age</span>
+        <span class="footer-slogan">Atho — Private. Secure. The Platinum Standard of the Quantum Age</span>
+        <span class="footer-updated">Last updated: April 4, 2026</span>
         <span>
           To report bugs, security issues, or general inquiries:
           <a href="./contact.html">Contact</a>

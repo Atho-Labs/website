@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Last refresh: 2026-03-27.) Tj
+(Last refresh: 2026-04-04.) Tj
 T*
 () Tj
 T*
@@ -4693,7 +4693,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 85 0 R >>
 endobj
 85 0 obj
-<< /Length 3287 >>
+<< /Length 3289 >>
 stream
 BT
 /F1 10 Tf
@@ -4781,9 +4781,9 @@ T*
 T*
 (using the hard-coded emission schedule.) Tj
 T*
-(- BASE_SUPPLY\(\) ? Exact pre-tail base target from the hard-coded emission schedule \(30,000,000) Tj
+(- BASE_SUPPLY\(\) ? Exact pre-tail base target from the hard-coded emission schedule \(100,000,000) Tj
 T*
-(ATHO total, including 50,000 ATHO bootstrap at block 1\).) Tj
+(ATHO total, including 390,625 ATHO bootstrap at block 1\).) Tj
 T*
 (- BASE_SUPPLY_ATOMS\(\) ? Exact pre-tail base target in atomic units for consensus math.) Tj
 T*
@@ -5282,16 +5282,16 @@ xref
 0000125595 00000 n 
 0000128970 00000 n 
 0000129098 00000 n 
-0000132438 00000 n 
-0000132566 00000 n 
-0000135784 00000 n 
-0000135912 00000 n 
-0000138862 00000 n 
-0000138990 00000 n 
-0000141747 00000 n 
-0000141875 00000 n 
+0000132440 00000 n 
+0000132568 00000 n 
+0000135786 00000 n 
+0000135914 00000 n 
+0000138864 00000 n 
+0000138992 00000 n 
+0000141749 00000 n 
+0000141877 00000 n 
 trailer
 << /Size 94 /Root 1 0 R >>
 startxref
-142846
+142848
 %%EOF

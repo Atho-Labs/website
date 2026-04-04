@@ -1,6 +1,6 @@
 # Atho Transaction Reference (Current)
 
-Date: 2026-03-27
+Date: 2026-04-04
 
 This is the authoritative transaction behavior reference for current development builds.
 
@@ -16,7 +16,7 @@ Atho uses SegWit-style policy metrics:
 - transaction size policy limits.
 
 Active policy constants:
-- fee floor: `225 atoms/vB`
+- fee floor: `250 atoms/vB`
 - minimum tx fee: `100,000 atoms`
 - tx confirmations required for regular spend visibility: `10`
 
@@ -118,9 +118,9 @@ Key point:
 - consensus ownership/eligibility checks are driven by deterministic pubkey-derived role digests.
 
 ## 10) Practical Throughput Mapping
-With `2,500,000` vbytes/block and `120s` block time:
-- `566 vB avg` -> `~36.8 TPS`
-- `615 vB avg` -> `~33.9 TPS`
-- `664 vB avg` -> `~31.4 TPS`
+With `3,500,000` vbytes/block and `120s` block time:
+- `566 vB avg` -> `~51.5 TPS`
+- `615 vB avg` -> `~47.4 TPS`
+- `664 vB avg` -> `~43.9 TPS`
 
 This is why tx-shape distribution directly drives sustained TPS.

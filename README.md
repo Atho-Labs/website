@@ -5,15 +5,22 @@ This folder is a modular static website starter for the Atho public domain.
 ## Brand Direction
 
 - Network name: `Atho`
-- Slogan: `The Platinum Standard Of The Quantum Age`
+- Slogan: `Atho — Private. Secure. The Platinum Standard of the Quantum Age`
 - Visual language: explorer-inspired, white/green, clean/futuristic
 - Logo assets copied from: `Src/GUI/logo.png` and `Src/GUI/logo/logo white trasnaparent .png`
 
 ## Pages
 
-- `index.html`: Main marketing home page (highlights + technology + tokenomics + launch narrative).
-- `join.html`: Guided node setup flow organized by Linux/macOS/Windows.
-- `docs.html`: PDF-first searchable documentation hub with category filtering and keyword indexing.
+- `home.html`: Main marketing home page (highlights + technology + security + privacy layer + tokenomics + launch narrative).
+- `index.html`: Redirect-compatible mirror of `home.html` for root entry compatibility.
+- `platinum-shield.html`: Platinum Shield privacy layer deep dive (public/private coexistence, workflow engine, controls).
+- `wallet.html`: Wallet architecture, lockbox security, private-send flow guidance, staking, and recovery.
+- `join.html`: Guided node setup and private-layer testnet validation runbook.
+- `docs.html`: PDF-first searchable documentation hub with privacy/protocol/economics coverage.
+- `rewards.html`: BPoW and staking reward distribution references and visuals.
+- `bpow-docs.html`: Consensus-level BPoW architecture and constants deep dive.
+- `falcon-512.html`: Post-quantum Falcon documentation and efficiency references.
+- `inflation-deflation.html`: Monetary policy and supply-control references.
 - `changelog.html`: Release thread for version releases and security releases.
 - `contact.html`: Contact/disclosure page for bugs, security issues, and general communication.
 
@@ -44,7 +51,8 @@ All pages share the same top tab navigation.
 
 ## Fast Content Edits
 
-- Home page content sections: `index.html`
+- Home page content sections: `home.html` and `index.html`
+- Platinum Shield content: `platinum-shield.html`
 - Docs page sections: `docs.html`
 - Join instructions: `join.html`
 - Release stream entries: `changelog.html`

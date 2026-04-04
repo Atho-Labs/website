@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-03-27) Tj
+(Date: 2026-04-04) Tj
 T*
 () Tj
 T*
@@ -103,7 +103,7 @@ T*
 T*
 (- Coinbase maturity: 150 blocks.) Tj
 T*
-(- Block cap: 2,500,000 base bytes, 10,000,000 weight units.) Tj
+(- Block cap: 3,500,000 base bytes, 14,000,000 weight units.) Tj
 T*
 (- Transaction policy cap: 250,000 vB per transaction.) Tj
 T*
@@ -115,9 +115,9 @@ T*
 T*
 (- Hashing: SHA3-384 for canonical tx/block identity operations.) Tj
 T*
-(- Active fee floor: 225 atoms/vB.) Tj
+(- Active fee floor: 250 atoms/vB.) Tj
 T*
-(- Active min tx fee: 150,000 atoms.) Tj
+(- Active min tx fee: 100,000 atoms.) Tj
 T*
 () Tj
 T*
@@ -130,7 +130,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 2234 >>
+<< /Length 2239 >>
 stream
 BT
 /F1 10 Tf
@@ -150,19 +150,19 @@ T*
 T*
 (- Coinbase maturity: 150) Tj
 T*
-(- Max block size: 2,500,000 bytes) Tj
+(- Max block size: 3,500,000 bytes) Tj
 T*
-(- Max block weight: 10,000,000) Tj
+(- Max block weight: 14,000,000) Tj
 T*
 (- Max transaction size policy: 250,000 vB) Tj
 T*
-(- Fee floor: 225 atoms/vB) Tj
+(- Fee floor: 250 atoms/vB) Tj
 T*
-(- Minimum transaction fee: 150,000 atoms) Tj
+(- Minimum transaction fee: 100,000 atoms) Tj
 T*
 (- Dust threshold: 250 atoms) Tj
 T*
-(- BPoW enforcement height: 100) Tj
+(- BPoW enforcement height: 10,000) Tj
 T*
 (- Bond requirement: 25 ATHO) Tj
 T*
@@ -170,7 +170,7 @@ T*
 T*
 (- Slash penalty: 2.5 ATHO) Tj
 T*
-(- Epoch/finalization windows: 720 / 720 blocks) Tj
+(- Epoch/finalization windows: 720 / 3,600 blocks) Tj
 T*
 (- Transaction Encoding and Capacity) Tj
 T*
@@ -208,19 +208,19 @@ T*
 T*
 () Tj
 T*
-(At 120-second blocks and 2.5M vbytes/block, this maps to approximately:) Tj
+(At 120-second blocks and 3.5M vbytes/block, this maps to approximately:) Tj
 T*
-(- ~40.6 TPS \(1 in / 1 out\)) Tj
+(- ~56.9 TPS \(1 in / 1 out\)) Tj
 T*
-(- ~36.8 TPS \(1 in / 2 out\)) Tj
+(- ~51.5 TPS \(1 in / 2 out\)) Tj
 T*
-(- ~33.9 TPS \(2 in / 2 out\)) Tj
+(- ~47.4 TPS \(2 in / 2 out\)) Tj
 T*
-(- ~31.4 TPS \(3 in / 2 out\)) Tj
+(- ~43.9 TPS \(3 in / 2 out\)) Tj
 T*
 () Tj
 T*
-(This supports the target operating band of sustained ~30-35 TPS under realistic mixes.) Tj
+(This supports the target operating band of sustained ~44-52 TPS under realistic mixes.) Tj
 T*
 (- BPoW and Wallet Staking Architecture) Tj
 T*
@@ -247,13 +247,13 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 1852 >>
+<< /Length 1858 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(- BPoW enforcement height: 100 \(all networks by default\).) Tj
+(- BPoW enforcement height: 10,000 \(all networks by default\).) Tj
 T*
 (- Bond requirement: 25 ATHO.) Tj
 T*
@@ -265,9 +265,9 @@ T*
 T*
 (- Epoch length: 720 blocks.) Tj
 T*
-(- Finalization buffer: 720 blocks.) Tj
+(- Finalization buffer: 3,600 blocks.) Tj
 T*
-(- Bootstrap allocation: 50,000 ATHO at block 1.) Tj
+(- Bootstrap allocation: 390,625 ATHO at block 1.) Tj
 T*
 () Tj
 T*
@@ -364,7 +364,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
 endobj
 11 0 obj
-<< /Length 1878 >>
+<< /Length 2092 >>
 stream
 BT
 /F1 10 Tf
@@ -432,25 +432,27 @@ T*
 T*
 (- +25% fee policy uplift over base constants,) Tj
 T*
-(- 20% to consensus-managed pool,) Tj
+(- pre-tail: 40% to consensus-managed pool, 60% to non-pool path,) Tj
 T*
-(- 80% to burn/miner path \(tail burn-floor logic applies there\).) Tj
+(- post-tail: 50% to consensus-managed pool, 50% to non-pool path \(tail burn-floor logic applies) Tj
+T*
+(there\).) Tj
 T*
 () Tj
 T*
 (Pool split:) Tj
 T*
-(- 10% miner-side pool) Tj
+(- pre-tail: 20% miner-side pool, 20% wallet-stake pool) Tj
 T*
-(- 10% wallet-stake pool) Tj
+(- post-tail: 25% miner-side pool, 25% wallet-stake pool) Tj
 T*
 () Tj
 T*
 (Miner-side sub-split:) Tj
 T*
-(- 7% winner-proportional) Tj
+(- pre-tail: 0% winner-proportional, 20% bonded-idle distribution) Tj
 T*
-(- 3% bonded-idle distribution) Tj
+(- post-tail: 20% winner-proportional, 5% bonded-idle distribution) Tj
 T*
 () Tj
 T*
@@ -458,7 +460,7 @@ T*
 T*
 (- epoch: 720 blocks) Tj
 T*
-(- finalization buffer: 720 blocks) Tj
+(- finalization buffer: 3,600 blocks) Tj
 T*
 () Tj
 T*
@@ -472,8 +474,6 @@ T*
 T*
 (- regnet: L + Base56\(SHA3-384\("ATHO_PROTOCOL_POOL_REGNET"\)\)) Tj
 T*
-() Tj
-T*
 ET
 endstream
 endobj
@@ -481,19 +481,21 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
 endobj
 13 0 obj
-<< /Length 2474 >>
+<< /Length 2388 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+() Tj
+T*
 (5.10 Bootstrap and Activation Timeline) Tj
 T*
 (- Block 0: genesis block \(special bootstrap context\).) Tj
 T*
 (- Block 1: bootstrap allocation and normal state tracking begins.) Tj
 T*
-(- Height 100: BPoW enforcement activates.) Tj
+(- Height 10,000: BPoW enforcement activates.) Tj
 T*
 () Tj
 T*
@@ -505,7 +507,7 @@ T*
 T*
 (Current bootstrap allocation:) Tj
 T*
-(- 50,000 ATHO at block 1 \(not block 0\).) Tj
+(- 390,625 ATHO at block 1 \(not block 0\).) Tj
 T*
 () Tj
 T*
@@ -579,17 +581,15 @@ T*
 T*
 (Monetary policy remains atom-based and deterministic:) Tj
 T*
-(- pre-tail subsidy schedule reaches 29,950,000 ATHO and bootstrap adds 50,000 ATHO at block 1) Tj
+(- pre-tail subsidy schedule reaches 99,609,375 ATHO and bootstrap adds 390,625 ATHO at block 1) Tj
 T*
-(\(30,000,000 ATHO total pre-tail base\),) Tj
+(\(100,000,000 ATHO total pre-tail base\),) Tj
 T*
-(- tail activation occurs at block 20,942,000 \(about 79.7 years, roughly 80 years\) with 65,700) Tj
+(- tail activation occurs at block 8,000,000 \(about 30.44 years\) with 51,328.125 ATHO annual) Tj
 T*
-(ATHO annual post-tail issuance,) Tj
+(post-tail issuance,) Tj
 T*
-(- tail reward: 0.25 ATHO/block,) Tj
-T*
-(- fee policy uplift: +25% over base fee constants \(225 atoms/vB effective floor\),) Tj
+(- tail reward: 0.1953125 ATHO/block,) Tj
 T*
 ET
 endstream
@@ -598,13 +598,15 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 15 0 R >>
 endobj
 15 0 obj
-<< /Length 3022 >>
+<< /Length 3140 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(- fee routing: 20% to consensus pool, 80% to burn/miner path,) Tj
+(- fee policy uplift: +25% over base fee constants \(250 atoms/vB effective floor\),) Tj
+T*
+(- fee routing: pre-tail 40% pool / 60% non-pool, post-tail 50% pool / 50% non-pool,) Tj
 T*
 (- tail burn target: 100% burn on routed non-pool fees with floor clipping safeguards.) Tj
 T*
@@ -660,7 +662,7 @@ T*
 T*
 (Q: What is the premine/bootstrap amount, and what is it for?) Tj
 T*
-(A: Atho currently uses a 50,000 ATHO bootstrap allocation at block 1. Its role is launch) Tj
+(A: Atho currently uses a 390,625 ATHO bootstrap allocation at block 1. Its role is launch) Tj
 T*
 (bootstrapping: enabling early miner/bond onboarding and predictable network activation before) Tj
 T*
@@ -672,7 +674,7 @@ T*
 T*
 (A: No. Block 0 is the genesis context. The bootstrap allocation is enforced at block 1, and BPoW) Tj
 T*
-(enforcement starts at height 100.) Tj
+(enforcement starts at height 10,000.) Tj
 T*
 () Tj
 T*
@@ -680,7 +682,7 @@ T*
 T*
 (A: 120s block target, 180-block retarget interval, 10 tx confirmations, 150 coinbase maturity,) Tj
 T*
-(225 atoms/vB fee floor, and BPoW bond requirement 25 ATHO with 25 confirmations.) Tj
+(250 atoms/vB fee floor, and BPoW bond requirement 25 ATHO with 25 confirmations.) Tj
 T*
 () Tj
 T*
@@ -719,16 +721,16 @@ xref
 0000000348 00000 n 
 0000003286 00000 n 
 0000003412 00000 n 
-0000005698 00000 n 
-0000005824 00000 n 
-0000007728 00000 n 
-0000007856 00000 n 
-0000009787 00000 n 
-0000009915 00000 n 
-0000012442 00000 n 
-0000012570 00000 n 
+0000005703 00000 n 
+0000005829 00000 n 
+0000007739 00000 n 
+0000007867 00000 n 
+0000010012 00000 n 
+0000010140 00000 n 
+0000012581 00000 n 
+0000012709 00000 n 
 trailer
 << /Size 16 /Root 1 0 R >>
 startxref
-15645
+15902
 %%EOF

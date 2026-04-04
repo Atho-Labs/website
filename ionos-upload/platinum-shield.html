@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Atho Platinum Shield: Layer-1 private transaction workflows with public/private UTXO coexistence, deterministic note handling, and fail-closed verification controls.">
+  <title>Atho Platinum Shield</title>
+  <link rel="canonical" href="https://atho.io/platinum-shield.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Atho">
+  <meta property="og:url" content="https://atho.io/platinum-shield.html">
+  <meta property="og:title" content="Atho Platinum Shield">
+  <meta property="og:description" content="Atho — Private. Secure. The Platinum Standard of the Quantum Age.">
+  <meta property="og:image" content="https://image.thum.io/get/width/1200/crop/630/https://atho.io/platinum-shield.html">
+  <meta property="og:image:secure_url" content="https://image.thum.io/get/width/1200/crop/630/https://atho.io/platinum-shield.html">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Atho Platinum Shield private layer page preview">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Atho_io">
+  <meta name="twitter:title" content="Atho Platinum Shield">
+  <meta name="twitter:description" content="Atho — Private. Secure. The Platinum Standard of the Quantum Age.">
+  <meta name="twitter:image" content="https://image.thum.io/get/width/1200/crop/630/https://atho.io/platinum-shield.html">
+  <meta name="twitter:image:alt" content="Atho Platinum Shield private layer page preview">
+  <link rel="icon" type="image/png" href="./assets/media/logo2website.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/variables.css">
+  <link rel="stylesheet" href="./assets/css/base.css">
+  <link rel="stylesheet" href="./assets/css/layout.css">
+  <link rel="stylesheet" href="./assets/css/components.css">
+  <link rel="stylesheet" href="./assets/css/motion.css">
+  <link rel="stylesheet" href="./assets/css/responsive.css">
+</head>
+<body class="platinum-page">
+  <header class="site-header">
+    <div class="wrap nav-shell">
+      <a class="brand" href="./home.html#overview" aria-label="Atho home">
+        <img class="brand-mark" src="./assets/media/logo2website.png" alt="Atho logo" width="41" height="41" decoding="async">
+        <span class="brand-title">Atho</span>
+      </a>
+
+      <div class="header-right">
+        <nav id="main-nav" class="nav-links" data-nav-links>
+          <a class="nav-link" href="#shield-overview">Overview</a>
+          <a class="nav-link" href="#flow-engine">Flow Engine</a>
+          <a class="nav-link" href="#shield-annotations">Annotations</a>
+          <a class="nav-link" href="#layer1-coexistence">Layer 1</a>
+          <a class="nav-link" href="#node-responsibility">Node Roles</a>
+          <a class="nav-link" href="#security-controls">Security</a>
+        </nav>
+      </div>
+
+      <button class="menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="main-nav" aria-label="Toggle menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <div class="global-nav-drawer" data-global-drawer>
+        <div class="global-nav-card">
+          <span class="global-nav-title">All Pages</span>
+          <div class="global-nav-grid">
+            <a class="global-nav-link" href="./home.html">Home</a>
+            <a class="global-nav-link" href="./docs.html">Docs</a>
+            <a class="global-nav-link" href="./falcon-512.html">Falcon-512</a>
+            <a class="global-nav-link" href="./join.html">Join</a>
+            <a class="global-nav-link" href="./rewards.html">Rewards</a>
+            <a class="global-nav-link" href="./wallet.html">Wallet</a>
+            <a class="global-nav-link" href="./platinum-shield.html">Platinum Shield</a>
+            <a class="global-nav-link" href="./bpow-docs.html">BPoW</a>
+            <a class="global-nav-link" href="./inflation-deflation.html">Inflation / Deflation</a>
+            <a class="global-nav-link" href="./changelog.html">Changelog</a>
+            <a class="global-nav-link" href="./contact.html">Contact</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="shield-overview" class="section">
+      <div class="wrap hero-grid">
+        <div class="hero-copy" data-reveal>
+          <div class="eyebrow-row">
+            <span class="section-eyebrow section-eyebrow-hot">Platinum Shield Privacy Layer</span>
+            <span class="section-eyebrow">Layer-1 Public + Private Coexistence</span>
+          </div>
+          <h1>Atho — Private. Secure. The Platinum Standard of the Quantum Age.</h1>
+          <p>
+            Platinum Shield extends Atho Layer 1 with deterministic private-note semantics while preserving standard public UTXO operation.
+            Public and private routes can interoperate without weakening consensus policy: every spend path remains version-gated,
+            audit-addressable, and fail-closed on verification errors.
+          </p>
+          <div class="badge-row">
+            <span class="badge">Public -> Private</span>
+            <span class="badge">Private -> Private</span>
+            <span class="badge">Private -> Public</span>
+            <span class="badge">Bundle + X-Address Binding</span>
+            <span class="badge">Nullifier Replay Protection</span>
+          </div>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-inline" href="#flow-engine">Explore Flow Engine</a>
+            <a class="btn btn-primary btn-inline" href="./wallet.html#wallet-private">Wallet Private Send</a>
+            <a class="btn btn-primary btn-inline" href="./docs.html#privacy-docs">Privacy Documentation</a>
+            <a class="btn btn-primary btn-inline" href="./join.html#private-testnet">Testnet Runbook</a>
+          </div>
+        </div>
+
+        <div class="hero-panel" data-reveal>
+          <div class="card card-pad">
+            <h2 class="panel-title">What Platinum Shield Enforces</h2>
+            <ul class="key-list">
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Recipient binding</strong>
+                  <span>Bundle hash and x-address must match on receive/validation or the transaction is rejected.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Nullifier uniqueness</strong>
+                  <span>Private inputs consume nullifiers once; duplicate/nullifier-index conflicts are blocked at mempool and block validation.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Network-domain separation</strong>
+                  <span>Signatures, addresses, and witness material are network-bound to prevent cross-network replay.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Consensus compatibility</strong>
+                  <span>Public UTXO validation rules stay intact while private note commitments/nullifiers layer on top in deterministic order.</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="flow-engine" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">End-to-End Workflow Engine</span>
+        <h2 class="section-title">How every send path moves through Layer 1.</h2>
+        <p class="section-copy">
+          The same transaction lifecycle applies to all paths: wallet assembly, mempool admission, consensus validation, block inclusion, and state reconciliation.
+          The difference is which value domains are consumed and produced at each step.
+        </p>
+
+        <div class="shield-flow-grid" data-reveal>
+          <article class="card card-pad shield-flow-card">
+            <h3 class="panel-title">Public -> Private</h3>
+            <p class="panel-copy">Spend public UTXOs, produce private note commitments.</p>
+            <div class="shield-flow-track" aria-hidden="true">
+              <span class="shield-flow-node">Public UTXO Inputs</span>
+              <span class="shield-flow-node">Private Output Builder</span>
+              <span class="shield-flow-node">Commitments + Encrypted Payload</span>
+              <span class="shield-flow-packet shield-flow-packet-public-private"></span>
+            </div>
+          </article>
+
+          <article class="card card-pad shield-flow-card">
+            <h3 class="panel-title">Private -> Private</h3>
+            <p class="panel-copy">Consume private notes by nullifier, create new private notes.</p>
+            <div class="shield-flow-track" aria-hidden="true">
+              <span class="shield-flow-node">Private Inputs + Nullifiers</span>
+              <span class="shield-flow-node">Witness + Bundle Binding</span>
+              <span class="shield-flow-node">Fresh Commitments</span>
+              <span class="shield-flow-packet shield-flow-packet-private-private"></span>
+            </div>
+          </article>
+
+          <article class="card card-pad shield-flow-card">
+            <h3 class="panel-title">Private -> Public</h3>
+            <p class="panel-copy">Consume private notes, release value back to public UTXO outputs.</p>
+            <div class="shield-flow-track" aria-hidden="true">
+              <span class="shield-flow-node">Private Inputs + Nullifiers</span>
+              <span class="shield-flow-node">Proof + Fee Reconciliation</span>
+              <span class="shield-flow-node">Public UTXO Outputs</span>
+              <span class="shield-flow-packet shield-flow-packet-private-public"></span>
+            </div>
+          </article>
+        </div>
+
+        <div class="split-grid" data-reveal>
+          <article class="card card-pad">
+            <h3 class="panel-title">Flow Sequence (All Paths)</h3>
+            <ol class="join-step-list">
+              <li>Wallet node resolves sender role/address, checks unlock policy, and assembles deterministic intent metadata.</li>
+              <li>Destination payload is validated: recipient bundle parsing, x-address binding, amount normalization, and version gates.</li>
+              <li>Mempool performs structural and consensus prechecks, including private note/nullifier conflict checks when present.</li>
+              <li>Block assembly revalidates all invariants, then commits state transitions to public UTXO and private note domains.</li>
+              <li>Post-apply reconciliation marks pending private notes as spent/confirmed and logs each transition for audit trails.</li>
+            </ol>
+          </article>
+
+          <article class="card card-pad">
+            <h3 class="panel-title">State Objects Across the Path</h3>
+            <ul class="key-list">
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Public UTXO set</strong>
+                  <span>Confirmed outputs, pending debits/credits, and fee accounting remain canonical for transparent value paths.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Private note set</strong>
+                  <span>Commitments, note payload metadata, note state journal (unspent/pending/spent), and deterministic ownership linkage.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Nullifier index</strong>
+                  <span>Consensus-visible anti-double-spend map for private inputs with fail-closed block admission rules.</span>
+                </span>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="shield-annotations" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Platinum Shield Annotations</span>
+        <h2 class="section-title">Annotated private transaction pipeline from wallet intent to block acceptance.</h2>
+        <p class="section-copy">
+          These annotations map the product flow to concrete consensus objects so operators can quickly understand how
+          private sends move through <code>mempool</code>, <code>block assembly</code>, <code>STARK proving</code>, and <code>state apply</code>.
+        </p>
+
+        <div class="feature-grid" data-stagger>
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Stage 1: Wallet Assembly</h3>
+            <ul class="key-list">
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Intent build</strong><span>Wallet resolves route type (public->private, private->private, private->public) and assembles deterministic tx intent metadata.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Bundle binding</strong><span>Recipient bundle hash and x-address are linked before relay; mismatches are expected to fail validation.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Mempool amount mode</strong><span>Private outputs carry <code>amount_plain</code> during mempool policy checks for deterministic arithmetic validation.</span></span></li>
+            </ul>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Stage 2: Mempool Gate</h3>
+            <ul class="key-list">
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Structure checks</strong><span>Transaction shape, version gates, and private field presence are validated before propagation.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Nullifier conflict checks</strong><span>Confirmed-nullifier and pending-nullifier indexes reject competing private spends.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Replay guards</strong><span>Network-domain separated hashes prevent cross-network replay acceptance.</span></span></li>
+            </ul>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Stage 3: Miner Block Assembly</h3>
+            <ul class="key-list">
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Commitment conversion</strong><span>Miner converts private outputs from mempool representation into block commitment form (<code>amount_commit</code>).</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>STARK prove step</strong><span>Private amount consistency proof is generated through the STARK bridge/backend runtime path.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Fail-closed policy</strong><span>If proving runtime fails, private-activity block production fails closed by design.</span></span></li>
+            </ul>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Stage 4: Consensus Verify + Apply</h3>
+            <ul class="key-list">
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Proof verification</strong><span>Nodes verify block-level STARK proofs during block acceptance.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Dual-domain apply</strong><span>Public UTXO updates and private note/nullifier transitions are committed in one deterministic connect path.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Reorg safety</strong><span>Private-state transitions are applied/reverted with block connect/disconnect so reorg behavior remains deterministic.</span></span></li>
+            </ul>
+          </article>
+        </div>
+
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Field Glossary (Fast Reference)</h3>
+          <ul class="key-list">
+            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong><code>commit</code></strong><span>Private output commitment stored on-chain for note-state validity.</span></span></li>
+            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong><code>nullifier</code></strong><span>One-time private input marker used to prevent double-spend replay.</span></span></li>
+            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong><code>anchor</code></strong><span>Merkle root reference used to bind private spends to an allowed tree state.</span></span></li>
+            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong><code>enc_payload</code></strong><span>Recipient-encrypted note material (Kyber path) used for receive/recovery.</span></span></li>
+            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Hidden-supply accumulator</strong><span>Deterministic private-activity accumulator included in proof statement checks.</span></span></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="layer1-coexistence" class="section">
+      <div class="wrap split-grid">
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Public and Private on Layer 1</h3>
+          <p class="panel-copy">
+            Platinum Shield does not replace public UTXOs. It introduces a private note domain that coexists with the public UTXO model under one consensus timeline.
+            Public outputs remain openly auditable, while private outputs track commitments + nullifiers with deterministic validation hooks.
+          </p>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Public domain</strong>
+                <span>Transparent send/receive, standard fee policy, and normal UTXO verification rules.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Private domain</strong>
+                <span>Commitment-based note lifecycle with encrypted payload support and recipient binding enforcement.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Bridge operations</strong>
+                <span>Public -> private and private -> public transitions are first-class flows, not sidecar systems.</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Replay and Integrity Controls</h3>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Network replay defense</strong>
+                <span>Message/signature material is domain-separated by network context, preventing cross-network acceptance.</span>
+              </span>
+            </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Bundle/X-address quality control</strong>
+                  <span>Receiver-side checks verify x-address hash consistency against bundle hash before accepting note payloads.</span>
+                </span>
+              </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Deterministic key material generation</strong>
+                <span>Wallet-side note key derivation is deterministic per seed/account/counter path, enabling reproducibility and audits.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Fail-closed verification</strong>
+                <span>Invalid private witness/proof/binding data causes hard rejection at validation boundaries.</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="node-responsibility" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Node Responsibilities</span>
+        <h2 class="section-title">Wallet, full, and miner nodes have distinct roles in private tx reliability.</h2>
+
+        <div class="feature-grid" data-stagger>
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Wallet Node</h3>
+            <p class="panel-copy">Primary private flow orchestrator.</p>
+            <ul class="key-list">
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Builds private sends</strong><span>Assembles recipient bundle/x-address payloads, deterministic note seeds, and funding mode.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Manages note journal</strong><span>Tracks unspent, pending_spend, spent transitions and reconciles against chain/store state.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Per-send auth policy</strong><span>Enforces wallet lockbox password requirements for sensitive private operations.</span></span></li>
+            </ul>
+            <span class="feature-tag">Wallet API</span>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Full Node</h3>
+            <p class="panel-copy">Consensus validator and propagation gate.</p>
+            <ul class="key-list">
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Mempool validation</strong><span>Rejects malformed private fields, duplicate nullifiers, and invalid spend semantics before relay.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Block-level enforcement</strong><span>Re-checks public and private invariants during block acceptance.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>P2P propagation discipline</strong><span>Only valid private/public hybrid transactions are relayed to peers.</span></span></li>
+            </ul>
+            <span class="feature-tag">Consensus Gate</span>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Miner Node</h3>
+            <p class="panel-copy">Policy-compliant block construction under BPoW.</p>
+            <ul class="key-list">
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Includes verified private txs</strong><span>Selects only transactions that pass full validation and policy thresholds.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Preserves deterministic accounting</strong><span>Maintains fee routing and emission constraints while carrying private/public flows.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Produces audit logs</strong><span>Records private tx inclusion/failure traces for operator review and incident analysis.</span></span></li>
+            </ul>
+            <span class="feature-tag">Block Producer</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="security-controls" class="section">
+      <div class="wrap cta-shell" data-reveal>
+        <article class="cta-box">
+          <h2 class="cta-title">Production posture comes from deterministic controls, not hidden assumptions.</h2>
+          <p class="cta-copy">
+            Platinum Shield is designed so every private-path decision has explicit validation boundaries, deterministic state transitions,
+            and traceable logs. This keeps privacy features compatible with strict Layer-1 operational discipline.
+          </p>
+          <div class="badge-row">
+            <span class="badge">Version-gated tx semantics</span>
+            <span class="badge">Nullifier anti-double-spend</span>
+            <span class="badge">Bundle hash/x-address binding</span>
+            <span class="badge">Network replay defenses</span>
+            <span class="badge">Fail-closed verifier behavior</span>
+          </div>
+        </article>
+
+        <article class="card card-pad">
+          <h3 class="panel-title">Next operator actions</h3>
+          <ul class="key-list">
+            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Run private send testing</strong><span>Use testnet to run public->private, private->private, and private->public transaction loops.</span></span></li>
+            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Monitor logs by domain</strong><span>Track mempool admits/rejects, block include outcomes, and note reconciliation events.</span></span></li>
+            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Review docs and runbooks</strong><span>Keep wallet/full/miner node procedures aligned with the latest privacy-layer policies.</span></span></li>
+          </ul>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-inline" href="./wallet.html#wallet-private">Wallet Private Flow</a>
+            <a class="btn btn-primary btn-inline" href="./docs.html#privacy-docs">Privacy Docs</a>
+            <a class="btn btn-primary btn-inline" href="./join.html#private-testnet">Private Testnet Runbook</a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <span>Atho Labs</span>
+      <span class="footer-contact">
+        <span class="footer-slogan">Atho — Private. Secure. The Platinum Standard of the Quantum Age</span>
+        <span class="footer-updated">Last updated: April 4, 2026</span>
+        <span>
+          To report bugs, security issues, or general inquiries:
+          <a href="./contact.html">Contact</a>
+          or
+          <a href="mailto:labs@atho.io">labs@atho.io</a>
+        </span>
+      </span>
+      <span>&copy; <span data-year></span> Atho Labs. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>

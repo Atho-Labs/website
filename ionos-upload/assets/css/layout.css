@@ -2,26 +2,26 @@
   position: sticky;
   top: 0;
   z-index: 30;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px) saturate(1.1);
   background:
-    linear-gradient(180deg, rgba(247, 251, 249, 0.92), rgba(244, 250, 247, 0.88)),
-    repeating-linear-gradient(90deg, rgba(55, 182, 239, 0.06) 0 1px, transparent 1px 116px);
-  border-bottom: 1px solid rgba(144, 204, 182, 0.45);
+    linear-gradient(180deg, rgba(248, 253, 251, 0.94), rgba(241, 249, 245, 0.9)),
+    repeating-linear-gradient(90deg, rgba(55, 182, 239, 0.045) 0 1px, transparent 1px 124px);
+  border-bottom: 1px solid rgba(126, 186, 163, 0.42);
   transition: background 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease;
 }
 
 body:not(.home-page) .site-header {
   backdrop-filter: none;
   background:
-    linear-gradient(180deg, rgba(247, 251, 249, 0.96), rgba(244, 250, 247, 0.93)),
-    repeating-linear-gradient(90deg, rgba(55, 182, 239, 0.03) 0 1px, transparent 1px 132px);
+    linear-gradient(180deg, rgba(248, 253, 251, 0.97), rgba(243, 250, 247, 0.94)),
+    repeating-linear-gradient(90deg, rgba(55, 182, 239, 0.024) 0 1px, transparent 1px 136px);
 }
 
 .perf-lite .site-header {
   backdrop-filter: none;
   background:
-    linear-gradient(180deg, rgba(247, 251, 249, 0.95), rgba(244, 250, 247, 0.93)),
-    repeating-linear-gradient(90deg, rgba(55, 182, 239, 0.03) 0 1px, transparent 1px 132px);
+    linear-gradient(180deg, rgba(248, 253, 251, 0.95), rgba(243, 250, 247, 0.93)),
+    repeating-linear-gradient(90deg, rgba(55, 182, 239, 0.024) 0 1px, transparent 1px 136px);
 }
 
 .site-header::after {
@@ -32,7 +32,7 @@ body:not(.home-page) .site-header {
   bottom: -1px;
   height: 1px;
   background: linear-gradient(90deg, rgba(0, 168, 116, 0), rgba(0, 168, 116, 0.45), rgba(0, 168, 116, 0));
-  opacity: 0.55;
+  opacity: 0.45;
   pointer-events: none;
 }
 
@@ -44,31 +44,31 @@ body:not(.home-page) .site-header {
   width: 32%;
   height: 1px;
   background: linear-gradient(90deg, rgba(55, 182, 239, 0), rgba(55, 182, 239, 0.8), rgba(55, 182, 239, 0));
-  opacity: 0.7;
+  opacity: 0.52;
   pointer-events: none;
   animation: header-signal 6.8s ease-in-out infinite;
 }
 
 body:not(.home-page) .site-header::before {
   animation: none;
-  opacity: 0.28;
+  opacity: 0.18;
 }
 
 .site-header.is-scrolled {
   background:
-    linear-gradient(180deg, rgba(247, 251, 249, 0.84), rgba(243, 249, 246, 0.79)),
-    repeating-linear-gradient(90deg, rgba(55, 182, 239, 0.05) 0 1px, transparent 1px 116px);
-  border-bottom-color: rgba(104, 170, 145, 0.62);
-  box-shadow: 0 12px 30px rgba(12, 41, 33, 0.14);
+    linear-gradient(180deg, rgba(245, 252, 248, 0.86), rgba(239, 247, 243, 0.82)),
+    repeating-linear-gradient(90deg, rgba(55, 182, 239, 0.04) 0 1px, transparent 1px 124px);
+  border-bottom-color: rgba(94, 159, 136, 0.56);
+  box-shadow: 0 10px 26px rgba(9, 33, 26, 0.13);
 }
 
 .nav-shell {
   position: relative;
-  min-height: 82px;
+  min-height: 84px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  gap: var(--space-4);
+  gap: clamp(0.55rem, 1.2vw, 1.1rem);
 }
 
 .brand {
@@ -77,11 +77,11 @@ body:not(.home-page) .site-header::before {
   display: inline-flex;
   align-items: center;
   gap: var(--space-3);
-  padding: 0.2rem 0.42rem 0.2rem 0.2rem;
+  padding: 0.22rem 0.44rem 0.22rem 0.22rem;
   border-radius: 999px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.46), rgba(242, 250, 247, 0.38));
-  border: 1px solid rgba(24, 92, 72, 0.09);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(241, 249, 245, 0.42));
+  border: 1px solid rgba(24, 92, 72, 0.11);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.58), 0 6px 14px rgba(9, 33, 25, 0.05);
   transition: background 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease;
   position: relative;
   isolation: isolate;
@@ -89,9 +89,9 @@ body:not(.home-page) .site-header::before {
 
 .brand:hover,
 .brand:focus-visible {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(238, 249, 245, 0.5));
-  border-color: rgba(24, 92, 72, 0.16);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.64), 0 7px 18px rgba(12, 44, 34, 0.09);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.64), rgba(238, 249, 245, 0.54));
+  border-color: rgba(24, 92, 72, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.64), 0 8px 20px rgba(12, 44, 34, 0.1);
 }
 
 .brand::after {
@@ -127,8 +127,8 @@ body:not(.home-page) .site-header::before {
 }
 
 .brand-mark {
-  width: 41px;
-  height: 41px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
@@ -156,7 +156,7 @@ body:not(.home-page) .site-header::before {
 .brand-title {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 1.78rem;
+  font-size: 1.72rem;
   line-height: 1;
   letter-spacing: 0.005em;
   color: #092018;
@@ -189,19 +189,20 @@ body:not(.home-page) .site-header::before {
   align-items: center;
   justify-content: center;
   min-width: 0;
-  width: auto;
+  width: 100%;
 }
 
 .nav-links {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-3);
+  gap: clamp(0.5rem, 0.95vw, 0.95rem);
   min-width: 0;
-  max-width: clamp(230px, calc(100vw - 420px), 860px);
+  max-width: clamp(260px, calc(100vw - 480px), 840px);
   overflow-x: auto;
   white-space: nowrap;
   scrollbar-width: none;
+  padding: 0.06rem 0.3rem 0;
 }
 
 .nav-shell > .menu-toggle {
@@ -220,7 +221,7 @@ body:not(.home-page) .site-header::before {
 .hero-grid {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
-  gap: var(--space-6);
+  gap: clamp(1.1rem, 2.8vw, 2.1rem);
   align-items: center;
   position: relative;
 }
@@ -310,6 +311,7 @@ body:not(.home-page) .site-header::before {
   border-top: 1px solid var(--line);
   padding: var(--space-5) 0 var(--space-6);
   color: var(--ink-500);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(244, 251, 247, 0.62));
 }
 
 .footer-row {

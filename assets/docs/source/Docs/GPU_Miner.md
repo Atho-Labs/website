@@ -1,6 +1,6 @@
 # Atho GPU Miner
 
-Date: 2026-03-27
+Date: 2026-04-04
 
 This document defines the active GPU miner runtime and build path.
 

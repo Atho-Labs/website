@@ -65,6 +65,7 @@
             <a class="global-nav-link" href="./join.html">Join</a>
             <a class="global-nav-link" href="./rewards.html">Rewards</a>
             <a class="global-nav-link" href="./wallet.html">Wallet</a>
+            <a class="global-nav-link" href="./platinum-shield.html">Platinum Shield</a>
             <a class="global-nav-link" href="./bpow-docs.html">BPoW</a>
             <a class="global-nav-link" href="./inflation-deflation.html">Inflation / Deflation</a>
             <a class="global-nav-link" href="./changelog.html">Changelog</a>
@@ -103,21 +104,21 @@
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
                   <strong>Pre-tail target path</strong>
-                  <span><code>30,000,000 ATHO</code> total pre-tail base (<code>29,950,000</code> subsidy + <code>50,000</code> bootstrap at block <code>1</code>).</span>
+                  <span><code>100,000,000 ATHO</code> total pre-tail base (<code>99,609,375</code> subsidy + <code>390,625</code> bootstrap at block <code>1</code>).</span>
                 </span>
               </li>
               <li class="key-item">
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
                   <strong>Tail emission</strong>
-                  <span>Tail begins at <code>20,942,000</code> (about 79.7 years, roughly 80 years) with <code>0.25 ATHO</code> per block, or <code>65,700 ATHO/year</code>.</span>
+                  <span>Tail begins at <code>8,000,000</code> (about 30.44 years) with <code>0.1953125 ATHO</code> per block, or <code>51,328.125 ATHO/year</code>.</span>
                 </span>
               </li>
               <li class="key-item">
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
                   <strong>Fee routing</strong>
-                  <span><code>20%</code> protocol pool route, <code>80%</code> routed non-pool path.</span>
+                  <span>Pre-tail: <code>40%</code> pool + <code>60%</code> non-pool. Post-tail: <code>50%</code> pool + <code>50%</code> non-pool.</span>
                 </span>
               </li>
               <li class="key-item">
@@ -138,22 +139,22 @@
         <span class="section-eyebrow">Network Timeline</span>
         <h2 class="section-title">Pre-tail and post-tail are different network modes.</h2>
         <p class="section-copy">
-          Deflation mode is disabled before tail. It only becomes possible after the chain crosses tail start height <code>20,942,000</code> (about 79.7 years, roughly 80 years), where post-tail issuance is fixed at <code>65,700 ATHO/year</code>.
+          Deflation mode is disabled before tail. It only becomes possible after the chain crosses tail start height <code>8,000,000</code> (about 30.44 years), where post-tail issuance is fixed at <code>51,328.125 ATHO/year</code>.
         </p>
 
         <article class="card card-pad phase-map-card" data-reveal>
           <div class="phase-track-shell" aria-hidden="true">
             <div class="phase-segment phase-segment-pre">
-              <strong>Pre-tail: blocks 0-20,941,999</strong>
+              <strong>Pre-tail: blocks 0-7,999,999</strong>
               <span>Emission schedule dominates. Inflation mode only.</span>
               <span class="phase-runner phase-runner-pre"></span>
             </div>
             <div class="phase-switch-node">
               <strong>Tail Switch</strong>
-              <span>Block 20,942,000</span>
+              <span>Block 8,000,000</span>
             </div>
             <div class="phase-segment phase-segment-post">
-              <strong>Post-tail: blocks 20,942,000+</strong>
+              <strong>Post-tail: blocks 8,000,000+</strong>
               <span>Tail subsidy + burn logic. Deflation can occur.</span>
               <span class="phase-runner phase-runner-post"></span>
             </div>
@@ -171,7 +172,7 @@
             <div class="mode-flow mode-flow-pre" aria-hidden="true">
               <span class="mode-box">Subsidy by Era</span>
               <span class="mode-arrow">-></span>
-              <span class="mode-box">Fee Split 20 / 80</span>
+              <span class="mode-box">Fee Split 40 / 60</span>
               <span class="mode-arrow">-></span>
               <span class="mode-box">Net Supply Expansion</span>
               <span class="mode-dot mode-dot-pre"></span>
@@ -185,9 +186,9 @@
             <h3 class="panel-title">Post-tail Network (Deflation Eligible)</h3>
             <span class="feature-tag mode-tag mode-tag-on">Deflation Conditional</span>
             <div class="mode-flow mode-flow-post" aria-hidden="true">
-              <span class="mode-box">Tail Subsidy 0.25</span>
+              <span class="mode-box">Tail Subsidy 0.1953125</span>
               <span class="mode-arrow">-></span>
-              <span class="mode-box">Burn Request (80% Routed Fees)</span>
+              <span class="mode-box">Burn Request (50% Routed Fees)</span>
               <span class="mode-arrow">-></span>
               <span class="mode-box">Floor Clip @ 21M</span>
               <span class="mode-arrow">-></span>
@@ -209,7 +210,7 @@
           <p class="panel-copy">
             Deflation logic is gated by height. Before tail switch, deflation is not active. After tail switch, deflation can happen if clipped burn exceeds issuance.
           </p>
-          <pre class="join-code"><code>if height < 20,942,000:
+          <pre class="join-code"><code>if height < 8,000,000:
   deflation_mode = OFF
   network_mode = pre-tail inflation schedule
 else:
@@ -217,8 +218,8 @@ else:
   net_delta = issuance_components - burned_clipped
   where burned_clipped <= floor_headroom(21,000,000 ATHO)</code></pre>
           <ol class="join-step-list">
-            <li>At block <code>20,942,000</code>, tail subsidy locks to <code>0.25 ATHO</code>.</li>
-            <li>Burn request comes from routed non-pool fees (<code>80%</code> fee path).</li>
+            <li>At block <code>8,000,000</code>, tail subsidy locks to <code>0.1953125 ATHO</code>.</li>
+            <li>Burn request comes from routed non-pool fees (<code>50%</code> in post-tail mode).</li>
             <li>Burn is clipped to stay above the <code>21,000,000 ATHO</code> effective floor.</li>
             <li>Deflation appears only if post-clip burn exceeds total issuance components.</li>
           </ol>
@@ -226,7 +227,7 @@ else:
             <div class="clip-row">
               <span class="clip-label">Burn Request</span>
               <div class="clip-bar clip-bar-request"><span></span></div>
-              <span class="clip-value">Up to 80% routed fees</span>
+              <span class="clip-value">Up to 50% routed fees (post-tail)</span>
             </div>
             <div class="clip-row">
               <span class="clip-label">Burn Allowed</span>
@@ -250,7 +251,7 @@ else:
             </div>
             <div class="matrix-row">
               <span class="matrix-state">Pre-tail</span>
-              <span>height &lt; <code>20,942,000</code></span>
+              <span>height &lt; <code>8,000,000</code></span>
               <span class="matrix-result matrix-result-off">Deflation OFF</span>
             </div>
             <div class="matrix-row">
@@ -293,7 +294,7 @@ else:
         <span class="section-eyebrow">Post-tail Scenarios</span>
         <h2 class="section-title">After tail starts, fee pressure determines inflation vs deflation direction.</h2>
         <p class="section-copy">
-          These scenarios apply only in post-tail mode. Before tail, the network remains in pre-tail inflation schedule mode by rule.
+          These scenarios apply only in post-tail mode. Before tail, the network remains in pre-tail inflation schedule mode by rule. Deflation threshold is near <code>44.64%</code> sustained utilization under current fee-floor assumptions.
         </p>
 
         <div class="feature-grid economics-scenario-grid" data-stagger>
@@ -329,9 +330,9 @@ else:
             Atho publishes the constants, formulas, and lifecycle rules behind inflation and deflation so miners, stakers, and integrators can independently validate long-run behavior.
           </p>
           <div class="badge-row">
-            <span class="badge">30,000,000 ATHO total pre-tail base</span>
-            <span class="badge">65,700 ATHO/year post-tail issuance</span>
-            <span class="badge">20% deterministic fee pool route</span>
+            <span class="badge">100,000,000 ATHO total pre-tail base</span>
+            <span class="badge">51,328.125 ATHO/year post-tail issuance</span>
+            <span class="badge">40% pre-tail / 50% post-tail pool route</span>
             <span class="badge">21,000,000 ATHO floor clipping</span>
             <span class="badge">BPoW bond + stake role separation</span>
           </div>
@@ -344,7 +345,8 @@ else:
     <div class="wrap footer-row">
       <span>Atho Labs</span>
       <span class="footer-contact">
-        <span class="footer-slogan">The Platinum Standard of the Quantum Age</span>
+        <span class="footer-slogan">Atho — Private. Secure. The Platinum Standard of the Quantum Age</span>
+        <span class="footer-updated">Last updated: April 4, 2026</span>
         <span>
           To report bugs, security issues, or general inquiries:
           <a href="./contact.html">Contact</a>

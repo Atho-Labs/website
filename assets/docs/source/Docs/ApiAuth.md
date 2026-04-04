@@ -1,6 +1,6 @@
 # API Authentication & Permissions
 
-Last refresh: 2026-03-27.
+Last refresh: 2026-04-04.
 
 This note explains how Atho secures its HTTP API, how passwords/permissions work, and why this matters for protecting your node and funds.
 

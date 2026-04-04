@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Join Atho network with the latest runbook: environment setup, binary build/pinning, API auth, key setup, and node verification.">
+  <meta name="description" content="Join Atho network with the latest runbook: environment setup, binary pinning, key setup, private testnet transaction checks, and node verification.">
   <title>Join Atho</title>
   <link rel="canonical" href="https://atho.io/join.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Atho">
   <meta property="og:url" content="https://atho.io/join.html">
   <meta property="og:title" content="Join Atho">
-  <meta property="og:description" content="Join Atho network with the latest runbook: environment setup, binary build/pinning, API auth, key setup, and node verification.">
+  <meta property="og:description" content="Join Atho network with the latest runbook: environment setup, binary pinning, key setup, private testnet transaction checks, and node verification.">
   <meta property="og:image" content="https://image.thum.io/get/width/1200/crop/630/https://atho.io/join.html">
   <meta property="og:image:secure_url" content="https://image.thum.io/get/width/1200/crop/630/https://atho.io/join.html">
   <meta property="og:image:width" content="1200">
@@ -19,7 +19,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@Atho_io">
   <meta name="twitter:title" content="Join Atho">
-  <meta name="twitter:description" content="Join Atho network with the latest runbook: environment setup, binary build/pinning, API auth, key setup, and node verification.">
+  <meta name="twitter:description" content="Join Atho network with the latest runbook: environment setup, binary pinning, key setup, private testnet transaction checks, and node verification.">
   <meta name="twitter:image" content="https://image.thum.io/get/width/1200/crop/630/https://atho.io/join.html">
   <meta name="twitter:image:alt" content="Atho join page preview">
   <link rel="icon" type="image/png" href="./assets/media/logo2website.png">
@@ -45,6 +45,7 @@
         <nav id="main-nav" class="nav-links" data-nav-links>
           <a class="nav-link" href="#quickstart">Quickstart</a>
           <a class="nav-link" href="#key-manager">Key Manager</a>
+          <a class="nav-link" href="#private-testnet">Private Testnet</a>
           <a class="nav-link" href="#verify">Verify</a>
           <a class="nav-link" href="#troubleshoot">Troubleshoot</a>
         </nav>
@@ -66,6 +67,7 @@
             <a class="global-nav-link" href="./join.html">Join</a>
             <a class="global-nav-link" href="./rewards.html">Rewards</a>
             <a class="global-nav-link" href="./wallet.html">Wallet</a>
+            <a class="global-nav-link" href="./platinum-shield.html">Platinum Shield</a>
             <a class="global-nav-link" href="./bpow-docs.html">BPoW</a>
             <a class="global-nav-link" href="./inflation-deflation.html">Inflation / Deflation</a>
             <a class="global-nav-link" href="./changelog.html">Changelog</a>
@@ -93,6 +95,7 @@
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary btn-inline" href="#quickstart">Start Setup</a>
+            <a class="btn btn-primary btn-inline" href="#private-testnet">Private Testnet Checks</a>
             <a class="btn btn-ghost btn-inline" href="./docs.html">Open Full Docs</a>
           </div>
         </div>
@@ -309,6 +312,51 @@ wallet balance</code></pre>
       </div>
     </section>
 
+    <section id="private-testnet" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Private Layer Testnet Runbook</span>
+        <h2 class="section-title">Validate public/private send paths before production deployment.</h2>
+        <p class="section-copy">
+          This runbook focuses on Platinum Shield behavior in testnet: prove all three send directions, confirm replay resistance,
+          and verify note/nullifier state transitions across mempool, block inclusion, and post-apply reconciliation.
+        </p>
+        <div class="feature-grid">
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Flow Matrix to Execute</h3>
+            <ul class="key-list">
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Public -> Private</strong><span>Fund private notes from public UTXOs and verify commitment/payload creation.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Private -> Private</strong><span>Spend by nullifier and confirm pending_spend -> spent transitions after block confirmation.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Private -> Public</strong><span>Return value to public UTXO outputs and verify accounting parity.</span></span></li>
+            </ul>
+            <span class="feature-tag">Required</span>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Security Assertions</h3>
+            <ul class="key-list">
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Replay protection</strong><span>Network-domain separated materials reject cross-network replay attempts.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Nullifier uniqueness</strong><span>Duplicate nullifiers fail in mempool and block validation paths.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Bundle integrity</strong><span>X-address hash checks match bundle metadata on receive/validation.</span></span></li>
+            </ul>
+            <span class="feature-tag">Fail-Closed</span>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Operator Log Domains</h3>
+            <ul class="key-list">
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Private mempool events</strong><span>Track admit/reject reasons for private and hybrid transactions.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Block private-tx outcomes</strong><span>Record inclusion/failure reasons during block assembly and validation.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Reconciliation trail</strong><span>Audit private note state transitions and nullifier index updates post-apply.</span></span></li>
+            </ul>
+            <div class="hero-actions">
+              <a class="btn btn-primary btn-inline" href="./platinum-shield.html#security-controls">Privacy Controls</a>
+              <a class="btn btn-primary btn-inline" href="./docs.html#privacy-docs">Privacy Docs</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section id="verify" class="section">
       <div class="wrap">
         <div class="split-grid">
@@ -469,7 +517,8 @@ Src/Utility/const.py</code></pre>
     <div class="wrap footer-row">
       <span>Atho Labs</span>
       <span class="footer-contact">
-        <span class="footer-slogan">The Platinum Standard of the Quantum Age</span>
+        <span class="footer-slogan">Atho — Private. Secure. The Platinum Standard of the Quantum Age</span>
+        <span class="footer-updated">Last updated: April 4, 2026</span>
         <span>
           To report bugs, security issues, or general inquiries:
           <a href="./contact.html">Contact</a>

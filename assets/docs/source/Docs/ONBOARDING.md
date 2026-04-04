@@ -1,6 +1,6 @@
 # Atho Network — Developer Onboarding
 
-Last refresh: 2026-03-27.
+Last refresh: 2026-04-04.
 
 This doc is a practical, minimal path to get a new developer productive fast.
 

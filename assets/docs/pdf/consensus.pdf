@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2241 >>
+<< /Length 2247 >>
 stream
 BT
 /F1 10 Tf
@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-03-27) Tj
+(Date: 2026-04-04) Tj
 T*
 () Tj
 T*
@@ -43,21 +43,21 @@ T*
 T*
 (- Coinbase maturity: 150 blocks) Tj
 T*
-(- Max block base bytes: 2,500,000) Tj
+(- Max block base bytes: 3,500,000) Tj
 T*
-(- Max block weight: 10,000,000) Tj
+(- Max block weight: 14,000,000) Tj
 T*
 (- Max tx policy size \(vsize\): 250,000) Tj
 T*
-(- Fee floor: 225 atoms per policy byte \(vsize\)) Tj
+(- Fee floor: 250 atoms per policy byte \(vsize\)) Tj
 T*
-(- Min tx fee: 150,000 atoms) Tj
+(- Min tx fee: 100,000 atoms) Tj
 T*
 (- Dust limit: 250 atoms) Tj
 T*
 (- BPoW and Stake Constants) Tj
 T*
-(- BPoW enforcement height: 100 \(mainnet, testnet, regnet\)) Tj
+(- BPoW enforcement height: 10,000 \(mainnet, testnet, regnet\)) Tj
 T*
 (- Bond requirement: 25 ATHO) Tj
 T*
@@ -69,9 +69,9 @@ T*
 T*
 (- Epoch length: 720 blocks) Tj
 T*
-(- Finalization buffer: 720 blocks) Tj
+(- Finalization buffer: 3,600 blocks) Tj
 T*
-(- Bootstrap allocation: 50,000 ATHO at block 1) Tj
+(- Bootstrap allocation: 390,625 ATHO at block 1) Tj
 T*
 () Tj
 T*
@@ -130,7 +130,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 2418 >>
+<< /Length 2587 >>
 stream
 BT
 /F1 10 Tf
@@ -138,13 +138,19 @@ BT
 13 TL
 (- Fee uplift policy: +25%) Tj
 T*
-(- Fee pool routing: 20% of total fees) Tj
+(- Fee pool routing:) Tj
 T*
-(- Pool bucket split: 10% miner-side, 10% stake-side) Tj
+(- pre-tail \(height < 8,000,000\): 40% of total fees \(20% miner-side, 20% stake-side\),) Tj
 T*
-(- Miner-side split: 7% winner-proportional, 3% bonded-idle split) Tj
+(- post-tail \(height >= 8,000,000\): 50% of total fees \(25% miner-side, 25% stake-side\).) Tj
 T*
-(- Burn policy at tail: 100% burn on routed non-pool fees \(subject to floor clipping\)) Tj
+(- Miner-side split:) Tj
+T*
+(- pre-tail: 0% winner-proportional, 20% bonded-idle split \(of total fees\),) Tj
+T*
+(- post-tail: 20% winner-proportional, 5% bonded-idle split \(of total fees\).) Tj
+T*
+(- Burn policy at tail: 100% burn on routed non-pool fees \(subject to floor clipping\).) Tj
 T*
 () Tj
 T*
@@ -234,12 +240,6 @@ T*
 T*
 (- PoW-valid block that is consensus-invalid \(miner proof, bond eligibility, tx validity,) Tj
 T*
-(structure, or reward correctness\).) Tj
-T*
-() Tj
-T*
-(Not slashable:) Tj
-T*
 ET
 endstream
 endobj
@@ -247,12 +247,18 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 1367 >>
+<< /Length 1443 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(structure, or reward correctness\).) Tj
+T*
+() Tj
+T*
+(Not slashable:) Tj
+T*
 (- stale/orphan valid block from honest race,) Tj
 T*
 (- reorged-out valid block,) Tj
@@ -283,13 +289,13 @@ T*
 T*
 (- Throughput Framing \(Policy\)) Tj
 T*
-(At 2,500,000 vB and 120s:) Tj
+(At 3,500,000 vB and 120s:) Tj
 T*
-(- 566 vB avg tx -> ~36.8 TPS) Tj
+(- 566 vB avg tx -> ~51.5 TPS) Tj
 T*
-(- 615 vB avg tx -> ~33.9 TPS) Tj
+(- 615 vB avg tx -> ~47.4 TPS) Tj
 T*
-(- 664 vB avg tx -> ~31.4 TPS) Tj
+(- 664 vB avg tx -> ~43.9 TPS) Tj
 T*
 () Tj
 T*
@@ -328,12 +334,12 @@ xref
 0000000133 00000 n 
 0000000201 00000 n 
 0000000327 00000 n 
-0000002620 00000 n 
-0000002746 00000 n 
-0000005216 00000 n 
-0000005342 00000 n 
+0000002626 00000 n 
+0000002752 00000 n 
+0000005391 00000 n 
+0000005517 00000 n 
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-6761
+7012
 %%EOF

@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2128 >>
+<< /Length 2247 >>
 stream
 BT
 /F1 10 Tf
@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-03-27) Tj
+(Date: 2026-04-04) Tj
 T*
 () Tj
 T*
@@ -41,67 +41,73 @@ T*
 T*
 (- Blocks/year: 262,800.) Tj
 T*
-(- Era size: 1,314,000 blocks \(5 years\).) Tj
+(- Era size: 1,000,000 blocks \(~3.805 years\).) Tj
 T*
 () Tj
 T*
 (Pre-tail eras:) Tj
 T*
-(- Era 1: 10.0 ATHO/block) Tj
+(- Era 1: 50 ATHO/block) Tj
 T*
-(- Era 2: 5.0 ATHO/block) Tj
+(- Era 2: 25 ATHO/block) Tj
 T*
-(- Era 3: 2.5 ATHO/block) Tj
+(- Era 3: 12.5 ATHO/block) Tj
 T*
-(- Era 4: 1.25 ATHO/block) Tj
+(- Era 4: 6.25 ATHO/block) Tj
 T*
-(- Era 5: 0.625 ATHO/block) Tj
+(- Era 5: 3.125 ATHO/block) Tj
+T*
+(- Era 6: 1.5625 ATHO/block) Tj
+T*
+(- Era 7: 0.78125 ATHO/block) Tj
+T*
+(- Era 8: 0.390625 ATHO/block) Tj
 T*
 () Tj
 T*
-(Transition:) Tj
+(Bootstrap and pre-tail totals:) Tj
 T*
-(- 0.3125 ATHO/block until exact subsidy emission reaches 29,950,000 ATHO.) Tj
+(- One-time bootstrap allocation: 390,625 ATHO at block 1.) Tj
 T*
-(- One-time bootstrap allocation: 50,000 ATHO at block 1.) Tj
+(- Pre-tail subsidy target: 99,609,375 ATHO.) Tj
 T*
-(- Total pre-tail base target = 29,950,000 + 50,000 = 30,000,000 ATHO.) Tj
+(- Total pre-tail base target = 99,609,375 + 390,625 = 100,000,000 ATHO.) Tj
 T*
 () Tj
 T*
 (Tail:) Tj
 T*
-(- Tail reward 0.25 ATHO/block from height 20,942,000 onward.) Tj
+(- Tail reward 0.1953125 ATHO/block from height 8,000,000 onward.) Tj
 T*
-(- Tail activation occurs at ~79.7 years from genesis \(roughly 80 years\).) Tj
+(- Tail activation occurs at ~30.44 years from genesis.) Tj
 T*
-(- Tail annual issuance: 65,700 ATHO/year.) Tj
+(- Tail annual issuance: 51,328.125 ATHO/year.) Tj
 T*
 (- Active Fee Policy) Tj
 T*
 (Current constants:) Tj
 T*
-(- FEE_PER_BYTE_ATOMS = 225 \(policy unit is vsize\)) Tj
+(- FEE_PER_BYTE_ATOMS = 250 \(policy unit is vsize\)) Tj
 T*
-(- MIN_TRANSACTION_FEE_ATOMS = 150,000) Tj
+(- MIN_TRANSACTION_FEE_ATOMS = 100,000) Tj
 T*
 (- DUST_LIMIT_ATOMS = 250) Tj
 T*
-(- Max block base cap: 2,500,000 bytes) Tj
+(- Max block base cap: 3,500,000 bytes) Tj
 T*
-(- Max block weight: 10,000,000) Tj
+(- Max block weight: 14,000,000) Tj
 T*
 () Tj
 T*
 (Fee routing:) Tj
 T*
-(- 20% of total fees route to consensus pool.) Tj
+(- Pre-tail: 40% of total fees route to consensus pool \(20% miner bucket, 20% stake bucket\).) Tj
 T*
-(- Remaining 80% are routed through burn/miner split logic.) Tj
+(- Post-tail: 50% of total fees route to consensus pool \(25% miner bucket, 25% stake bucket\).) Tj
 T*
-(- At tail, routed non-pool fees are burn-targeted \(100% burn policy\), clipped by supply-floor) Tj
+(- At tail, routed non-pool fees \(50%\) are burn-targeted \(100% burn policy\), clipped by) Tj
 T*
-(headroom.) Tj
+(supply-floor headroom.) Tj
 T*
 () Tj
 T*
@@ -117,12 +123,6 @@ T*
 T*
 (- varint widths,) Tj
 T*
-(- witness lengths,) Tj
-T*
-(- optional metadata.) Tj
-T*
-() Tj
-T*
 ET
 endstream
 endobj
@@ -130,12 +130,18 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 1971 >>
+<< /Length 1947 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(- witness lengths,) Tj
+T*
+(- optional metadata.) Tj
+T*
+() Tj
+T*
 (Representative estimates \(compressed witness, metadata empty\):) Tj
 T*
 (- 1 in / 1 out: ~513 vB) Tj
@@ -150,7 +156,7 @@ T*
 T*
 (Let:) Tj
 T*
-(- Bv = 2,500,000 effective vbytes per block cap) Tj
+(- Bv = 3,500,000 effective vbytes per block cap) Tj
 T*
 (- T = 120 seconds) Tj
 T*
@@ -168,43 +174,43 @@ T*
 T*
 (Examples:) Tj
 T*
-(- Savg=566 -> ~36.8 TPS) Tj
+(- Savg=566 -> ~51.5 TPS) Tj
 T*
-(- Savg=615 -> ~33.9 TPS) Tj
+(- Savg=615 -> ~47.4 TPS) Tj
 T*
-(- Savg=664 -> ~31.4 TPS) Tj
+(- Savg=664 -> ~43.9 TPS) Tj
 T*
 (- Post-Tail Net Supply Math) Tj
 T*
 (At full block utilization by vbytes:) Tj
 T*
-(- Total fee floor capacity per block = 2,500,000 * 225 = 562,500,000 atoms = 0.5625 ATHO) Tj
+(- Total fee floor capacity per block = 3,500,000 * 250 = 875,000,000 atoms = 0.875 ATHO) Tj
 T*
-(- Annual total fees at full utilization = 147,825 ATHO/year) Tj
+(- Annual total fees at full utilization = 229,950 ATHO/year) Tj
 T*
-(- Burnable routed share \(80%\) at full utilization = 118,260 ATHO/year) Tj
+(- Burnable routed share \(50%\) at full utilization = 114,975 ATHO/year) Tj
 T*
 () Tj
 T*
 (Post-tail net annual change:) Tj
 T*
-(- Delta_supply = 65,700 - \(118,260 * utilization\)) Tj
+(- Delta_supply = 51,328.125 - \(114,975 * utilization\)) Tj
 T*
 () Tj
 T*
 (Deflation threshold:) Tj
 T*
-(- utilization ~= 65,700 / 118,260 ~= 0.5556 \(55.56%\)) Tj
+(- utilization ~= 51,328.125 / 114,975 ~= 0.4464 \(44.64%\)) Tj
 T*
 () Tj
 T*
 (Interpretation:) Tj
 T*
-(- <55.56% utilization: inflationary net.) Tj
+(- <44.64% utilization: inflationary net.) Tj
 T*
-(- =55.56%: neutral net.) Tj
+(- =44.64%: neutral net.) Tj
 T*
-(- >55.56%: deflationary net \(subject to floor clipping\).) Tj
+(- >44.64%: deflationary net \(subject to floor clipping\).) Tj
 T*
 (- Coinbase Invariants) Tj
 T*
@@ -234,12 +240,6 @@ T*
 T*
 (- tail reward,) Tj
 T*
-(- fee uplift/routing percents,) Tj
-T*
-(- burn split and floor,) Tj
-T*
-(- fee constants,) Tj
-T*
 ET
 endstream
 endobj
@@ -247,12 +247,18 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 60 >>
+<< /Length 156 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(- fee uplift/routing percents,) Tj
+T*
+(- burn split and floor,) Tj
+T*
+(- fee constants,) Tj
+T*
 (- atom denomination.) Tj
 T*
 ET
@@ -266,12 +272,12 @@ xref
 0000000133 00000 n 
 0000000201 00000 n 
 0000000327 00000 n 
-0000002507 00000 n 
-0000002633 00000 n 
-0000004656 00000 n 
-0000004782 00000 n 
+0000002626 00000 n 
+0000002752 00000 n 
+0000004751 00000 n 
+0000004877 00000 n 
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-4892
+5084
 %%EOF

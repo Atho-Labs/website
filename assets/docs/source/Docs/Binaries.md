@@ -1,6 +1,6 @@
 # Atho Binary Build and Pinning Guide
 
-Date: 2026-03-27
+Date: 2026-04-04
 
 This document defines the current binary layout, build flow, and hash-pinning behavior.
 

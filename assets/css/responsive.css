@@ -1,5 +1,21 @@
+@media (max-width: 1240px) {
+  .nav-links {
+    gap: 0.46rem;
+    max-width: clamp(220px, calc(100vw - 440px), 720px);
+  }
+
+  .nav-link {
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+  }
+}
+
 @media (max-width: 1120px) {
   .social-links {
+    display: none;
+  }
+
+  .nav-live-pill {
     display: none;
   }
 }
@@ -16,6 +32,16 @@
   .docs-grid,
   .docs-catalog-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .site-quick-pages {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 980px) {
+  .site-quick-nav {
+    display: none;
   }
 }
 
@@ -66,7 +92,6 @@
   .global-nav-link {
     justify-content: flex-start;
   }
-
 }
 
 @media (max-width: 780px) {
@@ -100,6 +125,14 @@
     text-align: center;
   }
 
+  .home-page .home-hero-copy .hero-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .card-pad {
+    padding: clamp(0.92rem, 3.2vw, 1.12rem);
+  }
+
   .footer-row {
     grid-template-columns: 1fr;
     text-align: center;
@@ -124,6 +157,11 @@
 
   .brand-title {
     font-size: 1.36rem;
+  }
+
+  .menu-toggle {
+    width: 38px;
+    height: 38px;
   }
 
   .cta-box {

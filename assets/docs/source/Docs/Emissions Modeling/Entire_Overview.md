@@ -1,27 +1,44 @@
 # ENTIRE OVERVIEW - ATHO EMISSIONS MODELING
 
 
-Date: 2026-03-28 (UTC)
+Date: 2026-04-04 (UTC)
 
-This document is a complete observation-based report of the active Atho emissions and burn model. It
-explains what the model computes, why the outputs look the way they do, and where practical limits show up
-under different utilization assumptions. It is intentionally deterministic: every claim in this overview
-maps back to current consensus constants and generated artifacts under Docs/Emissions Modeling.
+Legacy snapshot date for archived scenario body below: 2026-03-28 (UTC)
 
-SCOPE AND METHOD
+This document keeps the full historical scenario narrative from the previous model while adding an
+explicit active-policy correction layer.
 
-Scope includes consensus math, issuance behavior, burn mechanics, miner incentive surface, user fee costs,
-inflation/deflation transitions, floor clipping behavior, and long-horizon supply trajectories. The model
-evaluates no-burn and burn-enabled scenarios side-by-side under identical throughput assumptions to avoid
-framing bias. This report is observational rather than predictive; it does not treat demand, price, or
-realized capacity as known values.
+ACTIVE POLICY CORRECTION (CURRENT CONSENSUS)
 
-Core constants used by the active model are: 120-second blocks, 262,800 blocks/year, 5 initial pre-tail
-eras of 1,314,000 blocks each, followed by a transition reward of 0.3125 ATHO/block until 29,950,000 ATHO
-subsidy emission, plus a one-time bootstrap allocation of 50,000 ATHO at block 1 for a total pre-tail base
-target of 30,000,000 ATHO, and a tail reward of 0.2500 ATHO/block, fee floor 0.00000023 ATHO per policy
-byte (225 atoms/byte), max block policy budget 2,500,000 vbytes, burn share 80.0%, miner fee share 0.0%,
-consensus-pool routing share 20.0%, and supply floor 21,000,000 ATHO.
+The long scenario body below is a historical snapshot for audit traceability. The current live constants
+in `Src/Utility/const.py` are:
+
+- block target: `120s` (`262,800` blocks/year)
+- pre-tail schedule: 8 eras of `1,000,000` blocks
+  - rewards: `50, 25, 12.5, 6.25, 3.125, 1.5625, 0.78125, 0.390625 ATHO/block`
+- bootstrap allocation: `390,625 ATHO` at block `1`
+- total pre-tail base target: `100,000,000 ATHO`
+- tail start height: `8,000,000`
+- tail reward: `0.1953125 ATHO/block`
+- fee floor: `250 atoms/vB` (`0.00000025 ATHO/vB`)
+- max block policy budget: `3,500,000 vbytes`
+- post-tail pool routing: `50%` (miner `25%`, stake `25%`)
+- post-tail non-pool routed share: `50%`, with `100%` burn target on that non-pool share
+- supply floor: `21,000,000 ATHO`
+
+Derived current-reference points at 100% utilization:
+- annual fee pool: `229,950 ATHO/year`
+- annual burn-path max: `114,975 ATHO/year`
+- annual tail issuance: `51,328.125 ATHO/year`
+- net annual protocol delta at full utilization: `-63,646.875 ATHO/year`
+- neutrality pivot utilization: `~44.64%`
+
+The historical sections below remain intentionally detailed, but should be interpreted as
+legacy-policy analysis unless/until scenario files are regenerated under current constants.
+
+SCOPE AND METHOD (LEGACY SNAPSHOT BODY BELOW)
+
+LEGACY SCENARIO BODY (ARCHIVED POLICY CONSTANTS)
 
 CONSENSUS ALIGNMENT STATUS
 
@@ -277,4 +294,3 @@ Appendix note 28: At year 75, scenario Burn On (75% block capacity) reports circ
 29,615,000.000 ATHO, cumulative burned 0.000 ATHO, and annual net change 82,125.000 ATHO. This checkpoint
 reinforces that cumulative burn tracks utilization and burn policy directly, while net-rate drift depends
 on the ratio of annual delta to existing circulating base.
-

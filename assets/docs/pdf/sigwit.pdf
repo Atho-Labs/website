@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-03-27) Tj
+(Date: 2026-04-04) Tj
 T*
 () Tj
 T*
@@ -33,9 +33,9 @@ T*
 T*
 (From Src/Utility/const.py:) Tj
 T*
-(- MAX_BLOCK_SIZE_BYTES = 2,500,000) Tj
+(- MAX_BLOCK_SIZE_BYTES = 3,500,000) Tj
 T*
-(- MAX_BLOCK_WEIGHT = 10,000,000) Tj
+(- MAX_BLOCK_WEIGHT = 14,000,000) Tj
 T*
 (- MAX_TRANSACTION_SIZE_BYTES = 250,000 \(policy vsize cap\)) Tj
 T*
@@ -77,7 +77,7 @@ T*
 T*
 (Let:) Tj
 T*
-(- Bv = 2,500,000 effective vbytes per block cap,) Tj
+(- Bv = 3,500,000 effective vbytes per block cap,) Tj
 T*
 (- T = 120 seconds,) Tj
 T*
@@ -109,11 +109,11 @@ T*
 T*
 (Using T=120:) Tj
 T*
-(- 566 vB: 36.8 TPS ideal, 35.0 TPS at F=0.95) Tj
+(- 566 vB: 51.5 TPS ideal, 49.0 TPS at F=0.95) Tj
 T*
-(- 615 vB: 33.9 TPS ideal, 32.2 TPS at F=0.95) Tj
+(- 615 vB: 47.4 TPS ideal, 45.1 TPS at F=0.95) Tj
 T*
-(- 664 vB: 31.4 TPS ideal, 29.8 TPS at F=0.95) Tj
+(- 664 vB: 43.9 TPS ideal, 41.7 TPS at F=0.95) Tj
 T*
 (- Key Interpretation) Tj
 T*

@@ -772,6 +772,40 @@
   }
 }
 
+@keyframes shield-flow-run {
+  0% {
+    left: 10%;
+    opacity: 0;
+  }
+  14% {
+    opacity: 1;
+  }
+  86% {
+    opacity: 1;
+  }
+  100% {
+    left: 90%;
+    opacity: 0;
+  }
+}
+
+@keyframes shield-flow-run-mobile {
+  0% {
+    top: 14%;
+    opacity: 0;
+  }
+  14% {
+    opacity: 1;
+  }
+  86% {
+    opacity: 1;
+  }
+  100% {
+    top: 86%;
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;
@@ -828,7 +862,8 @@
 .perf-lite .wallet-base56-row,
 .perf-lite .wallet-fee-fill,
 .perf-lite .wallet-mnemonic-runner,
-.perf-lite .wallet-recovery-pulse {
+.perf-lite .wallet-recovery-pulse,
+.perf-lite .shield-flow-packet {
   animation: none !important;
 }
 
@@ -908,7 +943,8 @@
   body::after,
   .byte-overlay-text,
   .section-eyebrow::after,
-  .badge-row .badge:nth-child(even) {
+  .badge-row .badge:nth-child(even),
+  .shield-flow-packet {
     animation: none !important;
   }
 

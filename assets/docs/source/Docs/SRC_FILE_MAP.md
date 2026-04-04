@@ -1,6 +1,6 @@
 # Src File Map (Generated)
 
-Last refresh: 2026-03-27.
+Last refresh: 2026-04-04.
 
 This document is generated from `Src/` using AST parsing. It lists each module, its docstring (if any), classes, methods, and top-level functions with signatures and docstrings.
 If behavior changed recently, regenerate this map from current code; this file is a snapshot and can lag behind active consensus/policy details.
@@ -1934,7 +1934,7 @@ This marks inputs as temporarily spent and outputs as pending.
   - `get_address_prefix()` — Returns the address prefix for the current network (ATHO for mainnet, ATHT for testnet, ATHT for regnet).
   - `INITIAL_COINBASE_REWARD()` — Returns the initial coinbase reward at block 0,
 using the hard-coded emission schedule.
-  - `BASE_SUPPLY()` — Exact pre-tail base target from the hard-coded emission schedule (30,000,000 ATHO total, including 50,000 ATHO bootstrap at block 1).
+  - `BASE_SUPPLY()` — Exact pre-tail base target from the hard-coded emission schedule (100,000,000 ATHO total, including 390,625 ATHO bootstrap at block 1).
   - `BASE_SUPPLY_ATOMS()` — Exact pre-tail base target in atomic units for consensus math.
   - `get_base_supply()` — Preferred accessor for the pre-tail base-supply reference.
   - `get_base_supply_atoms()` — Preferred accessor for the pre-tail base supply in atomic units.

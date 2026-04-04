@@ -1,6 +1,6 @@
 # Atho Network Stack
 
-Date: 2026-03-27
+Date: 2026-04-04
 
 This document explains the current stack, why each layer exists, and where the implementation lives.
 
@@ -48,7 +48,7 @@ Current behavior:
 - Inputs/outputs are encoded using varints and fixed-size digests where appropriate.
 - Witness is encoded as raw bytes internally.
 - API/UI display remains stable (human-readable fields, canonical encoding), while internal math stays integer-atom based.
-- Fee policy is enforced on canonical `vsize` with current floor `225 atoms/vB`.
+- Fee policy is enforced on canonical `vsize` with current floor `250 atoms/vB`.
 
 Code paths:
 - `Src/Transactions/txbinary.py`
@@ -59,10 +59,10 @@ Code paths:
 Why: reduce wire overhead and avoid float/decimal drift in consensus-critical math.
 
 ## Capacity Snapshot (Current Policy)
-With `2,500,000 vB` block budget and `120s` block time:
-- `1 in / 2 out` (~`566 vB`) -> `~36.8 TPS`
-- `2 in / 2 out` (~`615 vB`) -> `~33.9 TPS`
-- `3 in / 2 out` (~`664 vB`) -> `~31.4 TPS`
+With `3,500,000 vB` block budget and `120s` block time:
+- `1 in / 2 out` (~`566 vB`) -> `~51.5 TPS`
+- `2 in / 2 out` (~`615 vB`) -> `~47.4 TPS`
+- `3 in / 2 out` (~`664 vB`) -> `~43.9 TPS`
 
 This is why tx-shape distribution directly drives sustained throughput.
 

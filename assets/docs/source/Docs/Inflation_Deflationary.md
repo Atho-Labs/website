@@ -1,6 +1,6 @@
 # Atho Inflationary/Deflationary Network Model
 
-Last refresh: 2026-03-27.
+Last refresh: 2026-04-04.
 
 ## Scope
 This file explains how Atho transitions between inflationary and deflationary behavior under active consensus policy.
@@ -13,71 +13,72 @@ Canonical references:
 
 ## Executive Summary
 - Block time: `120` seconds (`262,800` blocks/year).
-- Era size: `1,314,000` blocks (`5` years).
-- First 5 eras: `10 -> 5 -> 2.5 -> 1.25 -> 0.625 ATHO/block`.
-- Transition: `0.3125 ATHO/block` until exact subsidy emission reaches `29,950,000 ATHO`.
-- Bootstrap allocation: `50,000 ATHO` at block `1` (included in total pre-tail base).
-- Tail starts at height `20,942,000` (year `~79.7`, roughly `80 years`) at `0.25 ATHO/block`.
-- Tail annual issuance: `65,700 ATHO/year`.
-- Fee floor: `225 atoms/vB` (`2.25e-7 ATHO/vB`).
-- Fee routing: `20%` to consensus pool, `80%` to burn/miner split path.
-- Tail split target on routed share: `100% burn / 0% miner`, with floor clipping.
+- Era size: `1,000,000` blocks (~`3.805` years).
+- Eight pre-tail eras: `50 -> 25 -> 12.5 -> 6.25 -> 3.125 -> 1.5625 -> 0.78125 -> 0.390625 ATHO/block`.
+- Bootstrap allocation: `390,625 ATHO` at block `1` (included in total pre-tail base).
+- Tail starts at height `8,000,000` (~`30.44` years) at `0.1953125 ATHO/block`.
+- Tail annual issuance: `51,328.125 ATHO/year`.
+- Fee floor: `250 atoms/vB` (`2.5e-7 ATHO/vB`).
+- Fee routing: pre-tail `40%` to consensus pool, post-tail `50%` to consensus pool.
+- Tail burn target on non-pool share: `100% burn / 0% miner`, with floor clipping.
 - Supply floor: `21,000,000 ATHO`.
-- Protocol deflation threshold: `~55.56%` sustained utilization.
+- Protocol deflation threshold: `~44.64%` sustained utilization.
 
 ## Emission Schedule
 
 | Phase | Height range | Reward (ATHO/block) | Issuance (ATHO) | Cumulative (ATHO) |
 |---|---|---:|---:|---:|
-| Era 1 | `0 .. 1,313,999` | 10.0 | 13,140,000 | 13,140,000 |
-| Era 2 | `1,314,000 .. 2,627,999` | 5.0 | 6,570,000 | 19,710,000 |
-| Era 3 | `2,628,000 .. 3,941,999` | 2.5 | 3,285,000 | 22,995,000 |
-| Era 4 | `3,942,000 .. 5,255,999` | 1.25 | 1,642,500 | 24,637,500 |
-| Era 5 | `5,256,000 .. 6,569,999` | 0.625 | 821,250 | 25,458,750 |
-| Transition | `6,570,000 .. 20,941,999` | 0.3125 | 4,491,250 | 29,950,000 |
-| Tail | `20,942,000+` | 0.25 | perpetual | perpetual |
+| Era 1 | `0 .. 999,999` | 50.0 | 50,000,000 | 50,000,000 |
+| Era 2 | `1,000,000 .. 1,999,999` | 25.0 | 25,000,000 | 75,000,000 |
+| Era 3 | `2,000,000 .. 2,999,999` | 12.5 | 12,500,000 | 87,500,000 |
+| Era 4 | `3,000,000 .. 3,999,999` | 6.25 | 6,250,000 | 93,750,000 |
+| Era 5 | `4,000,000 .. 4,999,999` | 3.125 | 3,125,000 | 96,875,000 |
+| Era 6 | `5,000,000 .. 5,999,999` | 1.5625 | 1,562,500 | 98,437,500 |
+| Era 7 | `6,000,000 .. 6,999,999` | 0.78125 | 781,250 | 99,218,750 |
+| Era 8 | `7,000,000 .. 7,999,999` | 0.390625 | 390,625 | 99,609,375 |
+| Tail | `8,000,000+` | 0.1953125 | perpetual | perpetual |
 
 Total pre-tail base including bootstrap:
-- `29,950,000 ATHO` subsidy path + `50,000 ATHO` bootstrap at block `1` = `30,000,000 ATHO`.
+- `99,609,375 ATHO` subsidy path + `390,625 ATHO` bootstrap at block `1` = `100,000,000 ATHO`.
 
 ## Fee and Burn Math
 
 ### Per block at full utilization
-- Total fee capacity at floor: `2,500,000 * 225 = 562,500,000 atoms = 0.5625 ATHO`
-- Routed-to-pool share (`20%`): `0.1125 ATHO`
-- Burn-path share (`80%`): `0.45 ATHO`
-- Tail issuance per block: `0.25 ATHO`
-- Net per-block formula: `Delta_block = 0.25 - (0.45 * utilization)`
+- Total fee capacity at floor: `3,500,000 * 250 = 875,000,000 atoms = 0.875 ATHO`
+- Routed-to-pool share at tail (`50%`): `0.4375 ATHO`
+- Burn-path share at tail (`50%`): `0.4375 ATHO`
+- Tail issuance per block: `0.1953125 ATHO`
+- Net per-block formula: `Delta_block = 0.1953125 - (0.4375 * utilization)`
 
 ### Per year at full utilization
-- Tail issuance: `0.25 * 262,800 = 65,700 ATHO/year`
-- Total annual fees at floor: `147,825 ATHO/year`
-- Annual burn-path max (`80%`): `118,260 ATHO/year`
-- Annual net formula: `Delta_year = 65,700 - (118,260 * utilization)`
+- Tail issuance: `0.1953125 * 262,800 = 51,328.125 ATHO/year`
+- Total annual fees at floor: `229,950 ATHO/year`
+- Annual burn-path max (`50%`): `114,975 ATHO/year`
+- Annual net formula: `Delta_year = 51,328.125 - (114,975 * utilization)`
 
 ### Deflation Threshold
 Set annual net to zero:
 
-`65,700 - 118,260u = 0`  
-`u = 65,700 / 118,260 ~= 0.5556`
+`51,328.125 - 114,975u = 0`  
+`u = 51,328.125 / 114,975 ~= 0.4464`
 
 So:
-- `<55.56%`: inflationary protocol net.
-- `=55.56%`: neutral.
-- `>55.56%`: deflationary protocol net (until floor clipping binds).
+- `<44.64%`: inflationary protocol net.
+- `=44.64%`: neutral.
+- `>44.64%`: deflationary protocol net (until floor clipping binds).
 
 ## Post-tail net annual change by utilization
 
 | Utilization | Net annual change |
 |---:|---:|
-| 0% | `+65,700 ATHO/year` |
-| 25% | `+36,135 ATHO/year` |
-| 40% | `+18,396 ATHO/year` |
-| 50% | `+6,570 ATHO/year` |
-| 55.56% | `~0 ATHO/year` |
-| 60% | `-5,256 ATHO/year` |
-| 75% | `-22,995 ATHO/year` |
-| 100% | `-52,560 ATHO/year` |
+| 0% | `+51,328.125 ATHO/year` |
+| 25% | `+22,584.375 ATHO/year` |
+| 40% | `+5,338.125 ATHO/year` |
+| 44.64% | `~0 ATHO/year` |
+| 50% | `-6,159.375 ATHO/year` |
+| 60% | `-17,656.875 ATHO/year` |
+| 75% | `-34,903.125 ATHO/year` |
+| 100% | `-63,646.875 ATHO/year` |
 
 ## Floor-Clipped Burn Behavior
 Burn is constrained by available headroom:
@@ -104,9 +105,9 @@ Tail-active blocks carry auditable fields:
 
 ## Bottom Line
 Atho’s active model is:
-- **30M total pre-tail base over ~79.7 years** (`29.95M` subsidy + `50k` bootstrap),
-- then fixed tail subsidy (`0.25 ATHO/block`),
+- **100M total pre-tail base over ~30.44 years** (`99.609375M` subsidy + `390,625` bootstrap),
+- then fixed tail subsidy (`0.1953125 ATHO/block`),
 - with pool-routed fees and burn on routed non-pool share,
 - and a hard **21M supply floor**.
 
-Current utilization pivot is **~55.56%** for neutral net supply change.
+Current utilization pivot is **~44.64%** for neutral net supply change.

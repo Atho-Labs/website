@@ -1,6 +1,6 @@
 # Atho Consensus (Current)
 
-Date: 2026-03-27
+Date: 2026-04-04
 
 This document defines active consensus-enforced behavior for blocks, transactions, fee routing, and BPoW state transitions.
 
@@ -10,22 +10,22 @@ From `Src/Utility/const.py`:
 - Difficulty retarget interval: `180` blocks
 - Transaction confirmations required: `10` blocks
 - Coinbase maturity: `150` blocks
-- Max block base bytes: `2,500,000`
-- Max block weight: `10,000,000`
+- Max block base bytes: `3,500,000`
+- Max block weight: `14,000,000`
 - Max tx policy size (`vsize`): `250,000`
-- Fee floor: `225 atoms` per policy byte (`vsize`)
+- Fee floor: `250 atoms` per policy byte (`vsize`)
 - Min tx fee: `100,000 atoms`
 - Dust limit: `250 atoms`
 
 ## 2) BPoW and Stake Constants
-- BPoW enforcement height: `250` (`mainnet`, `testnet`, `regnet`)
+- BPoW enforcement height: `10,000` (`mainnet`, `testnet`, `regnet`)
 - Bond requirement: `25 ATHO`
 - Bond activation confirmations: `25`
 - Unbond delay: `10,080` blocks
 - Slash penalty: `2.5 ATHO`
 - Epoch length: `720` blocks
-- Finalization buffer: `3600` blocks
-- Bootstrap allocation: `50,000 ATHO` at block `1`
+- Finalization buffer: `3,600` blocks
+- Bootstrap allocation: `390,625 ATHO` at block `1`
 
 Primary data stores:
 - `bond.lmdb` for miner bond lifecycle state
@@ -51,10 +51,13 @@ Both are enforced by deterministic height and confirmation checks. No state tran
 
 ## 3) Fee Routing and Pool Rules
 - Fee uplift policy: `+25%`
-- Fee pool routing: `20%` of total fees
-- Pool bucket split: `10%` miner-side, `10%` stake-side
-- Miner-side split: `7%` winner-proportional, `3%` bonded-idle split
-- Burn policy at tail: `100%` burn on routed non-pool fees (subject to floor clipping)
+- Fee pool routing:
+  - pre-tail (`height < 8,000,000`): `40%` of total fees (`20%` miner-side, `20%` stake-side),
+  - post-tail (`height >= 8,000,000`): `50%` of total fees (`25%` miner-side, `25%` stake-side).
+- Miner-side split:
+  - pre-tail: `0%` winner-proportional, `20%` bonded-idle split (of total fees),
+  - post-tail: `20%` winner-proportional, `5%` bonded-idle split (of total fees).
+- Burn policy at tail: `100%` burn on routed non-pool fees (subject to floor clipping).
 
 Consensus-managed pool address is deterministic and network-separated:
 - mainnet: `"P" + Base56(SHA3-384("ATHO_PROTOCOL_POOL_MAINNET"))`
@@ -119,10 +122,10 @@ This distinction is deterministic and required for safe slashing enforcement.
 - Pool routing is consensus-accounted independently (`fees_pool_atoms`) and cannot be user-spent by arbitrary keys.
 
 ## 8) Throughput Framing (Policy)
-At `2,500,000 vB` and `120s`:
-- `566 vB` avg tx -> `~36.8 TPS`
-- `615 vB` avg tx -> `~33.9 TPS`
-- `664 vB` avg tx -> `~31.4 TPS`
+At `3,500,000 vB` and `120s`:
+- `566 vB` avg tx -> `~51.5 TPS`
+- `615 vB` avg tx -> `~47.4 TPS`
+- `664 vB` avg tx -> `~43.9 TPS`
 
 These are policy-capacity estimates. Real throughput depends on tx mix and sustained utilization.
 
