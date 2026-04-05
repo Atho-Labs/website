@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Atho story and roadmap, from 2023 concept through planned public testnet expansion, 2027 mainnet goals, and ecosystem rollout targets.">
+  <title>Atho Roadmap | Story and Execution Timeline</title>
+  <link rel="canonical" href="https://atho.io/roadmap.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Atho">
+  <meta property="og:url" content="https://atho.io/roadmap.html">
+  <meta property="og:title" content="Atho Roadmap | Story and Execution Timeline">
+  <meta property="og:description" content="From concept to launch: Atho's post-quantum roadmap, milestones, and planned rollout.">
+  <meta property="og:image" content="https://atho.io/assets/media/og-roadmap-preview.png">
+  <meta property="og:image:secure_url" content="https://atho.io/assets/media/og-roadmap-preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Atho roadmap page preview with story and timeline overview.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Atho_io">
+  <meta name="twitter:title" content="Atho Roadmap | Story and Execution Timeline">
+  <meta name="twitter:description" content="From concept to launch: Atho's post-quantum roadmap, milestones, and planned rollout.">
+  <meta name="twitter:image" content="https://atho.io/assets/media/og-roadmap-preview.png">
+  <meta name="twitter:image:alt" content="Atho roadmap page preview with story and timeline overview.">
+  <link rel="icon" type="image/png" href="./assets/media/logo2website.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/variables.css">
+  <link rel="stylesheet" href="./assets/css/base.css">
+  <link rel="stylesheet" href="./assets/css/layout.css">
+  <link rel="stylesheet" href="./assets/css/components.css">
+  <link rel="stylesheet" href="./assets/css/roadmap.css">
+  <link rel="stylesheet" href="./assets/css/motion.css">
+  <link rel="stylesheet" href="./assets/css/responsive.css">
+</head>
+<body class="roadmap-page">
+  <header class="site-header">
+    <div class="wrap nav-shell">
+      <a class="brand" href="./home.html#overview" aria-label="Atho home">
+        <img class="brand-mark" src="./assets/media/logo2website.png" alt="Atho logo" width="41" height="41" decoding="async">
+        <span class="brand-title">Atho</span>
+      </a>
+
+      <div class="header-right">
+        <nav id="main-nav" class="nav-links" data-nav-links>
+          <a class="nav-link" href="#atho-story">Atho Story</a>
+          <a class="nav-link" href="#roadmap-timeline">Timeline</a>
+          <a class="nav-link" href="#future-lane">Future Lane</a>
+        </nav>
+      </div>
+
+      <button class="menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="main-nav" aria-label="Toggle menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <div class="global-nav-drawer" data-global-drawer>
+        <div class="global-nav-card">
+          <span class="global-nav-title">All Pages</span>
+          <div class="global-nav-grid">
+            <a class="global-nav-link" href="./home.html">Home</a>
+            <a class="global-nav-link" href="./docs.html">Docs</a>
+            <a class="global-nav-link" href="./falcon-512.html">Falcon-512</a>
+            <a class="global-nav-link" href="./join.html">Join</a>
+            <a class="global-nav-link" href="./rewards.html">Rewards</a>
+            <a class="global-nav-link" href="./wallet.html">Wallet</a>
+            <a class="global-nav-link" href="./platinum-shield.html">Platinum Shield</a>
+            <a class="global-nav-link" href="./bpow-docs.html">BPoW</a>
+            <a class="global-nav-link" href="./inflation-deflation.html">Inflation / Deflation</a>
+            <a class="global-nav-link" href="./changelog.html">Changelog</a>
+            <a class="global-nav-link" href="./roadmap.html">Roadmap</a>
+            <a class="global-nav-link" href="./contact.html">Contact</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="atho-story" class="section">
+      <div class="wrap hero-grid">
+        <div class="roadmap-story-copy" data-reveal>
+          <div class="eyebrow-row">
+            <span class="section-eyebrow section-eyebrow-hot">Atho Story</span>
+            <span class="section-eyebrow">Execution Roadmap</span>
+          </div>
+          <h1>Built for longevity, guided by first principles.</h1>
+          <p class="panel-copy">
+            Atho was initiated by a single independent builder known as <strong>Ghost</strong>. Without formal software training, Ghost pursued a research-led path using AI-assisted coding with agent workflows, direct study of cryptographic literature, and sustained iteration across architecture, networking, and economics. Community feedback from testers and operators became a permanent input to design decisions.
+          </p>
+          <p class="panel-copy">
+            Bitcoin and Litecoin were major inspirations in Atho's creation. Their UTXO architecture, consensus discipline, and durability provided the foundation that Atho builds on using modern hashing and post-quantum signature and encryption pathways. We thank Bitcoin founder <strong>Satoshi Nakamoto</strong> and Litecoin founder <strong>Charlie Lee</strong> for their foundational contributions to the crypto ecosystem.
+          </p>
+          <p class="panel-copy">
+            We describe Atho as the <strong>Platinum Standard of the Quantum Age</strong> because the protocol prioritizes durability over hype: deterministic monetary policy, auditable consensus rules, and operator-grade reliability where public and private transaction domains coexist without compromising consensus clarity.
+          </p>
+          <p class="panel-copy">
+            Atho's creator, Ghost, intends to remain anonymous and does not seek personal recognition. The core objective is for people to find real utility in a next-generation blockchain that solves practical, day-to-day needs.
+          </p>
+          <p class="panel-copy">
+            Atho is not designed to compete against existing crypto ecosystems, but to complement them. The target users are those who see clear, recurring value in daily use while global legacy systems face a race against time to harden and modernize protocols during one of the largest technological transitions in modern history.
+          </p>
+          <div class="badge-row roadmap-story-badges">
+            <span class="badge">Founder: Ghost</span>
+            <span class="badge">AI Agent-Assisted Engineering</span>
+            <span class="badge">Community Feedback Loop</span>
+            <span class="badge">Bitcoin + Litecoin Inspired</span>
+            <span class="badge">Post-Quantum Focus</span>
+            <span class="badge">UTXO Security Model</span>
+            <span class="badge">Consensus-First Design</span>
+            <span class="badge">Platinum Shield Integration</span>
+          </div>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-inline" href="#roadmap-timeline">View Full Timeline</a>
+            <a class="btn btn-primary btn-inline" href="./home.html#overview">Back to Home</a>
+            <a class="btn btn-primary btn-inline" href="./docs.html">Open Docs Hub</a>
+          </div>
+        </div>
+
+        <div class="roadmap-hero-panel" data-reveal>
+          <article class="card card-pad">
+            <h2 class="panel-title">Roadmap Summary</h2>
+            <ul class="key-list">
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>2023-2024: Concept to technical foundation</strong>
+                  <span>Post-quantum thesis, Falcon/Kyber/SHA3 research, and first architecture prototypes.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>2025: Model hardening and network testing</strong>
+                  <span>Emissions design, private testnet rounds, and serialization/P2P corrections.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>2026-2027: Privacy completion and rollout</strong>
+                  <span>Platinum Shield completion, broader testnet exposure, planned mainnet launch, and 2027 ecosystem rails.</span>
+                </span>
+              </li>
+            </ul>
+          </article>
+          <figure class="roadmap-hero-visual">
+            <img src="./assets/media/roadmap-hero.svg" alt="Atho roadmap from concept to launch" loading="eager" decoding="async">
+          </figure>
+        </div>
+      </div>
+
+      <div class="wrap story-summary-grid" data-stagger>
+        <article class="card card-pad story-summary-card" data-reveal>
+          <h3 class="panel-title">Mission</h3>
+          <p class="panel-copy">Deliver a modern blockchain that remains understandable, auditable, and durable under long-horizon cryptographic risk.</p>
+        </article>
+        <article class="card card-pad story-summary-card" data-reveal>
+          <h3 class="panel-title">Method</h3>
+          <p class="panel-copy">Research first, implement incrementally, test in realistic node environments, and tighten consensus rules before public expansion.</p>
+        </article>
+        <article class="card card-pad story-summary-card" data-reveal>
+          <h3 class="panel-title">Standard</h3>
+          <p class="panel-copy">No short-term shortcuts: protocol decisions are measured against security, operator reliability, and long-term network health.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="roadmap-timeline" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Timeline / Roadmap</span>
+        <h2 class="section-title">Atho execution path: from idea to launch readiness.</h2>
+        <p class="section-copy">Milestones below reflect completed work and current planned targets. Future stages are explicitly marked as planned.</p>
+
+        <div class="roadmap-highway-shell">
+          <div class="roadmap-highway">
+            <span class="roadmap-runner" aria-hidden="true"></span>
+
+            <article class="roadmap-stop" data-reveal>
+              <div class="card card-pad roadmap-stop-card">
+                <div class="roadmap-stop-head">
+                  <span class="roadmap-year-pill">2023</span>
+                  <span class="roadmap-stage">Concept</span>
+                </div>
+                <h3>Atho thesis formed</h3>
+                <p>The core idea was established: a post-quantum-resistant blockchain built with modern cryptography and operationally realistic systems.</p>
+                <figure class="roadmap-stop-media">
+                  <img src="./assets/media/roadmap-hero.svg" alt="Atho concept milestone" loading="lazy" decoding="async">
+                </figure>
+              </div>
+            </article>
+
+            <article class="roadmap-stop" data-reveal>
+              <div class="card card-pad roadmap-stop-card">
+                <div class="roadmap-stop-head">
+                  <span class="roadmap-year-pill">2024</span>
+                  <span class="roadmap-stage">Research</span>
+                </div>
+                <h3>Deep cryptography study phase</h3>
+                <p>Falcon-512 literature, Kyber-512/Kyber-1024 encapsulation mechanics, and SHA3 family behavior were studied in depth to set implementation direction.</p>
+                <figure class="roadmap-stop-media">
+                  <img src="./assets/media/roadmap-research.svg" alt="Cryptography research milestone" loading="lazy" decoding="async">
+                </figure>
+              </div>
+            </article>
+
+            <article class="roadmap-stop" data-reveal>
+              <div class="card card-pad roadmap-stop-card">
+                <div class="roadmap-stop-head">
+                  <span class="roadmap-year-pill">Q1 2024</span>
+                  <span class="roadmap-stage">Architecture</span>
+                </div>
+                <h3>High-level Python prototype</h3>
+                <p>Initial implementation began in Python to maximize development speed and transparency while consensus and wallet flows were defined.</p>
+                <p>As scaling constraints in single-interpreter execution became clear, Atho shifted toward a hybrid architecture for performance-critical paths while preserving deterministic consensus logic.</p>
+              </div>
+            </article>
+
+            <article class="roadmap-stop" data-reveal>
+              <div class="card card-pad roadmap-stop-card">
+                <div class="roadmap-stop-head">
+                  <span class="roadmap-year-pill">2024</span>
+                  <span class="roadmap-stage">Internal R&amp;D</span>
+                </div>
+                <h3>Internal implementation tuning</h3>
+                <p>Falcon and Kyber pathways were repeatedly tested in internal loops, with emphasis on reducing attack surface and building a practical key manager for large post-quantum key material.</p>
+                <figure class="roadmap-stop-media">
+                  <img src="./assets/media/roadmap-build.svg" alt="Engineering and implementation tuning milestone" loading="lazy" decoding="async">
+                </figure>
+              </div>
+            </article>
+
+            <article class="roadmap-stop" data-reveal>
+              <div class="card card-pad roadmap-stop-card">
+                <div class="roadmap-stop-head">
+                  <span class="roadmap-year-pill">2025</span>
+                  <span class="roadmap-stage">Economics</span>
+                </div>
+                <h3>Emissions model development</h3>
+                <p>Atho's monetary model was iterated to balance long-term scarcity with participation incentives, while preserving deterministic consensus accounting on a UTXO base.</p>
+                <p>Design inputs from UTXO-proven networks such as Bitcoin and Litecoin informed the security posture, while throughput limits from block cadence and block size were treated as explicit engineering constraints.</p>
+              </div>
+            </article>
+
+            <article class="roadmap-stop" data-reveal>
+              <div class="card card-pad roadmap-stop-card">
+                <div class="roadmap-stop-head">
+                  <span class="roadmap-year-pill">Q2 2025</span>
+                  <span class="roadmap-stage">Iteration</span>
+                </div>
+                <h3>Policy and model refinement round</h3>
+                <p>Early emissions candidates were rejected and reworked until the model aligned with target security, fairness, and long-run sustainability requirements.</p>
+              </div>
+            </article>
+
+            <article class="roadmap-stop" data-reveal>
+              <div class="card card-pad roadmap-stop-card">
+                <div class="roadmap-stop-head">
+                  <span class="roadmap-year-pill">Q3 2025</span>
+                  <span class="roadmap-stage">Private Testnet</span>
+                </div>
+                <h3>7-node private test execution</h3>
+                <p>A small private network was deployed and produced encouraging results. Critical networking, serialization, and P2P consistency defects were identified and corrected.</p>
+                <figure class="roadmap-stop-media">
+                  <img src="./assets/media/roadmap-testnet.svg" alt="Private testnet milestone" loading="lazy" decoding="async">
+                </figure>
+              </div>
+            </article>
+
+            <article class="roadmap-stop" data-reveal>
+              <div class="card card-pad roadmap-stop-card">
+                <div class="roadmap-stop-head">
+                  <span class="roadmap-year-pill">Q4 2025</span>
+                  <span class="roadmap-stage">Developer Testnet</span>
+                </div>
+                <h3>Second validation round and UX priorities</h3>
+                <p>Subsequent developer testnet runs confirmed progress. Focus shifted to easier node onboarding, more automation, and higher practical chain output for non-technical operators.</p>
+              </div>
+            </article>
+
+            <article class="roadmap-stop" data-reveal>
+              <div class="card card-pad roadmap-stop-card">
+                <div class="roadmap-stop-head">
+                  <span class="roadmap-year-pill">Q1 2026</span>
+                  <span class="roadmap-stage">Performance</span>
+                </div>
+                <h3>Engine refactor and Platinum Shield integration</h3>
+                <p>Major performance-oriented refactoring introduced C/C++ execution pathways, GPU mining backends, and ongoing integration of the Platinum Shield private transaction layer.</p>
+                <p>During this phase, emissions policy was finalized to align accessibility, bounded supply, and long-term network health goals.</p>
+                <figure class="roadmap-stop-media">
+                  <img src="./assets/media/roadmap-privacy.svg" alt="Platinum Shield and performance milestone" loading="lazy" decoding="async">
+                </figure>
+              </div>
+            </article>
+
+            <article class="roadmap-stop" data-reveal>
+              <div class="card card-pad roadmap-stop-card">
+                <div class="roadmap-stop-head">
+                  <span class="roadmap-year-pill">Q2 2026</span>
+                  <span class="roadmap-stage">Active Workstream</span>
+                </div>
+                <h3>Final private-flow hardening</h3>
+                <p>Current work focuses on private transaction reliability, full flow validation, and block-level ZK-STARK integration to strengthen private transaction authenticity and privacy assurances.</p>
+              </div>
+            </article>
+
+            <article class="roadmap-stop" data-reveal>
+              <div class="card card-pad roadmap-stop-card">
+                <div class="roadmap-stop-head">
+                  <span class="roadmap-year-pill">Q4 2026</span>
+                  <span class="roadmap-stage">Planned</span>
+                </div>
+                <h3>Public testnet scale-up target</h3>
+                <p>Planned objective: open testnet participation at broader scale, stress onboarding flows, and validate long-duration operational behavior under higher network participation.</p>
+                <figure class="roadmap-stop-media">
+                  <img src="./assets/media/roadmap-launch.svg" alt="Public testnet expansion milestone" loading="lazy" decoding="async">
+                </figure>
+              </div>
+            </article>
+
+            <article class="roadmap-stop" data-reveal>
+              <div class="card card-pad roadmap-stop-card">
+                <div class="roadmap-stop-head">
+                  <span class="roadmap-year-pill">2027</span>
+                  <span class="roadmap-stage">Planned</span>
+                </div>
+                <h3>Mainnet launch target</h3>
+                <p>Planned objective: launch mainnet after stability criteria, privacy guarantees, and operator tooling meet production standards demonstrated through testnet evidence. Planned target date: <strong>January 1, 2027</strong>.</p>
+              </div>
+            </article>
+
+            <article class="roadmap-stop" data-reveal>
+              <div class="card card-pad roadmap-stop-card">
+                <div class="roadmap-stop-head">
+                  <span class="roadmap-year-pill">Q2 2027</span>
+                  <span class="roadmap-stage">Planned</span>
+                </div>
+                <h3>Mobile wallet distribution target</h3>
+                <p>Planned objective: release official Atho wallets on the Apple App Store and Google Play with production-grade key recovery, scanning, and operator diagnostics.</p>
+              </div>
+            </article>
+
+            <article class="roadmap-stop" data-reveal>
+              <div class="card card-pad roadmap-stop-card">
+                <div class="roadmap-stop-head">
+                  <span class="roadmap-year-pill">H2 2027</span>
+                  <span class="roadmap-stage">Planned</span>
+                </div>
+                <h3>wAtho ERC-20 interoperability target</h3>
+                <p>Planned objective: deliver a wrapped wAtho ERC-20 bridge pathway for broader DeFi access, including a Uniswap listing path, after security review and deployment hardening.</p>
+              </div>
+            </article>
+
+            <article class="roadmap-stop" data-reveal>
+              <div class="card card-pad roadmap-stop-card">
+                <div class="roadmap-stop-head">
+                  <span class="roadmap-year-pill">H2 2027+</span>
+                  <span class="roadmap-stage">Planned</span>
+                </div>
+                <h3>Atho native P2P market rail target</h3>
+                <p>Planned objective: build Atho-native peer-to-peer exchange rails for BTC, LTC, and BCH pair discovery under non-custodial design constraints.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="future-lane" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Forward Plan</span>
+        <h2 class="section-title">Post-launch priorities are defined now, not deferred.</h2>
+        <p class="section-copy">These tracks are realistic, incremental, and contingent on validated network behavior.</p>
+
+        <div class="future-lane-grid" data-stagger>
+          <article class="card card-pad future-lane-card" data-reveal>
+            <h3>Security and Verification</h3>
+            <p>Independent audits, continuous hardening of private/public transaction boundaries, and stronger operator diagnostics driven by live network telemetry.</p>
+          </article>
+          <article class="card card-pad future-lane-card" data-reveal>
+            <h3>Developer and Operator UX</h3>
+            <p>Further onboarding automation, stronger recovery workflows, and clearer deployment paths for node operators across technical skill levels.</p>
+          </article>
+          <article class="card card-pad future-lane-card" data-reveal>
+            <h3>Ecosystem Expansion</h3>
+            <p>Wallet and infrastructure integrations, App Store and Google Play rollout targets, and measured throughput improvements while preserving deterministic consensus behavior.</p>
+          </article>
+          <article class="card card-pad future-lane-card" data-reveal>
+            <h3>Interoperability and Liquidity</h3>
+            <p>Planned wAtho ERC-20 pathway for broader liquidity access, plus Atho-native P2P market rails for BTC, LTC, and BCH under non-custodial architecture goals.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <span>Atho Labs</span>
+      <span class="footer-contact">
+        <span class="footer-slogan">Atho — Private. Secure. The Platinum Standard of the Quantum Age</span>
+        <span class="footer-updated">Last updated: April 5, 2026</span>
+        <span>
+          To report bugs, security issues, or general inquiries:
+          <a href="./contact.html">Contact</a>
+          or
+          <a href="mailto:labs@atho.io">labs@atho.io</a>
+        </span>
+      </span>
+      <span>&copy; <span data-year></span> Atho Labs. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>

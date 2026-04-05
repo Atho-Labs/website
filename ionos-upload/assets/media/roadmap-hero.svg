@@ -1,0 +1,96 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Atho Story roadmap visual</title>
+  <desc id="desc">Detailed timeline highway from concept to 2027 ecosystem goals.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f4fcf8"/>
+      <stop offset="58%" stop-color="#e9f8f1"/>
+      <stop offset="100%" stop-color="#dff2e8"/>
+    </linearGradient>
+    <linearGradient id="roadFill" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f9fffc"/>
+      <stop offset="100%" stop-color="#e6f7ef"/>
+    </linearGradient>
+    <linearGradient id="lane" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#009a6d"/>
+      <stop offset="100%" stop-color="#2bb7ee"/>
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#eefbf5" stop-opacity="0.95"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#0f3c31" flood-opacity="0.18"/>
+    </filter>
+    <pattern id="grid" width="42" height="42" patternUnits="userSpaceOnUse">
+      <path d="M42 0H0V42" fill="none" stroke="#9ccfba" stroke-opacity="0.3" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+
+  <g opacity="0.75" filter="url(#shadow)">
+    <rect x="62" y="44" width="420" height="124" rx="20" fill="url(#panelGrad)" stroke="#8dc9b1"/>
+    <text x="86" y="86" fill="#0f2e26" font-family="'Space Grotesk', sans-serif" font-size="36" font-weight="700">Atho Story Roadmap</text>
+    <text x="86" y="120" fill="#2f6d5a" font-family="'Space Grotesk', sans-serif" font-size="20">Concept to launch discipline, then 2027 ecosystem expansion targets.</text>
+    <text x="86" y="148" fill="#2f6d5a" font-family="'Space Grotesk', sans-serif" font-size="16">Research-led engineering • Community-informed iteration • Post-quantum pathways</text>
+  </g>
+
+  <g>
+    <path d="M92 512C210 446 325 472 438 392C560 304 650 333 768 246C881 162 996 218 1108 136" fill="none" stroke="#78c6a8" stroke-opacity="0.28" stroke-width="58" stroke-linecap="round"/>
+    <path d="M92 512C210 446 325 472 438 392C560 304 650 333 768 246C881 162 996 218 1108 136" fill="none" stroke="url(#roadFill)" stroke-width="44" stroke-linecap="round"/>
+    <path d="M92 512C210 446 325 472 438 392C560 304 650 333 768 246C881 162 996 218 1108 136" fill="none" stroke="#88b8a4" stroke-width="2" stroke-linecap="round"/>
+    <path d="M92 512C210 446 325 472 438 392C560 304 650 333 768 246C881 162 996 218 1108 136" fill="none" stroke="url(#lane)" stroke-width="7" stroke-linecap="round" stroke-dasharray="24 18"/>
+  </g>
+
+  <g font-family="'Space Grotesk', sans-serif" text-anchor="middle">
+    <g>
+      <circle cx="130" cy="492" r="16" fill="#0f9c6d" stroke="#fff" stroke-width="4"/>
+      <text x="130" y="470" fill="#0f2e26" font-size="14" font-weight="700">2023</text>
+      <text x="130" y="527" fill="#1d5e4d" font-size="12">Concept</text>
+    </g>
+    <g>
+      <circle cx="300" cy="448" r="16" fill="#0f9c6d" stroke="#fff" stroke-width="4"/>
+      <text x="300" y="426" fill="#0f2e26" font-size="14" font-weight="700">2024</text>
+      <text x="300" y="483" fill="#1d5e4d" font-size="12">Research + Build</text>
+    </g>
+    <g>
+      <circle cx="468" cy="370" r="16" fill="#0f9c6d" stroke="#fff" stroke-width="4"/>
+      <text x="468" y="348" fill="#0f2e26" font-size="14" font-weight="700">2025</text>
+      <text x="468" y="405" fill="#1d5e4d" font-size="12">Economics + Testnet</text>
+    </g>
+    <g>
+      <circle cx="644" cy="308" r="16" fill="#0f9c6d" stroke="#fff" stroke-width="4"/>
+      <text x="644" y="286" fill="#0f2e26" font-size="14" font-weight="700">2026</text>
+      <text x="644" y="343" fill="#1d5e4d" font-size="12">Performance + Privacy</text>
+    </g>
+    <g>
+      <circle cx="824" cy="224" r="16" fill="#0f9c6d" stroke="#fff" stroke-width="4"/>
+      <text x="824" y="202" fill="#0f2e26" font-size="14" font-weight="700">Q4 2026</text>
+      <text x="824" y="259" fill="#1d5e4d" font-size="12">Public Testnet Scale</text>
+    </g>
+    <g>
+      <circle cx="1018" cy="182" r="16" fill="#0f9c6d" stroke="#fff" stroke-width="4"/>
+      <text x="1018" y="160" fill="#0f2e26" font-size="14" font-weight="700">2027+</text>
+      <text x="1018" y="217" fill="#1d5e4d" font-size="12">Mainnet + Ecosystem</text>
+    </g>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="760" y="322" width="388" height="248" rx="18" fill="url(#panelGrad)" stroke="#8dc9b1"/>
+    <text x="786" y="356" fill="#0f2e26" font-family="'Space Grotesk', sans-serif" font-size="22" font-weight="700">2027 Ecosystem Targets (Planned)</text>
+    <g fill="#1c5d4c" font-family="'Space Grotesk', sans-serif" font-size="15">
+      <text x="790" y="390">• App Store + Google Play wallet distribution</text>
+      <text x="790" y="420">• wAtho ERC-20 interoperability pathway</text>
+      <text x="790" y="450">• Uniswap liquidity route (post-security review)</text>
+      <text x="790" y="480">• Atho-native P2P rails for BTC / LTC / BCH</text>
+      <text x="790" y="510">• Operator-grade UX and telemetry hardening</text>
+    </g>
+  </g>
+
+  <g transform="translate(712 98)">
+    <circle r="34" fill="#0f9c6d" opacity="0.9"/>
+    <path d="M-12 0l10 10 18-20" fill="none" stroke="#f0fff8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

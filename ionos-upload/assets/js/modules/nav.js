@@ -9,6 +9,7 @@ const SITE_PAGE_ORDER = [
   { href: "./inflation-deflation.html", label: "Inflation/Deflation" },
   { href: "./falcon-512.html", label: "Falcon-512" },
   { href: "./changelog.html", label: "Changelog" },
+  { href: "./roadmap.html", label: "Roadmap" },
   { href: "./contact.html", label: "Contact" }
 ];
 
@@ -63,7 +64,8 @@ function updateActiveByLocation(links) {
       "#falcon-vs-ecc",
       "#inflation-flow",
       "#bpow",
-      "#shield-overview"
+      "#shield-overview",
+      "#atho-story"
     ]);
     setActiveLink(links, (link) => {
       const href = link.getAttribute("href") || "";

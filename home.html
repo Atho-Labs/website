@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="./assets/css/base.css">
   <link rel="stylesheet" href="./assets/css/layout.css">
   <link rel="stylesheet" href="./assets/css/components.css">
+  <link rel="stylesheet" href="./assets/css/roadmap.css">
   <link rel="stylesheet" href="./assets/css/motion.css">
   <link rel="stylesheet" href="./assets/css/responsive.css">
 </head>
@@ -72,6 +73,7 @@
             <a class="global-nav-link" href="./bpow-docs.html">BPoW</a>
             <a class="global-nav-link" href="./inflation-deflation.html">Inflation / Deflation</a>
             <a class="global-nav-link" href="./changelog.html">Changelog</a>
+            <a class="global-nav-link" href="./roadmap.html">Roadmap</a>
             <a class="global-nav-link" href="./contact.html">Contact</a>
           </div>
         </div>
@@ -103,7 +105,8 @@
             <span class="badge">BPoW Bonding + Staking</span>
             <span class="badge">Platinum Shield Privacy Layer</span>
             <span class="badge">390,625 ATHO Bootstrap</span>
-            <span class="badge">100,000,000 ATHO Base Emission</span>
+            <span class="badge">100,000,000 ATHO Base Path</span>
+            <span class="badge">150,000,000 ATHO Hard Cap</span>
           </div>
           <div class="hero-actions">
             <a class="btn btn-primary btn-inline" href="./join.html">Join Now</a>
@@ -114,6 +117,7 @@
             <a class="btn btn-primary btn-inline" href="./bpow-docs.html">BPoW</a>
             <a class="btn btn-primary btn-inline" href="./falcon-512.html">Falcon-512</a>
             <a class="btn btn-primary btn-inline" href="./inflation-deflation.html">Inflation / Deflation</a>
+            <a class="btn btn-primary btn-inline" href="./roadmap.html">Atho Roadmap</a>
           </div>
         </div>
 
@@ -134,7 +138,7 @@
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
                   <strong>Economics You Can Audit</strong>
-                  <span>From the 390,625 ATHO bootstrap budget to the long-term emission path, reward flows are deterministic, transparent, and built for public verification.</span>
+                  <span>From the 390,625 ATHO bootstrap budget to the bounded supply corridor (100M base path, 150M hard cap, 21M floor), reward flows are deterministic, transparent, and built for public verification.</span>
                 </span>
               </li>
               <li class="key-item">
@@ -351,7 +355,7 @@
         <article class="card card-pad" data-reveal>
           <h3 class="panel-title">Monetary Design</h3>
           <p class="panel-copy">
-            Atho targets a 100,000,000 ATHO total pre-tail base (99,609,375 subsidy + 390,625 bootstrap at block 1). Tail mode begins at block 8,000,000 (about 30.44 years) and continues at 0.1953125 ATHO per block, equivalent to 51,328.125 ATHO annual issuance. Fee routing is deterministic by phase: pre-tail routes 40% to pool (20% miner-side / 20% stake-side), while post-tail routes 50% to pool (25% miner-side / 25% stake-side) with burn targeting on the non-pool lane.
+            Atho follows a bounded model: 100,000,000 ATHO pre-tail base (99,609,375 subsidy + 390,625 bootstrap at block 1), 150,000,000 ATHO hard maximum supply, and a protected 21,000,000 ATHO floor for burn clipping. Tail mode begins at block 8,000,000 (about 30.44 years) at 0.1953125 ATHO per block (51,328.125 ATHO/year), but subsidy is clipped by cap headroom and becomes 0 once emitted supply reaches 150,000,000 ATHO. Fee routing remains deterministic by phase and continues after subsidy clips because fees do not mint new supply. Operational modeling indicates an expected effective-supply band near 80,000,000-100,000,000 ATHO, centered around 90,000,000 ATHO. See Inflation/Deflation for full assumptions and method.
           </p>
           <div class="policy-split-shell" aria-hidden="true">
             <span class="policy-split-input">Per-block deterministic fee routing</span>
@@ -413,7 +417,7 @@
             </div>
             <div class="supply-gauge-notes">
               <span><strong>Switch point:</strong> block <code>8,000,000</code> starts tail behavior.</span>
-              <span><strong>Post-tail baseline:</strong> <code>51,328.125 ATHO/year</code> issuance before burn pressure is applied.</span>
+              <span><strong>Post-tail baseline:</strong> <code>51,328.125 ATHO/year</code> while cap headroom exists; after <code>150,000,000 ATHO</code>, subsidy clips to <code>0</code> and fee routing still applies.</span>
             </div>
           </div>
           <div class="hero-actions">
@@ -476,6 +480,23 @@
       </div>
     </section>
   </main>
+
+  <section class="roadmap-popup" data-roadmap-popup hidden>
+    <div class="roadmap-popup-backdrop" data-roadmap-dismiss></div>
+    <article class="roadmap-popup-card" role="dialog" aria-modal="true" aria-labelledby="roadmap-popup-title">
+      <div class="roadmap-popup-title-row">
+        <h2 id="roadmap-popup-title" class="roadmap-popup-title">New: Atho Roadmap</h2>
+        <button class="roadmap-popup-close" type="button" aria-label="Close roadmap popup" data-roadmap-dismiss>&times;</button>
+      </div>
+      <p class="roadmap-popup-copy">
+        Explore the full Atho story from 2023 concept through planned public testnet and mainnet milestones, with an animated timeline and execution details.
+      </p>
+      <div class="roadmap-popup-actions">
+        <a class="btn btn-primary btn-inline" href="./roadmap.html" data-roadmap-open>Open Atho Roadmap</a>
+        <button class="btn btn-ghost btn-inline" type="button" data-roadmap-dismiss>Not Now</button>
+      </div>
+    </article>
+  </section>
 
   <footer class="site-footer">
     <div class="wrap footer-row">

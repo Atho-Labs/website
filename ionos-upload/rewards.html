@@ -71,7 +71,8 @@
             <a class="global-nav-link" href="./bpow-docs.html">BPoW</a>
             <a class="global-nav-link" href="./inflation-deflation.html">Inflation / Deflation</a>
             <a class="global-nav-link" href="./changelog.html">Changelog</a>
-            <a class="global-nav-link" href="./contact.html">Contact</a>
+                        <a class="global-nav-link" href="./roadmap.html">Roadmap</a>
+<a class="global-nav-link" href="./contact.html">Contact</a>
           </div>
         </div>
       </div>
@@ -88,7 +89,7 @@
           </div>
           <h1>Deterministic rewards for miners, bonders, and stakers.</h1>
           <p>
-            Atho uses BPoW to require miner bonds for block production, while wallet staking stays a separate participation lane. The model is anchored by a 390,625 ATHO bootstrap allocation and a 99,609,375 ATHO subsidy path, totaling 100,000,000 ATHO pre-tail. Tail mode begins at block 8,000,000 (about 30.44 years) with fixed post-tail issuance of 51,328.125 ATHO per year.
+            Atho uses BPoW to require miner bonds for block production, while wallet staking stays a separate participation lane. The model is anchored by a 390,625 ATHO bootstrap allocation and a 99,609,375 ATHO subsidy path, totaling 100,000,000 ATHO pre-tail, with a hard maximum supply of 150,000,000 ATHO and a protected 21,000,000 ATHO floor. Tail mode begins at block 8,000,000 (about 30.44 years) with a 51,328.125 ATHO/year baseline subsidy that is clipped by cap headroom and becomes zero at cap.
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary btn-inline" href="#reward-breakdown">Reward Split Math</a>
@@ -131,7 +132,14 @@
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
                   <strong>Base emission supply</strong>
-                  <span><code>100,000,000 ATHO</code> total pre-tail base (<code>99,609,375</code> subsidy + <code>390,625</code> bootstrap).</span>
+                  <span><code>100,000,000 ATHO</code> total pre-tail base path (<code>99,609,375</code> subsidy + <code>390,625</code> bootstrap).</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Supply bounds</strong>
+                  <span><code>150,000,000 ATHO</code> hard cap via subsidy clipping, with burn clipped by <code>21,000,000 ATHO</code> floor protection.</span>
                 </span>
               </li>
             </ul>
@@ -249,7 +257,7 @@
         <p class="section-copy">
           The values below come directly from active consensus constants. Pre-tail routes <code>40%</code> to pool
           (<code>20%</code> miner-side + <code>20%</code> stake-side), while post-tail routes <code>50%</code> to pool
-          (<code>25%</code> miner-side + <code>25%</code> stake-side). Miner-side split changes from
+          (<code>25%</code> miner-side + <code>25%</code> stake-side), and the same fee routes remain active after subsidy clips at the 150M cap. Miner-side split changes from
           <code>0%</code> winner / <code>20%</code> bonded-idle pre-tail to <code>20%</code> winner / <code>5%</code> bonded-idle post-tail.
         </p>
 
@@ -258,7 +266,7 @@
             <h3>Step 1: Per-Block Fee Split</h3>
             <p class="panel-copy">
               Pre-tail fee split is <code>40%</code> protocol pool and <code>60%</code> non-pool route. At tail,
-              the split becomes <code>50%</code> pool and <code>50%</code> non-pool.
+              the split becomes <code>50%</code> pool and <code>50%</code> non-pool, and this routing remains in force even when subsidy has clipped to <code>0</code>.
             </p>
             <div class="reward-split-meter" aria-hidden="true">
               <div class="reward-split-meter-fill reward-split-meter-pool">40% Protocol Pool (Pre-Tail)</div>
@@ -631,34 +639,35 @@
                 <span>Blocks <code>7,000,000-7,999,999</code>: <code>0.390625 ATHO</code> per block.</span>
               </span>
             </li>
-            <li class="key-item">
-              <span class="key-bullet" aria-hidden="true"></span>
-              <span>
-                <strong>Tail</strong>
-                <span>Block <code>8,000,000+</code>: <code>0.1953125 ATHO</code> fixed tail reward (<code>51,328.125 ATHO/year</code>).</span>
-              </span>
-            </li>
-          </ul>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Tail</strong>
+                  <span>Block <code>8,000,000+</code>: baseline <code>0.1953125 ATHO</code> tail reward (<code>51,328.125 ATHO/year</code>) while cap headroom exists, clipped to <code>0</code> at <code>150,000,000 ATHO</code>.</span>
+                </span>
+              </li>
+            </ul>
         </article>
 
         <article class="card card-pad" data-reveal>
           <h3 class="panel-title">How Rewards Are Released</h3>
           <ol class="join-step-list">
-            <li>For each block, consensus computes subsidy by height and adds miner fee share to build coinbase payout.</li>
+            <li>For each block, consensus computes subsidy by height, clips it by remaining headroom under the <code>150,000,000 ATHO</code> cap, and adds miner fee share to build coinbase payout.</li>
             <li>At height <code>1</code>, bootstrap allocation (<code>390,625 ATHO</code>) and fee-pool routing activate under policy constants.</li>
             <li>Fee routing is phase-aware: pre-tail is <code>40%</code> pool / <code>60%</code> non-pool; post-tail is <code>50%</code> pool / <code>50%</code> non-pool.</li>
-            <li>At tail start (<code>8,000,000</code>, about 30.44 years), routed non-pool fees are burn-targeted and clipped by the <code>21,000,000 ATHO</code> supply floor while base issuance continues at <code>51,328.125 ATHO/year</code>.</li>
+            <li>At tail start (<code>8,000,000</code>, about 30.44 years), routed non-pool fees are burn-targeted and clipped by the <code>21,000,000 ATHO</code> supply floor while baseline tail subsidy runs at <code>51,328.125 ATHO/year</code> until cap headroom is exhausted.</li>
+            <li>After cap is reached, subsidy is <code>0</code>; fee routing, pool settlement, and burn clipping continue because fee flows do not create new coins.</li>
             <li>Coinbase outputs unlock after <code>150</code> confirmations, so mined rewards are released with deterministic maturity delay.</li>
           </ol>
           <ul class="key-list">
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
-              <span>
-                <strong>Base supply target</strong>
-                <span>Pre-tail total is fixed to <code>100,000,000 ATHO</code> (<code>99,609,375</code> subsidy + <code>390,625</code> bootstrap) before perpetual tail emission.</span>
-              </span>
-            </li>
-          </ul>
+                <span>
+                  <strong>Base supply target</strong>
+                  <span>Pre-tail total is fixed to <code>100,000,000 ATHO</code> (<code>99,609,375</code> subsidy + <code>390,625</code> bootstrap) inside a bounded model with <code>150,000,000 ATHO</code> hard maximum supply.</span>
+                </span>
+              </li>
+            </ul>
         </article>
       </div>
     </section>
@@ -689,13 +698,13 @@
                 <span>Pre-tail miner lane is <code>0%</code> winner + <code>20%</code> bonded-idle; post-tail shifts to <code>20%</code> winner + <code>5%</code> bonded-idle.</span>
               </span>
             </li>
-            <li class="key-item">
-              <span class="key-bullet" aria-hidden="true"></span>
-              <span>
-                <strong>Supply context</strong>
-                <span>Routing and settlement run on top of the <code>390,625 ATHO</code> bootstrap and <code>100,000,000 ATHO</code> base emission schedule.</span>
-              </span>
-            </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Supply context</strong>
+                  <span>Routing and settlement run on top of the <code>390,625 ATHO</code> bootstrap and <code>100,000,000 ATHO</code> base path, with subsidy clipping enforcing <code>150,000,000 ATHO</code> maximum supply.</span>
+                </span>
+              </li>
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
@@ -748,16 +757,18 @@
         <article class="cta-box">
           <h2 class="cta-title">Reward policy is only useful if everyone can verify it.</h2>
           <p class="cta-copy">
-            Atho exposes bootstrap, base emission supply, bonding, staking, and pool routing semantics through deterministic rules and docs so operators can validate behavior from chain data and runtime logs.
+            Atho exposes bootstrap, bounded-supply emission rules, bonding, staking, and pool routing semantics through deterministic docs so operators can validate behavior from chain data and runtime logs.
           </p>
           <div class="badge-row">
             <span class="badge">BPoW enforcement at height 10,000</span>
             <span class="badge">25 ATHO miner bond requirement</span>
             <span class="badge">390,625 ATHO bootstrap budget</span>
-            <span class="badge">100,000,000 ATHO base emission path</span>
+            <span class="badge">100,000,000 ATHO base issuance path</span>
+            <span class="badge">150,000,000 ATHO hard cap (subsidy clip)</span>
             <span class="badge">40% pre-tail / 50% post-tail pool route</span>
             <span class="badge">0/20 pre-tail and 20/5 post-tail miner split</span>
             <span class="badge">20% pre-tail / 25% post-tail stake bucket</span>
+            <span class="badge">21,000,000 ATHO floor clipping</span>
           </div>
         </article>
       </div>

@@ -1,0 +1,68 @@
+<svg width="960" height="540" viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Engineering and implementation tuning</title>
+  <desc id="desc">Detailed engineering dashboard for implementation and attack-surface reduction work.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#edf9f5"/>
+      <stop offset="100%" stop-color="#d8edf2"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f2f27"/>
+      <stop offset="100%" stop-color="#163b31"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#eef8f3" stop-opacity="0.95"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#0f3c31" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="540" fill="url(#bg)"/>
+  <text x="52" y="70" fill="#0f2e26" font-family="'Space Grotesk', sans-serif" font-size="36" font-weight="700">Engineering and Internal Test Iteration</text>
+  <text x="52" y="100" fill="#2a6553" font-family="'Space Grotesk', sans-serif" font-size="18">Hybrid execution paths, key manager hardening, serialization correctness, and performance tuning.</text>
+
+  <g filter="url(#shadow)">
+    <rect x="56" y="132" width="612" height="352" rx="20" fill="url(#screen)" stroke="#2e7160" stroke-width="3"/>
+    <rect x="56" y="132" width="612" height="44" rx="20" fill="#1c4d41"/>
+    <circle cx="90" cy="154" r="7" fill="#65d8a7"/>
+    <circle cx="114" cy="154" r="7" fill="#8de8c1"/>
+    <circle cx="138" cy="154" r="7" fill="#c0f5de"/>
+
+    <text x="84" y="214" fill="#8eeec9" font-family="monospace" font-size="19">falcon.verify(sig, payload_digest)</text>
+    <text x="84" y="244" fill="#8eeec9" font-family="monospace" font-size="19">kyber.encapsulate(recipient_bundle)</text>
+    <text x="84" y="274" fill="#8eeec9" font-family="monospace" font-size="19">sha3_384(domain || canonical_tx_bytes)</text>
+    <text x="84" y="304" fill="#8eeec9" font-family="monospace" font-size="19">serialize_tx_v1.strict_encode()</text>
+    <text x="84" y="334" fill="#8eeec9" font-family="monospace" font-size="19">mempool.validate_deterministic_rules()</text>
+    <text x="84" y="364" fill="#8eeec9" font-family="monospace" font-size="19">node.sync_guardrails_and_recovery()</text>
+
+    <rect x="84" y="396" width="556" height="64" rx="10" fill="#11382f" stroke="#2e7160"/>
+    <text x="104" y="424" fill="#c6f8e3" font-family="monospace" font-size="15">status: pass • falcon path stable • kyber path stable • canonical bytes locked</text>
+    <text x="104" y="446" fill="#c6f8e3" font-family="monospace" font-size="15">next: optimize binary surfaces + improve operator telemetry pipelines</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="696" y="160" width="212" height="148" rx="16" fill="url(#card)" stroke="#8dc5ae"/>
+    <text x="716" y="192" fill="#1a5b49" font-family="'Space Grotesk', sans-serif" font-size="18" font-weight="700">Build Signals</text>
+    <text x="716" y="220" fill="#2d7260" font-family="'Space Grotesk', sans-serif" font-size="14">• Attack surface reduced</text>
+    <text x="716" y="242" fill="#2d7260" font-family="'Space Grotesk', sans-serif" font-size="14">• Key management hardened</text>
+    <text x="716" y="264" fill="#2d7260" font-family="'Space Grotesk', sans-serif" font-size="14">• Serialization normalized</text>
+    <text x="716" y="286" fill="#2d7260" font-family="'Space Grotesk', sans-serif" font-size="14">• GPU pathways integrated</text>
+  </g>
+
+  <g transform="translate(804 398)">
+    <circle r="64" fill="#1ab07d"/>
+    <circle r="28" fill="#0f2e26"/>
+    <g fill="#1ab07d">
+      <rect x="-6" y="-106" width="12" height="30" rx="6"/>
+      <rect x="-6" y="76" width="12" height="30" rx="6"/>
+      <rect x="76" y="-6" width="30" height="12" rx="6"/>
+      <rect x="-106" y="-6" width="30" height="12" rx="6"/>
+      <rect x="58" y="-76" width="12" height="26" rx="6" transform="rotate(45 64 -63)"/>
+      <rect x="-70" y="50" width="12" height="26" rx="6" transform="rotate(45 -64 63)"/>
+      <rect x="58" y="50" width="12" height="26" rx="6" transform="rotate(-45 64 63)"/>
+      <rect x="-70" y="-76" width="12" height="26" rx="6" transform="rotate(-45 -64 -63)"/>
+    </g>
+  </g>
+</svg>

@@ -109,16 +109,28 @@ export const metricCards = [
     foot: "Consensus bootstrap allocation at block 1"
   },
   {
-    label: "Bond Requirement",
-    value: 25,
+    label: "Starting Block Reward",
+    value: 50,
     suffix: " ATHO",
-    foot: "Required for miner eligibility under BPoW"
+    foot: "Block rewards start at 50 ATHO in Era 1"
   },
   {
     label: "Base Emission Supply",
     value: 100000000,
     suffix: " ATHO",
     foot: "Total pre-tail base: 99,609,375 subsidy + 390,625 bootstrap"
+  },
+  {
+    label: "Max Supply",
+    value: 150000000,
+    suffix: " ATHO",
+    foot: "Hard cap enforced by consensus subsidy clipping at 150,000,000 ATHO"
+  },
+  {
+    label: "Supply Floor",
+    value: 21000000,
+    suffix: " ATHO",
+    foot: "Effective floor for burn clipping; total supply cannot be burned below 21,000,000 ATHO"
   },
   {
     label: "Transaction Confirmations",

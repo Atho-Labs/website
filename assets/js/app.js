@@ -156,6 +156,80 @@ function mountHomeSocialLinks(isHomePage) {
   slot.appendChild(cloneOrBuildSocialLinks("footer-social-links home-social-links-row", "Home social media"));
 }
 
+function initRoadmapPopup(isHomePage) {
+  if (!isHomePage) {
+    return;
+  }
+
+  const popup = document.querySelector("[data-roadmap-popup]");
+  if (!(popup instanceof HTMLElement)) {
+    return;
+  }
+
+  const storageKey = "atho_roadmap_popup_seen_v1";
+  let alreadySeen = false;
+
+  try {
+    alreadySeen = window.localStorage.getItem(storageKey) === "1";
+  } catch {
+    alreadySeen = false;
+  }
+
+  if (alreadySeen) {
+    return;
+  }
+
+  const dismissers = Array.from(popup.querySelectorAll("[data-roadmap-dismiss]"));
+  const openLink = popup.querySelector("[data-roadmap-open]");
+
+  const markSeen = () => {
+    try {
+      window.localStorage.setItem(storageKey, "1");
+    } catch {
+      // ignore storage failures
+    }
+  };
+
+  const hidePopup = () => {
+    popup.classList.remove("is-open");
+    document.body.classList.remove("roadmap-popup-open");
+    window.setTimeout(() => {
+      popup.hidden = true;
+    }, 220);
+  };
+
+  const closePopup = () => {
+    markSeen();
+    hidePopup();
+  };
+
+  const openPopup = () => {
+    popup.hidden = false;
+    window.requestAnimationFrame(() => {
+      popup.classList.add("is-open");
+      document.body.classList.add("roadmap-popup-open");
+    });
+  };
+
+  dismissers.forEach((element) => {
+    element.addEventListener("click", closePopup);
+  });
+
+  if (openLink instanceof HTMLElement) {
+    openLink.addEventListener("click", () => {
+      markSeen();
+    });
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    if (!popup.classList.contains("is-open")) return;
+    closePopup();
+  });
+
+  window.setTimeout(openPopup, 980);
+}
+
 async function initRenderedSections() {
   const metricTarget = document.querySelector("#metric-grid");
   const featureTarget = document.querySelector("#feature-grid");
@@ -228,6 +302,7 @@ function boot() {
   deferVisualWork(() => {
     mountFooterSocialLinks();
     mountHomeSocialLinks(isHomePage);
+    initRoadmapPopup(isHomePage);
   }, liteEffects);
 
   deferVisualWork(() => {
