@@ -126,7 +126,7 @@
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
                   <strong>Fee routing</strong>
-                  <span>Pre-tail: <code>40%</code> pool + <code>60%</code> non-pool. Post-tail: <code>50%</code> pool + <code>50%</code> non-pool. Routing remains active even after subsidy clips because fees do not mint new supply.</span>
+                  <span>Pre-tail: <code>40%</code> pool + <code>60%</code> non-pool. Post-tail: <code>55%</code> pool + <code>45%</code> non-pool. Routing remains active even after subsidy clips because fees do not mint new supply.</span>
                 </span>
               </li>
               <li class="key-item">
@@ -198,7 +198,7 @@
               <span class="mode-arrow">-></span>
               <span class="mode-box">Cap Clip @ 150M</span>
               <span class="mode-arrow">-></span>
-              <span class="mode-box">Burn Request (50% Routed Fees)</span>
+              <span class="mode-box">Burn Request (45% Routed Fees)</span>
               <span class="mode-arrow">-></span>
               <span class="mode-box">Floor Clip @ 21M</span>
               <span class="mode-arrow">-></span>
@@ -231,7 +231,7 @@ else:
           <ol class="join-step-list">
             <li>At block <code>8,000,000</code>, tail subsidy locks to <code>0.1953125 ATHO</code>.</li>
             <li>Tail subsidy is clipped by remaining headroom under the <code>150,000,000 ATHO</code> cap.</li>
-            <li>Burn request comes from routed non-pool fees (<code>50%</code> in post-tail mode).</li>
+            <li>Burn request comes from routed non-pool fees (<code>45%</code> in post-tail mode).</li>
             <li>Burn is clipped to stay above the <code>21,000,000 ATHO</code> effective floor.</li>
             <li>Deflation appears only if post-clip burn exceeds total issuance components; after cap clip, subsidy term is <code>0</code>.</li>
           </ol>
@@ -239,7 +239,7 @@ else:
             <div class="clip-row">
               <span class="clip-label">Burn Request</span>
               <div class="clip-bar clip-bar-request"><span></span></div>
-              <span class="clip-value">Up to 50% routed fees (post-tail)</span>
+              <span class="clip-value">Up to 45% routed fees (post-tail)</span>
             </div>
             <div class="clip-row">
               <span class="clip-label">Burn Allowed</span>
@@ -311,27 +311,34 @@ else:
         <span class="section-eyebrow">Post-tail Scenarios</span>
         <h2 class="section-title">After tail starts, fee pressure determines inflation vs deflation direction.</h2>
         <p class="section-copy">
-          These scenarios apply only in post-tail mode. Before tail, the network remains in pre-tail inflation schedule mode by rule. Deflation threshold is near <code>44.64%</code> sustained utilization while subsidy headroom remains; after cap, subsidy is clipped to <code>0</code> and fee routing dominates net direction.
+          These scenarios apply only in post-tail mode. Before tail, the network remains in pre-tail inflation schedule mode by rule. Deflation threshold is near <code>35.43%</code> sustained utilization while subsidy headroom remains; after cap, subsidy is clipped to <code>0</code> and fee routing dominates net direction.
         </p>
 
         <article class="card card-pad" data-reveal>
-          <h3 class="panel-title">Modeled Operating-Band Estimate</h3>
+          <h3 class="panel-title">Post-Tail Utilization Snapshot</h3>
           <p class="panel-copy">
-            Under normal economic utilization, Atho is expected to operate in an approximate <code>80,000,000-100,000,000 ATHO</code> effective supply band, with a practical midpoint estimate near <code>90,000,000 ATHO</code>.
+            Current docs model post-tail net annual change as <code>Delta_supply = 51,328.125 - (144,868.5 * utilization)</code> while subsidy headroom remains.
           </p>
           <ul class="key-list">
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
-                <strong>Where this estimate comes from</strong>
-                <span>It is derived from active consensus bounds (<code>100M</code> pre-tail base path, <code>150M</code> hard cap, <code>21M</code> floor clip) and post-tail net-delta modeling around the <code>44.64%</code> burn-vs-issuance neutrality threshold.</span>
+                <strong>Neutral threshold</strong>
+                <span>Protocol net supply is approximately neutral at <code>35.43%</code> sustained utilization.</span>
               </span>
             </li>
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
-                <strong>How to interpret it</strong>
-                <span>This is a policy-envelope operating estimate, not a consensus invariant. Realized supply remains usage-driven and can move outside the midpoint as fee demand changes over time.</span>
+                <strong>Reference points</strong>
+                <span><code>25%</code>: <code>+15,110.999 ATHO/year</code>; <code>50%</code>: <code>-21,106.125 ATHO/year</code>; <code>100%</code>: <code>-93,540.375 ATHO/year</code>.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Cap and floor behavior</strong>
+                <span>After hard-cap subsidy clipping, subsidy term is <code>0</code>, and burn remains floor-clipped at <code>21,000,000 ATHO</code>.</span>
               </span>
             </li>
           </ul>
@@ -373,7 +380,7 @@ else:
             <span class="badge">100,000,000 ATHO total pre-tail base</span>
             <span class="badge">150,000,000 ATHO hard max supply</span>
             <span class="badge">51,328.125 ATHO/year tail baseline (until cap)</span>
-            <span class="badge">40% pre-tail / 50% post-tail pool route</span>
+            <span class="badge">40% pre-tail / 55% post-tail pool route</span>
             <span class="badge">21,000,000 ATHO floor clipping</span>
             <span class="badge">BPoW bond + stake role separation</span>
           </div>
@@ -387,7 +394,7 @@ else:
       <span>Atho Labs</span>
       <span class="footer-contact">
         <span class="footer-slogan">Atho — Private. Secure. The Platinum Standard of the Quantum Age</span>
-        <span class="footer-updated">Last updated: April 4, 2026</span>
+        <span class="footer-updated">Last updated: April 10, 2026</span>
         <span>
           To report bugs, security issues, or general inquiries:
           <a href="./contact.html">Contact</a>

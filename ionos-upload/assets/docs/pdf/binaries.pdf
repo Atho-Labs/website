@@ -4,7 +4,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Count 2 /Kids [4 0 R 6 0 R] >>
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Courier >>
@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 1618 >>
+<< /Length 2031 >>
 stream
 BT
 /F1 10 Tf
@@ -23,23 +23,33 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-04-04) Tj
+(Date: 2026-04-10) Tj
 T*
 () Tj
 T*
-(This document defines the current binary layout, build flow, and hash-pinning behavior.) Tj
+(This document defines the production binary layout, build flow, and pinning controls for Atho) Tj
+T*
+(native components. The goal is deterministic runtime loading with explicit integrity checks,) Tj
+T*
+(while keeping build and deployment workflows straightforward for operators.) Tj
+T*
+(- Canonical Binary Layout) Tj
 T*
 () Tj
 T*
-(Canonical Layout) Tj
-T*
-(All runtime binaries are expected under:) Tj
+(All runtime binaries are loaded from:) Tj
 T*
 (- Binaries/<platform-tag>/) Tj
 T*
 () Tj
 T*
-(Typical outputs:) Tj
+(Typical platform-tag examples include architecture and OS identity \(for example, macOS arm64 vs) Tj
+T*
+(Linux x86_64\). Runtime should not depend on ad-hoc source-tree paths.) Tj
+T*
+() Tj
+T*
+(Common binary artifacts:) Tj
 T*
 (- falcon_cli\(.exe\)) Tj
 T*
@@ -53,13 +63,13 @@ T*
 T*
 (- gpu_miner_opencl\(.exe\)) Tj
 T*
-(- gpu_miner_cuda\(.exe\) \(when CUDA build is available\)) Tj
+(- gpu_miner_cuda\(.exe\) when CUDA build is available) Tj
+T*
+(- Pin Registry and Metadata) Tj
 T*
 () Tj
 T*
-(Registry and Metadata) Tj
-T*
-(Build scripts auto-register SHA3-384 hashes in:) Tj
+(Integrity metadata is maintained in:) Tj
 T*
 (- Binaries/pin_registry.json) Tj
 T*
@@ -67,13 +77,17 @@ T*
 T*
 () Tj
 T*
-(These files are consumed by runtime pin validators.) Tj
+(These files map expected SHA3-384 digests to binary names and are consumed by runtime pin) Tj
+T*
+(validators. If a binary is rebuilt and metadata is not refreshed, strict mode will reject the) Tj
+T*
+(load.) Tj
+T*
+(- Strict Loading Mode) Tj
 T*
 () Tj
 T*
-(Strict Mode \(Default\)) Tj
-T*
-(Runtime binary loading is canonical-path only by default:) Tj
+(Enable strict canonical-path loading with:) Tj
 T*
 () Tj
 T*
@@ -81,15 +95,21 @@ T*
 T*
 () Tj
 T*
-(Effect:) Tj
+(Behavior in strict mode:) Tj
 T*
-(- Runtime loads from canonical Binaries/<platform-tag>/ paths only.) Tj
+(- runtime only loads from canonical Binaries/<platform-tag>/ paths,) Tj
 T*
-(- Legacy fallback paths are disabled.) Tj
+(- legacy fallback paths are disabled,) Tj
+T*
+(- hash mismatches fail closed.) Tj
 T*
 () Tj
 T*
-(Build Commands) Tj
+(This is the recommended production setting.) Tj
+T*
+(- Build Commands) Tj
+T*
+() Tj
 T*
 (From repository root:) Tj
 T*
@@ -101,27 +121,7 @@ T*
 T*
 () Tj
 T*
-(Script Outputs and Env Vars) Tj
-T*
-(Falcon FFI verifier) Tj
-T*
-(Script prints:) Tj
-T*
-(- ATHO_FALCON_FFI_ENABLE) Tj
-T*
-(- FALCON_VERIFY_SO) Tj
-T*
-(- FALCON_VERIFY_SO_SHA3_384) Tj
-T*
-() Tj
-T*
-(TX signing bridge) Tj
-T*
-(Script prints:) Tj
-T*
-(- ATHO_TX_SIGNING_SO) Tj
-T*
-(- ATHO_TX_SIGNING_SO_SHA3_384) Tj
+(Run these in your release pipeline before packaging or smoke tests.) Tj
 T*
 ET
 endstream
@@ -130,57 +130,69 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 1264 >>
+<< /Length 1851 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(- Script Output Variables) Tj
+T*
 () Tj
 T*
-(UTXO batch checker) Tj
+(Build scripts emit expected environment values so downstream tooling can verify exact artifacts.) Tj
 T*
-(Script prints:) Tj
+() Tj
+T*
+(Examples:) Tj
+T*
+(- Falcon FFI verifier:) Tj
+T*
+(- ATHO_FALCON_FFI_ENABLE) Tj
+T*
+(- FALCON_VERIFY_SO) Tj
+T*
+(- FALCON_VERIFY_SO_SHA3_384) Tj
+T*
+(- TX signing bridge:) Tj
+T*
+(- ATHO_TX_SIGNING_SO) Tj
+T*
+(- ATHO_TX_SIGNING_SO_SHA3_384) Tj
+T*
+(- UTXO checker:) Tj
 T*
 (- ATHO_UTXO_BATCH_CHECK_SO) Tj
 T*
 (- ATHO_UTXO_BATCH_CHECK_SO_SHA3_384) Tj
 T*
-() Tj
-T*
-(CPU PoW bridge) Tj
-T*
-(Script prints:) Tj
+(- CPU PoW bridge:) Tj
 T*
 (- ATHO_POW_NATIVE_SO) Tj
 T*
 (- ATHO_POW_NATIVE_SO_SHA3_384) Tj
 T*
-() Tj
-T*
-(GPU Build Behavior) Tj
-T*
-(- OpenCL binary build is attempted on all supported hosts.) Tj
-T*
-(- CUDA binary build is attempted only when:) Tj
-T*
-(- OS supports CUDA build path, and) Tj
-T*
-(- nvcc is present.) Tj
-T*
-(- On macOS, CUDA output is expected to be skipped.) Tj
+(- GPU Build Notes) Tj
 T*
 () Tj
 T*
-(Legacy Paths) Tj
+(GPU build behavior is backend-aware:) Tj
 T*
-(Legacy source-tree binary mirrors are disabled. Runtime and pinning use only Binaries/.) Tj
+(- OpenCL build is attempted broadly,) Tj
+T*
+(- CUDA build runs only where toolchain and platform support are present,) Tj
+T*
+(- on macOS, CUDA output may be intentionally absent.) Tj
 T*
 () Tj
 T*
-(Release Packaging) Tj
+(Treat missing CUDA binary on unsupported hosts as expected, not a build failure.) Tj
 T*
-(Release artifact helper:) Tj
+(- Release Packaging) Tj
+T*
+() Tj
+T*
+(Release helper:) Tj
 T*
 () Tj
 T*
@@ -188,37 +200,120 @@ T*
 T*
 () Tj
 T*
-(This creates timestamped output under releases/binaries/<timestamp>/ and includes source) Tj
+(This produces timestamped bundles under:) Tj
 T*
-(snapshot fallback packaging.) Tj
+(- releases/binaries/<timestamp>/) Tj
 T*
 () Tj
 T*
-(Failure Modes to Check First) Tj
+(Recommended release flow:) Tj
 T*
-(- Wrong platform tag \(binary built for different OS/arch\).) Tj
+(- build all required binaries,) Tj
 T*
-(- Missing LMDB headers for UTXO checker build.) Tj
+(- verify pin metadata updates,) Tj
 T*
-(- Hash mismatch after rebuilding without refreshing or using expected pin metadata.) Tj
+(- run runtime smoke tests in strict mode,) Tj
 T*
-(- Runtime strict mode enabled while required binary is missing.) Tj
+(- package release payload,) Tj
+T*
+(- generate and sign checksums for distribution.) Tj
+T*
+(- Common Failure Modes) Tj
+T*
+() Tj
+T*
+(Most frequent issues:) Tj
+T*
+(- wrong platform artifact loaded,) Tj
+T*
+(- missing LMDB headers during native build,) Tj
+T*
+(- hash mismatch after rebuild without metadata update,) Tj
+T*
+(- strict mode enabled while a required binary is absent.) Tj
+T*
+() Tj
+T*
+(First response:) Tj
+T*
+(- confirm active platform-tag path,) Tj
+T*
+(- inspect pin metadata for expected digest,) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1094 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- rebuild artifact + refresh metadata,) Tj
+T*
+(- retest with strict mode still enabled.) Tj
+T*
+(- Security and Policy Context) Tj
+T*
+() Tj
+T*
+(Binary integrity controls complement consensus policy but do not replace consensus validation.) Tj
+T*
+(Active policy values remain independent:) Tj
+T*
+(- block target 120s, retarget 180,) Tj
+T*
+(- tx confirmations 10, private tx confirmations 10, coinbase maturity 150,) Tj
+T*
+(- fee floor 350 atoms/vB.) Tj
+T*
+() Tj
+T*
+(Binary pinning protects runtime execution integrity; consensus rules protect chain validity.) Tj
+T*
+(- Recommended Production Standard) Tj
+T*
+() Tj
+T*
+(Use this baseline in all production-like environments:) Tj
+T*
+(- canonical binary paths only,) Tj
+T*
+(- strict mode enabled,) Tj
+T*
+(- deterministic build logs retained,) Tj
+T*
+(- pin registry/version control updates reviewed,) Tj
+T*
+(- release checksums signed and externally verifiable.) Tj
+T*
+() Tj
+T*
+(Following this standard reduces upgrade risk and makes binary-level audit trails clear for) Tj
+T*
+(operators and security reviewers.) Tj
 T*
 ET
 endstream
 endobj
 xref
-0 8
+0 10
 0000000000 65535 f 
 0000000015 00000 n 
 0000000064 00000 n 
-0000000127 00000 n 
-0000000195 00000 n 
-0000000321 00000 n 
-0000001991 00000 n 
-0000002117 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000002410 00000 n 
+0000002536 00000 n 
+0000004439 00000 n 
+0000004565 00000 n 
 trailer
-<< /Size 8 /Root 1 0 R >>
+<< /Size 10 /Root 1 0 R >>
 startxref
-3433
+5711
 %%EOF

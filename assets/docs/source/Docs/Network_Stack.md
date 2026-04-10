@@ -48,7 +48,7 @@ Current behavior:
 - Inputs/outputs are encoded using varints and fixed-size digests where appropriate.
 - Witness is encoded as raw bytes internally.
 - API/UI display remains stable (human-readable fields, canonical encoding), while internal math stays integer-atom based.
-- Fee policy is enforced on canonical `vsize` with current floor `250 atoms/vB`.
+- Fee policy is enforced on canonical `vsize` with current floor `350 atoms/vB`.
 
 Code paths:
 - `Src/Transactions/txbinary.py`

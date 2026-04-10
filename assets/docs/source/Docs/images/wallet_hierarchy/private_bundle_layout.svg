@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="820" viewBox="0 0 1600 820" role="img" aria-label="Private bundle layout">
+  <defs>
+    <style>
+      .bg { fill: #0f1117; }
+      .title { fill: #ffffff; font: 700 36px Arial, sans-serif; }
+      .label { fill: #d7e3ff; font: 600 20px Arial, sans-serif; }
+      .small { fill: #a8b8dc; font: 500 16px Arial, sans-serif; }
+      .segA { fill: #114f47; stroke: #57f7da; stroke-width: 2; }
+      .segB { fill: #1c2e63; stroke: #7cc6ff; stroke-width: 2; }
+      .segC { fill: #5b2a52; stroke: #ff9de5; stroke-width: 2; }
+      .box { fill: #171b26; stroke: #39dfc2; stroke-width: 2; rx: 16; }
+      .arrow { stroke: #48f2d0; stroke-width: 3; fill: none; marker-end: url(#m); }
+    </style>
+    <marker id="m" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#48f2d0"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1600" height="820"/>
+  <text class="title" x="60" y="70">Private Bundle Byte Layout</text>
+
+  <rect class="segA" x="60" y="140" width="120" height="90"/>
+  <rect class="segB" x="180" y="140" width="870" height="90"/>
+  <rect class="segC" x="1050" y="140" width="490" height="90"/>
+
+  <text class="label" x="80" y="193">v</text>
+  <text class="label" x="500" y="193">Falcon public key (897 bytes)</text>
+  <text class="label" x="1130" y="193">Kyber public key (800/1184/1568 bytes)</text>
+
+  <text class="small" x="60" y="265">bundle_bytes = [version:1 byte] + [falcon_pubkey] + [kyber_pubkey]</text>
+
+  <rect class="box" x="60" y="315" width="1480" height="180"/>
+  <text class="label" x="90" y="360">Step 1: X-hash</text>
+  <text class="small" x="90" y="392">x_hash = SHA3-384(bundle_bytes)</text>
+  <text class="small" x="90" y="420">This is 48 bytes (384 bits). It fingerprints the whole bundle.</text>
+
+  <text class="label" x="90" y="465">Step 2: X-address for sharing</text>
+  <text class="small" x="90" y="495">x_address = "X" + Base56(x_hash)</text>
+
+  <rect class="box" x="60" y="545" width="1480" height="220"/>
+  <text class="label" x="90" y="590">Why keys are long</text>
+  <text class="small" x="90" y="622">Falcon and Kyber are post-quantum algorithms. Their public keys are larger than old classical keys by design.</text>
+  <text class="small" x="90" y="650">Larger key material gives quantum-resistance safety margin, not cosmetic size inflation.</text>
+  <text class="small" x="90" y="678">The wallet shows friendly Base56 wrappers so humans do not have to handle raw binary data.</text>
+
+  <path class="arrow" d="M800 230 L800 315"/>
+  <path class="arrow" d="M800 495 L800 545"/>
+</svg>

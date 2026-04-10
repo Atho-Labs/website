@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2619 >>
+<< /Length 2759 >>
 stream
 BT
 /F1 10 Tf
@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Last refresh: 2026-04-04.) Tj
+(Last refresh: 2026-04-05.) Tj
 T*
 () Tj
 T*
@@ -63,15 +63,17 @@ T*
 T*
 (- Tail annual issuance: 51,328.125 ATHO/year.) Tj
 T*
-(- Fee floor: 250 atoms/vB \(2.5e-7 ATHO/vB\).) Tj
+(- Hard max supply cap: 150,000,000 ATHO.) Tj
 T*
-(- Fee routing: pre-tail 40% to consensus pool, post-tail 50% to consensus pool.) Tj
+(- Fee floor: 350 atoms/vB \(3.5e-7 ATHO/vB\).) Tj
+T*
+(- Fee routing: pre-tail 40% to consensus pool, post-tail 55% to consensus pool.) Tj
 T*
 (- Tail burn target on non-pool share: 100% burn / 0% miner, with floor clipping.) Tj
 T*
 (- Supply floor: 21,000,000 ATHO.) Tj
 T*
-(- Protocol deflation threshold: ~44.64% sustained utilization.) Tj
+(- Protocol deflation threshold: ~35.43% sustained utilization.) Tj
 T*
 () Tj
 T*
@@ -99,7 +101,7 @@ T*
 T*
 (| Era 8 | 7,000,000 .. 7,999,999 | 0.390625 | 390,625 | 99,609,375 |) Tj
 T*
-(| Tail | 8,000,000+ | 0.1953125 | perpetual | perpetual |) Tj
+(| Tail | 8,000,000+ | 0.1953125 \(clipped by cap headroom\) | until hard cap | until 150,000,000 |) Tj
 T*
 () Tj
 T*
@@ -107,21 +109,19 @@ T*
 T*
 (- 99,609,375 ATHO subsidy path + 390,625 ATHO bootstrap at block 1 = 100,000,000 ATHO.) Tj
 T*
+(- Remaining mintable headroom after pre-tail base: 50,000,000 ATHO \(tail subsidy only, then) Tj
+T*
+(subsidy suppresses to zero\).) Tj
+T*
 () Tj
 T*
-(Fee and Burn Math) Tj
+(Hard-cap rule:) Tj
 T*
-() Tj
+(- total_supply <= 150,000,000 ATHO.) Tj
 T*
-(Per block at full utilization) Tj
+(- Subsidy is clipped at coinbase by remaining cap headroom.) Tj
 T*
-(- Total fee capacity at floor: 3,500,000 * 250 = 875,000,000 atoms = 0.875 ATHO) Tj
-T*
-(- Routed-to-pool share at tail \(50%\): 0.4375 ATHO) Tj
-T*
-(- Burn-path share at tail \(50%\): 0.4375 ATHO) Tj
-T*
-(- Tail issuance per block: 0.1953125 ATHO) Tj
+(- After cap is reached, subsidy remains 0 and fees continue through the same burn/pool paths.) Tj
 T*
 ET
 endstream
@@ -130,13 +130,29 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 2090 >>
+<< /Length 2235 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(- Net per-block formula: Delta_block = 0.1953125 - \(0.4375 * utilization\)) Tj
+() Tj
+T*
+(Fee and Burn Math) Tj
+T*
+() Tj
+T*
+(Per block at full utilization) Tj
+T*
+(- Total fee capacity at floor: 3,500,000 * 350 = 1,225,000,000 atoms = 1.225 ATHO) Tj
+T*
+(- Routed-to-pool share at tail \(55%\): 0.67375 ATHO) Tj
+T*
+(- Burn-path share at tail \(45%\): 0.55125 ATHO) Tj
+T*
+(- Tail issuance per block: 0.1953125 ATHO) Tj
+T*
+(- Net per-block formula: Delta_block = 0.1953125 - \(0.55125 * utilization\)) Tj
 T*
 () Tj
 T*
@@ -144,11 +160,13 @@ T*
 T*
 (- Tail issuance: 0.1953125 * 262,800 = 51,328.125 ATHO/year) Tj
 T*
-(- Total annual fees at floor: 229,950 ATHO/year) Tj
+(- Total annual fees at floor: 321,930 ATHO/year) Tj
 T*
-(- Annual burn-path max \(50%\): 114,975 ATHO/year) Tj
+(- Annual burn-path max \(45%\): 144,868.5 ATHO/year) Tj
 T*
-(- Annual net formula: Delta_year = 51,328.125 - \(114,975 * utilization\)) Tj
+(- Annual net formula: Delta_year = 51,328.125 - \(144,868.5 * utilization\)) Tj
+T*
+(- Formula above applies while subsidy is still positive; after hard-cap clip, subsidy term is 0.) Tj
 T*
 () Tj
 T*
@@ -158,19 +176,19 @@ T*
 T*
 () Tj
 T*
-(51,328.125 - 114,975u = 0) Tj
+(51,328.125 - 144,868.5u = 0) Tj
 T*
-(u = 51,328.125 / 114,975 ~= 0.4464) Tj
+(u = 51,328.125 / 144,868.5 ~= 0.3543) Tj
 T*
 () Tj
 T*
 (So:) Tj
 T*
-(- <44.64%: inflationary protocol net.) Tj
+(- <35.43%: inflationary protocol net.) Tj
 T*
-(- =44.64%: neutral.) Tj
+(- =35.43%: neutral.) Tj
 T*
-(- >44.64%: deflationary protocol net \(until floor clipping binds\).) Tj
+(- >35.43%: deflationary protocol net \(until floor clipping binds\).) Tj
 T*
 () Tj
 T*
@@ -184,19 +202,19 @@ T*
 T*
 (| 0% | +51,328.125 ATHO/year |) Tj
 T*
-(| 25% | +22,584.375 ATHO/year |) Tj
+(| 25% | +15,110.999 ATHO/year |) Tj
 T*
-(| 40% | +5,338.125 ATHO/year |) Tj
+(| 30% | +7,867.575 ATHO/year |) Tj
 T*
-(| 44.64% | ~0 ATHO/year |) Tj
+(| 35.43% | ~0 ATHO/year |) Tj
 T*
-(| 50% | -6,159.375 ATHO/year |) Tj
+(| 40% | -6,619.275 ATHO/year |) Tj
 T*
-(| 60% | -17,656.875 ATHO/year |) Tj
+(| 50% | -21,106.125 ATHO/year |) Tj
 T*
-(| 75% | -34,903.125 ATHO/year |) Tj
+(| 75% | -57,323.250 ATHO/year |) Tj
 T*
-(| 100% | -63,646.875 ATHO/year |) Tj
+(| 100% | -93,540.375 ATHO/year |) Tj
 T*
 () Tj
 T*
@@ -222,6 +240,19 @@ T*
 T*
 (Coinbase and Accounting Invariants) Tj
 T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 865 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (Consensus enforces:) Tj
 T*
 (- coinbase_outputs_sum_atoms == block_reward_atoms + fees_miner_atoms) Tj
@@ -240,19 +271,6 @@ T*
 T*
 (- cumulative_burned_atoms) Tj
 T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 452 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 () Tj
 T*
 (Bottom Line) Tj
@@ -261,15 +279,17 @@ T*
 T*
 (- **100M total pre-tail base over ~30.44 years** \(99.609375M subsidy + 390,625 bootstrap\),) Tj
 T*
-(- then fixed tail subsidy \(0.1953125 ATHO/block\),) Tj
+(- then fixed tail subsidy \(0.1953125 ATHO/block\) until clipped by hard-cap headroom,) Tj
 T*
 (- with pool-routed fees and burn on routed non-pool share,) Tj
+T*
+(- with a hard max emitted supply cap of **150,000,000 ATHO**,) Tj
 T*
 (- and a hard **21M supply floor**.) Tj
 T*
 () Tj
 T*
-(Current utilization pivot is **~44.64%** for neutral net supply change.) Tj
+(Current utilization pivot is **~35.43%** for neutral net supply change.) Tj
 T*
 ET
 endstream
@@ -282,12 +302,12 @@ xref
 0000000133 00000 n 
 0000000201 00000 n 
 0000000327 00000 n 
-0000002998 00000 n 
-0000003124 00000 n 
-0000005266 00000 n 
-0000005392 00000 n 
+0000003138 00000 n 
+0000003264 00000 n 
+0000005551 00000 n 
+0000005677 00000 n 
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-5895
+6593
 %%EOF

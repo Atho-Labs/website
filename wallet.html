@@ -149,7 +149,7 @@
         <p class="section-copy">
           Wallet addresses are generated from Falcon public-key material through deterministic SHA3-384 pathways, then
           encoded in Base56 for human use. Fee policy is calculated by <code>vsize</code> with a floor of
-          <code>250 atoms/vB</code> and minimum transaction fee <code>100,000 atoms</code>.
+          <code>350 atoms/vB</code> and minimum transaction fee <code>100,000 atoms</code>.
         </p>
 
         <div class="feature-grid wallet-address-grid" data-stagger>
@@ -199,13 +199,13 @@
             <h3>Fee-Per-Byte Policy in Wallet Send Flow</h3>
             <p class="panel-copy">
               Wallet send estimation uses virtual size (<code>vsize</code>) policy. Current floor is
-              <code>250 atoms/vB</code> with minimum tx fee <code>100,000 atoms</code> and dust limit
+              <code>350 atoms/vB</code> with minimum tx fee <code>100,000 atoms</code> and dust limit
               <code>250 atoms</code>.
             </p>
             <div class="wallet-fee-meter" aria-hidden="true">
               <div class="wallet-fee-row">
                 <span>Policy Floor</span>
-                <strong>250 atoms/vB</strong>
+                <strong>350 atoms/vB</strong>
               </div>
               <div class="wallet-fee-track"><span class="wallet-fee-fill"></span></div>
               <div class="wallet-fee-row">
@@ -213,7 +213,7 @@
                 <strong>100,000 atoms</strong>
               </div>
             </div>
-            <pre class="join-code"><code>required_fee_atoms = max(250 * vsize, 100000)</code></pre>
+            <pre class="join-code"><code>required_fee_atoms = max(350 * vsize, 100000)</code></pre>
           </article>
         </div>
       </div>
@@ -463,10 +463,17 @@
                   <span>Reward constants, split math, and epoch windows are documented across Whitepaper, Consensus, and Rewards docs.</span>
                 </span>
               </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Current staking bounds</strong>
+                  <span><code>20 ATHO</code> minimum, <code>500 ATHO</code> max per address, <code>25,000 ATHO</code> max new stake per rolling 30 days, and <code>25,000,000 ATHO</code> max total staked network-wide.</span>
+                </span>
+              </li>
             </ul>
             <div class="hero-actions wallet-stake-actions">
               <a class="btn btn-primary btn-inline" href="./rewards.html#reward-breakdown">Open Full Reward Breakdown</a>
-              <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/whitepaper.pdf" download>Download Whitepaper</a>
+              <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/atho-whitepaper-v3.pdf" download>Download Whitepaper v3</a>
             </div>
           </article>
         </div>
@@ -586,7 +593,7 @@
       <span>Atho Labs</span>
       <span class="footer-contact">
         <span class="footer-slogan">Atho — Private. Secure. The Platinum Standard of the Quantum Age</span>
-        <span class="footer-updated">Last updated: April 4, 2026</span>
+        <span class="footer-updated">Last updated: April 10, 2026</span>
         <span>
           To report bugs, security issues, or general inquiries:
           <a href="./contact.html">Contact</a>

@@ -4,7 +4,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Count 1 /Kids [4 0 R] >>
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Courier >>
@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 1436 >>
+<< /Length 2353 >>
 stream
 BT
 /F1 10 Tf
@@ -23,25 +23,83 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-04-04) Tj
+(Date: 2026-04-10) Tj
 T*
 () Tj
 T*
-(This is the canonical documentation map for current development builds.) Tj
+(This is the canonical documentation map for the current Atho repository state. Use this file as) Tj
+T*
+(the first checkpoint before reading topic-specific docs, because it reflects the active) Tj
+T*
+(production policy profile and the most recent rewrite pass.) Tj
+T*
+() Tj
+T*
+(Documentation Goals) Tj
+T*
+() Tj
+T*
+(The docs in this folder are organized around four outcomes:) Tj
+T*
+(- explain consensus and economic policy in plain language,) Tj
+T*
+(- map policy to concrete code paths and runtime controls,) Tj
+T*
+(- provide operational runbooks for node/wallet/miner workflows,) Tj
+T*
+(- preserve a traceable relationship between whitepaper claims, constants, and generated model) Tj
+T*
+(artifacts.) Tj
+T*
+() Tj
+T*
+(Current baseline profile referenced across docs:) Tj
+T*
+(- target block time 120s,) Tj
+T*
+(- difficulty retarget interval 180 blocks,) Tj
+T*
+(- tx confirmations 10, private tx confirmations 10, coinbase maturity 150,) Tj
+T*
+(- fee floor 350 atoms/vB, minimum fee 100,000 atoms,) Tj
+T*
+(- pre-tail base target 100,000,000 ATHO, hard max 150,000,000 ATHO, supply floor 21,000,000) Tj
+T*
+(ATHO,) Tj
+T*
+(- BPoW bond requirement 25 ATHO with activation at 25 confirmations,) Tj
+T*
+(- fee pool routing pre-tail/post-tail 40% / 55%.) Tj
 T*
 () Tj
 T*
 (Start Here) Tj
 T*
-(- quickstart.md - install, build native binaries, run node and GUI.) Tj
+() Tj
 T*
-(- Binaries.md - binary layout, hash pinning, and strict runtime mode.) Tj
+(If you are new to the repository, read in this order:) Tj
 T*
-(- Troubleshooting.md - common runtime/build failures and fixes.) Tj
+(- quickstart.md: environment setup, native binaries, first node launch.) Tj
+T*
+(- Binaries.md: binary build outputs, pin metadata, strict loading controls.) Tj
+T*
+(- Troubleshooting.md: common failures and known fixes.) Tj
+T*
+(- Consensus.md: block validity, policy constants, deterministic checks.) Tj
+T*
+(- Tx.md: tx encoding, fee rules, witness-size behavior.) Tj
 T*
 () Tj
 T*
-(Core Protocol) Tj
+(This sequence minimizes confusion by placing runtime prerequisites before protocol detail.) Tj
+T*
+() Tj
+T*
+(Core Protocol References) Tj
+T*
+() Tj
+T*
+(Primary technical references:) Tj
 T*
 (- WhitePaper.md) Tj
 T*
@@ -49,35 +107,62 @@ T*
 T*
 (- Tx.md) Tj
 T*
+(- Transaction_Flow_Doc.md) Tj
+T*
+(- Private_Key_Derivation_and_Restore.md) Tj
+T*
+(- Wallet_Hierarchy_Visual_Guide.md) Tj
+T*
 (- PlatinumShield_Privacy.md) Tj
+T*
+(- PrivateTx_v3.md) Tj
+T*
+(- PrivateTx_v3_Condensed.md) Tj
 T*
 (- Sigwit.md) Tj
 T*
 (- Sha3-384.md) Tj
 T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 1853 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- Falcon512.md) Tj
 T*
 (- Emissions.md) Tj
 T*
 (- Inflation_Deflationary.md) Tj
 T*
-(- Emissions Modeling/Entire_Overview.md \(contains legacy-model body plus active-policy) Tj
+(- Atho_Final_Specs.md) Tj
 T*
-(correction header\)) Tj
+(- Emissions Modeling/Entire_Overview.md) Tj
 T*
 () Tj
 T*
-(For BPoW, miner bonding, and wallet staking:) Tj
+(For wallet-stake and bonded mining policy, use this focused path:) Tj
 T*
-(- start with WhitePaper.md section 5,) Tj
+(- WhitePaper.md \(economic and governance context\)) Tj
 T*
-(- then read Consensus.md sections 2, 2.1, 2.2, and 6.1,) Tj
+(- Consensus.md \(validation and payout mechanics\)) Tj
 T*
-(- then Tx.md section 9.1 for role-aware lockup transaction behavior.) Tj
+(- Tx.md \(role-aware transaction behavior\)) Tj
 T*
 () Tj
 T*
 (Runtime and Operations) Tj
+T*
+() Tj
+T*
+(Operational docs for day-to-day deployment and support:) Tj
 T*
 (- Network_Stack.md) Tj
 T*
@@ -99,29 +184,136 @@ T*
 T*
 (- Node_Stop.md) Tj
 T*
+(- gui.md) Tj
+T*
+() Tj
+T*
+(Use these for system administration, API integrations, mining operations, packaging, and UI) Tj
+T*
+(runtime control.) Tj
+T*
 () Tj
 T*
 (Developer References) Tj
+T*
+() Tj
+T*
+(Codebase orientation and audit support:) Tj
 T*
 (- ONBOARDING.md) Tj
 T*
 (- SRC_FILE_MAP.md) Tj
 T*
-(- gui.md) Tj
+(- Threat.md) Tj
+T*
+(- Transaction_Security_Audit_FAQ.md) Tj
+T*
+() Tj
+T*
+(SRC_FILE_MAP.md is especially useful when tracing a rule from docs to implementation modules.) Tj
+T*
+() Tj
+T*
+(Whitepaper and Modeling Artifacts) Tj
+T*
+() Tj
+T*
+(Canonical investor and technical narrative sources:) Tj
+T*
+(- WhitePaper.md \(technical markdown source\)) Tj
+T*
+(- Atho_Whitepaper_v3.pdf \(new technical v3 PDF artifact\)) Tj
+T*
+(- Atho_Whitepaper_Condensed_v3.pdf \(condensed high-level investor/casual overview\)) Tj
+T*
+() Tj
+T*
+(Modeling outputs are regenerated from live constants through Src/Main/esim.py and published) Tj
+T*
+(under Docs/Emissions Modeling/ as both CSV and PDF.) Tj
+T*
+() Tj
+T*
+(Maintenance Rules for This Folder) Tj
+T*
+() Tj
+T*
+(When policy constants change:) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1321 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Update Src/Utility/const.py and validate invariants.) Tj
+T*
+(- Regenerate emissions outputs with python3 Src/Main/esim.py.) Tj
+T*
+(- Rebuild whitepaper PDFs from updated sources.) Tj
+T*
+(- Update any docs that expose user-facing values \(confirmations, fee floor, pool routing,) Tj
+T*
+(maturity, supply figures\).) Tj
+T*
+() Tj
+T*
+(When adding a new doc:) Tj
+T*
+(- place it in the most relevant section above,) Tj
+T*
+(- include date and scope,) Tj
+T*
+(- include code path references when making consensus or security claims,) Tj
+T*
+(- avoid copying stale policy snippets from older drafts.) Tj
+T*
+() Tj
+T*
+(Reader Guidance by Role) Tj
+T*
+(- Operators: prioritize quickstart, Binaries, Network_Stack, LMDB, and Troubleshooting.) Tj
+T*
+(- Wallet/API integrators: prioritize Tx, ApiAuth, Wallet_Hierarchy_Visual_Guide, KeyManager.) Tj
+T*
+(- Security reviewers: prioritize WhitePaper, Consensus, Threat, Transaction_Security_Audit_FAQ,) Tj
+T*
+(and SRC_FILE_MAP.) Tj
+T*
+(- Economic reviewers: prioritize Atho_Final_Specs, Emissions, Inflation_Deflationary, and) Tj
+T*
+(Emissions Modeling/Entire_Overview.md.) Tj
+T*
+() Tj
+T*
+(Using this index as the entry point helps keep all readers on the same, current policy baseline) Tj
+T*
+(and prevents accidental dependence on stale assumptions.) Tj
 T*
 ET
 endstream
 endobj
 xref
-0 6
+0 10
 0000000000 65535 f 
 0000000015 00000 n 
 0000000064 00000 n 
-0000000121 00000 n 
-0000000189 00000 n 
-0000000315 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000002732 00000 n 
+0000002858 00000 n 
+0000004763 00000 n 
+0000004889 00000 n 
 trailer
-<< /Size 6 /Root 1 0 R >>
+<< /Size 10 /Root 1 0 R >>
 startxref
-1803
+6262
 %%EOF

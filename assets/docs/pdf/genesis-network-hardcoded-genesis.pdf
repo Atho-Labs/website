@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2547 >>
+<< /Length 2335 >>
 stream
 BT
 /F1 10 Tf
@@ -23,105 +23,105 @@ BT
 T*
 (  "mainnet": {) Tj
 T*
-(    "version": "1.00",) Tj
-T*
-(    "index": 0,) Tj
-T*
-(    "previous_hash": "00000000000000000000000000000000000000000000000000000000000000000000000000) Tj
-T*
-(0000000000000000000000",) Tj
-T*
-(    "merkle_root": "a05dad58e23b18bbeae048d8b40d1dcf4ae83eb413c11de639a9a5dba5209bad39463fc7e66f) Tj
-T*
-(4c6463918ea5ab00b81a",) Tj
-T*
-(    "timestamp": 1773360488,) Tj
-T*
-(    "nonce": 8542,) Tj
-T*
-(    "difficulty": 601226901190101306339707032778070279008174732520529886901066488712245510429339) Tj
-T*
-(761526706943586500787976175353855,) Tj
-T*
-(    "target": 6012269011901013063397070327780702790081747325205298869010664887122455104293397615) Tj
-T*
-(26706943586500787976175353855,) Tj
-T*
-(    "tx_count": 1,) Tj
-T*
-(    "miner_address": "ATHOfe89ad1b663bd8b316247b5b19368326184d2af14108577e562f3359ce84074ba900ca) Tj
-T*
-(5616e0bfa9c3feb390681838a5",) Tj
-T*
 (    "coinbase_tx": {) Tj
 T*
-(      "tx_id": "a05dad58e23b18bbeae048d8b40d1dcf4ae83eb413c11de639a9a5dba5209bad39463fc7e66f4c64) Tj
+(      "block_height": 0,) Tj
 T*
-(63918ea5ab00b81a",) Tj
+(      "coinbase": true,) Tj
 T*
-(      "timestamp": 1773360488,) Tj
-T*
-(      "fee": "0",) Tj
+(      "fee": "0.000000000",) Tj
 T*
 (      "inputs": [],) Tj
+T*
+(      "lock_time": 0,) Tj
+T*
+(      "network": "mainnet",) Tj
 T*
 (      "outputs": [) Tj
 T*
 (        {) Tj
 T*
-(          "amount": "10",) Tj
+(          "amount": "50.000000000",) Tj
 T*
-(          "hashed_public_key": "ATHOfe89ad1b663bd8b316247b5b19368326184d2af14108577e562f3359ce84) Tj
+(          "hashed_public_key": "ATHO9529a6358612b193cc100b4150f46235505a948caacf331b15a171993ad3) Tj
 T*
-(074ba900ca5616e0bfa9c3feb390681838a5",) Tj
-T*
-(          "is_locked": false) Tj
+(124c008f45d692886ecc6417aa6ab964488c") Tj
 T*
 (        }) Tj
 T*
 (      ],) Tj
 T*
-(      "metadata": {) Tj
+(      "timestamp": 1773360488,) Tj
 T*
-(        "anchor_btc_usd": "70496.97",) Tj
+(      "tx_id": "7f5e2f8b6dfe51b3a37ab94b45811954eb9b87b52748fdbce0e41400be4f595ae09874a0f979503f) Tj
 T*
-(        "anchor_eth_usd": "2073.69",) Tj
+(4bec2d464cd1b895",) Tj
 T*
-(        "anchor_geopolitical": "Iran Conflict 02/28/2026",) Tj
-T*
-(        "anchor_ltc_usd": "54.59",) Tj
-T*
-(        "anchor_message": "Bitcoin 70,496.97 | Litecoin 54.59 | Ethereum 2,073.69 | Iran) Tj
-T*
-(Conflict 02/28/2026 | owner_hash_b64=DZPctQQDGbe5Pj9SKMynDqWA6wCVnRKperecMCVMjM/yD27lVnXCfYrFcP2) Tj
-T*
-(bCJfR/BTVtiRn+f7PfU5TXonSGQ== | Owner Hash Digest is 100,000 Byte RNG Number :>\)",) Tj
-T*
-(        "network": "mainnet",) Tj
-T*
-(        "owner_hash": "0d93dcb5040319b7b93e3f5228cca70ea580eb00959d12a97ab79c30254c8ccff20f6ee55) Tj
-T*
-(675c27d8ac570fd9b0897d1fc14d5b62467f9fecf7d4e535e89d219",) Tj
-T*
-(        "owner_hash_b64":) Tj
-T*
-("DZPctQQDGbe5Pj9SKMynDqWA6wCVnRKperecMCVMjM/yD27lVnXCfYrFcP2bCJfR/BTVtiRn+f7PfU5TXonSGQ==") Tj
-T*
-(      },) Tj
-T*
-(      "network": "mainnet",) Tj
-T*
-(      "size_bytes": 1062,) Tj
-T*
-(      "block_height": 0,) Tj
-T*
-(      "coinbase": true) Tj
+(      "version": "1.00") Tj
 T*
 (    },) Tj
 T*
-(    "tx_list": [) Tj
+(    "cumulative_burned_atoms": 0,) Tj
 T*
-(      {) Tj
+(    "difficulty": 601226901190101306339707032778070279008174732520529886901066488712245510429339) Tj
+T*
+(761526706943586500787976175353855,) Tj
+T*
+(    "fees_burned_atoms": 0,) Tj
+T*
+(    "fees_miner_atoms": 0,) Tj
+T*
+(    "fees_pool_atoms": 0,) Tj
+T*
+(    "fees_total_atoms": 0,) Tj
+T*
+(    "flags": "",) Tj
+T*
+(    "hash": "00000af3124ac8b065246788b55c5f8ce3dac493ffcdbd9fcd3fb80868a46149e8c86d5f50b480f640e) Tj
+T*
+(74bb4468e40ff",) Tj
+T*
+(    "height": 0,) Tj
+T*
+(    "index": 0,) Tj
+T*
+(    "merkle_root": "7f5e2f8b6dfe51b3a37ab94b45811954eb9b87b52748fdbce0e41400be4f595ae09874a0f979) Tj
+T*
+(503f4bec2d464cd1b895",) Tj
+T*
+(    "miner_address": "ATHO9529a6358612b193cc100b4150f46235505a948caacf331b15a171993ad3124c008f45) Tj
+T*
+(d692886ecc6417aa6ab964488c",) Tj
+T*
+(    "miner_pubkey": "",) Tj
+T*
+(    "miner_role": "bonded_pow_v1",) Tj
+T*
+(    "miner_signature": "",) Tj
+T*
+(    "network": "mainnet",) Tj
+T*
+(    "nonce": 138553,) Tj
+T*
+(    "previous_hash": "00000000000000000000000000000000000000000000000000000000000000000000000000) Tj
+T*
+(0000000000000000000000",) Tj
+T*
+(    "private_hidden_supply_acc": "",) Tj
+T*
+(    "private_notes_root": "",) Tj
+T*
+(    "private_stark_proof": "",) Tj
+T*
+(    "reward_address": "ATHO9529a6358612b193cc100b4150f46235505a948caacf331b15a171993ad3124c008f4) Tj
+T*
+(5d692886ecc6417aa6ab964488c",) Tj
+T*
+(    "size_bytes": 1915,) Tj
+T*
+(    "state_root": "",) Tj
+T*
+(    "target": 6012269011901013063397070327780702790081747325205298869010664887122455104293397615) Tj
 T*
 ET
 endstream
@@ -130,115 +130,115 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 2416 >>
+<< /Length 2000 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(        "tx_id": "a05dad58e23b18bbeae048d8b40d1dcf4ae83eb413c11de639a9a5dba5209bad39463fc7e66f4c) Tj
+(26706943586500787976175353855,) Tj
 T*
-(6463918ea5ab00b81a",) Tj
+(    "timestamp": 1773360488,) Tj
 T*
-(        "timestamp": 1773360488,) Tj
+(    "tx_count": 1,) Tj
 T*
-(        "fee": "0",) Tj
+(    "tx_list": [) Tj
+T*
+(      {) Tj
+T*
+(        "block_height": 0,) Tj
+T*
+(        "coinbase": true,) Tj
+T*
+(        "fee": "0.000000000",) Tj
 T*
 (        "inputs": [],) Tj
+T*
+(        "lock_time": 0,) Tj
+T*
+(        "network": "mainnet",) Tj
 T*
 (        "outputs": [) Tj
 T*
 (          {) Tj
 T*
-(            "amount": "10",) Tj
+(            "amount": "50.000000000",) Tj
 T*
-(            "hashed_public_key": "ATHOfe89ad1b663bd8b316247b5b19368326184d2af14108577e562f3359ce) Tj
+(            "hashed_public_key": "ATHO9529a6358612b193cc100b4150f46235505a948caacf331b15a171993a) Tj
 T*
-(84074ba900ca5616e0bfa9c3feb390681838a5",) Tj
-T*
-(            "is_locked": false) Tj
+(d3124c008f45d692886ecc6417aa6ab964488c") Tj
 T*
 (          }) Tj
 T*
 (        ],) Tj
 T*
-(        "metadata": {) Tj
+(        "timestamp": 1773360488,) Tj
 T*
-(          "anchor_btc_usd": "70496.97",) Tj
+(        "tx_id": "7f5e2f8b6dfe51b3a37ab94b45811954eb9b87b52748fdbce0e41400be4f595ae09874a0f97950) Tj
 T*
-(          "anchor_eth_usd": "2073.69",) Tj
+(3f4bec2d464cd1b895",) Tj
 T*
-(          "anchor_geopolitical": "Iran Conflict 02/28/2026",) Tj
-T*
-(          "anchor_ltc_usd": "54.59",) Tj
-T*
-(          "anchor_message": "Bitcoin 70,496.97 | Litecoin 54.59 | Ethereum 2,073.69 | Iran) Tj
-T*
-(Conflict 02/28/2026 | owner_hash_b64=DZPctQQDGbe5Pj9SKMynDqWA6wCVnRKperecMCVMjM/yD27lVnXCfYrFcP2) Tj
-T*
-(bCJfR/BTVtiRn+f7PfU5TXonSGQ== | Owner Hash Digest is 100,000 Byte RNG Number :>\)",) Tj
-T*
-(          "network": "mainnet",) Tj
-T*
-(          "owner_hash": "0d93dcb5040319b7b93e3f5228cca70ea580eb00959d12a97ab79c30254c8ccff20f6ee) Tj
-T*
-(55675c27d8ac570fd9b0897d1fc14d5b62467f9fecf7d4e535e89d219",) Tj
-T*
-(          "owner_hash_b64":) Tj
-T*
-("DZPctQQDGbe5Pj9SKMynDqWA6wCVnRKperecMCVMjM/yD27lVnXCfYrFcP2bCJfR/BTVtiRn+f7PfU5TXonSGQ==") Tj
-T*
-(        },) Tj
-T*
-(        "network": "mainnet",) Tj
-T*
-(        "size_bytes": 1062,) Tj
-T*
-(        "block_height": 0,) Tj
-T*
-(        "coinbase": true) Tj
+(        "version": "1.00") Tj
 T*
 (      }) Tj
 T*
 (    ],) Tj
 T*
+(    "version": "1.00",) Tj
+T*
+(    "witness_commitment": "13fecc64af2e03d55df7220aeac4c8503ed06bd435aba6808347050e052eac4f6e5d9) Tj
+T*
+(77d10e9b50c5fbf8c09a6b1ec76",) Tj
+T*
 (    "witnesses": {) Tj
 T*
-(      "a05dad58e23b18bbeae048d8b40d1dcf4ae83eb413c11de639a9a5dba5209bad39463fc7e66f4c6463918ea5a) Tj
+(      "7f5e2f8b6dfe51b3a37ab94b45811954eb9b87b52748fdbce0e41400be4f595ae09874a0f979503f4bec2d464) Tj
 T*
-(b00b81a": {) Tj
+(cd1b895": {) Tj
 T*
 (        "inputs": []) Tj
 T*
 (      }) Tj
 T*
-(    },) Tj
-T*
-(    "fees_total_atoms": 0,) Tj
-T*
-(    "fees_miner_atoms": 0,) Tj
-T*
-(    "fees_burned_atoms": 0,) Tj
-T*
-(    "cumulative_burned_atoms": 0,) Tj
-T*
-(    "hash": "00001d78b119b6e1f25bc7977ea231df94c28c2967d4e113cd3a7120a4e7f37847813ec1a4177d95e12) Tj
-T*
-(3e096ab9554a9",) Tj
-T*
-(    "witness_commitment": "07598f33a836639376e9be5a138bd1238674ca496fa4c889000bfe70846722e9933c1) Tj
-T*
-(ba27fffa5e8214a43878d193d40",) Tj
-T*
-(    "network": "mainnet",) Tj
-T*
-(    "flags": "",) Tj
-T*
-(    "height": 0,) Tj
-T*
-(    "size_bytes": 3022) Tj
+(    }) Tj
 T*
 (  },) Tj
+T*
+(  "testnet": {) Tj
+T*
+(    "coinbase_tx": {) Tj
+T*
+(      "block_height": 0,) Tj
+T*
+(      "coinbase": true,) Tj
+T*
+(      "fee": "0.000000000",) Tj
+T*
+(      "inputs": [],) Tj
+T*
+(      "lock_time": 0,) Tj
+T*
+(      "network": "testnet",) Tj
+T*
+(      "outputs": [) Tj
+T*
+(        {) Tj
+T*
+(          "amount": "50.000000000",) Tj
+T*
+(          "hashed_public_key": "ATHT22b5382e49b9a2dafb0d2c7b1c2afe643a3c14a23f7a90e4e5dce0162b75) Tj
+T*
+(4623eb5566c3ca1348187e5f3e92c65c76ee") Tj
+T*
+(        }) Tj
+T*
+(      ],) Tj
+T*
+(      "timestamp": 1773360489,) Tj
+T*
+(      "tx_id": "21c720087f887307f851ba5366fcf53342580627e64d866dd457e17791c93ab210b18b0bd88bfb9e) Tj
+T*
+(9cda30fac254b166",) Tj
 T*
 ET
 endstream
@@ -247,115 +247,115 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 2642 >>
+<< /Length 2310 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(  "testnet": {) Tj
+(      "version": "1.00") Tj
 T*
-(    "version": "1.00",) Tj
+(    },) Tj
 T*
-(    "index": 0,) Tj
-T*
-(    "previous_hash": "00000000000000000000000000000000000000000000000000000000000000000000000000) Tj
-T*
-(0000000000000000000000",) Tj
-T*
-(    "merkle_root": "6fe38992074617b98f4d966a5d1df22968205ab41fe8d9e41f6d1790ac6a46b6791f536a3392) Tj
-T*
-(b86d0f6644bd685f9d74",) Tj
-T*
-(    "timestamp": 1773360489,) Tj
-T*
-(    "nonce": 2212,) Tj
+(    "cumulative_burned_atoms": 0,) Tj
 T*
 (    "difficulty": 601226901190101306339707032778070279008174732520529886901066488712245510429339) Tj
 T*
 (761526706943586500787976175353855,) Tj
 T*
+(    "fees_burned_atoms": 0,) Tj
+T*
+(    "fees_miner_atoms": 0,) Tj
+T*
+(    "fees_pool_atoms": 0,) Tj
+T*
+(    "fees_total_atoms": 0,) Tj
+T*
+(    "flags": "",) Tj
+T*
+(    "hash": "00000bc402ae0f6cfc1fea234a6df2805b1a1c2b311ca1dd725344539ee8f332d7893103842256d00f1) Tj
+T*
+(364e5e9be8188",) Tj
+T*
+(    "height": 0,) Tj
+T*
+(    "index": 0,) Tj
+T*
+(    "merkle_root": "21c720087f887307f851ba5366fcf53342580627e64d866dd457e17791c93ab210b18b0bd88b) Tj
+T*
+(fb9e9cda30fac254b166",) Tj
+T*
+(    "miner_address": "ATHT22b5382e49b9a2dafb0d2c7b1c2afe643a3c14a23f7a90e4e5dce0162b754623eb5566) Tj
+T*
+(c3ca1348187e5f3e92c65c76ee",) Tj
+T*
+(    "miner_pubkey": "",) Tj
+T*
+(    "miner_role": "bonded_pow_v1",) Tj
+T*
+(    "miner_signature": "",) Tj
+T*
+(    "network": "testnet",) Tj
+T*
+(    "nonce": 82673,) Tj
+T*
+(    "previous_hash": "00000000000000000000000000000000000000000000000000000000000000000000000000) Tj
+T*
+(0000000000000000000000",) Tj
+T*
+(    "private_hidden_supply_acc": "",) Tj
+T*
+(    "private_notes_root": "",) Tj
+T*
+(    "private_stark_proof": "",) Tj
+T*
+(    "reward_address": "ATHT22b5382e49b9a2dafb0d2c7b1c2afe643a3c14a23f7a90e4e5dce0162b754623eb556) Tj
+T*
+(6c3ca1348187e5f3e92c65c76ee",) Tj
+T*
+(    "size_bytes": 1914,) Tj
+T*
+(    "state_root": "",) Tj
+T*
 (    "target": 6012269011901013063397070327780702790081747325205298869010664887122455104293397615) Tj
 T*
 (26706943586500787976175353855,) Tj
 T*
+(    "timestamp": 1773360489,) Tj
+T*
 (    "tx_count": 1,) Tj
-T*
-(    "miner_address": "ATHTfe89ad1b663bd8b316247b5b19368326184d2af14108577e562f3359ce84074ba900ca) Tj
-T*
-(5616e0bfa9c3feb390681838a5",) Tj
-T*
-(    "coinbase_tx": {) Tj
-T*
-(      "tx_id": "6fe38992074617b98f4d966a5d1df22968205ab41fe8d9e41f6d1790ac6a46b6791f536a3392b86d) Tj
-T*
-(0f6644bd685f9d74",) Tj
-T*
-(      "timestamp": 1773360489,) Tj
-T*
-(      "fee": "0",) Tj
-T*
-(      "inputs": [],) Tj
-T*
-(      "outputs": [) Tj
-T*
-(        {) Tj
-T*
-(          "amount": "10",) Tj
-T*
-(          "hashed_public_key": "ATHTfe89ad1b663bd8b316247b5b19368326184d2af14108577e562f3359ce84) Tj
-T*
-(074ba900ca5616e0bfa9c3feb390681838a5",) Tj
-T*
-(          "is_locked": false) Tj
-T*
-(        }) Tj
-T*
-(      ],) Tj
-T*
-(      "metadata": {) Tj
-T*
-(        "anchor_btc_usd": "70496.97",) Tj
-T*
-(        "anchor_eth_usd": "2073.69",) Tj
-T*
-(        "anchor_geopolitical": "Iran Conflict 02/28/2026",) Tj
-T*
-(        "anchor_ltc_usd": "54.59",) Tj
-T*
-(        "anchor_message": "Bitcoin 70,496.97 | Litecoin 54.59 | Ethereum 2,073.69 | Iran) Tj
-T*
-(Conflict 02/28/2026 | owner_hash_b64=DZPctQQDGbe5Pj9SKMynDqWA6wCVnRKperecMCVMjM/yD27lVnXCfYrFcP2) Tj
-T*
-(bCJfR/BTVtiRn+f7PfU5TXonSGQ== | Owner Hash Digest is 100,000 Byte RNG Number :>\)",) Tj
-T*
-(        "network": "testnet",) Tj
-T*
-(        "owner_hash": "0d93dcb5040319b7b93e3f5228cca70ea580eb00959d12a97ab79c30254c8ccff20f6ee55) Tj
-T*
-(675c27d8ac570fd9b0897d1fc14d5b62467f9fecf7d4e535e89d219",) Tj
-T*
-(        "owner_hash_b64":) Tj
-T*
-("DZPctQQDGbe5Pj9SKMynDqWA6wCVnRKperecMCVMjM/yD27lVnXCfYrFcP2bCJfR/BTVtiRn+f7PfU5TXonSGQ==") Tj
-T*
-(      },) Tj
-T*
-(      "network": "testnet",) Tj
-T*
-(      "size_bytes": 1062,) Tj
-T*
-(      "block_height": 0,) Tj
-T*
-(      "coinbase": true) Tj
-T*
-(    },) Tj
 T*
 (    "tx_list": [) Tj
 T*
 (      {) Tj
 T*
-(        "tx_id": "6fe38992074617b98f4d966a5d1df22968205ab41fe8d9e41f6d1790ac6a46b6791f536a3392b8) Tj
+(        "block_height": 0,) Tj
+T*
+(        "coinbase": true,) Tj
+T*
+(        "fee": "0.000000000",) Tj
+T*
+(        "inputs": [],) Tj
+T*
+(        "lock_time": 0,) Tj
+T*
+(        "network": "testnet",) Tj
+T*
+(        "outputs": [) Tj
+T*
+(          {) Tj
+T*
+(            "amount": "50.000000000",) Tj
+T*
+(            "hashed_public_key": "ATHT22b5382e49b9a2dafb0d2c7b1c2afe643a3c14a23f7a90e4e5dce0162b) Tj
+T*
+(754623eb5566c3ca1348187e5f3e92c65c76ee") Tj
+T*
+(          }) Tj
+T*
+(        ],) Tj
+T*
+(        "timestamp": 1773360489,) Tj
 T*
 ET
 endstream
@@ -364,111 +364,39 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
 endobj
 11 0 obj
-<< /Length 2320 >>
+<< /Length 637 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(6d0f6644bd685f9d74",) Tj
+(        "tx_id": "21c720087f887307f851ba5366fcf53342580627e64d866dd457e17791c93ab210b18b0bd88bfb) Tj
 T*
-(        "timestamp": 1773360489,) Tj
+(9e9cda30fac254b166",) Tj
 T*
-(        "fee": "0",) Tj
-T*
-(        "inputs": [],) Tj
-T*
-(        "outputs": [) Tj
-T*
-(          {) Tj
-T*
-(            "amount": "10",) Tj
-T*
-(            "hashed_public_key": "ATHTfe89ad1b663bd8b316247b5b19368326184d2af14108577e562f3359ce) Tj
-T*
-(84074ba900ca5616e0bfa9c3feb390681838a5",) Tj
-T*
-(            "is_locked": false) Tj
-T*
-(          }) Tj
-T*
-(        ],) Tj
-T*
-(        "metadata": {) Tj
-T*
-(          "anchor_btc_usd": "70496.97",) Tj
-T*
-(          "anchor_eth_usd": "2073.69",) Tj
-T*
-(          "anchor_geopolitical": "Iran Conflict 02/28/2026",) Tj
-T*
-(          "anchor_ltc_usd": "54.59",) Tj
-T*
-(          "anchor_message": "Bitcoin 70,496.97 | Litecoin 54.59 | Ethereum 2,073.69 | Iran) Tj
-T*
-(Conflict 02/28/2026 | owner_hash_b64=DZPctQQDGbe5Pj9SKMynDqWA6wCVnRKperecMCVMjM/yD27lVnXCfYrFcP2) Tj
-T*
-(bCJfR/BTVtiRn+f7PfU5TXonSGQ== | Owner Hash Digest is 100,000 Byte RNG Number :>\)",) Tj
-T*
-(          "network": "testnet",) Tj
-T*
-(          "owner_hash": "0d93dcb5040319b7b93e3f5228cca70ea580eb00959d12a97ab79c30254c8ccff20f6ee) Tj
-T*
-(55675c27d8ac570fd9b0897d1fc14d5b62467f9fecf7d4e535e89d219",) Tj
-T*
-(          "owner_hash_b64":) Tj
-T*
-("DZPctQQDGbe5Pj9SKMynDqWA6wCVnRKperecMCVMjM/yD27lVnXCfYrFcP2bCJfR/BTVtiRn+f7PfU5TXonSGQ==") Tj
-T*
-(        },) Tj
-T*
-(        "network": "testnet",) Tj
-T*
-(        "size_bytes": 1062,) Tj
-T*
-(        "block_height": 0,) Tj
-T*
-(        "coinbase": true) Tj
+(        "version": "1.00") Tj
 T*
 (      }) Tj
 T*
 (    ],) Tj
 T*
+(    "version": "1.00",) Tj
+T*
+(    "witness_commitment": "560700f45fa067793eaf0f03ec8a96bb5f05fbd6ee99031e8b242ce94e9dbe4e139ee) Tj
+T*
+(1f658630de703acecfd3287bc31",) Tj
+T*
 (    "witnesses": {) Tj
 T*
-(      "6fe38992074617b98f4d966a5d1df22968205ab41fe8d9e41f6d1790ac6a46b6791f536a3392b86d0f6644bd6) Tj
+(      "21c720087f887307f851ba5366fcf53342580627e64d866dd457e17791c93ab210b18b0bd88bfb9e9cda30fac) Tj
 T*
-(85f9d74": {) Tj
+(254b166": {) Tj
 T*
 (        "inputs": []) Tj
 T*
 (      }) Tj
 T*
-(    },) Tj
-T*
-(    "fees_total_atoms": 0,) Tj
-T*
-(    "fees_miner_atoms": 0,) Tj
-T*
-(    "fees_burned_atoms": 0,) Tj
-T*
-(    "cumulative_burned_atoms": 0,) Tj
-T*
-(    "hash": "0000163818b36c4be830e6dec9c84a180f552f903c653bdb371bfcb742a39a603ef637c2a048c9453b6) Tj
-T*
-(f39124cc41e60",) Tj
-T*
-(    "witness_commitment": "b55bc2eb30aa612d3647d5053e13e94f986e08abea9e7820cefccbc88ba80d50d72d3) Tj
-T*
-(6dd4078172a513743be412c545c",) Tj
-T*
-(    "network": "testnet",) Tj
-T*
-(    "flags": "",) Tj
-T*
-(    "height": 0,) Tj
-T*
-(    "size_bytes": 3022) Tj
+(    }) Tj
 T*
 (  }) Tj
 T*
@@ -485,14 +413,14 @@ xref
 0000000140 00000 n 
 0000000208 00000 n 
 0000000334 00000 n 
-0000002933 00000 n 
-0000003059 00000 n 
-0000005527 00000 n 
-0000005653 00000 n 
-0000008347 00000 n 
-0000008475 00000 n 
+0000002721 00000 n 
+0000002847 00000 n 
+0000004899 00000 n 
+0000005025 00000 n 
+0000007387 00000 n 
+0000007515 00000 n 
 trailer
 << /Size 12 /Root 1 0 R >>
 startxref
-10848
+8204
 %%EOF

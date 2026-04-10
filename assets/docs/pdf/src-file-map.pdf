@@ -4701,7 +4701,7 @@ BT
 13 TL
 (pending balance with proper confirmation enforcement.) Tj
 T*
-(COINBASE: 400 confirmations required) Tj
+(COINBASE: 150 confirmations required) Tj
 T*
 (REGULAR: 10 confirmations required) Tj
 T*
@@ -4709,7 +4709,7 @@ T*
 T*
 (pending balance including confirmation rules) Tj
 T*
-(COINBASE: 400 confirmations required) Tj
+(COINBASE: 150 confirmations required) Tj
 T*
 (REGULAR: 10 confirmations required) Tj
 T*
@@ -4719,7 +4719,7 @@ T*
 T*
 (- get_balance_with_confirmations\(self, hashed_public_key, current_height\) ? Get balance with) Tj
 T*
-(proper confirmation enforcement for coinbase \(400\) vs regular \(10\) transactions.) Tj
+(proper confirmation enforcement for coinbase \(150\) vs regular \(10\) transactions.) Tj
 T*
 (- get_utxo_confirmation_status\(self, utxo, current_height\) ? Get detailed confirmation status) Tj
 T*

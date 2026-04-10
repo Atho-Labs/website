@@ -182,7 +182,7 @@ Useful verification values for deployment checks:
 - difficulty retarget interval: `180` blocks
 - transaction confirmations required: `10`
 - coinbase maturity: `150` blocks
-- fee floor: `250 atoms/vB`
+- fee floor: `350 atoms/vB`
 - min tx fee: `100,000 atoms`
 - BPoW enforcement height: `10,000`
 - bond requirement: `25 ATHO`

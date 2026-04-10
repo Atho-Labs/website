@@ -11,7 +11,7 @@ This document reviews current security posture across keys, signing, networking/
 - API auth relies on key+user+pass; HMAC optional; no TLS termination described.
 - Signature policy currently allows legacy 1024-byte pubkey compatibility in some paths; keep rollout policy explicit and minimize compatibility windows.
 - Verbose logging leaks metadata (key lengths/previews, tx details).
-- Tail issuance is active, with post-tail fee burn target (100%, floor-clipped) and a hard circulating-supply floor (21M ATHO).
+- Tail issuance is active, with post-tail non-pool fee burn target (100% of the non-pool 45% share, floor-clipped) and a hard circulating-supply floor (21M ATHO).
 - LMDB map-size/permissions misconfiguration can cause DoS; no WAL/backup guidance in code.
 - P2P now has basic per-IP request rate limits, but API-level throttling and global mempool caps are still limited.
 
@@ -47,7 +47,7 @@ This document reviews current security posture across keys, signing, networking/
 - **P2P**: Not detailed here; ensure handshake/ban logic is robust (not in scope of listed code).
 
 ## Consensus rules and enforcement
-- **Tail issuance and burn floor**: Tail reward continues, and post-tail fees target 100% burn (0% miner fee share) with burn clipped by a 21M ATHO floor. Impact: under high utilization the protocol can be net deflationary, but burn accounting cannot push circulating supply below floor.
+- **Tail issuance and burn floor**: Tail reward continues, and post-tail routed non-pool fees (45% of total fees) target 100% burn (0% miner on that routed share) with burn clipped by a 21M ATHO floor. Impact: under high utilization the protocol can be net deflationary, but burn accounting cannot push circulating supply below floor.
 - **PoW target**: Blocks carry `target`; `BlockVerifier` enforces bounds and compares to `PowManager.expected_target_for_height` best-effort. If expected-target check fails (exceptions ignored), a wrong-but-in-bounds target could pass. Mitigation: make expected-target check mandatory with clear failure.
 - **Checkpoint lock**: `CHECKPOINT_INTERVAL_BLOCKS` prevents deep reorgs; verify value fits threat model (too low → censorship risk; too high → reduced safety).
 - **Signature policy**: legacy pubkey compatibility should be phased out when network migration allows; keep canonical compressed-signature ranges enforced.

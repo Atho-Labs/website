@@ -92,12 +92,13 @@
           <h1>BPoW Documentation Pack (Deep Dive)</h1>
           <p>
             This page is the concentrated BPoW reference: why Atho uses Bonded Proof of Work, how miner bond/stake state machines are enforced, what gets slashed, how fees are routed, and how each constant maps to consensus behavior.
-            Content is derived from current source docs: <code>Consensus.md</code>, <code>WhitePaper.md</code>, and <code>Emissions.md</code>.
+            Content is derived from current source docs: <code>Consensus.md</code>, <code>WhitePaper.md</code>, <code>Emissions.md</code>, and <code>Atho_Final_Specs.md</code>.
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/consensus.pdf" download>Download Consensus PDF</a>
-            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/atho-complete-whitepaper-v2-0.pdf" download>Download Whitepaper v2.0</a>
+            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/atho-whitepaper-v3.pdf" download>Download Whitepaper v3</a>
             <a class="btn btn-primary btn-inline" href="./inflation-deflation.html">Open Inflation / Deflation</a>
+            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/atho-final-specs.pdf" download>Download Final Specs</a>
             <a class="btn btn-primary btn-inline" href="./docs.html#bpow-docs">Open Docs Hub BPoW Section</a>
           </div>
         </div>
@@ -131,7 +132,7 @@
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
                   <strong>Fee Routing</strong>
-                  <span><code>40%</code> pool pre-tail and <code>50%</code> pool post-tail, with tail-era burn targeting on non-pool fees and unchanged routing after subsidy clipping at cap.</span>
+                  <span><code>40%</code> pool pre-tail and <code>55%</code> pool post-tail, with tail-era burn targeting on the <code>45%</code> non-pool path and unchanged routing after subsidy clipping at cap.</span>
                 </span>
               </li>
             </ul>
@@ -184,10 +185,10 @@ Pre-tail base target        = 100,000,000 ATHO total
 Hard max supply             = 150,000,000 ATHO (subsidy clipped at cap)
 
 Fee uplift                  = +25%
-Fee routing to pool         = 40% pre-tail / 50% post-tail
-Routed non-pool path        = 60% pre-tail / 50% post-tail
+Fee routing to pool         = 40% pre-tail / 55% post-tail
+Routed non-pool path        = 60% pre-tail / 45% post-tail
 Pool split (pre-tail)       = 20% miner-side / 20% stake-side
-Pool split (post-tail)      = 25% miner-side / 25% stake-side
+Pool split (post-tail)      = 25% miner-side / 30% stake-side
 Miner-side split (pre-tail) = 0% winner / 20% bonded-idle
 Miner-side split (post-tail)= 20% winner / 5% bonded-idle
 Tail burn target            = 100% burn on routed non-pool fees
@@ -259,10 +260,10 @@ Stake: pending -> active -> exiting -> unlockable -> withdrawn</code></pre>
   miner_winner    = total_fees * 0.00
   miner_bond_idle = total_fees * 0.20
 else:  # post-tail
-  pool_share      = total_fees * 0.50
-  routed_non_pool = total_fees * 0.50
+  pool_share      = total_fees * 0.55
+  routed_non_pool = total_fees * 0.45
   pool_miner_side = total_fees * 0.25
-  pool_stake_side = total_fees * 0.25
+  pool_stake_side = total_fees * 0.30
   miner_winner    = total_fees * 0.20
   miner_bond_idle = total_fees * 0.05
 
@@ -304,10 +305,10 @@ subject_to       = supply_floor_clipping(21,000,000 ATHO)</code></pre>
           </article>
 
           <article class="card card-pad feature-card" data-reveal>
-            <h3 class="panel-title">Whitepaper v2.0</h3>
+            <h3 class="panel-title">Whitepaper v3</h3>
             <p class="panel-copy">Complete protocol direction including BPoW architecture and rationale.</p>
             <div class="hero-actions">
-              <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/atho-complete-whitepaper-v2-0.pdf" download>Download whitepaper v2.0</a>
+              <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/atho-whitepaper-v3.pdf" download>Download whitepaper v3</a>
             </div>
           </article>
 
@@ -329,7 +330,7 @@ subject_to       = supply_floor_clipping(21,000,000 ATHO)</code></pre>
       <span>Atho Labs</span>
       <span class="footer-contact">
         <span class="footer-slogan">Atho — Private. Secure. The Platinum Standard of the Quantum Age</span>
-        <span class="footer-updated">Last updated: April 4, 2026</span>
+        <span class="footer-updated">Last updated: April 10, 2026</span>
         <span>
           To report bugs, security issues, or general inquiries:
           <a href="./contact.html">Contact</a>

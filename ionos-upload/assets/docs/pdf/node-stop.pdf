@@ -4,7 +4,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Count 2 /Kids [4 0 R 6 0 R] >>
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Courier >>
@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 1356 >>
+<< /Length 2002 >>
 stream
 BT
 /F1 10 Tf
@@ -23,17 +23,47 @@ BT
 T*
 () Tj
 T*
-(Last refresh: 2026-04-04.) Tj
+(Last refresh: 2026-04-10) Tj
 T*
 () Tj
 T*
-(This utility stops Atho node processes even when they were started from another) Tj
+(This utility provides a deterministic way to stop Atho node processes, including nodes started) Tj
 T*
-(terminal/background session.) Tj
+(from different shells, launch scripts, or background sessions. It is designed for operational) Tj
+T*
+(safety: match only known Atho process patterns, stop gracefully first, then force-stop only when) Tj
+T*
+(required.) Tj
+T*
+(- Why This Utility Exists) Tj
 T*
 () Tj
 T*
-(It targets:) Tj
+(runnode.py and related launch paths can start multiple long-lived processes. Without a) Tj
+T*
+(centralized stop mechanism, operators may rely on manual process hunting, which is error-prone) Tj
+T*
+(and risks killing unrelated Python workloads.) Tj
+T*
+() Tj
+T*
+(stop.py addresses this by providing:) Tj
+T*
+(- role-aware stop actions \(full, miner, wallet, launcher\),) Tj
+T*
+(- all-node stop behavior,) Tj
+T*
+(- explicit PID targeting,) Tj
+T*
+(- list and watch modes for live visibility,) Tj
+T*
+(- reusable Python-callable functions for API/GUI integration.) Tj
+T*
+(- Targeted Process Scope) Tj
+T*
+() Tj
+T*
+(Default target process names:) Tj
 T*
 (- fullnode.py) Tj
 T*
@@ -43,33 +73,23 @@ T*
 T*
 (- runminer.py) Tj
 T*
-(- runnode.py \(launcher, optional/available\)) Tj
+(- runnode.py \(launcher\)) Tj
 T*
 () Tj
 T*
-(Why this exists) Tj
+(Scope safety rule:) Tj
+T*
+(- the tool is intentionally narrow,) Tj
+T*
+(- it does not terminate arbitrary Python processes,) Tj
+T*
+(- operator intent is explicit through flags or menu selection.) Tj
+T*
+(- CLI Usage) Tj
 T*
 () Tj
 T*
-(runnode.py launches background processes but does not include a dedicated stop command.) Tj
-T*
-(stop.py gives you one place to:) Tj
-T*
-(- stop one node role \(full, miner, wallet\)) Tj
-T*
-(- stop everything) Tj
-T*
-(- stop specific PIDs) Tj
-T*
-(- integrate the same logic from API/GUI code) Tj
-T*
-() Tj
-T*
-(CLI Usage) Tj
-T*
-() Tj
-T*
-(From project root:) Tj
+(From repository root:) Tj
 T*
 () Tj
 T*
@@ -77,41 +97,17 @@ T*
 T*
 () Tj
 T*
-() Tj
-T*
-(No flags opens an interactive menu where you can choose:) Tj
-T*
-(- stop all) Tj
-T*
-(- stop full) Tj
-T*
-(- stop miner) Tj
-T*
-(- stop wallet) Tj
-T*
-(- stop launcher) Tj
-T*
-(- stop by PID) Tj
+(No flags opens interactive mode with role-specific options.) Tj
 T*
 () Tj
 T*
 (Non-interactive examples:) Tj
 T*
-() Tj
+(- Programmatic API Functions) Tj
 T*
 () Tj
 T*
-() Tj
-T*
-() Tj
-T*
-(API-Friendly Functions) Tj
-T*
-() Tj
-T*
-(You can import and reuse these directly:) Tj
-T*
-() Tj
+(Importable utilities for integrations:) Tj
 T*
 () Tj
 T*
@@ -123,6 +119,10 @@ T*
 T*
 (- discover_node_processes\(include_launcher=True\)) Tj
 T*
+(- list_node_processes\(include_launcher=True\)) Tj
+T*
+(- active_nodes_snapshot\(include_launcher=True\)) Tj
+T*
 ET
 endstream
 endobj
@@ -130,85 +130,164 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 1262 >>
+<< /Length 2403 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(- list_node_processes\(include_launcher=True\)) Tj
-T*
-(- active_nodes_snapshot\(include_launcher=True\)) Tj
-T*
 (- stop_nodes\(target="all", include_launcher=True, timeout_seconds=5.0, force_kill=True,) Tj
 T*
 (dry_run=False\)) Tj
 T*
 (- stop_pids\(pids, timeout_seconds=5.0, force_kill=True, dry_run=False\)) Tj
 T*
-() Tj
-T*
-(Signal Behavior) Tj
+(- Signal Escalation Behavior) Tj
 T*
 () Tj
 T*
-(For each matched process:) Tj
+(Stop sequence per process:) Tj
 T*
-(- send SIGTERM) Tj
+(- send SIGTERM,) Tj
 T*
-(- wait up to timeout \(default 5s\)) Tj
+(- wait up to timeout \(default 5s\),) Tj
 T*
-(- if still running and force-kill enabled, send SIGKILL) Tj
-T*
-() Tj
-T*
-(This is designed to cleanly stop nodes first, then force-stop only when needed.) Tj
+(- if still alive and force-kill enabled, send SIGKILL.) Tj
 T*
 () Tj
 T*
-(GUI/API Integration) Tj
+(This preserves graceful shutdown opportunities for state flush and log closure while ensuring) Tj
+T*
+(stuck processes cannot persist indefinitely.) Tj
+T*
+(- API and GUI Integration) Tj
 T*
 () Tj
 T*
-(The API node stop routes now call this stop logic, so GUI stop actions can terminate:) Tj
+(The same stop logic is used by API/GUI stop routes so user actions can terminate:) Tj
 T*
-(- processes started by API controller) Tj
+(- processes started by API-managed lifecycle,) Tj
 T*
-(- processes started from other terminals/background launchers) Tj
-T*
-() Tj
-T*
-(The API also exposes active node monitoring:) Tj
-T*
-(- GET /nodes/active -> returns active node list, roles, and PIDs \(counts_by_role, processes,) Tj
-T*
-(by_role\).) Tj
+(- processes started manually from other terminals.) Tj
 T*
 () Tj
 T*
-(Safety Scope) Tj
+(Active monitoring endpoint:) Tj
+T*
+(- GET /nodes/active) Tj
 T*
 () Tj
 T*
-(stop.py only matches Atho node/launcher command paths listed above.) Tj
+(Response includes:) Tj
 T*
-(It does **not** blanket-kill all Python processes.) Tj
+(- counts_by_role,) Tj
+T*
+(- per-process PID and role grouping,) Tj
+T*
+(- flattened process views for UI refresh logic.) Tj
+T*
+(- Operational Recommendations) Tj
+T*
+() Tj
+T*
+(Production-like usage guidance:) Tj
+T*
+(- use --list or --active before stop actions when diagnosing incidents,) Tj
+T*
+(- use --dry-run in scripted environments before enabling destructive mode,) Tj
+T*
+(- keep force-kill enabled for unattended automation, but record stop outcomes,) Tj
+T*
+(- verify no pending maintenance operation depends on node liveness before issuing --all.) Tj
+T*
+() Tj
+T*
+(For service wrappers or orchestrators, call programmatic functions directly and capture) Tj
+T*
+(JSON-style result payloads in logs.) Tj
+T*
+(- Policy Context) Tj
+T*
+() Tj
+T*
+(The stop utility itself does not change consensus policy. It supports safe operations around the) Tj
+T*
+(active production constants:) Tj
+T*
+(- block cadence 120s,) Tj
+T*
+(- tx confirmations 10, private tx confirmations 10,) Tj
+T*
+(- coinbase maturity 150,) Tj
+T*
+(- fee floor 350 atoms/vB.) Tj
+T*
+() Tj
+T*
+(Reliable process lifecycle control is part of maintaining operational consistency for these) Tj
+T*
+(policy-governed runtimes.) Tj
+T*
+(- Failure and Recovery Notes) Tj
+T*
+() Tj
+T*
+(If a stop operation appears incomplete:) Tj
+T*
+(- rerun --list to confirm remaining PID\(s\),) Tj
+T*
+(- run targeted --pid stop for survivors,) Tj
+T*
+(- inspect runtime logs for shutdown deadlocks,) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 579 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- verify parent launcher process did not immediately respawn roles.) Tj
+T*
+() Tj
+T*
+(When integrated with external supervisors, confirm restart policies are intentionally disabled) Tj
+T*
+(during maintenance windows.) Tj
+T*
+(- Bottom Line) Tj
+T*
+() Tj
+T*
+(Src/Main/stop.py is the supported shutdown control point for Atho node roles. Use it instead of) Tj
+T*
+(ad-hoc process termination to reduce collateral risk, preserve graceful shutdown semantics, and) Tj
+T*
+(maintain predictable operational behavior across CLI, API, and GUI surfaces.) Tj
 T*
 ET
 endstream
 endobj
 xref
-0 8
+0 10
 0000000000 65535 f 
 0000000015 00000 n 
 0000000064 00000 n 
-0000000127 00000 n 
-0000000195 00000 n 
-0000000321 00000 n 
-0000001729 00000 n 
-0000001855 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000002381 00000 n 
+0000002507 00000 n 
+0000004962 00000 n 
+0000005088 00000 n 
 trailer
-<< /Size 8 /Root 1 0 R >>
+<< /Size 10 /Root 1 0 R >>
 startxref
-3169
+5718
 %%EOF

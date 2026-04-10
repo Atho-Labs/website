@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2425 >>
+<< /Length 2444 >>
 stream
 BT
 /F1 10 Tf
@@ -37,7 +37,11 @@ T*
 T*
 (- Product release line: Platinum Shield v1 \(PRIVATE_LAYER_PRODUCT_VERSION=1.00\)) Tj
 T*
-(- Internal transaction family used by product v1: private tx v5) Tj
+(- Active production transaction version at genesis: private tx v1 \(1.00\)) Tj
+T*
+(- Legacy internal labels such as v5 remain as compatibility aliases only where older tooling) Tj
+T*
+(expects them) Tj
 T*
 (- Design Goals) Tj
 T*
@@ -119,10 +123,6 @@ T*
 T*
 (- Miner assembles block and computes private commitments.) Tj
 T*
-(- Miner generates block-level private STARK proof.) Tj
-T*
-(- Node verifies proof during block validation.) Tj
-T*
 ET
 endstream
 endobj
@@ -130,12 +130,16 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 2748 >>
+<< /Length 2772 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(- Miner generates block-level private STARK proof.) Tj
+T*
+(- Node verifies proof during block validation.) Tj
+T*
 (- Recipient scans chain, decapsulates payload, and stores recovered note material.) Tj
 T*
 (- Nullifiers and Anti-Double-Spend) Tj
@@ -236,10 +240,6 @@ T*
 T*
 (- logs/<network>/private/blocks/private_tx_blocks.log) Tj
 T*
-(- logs/<network>/private/errors/private_tx_errors.log) Tj
-T*
-(- Replay Protection) Tj
-T*
 ET
 endstream
 endobj
@@ -247,12 +247,16 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 1260 >>
+<< /Length 1441 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(- logs/<network>/private/errors/private_tx_errors.log) Tj
+T*
+(- Replay Protection) Tj
+T*
 (Consensus hashes for private commitments/nullifiers/signing include network identity domains,) Tj
 T*
 (preventing valid private material from one network being replayed on another network.) Tj
@@ -283,7 +287,9 @@ T*
 T*
 (- pinned binary workflow for STARK binaries,) Tj
 T*
-(- fail-closed verification gates.) Tj
+(- fail-closed verification gates,) Tj
+T*
+(- deterministic private-bundle restore audit + safe migration helpers in key manager.) Tj
 T*
 () Tj
 T*
@@ -307,7 +313,9 @@ T*
 T*
 (- Troubleshooting.md) Tj
 T*
-(- ../Src/platinum shield/ATHO_PRIVATE_LAYER_CHECKLIST.md) Tj
+(- PrivateTx_v3.md) Tj
+T*
+(- PrivateTx_v3_Condensed.md) Tj
 T*
 ET
 endstream
@@ -320,12 +328,12 @@ xref
 0000000133 00000 n 
 0000000201 00000 n 
 0000000327 00000 n 
-0000002804 00000 n 
-0000002930 00000 n 
-0000005730 00000 n 
-0000005856 00000 n 
+0000002823 00000 n 
+0000002949 00000 n 
+0000005773 00000 n 
+0000005899 00000 n 
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-7168
+7392
 %%EOF

@@ -1900,13 +1900,13 @@ Avoids locked/spent entries; no prefixes; all by HPK.
   - `delete_utxo(self, tx_out_id)` — Hard delete a UTXO (cache-less path; primarily for maintenance tools).
   - `_direct_utxo_key(self, txid_hex, vout)` — (no docstring)
   - `get_available_balance(self, hashed_public_key, current_height)` — Get both confirmed and pending balance with proper confirmation enforcement.
-COINBASE: 400 confirmations required
+COINBASE: 150 confirmations required
 REGULAR: 10 confirmations required
   - `get_pending_balance_with_confirmations(self, hashed_public_key, current_height)` — Calculate pending balance including confirmation rules
-COINBASE: 400 confirmations required
+COINBASE: 150 confirmations required
 REGULAR: 10 confirmations required
   - `get_utxos_with_confirmations(self, hashed_public_key, current_height)` — Get UTXOs with detailed confirmation information including coinbase status
-  - `get_balance_with_confirmations(self, hashed_public_key, current_height)` — Get balance with proper confirmation enforcement for coinbase (400) vs regular (10) transactions.
+  - `get_balance_with_confirmations(self, hashed_public_key, current_height)` — Get balance with proper confirmation enforcement for coinbase (150) vs regular (10) transactions.
   - `get_utxo_confirmation_status(self, utxo, current_height)` — Get detailed confirmation status for a single UTXO.
   - `add_pending_transaction(self, tx_std)` — Track a pending transaction to update balance calculations immediately.
 This marks inputs as temporarily spent and outputs as pending.

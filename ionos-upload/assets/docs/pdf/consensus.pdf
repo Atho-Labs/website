@@ -4,7 +4,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
+<< /Type /Pages /Count 4 /Kids [4 0 R 6 0 R 8 0 R 10 0 R] >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Courier >>
@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2247 >>
+<< /Length 2345 >>
 stream
 BT
 /F1 10 Tf
@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-04-04) Tj
+(Date: 2026-04-05) Tj
 T*
 () Tj
 T*
@@ -49,11 +49,17 @@ T*
 T*
 (- Max tx policy size \(vsize\): 250,000) Tj
 T*
-(- Fee floor: 250 atoms per policy byte \(vsize\)) Tj
+(- Fee floor: 350 atoms per policy byte \(vsize\)) Tj
 T*
 (- Min tx fee: 100,000 atoms) Tj
 T*
 (- Dust limit: 250 atoms) Tj
+T*
+(- Pre-tail base supply target: 100,000,000 ATHO) Tj
+T*
+(- Hard max supply cap: 150,000,000 ATHO) Tj
+T*
+(- Supply floor: 21,000,000 ATHO) Tj
 T*
 (- BPoW and Stake Constants) Tj
 T*
@@ -63,7 +69,7 @@ T*
 T*
 (- Bond activation confirmations: 25) Tj
 T*
-(- Unbond delay: 10,080 blocks) Tj
+(- Bond unbond delay: 10,080 blocks) Tj
 T*
 (- Slash penalty: 2.5 ATHO) Tj
 T*
@@ -72,6 +78,18 @@ T*
 (- Finalization buffer: 3,600 blocks) Tj
 T*
 (- Bootstrap allocation: 390,625 ATHO at block 1) Tj
+T*
+(- Stake minimum: 20 ATHO) Tj
+T*
+(- Stake max per address: 500 ATHO) Tj
+T*
+(- Stake max new entry \(rolling 30 days, network-wide\): 25,000 ATHO) Tj
+T*
+(- Stake max total locked \(network-wide\): 25,000,000 ATHO) Tj
+T*
+(- Stake unbond delay: 129,600 blocks \(180 days\)) Tj
+T*
+(- Stake rewards stop on unstake request: true) Tj
 T*
 () Tj
 T*
@@ -105,6 +123,19 @@ T*
 T*
 (2.2 State Machines) Tj
 T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2619 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (Bond state machine:) Tj
 T*
 (- pending -> active -> exiting -> unlockable -> withdrawn) Tj
@@ -123,26 +154,13 @@ T*
 T*
 (- Fee Routing and Pool Rules) Tj
 T*
-ET
-endstream
-endobj
-6 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
-endobj
-7 0 obj
-<< /Length 2587 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- Fee uplift policy: +25%) Tj
 T*
 (- Fee pool routing:) Tj
 T*
 (- pre-tail \(height < 8,000,000\): 40% of total fees \(20% miner-side, 20% stake-side\),) Tj
 T*
-(- post-tail \(height >= 8,000,000\): 50% of total fees \(25% miner-side, 25% stake-side\).) Tj
+(- post-tail \(height >= 8,000,000\): 55% of total fees \(25% miner-side, 30% stake-side\).) Tj
 T*
 (- Miner-side split:) Tj
 T*
@@ -150,7 +168,9 @@ T*
 T*
 (- post-tail: 20% winner-proportional, 5% bonded-idle split \(of total fees\).) Tj
 T*
-(- Burn policy at tail: 100% burn on routed non-pool fees \(subject to floor clipping\).) Tj
+(- Burn policy at tail: 100% burn on routed non-pool fees \(45% of total fees at post-tail) Tj
+T*
+(routing, subject to floor clipping\).) Tj
 T*
 () Tj
 T*
@@ -186,9 +206,23 @@ T*
 T*
 (- fee floor by canonical vsize,) Tj
 T*
-(- role/address consistency checks for bond/stake specific flows.) Tj
+(- role/address consistency checks for bond/stake specific flows,) Tj
 T*
 (- rejection if role-targeted lockup paths do not match derived ownership semantics.) Tj
+T*
+() Tj
+T*
+(Private-layer checks are part of this path:) Tj
+T*
+(- private nullifier uniqueness and replay checks,) Tj
+T*
+(- anchor age + merkle path validation,) Tj
+T*
+(- note ownership/signature checks,) Tj
+T*
+(- product-v1 hidden-amount mode gating,) Tj
+T*
+(- block proof gate validation.) Tj
 T*
 (- Signature and Witness Rules) Tj
 T*
@@ -206,6 +240,19 @@ T*
 T*
 (- Block Consensus Path) Tj
 T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 2401 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (Primary code:) Tj
 T*
 (- Src/Main/blockveri.py) Tj
@@ -240,19 +287,6 @@ T*
 T*
 (- PoW-valid block that is consensus-invalid \(miner proof, bond eligibility, tx validity,) Tj
 T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 1443 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (structure, or reward correctness\).) Tj
 T*
 () Tj
@@ -269,6 +303,34 @@ T*
 T*
 (This distinction is deterministic and required for safe slashing enforcement.) Tj
 T*
+() Tj
+T*
+(6.2 Private Block-Mode TXID Rebinding) Tj
+T*
+(Current miner behavior includes a required canonical txid rebind step after private output) Tj
+T*
+(block-mode conversion:) Tj
+T*
+(- private mempool form uses amount_plain,) Tj
+T*
+(- block form uses amount_commit,) Tj
+T*
+(- miner must recompute tx_id from canonical no-witness payload after conversion.) Tj
+T*
+() Tj
+T*
+(Code path:) Tj
+T*
+(- Src/Transactions/private_layer.py -> transform_v5_outputs_for_block\(...\)) Tj
+T*
+(- Src/Miner/miner.py -> _rederive_block_txid_in_place\(...\)) Tj
+T*
+() Tj
+T*
+(Without this rebind step, block merkle roots can drift from canonical tx content and be rejected) Tj
+T*
+(by block verification.) Tj
+T*
 (- Monetary Invariants) Tj
 T*
 (- All consensus value math is integer atoms.) Tj
@@ -279,6 +341,14 @@ T*
 T*
 (- miner-routed fee share for that height.) Tj
 T*
+(- Hard-cap invariant: total_supply <= 150,000,000 ATHO.) Tj
+T*
+(- Subsidy path is clipped at coinbase so when cap headroom is exhausted:) Tj
+T*
+(- block subsidy becomes 0,) Tj
+T*
+(- fee routing/burn/pool logic remains unchanged.) Tj
+T*
 (- Tail-era floor clipping guarantees effective circulating supply cannot burn below 21,000,000) Tj
 T*
 (ATHO.) Tj
@@ -287,15 +357,40 @@ T*
 T*
 (by arbitrary keys.) Tj
 T*
-(- Throughput Framing \(Policy\)) Tj
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 2152 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Throughput Framing \(Measured\)) Tj
 T*
-(At 3,500,000 vB and 120s:) Tj
+(Measured tx-size profile is in Docs/Tx.md.) Tj
 T*
-(- 566 vB avg tx -> ~51.5 TPS) Tj
+() Tj
 T*
-(- 615 vB avg tx -> ~47.4 TPS) Tj
+(Using current measured vectors and policy limits \(3,500,000 vB, 120s\):) Tj
 T*
-(- 664 vB avg tx -> ~43.9 TPS) Tj
+() Tj
+T*
+(| Flow Shape | vsize | TPS \(ideal\) | TPS \(95% pack\) |) Tj
+T*
+(| --- | ---: | ---: | ---: |) Tj
+T*
+(| public 1 in / 2 out | 553 | 52.74 | 50.11 |) Tj
+T*
+(| public -> private | 2471 | 11.80 | 11.21 |) Tj
+T*
+(| private -> public | 2708 | 10.77 | 10.23 |) Tj
+T*
+(| private -> private | 4673 | 6.24 | 5.93 |) Tj
 T*
 () Tj
 T*
@@ -308,6 +403,46 @@ T*
 (CPU and GPU miners are execution backends only. Consensus validity is engine-independent: a) Tj
 T*
 (valid block verifies identically regardless of mining backend.) Tj
+T*
+(- Audit Snapshot \(2026-04-05\)) Tj
+T*
+(Audit artifacts generated from local sandbox runners:) Tj
+T*
+(- consensus attack audit:) Tj
+T*
+(sandbox/consensus_attack_audit/reports/consensus_attack_audit_20260405_003607.json) Tj
+T*
+(- private attack audit \(v1-updated harness\):) Tj
+T*
+(sandbox/private_tx_attack_audit/reports/private_tx_attack_audit_20260405_003824.json) Tj
+T*
+(- BPoW flow audit: sandbox/bpow_flow_audit/reports/bpow_flow_audit_20260405_003611.json) Tj
+T*
+() Tj
+T*
+(Observed summary:) Tj
+T*
+(- consensus attack audit: 15 total, 8 passed, 7 failed.) Tj
+T*
+(- private attack audit: 5000 total, 5000 passed, 0 failed.) Tj
+T*
+(- BPoW flow audit: 39 checks, 35 passed, 4 failed.) Tj
+T*
+() Tj
+T*
+(Interpretation notes:) Tj
+T*
+(- consensus audit failures are primarily harness expectation mismatches \(baseline vector) Tj
+T*
+(assumptions\), not an accepted-invalid consensus path.) Tj
+T*
+(- private attack harness now targets v1 semantics and shows full pass on nullifier/anchor/replay) Tj
+T*
+(vectors.) Tj
+T*
+(- BPoW failed checks are in slash-activation scenarios where the sandbox run reports) Tj
+T*
+(bpow_inactive.) Tj
 T*
 (- Related Docs) Tj
 T*
@@ -327,19 +462,21 @@ ET
 endstream
 endobj
 xref
-0 10
+0 12
 0000000000 65535 f 
 0000000015 00000 n 
 0000000064 00000 n 
-0000000133 00000 n 
-0000000201 00000 n 
-0000000327 00000 n 
-0000002626 00000 n 
-0000002752 00000 n 
-0000005391 00000 n 
-0000005517 00000 n 
+0000000140 00000 n 
+0000000208 00000 n 
+0000000334 00000 n 
+0000002731 00000 n 
+0000002857 00000 n 
+0000005528 00000 n 
+0000005654 00000 n 
+0000008107 00000 n 
+0000008235 00000 n 
 trailer
-<< /Size 10 /Root 1 0 R >>
+<< /Size 12 /Root 1 0 R >>
 startxref
-7012
+10440
 %%EOF

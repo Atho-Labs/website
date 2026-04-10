@@ -6,7 +6,8 @@ This document is the canonical markdown reference for Atho private-layer behavio
 
 Product naming:
 - Product release line: `Platinum Shield v1` (`PRIVATE_LAYER_PRODUCT_VERSION=1.00`)
-- Internal transaction family used by product v1: private tx `v5`
+- Active production transaction version at genesis: private tx `v1` (`1.00`)
+- Legacy internal labels such as `v5` remain as compatibility aliases only where older tooling expects them
 
 ## 1) Design Goals
 - keep public UTXO behavior intact,
@@ -124,7 +125,8 @@ Implemented in repo:
 - private mempool/block/error logging,
 - block-level STARK proof bridge/backend/runtime wiring,
 - pinned binary workflow for STARK binaries,
-- fail-closed verification gates.
+- fail-closed verification gates,
+- deterministic private-bundle restore audit + safe migration helpers in key manager.
 
 Remaining hardening work:
 - broader adversarial/fuzz/regression automation,
@@ -137,4 +139,5 @@ Remaining hardening work:
 - [Binaries.md](Binaries.md)
 - [LMDB.md](LMDB.md)
 - [Troubleshooting.md](Troubleshooting.md)
-- [../Src/platinum shield/ATHO_PRIVATE_LAYER_CHECKLIST.md](../Src/platinum shield/ATHO_PRIVATE_LAYER_CHECKLIST.md)
+- [PrivateTx_v3.md](PrivateTx_v3.md)
+- [PrivateTx_v3_Condensed.md](PrivateTx_v3_Condensed.md)

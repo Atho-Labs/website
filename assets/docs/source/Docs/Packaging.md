@@ -1,37 +1,40 @@
-# Packaging & Snapshot (Alpha)
+# Packaging and Runtime Snapshot (Alpha)
 
-Last refresh: 2026-04-04.
+Last refresh: 2026-04-10
 
-## Goal
-Create a portable package you can launch directly into the GUI while preserving a timestamped copy of the current project runtime snapshot.
+This guide describes the production packaging workflow for Atho alpha builds. The packaging process keeps repository-relative paths intact, captures a timestamped snapshot, and supports reproducible release verification with checksums and signatures.
 
-This workflow keeps Atho in its repository layout so existing relative paths continue to work.
+## 1) Packaging Goal
 
-## Quick Start
+The current packaging strategy is intentionally conservative:
+- preserve runnable repository structure,
+- avoid breaking path assumptions used by runtime modules,
+- make release artifacts portable across operators,
+- keep a deterministic, timestamped build trail.
 
-From the project root:
+This is preferred over aggressive single-binary packaging until all runtime paths are fully migrated to OS-native application data directories.
 
+## 2) Quick Start
+
+From project root:
 ```bash
 chmod +x scripts/make_prealpha_package.sh
 ./scripts/make_prealpha_package.sh --with-venv
 ```
 
-To include a prebuilt Windows `.exe` in the package:
-
+Optional Windows executable inclusion:
 ```bash
 ./scripts/make_prealpha_package.sh --with-venv --windows-exe /absolute/path/to/AthoAlpha-windows.exe
 ```
 
-## Build Native Binary Artifacts
+## 3) Build Native Release Binaries First
 
-To build per-OS GUI binaries (plus source fallback package):
-
+For multi-OS release binaries and source fallback package:
 ```bash
 ./scripts/build_release_binaries.sh
 ```
 
 Examples:
-
 ```bash
 ./scripts/build_release_binaries.sh --with-docker
 ./scripts/build_release_binaries.sh --linux-only
@@ -39,39 +42,25 @@ Examples:
 ./scripts/build_release_binaries.sh --windows-only
 ```
 
-Binary output root:
+Output roots:
+- binary artifacts: `releases/binaries/<UTC_TIMESTAMP>/`
+- package snapshot: `releases/Atho-Alpha-<UTC_TIMESTAMP>-p<PID>/`
 
-```text
-releases/binaries/<UTC_TIMESTAMP>/
-```
+## 4) Package Content Layout
 
-Output goes to:
+Inside each package root:
+- `Atho-Alpha/` portable project copy,
+- tarball archive (`.tar.gz`),
+- zip archive (`.zip`) when `zip` tool is available.
 
-```text
-releases/Atho-Alpha-<UTC_TIMESTAMP>-p<PID>/
-```
+Default behavior:
+- includes project data and `Keys/` unless excluded,
+- excludes `.venv` unless `--with-venv` is set,
+- excludes test tree unless `--with-tests` is passed.
 
-Inside each package:
-- `Atho-Alpha/` (portable project copy)
-- `Atho-Alpha-<UTC_TIMESTAMP>-p<PID>.tar.gz`
-- `Atho-Alpha-<UTC_TIMESTAMP>-p<PID>.zip` (if `zip` exists)
+## 5) Packaging Options
 
-## Run The Packaged Copy
-
-Inside the packaged `Atho-Alpha` folder:
-- macOS: double-click `Atho.command`
-- Linux: run `./run_gui.sh`
-- Windows: run `run_gui.bat` (it uses `AthoAlpha.exe` first if present)
-
-## Keep Or Exclude Sensitive Data
-
-Default package behavior:
-- Includes `Keys/` and project data.
-- Excludes `.venv` unless `--with-venv` is used.
-- Excludes `Src/Test/` (production payload default).
-
-Options:
-
+Useful flags:
 ```bash
 ./scripts/make_prealpha_package.sh --without-keys
 ./scripts/make_prealpha_package.sh --with-tests
@@ -80,31 +69,56 @@ Options:
 ./scripts/make_prealpha_package.sh --name-prefix "Atho Alpha"
 ```
 
-## Release checksums and signature
+Operational guidance:
+- use `--without-keys` for distributable public release bundles,
+- use `--with-tests` for internal QA or partner technical review payloads.
 
-Create checksums, sign the checksum hash, and verify on another machine:
+## 6) Running Packaged Builds
 
+Inside packaged `Atho-Alpha` folder:
+- macOS: `Atho.command`
+- Linux: `./run_gui.sh`
+- Windows: `run_gui.bat` (prefers packaged `AthoAlpha.exe` when present)
+
+Local working-copy launchers remain available from repository root:
+- `./run_gui.command`
+- `./run_gui.sh`
+- `run_gui.bat`
+
+For foreground debugging:
 ```bash
-# 1) Build file checksums for packaged payload
+ATHO_FOREGROUND=1 ./run_gui.sh
+```
+
+Launcher log path:
+- `logs/gui/gui_launcher.log`
+
+## 7) Release Integrity Workflow
+
+Generate checksums:
+```bash
 ./.venv/bin/python Src/Main/checksum.py build \
   --root releases/Atho-Alpha-<STAMP>-p<PID>/Atho-Alpha \
   --out releases/Atho-Alpha-<STAMP>-p<PID>/Atho-Alpha/checksums.sha256
+```
 
-# 2) Sign checksum hash with Falcon key json (f,g,F,G)
+Sign checksum hash with Falcon key JSON:
+```bash
 ./.venv/bin/python Src/Main/checksum.py sign \
   --checksums releases/Atho-Alpha-<STAMP>-p<PID>/Atho-Alpha/checksums.sha256 \
   --key-json /absolute/path/to/falcon_key.json \
   --release Atho-Alpha-<STAMP>
+```
 
-# 3) Verify checksums + Falcon signature
+Verify checksums + signature:
+```bash
 ./.venv/bin/python Src/Main/checksum.py verify \
   --checksums releases/Atho-Alpha-<STAMP>-p<PID>/Atho-Alpha/checksums.sha256 \
   --signature releases/Atho-Alpha-<STAMP>-p<PID>/Atho-Alpha/checksums.sha256.sig.json \
   --root releases/Atho-Alpha-<STAMP>-p<PID>/Atho-Alpha
 ```
 
-If you publish an expected checksum-file hash with the release note:
-
+Optional pinned expected hash verification:
 ```bash
 ./.venv/bin/python Src/Main/checksum.py verify \
   --checksums .../checksums.sha256 \
@@ -113,23 +127,23 @@ If you publish an expected checksum-file hash with the release note:
   --expected-checksums-sha256 <expected_sha256_of_checksums_file>
 ```
 
-## Local One-Click Launch (Current Working Copy)
+## 8) Production Policy Context
 
-From the repository root, you can launch GUI directly with:
-- macOS: `./run_gui.command`
-- Linux/macOS shell: `./run_gui.sh`
-- Windows: `run_gui.bat`
+Packaging does not alter consensus constants, but release communication should include current policy reference so downstream operators validate against the right profile:
+- block target `120s`, retarget `180`,
+- tx confirmations `10`, private tx confirmations `10`, coinbase maturity `150`,
+- fee floor `350 atoms/vB`, minimum fee `100,000 atoms`.
 
-These launchers now start the GUI detached in background so terminal can be closed.
-Launcher log path:
-- `logs/gui/gui_launcher.log`
+## 9) Recommended Release Checklist
 
-To force foreground mode for debugging:
+1. Build native binaries.
+2. Validate binary pin metadata.
+3. Run smoke tests for node + GUI launch.
+4. Create package snapshot.
+5. Generate checksums and Falcon signature.
+6. Verify artifact integrity on a second machine.
+7. Publish release note with expected checksum-file hash.
 
-```bash
-ATHO_FOREGROUND=1 ./run_gui.sh
-```
+## 10) Bottom Line
 
-## Notes
-- This is the safest packaging path for current alpha architecture because many modules use repo-relative roots.
-- If you want a single binary installer later (`.app`, `.dmg`, `.exe`, `.deb`), first migrate runtime paths (logs/keys/db/config) to OS app-data directories and then freeze with PyInstaller/Briefcase.
+The current Atho packaging flow favors reproducibility and operational reliability over installer-style polish. That tradeoff is intentional for alpha hardening. Until path migration and freeze tooling are fully mature, this repository-preserving packaging strategy remains the safest way to distribute consistent runtime artifacts.

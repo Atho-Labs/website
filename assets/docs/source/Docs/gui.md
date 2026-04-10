@@ -83,3 +83,20 @@ Captured from current alpha client/web explorer flow (2026-03-12):
 ![GUI/HTML screenshot 4](images/ui/gui_html_screenshot_04_260312101845.png)
 ![GUI/HTML screenshot 5](images/ui/gui_html_screenshot_05_260312101900.png)
 ![GUI/HTML screenshot 6](images/ui/gui_html_screenshot_06_260312101913.png)
+
+## Production Safety and Policy Alignment
+
+GUI behavior is aligned to live constants from `Src/Utility/const.py`, so user-visible maturity and balance states should reflect current network policy:
+- regular confirmations target: `10`,
+- private note confirmations target: `10`,
+- coinbase maturity: `150`.
+
+When troubleshooting “missing spendable balance” reports, verify chain height and confirmation thresholds first before assuming wallet corruption.
+
+Recommended operational checks for GUI deployments:
+1. confirm GUI and API are running from the same repository/build snapshot,
+2. confirm bridge endpoint accessibility from local browser,
+3. confirm binary strict mode/pin metadata state when native operations fail,
+4. review `logs/<network>/` GUI + API runtime logs together for timing issues.
+
+For release docs and demos, include screenshot timestamps and client build identifiers so UI evidence remains traceable to a known runtime baseline.

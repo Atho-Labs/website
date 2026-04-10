@@ -4,7 +4,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Count 2 /Kids [4 0 R 6 0 R] >>
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Courier >>
@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 1964 >>
+<< /Length 2166 >>
 stream
 BT
 /F1 10 Tf
@@ -23,13 +23,19 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-04-04) Tj
+(Date: 2026-04-10) Tj
 T*
 () Tj
 T*
-(This document describes how Atho computes size/weight and how to estimate TPS.) Tj
+(This document describes the active Atho sizing model for transaction weight, virtual size) Tj
 T*
-(- Active Limits) Tj
+(\(vsize\), and throughput estimation. It is intended for node operators, wallet/API integrators,) Tj
+T*
+(and reviewers validating fee/tps assumptions.) Tj
+T*
+(- Active Sizing Limits) Tj
+T*
+() Tj
 T*
 (From Src/Utility/const.py:) Tj
 T*
@@ -41,7 +47,17 @@ T*
 T*
 (- WITNESS_SCALE_FACTOR = 4) Tj
 T*
-(- Metric Definitions) Tj
+() Tj
+T*
+(These values establish the hard envelope for mempool admission and block packing. Any throughput) Tj
+T*
+(estimate that ignores these limits is not aligned with current consensus policy.) Tj
+T*
+(- Canonical Metric Definitions) Tj
+T*
+() Tj
+T*
+(Atho uses SegWit-style accounting:) Tj
 T*
 (- weight = base_bytes * 3 + total_bytes) Tj
 T*
@@ -49,51 +65,94 @@ T*
 T*
 () Tj
 T*
-(Atho fee and admission logic uses canonical vsize.) Tj
+(Interpretation:) Tj
 T*
-(- How Base vs Witness Is Counted) Tj
+(- base bytes are weighted heavier,) Tj
 T*
-(Base view:) Tj
+(- witness bytes are discounted relative to base,) Tj
 T*
-(- top-level witness fields removed,) Tj
+(- fee policy and packing policy are both driven by vsize.) Tj
 T*
-(- input script_sig blanked for no-witness form.) Tj
+() Tj
+T*
+(Current fee baseline tied to vsize:) Tj
+T*
+(- fee floor 350 atoms/vB,) Tj
+T*
+(- minimum fee 100,000 atoms.) Tj
+T*
+(- Base vs Witness Counting Rules) Tj
+T*
+() Tj
+T*
+(Base view \(no-witness form\):) Tj
+T*
+(- remove top-level witness fields,) Tj
+T*
+(- blank script_sig in input entries for deterministic no-witness sizing.) Tj
 T*
 () Tj
 T*
 (Total view:) Tj
 T*
-(- includes witness payload.) Tj
+(- includes witness payload and all fields.) Tj
 T*
 () Tj
 T*
-(Sizing implementation:) Tj
+(Implementation references:) Tj
 T*
 (- Src/SigWit/sigwit.py::SegWit.sizes_bytes) Tj
 T*
-(- binary codec length is used when available.) Tj
+(- binary tx serialization paths when available \(ATX2 transport\)) Tj
+T*
+() Tj
+T*
+(The important point is deterministic counting, not ad-hoc JSON length heuristics.) Tj
 T*
 (- Throughput Formula) Tj
 T*
+() Tj
+T*
 (Let:) Tj
 T*
-(- Bv = 3,500,000 effective vbytes per block cap,) Tj
+(- Bv = 3,500,000 effective vbytes per block,) Tj
 T*
-(- T = 120 seconds,) Tj
+(- T = 120 seconds per block target,) Tj
 T*
-(- F = packing factor \(0.95 for conservative planning\),) Tj
+(- F = packing factor \(1.0 ideal, 0.95 conservative\),) Tj
 T*
-(- Savg = avg non-coinbase tx vsize.) Tj
+(- Savg = average non-coinbase tx vsize.) Tj
 T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2275 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 () Tj
 T*
 (Then:) Tj
 T*
 (- TPS ~= \(Bv * F\) / \(T * Savg\)) Tj
 T*
-(- Current Reference Sizes) Tj
+() Tj
 T*
-(Current representative estimates \(compressed witness, no metadata\):) Tj
+(Use this as a planning model, not a guarantee. Real block composition, propagation, and tx mix) Tj
+T*
+(always influence observed throughput.) Tj
+T*
+(- Current Reference vsize Profiles) Tj
+T*
+() Tj
+T*
+(Representative estimates \(compressed witness, no metadata-heavy edge cases\):) Tj
 T*
 (- 1 in / 1 out: ~513 vB) Tj
 T*
@@ -105,58 +164,148 @@ T*
 T*
 (- 4 in / 2 out: ~713 vB) Tj
 T*
-(- TPS Bands \(F=1.0 and F=0.95\)) Tj
+() Tj
 T*
-(Using T=120:) Tj
+(These are useful baseline points for fee estimation and capacity planning. Production) Tj
 T*
-(- 566 vB: 51.5 TPS ideal, 49.0 TPS at F=0.95) Tj
+(applications should still measure real rolling averages from their own observed workload.) Tj
 T*
-(- 615 vB: 47.4 TPS ideal, 45.1 TPS at F=0.95) Tj
-T*
-(- 664 vB: 43.9 TPS ideal, 41.7 TPS at F=0.95) Tj
-T*
-(- Key Interpretation) Tj
-T*
-(There is no single static network tx size. Real capacity depends on tx mix and utilization.) Tj
+(- Example TPS Bands) Tj
 T*
 () Tj
 T*
-(For planning:) Tj
+(With T = 120:) Tj
+T*
+(- at 566 vB: 51.5 TPS ideal, 49.0 TPS at F=0.95) Tj
+T*
+(- at 615 vB: 47.4 TPS ideal, 45.1 TPS at F=0.95) Tj
+T*
+(- at 664 vB: 43.9 TPS ideal, 41.7 TPS at F=0.95) Tj
+T*
+(- at 713 vB: 40.9 TPS ideal, 38.8 TPS at F=0.95) Tj
+T*
+() Tj
+T*
+(Private flows are intentionally larger than public-only flows and therefore reduce effective TPS) Tj
+T*
+(for privacy-heavy block compositions.) Tj
+T*
+(- Why vsize Discipline Matters) Tj
+T*
+() Tj
+T*
+(Sizing discipline directly affects:) Tj
+T*
+(- fair fee market behavior,) Tj
+T*
+(- predictable miner packing,) Tj
+T*
+(- mempool anti-spam controls,) Tj
+T*
+(- reliable cost estimation for wallets and API clients.) Tj
+T*
+() Tj
+T*
+(If two components disagree on vsize, they may disagree on minimum fee validity or replacement) Tj
+T*
+(eligibility. That creates avoidable UX and propagation failures.) Tj
+T*
+(- Operational Validation Workflow) Tj
+T*
+() Tj
+T*
+(When updating tx serialization or witness rules:) Tj
+T*
+(- recalculate vsize metrics from live serializer output,) Tj
+T*
+(- run mempool admission tests for floor and minimum fee boundaries,) Tj
+T*
+(- compare block packing behavior under mixed tx shapes,) Tj
+T*
+(- verify explorer/API displayed vsize matches internal policy computation.) Tj
+T*
+() Tj
+T*
+(Related docs:) Tj
+T*
+(- Docs/Tx.md) Tj
+T*
+(- Docs/Consensus.md) Tj
+T*
+(- Docs/Network_Stack.md) Tj
+T*
+(- Policy Snapshot Coupled to Sizing) Tj
+T*
+() Tj
+T*
+(Sizing assumptions in this doc align with active policy:) Tj
 T*
 ET
 endstream
 endobj
-6 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
-7 0 obj
-<< /Length 165 >>
+9 0 obj
+<< /Length 880 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(- measure rolling Savg from your own blocks,) Tj
+(- block target 120s,) Tj
 T*
-(- measure real utilization,) Tj
+(- retarget 180 blocks,) Tj
 T*
-(- recompute TPS from these formulas.) Tj
+(- tx confirmations 10, private tx confirmations 10,) Tj
+T*
+(- coinbase maturity 150 blocks,) Tj
+T*
+(- fee floor 350 atoms/vB.) Tj
+T*
+() Tj
+T*
+(These values are not part of vsize math directly, but they define transaction lifecycle and fee) Tj
+T*
+(policy behavior around it.) Tj
+T*
+(- Practical Guidance) Tj
+T*
+() Tj
+T*
+(For production planning:) Tj
+T*
+(- maintain rolling averages for Savg by tx class,) Tj
+T*
+(- separate public-heavy and private-heavy throughput estimates,) Tj
+T*
+(- track packing factor \(F\) from observed blocks,) Tj
+T*
+(- keep user-facing fee estimates tied to current floor and min-fee constants.) Tj
+T*
+() Tj
+T*
+(Treat the formulas here as deterministic policy scaffolding. Then refine with real chain) Tj
+T*
+(telemetry from your own operating environment.) Tj
 T*
 ET
 endstream
 endobj
 xref
-0 8
+0 10
 0000000000 65535 f 
 0000000015 00000 n 
 0000000064 00000 n 
-0000000127 00000 n 
-0000000195 00000 n 
-0000000321 00000 n 
-0000002337 00000 n 
-0000002463 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000002545 00000 n 
+0000002671 00000 n 
+0000004998 00000 n 
+0000005124 00000 n 
 trailer
-<< /Size 8 /Root 1 0 R >>
+<< /Size 10 /Root 1 0 R >>
 startxref
-2679
+6055
 %%EOF

@@ -4,7 +4,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Count 2 /Kids [4 0 R 6 0 R] >>
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Courier >>
@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2136 >>
+<< /Length 2446 >>
 stream
 BT
 /F1 10 Tf
@@ -23,81 +23,31 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-04-04) Tj
+(Date: 2026-04-10) Tj
 T*
 () Tj
 T*
-(This document describes how Atho uses SHA3-384 for identity and transaction hashing.) Tj
+(This document explains how Atho uses SHA3-384 across identity, transaction digesting, block) Tj
 T*
-(- Hash Primitives) Tj
+(identity, and runtime integrity checks. It focuses on the active implementation profile, not) Tj
 T*
-(Core implementation:) Tj
+(historical variants.) Tj
+T*
+(- Hash Primitive Role in Atho) Tj
+T*
+() Tj
+T*
+(Atho uses SHA3-384 as the default high-assurance digest primitive for consensus-relevant) Tj
+T*
+(identity and signing flows. The practical result is a consistent 48-byte digest shape \(96 hex) Tj
+T*
+(characters\) across major subsystems.) Tj
+T*
+() Tj
+T*
+(Core implementation entrypoints:) Tj
 T*
 (- Src/Utility/hash.py) Tj
-T*
-() Tj
-T*
-(Primary primitives:) Tj
-T*
-(- SHA3-384 for canonical tx/block identity workflows.) Tj
-T*
-(- SHA3-256 for checksum/helper cases \(for example address checksum paths\).) Tj
-T*
-(- HPK \(Hashed Public Key\)) Tj
-T*
-(- HPK is derived from public key bytes using SHA3-384.) Tj
-T*
-(- Raw digest size: 48 bytes.) Tj
-T*
-(- Hex representation: 96 hex chars.) Tj
-T*
-() Tj
-T*
-(Internal destination binding uses HPK form \(ATHO/ATHT tagged form in many paths\).) Tj
-T*
-(- Public Key Size Policy \(Falcon\)) Tj
-T*
-(Current policy in constants:) Tj
-T*
-(- Canonical Falcon public key length: 897 bytes.) Tj
-T*
-(- Optional legacy acceptance path can allow 1024 byte format during migration.) Tj
-T*
-() Tj
-T*
-(HPK derivation is always based on raw bytes, regardless of display encoding.) Tj
-T*
-(- Base56 Address Layer) Tj
-T*
-(Base56 is user-facing representation on top of HPK.) Tj
-T*
-() Tj
-T*
-(Relevant code:) Tj
-T*
-(- Src/Blockchain/base56.py) Tj
-T*
-() Tj
-T*
-(Behavior:) Tj
-T*
-(- decode Base56 -> canonical HPK binding,) Tj
-T*
-(- encode HPK -> Base56 with checksum,) Tj
-T*
-(- keep display-friendly address format while internal flows stay hash-based.) Tj
-T*
-(- Transaction Hashing Roles) Tj
-T*
-(- txid: no-witness deterministic hash path.) Tj
-T*
-(- wtxid: full-transaction hash including witness.) Tj
-T*
-(- Signing digest: deterministic no-witness signing body digest.) Tj
-T*
-() Tj
-T*
-(Relevant code:) Tj
 T*
 (- Src/Utility/txdhash.py) Tj
 T*
@@ -105,23 +55,73 @@ T*
 T*
 (- Src/Transactions/txvalidation.py) Tj
 T*
-(- Binary Integrity Pinning) Tj
+() Tj
 T*
-(SHA3-384 is also used for native binary integrity metadata and pin checks.) Tj
+(SHA3-256 remains present for specific helper/checksum use cases where shorter digest width is) Tj
+T*
+(sufficient and consensus behavior is unaffected.) Tj
+T*
+(- HPK \(Hashed Public Key\) Model) Tj
 T*
 () Tj
 T*
-(Related files:) Tj
+(HPK is derived from raw Falcon public key bytes through SHA3-384. This gives deterministic,) Tj
 T*
-(- Binaries/pin_registry.json) Tj
+(fixed-length identity material for internal destination binding.) Tj
 T*
-(- Binaries/<platform-tag>/binary_meta.json) Tj
+() Tj
 T*
-(- Src/Utility/binarypin.py) Tj
+(Key properties:) Tj
 T*
-(- Src/Accounts/falconcli.py) Tj
+(- digest size: 48 bytes,) Tj
 T*
-(- Operational Notes) Tj
+(- hex form: 96 chars,) Tj
+T*
+(- deterministic for identical input bytes,) Tj
+T*
+(- stable across display encoding changes.) Tj
+T*
+() Tj
+T*
+(Why this matters:) Tj
+T*
+(- internal storage and validation remain hash-native,) Tj
+T*
+(- user-facing address encodings can evolve without changing canonical identity semantics,) Tj
+T*
+(- code paths that operate on HPK avoid variable-length public key edge cases.) Tj
+T*
+(- Public Key Length Policy) Tj
+T*
+() Tj
+T*
+(Current production constants in Src/Utility/const.py define:) Tj
+T*
+(- canonical Falcon public key length 897 bytes,) Tj
+T*
+(- optional legacy compatibility length 1024 bytes \(disabled in normal operation unless migration) Tj
+T*
+(policy enables it\).) Tj
+T*
+() Tj
+T*
+(HPK derivation always hashes the raw byte payload accepted by validation policy. Display) Tj
+T*
+(encoding is not part of HPK digest input.) Tj
+T*
+(- Addressing Layer: HPK vs Base56) Tj
+T*
+() Tj
+T*
+(Atho separates internal and external address representations:) Tj
+T*
+(- internal: HPK-based deterministic identity,) Tj
+T*
+(- external: Base56 user-facing strings with network and role-aware prefixes.) Tj
+T*
+() Tj
+T*
+(Relevant code:) Tj
 T*
 ET
 endstream
@@ -130,33 +130,198 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 266 >>
+<< /Length 2507 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(- Keep address normalization centralized via existing helper paths.) Tj
+(- Src/Blockchain/base56.py) Tj
 T*
-(- Keep user-facing Base56 stable; do not alter internal HPK digest length.) Tj
+(- Src/Utility/const.py \(network/role prefix policy\)) Tj
 T*
-(- Keep binary pin metadata refreshed whenever binaries are rebuilt.) Tj
+() Tj
+T*
+(Runtime behavior:) Tj
+T*
+(- Base56 decode maps back to canonical HPK form,) Tj
+T*
+(- Base56 encode wraps HPK with checksum/display affordances,) Tj
+T*
+(- consensus and accounting remain HPK-driven.) Tj
+T*
+() Tj
+T*
+(This separation keeps user ergonomics without weakening deterministic backend identity checks.) Tj
+T*
+(- Transaction Hashing Roles) Tj
+T*
+() Tj
+T*
+(Atho distinguishes digest roles clearly:) Tj
+T*
+(- txid: deterministic no-witness identity hash.) Tj
+T*
+(- wtxid: full transaction hash including witness payload.) Tj
+T*
+(- signing digest: canonical no-witness signing body hash.) Tj
+T*
+() Tj
+T*
+(Operational impact:) Tj
+T*
+(- tx indexing and validation use stable digest semantics,) Tj
+T*
+(- witness malleability is isolated from no-witness identity where intended,) Tj
+T*
+(- signing verification always rebuilds canonical signing body before hashing.) Tj
+T*
+(- Block and Runtime Identity) Tj
+T*
+() Tj
+T*
+(Block-level identity paths also rely on SHA3-384 conventions so digest width and tooling are) Tj
+T*
+(consistent. The same primitive family is reused in binary pinning metadata, creating a cohesive) Tj
+T*
+(integrity model across consensus and runtime binaries.) Tj
+T*
+() Tj
+T*
+(Binary integrity files:) Tj
+T*
+(- Binaries/pin_registry.json) Tj
+T*
+(- Binaries/<platform-tag>/binary_meta.json) Tj
+T*
+() Tj
+T*
+(Pin validation logic:) Tj
+T*
+(- Src/Utility/binarypin.py) Tj
+T*
+(- Src/Accounts/falconcli.py \(binary resolution + policy checks\)) Tj
+T*
+(- Domain Separation and Safety) Tj
+T*
+() Tj
+T*
+(Digest security is not only about algorithm selection; context separation is equally important.) Tj
+T*
+(Atho uses role and network domain tags in several derivation paths to prevent cross-context) Tj
+T*
+(replay and address-role confusion.) Tj
+T*
+() Tj
+T*
+(Examples include:) Tj
+T*
+(- regular/bond/stake address role domains,) Tj
+T*
+(- network-specific pool address derivation domains,) Tj
+T*
+(- private-layer domain-tagged commitment/signature contexts.) Tj
+T*
+() Tj
+T*
+(Best practice when adding new hash usages:) Tj
+T*
+(- define explicit domain labels,) Tj
+T*
+(- avoid reusing digest outputs across unrelated contexts,) Tj
+T*
+(- keep input serialization deterministic,) Tj
+T*
+(- include network or role tags when replay boundaries are required.) Tj
+T*
+(- Production Validation Checklist) Tj
+T*
+() Tj
+T*
+(For hashing/addressing regressions, verify:) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1394 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- HPK length and hex formatting constraints,) Tj
+T*
+(- Base56 decode/encode roundtrip consistency,) Tj
+T*
+(- tx signing digest reproducibility,) Tj
+T*
+(- txid/wtxid determinism under canonical serialization,) Tj
+T*
+(- binary pin hash validation after native rebuilds.) Tj
+T*
+() Tj
+T*
+(Recommended references for deep checks:) Tj
+T*
+(- Docs/Tx.md) Tj
+T*
+(- Docs/Base56.md) Tj
+T*
+(- Docs/Falcon512.md) Tj
+T*
+(- Docs/Consensus.md) Tj
+T*
+(- Policy Snapshot) Tj
+T*
+() Tj
+T*
+(Current policy values most relevant to hashing/addressing operations:) Tj
+T*
+(- block target 120s, retarget interval 180,) Tj
+T*
+(- tx confirmations 10, private tx confirmations 10, coinbase maturity 150,) Tj
+T*
+(- fee floor 350 atoms/vB, min tx fee 100,000 atoms.) Tj
+T*
+() Tj
+T*
+(These values do not change hash algorithm selection, but they influence transaction lifecycle,) Tj
+T*
+(maturity handling, and operational expectations around explorer/API digest usage.) Tj
+T*
+(- Bottom Line) Tj
+T*
+() Tj
+T*
+(SHA3-384 in Atho is a platform-wide integrity primitive rather than an isolated function call.) Tj
+T*
+(It anchors public key hashing, transaction identity, signing validation, and binary pin) Tj
+T*
+(governance under a consistent digest model. Keeping this model stable, domain-separated, and) Tj
+T*
+(deterministic is essential for auditability and cross-node consensus behavior.) Tj
 T*
 ET
 endstream
 endobj
 xref
-0 8
+0 10
 0000000000 65535 f 
 0000000015 00000 n 
 0000000064 00000 n 
-0000000127 00000 n 
-0000000195 00000 n 
-0000000321 00000 n 
-0000002509 00000 n 
-0000002635 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000002825 00000 n 
+0000002951 00000 n 
+0000005510 00000 n 
+0000005636 00000 n 
 trailer
-<< /Size 8 /Root 1 0 R >>
+<< /Size 10 /Root 1 0 R >>
 startxref
-2952
+7082
 %%EOF

@@ -1,0 +1,311 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 3050 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Platinum Shield Spec Audit \(Code Alignment\)) Tj
+T*
+() Tj
+T*
+(Last updated: 2026-04-05) Tj
+T*
+() Tj
+T*
+(Scope Audited) Tj
+T*
+(- migrated checklist content into Docs/PrivateTx_v3.md / Docs/PrivateTx_v3.pdf) Tj
+T*
+(- condensed companion published at Docs/PrivateTx_v3_Condensed.md /) Tj
+T*
+(Docs/PrivateTx_v3_Condensed.pdf) Tj
+T*
+(- migrated into Docs/PrivateTx_v3.md / Docs/PrivateTx_v3.pdf) Tj
+T*
+(- migrated into Docs/PrivateTx_v3.md / Docs/PrivateTx_v3.pdf) Tj
+T*
+(- migrated into Docs/PrivateTx_v3.md / Docs/PrivateTx_v3.pdf) Tj
+T*
+(- Runtime and consensus code paths under Src/Transactions, Src/Main, Src/Miner, Src/Storage,) Tj
+T*
+(Src/Wallet, Src/Accounts, Src/ZKSTARK.) Tj
+T*
+() Tj
+T*
+(Remediation Completed \(Items 1-7\)) Tj
+T*
+(- Merkle mismatch rejection hardening:) Tj
+T*
+(- Miner now canonicalizes txids for all candidate transactions during final block assembly) Tj
+T*
+(before witness commitment and PoW persistence.) Tj
+T*
+(- Verifier now recomputes Merkle root from canonical txids directly in verifier path.) Tj
+T*
+(- Files: Src/Miner/miner.py, Src/Main/blockveri.py.) Tj
+T*
+(- Version semantics cleanup:) Tj
+T*
+(- Private version detector now includes product-v1 major \(1\) in addition to compatibility) Tj
+T*
+(majors.) Tj
+T*
+(- Proof statement now carries explicit private_product_v1_activity while preserving) Tj
+T*
+(compatibility aliases.) Tj
+T*
+(- Docs now describe v1 as active production line and v5 naming as compatibility alias.) Tj
+T*
+(- Files: Src/Utility/const.py, Src/Transactions/private_layer.py,) Tj
+T*
+(Src/ZKSTARK/scripts/private_layer_stark_bridge.py, Docs/PlatinumShield_Privacy.md.) Tj
+T*
+(- Private tx version detection consistency:) Tj
+T*
+(- Constants.is_private_tx_version\(\) updated to include major 1, preventing split-path policy) Tj
+T*
+(checks.) Tj
+T*
+(- File: Src/Utility/const.py.) Tj
+T*
+(- API recipient x-address ergonomics:) Tj
+T*
+(- API now derives recipient_x_address from recipient_bundle when omitted.) Tj
+T*
+(- API rejects explicitly provided x-address when it does not match bundle hash.) Tj
+T*
+(- File: Src/Api/apis.py.) Tj
+T*
+(- Consensus-level recipient binding strictness for product-v1:) Tj
+T*
+(- Product-v1 outputs now require both recipient_bundle_hash and recipient_x_address in private) Tj
+T*
+(output parsing.) Tj
+T*
+(- File: Src/Transactions/private_layer.py.) Tj
+T*
+(- Deterministic bundle migration gap:) Tj
+T*
+(- Added deterministic readiness audit API in key manager.) Tj
+T*
+(- Added explicit safe migration routine for random legacy bundles with no note-state history.) Tj
+T*
+(- File: Src/Accounts/key_manager.py.) Tj
+T*
+(- Coverage and regression additions:) Tj
+T*
+(- Added/updated tests for canonical merkle helper, product-v1 version detection, strict) Tj
+T*
+(recipient binding, auto-derived x-address bundle flow, deterministic bundle readiness/migration.) Tj
+T*
+(- Files: tests/test_private_layer_pipeline.py,) Tj
+T*
+(tests/test_key_manager_private_layer_materials.py.) Tj
+T*
+() Tj
+T*
+(Checklist Crosswalk \(Private Layer\)) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2560 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(All 25 checklist points remain implemented in codebase. Additional verification pass confirms:) Tj
+T*
+(- deterministic Falcon note-seed derivation and identifier-independent master seed path are) Tj
+T*
+(active;) Tj
+T*
+(- private note store/nullifier/anchor enforcement is active in mempool and block validation;) Tj
+T*
+(- private root and proof fields are carried in block data and gated fail-closed;) Tj
+T*
+(- wallet receive scan path uses 4-byte view tag fast-check and validates bundle/x-address) Tj
+T*
+(metadata;) Tj
+T*
+(- replay separation remains network-domain bound for private commitments/signatures.) Tj
+T*
+() Tj
+T*
+(Primary implementation references:) Tj
+T*
+(- Src/Transactions/private_layer.py) Tj
+T*
+(- Src/Main/txveri.py) Tj
+T*
+(- Src/Main/consensus.py) Tj
+T*
+(- Src/Storage/private_notes_store.py) Tj
+T*
+(- Src/Storage/mempool.py) Tj
+T*
+(- Src/Wallet/private_receive.py) Tj
+T*
+(- Src/Wallet/private_spend.py) Tj
+T*
+(- Src/Accounts/key_manager.py) Tj
+T*
+() Tj
+T*
+(Validation Run) Tj
+T*
+() Tj
+T*
+(Executed after patching:) Tj
+T*
+(- python3 -m unittest tests.test_private_layer_pipeline) Tj
+T*
+(tests.test_key_manager_private_layer_materials) Tj
+T*
+(- python3 -m unittest discover -s tests) Tj
+T*
+(- python3 -m py_compile on all modified source/test files) Tj
+T*
+() Tj
+T*
+(Result:) Tj
+T*
+(- all tests passed.) Tj
+T*
+(- modified modules compile without syntax errors.) Tj
+T*
+() Tj
+T*
+(Additional Production Alignment Notes \(2026-04-10\)) Tj
+T*
+() Tj
+T*
+(The remediation summary above is now aligned with the current production policy baseline used) Tj
+T*
+(across docs and constants. The most important operational point is that private-layer validation) Tj
+T*
+(is not treated as optional enrichment; it is part of the fail-closed consensus path when) Tj
+T*
+(product-v1 private flow is active.) Tj
+T*
+() Tj
+T*
+(Current policy-adjacent constants that matter for private-layer runtime behavior:) Tj
+T*
+(- standard tx confirmations: 10,) Tj
+T*
+(- private tx confirmations: 10,) Tj
+T*
+(- coinbase maturity: 150,) Tj
+T*
+(- fee floor: 350 atoms/vB,) Tj
+T*
+(- BPoW bond requirement: 25 ATHO with activation at 25 confirmations.) Tj
+T*
+() Tj
+T*
+(These values influence wallet visibility timing, note maturity interpretation, and mempool/user) Tj
+T*
+(expectations around when outputs become practically spendable.) Tj
+T*
+() Tj
+T*
+(Residual Risk Tracking) Tj
+T*
+() Tj
+T*
+(Residual risks are mostly operational rather than algorithmic in this revision stage:) Tj
+T*
+(- incorrect binary deployment or stale hash metadata,) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1049 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- inconsistent API/client assumptions about private note maturity windows,) Tj
+T*
+(- partial rollout where one environment updates policy docs but not runtime constants.) Tj
+T*
+() Tj
+T*
+(Recommended controls:) Tj
+T*
+(- run strict binary pin mode in production-like environments,) Tj
+T*
+(- include private-flow regression tests in pre-release CI,) Tj
+T*
+(- publish a synchronized policy snapshot in release notes,) Tj
+T*
+(- verify Src/Utility/const.py invariants and docs in same review cycle.) Tj
+T*
+() Tj
+T*
+(Audit Follow-Up Cadence) Tj
+T*
+() Tj
+T*
+(Suggested cadence for this audit document:) Tj
+T*
+(- update after every private-layer consensus-affecting patch,) Tj
+T*
+(- update after any transaction version activation/schedule changes,) Tj
+T*
+(- include test command outputs and commit references for reproducibility.) Tj
+T*
+() Tj
+T*
+(This keeps the audit trail usable by external reviewers who need to confirm that narrative) Tj
+T*
+(claims remain consistent with active implementation and runtime policy.) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000003429 00000 n 
+0000003555 00000 n 
+0000006167 00000 n 
+0000006293 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+7394
+%%EOF

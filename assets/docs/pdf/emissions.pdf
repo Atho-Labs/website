@@ -4,7 +4,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
+<< /Type /Pages /Count 4 /Kids [4 0 R 6 0 R 8 0 R 10 0 R] >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Courier >>
@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2247 >>
+<< /Length 2519 >>
 stream
 BT
 /F1 10 Tf
@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-04-04) Tj
+(Date: 2026-04-05) Tj
 T*
 () Tj
 T*
@@ -73,6 +73,8 @@ T*
 T*
 (- Total pre-tail base target = 99,609,375 + 390,625 = 100,000,000 ATHO.) Tj
 T*
+(- Hard max supply cap = 150,000,000 ATHO.) Tj
+T*
 () Tj
 T*
 (Tail:) Tj
@@ -83,11 +85,118 @@ T*
 T*
 (- Tail annual issuance: 51,328.125 ATHO/year.) Tj
 T*
+() Tj
+T*
+(Hard-cap clipping rule:) Tj
+T*
+(- Subsidy is clipped at coinbase path by remaining cap headroom.) Tj
+T*
+(- Once total_emitted_atoms reaches 150,000,000 ATHO, subsidy is 0 for all later heights.) Tj
+T*
+(- Fee routing/burn/pool accounting remains unchanged \(fees do not mint new supply\).) Tj
+T*
+(- Why This Bounded Model Exists) Tj
+T*
+(Atho uses three monetary anchors for stability and auditability:) Tj
+T*
+(- 100,000,000 ATHO base issuance path:) Tj
+T*
+(- defines the long-form launch distribution and predictable early-to-mid lifecycle issuance,) Tj
+T*
+(- gives operators and integrators a deterministic emission curve to model from genesis.) Tj
+T*
+(- 150,000,000 ATHO hard max supply cap:) Tj
+T*
+(- enforces a strict upper bound on minted supply at consensus level,) Tj
+T*
+(- prevents perpetual subsidy expansion and guarantees issuance eventually terminates \(subsidy =) Tj
+T*
+(0 after cap is reached\).) Tj
+T*
+(- 21,000,000 ATHO protected supply floor:) Tj
+T*
+(- ensures burn logic cannot reduce effective circulating supply below a minimum economic base,) Tj
+T*
+(- protects against pathological over-burn in sustained high-fee periods.) Tj
+T*
+() Tj
+T*
+(Design intent:) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2749 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- The base path controls structured distribution,) Tj
+T*
+(- the max cap bounds long-run inflation risk,) Tj
+T*
+(- the floor bounds long-run deflation pressure from fee burn.) Tj
+T*
+() Tj
+T*
+(Result:) Tj
+T*
+(- supply is constrained inside a deterministic corridor and remains consensus-verifiable on) Tj
+T*
+(every block.) Tj
+T*
+(- How This Differs and Why It Matters) Tj
+T*
+(How Atho differs:) Tj
+T*
+(- It combines a finite hard cap \(150M\) with a structured base path \(100M\) and an enforced lower) Tj
+T*
+(floor \(21M\).) Tj
+T*
+(- Many networks implement only one side of this envelope:) Tj
+T*
+(- cap-only systems constrain inflation but do not include a protocol burn-floor guardrail,) Tj
+T*
+(- perpetual-tail systems preserve ongoing issuance but do not hard-stop minting at a fixed) Tj
+T*
+(maximum.) Tj
+T*
+(- Atho enforces both boundaries in consensus math:) Tj
+T*
+(- upper bound through subsidy clipping at coinbase,) Tj
+T*
+(- lower bound through burn headroom clipping.) Tj
+T*
+() Tj
+T*
+(Why this is important:) Tj
+T*
+(- Predictability: issuance and boundary behavior can be modeled from genesis with no) Tj
+T*
+(discretionary policy step.) Tj
+T*
+(- Safety: prevents two extremes at protocol level:) Tj
+T*
+(- unbounded long-run mint expansion,) Tj
+T*
+(- over-aggressive fee burn reducing circulating supply below intended minimum.) Tj
+T*
+(- Auditability: nodes can verify boundary adherence per block using deterministic fields) Tj
+T*
+(\(fees_*_atoms, cumulative_burned_atoms, emitted totals\).) Tj
+T*
+(- Upgrade clarity: monetary changes are explicit hard-fork events, not hidden runtime tuning.) Tj
+T*
 (- Active Fee Policy) Tj
 T*
 (Current constants:) Tj
 T*
-(- FEE_PER_BYTE_ATOMS = 250 \(policy unit is vsize\)) Tj
+(- FEE_PER_BYTE_ATOMS = 350 \(policy unit is vsize\)) Tj
 T*
 (- MIN_TRANSACTION_FEE_ATOMS = 100,000) Tj
 T*
@@ -103,9 +212,9 @@ T*
 T*
 (- Pre-tail: 40% of total fees route to consensus pool \(20% miner bucket, 20% stake bucket\).) Tj
 T*
-(- Post-tail: 50% of total fees route to consensus pool \(25% miner bucket, 25% stake bucket\).) Tj
+(- Post-tail: 55% of total fees route to consensus pool \(25% miner bucket, 30% stake bucket\).) Tj
 T*
-(- At tail, routed non-pool fees \(50%\) are burn-targeted \(100% burn policy\), clipped by) Tj
+(- At tail, routed non-pool fees \(45%\) are burn-targeted \(100% burn policy\), clipped by) Tj
 T*
 (supply-floor headroom.) Tj
 T*
@@ -123,19 +232,6 @@ T*
 T*
 (- varint widths,) Tj
 T*
-ET
-endstream
-endobj
-6 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
-endobj
-7 0 obj
-<< /Length 1947 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- witness lengths,) Tj
 T*
 (- optional metadata.) Tj
@@ -144,6 +240,19 @@ T*
 T*
 (Representative estimates \(compressed witness, metadata empty\):) Tj
 T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 2084 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- 1 in / 1 out: ~513 vB) Tj
 T*
 (- 1 in / 2 out: ~566 vB) Tj
@@ -184,39 +293,43 @@ T*
 T*
 (At full block utilization by vbytes:) Tj
 T*
-(- Total fee floor capacity per block = 3,500,000 * 250 = 875,000,000 atoms = 0.875 ATHO) Tj
+(- Total fee floor capacity per block = 3,500,000 * 350 = 1,225,000,000 atoms = 1.225 ATHO) Tj
 T*
-(- Annual total fees at full utilization = 229,950 ATHO/year) Tj
+(- Annual total fees at full utilization = 321,930 ATHO/year) Tj
 T*
-(- Burnable routed share \(50%\) at full utilization = 114,975 ATHO/year) Tj
+(- Burnable routed share \(45%\) at full utilization = 144,868.5 ATHO/year) Tj
 T*
 () Tj
 T*
 (Post-tail net annual change:) Tj
 T*
-(- Delta_supply = 51,328.125 - \(114,975 * utilization\)) Tj
+(- Delta_supply = 51,328.125 - \(144,868.5 * utilization\)) Tj
+T*
+(- This formula applies while subsidy is still positive; after hard-cap clip, subsidy term is 0.) Tj
 T*
 () Tj
 T*
 (Deflation threshold:) Tj
 T*
-(- utilization ~= 51,328.125 / 114,975 ~= 0.4464 \(44.64%\)) Tj
+(- utilization ~= 51,328.125 / 144,868.5 ~= 0.3543 \(35.43%\)) Tj
 T*
 () Tj
 T*
 (Interpretation:) Tj
 T*
-(- <44.64% utilization: inflationary net.) Tj
+(- <35.43% utilization: inflationary net.) Tj
 T*
-(- =44.64%: neutral net.) Tj
+(- =35.43%: neutral net.) Tj
 T*
-(- >44.64%: deflationary net \(subject to floor clipping\).) Tj
+(- >35.43%: deflationary net \(subject to floor clipping\).) Tj
 T*
 (- Coinbase Invariants) Tj
 T*
 (Consensus payout invariants:) Tj
 T*
 (- coinbase_outputs_sum_atoms == block_reward_atoms + fees_miner_atoms) Tj
+T*
+(- total_emitted_atoms\(height\) <= 150,000,000 * 1e9 atoms) Tj
 T*
 () Tj
 T*
@@ -238,23 +351,25 @@ T*
 T*
 (- reward schedule,) Tj
 T*
+(- hard max supply cap and subsidy clipping rule,) Tj
+T*
 (- tail reward,) Tj
+T*
+(- fee uplift/routing percents,) Tj
 T*
 ET
 endstream
 endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
 endobj
-9 0 obj
-<< /Length 156 >>
+11 0 obj
+<< /Length 117 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(- fee uplift/routing percents,) Tj
-T*
 (- burn split and floor,) Tj
 T*
 (- fee constants,) Tj
@@ -265,19 +380,21 @@ ET
 endstream
 endobj
 xref
-0 10
+0 12
 0000000000 65535 f 
 0000000015 00000 n 
 0000000064 00000 n 
-0000000133 00000 n 
-0000000201 00000 n 
-0000000327 00000 n 
-0000002626 00000 n 
-0000002752 00000 n 
-0000004751 00000 n 
-0000004877 00000 n 
+0000000140 00000 n 
+0000000208 00000 n 
+0000000334 00000 n 
+0000002905 00000 n 
+0000003031 00000 n 
+0000005832 00000 n 
+0000005958 00000 n 
+0000008094 00000 n 
+0000008222 00000 n 
 trailer
-<< /Size 10 /Root 1 0 R >>
+<< /Size 12 /Root 1 0 R >>
 startxref
-5084
+8391
 %%EOF

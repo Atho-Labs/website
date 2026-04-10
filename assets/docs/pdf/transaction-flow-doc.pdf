@@ -1,0 +1,1523 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 13 /Kids [4 0 R 6 0 R 8 0 R 10 0 R 12 0 R 14 0 R 16 0 R 18 0 R 20 0 R 22 0 R 24 0 R 26 0 R 28 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2905 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Atho Transaction Flow \(End-to-End, Deterministic Restore, and Private Pipeline\)) Tj
+T*
+() Tj
+T*
+(Date: 2026-04-05) Tj
+T*
+() Tj
+T*
+(This document is a code-grounded, operator-focused walkthrough of the Atho transaction lifecycle) Tj
+T*
+(with specific emphasis on the private flow and deterministic wallet recovery behavior.) Tj
+T*
+() Tj
+T*
+(It is written to answer the practical questions that matter in production:) Tj
+T*
+(- If a user imports or recovers a wallet, can they recover public and private funds?) Tj
+T*
+(- How are Falcon and Kyber key materials derived from mnemonic path data?) Tj
+T*
+(- How are private note keys generated for each note, and how are they recovered later?) Tj
+T*
+(- Why can one receive bundle accept unlimited private receives, and how does scanning recover) Tj
+T*
+(them deterministically?) Tj
+T*
+(- Where are the consensus boundaries for transaction validity, fee routing, and state transition) Tj
+T*
+(integrity?) Tj
+T*
+() Tj
+T*
+(The scope is intentionally broad and deep: GUI/API ingress, tx build pipeline, mempool) Tj
+T*
+(admission, mining transforms, block verification, state commit, wallet-side private scanning,) Tj
+T*
+(and deterministic recovery semantics.) Tj
+T*
+() Tj
+T*
+(Primary code anchors used for this document:) Tj
+T*
+(- Src/Accounts/mnemonic.py) Tj
+T*
+(- Src/Accounts/key_manager.py) Tj
+T*
+(- Src/Accounts/kybercli.py) Tj
+T*
+(- Src/Falcon/deterministic_keygen.py) Tj
+T*
+(- Src/Wallet/private_spend.py) Tj
+T*
+(- Src/Wallet/private_receive.py) Tj
+T*
+(- Src/Wallet/private_note_crypto.py) Tj
+T*
+(- Src/Transactions/private_layer.py) Tj
+T*
+(- Src/Utility/private_bundle.py) Tj
+T*
+(- Src/Utility/const.py) Tj
+T*
+(- Src/Api/apis.py) Tj
+T*
+(- Src/Main/consensus.py) Tj
+T*
+(- Src/Main/txveri.py) Tj
+T*
+(- Src/Main/blockveri.py) Tj
+T*
+(- Src/Miner/miner.py) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- System Model: What Atho Is Actually Enforcing) Tj
+T*
+() Tj
+T*
+(Atho is a layered system where each stage has a narrow responsibility. That separation is) Tj
+T*
+(important because it prevents one component from becoming a hidden consensus authority.) Tj
+T*
+(- Interface layer \(GUI/API\): gathers inputs, normalizes payloads, and applies UX safeguards.) Tj
+T*
+(- Build layer: creates canonical transaction structures and fills witness/private vectors.) Tj
+T*
+(- Admission layer: mempool entry checks tx policy and basic validity.) Tj
+T*
+(- Verification layer: enforces ownership, signature validity, UTXO spend rules, and private note) Tj
+T*
+(semantics.) Tj
+T*
+(- Mining layer: selects mempool txs, applies block-mode transforms, builds coinbase, and mines.) Tj
+T*
+(- Block verification layer: recomputes commitments and checks accounting and structural) Tj
+T*
+(invariants.) Tj
+T*
+(- Commit layer: atomically updates state stores and journals.) Tj
+T*
+(- Wallet recovery layer: scans chain and decodes private receives for local ownership.) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2328 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(This division means wallet usability logic and consensus logic are not the same thing. A GUI bug) Tj
+T*
+(can break user experience, but consensus remains anchored in verifier/block-verifier rules.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Versioning Reality: Private Product-V1 Is the Genesis Target) Tj
+T*
+() Tj
+T*
+(A major clarification in current code is that the production private flow is now) Tj
+T*
+(version-targeted to product-v1 from genesis.) Tj
+T*
+() Tj
+T*
+(In constants:) Tj
+T*
+(- PRIVATE_TX_V1_ACTIVATION_HEIGHT = 0) Tj
+T*
+(- PRIVATE_TX_V4_ACTIVATION_HEIGHT = -1) Tj
+T*
+(- PRIVATE_TX_V5_ACTIVATION_HEIGHT = -1) Tj
+T*
+(- PRIVATE_TX_VERSION_PRODUCT_V1 = TX_VERSION \(currently 1.00\)) Tj
+T*
+() Tj
+T*
+(This means operationally:) Tj
+T*
+(- private tx should be built and validated as v1 semantics,) Tj
+T*
+(- legacy 4.x/5.x are disabled unless explicitly reactivated via environment/config overrides,) Tj
+T*
+(- amount-commit mode for private path is tied to product-v1 semantics.) Tj
+T*
+() Tj
+T*
+(So if you reset from genesis and run default settings, private flow should use v1 rules by) Tj
+T*
+(design.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Canonical Tx Data Model and Identity) Tj
+T*
+() Tj
+T*
+(A transaction carries:) Tj
+T*
+(- header/body fields \(version, network, timestamp, lock_time\),) Tj
+T*
+(- inputs and outputs for UTXO path,) Tj
+T*
+(- witness/signature material,) Tj
+T*
+(- optional private_inputs and private_outputs vectors for private flow.) Tj
+T*
+() Tj
+T*
+(Key identity facts:) Tj
+T*
+(- tx signing uses canonical no-witness domain rules,) Tj
+T*
+(- txid identity and wtxid/witness commitments are recomputed where required,) Tj
+T*
+(- block-level commitments must match transformed, final payloads, not mempool draft state.) Tj
+T*
+() Tj
+T*
+(This is especially important for private tx because mempool-mode and block-mode private outputs) Tj
+T*
+(differ in allowed fields.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Fee Policy and Size Policy \(Operational, Not Theoretical\)) Tj
+T*
+() Tj
+T*
+(Atho policy uses weight/vsize style accounting, not a static byte fee.) Tj
+T*
+() Tj
+T*
+(Policy model:) Tj
+T*
+(- weight = base_bytes * 3 + total_bytes) Tj
+T*
+(- vsize = ceil\(weight / 4\)) Tj
+T*
+() Tj
+T*
+(Fee floor in production policy:) Tj
+T*
+(- required_fee = max\(vsize * 350 atoms, 100,000 atoms\)) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 2342 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(Measured empirical vsize from current serializer/metrics path:) Tj
+T*
+(- public 1 in / 2 out: 553 vB) Tj
+T*
+(- public -> private \(1 in / 1 private out\): 2471 vB) Tj
+T*
+(- private -> public \(1 private in / 1 public out\): 2708 vB) Tj
+T*
+(- private -> private \(1 private in / 1 private out\): 4673 vB) Tj
+T*
+() Tj
+T*
+(Interpretation:) Tj
+T*
+(- private tx are significantly larger due to encrypted payload and private vector witness data,) Tj
+T*
+(- this is expected and consistent with privacy feature overhead,) Tj
+T*
+(- throughput planning should assume mixed workload, not public-only baseline.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Deterministic Wallet Root: Mnemonic to Seed) Tj
+T*
+() Tj
+T*
+(Mnemonic flow in Atho is explicit:) Tj
+T*
+(- Entropy is generated first.) Tj
+T*
+(- Mnemonic phrase is encoded from entropy+checksum.) Tj
+T*
+(- Seed is derived from mnemonic phrase \(plus optional passphrase\) using PBKDF2-HMAC-SHA3-512.) Tj
+T*
+() Tj
+T*
+(Important deterministic inputs:) Tj
+T*
+(- normalized mnemonic phrase,) Tj
+T*
+(- passphrase,) Tj
+T*
+(- PBKDF2 iteration count,) Tj
+T*
+(- salt prefix scheme.) Tj
+T*
+() Tj
+T*
+(This root seed is then split into independent derivation domains for Falcon and Kyber via) Tj
+T*
+(HKDF-like extract/expand with domain strings.) Tj
+T*
+() Tj
+T*
+(Practical implication: mnemonic phrase is not a decorative label. It is the cryptographic root) Tj
+T*
+(of deterministic key regeneration when path parameters match.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Falcon Branch: Wallet Identity and Public Address Rebuild) Tj
+T*
+() Tj
+T*
+(For Falcon branch derivation, mnemonic module includes path context:) Tj
+T*
+(- network \(mainnet, testnet, regnet\),) Tj
+T*
+(- account index,) Tj
+T*
+(- role label,) Tj
+T*
+(- child index.) Tj
+T*
+() Tj
+T*
+(The derived Falcon seed is fed into deterministic Falcon keygen, producing the same keypair for) Tj
+T*
+(the same path inputs.) Tj
+T*
+() Tj
+T*
+(add_key_from_mnemonic\(...\) then stores:) Tj
+T*
+(- Falcon private/public material,) Tj
+T*
+(- hashed public key \(HPK\),) Tj
+T*
+(- base56 display address,) Tj
+T*
+(- derived role-separated addresses,) Tj
+T*
+(- mnemonic metadata \(role, account, index, iterations, passphrase-used flag\).) Tj
+T*
+() Tj
+T*
+(Idempotent behavior is built in: if imported mnemonic path maps to an already-present public) Tj
+T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 2760 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(key, KeyManager updates metadata rather than duplicating divergent records.) Tj
+T*
+() Tj
+T*
+(This is why public wallet identity recovery is deterministic and reliable across imports when) Tj
+T*
+(path and passphrase are consistent.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Kyber Branch: Deterministic Private Receive Identity) Tj
+T*
+() Tj
+T*
+(Private receive identity depends on Kyber key material plus Falcon public key in the bundle.) Tj
+T*
+() Tj
+T*
+(Current code supports deterministic Kyber keypair generation by seeded Kyber ref RNG through) Tj
+T*
+(KyberCLI.keypair_deterministic\(...\).) Tj
+T*
+() Tj
+T*
+(get_or_create_private_bundle\(...\) behavior:) Tj
+T*
+(- attempts to derive deterministic Kyber seed from mnemonic context and stored mnemonic) Tj
+T*
+(metadata,) Tj
+T*
+(- if mnemonic metadata is not available, falls back to deterministic Falcon-root Kyber seed) Tj
+T*
+(derivation,) Tj
+T*
+(- uses deterministic keypair generation whenever deterministic seed material is available,) Tj
+T*
+(- stores seed_source = mnemonic_v1 and mnemonic restore path metadata,) Tj
+T*
+(- stores seed_source = falcon_root_v1 for fallback-derived deterministic bundles.) Tj
+T*
+() Tj
+T*
+(Bundle construction:) Tj
+T*
+(- bundle bytes = version || falcon_public_key || kyber_public_key) Tj
+T*
+(- bundle_hash = sha3_384\(bundle_bytes\)) Tj
+T*
+(- x_address = "X" + base56\(bundle_hash_bytes\)) Tj
+T*
+(- bundle_view_tag = first 4 bytes represented as first 8 hex chars of bundle hash) Tj
+T*
+() Tj
+T*
+(Result: for mnemonic-backed wallets with same path/passphrase, Kyber bundle identity can be) Tj
+T*
+(recreated deterministically, so same bundle hash/x-address are regenerated.) Tj
+T*
+(For imported/legacy key records without mnemonic metadata, Falcon-root fallback still keeps) Tj
+T*
+(bundle identity deterministic.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- What "Recover All Funds" Means in Practice) Tj
+T*
+() Tj
+T*
+(You can now interpret recovery in concrete categories.) Tj
+T*
+() Tj
+T*
+(8.1 Public funds) Tj
+T*
+(Recovered if mnemonic path inputs match:) Tj
+T*
+(- Falcon keypair and address identity are regenerated deterministically,) Tj
+T*
+(- chain UTXOs for those addresses are discoverable and spendable.) Tj
+T*
+() Tj
+T*
+(8.2 Private funds) Tj
+T*
+(Recovered when two conditions are true:) Tj
+T*
+(- receiver private bundle identity \(Kyber secret + bundle binding\) is recreated or restored,) Tj
+T*
+(- wallet scans chain and decodes private outputs targeted to that bundle.) Tj
+T*
+() Tj
+T*
+(For mnemonic-v1 bundle path, this is deterministic if passphrase/path match.) Tj
+T*
+(For older legacy random bundle generation, mnemonic alone cannot recreate old Kyber secret key;) Tj
+T*
+(that requires preserved key backup artifacts or explicit migration.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 2528 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(8.3 Non-fund local state) Tj
+T*
+(Not strictly blockchain funds and not guaranteed from mnemonic alone:) Tj
+T*
+(- local contacts and UI labels,) Tj
+T*
+(- favorites and address-book metadata,) Tj
+T*
+(- local in-flight UI state.) Tj
+T*
+() Tj
+T*
+(Funds recovery and UX-state recovery are different problem domains.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Private Note Seed Model: How Child Note Keys Are Generated) Tj
+T*
+() Tj
+T*
+(A core question is: how do note child Falcon keys get generated and later recovered?) Tj
+T*
+() Tj
+T*
+(Sender-side deterministic stream:) Tj
+T*
+(- KeyManager computes private note master seed from wallet Falcon materials + network domain.) Tj
+T*
+(- reserve_private_note_seed\(...\) reads current private_note_state \(account, next_counter\).) Tj
+T*
+(- derive_note_seed\(master_seed, account, counter, network\) computes 32-byte deterministic note) Tj
+T*
+(seed.) Tj
+T*
+(- Counter increments and persists atomically.) Tj
+T*
+() Tj
+T*
+(Important current property:) Tj
+T*
+(- identifier string is no longer part of this master-seed derivation domain for determinism.) Tj
+T*
+(- this removes prior alias/name drift risk.) Tj
+T*
+() Tj
+T*
+(Then, inside private send builder:) Tj
+T*
+(- note_seed_key_seed\(...\) produces a 32-byte key-seed for Falcon note keygen,) Tj
+T*
+(- note_seed_payload_bytes\(...\) expands/normalizes to 64-byte payload seed for encrypted payload) Tj
+T*
+(storage.) Tj
+T*
+() Tj
+T*
+(So one deterministic seed stream produces per-note deterministic Falcon child keypairs and) Tj
+T*
+(payload seeds.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Why Unlimited Receives Work on One Bundle) Tj
+T*
+() Tj
+T*
+(A receiver does not need to rotate bundle every receive.) Tj
+T*
+() Tj
+T*
+(One bundle can receive unlimited private notes because each send includes fresh randomness and) Tj
+T*
+(context:) Tj
+T*
+(- sender performs Kyber encapsulation to receiver Kyber public key,) Tj
+T*
+(- this generates a per-output shared secret,) Tj
+T*
+(- recipient id and encrypted payload are derived from that shared secret,) Tj
+T*
+(- per-note Falcon child key in output is tied to encrypted note seed, not to a static) Tj
+T*
+(receiver-side counter.) Tj
+T*
+() Tj
+T*
+(This means:) Tj
+T*
+(- receiver does not pre-generate all possible note keys,) Tj
+T*
+(- receiver scans outputs and attempts decapsulation/decryption,) Tj
+T*
+(- only outputs targeted to receiver bundle decode successfully.) Tj
+T*
+() Tj
+T*
+(This is the correct model for scalable private receive without key explosion in advance.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+14 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 15 0 R >>
+endobj
+15 0 obj
+<< /Length 2507 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(---) Tj
+T*
+(- Private Send Build Pipeline \(Public->Private and Private->Private\)) Tj
+T*
+() Tj
+T*
+(For private recipients, API builder path does strict normalization:) Tj
+T*
+(- each recipient must provide amount,) Tj
+T*
+(- recipient bundle is parsed by resilient decoder,) Tj
+T*
+(- recipient x-address is required and binding-validated,) Tj
+T*
+(- optional include_view_tag defaults true in send path.) Tj
+T*
+() Tj
+T*
+(In PrivateSpendBuilder.build_private_output_bundle\(...\):) Tj
+T*
+(- Resolve note seed \(deterministic from reserved stream in normal flow\).) Tj
+T*
+(- Derive Falcon note child keypair from key seed.) Tj
+T*
+(- Parse and validate recipient bundle/x-address binding.) Tj
+T*
+(- Extract recipient Kyber public key.) Tj
+T*
+(- Kyber encapsulate -> shared secret.) Tj
+T*
+(- Derive recipient id from shared secret.) Tj
+T*
+(- Compute note commit from note pubkey + amount + recipient id + nonce.) Tj
+T*
+(- Build encrypted payload \(AES-GCM\) carrying note seed and optional message.) Tj
+T*
+(- Emit private output fields including recipient binding fields.) Tj
+T*
+() Tj
+T*
+(For product-v1 amount-commit semantics:) Tj
+T*
+(- mempool format carries amount_plain path constraints,) Tj
+T*
+(- block transform converts to commitment-compatible block mode before inclusion.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Encrypted Payload Structure and View Tags) Tj
+T*
+() Tj
+T*
+(Payload model in private note crypto:) Tj
+T*
+(- kyber_ciphertext \(for decapsulation\),) Tj
+T*
+(- aes_nonce,) Tj
+T*
+(- amount field \(for v5/product semantics\),) Tj
+T*
+(- ciphertext_seed \(AES-GCM encrypted note seed payload\),) Tj
+T*
+(- optional 4-byte view tag prefix.) Tj
+T*
+() Tj
+T*
+(The view tag is derived from shared secret and allows fast rejection of non-matching outputs) Tj
+T*
+(before deeper work.) Tj
+T*
+() Tj
+T*
+(Security-relevant checks on recovery:) Tj
+T*
+(- decapsulation must succeed,) Tj
+T*
+(- recipient_id must match expected output field,) Tj
+T*
+(- if view-tag present, derived tag must match payload tag,) Tj
+T*
+(- decrypted note seed must regenerate note pubkey that matches output note pubkey,) Tj
+T*
+(- recomputed commit must match output commit.) Tj
+T*
+() Tj
+T*
+(Only then note is accepted as wallet-owned.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Private Receive/Recovery: How Wallet Recreates Notes) Tj
+T*
+() Tj
+T*
+(Receiver flow is scanner-driven and deterministic:) Tj
+T*
+(- KeyManager creates scan entries from local wallet keys that have private layer material:) Tj
+T*
+(- bundle,) Tj
+T*
+ET
+endstream
+endobj
+16 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 17 0 R >>
+endobj
+17 0 obj
+<< /Length 2522 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- bundle hash,) Tj
+T*
+(- x-address,) Tj
+T*
+(- Kyber secret key.) Tj
+T*
+(- For each block/tx private output:) Tj
+T*
+(- prefilter by recipient_bundle_hash tag \(first 8 hex chars / 4 bytes\) when present,) Tj
+T*
+(- call scanner on candidate outputs.) Tj
+T*
+(- Scanner tries decapsulation with local Kyber secret key\(s\).) Tj
+T*
+(- If decapsulation succeeds, derive recipient id and check binding.) Tj
+T*
+(- Verify optional payload view tag.) Tj
+T*
+(- Decrypt encrypted note seed payload.) Tj
+T*
+(- Derive note Falcon child key deterministically from decrypted note seed.) Tj
+T*
+(- Recompute commit/nullifier and validate consistency.) Tj
+T*
+(- Record note locally as unspent.) Tj
+T*
+() Tj
+T*
+(This answers the central deterministic recovery question:) Tj
+T*
+(- wallet does not guess note keys by brute-force derivation from receiver mnemonic path alone,) Tj
+T*
+(- wallet reconstructs exact note keys from chain payload encrypted to receiver bundle,) Tj
+T*
+(- deterministic regeneration happens after decryption.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Chain Scan Triggers and Sync Behavior) Tj
+T*
+() Tj
+T*
+(Private scan is wired in multiple places:) Tj
+T*
+(- Wallet unlock path:) Tj
+T*
+(- on unlock, API triggers scan_private_notes_from_chain\(...\) starting from stored scan cursor or) Tj
+T*
+(genesis fallback.) Tj
+T*
+(- Consensus accepted block path:) Tj
+T*
+(- after private state apply, consensus invokes wallet private scan for that block when wallet is) Tj
+T*
+(available/unlocked.) Tj
+T*
+(- Rebuild/reconcile path:) Tj
+T*
+(- extension-state rebuild path also runs wallet private scan replay when conditions are) Tj
+T*
+(satisfied.) Tj
+T*
+() Tj
+T*
+(Scan cursor behavior:) Tj
+T*
+(- per-key private_scan_state.last_height is tracked,) Tj
+T*
+(- if absent, start from height 0 to ensure no missed historical outputs.) Tj
+T*
+() Tj
+T*
+(This is how import/recovery can catch up from genesis to tip and recover incoming private notes.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Critical Consistency Fix: Bundle Hash Length in Scan) Tj
+T*
+() Tj
+T*
+(Bundle hash in this protocol is SHA3-384 hex \(96 chars\), not 64 chars.) Tj
+T*
+() Tj
+T*
+(A mismatch in scan-entry validation can silently skip valid bundle records and break private) Tj
+T*
+(recovery.) Tj
+T*
+() Tj
+T*
+(Current code now uses 96-char validation in private scan entry building. This aligns with:) Tj
+T*
+(- bundle hash construction in private_bundle.py,) Tj
+T*
+(- tx parser checks in private_layer.py,) Tj
+T*
+(- wallet scan prefilter logic.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+18 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 19 0 R >>
+endobj
+19 0 obj
+<< /Length 2163 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Operational meaning:) Tj
+T*
+(- imported/recovered wallets with valid private bundle data are not silently excluded from scan) Tj
+T*
+(due to wrong hash length assumption.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Public Send Flow \(Reference Path\)) Tj
+T*
+() Tj
+T*
+(Public path remains straightforward:) Tj
+T*
+(- Select UTXOs for sender HPK.) Tj
+T*
+(- Build outputs \(recipient + change\).) Tj
+T*
+(- Compute fee by vsize policy.) Tj
+T*
+(- Sign Falcon witness.) Tj
+T*
+(- Submit to mempool admission.) Tj
+T*
+() Tj
+T*
+(Verifier checks:) Tj
+T*
+(- inputs exist and unspent,) Tj
+T*
+(- signatures valid for ownership path,) Tj
+T*
+(- no double-spend/mempool collisions,) Tj
+T*
+(- conservation holds \(inputs = outputs + fee\).) Tj
+T*
+() Tj
+T*
+(Once mined and verified in block context, UTXO state updates atomically.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Private->Public Flow) Tj
+T*
+() Tj
+T*
+(Private->public combines private-note spend verification with public output creation:) Tj
+T*
+(- Select private notes and build private inputs \(commit/nullifier/anchor/path/signature\).) Tj
+T*
+(- Build public outputs for destination.) Tj
+T*
+(- Build optional private change output.) Tj
+T*
+(- Admission checks private vectors and version semantics.) Tj
+T*
+() Tj
+T*
+(Verifier enforces:) Tj
+T*
+(- nullifier uniqueness \(confirmed and pending domains\),) Tj
+T*
+(- note existence/ownership,) Tj
+T*
+(- anchor validity and age window,) Tj
+T*
+(- merkle-path correctness,) Tj
+T*
+(- private spend digest signature validity.) Tj
+T*
+() Tj
+T*
+(After block inclusion, nullifiers prevent replay of those same spent notes.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Private->Private Flow) Tj
+T*
+() Tj
+T*
+(Private->private is the most data-heavy path:) Tj
+T*
+(- Consume private inputs as above.) Tj
+T*
+(- Build one or more recipient private outputs with bundle/x-address binding.) Tj
+T*
+(- Add private change if needed.) Tj
+T*
+(- In miner/block assembly, convert private outputs to block mode and rebind txid where required.) Tj
+T*
+() Tj
+T*
+(Consensus and block verifier then enforce full consistency including:) Tj
+T*
+(- private vector parse validity,) Tj
+T*
+(- accounting consistency,) Tj
+T*
+ET
+endstream
+endobj
+20 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 21 0 R >>
+endobj
+21 0 obj
+<< /Length 2198 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- proof/commitment gates as configured.) Tj
+T*
+() Tj
+T*
+(This path yields the largest vsize and strongest private-surface usage.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Mempool-Mode vs Block-Mode Private Output Transform) Tj
+T*
+() Tj
+T*
+(A non-obvious but critical design feature:) Tj
+T*
+(- tx can carry one representation at mempool stage,) Tj
+T*
+(- then be transformed to consensus block representation before final inclusion.) Tj
+T*
+() Tj
+T*
+(If transformation changes tx body, txid must be recomputed on transformed payload before merkle) Tj
+T*
+(commitment.) Tj
+T*
+() Tj
+T*
+(Failure to do this produces merkle root inconsistencies and consensus splits.) Tj
+T*
+() Tj
+T*
+(Current mining path explicitly handles this rebinding for private output transforms.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Coinbase and Fee Routing Integrity) Tj
+T*
+() Tj
+T*
+(Fee routing is consensus-enforced accounting, not optional policy metadata.) Tj
+T*
+() Tj
+T*
+(For each block, verifier recomputes expected split:) Tj
+T*
+(- total tx fees,) Tj
+T*
+(- miner fee share,) Tj
+T*
+(- pool share,) Tj
+T*
+(- burned share,) Tj
+T*
+(- cumulative burn counters.) Tj
+T*
+() Tj
+T*
+(Coinbase payout must match subsidy + miner share only, according to split rules.) Tj
+T*
+() Tj
+T*
+(If declared fields \(fees_total_atoms, fees_pool_atoms, fees_miner_atoms, fees_burned_atoms,) Tj
+T*
+(etc.\) diverge from recomputed values, block is rejected.) Tj
+T*
+() Tj
+T*
+(So pool-routing bugs are not just reporting bugs. If they alter consensus-visible accounting,) Tj
+T*
+(they become block-invalid conditions.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Deterministic Restore Matrix \(What Restores, Exactly\)) Tj
+T*
+() Tj
+T*
+(21.1 Restores from mnemonic path alone \(when matching\)) Tj
+T*
+(- Falcon wallet keypair.) Tj
+T*
+(- HPK/public address identity.) Tj
+T*
+(- Role-derived addresses.) Tj
+T*
+(- For mnemonic-derived private layer: deterministic Kyber keypair and same bundle/x-address.) Tj
+T*
+() Tj
+T*
+(21.2 Requires additional artifacts in some cases) Tj
+T*
+(- Historical wallets whose private bundle was created with seed_source=random.) Tj
+T*
+(- Local UI/contact/label metadata.) Tj
+T*
+(- Any non-chain local preferences.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+22 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 23 0 R >>
+endobj
+23 0 obj
+<< /Length 2333 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(21.3 Passphrase caveat) Tj
+T*
+(If mnemonic metadata indicates passphrase was used, deterministic restore requires the same) Tj
+T*
+(passphrase; otherwise deterministic Kyber restore path is intentionally blocked.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Security Boundary Notes: Falcon, Kyber, and AES-GCM Roles) Tj
+T*
+() Tj
+T*
+(Roles are separated by function:) Tj
+T*
+(- Falcon: signatures and deterministic note keypairs.) Tj
+T*
+(- Kyber-512 \(private tx path\): encapsulation/decapsulation to derive shared secret for note) Tj
+T*
+(payload encryption.) Tj
+T*
+(- AES-GCM: authenticated encryption of note payload using key derived from shared secret.) Tj
+T*
+() Tj
+T*
+(At-rest wallet encryption can use different Kyber level policy \(for example 1024 path\) depending) Tj
+T*
+(on wallet crypto configuration, but private tx routing logic here is keyed to private-layer) Tj
+T*
+(constants \(PRIVATE_KYBER_LEVEL, currently 512\).) Tj
+T*
+() Tj
+T*
+(This separation is expected and should not be conflated:) Tj
+T*
+(- transaction transport confidentiality path and at-rest wallet file protection path are) Tj
+T*
+(distinct.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Replay and Double-Spend Prevention Layers) Tj
+T*
+() Tj
+T*
+(Public domain:) Tj
+T*
+(- outpoint spend checks,) Tj
+T*
+(- mempool conflict tracking,) Tj
+T*
+(- block-local duplicate protection.) Tj
+T*
+() Tj
+T*
+(Private domain:) Tj
+T*
+(- nullifier uniqueness across confirmed state,) Tj
+T*
+(- pending nullifier conflict maps,) Tj
+T*
+(- anchor/path verification,) Tj
+T*
+(- block-local nullifier duplication checks.) Tj
+T*
+() Tj
+T*
+(Combined effect:) Tj
+T*
+(- cannot replay same public spend,) Tj
+T*
+(- cannot replay same private note spend once nullifier is consumed.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Private Scan Performance Model and View Tags) Tj
+T*
+() Tj
+T*
+(Scan performance is constrained by chain size and private output density.) Tj
+T*
+() Tj
+T*
+(Optimizations currently used:) Tj
+T*
+(- Bundle-hash tag prefilter \(recipient_bundle_hash[:8]\) at KeyManager block scan layer.) Tj
+T*
+(- Optional payload view-tag check in scanner candidate flow.) Tj
+T*
+() Tj
+T*
+(Why this matters:) Tj
+T*
+(- most outputs are not for this wallet,) Tj
+T*
+(- fast prefilter prevents unnecessary full decapsulation/decryption attempts,) Tj
+T*
+(- reduces sync catch-up cost materially.) Tj
+T*
+ET
+endstream
+endobj
+24 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 25 0 R >>
+endobj
+25 0 obj
+<< /Length 2973 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(The 4-byte view tag does not replace cryptographic verification. It is a cheap reject filter) Tj
+T*
+(before stronger checks.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- End-to-End Example: "Restore and Recover Everything" Walkthrough) Tj
+T*
+() Tj
+T*
+(Scenario:) Tj
+T*
+(- User reinstalls client,) Tj
+T*
+(- imports mnemonic,) Tj
+T*
+(- unlocks wallet,) Tj
+T*
+(- expects both public and private balances to reappear.) Tj
+T*
+() Tj
+T*
+(Actual flow:) Tj
+T*
+(- add_key_from_mnemonic regenerates Falcon wallet key and public addressing.) Tj
+T*
+(- KeyManager ensures private bundle material exists; for mnemonic-v1 path this regenerates) Tj
+T*
+(deterministic Kyber/bundle identity.) Tj
+T*
+(- On unlock, API runs private chain scan from scan cursor/genesis fallback.) Tj
+T*
+(- Scanner iterates blocks, prefilters outputs, decapsulates matching outputs, decrypts note) Tj
+T*
+(seeds, regenerates note keys, validates commits, stores notes.) Tj
+T*
+(- Public UTXO and private notes now both become spendable in wallet context.) Tj
+T*
+() Tj
+T*
+(If user had a legacy random-sourced private bundle and only mnemonic was backed up, step 2) Tj
+T*
+(cannot recreate old Kyber secret. Public funds restore, but historical incoming private notes) Tj
+T*
+(targeted at old bundle remain undecryptable without that additional backup material.) Tj
+T*
+(If user has a legacy random-sourced private bundle with historical activity and only mnemonic) Tj
+T*
+(was backed up, step 2 cannot recreate old Kyber secret. Public funds restore, but historical) Tj
+T*
+(incoming private notes targeted at old bundle remain undecryptable without that additional) Tj
+T*
+(backup material.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Operational Checklist for Production Readiness) Tj
+T*
+(- Keep private tx target version pinned to product-v1 \(1.00\) for genesis deployments.) Tj
+T*
+(- Validate all nodes share same constants and activation heights.) Tj
+T*
+(- Enforce binary pinning for cryptographic native libraries in production.) Tj
+T*
+(- Verify wallet creation/import path consistently stores mnemonic metadata required for) Tj
+T*
+(deterministic restore.) Tj
+T*
+(- Confirm private bundle records show expected seed_source and restore metadata.) Tj
+T*
+(- Run chain wipe/bootstrap test and validate unlock-triggered private scan catches historical) Tj
+T*
+(private receives.) Tj
+T*
+(- Validate public->private, private->public, and private->private round trips on multi-node) Tj
+T*
+(topology.) Tj
+T*
+(- Confirm mempool-to-block private output transforms and txid rebinding are active in miner) Tj
+T*
+(path.) Tj
+T*
+(- Inspect blocks for fee split field correctness and coinbase payout consistency.) Tj
+T*
+(- Monitor private error logs for decapsulation/decrypt/commit mismatch events and treat repeated) Tj
+T*
+(patterns as integration bugs.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- FAQ \(Focused on Your Current Questions\)) Tj
+T*
+() Tj
+T*
+(Q1\) If I recover wallet from mnemonic, will all funds come back?) Tj
+T*
+ET
+endstream
+endobj
+26 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 27 0 R >>
+endobj
+27 0 obj
+<< /Length 3018 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Public funds: yes when path inputs match.) Tj
+T*
+(Private funds: yes for deterministic bundle paths \(mnemonic_v1 and falcon_root_v1\) after chain) Tj
+T*
+(scan; legacy random bundle history still needs old private-layer backup artifacts.) Tj
+T*
+() Tj
+T*
+(Q2\) How does wallet know which child Falcon note keys to generate?) Tj
+T*
+(It does not pre-generate an infinite tree blindly. It scans chain outputs, decapsulates/decrypts) Tj
+T*
+(outputs addressed to its bundle, gets note seed from payload, then deterministically regenerates) Tj
+T*
+(that note Falcon keypair.) Tj
+T*
+() Tj
+T*
+(Q3\) If receiver reuses same bundle forever, how can notes stay unique?) Tj
+T*
+(Each sender encapsulation produces fresh shared secret and encrypted payload. Each note payload) Tj
+T*
+(carries note seed, producing per-note Falcon key uniqueness even under same receiver bundle.) Tj
+T*
+() Tj
+T*
+(Q4\) What is the role of account/counter in private note derivation?) Tj
+T*
+(On sender side, they define deterministic sequence for note seed reservation from sender master) Tj
+T*
+(seed. This ensures deterministic, non-colliding note generation across sends.) Tj
+T*
+() Tj
+T*
+(Q5\) Why enforce x-address and bundle-hash binding?) Tj
+T*
+(To prevent malformed or substituted recipient bundle data. X-address is deterministic encoding) Tj
+T*
+(of bundle hash; mismatch means reject.) Tj
+T*
+() Tj
+T*
+(Q6\) Where is replay prevention for private spends?) Tj
+T*
+(Nullifier uniqueness at verifier and state-store layers; consumed nullifier cannot be spent) Tj
+T*
+(again.) Tj
+T*
+() Tj
+T*
+(Q7\) Why include view tags if we already have recipient id checks?) Tj
+T*
+(Performance. View tags are fast reject filters before expensive decapsulation/decryption and) Tj
+T*
+(full validation.) Tj
+T*
+() Tj
+T*
+(Q8\) Why are private tx larger than public tx?) Tj
+T*
+(They carry encrypted payload and private vectors with additional cryptographic context. This is) Tj
+T*
+(expected tradeoff for privacy.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Common Failure Modes and What They Usually Mean) Tj
+T*
+(- invalid base64 encoding on private recipient data:) Tj
+T*
+(- usually malformed bundle text; parser now supports multiple forms but payload may still be) Tj
+T*
+(corrupted.) Tj
+T*
+(- recipient_x_address hash does not match recipient_bundle_hash:) Tj
+T*
+(- bundle/x-address mismatch; user pasted wrong pair or payload altered.) Tj
+T*
+(- kyber_decapsulate_failed during scan:) Tj
+T*
+(- output not for this wallet key, malformed ciphertext, or wrong secret key material.) Tj
+T*
+(- note_pk_mismatch or commit_mismatch after decrypt:) Tj
+T*
+(- decrypted payload not consistent with output fields; reject as not-owned or invalid.) Tj
+T*
+(- No private notes recovered after mnemonic import:) Tj
+T*
+(- possible old random bundle history without old Kyber secret backup,) Tj
+T*
+(- or wallet locked during scan,) Tj
+T*
+(- or chain scan cursor/path not yet replayed.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Audit Notes and Determinism Guarantees) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+28 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 29 0 R >>
+endobj
+29 0 obj
+<< /Length 1743 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Determinism claims that are valid from current code behavior:) Tj
+T*
+(- same mnemonic path inputs => same Falcon wallet keypair.) Tj
+T*
+(- same mnemonic path inputs + deterministic Kyber branch => same private bundle identity.) Tj
+T*
+(- same sender master seed/account/counter/network => same reserved note seed.) Tj
+T*
+(- same note seed => same deterministic Falcon note keypair.) Tj
+T*
+() Tj
+T*
+(Determinism does not mean one static key per receive. It means reproducible generation from the) Tj
+T*
+(same seed/path material and reproducible recovery from authenticated encrypted payload.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Final Summary) Tj
+T*
+() Tj
+T*
+(Atho private flow is best understood as two linked deterministic systems:) Tj
+T*
+(- Wallet identity derivation system:) Tj
+T*
+(- mnemonic -> seed -> Falcon branch \(public identity\) and Kyber branch \(private receive) Tj
+T*
+(identity\).) Tj
+T*
+(- Transaction note lifecycle system:) Tj
+T*
+(- sender deterministic note seed stream -> note key generation -> encrypted payload to receiver) Tj
+T*
+(bundle -> receiver scan/decap/decrypt -> deterministic note key regeneration.) Tj
+T*
+() Tj
+T*
+(With product-v1 active from genesis, proper bundle/x binding, deterministic Kyber support, and) Tj
+T*
+(scan wiring on unlock/consensus, the end-to-end behavior is now coherent for production-style) Tj
+T*
+(operation.) Tj
+T*
+() Tj
+T*
+(The remaining operational rule is simple:) Tj
+T*
+(- treat mnemonic path parameters as strict recovery inputs,) Tj
+T*
+(- treat legacy random private-layer cases as requiring migration planning and additional backup) Tj
+T*
+(artifacts,) Tj
+T*
+(- keep consensus-visible transforms and accounting strictly deterministic across nodes.) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 30
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000204 00000 n 
+0000000272 00000 n 
+0000000398 00000 n 
+0000003355 00000 n 
+0000003481 00000 n 
+0000005861 00000 n 
+0000005987 00000 n 
+0000008381 00000 n 
+0000008509 00000 n 
+0000011322 00000 n 
+0000011450 00000 n 
+0000014031 00000 n 
+0000014159 00000 n 
+0000016719 00000 n 
+0000016847 00000 n 
+0000019422 00000 n 
+0000019550 00000 n 
+0000021766 00000 n 
+0000021894 00000 n 
+0000024145 00000 n 
+0000024273 00000 n 
+0000026659 00000 n 
+0000026787 00000 n 
+0000029813 00000 n 
+0000029941 00000 n 
+0000033012 00000 n 
+0000033140 00000 n 
+trailer
+<< /Size 30 /Root 1 0 R >>
+startxref
+34936
+%%EOF

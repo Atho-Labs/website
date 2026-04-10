@@ -4,7 +4,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Count 2 /Kids [4 0 R 6 0 R] >>
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Courier >>
@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2723 >>
+<< /Length 2420 >>
 stream
 BT
 /F1 10 Tf
@@ -23,23 +23,27 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-04-04) Tj
+(Date: 2026-04-10) Tj
 T*
 () Tj
 T*
-(This document is the current Falcon-512 reference for Atho runtime, transaction validation, and) Tj
+(This document is the active Falcon-512 integration reference for Atho. It covers signing and) Tj
 T*
-(binary security controls.) Tj
+(verification flow, byte-policy enforcement, runtime binary controls, and operational checks) Tj
 T*
-(- Active Runtime Model) Tj
+(required to keep cryptographic behavior deterministic across nodes.) Tj
 T*
-(- Signing and verification are routed through Src/Accounts/falconcli.py.) Tj
+(- Runtime Model) Tj
 T*
-(- Binary discovery prefers Binaries/<platform-tag>/falcon_cli\(.exe\) with strict pin enforcement) Tj
+() Tj
 T*
-(available.) Tj
+(Signing and verification are orchestrated through:) Tj
 T*
-(- Verification path in consensus:) Tj
+(- Src/Accounts/falconcli.py) Tj
+T*
+() Tj
+T*
+(Consensus validation path references:) Tj
 T*
 (- Src/Transactions/txvalidation.py::_validate_signature) Tj
 T*
@@ -47,81 +51,77 @@ T*
 T*
 (- FalconCLI.verify\(...\)) Tj
 T*
-(- Key and Signature Size Policy) Tj
+() Tj
 T*
-(From Src/Utility/const.py:) Tj
+(Runtime binary resolution prefers canonical pinned artifacts in Binaries/<platform-tag>/.) Tj
 T*
-(- Canonical Falcon pubkey size: 897 bytes \(FALCON_PUBKEY_BYTES\).) Tj
-T*
-(- Legacy pubkey size \(compatibility\): 1024 bytes \(FALCON_PUBKEY_LEGACY_BYTES\), currently) Tj
-T*
-(disabled \(FALCON_PUBKEY_ACCEPT_LEGACY=False\).) Tj
-T*
-(- Signature compressed target: 666 bytes \(FALCON_SIG_COMPRESSED_TARGET_BYTES\).) Tj
-T*
-(- Signature acceptance window: 600..690 bytes \(FALCON_SIG_MIN_BYTES..FALCON_SIG_MAX_BYTES\).) Tj
+(- Key and Signature Byte Policy) Tj
 T*
 () Tj
 T*
-(Consensus validation enforces these byte bounds before signature verification.) Tj
+(Current policy constants in Src/Utility/const.py:) Tj
 T*
-(- Wire/Encoding Behavior) Tj
+(- canonical Falcon public key size: 897 bytes \(FALCON_PUBKEY_BYTES\),) Tj
 T*
-(- Internal binary tx codec \(ATX2\) carries witness items as raw bytes.) Tj
+(- legacy public key size compatibility: 1024 bytes \(FALCON_PUBKEY_LEGACY_BYTES\), disabled by) Tj
 T*
-(- API/JSON compatibility representation still uses canonical base64 for signature and pubkey.) Tj
+(default,) Tj
 T*
-(- Validation decodes wire fields back to bytes/hex and applies byte-length policy + Falcon) Tj
+(- compressed signature target: 666 bytes \(FALCON_SIG_COMPRESSED_TARGET_BYTES\),) Tj
 T*
-(verification.) Tj
-T*
-() Tj
-T*
-(This means display format can remain stable while consensus logic is byte-native.) Tj
-T*
-(- Signing and Verification Flow) Tj
-T*
-(Signing:) Tj
-T*
-(- Build canonical no-witness signing body.) Tj
-T*
-(- Compute SHA3-384 signing digest.) Tj
-T*
-(- Sign through FalconCLI.sign\(...\).) Tj
-T*
-(- Attach witness to tx \(binary path uses raw bytes; JSON path uses canonical wire encoding\).) Tj
+(- accepted signature window: 600..690 bytes \(FALCON_SIG_MIN_BYTES..FALCON_SIG_MAX_BYTES\).) Tj
 T*
 () Tj
 T*
-(Verification:) Tj
+(Consensus checks enforce these bounds before invoking cryptographic verification.) Tj
 T*
-(- Strip witness and recompute signing digest.) Tj
-T*
-(- Decode witness signature/pubkey.) Tj
-T*
-(- Enforce signature/pubkey size policy.) Tj
-T*
-(- Verify with Falcon CLI \(and optional pinned FFI verifier\).) Tj
-T*
-(- FFI Verify Path \(Optional\)) Tj
-T*
-(FFI verify is optional and must be explicitly enabled:) Tj
-T*
-(- ATHO_FALCON_FFI_ENABLE=1) Tj
-T*
-(- FALCON_VERIFY_SO=<absolute path>) Tj
-T*
-(- FALCON_VERIFY_SO_SHA3_384=<expected hash>) Tj
+(- Encoding and Wire Behavior) Tj
 T*
 () Tj
 T*
-(If configured incorrectly, runtime falls back to CLI-only behavior based on current) Tj
+(Atho uses a binary-first tx transport \(ATX2\) with witness as raw bytes. API compatibility layers) Tj
 T*
-(policy/flags.) Tj
+(may expose witness fields using canonical text-safe encodings, but validation always decodes) Tj
 T*
-(- Binary Pinning and Safety) Tj
+(back to byte form and applies policy checks on bytes.) Tj
 T*
-(- Pin domain and digest maps are enforced from Src/Utility/const.py.) Tj
+() Tj
+T*
+(Practical implication:) Tj
+T*
+(- display format can vary by API surface,) Tj
+T*
+(- consensus acceptance rules remain byte-deterministic.) Tj
+T*
+(- Signing Flow) Tj
+T*
+() Tj
+T*
+(Standard signing pipeline:) Tj
+T*
+(- construct canonical no-witness signing body,) Tj
+T*
+(- hash signing body with SHA3-384,) Tj
+T*
+(- sign digest via Falcon CLI bridge,) Tj
+T*
+(- attach signature/public key witness fields.) Tj
+T*
+() Tj
+T*
+(Determinism requirements:) Tj
+T*
+(- canonical field ordering,) Tj
+T*
+(- stable serialization separators,) Tj
+T*
+(- explicit decimal/atom normalization before digesting.) Tj
+T*
+(- Verification Flow) Tj
+T*
+() Tj
+T*
+(Standard verification pipeline:) Tj
 T*
 ET
 endstream
@@ -130,47 +130,176 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 538 >>
+<< /Length 2335 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(- Canonical pin metadata is maintained in:) Tj
+(- strip witness fields and reconstruct canonical signing body,) Tj
+T*
+(- recompute SHA3-384 digest,) Tj
+T*
+(- decode witness signature/public key,) Tj
+T*
+(- enforce byte-length policy,) Tj
+T*
+(- run Falcon verification via configured verifier path.) Tj
+T*
+() Tj
+T*
+(Any mismatch in canonical body reconstruction invalidates the signature regardless of witness) Tj
+T*
+(payload shape.) Tj
+T*
+(- Optional FFI Verification Path) Tj
+T*
+() Tj
+T*
+(An optional shared-library verifier can be enabled with explicit env configuration:) Tj
+T*
+(- ATHO_FALCON_FFI_ENABLE=1) Tj
+T*
+(- FALCON_VERIFY_SO=<absolute-path>) Tj
+T*
+(- FALCON_VERIFY_SO_SHA3_384=<expected-digest>) Tj
+T*
+() Tj
+T*
+(If FFI is unavailable or fails pin checks, runtime can fall back to CLI verification according) Tj
+T*
+(to current policy flags.) Tj
+T*
+(- Binary Pinning and Integrity Controls) Tj
+T*
+() Tj
+T*
+(Integrity metadata locations:) Tj
 T*
 (- Binaries/pin_registry.json) Tj
 T*
 (- Binaries/<platform-tag>/binary_meta.json) Tj
 T*
-(- Strict mode:) Tj
+() Tj
+T*
+(Strict mode:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(With strict mode enabled, unexpected binary paths or digest mismatches are rejected. This) Tj
+T*
+(protects against accidental drift and malicious binary substitution.) Tj
 T*
 (- Operational Checklist) Tj
 T*
-(- Register/install platform Falcon binary:) Tj
+() Tj
 T*
-(- Optional FFI verifier build:) Tj
+(After Falcon-related changes:) Tj
 T*
-(- Keep pin metadata current whenever binaries are rebuilt.) Tj
+(- rebuild Falcon CLI/shared verifier artifacts,) Tj
 T*
-(- Keep legacy pubkey acceptance disabled \(FALCON_PUBKEY_ACCEPT_LEGACY=False\) unless a) Tj
+(- refresh pin metadata,) Tj
 T*
-(coordinated migration requires temporary re-enable.) Tj
+(- run tx signing/verification smoke tests,) Tj
+T*
+(- run full unit/integration suite for tx validation paths,) Tj
+T*
+(- confirm explorer/API endpoints still decode witness fields correctly.) Tj
+T*
+() Tj
+T*
+(Command references:) Tj
+T*
+(- Migration and Compatibility Notes) Tj
+T*
+() Tj
+T*
+(Legacy pubkey acceptance \(1024-byte\) should remain disabled unless a deliberate migration window) Tj
+T*
+(is approved. Re-enabling compatibility broadens acceptance surface and should be time-bounded) Tj
+T*
+(with explicit network coordination.) Tj
+T*
+() Tj
+T*
+(When compatibility mode is temporarily enabled:) Tj
+T*
+(- document activation height and deactivation plan,) Tj
+T*
+(- track acceptance counts,) Tj
+T*
+(- return to canonical-only mode as soon as migration completes.) Tj
+T*
+(- Policy Snapshot Context) Tj
+T*
+() Tj
+T*
+(Related production policy values \(not Falcon-specific, but relevant to tx lifecycle\):) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 860 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- block target 120s, retarget interval 180,) Tj
+T*
+(- tx confirmations 10, private tx confirmations 10, coinbase maturity 150,) Tj
+T*
+(- fee floor 350 atoms/vB, min tx fee 100,000 atoms.) Tj
+T*
+() Tj
+T*
+(Falcon signatures protect transaction authenticity; these constants govern confirmation and) Tj
+T*
+(economic policy around those authenticated transactions.) Tj
+T*
+(- Bottom Line) Tj
+T*
+() Tj
+T*
+(Falcon-512 integration in Atho is operationally mature when three things remain true:) Tj
+T*
+(- byte-level policy checks are enforced before verify,) Tj
+T*
+(- canonical signing-body reconstruction is deterministic,) Tj
+T*
+(- runtime verifier binaries are pin-validated from canonical paths.) Tj
+T*
+() Tj
+T*
+(Maintaining these guarantees keeps transaction signature behavior stable, auditable, and) Tj
+T*
+(consensus-safe.) Tj
 T*
 ET
 endstream
 endobj
 xref
-0 8
+0 10
 0000000000 65535 f 
 0000000015 00000 n 
 0000000064 00000 n 
-0000000127 00000 n 
-0000000195 00000 n 
-0000000321 00000 n 
-0000003096 00000 n 
-0000003222 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000002799 00000 n 
+0000002925 00000 n 
+0000005312 00000 n 
+0000005438 00000 n 
 trailer
-<< /Size 8 /Root 1 0 R >>
+<< /Size 10 /Root 1 0 R >>
 startxref
-3811
+6349
 %%EOF

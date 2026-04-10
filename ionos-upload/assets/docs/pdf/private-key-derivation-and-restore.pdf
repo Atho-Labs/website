@@ -1,0 +1,577 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 5 /Kids [4 0 R 6 0 R 8 0 R 10 0 R 12 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2603 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Private Key Derivation, Kyber Security Boundary, and Wallet Restore) Tj
+T*
+() Tj
+T*
+(Date: 2026-04-05) Tj
+T*
+() Tj
+T*
+(This document answers four operator-critical questions from the current codebase:) Tj
+T*
+(- What is still missing in the private transaction flow?) Tj
+T*
+(- Is the Kyber implementation secure, and can it be "unbreakable"?) Tj
+T*
+(- How Falcon keys and wallet addresses are recreated from mnemonic import.) Tj
+T*
+(- What exactly is restored from mnemonic alone vs what requires additional key material.) Tj
+T*
+() Tj
+T*
+(Primary code anchors:) Tj
+T*
+(- Src/Accounts/mnemonic.py) Tj
+T*
+(- Src/Accounts/key_manager.py) Tj
+T*
+(- Src/Falcon/deterministic_keygen.py) Tj
+T*
+(- Src/Accounts/falconcli.py) Tj
+T*
+(- Src/Accounts/kybercli.py) Tj
+T*
+(- Src/Utility/private_bundle.py) Tj
+T*
+(- Src/Wallet/private_spend.py) Tj
+T*
+(- Src/Wallet/private_receive.py) Tj
+T*
+(- Src/Api/apis.py) Tj
+T*
+(- Direct Answers) Tj
+T*
+() Tj
+T*
+(1.1 Is the seed where mnemonic phrases come from?) Tj
+T*
+(No.) Tj
+T*
+() Tj
+T*
+(Current implementation flow is:) Tj
+T*
+(- entropy is generated first \(generate_mnemonic -> secrets.token_bytes\(...\)\).) Tj
+T*
+(- mnemonic words are encoded from entropy + checksum \(entropy_to_mnemonic\).) Tj
+T*
+(- seed is then derived from mnemonic + optional passphrase \(derive_seed, PBKDF2-HMAC-SHA3-512\).) Tj
+T*
+() Tj
+T*
+(So mnemonic does not come from seed in this code path. Seed comes from mnemonic.) Tj
+T*
+() Tj
+T*
+(1.2 Can mnemonic import recreate all private addresses/notes exactly?) Tj
+T*
+(For wallets created under current code paths: yes for both public identity and private receive) Tj
+T*
+(bundle identity.) Tj
+T*
+() Tj
+T*
+(get_or_create_private_bundle\(...\) now derives Kyber seed deterministically by default:) Tj
+T*
+(- seed_source = mnemonic_v1 when mnemonic metadata/path is available,) Tj
+T*
+(- seed_source = falcon_root_v1 fallback when mnemonic metadata is absent \(derived from Falcon) Tj
+T*
+(root key material\).) Tj
+T*
+() Tj
+T*
+(Practical consequence:) Tj
+T*
+(- mnemonic restore recreates Falcon/public identity as before,) Tj
+T*
+(- private bundle/x-address can also be regenerated deterministically from the same key) Tj
+T*
+(path/material,) Tj
+T*
+(- legacy wallets that already persisted seed_source=random remain a caveat \(see section 4.2\).) Tj
+T*
+() Tj
+T*
+(1.3 Is Kyber "audited and impossible to break"?) Tj
+T*
+(It is not correct to claim "cannot be broken.") Tj
+T*
+() Tj
+T*
+(What can be stated from code audit:) Tj
+T*
+(- there are meaningful hardening controls \(hash pinning, trusted binary path checks, strict) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2345 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(byte-length validation, deterministic bundle-binding checks\),) Tj
+T*
+(- but this is not equivalent to a formal cryptographic audit proving unbreakability,) Tj
+T*
+(- security remains conditional on implementation quality, binary integrity, platform hardening,) Tj
+T*
+(and future cryptanalysis.) Tj
+T*
+() Tj
+T*
+(1.4 How does wallet recreation work after key import?) Tj
+T*
+(Deterministic recreation for Falcon/public identity works if all derivation inputs match:) Tj
+T*
+(- mnemonic phrase,) Tj
+T*
+(- mnemonic passphrase,) Tj
+T*
+(- PBKDF2 iteration count,) Tj
+T*
+(- network,) Tj
+T*
+(- account,) Tj
+T*
+(- role,) Tj
+T*
+(- index.) Tj
+T*
+() Tj
+T*
+(If those match, add_key_from_mnemonic derives same Falcon key and same role-derived addresses.) Tj
+T*
+() Tj
+T*
+(Private-layer recreation needs extra material \(Kyber private key and note journal state\),) Tj
+T*
+(described below.) Tj
+T*
+(- Mnemonic -> Seed -> Falcon -> Address Pipeline) Tj
+T*
+() Tj
+T*
+(2.1 Mnemonic generation and validation) Tj
+T*
+(Src/Accounts/mnemonic.py enforces a deterministic scheme:) Tj
+T*
+(- allowed word counts: 12, 24, 48,) Tj
+T*
+(- checksum over entropy uses SHA3-512,) Tj
+T*
+(- input normalization uses Unicode NFKD and lowercase canonicalization,) Tj
+T*
+(- unknown words and checksum mismatch are rejected.) Tj
+T*
+() Tj
+T*
+(2.2 Seed derivation) Tj
+T*
+(derive_seed\(...\) uses PBKDF2-HMAC-SHA3-512 with:) Tj
+T*
+(- default iterations: 600,000,) Tj
+T*
+(- minimum enforced iterations: 100,000,) Tj
+T*
+(- salt prefix: atho-mnemonic-v1 + user passphrase.) Tj
+T*
+() Tj
+T*
+(This returns 64-byte seed material.) Tj
+T*
+() Tj
+T*
+(2.3 Falcon leaf seed derivation) Tj
+T*
+(derive_falcon_seed\(...\) uses HKDF-like extract/expand over the seed and path context:) Tj
+T*
+(- network \(mainnet/testnet/regnet\),) Tj
+T*
+(- account,) Tj
+T*
+(- role,) Tj
+T*
+(- index,) Tj
+T*
+(- scheme/domain labels.) Tj
+T*
+() Tj
+T*
+(add_key_from_mnemonic\(...\) then calls FalconCLI.keygen\(seed_hex=...\), producing deterministic) Tj
+T*
+(Falcon key material for that path.) Tj
+T*
+() Tj
+T*
+(2.4 Address derivation) Tj
+T*
+(After Falcon public key is generated, KeyManager derives role-separated addresses \(regular,) Tj
+T*
+(bond, stake\) deterministically from public key + network policy.) Tj
+T*
+() Tj
+T*
+(This is why public identity is recoverable with mnemonic import.) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 2494 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Private Layer Derivation Model) Tj
+T*
+() Tj
+T*
+(3.1 Private receive bundle \(recipient identity\)) Tj
+T*
+(get_or_create_private_bundle\(...\) builds recipient bundle bytes as:) Tj
+T*
+(- version || falcon_public_key || kyber_public_key.) Tj
+T*
+() Tj
+T*
+(It then computes:) Tj
+T*
+(- bundle_hash = sha3_384\(bundle_bytes\),) Tj
+T*
+(- x_address = "X" + base56\(bundle_hash_bytes\).) Tj
+T*
+() Tj
+T*
+(Current deterministic key source order:) Tj
+T*
+(- mnemonic path context \(mnemonic_v1\) when available,) Tj
+T*
+(- Falcon-root deterministic fallback \(falcon_root_v1\) for legacy/imported records missing) Tj
+T*
+(mnemonic metadata,) Tj
+T*
+(- random generation only as a legacy compatibility fallback when deterministic derivation is) Tj
+T*
+(unavailable.) Tj
+T*
+() Tj
+T*
+(3.2 Outgoing private note seed derivation) Tj
+T*
+(For private sends, reserve_private_note_seed\(...\):) Tj
+T*
+(- loads/stores private_note_state \(account, next_counter\),) Tj
+T*
+(- derives a master seed via _derive_private_note_master_seed\(...\),) Tj
+T*
+(- derives note seed via derive_note_seed\(master_seed, account, counter, network\),) Tj
+T*
+(- increments counter atomically in key file.) Tj
+T*
+() Tj
+T*
+(Current master-seed derivation mixes:) Tj
+T*
+(- network,) Tj
+T*
+(- identifier string,) Tj
+T*
+(- Falcon public key,) Tj
+T*
+(- Falcon private components \(f,g,F,G\).) Tj
+T*
+() Tj
+T*
+(This provides deterministic per-wallet stream progression, but identifier is part of the domain.) Tj
+T*
+() Tj
+T*
+(3.3 Note construction) Tj
+T*
+(PrivateSpendBuilder.build_private_output_bundle\(...\) performs:) Tj
+T*
+(- deterministic Falcon note key generation from note seed,) Tj
+T*
+(- Kyber encapsulation to recipient Kyber public key,) Tj
+T*
+(- recipient id derivation from shared secret,) Tj
+T*
+(- note commit derivation,) Tj
+T*
+(- AES-GCM encryption of seed payload,) Tj
+T*
+(- private output assembly with recipient binding fields.) Tj
+T*
+(- What Is Recreated On Wallet Import) Tj
+T*
+() Tj
+T*
+(4.1 Recreated by mnemonic-only import) Tj
+T*
+(If same derivation inputs are used, import recreates:) Tj
+T*
+(- Falcon private/public key,) Tj
+T*
+(- hashed public key / base56 address,) Tj
+T*
+(- derived role addresses.) Tj
+T*
+() Tj
+T*
+(4.2 Not recreated by mnemonic-only import) Tj
+T*
+(Mnemonic-only import still does not inherently recreate:) Tj
+T*
+(- local private note journal metadata \(private_notes state cache\),) Tj
+T*
+(- prior private_note_state.next_counter unless retained in key storage,) Tj
+T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 3279 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- historical *legacy-random* Kyber private bundle identity if that wallet was created before) Tj
+T*
+(deterministic bundle derivation and cannot be safely migrated.) Tj
+T*
+() Tj
+T*
+(4.3 Required artifacts for full private restore) Tj
+T*
+(For full private continuity, you need one of:) Tj
+T*
+(- encrypted key backup that includes private-layer secret payloads,) Tj
+T*
+(- current key file carrying private_layer_secret and private note state,) Tj
+T*
+(- Kyber unlock material where wallet encryption mode externalizes Kyber secret wraps.) Tj
+T*
+() Tj
+T*
+(Without old Kyber secret, old incoming private payloads targeted to a legacy random bundle) Tj
+T*
+(remain undecryptable.) Tj
+T*
+(- Kyber Security Audit Summary \(Code-Level\)) Tj
+T*
+() Tj
+T*
+(This is an implementation audit summary, not a mathematical proof.) Tj
+T*
+() Tj
+T*
+(5.1 Positive controls present) Tj
+T*
+(- Kyber wrapper enforces known key/ciphertext sizes by level \(512/768/1024\).) Tj
+T*
+(- Shared library loading prefers trusted project binary directories.) Tj
+T*
+(- Binary pin verification is wired through binarypin.verify_binary_or_raise\(...\) with required) Tj
+T*
+(mode support.) Tj
+T*
+(- Private bundle parser performs strict structure/length validation and x-address hash binding.) Tj
+T*
+(- Private output parser enforces recipient x-address <-> bundle hash consistency.) Tj
+T*
+(- Private receive scanner verifies recipient id/view tag/commit consistency before accepting) Tj
+T*
+(recovered note.) Tj
+T*
+() Tj
+T*
+(5.2 Material limitations observed) Tj
+T*
+(- No system can honestly claim "cannot be broken".) Tj
+T*
+(- This audit did not include external formal verification of Kyber C source, compiler outputs,) Tj
+T*
+(or side-channel resistance under hostile local execution.) Tj
+T*
+(- Security depends on correct pin registry operation and deployment hygiene.) Tj
+T*
+(- If operators bypass pinning policies in environment configuration, trust assumptions weaken.) Tj
+T*
+() Tj
+T*
+(5.3 Falcon/Kyber integration boundary) Tj
+T*
+(The private protocol depends on both:) Tj
+T*
+(- Falcon deterministic key generation/signing correctness,) Tj
+T*
+(- Kyber encapsulation/decapsulation correctness.) Tj
+T*
+() Tj
+T*
+(A fault in either path can break privacy recovery or spendability. Current code has checks and) Tj
+T*
+(tests, but still requires operational controls and regression testing per release.) Tj
+T*
+(- Private Flow Gaps Still Missing \(Current\)) Tj
+T*
+() Tj
+T*
+(From this code audit, the largest remaining limitations are:) Tj
+T*
+(- Legacy-random bundle history still needs explicit migration/backups.) Tj
+T*
+(Current code can safely auto-migrate only low-risk records \(no private-note history / no) Tj
+T*
+(reserved counters\). Active legacy random histories still require old private-layer secret) Tj
+T*
+(artifacts.) Tj
+T*
+(- Full private restore still depends on chain scan completion.) Tj
+T*
+(Deterministic key recreation is now available, but funds recovery still requires replay/scan of) Tj
+T*
+(chain private outputs and successful note journal reconciliation.) Tj
+T*
+(- External cryptographic assurance remains an operational requirement.) Tj
+T*
+(Implementation hardening exists, but this is not a formal proof of unbreakability.) Tj
+T*
+(- Current Test Evidence) Tj
+T*
+ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 1742 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(Environment execution result in this audit run:) Tj
+T*
+(- command: python3 -m unittest tests.test_private_layer_pipeline) Tj
+T*
+(tests.test_key_manager_private_layer_materials) Tj
+T*
+(- result: Ran 39 tests ... OK) Tj
+T*
+() Tj
+T*
+(Note: pytest was unavailable in this environment \(No module named pytest\), so unittest path was) Tj
+T*
+(used.) Tj
+T*
+(- Production Guidance) Tj
+T*
+() Tj
+T*
+(For production-grade private continuity today:) Tj
+T*
+(- treat mnemonic/path metadata as the primary deterministic recovery scope for Falcon + Kyber) Tj
+T*
+(identity,) Tj
+T*
+(- preserve encrypted key backups for legacy random-era compatibility and local metadata) Tj
+T*
+(continuity,) Tj
+T*
+(- enforce binary pinning in all production nodes,) Tj
+T*
+(- avoid identifier drift for deterministic private note stream continuity,) Tj
+T*
+(- run private-layer regression tests on every release artifact.) Tj
+T*
+() Tj
+T*
+(Legacy random-era wallets still require explicit migration/backups until all historical private) Tj
+T*
+(identities are moved to deterministic seed sources.) Tj
+T*
+(- Implementation Worklist \(Recommended\)) Tj
+T*
+(- Wire PrivateReceiveScanner into a canonical block processing path so inbound private notes are) Tj
+T*
+(recovered and persisted automatically.) Tj
+T*
+(- Add explicit restore modes:) Tj
+T*
+(- public-only \(mnemonic\),) Tj
+T*
+(- full-private \(mnemonic + kyber/private-layer artifacts\),) Tj
+T*
+(- strict deterministic restore checks.) Tj
+T*
+(- Expand explicit migration tooling for legacy random bundle histories with operator) Tj
+T*
+(preview/rollback.) Tj
+T*
+(- Add integration tests for cross-device restore scenarios and historical private-note spend) Tj
+T*
+(after restore.) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 14
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000147 00000 n 
+0000000215 00000 n 
+0000000341 00000 n 
+0000002996 00000 n 
+0000003122 00000 n 
+0000005519 00000 n 
+0000005645 00000 n 
+0000008191 00000 n 
+0000008319 00000 n 
+0000011651 00000 n 
+0000011779 00000 n 
+trailer
+<< /Size 14 /Root 1 0 R >>
+startxref
+13574
+%%EOF

@@ -1,6 +1,6 @@
 # Atho Transaction Reference (Current)
 
-Date: 2026-04-04
+Date: 2026-04-05
 
 This is the authoritative transaction behavior reference for current development builds.
 
@@ -16,7 +16,7 @@ Atho uses SegWit-style policy metrics:
 - transaction size policy limits.
 
 Active policy constants:
-- fee floor: `250 atoms/vB`
+- fee floor: `350 atoms/vB`
 - minimum tx fee: `100,000 atoms`
 - tx confirmations required for regular spend visibility: `10`
 
@@ -69,34 +69,66 @@ Current Falcon witness policy bounds:
 - canonical public key length 897 bytes
 - legacy public key length acceptance is migration-policy controlled
 
-## 7) Why There Is No Single "Base Tx Size"
-There is no universal fixed tx size because encoded size varies with:
-- input count,
-- output count,
-- varint widths for values and indexes,
-- witness length,
-- optional metadata inclusion.
+## 7) Measured Size Profile (Hard Data)
+There is no single fixed tx size. Size varies with:
+- input count
+- output count
+- private vectors
+- metadata
+- witness payload length
 
-Use measured/derived `vsize` distributions, not one static byte number.
+The table below is measured from the live serializer + policy path:
+- `Transaction.to_dict()`
+- `serialize_tx_v1(...)`
+- `Constants.tx_policy_metrics(...)`
 
-Representative estimates (metadata empty, compressed witness):
-- `1 in / 1 out`: ~513 vB
-- `1 in / 2 out`: ~566 vB
-- `2 in / 2 out`: ~615 vB
-- `3 in / 2 out`: ~664 vB
-- `4 in / 2 out`: ~713 vB
+Snapshot date: `2026-04-05`
 
-## 8) Hashing Model
+| Flow Shape | Base Bytes | Total Bytes | Weight | vsize | Binary Bytes |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| coinbase (1 out) | 290 | 290 | 1160 | 290 | 290 |
+| public `1 in / 1 out` | 121 | 1634 | 1997 | 500 | 1634 |
+| public `1 in / 2 out` | 174 | 1687 | 2209 | 553 | 1687 |
+| public `2 in / 2 out` | 223 | 1736 | 2405 | 602 | 1736 |
+| public `3 in / 2 out` | 272 | 1785 | 2601 | 651 | 1785 |
+| public -> private `1 in / 1 private out` | 2092 | 3605 | 9881 | 2471 | 3605 |
+| private -> public `1 private in / 1 public out` | 2329 | 3842 | 10829 | 2708 | 3842 |
+| private -> private `1 private in / 1 private out` | 4294 | 5807 | 18689 | 4673 | 5807 |
+| private -> public + private change `1 private in / 1 private out + 1 public out` | 4301 | 5814 | 18717 | 4680 | 5814 |
+
+## 8) Private Multipliers vs Standard Public Send
+Using `public 1 in / 2 out` (`553 vB`) as baseline:
+- public -> private: `2471 / 553 = 4.47x`
+- private -> public: `2708 / 553 = 4.90x`
+- private -> private: `4673 / 553 = 8.45x`
+- private -> public with private change: `4680 / 553 = 8.46x`
+
+This confirms current private flows are not ~21x for representative single-input/single-recipient shapes. They are currently ~4.5x to ~8.5x, with larger multipliers when private input/output counts increase.
+
+## 9) Private Size Sensitivity (Measured)
+From the same measurement run:
+- private -> private without view-tag note message: `4675 vB`
+- private -> private with view-tag: `4679 vB` (`+4 vB`)
+- private -> private with 32-byte note message: `4702 vB` (`+27 vB`)
+- private -> private with 2 private outputs: `6644 vB` (`+1969 vB`)
+- private -> private with 2 private inputs: `6931 vB` (`+2256 vB`)
+
+Interpretation:
+- each additional private vector has a clear linear-ish cost,
+- the private path overhead is dominated by encrypted payload and private proof material,
+- witness still matters, but private vectors are the primary driver.
+
+## 10) Hashing Model
 - `txid`: no-witness hash
 - `wtxid`: full-transaction hash (with witness)
-- Signing digest: deterministic no-witness signing body hash
+- signing digest: deterministic no-witness signing body hash
 
 Hashing and signing internals:
 - `Src/Utility/txdhash.py`
 - `Src/Transactions/tx.py`
 - `Src/Transactions/txvalidation.py`
 
-## 9) Validation Invariants
+## 11) Validation Invariants
 Transaction acceptance requires:
 - valid structure and network identity,
 - valid signature over no-witness digest,
@@ -105,7 +137,7 @@ Transaction acceptance requires:
 - atom-exact value conservation,
 - fee >= required fee from canonical `vsize`.
 
-## 9.1 Role-Aware Lockup Flows (Bond and Stake)
+## 11.1) Role-Aware Lockup Flows (Bond and Stake)
 Bonding and staking are represented as normal transaction flows to deterministic role-derived destinations, with additional consensus state handling:
 - bond deposit/top-up to bond-derived address,
 - stake deposit/top-up to stake-derived address,
@@ -117,10 +149,21 @@ Key point:
 - display addresses can vary by UI form,
 - consensus ownership/eligibility checks are driven by deterministic pubkey-derived role digests.
 
-## 10) Practical Throughput Mapping
-With `3,500,000` vbytes/block and `120s` block time:
-- `566 vB avg` -> `~51.5 TPS`
-- `615 vB avg` -> `~47.4 TPS`
-- `664 vB avg` -> `~43.9 TPS`
+## 12) Throughput Mapping (Measured)
+At `3,500,000 vB` per block and `120s` block time:
 
-This is why tx-shape distribution directly drives sustained TPS.
+Formula:
+- `TPS_ideal = 3,500,000 / (120 * avg_vsize)`
+- `TPS_95 = TPS_ideal * 0.95` (practical packing headroom)
+
+| Flow Shape | vsize | TPS (ideal) | TPS (95% pack) |
+| --- | ---: | ---: | ---: |
+| public `1 in / 2 out` | 553 | 52.74 | 50.11 |
+| public -> private | 2471 | 11.80 | 11.21 |
+| private -> public | 2708 | 10.77 | 10.23 |
+| private -> private | 4673 | 6.24 | 5.93 |
+
+Conclusion:
+- public throughput envelope remains high for standard payments,
+- private throughput is intentionally lower due stronger privacy payloads,
+- real chain TPS depends on the live tx mix in each block.

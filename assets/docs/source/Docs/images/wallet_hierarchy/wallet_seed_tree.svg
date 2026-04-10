@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-label="Wallet seed hierarchy">
+  <defs>
+    <style>
+      .bg { fill: #0f1117; }
+      .box { fill: #171b26; stroke: #00d0a8; stroke-width: 2; rx: 18; }
+      .box2 { fill: #1e2434; stroke: #3fe0c0; stroke-width: 2; rx: 14; }
+      .title { fill: #ffffff; font: 700 36px Arial, sans-serif; }
+      .h { fill: #6ef7da; font: 700 22px Arial, sans-serif; }
+      .t { fill: #d7e3ff; font: 500 18px Arial, sans-serif; }
+      .small { fill: #a8b8dc; font: 500 16px Arial, sans-serif; }
+      .arrow { stroke: #48f2d0; stroke-width: 3; fill: none; marker-end: url(#m); }
+    </style>
+    <marker id="m" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#48f2d0"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1600" height="980"/>
+  <text class="title" x="70" y="70">Atho Wallet Hierarchy (Simple Map)</text>
+
+  <rect class="box" x="70" y="120" width="1460" height="130"/>
+  <text class="h" x="95" y="165">1) Random entropy -> mnemonic words</text>
+  <text class="t" x="95" y="200">12 words: 128 bits + 4 checksum bits -> 132 bits -> 12 words</text>
+  <text class="t" x="95" y="227">24 words: 256 bits + 8 checksum bits -> 264 bits -> 24 words</text>
+
+  <rect class="box" x="70" y="290" width="1460" height="130"/>
+  <text class="h" x="95" y="335">2) Mnemonic -> master seed (64 bytes)</text>
+  <text class="t" x="95" y="370">PBKDF2-HMAC-SHA3-512(mnemonic, "atho-mnemonic-v1" + passphrase, 600000, 64)</text>
+  <text class="small" x="95" y="398">This is the root secret. Lose this and you lose deterministic recovery.</text>
+
+  <rect class="box2" x="70" y="460" width="700" height="420"/>
+  <text class="h" x="95" y="505">3A) Falcon branch (signing identity)</text>
+  <text class="t" x="95" y="542">HKDF context: ATHO-HD-FALCON-V1</text>
+  <text class="t" x="95" y="572">Info: scheme|network|account|role|index</text>
+  <text class="t" x="95" y="602">Output: 64-byte deterministic Falcon seed</text>
+  <text class="t" x="95" y="640">Falcon public key: 897 bytes (long by design)</text>
+  <text class="t" x="95" y="670">Role hash = SHA3-384(role||network||falcon_pubkey)</text>
+  <text class="t" x="95" y="700">Address = Base56(role_hash) + 6-char checksum</text>
+  <text class="small" x="95" y="735">Regular/Bond/Stake addresses all come from role-domain separation.</text>
+
+  <rect class="box2" x="830" y="460" width="700" height="420"/>
+  <text class="h" x="855" y="505">3B) Kyber branch (private bundle identity)</text>
+  <text class="t" x="855" y="542">HKDF context: ATHO-HD-KYBER-V1</text>
+  <text class="t" x="855" y="572">Info: scheme|network|account|role|index|kyber_level</text>
+  <text class="t" x="855" y="602">Output: 64-byte deterministic Kyber seed</text>
+  <text class="t" x="855" y="640">Bundle bytes = [version][falcon_pubkey][kyber_pubkey]</text>
+  <text class="t" x="855" y="670">X-hash = SHA3-384(bundle_bytes)</text>
+  <text class="t" x="855" y="700">X-address = "X" + Base56(X-hash)</text>
+  <text class="small" x="855" y="735">Same mnemonic path => same bundle identity after rescan/import.</text>
+
+  <path class="arrow" d="M800 250 L800 290"/>
+  <path class="arrow" d="M500 420 L420 460"/>
+  <path class="arrow" d="M1100 420 L1180 460"/>
+</svg>

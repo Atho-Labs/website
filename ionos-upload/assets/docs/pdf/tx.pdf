@@ -4,7 +4,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
+<< /Type /Pages /Count 4 /Kids [4 0 R 6 0 R 8 0 R 10 0 R] >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Courier >>
@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-04-04) Tj
+(Date: 2026-04-05) Tj
 T*
 () Tj
 T*
@@ -53,7 +53,7 @@ T*
 T*
 (Active policy constants:) Tj
 T*
-(- fee floor: 250 atoms/vB) Tj
+(- fee floor: 350 atoms/vB) Tj
 T*
 (- minimum tx fee: 100,000 atoms) Tj
 T*
@@ -130,7 +130,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 2214 >>
+<< /Length 2590 >>
 stream
 BT
 /F1 10 Tf
@@ -162,37 +162,116 @@ T*
 T*
 (- legacy public key length acceptance is migration-policy controlled) Tj
 T*
-(- Why There Is No Single "Base Tx Size") Tj
+(- Measured Size Profile \(Hard Data\)) Tj
 T*
-(There is no universal fixed tx size because encoded size varies with:) Tj
+(There is no single fixed tx size. Size varies with:) Tj
 T*
-(- input count,) Tj
+(- input count) Tj
 T*
-(- output count,) Tj
+(- output count) Tj
 T*
-(- varint widths for values and indexes,) Tj
+(- private vectors) Tj
 T*
-(- witness length,) Tj
+(- metadata) Tj
 T*
-(- optional metadata inclusion.) Tj
-T*
-() Tj
-T*
-(Use measured/derived vsize distributions, not one static byte number.) Tj
+(- witness payload length) Tj
 T*
 () Tj
 T*
-(Representative estimates \(metadata empty, compressed witness\):) Tj
+(The table below is measured from the live serializer + policy path:) Tj
 T*
-(- 1 in / 1 out: ~513 vB) Tj
+(- Transaction.to_dict\(\)) Tj
 T*
-(- 1 in / 2 out: ~566 vB) Tj
+(- serialize_tx_v1\(...\)) Tj
 T*
-(- 2 in / 2 out: ~615 vB) Tj
+(- Constants.tx_policy_metrics\(...\)) Tj
 T*
-(- 3 in / 2 out: ~664 vB) Tj
+() Tj
 T*
-(- 4 in / 2 out: ~713 vB) Tj
+(Snapshot date: 2026-04-05) Tj
+T*
+() Tj
+T*
+(| Flow Shape | Base Bytes | Total Bytes | Weight | vsize | Binary Bytes |) Tj
+T*
+(| --- | ---: | ---: | ---: | ---: | ---: |) Tj
+T*
+(| coinbase \(1 out\) | 290 | 290 | 1160 | 290 | 290 |) Tj
+T*
+(| public 1 in / 1 out | 121 | 1634 | 1997 | 500 | 1634 |) Tj
+T*
+(| public 1 in / 2 out | 174 | 1687 | 2209 | 553 | 1687 |) Tj
+T*
+(| public 2 in / 2 out | 223 | 1736 | 2405 | 602 | 1736 |) Tj
+T*
+(| public 3 in / 2 out | 272 | 1785 | 2601 | 651 | 1785 |) Tj
+T*
+(| public -> private 1 in / 1 private out | 2092 | 3605 | 9881 | 2471 | 3605 |) Tj
+T*
+(| private -> public 1 private in / 1 public out | 2329 | 3842 | 10829 | 2708 | 3842 |) Tj
+T*
+(| private -> private 1 private in / 1 private out | 4294 | 5807 | 18689 | 4673 | 5807 |) Tj
+T*
+(| private -> public + private change 1 private in / 1 private out + 1 public out | 4301 | 5814 |) Tj
+T*
+(18717 | 4680 | 5814 |) Tj
+T*
+(- Private Multipliers vs Standard Public Send) Tj
+T*
+(Using public 1 in / 2 out \(553 vB\) as baseline:) Tj
+T*
+(- public -> private: 2471 / 553 = 4.47x) Tj
+T*
+(- private -> public: 2708 / 553 = 4.90x) Tj
+T*
+(- private -> private: 4673 / 553 = 8.45x) Tj
+T*
+(- private -> public with private change: 4680 / 553 = 8.46x) Tj
+T*
+() Tj
+T*
+(This confirms current private flows are not ~21x for representative) Tj
+T*
+(single-input/single-recipient shapes. They are currently ~4.5x to ~8.5x, with larger multipliers) Tj
+T*
+(when private input/output counts increase.) Tj
+T*
+(- Private Size Sensitivity \(Measured\)) Tj
+T*
+(From the same measurement run:) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 2481 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- private -> private without view-tag note message: 4675 vB) Tj
+T*
+(- private -> private with view-tag: 4679 vB \(+4 vB\)) Tj
+T*
+(- private -> private with 32-byte note message: 4702 vB \(+27 vB\)) Tj
+T*
+(- private -> private with 2 private outputs: 6644 vB \(+1969 vB\)) Tj
+T*
+(- private -> private with 2 private inputs: 6931 vB \(+2256 vB\)) Tj
+T*
+() Tj
+T*
+(Interpretation:) Tj
+T*
+(- each additional private vector has a clear linear-ish cost,) Tj
+T*
+(- the private path overhead is dominated by encrypted payload and private proof material,) Tj
+T*
+(- witness still matters, but private vectors are the primary driver.) Tj
 T*
 (- Hashing Model) Tj
 T*
@@ -200,7 +279,7 @@ T*
 T*
 (- wtxid: full-transaction hash \(with witness\)) Tj
 T*
-(- Signing digest: deterministic no-witness signing body hash) Tj
+(- signing digest: deterministic no-witness signing body hash) Tj
 T*
 () Tj
 T*
@@ -230,7 +309,7 @@ T*
 T*
 () Tj
 T*
-(9.1 Role-Aware Lockup Flows \(Bond and Stake\)) Tj
+(11.1\) Role-Aware Lockup Flows \(Bond and Stake\)) Tj
 T*
 (Bonding and staking are represented as normal transaction flows to deterministic role-derived) Tj
 T*
@@ -240,19 +319,6 @@ T*
 T*
 (- stake deposit/top-up to stake-derived address,) Tj
 T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 712 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- exit/withdraw paths gated by state and height rules.) Tj
 T*
 () Tj
@@ -271,37 +337,74 @@ T*
 T*
 (digests.) Tj
 T*
-(- Practical Throughput Mapping) Tj
+(- Throughput Mapping \(Measured\)) Tj
 T*
-(With 3,500,000 vbytes/block and 120s block time:) Tj
-T*
-(- 566 vB avg -> ~51.5 TPS) Tj
-T*
-(- 615 vB avg -> ~47.4 TPS) Tj
-T*
-(- 664 vB avg -> ~43.9 TPS) Tj
+(At 3,500,000 vB per block and 120s block time:) Tj
 T*
 () Tj
 T*
-(This is why tx-shape distribution directly drives sustained TPS.) Tj
+(Formula:) Tj
+T*
+(- TPS_ideal = 3,500,000 / \(120 * avg_vsize\)) Tj
+T*
+(- TPS_95 = TPS_ideal * 0.95 \(practical packing headroom\)) Tj
+T*
+() Tj
+T*
+(| Flow Shape | vsize | TPS \(ideal\) | TPS \(95% pack\) |) Tj
+T*
+(| --- | ---: | ---: | ---: |) Tj
+T*
+(| public 1 in / 2 out | 553 | 52.74 | 50.11 |) Tj
+T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 441 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(| public -> private | 2471 | 11.80 | 11.21 |) Tj
+T*
+(| private -> public | 2708 | 10.77 | 10.23 |) Tj
+T*
+(| private -> private | 4673 | 6.24 | 5.93 |) Tj
+T*
+() Tj
+T*
+(Conclusion:) Tj
+T*
+(- public throughput envelope remains high for standard payments,) Tj
+T*
+(- private throughput is intentionally lower due stronger privacy payloads,) Tj
+T*
+(- real chain TPS depends on the live tx mix in each block.) Tj
 T*
 ET
 endstream
 endobj
 xref
-0 10
+0 12
 0000000000 65535 f 
 0000000015 00000 n 
 0000000064 00000 n 
-0000000133 00000 n 
-0000000201 00000 n 
-0000000327 00000 n 
-0000002287 00000 n 
-0000002413 00000 n 
-0000004679 00000 n 
-0000004805 00000 n 
+0000000140 00000 n 
+0000000208 00000 n 
+0000000334 00000 n 
+0000002294 00000 n 
+0000002420 00000 n 
+0000005062 00000 n 
+0000005188 00000 n 
+0000007721 00000 n 
+0000007849 00000 n 
 trailer
-<< /Size 10 /Root 1 0 R >>
+<< /Size 12 /Root 1 0 R >>
 startxref
-5568
+8342
 %%EOF

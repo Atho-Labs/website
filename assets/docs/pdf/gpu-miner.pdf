@@ -4,7 +4,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Count 1 /Kids [4 0 R] >>
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Courier >>
@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 1677 >>
+<< /Length 2157 >>
 stream
 BT
 /F1 10 Tf
@@ -23,43 +23,89 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-04-04) Tj
+(Date: 2026-04-10) Tj
 T*
 () Tj
 T*
-(This document defines the active GPU miner runtime and build path.) Tj
+(This document defines the active GPU mining runtime for Atho and the expected production) Tj
+T*
+(operating model. It is focused on practical execution details: build outputs, runtime controls,) Tj
+T*
+(safety checks, tuning guidance, and validation workflows.) Tj
 T*
 () Tj
 T*
-(Implemented Components) Tj
+(Scope) Tj
+T*
+() Tj
+T*
+(The GPU path is a performance acceleration layer for the same consensus rules used by the CPU) Tj
+T*
+(miner. It does not introduce a separate block format or alternate validation pipeline. If a GPU) Tj
+T*
+(backend is unavailable or fails policy checks, runtime behavior is controlled by explicit) Tj
+T*
+(fallback and strictness flags.) Tj
+T*
+() Tj
+T*
+(Primary implementation components:) Tj
 T*
 (- Src/Miner/GPU/sha3_384.cl: OpenCL SHA3-384 kernels.) Tj
 T*
-(- Src/Miner/GPU/gpu_miner.cpp: OpenCL host binary and probing/runtime entry.) Tj
+(- Src/Miner/GPU/sha3_384.cu: CUDA SHA3-384 kernels \(where supported\).) Tj
 T*
-(- Src/Miner/GPU/gpu_interface.py: Python wrapper with backend autodetect \(auto/opencl/cuda\).) Tj
+(- Src/Miner/GPU/gpu_miner.cpp: host binary entrypoint and probe mode.) Tj
 T*
-(- Src/Miner/GPU/compat.py: backend compatibility and runtime checks.) Tj
+(- Src/Miner/GPU/gpu_interface.py: Python orchestration wrapper.) Tj
 T*
-(- Src/Miner/GPU/audit_gpu_miner.py: correctness/security checks.) Tj
+(- Src/Miner/GPU/compat.py: capability checks and backend compatibility logic.) Tj
 T*
-(- Src/Miner/GPU/compare_cpu_gpu_blocks.py: CPU vs GPU hash/vector consistency checks.) Tj
+(- Src/Miner/GPU/audit_gpu_miner.py: correctness and safety validation suite.) Tj
 T*
-() Tj
-T*
-(Build) Tj
-T*
-(From repository root:) Tj
+(- Src/Miner/GPU/compare_cpu_gpu_blocks.py: output consistency checks against CPU reference.) Tj
 T*
 () Tj
 T*
+(Build and Artifact Location) Tj
+T*
+() Tj
+T*
+(Build from repository root:) Tj
+T*
 () Tj
 T*
 () Tj
 T*
-(OpenCL Binary Usage) Tj
+() Tj
 T*
-(Probe:) Tj
+(Expected binaries are written to canonical platform paths under Binaries/<platform-tag>/ and are) Tj
+T*
+(governed by the same hash-pinning model used for other native modules.) Tj
+T*
+() Tj
+T*
+(Typical outputs:) Tj
+T*
+(- gpu_miner_opencl\(.exe\)) Tj
+T*
+(- gpu_miner_cuda\(.exe\) when CUDA toolchain is available) Tj
+T*
+() Tj
+T*
+(Operational rule:) Tj
+T*
+(- Always treat Binaries/<platform-tag>/ as source of truth for runtime loading.) Tj
+T*
+(- Avoid manual ad-hoc copies from build temp directories.) Tj
+T*
+() Tj
+T*
+(Binary Runtime Modes) Tj
+T*
+() Tj
+T*
+(OpenCL probe mode:) Tj
 T*
 () Tj
 T*
@@ -77,35 +123,74 @@ T*
 T*
 (Template mode:) Tj
 T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 1951 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 () Tj
 T*
 () Tj
 T*
 () Tj
 T*
-(Runtime Tuning \(runtime_tuning.json -> miner\)) Tj
-T*
-(- miner_type: CPU or GPU) Tj
-T*
-(- gpu_backend: auto, opencl, cuda) Tj
-T*
-(- gpu_batch_size: integer batch size) Tj
-T*
-(- gpu_batch_timeout_sec: per-batch timeout) Tj
-T*
-(- gpu_auto_tune: adaptive batch-size tuning) Tj
-T*
-(- gpu_target_batch_ms: target batch wall-time) Tj
-T*
-(- gpu_strict: fail instead of CPU fallback on GPU errors) Tj
-T*
-(- gpu_sandbox: apply subprocess resource limits) Tj
-T*
-(- gpu_verify_runtime: require successful backend probe) Tj
+(Use probe mode during host bring-up, driver updates, or after changing backend/runtime flags.) Tj
 T*
 () Tj
 T*
-(Relevant Logs) Tj
+(Runtime Tuning Fields) Tj
+T*
+() Tj
+T*
+(runtime_tuning.json -> miner supports GPU controls:) Tj
+T*
+(- miner_type: CPU or GPU.) Tj
+T*
+(- gpu_backend: auto, opencl, cuda.) Tj
+T*
+(- gpu_batch_size: nonce batch size.) Tj
+T*
+(- gpu_batch_timeout_sec: timeout guard per batch.) Tj
+T*
+(- gpu_auto_tune: adaptive batch tuning.) Tj
+T*
+(- gpu_target_batch_ms: target wall-time for tuning.) Tj
+T*
+(- gpu_strict: disable CPU fallback on GPU failure.) Tj
+T*
+(- gpu_sandbox: subprocess resource guardrails.) Tj
+T*
+(- gpu_verify_runtime: require successful probe.) Tj
+T*
+() Tj
+T*
+(Recommended production posture:) Tj
+T*
+(- keep gpu_verify_runtime enabled,) Tj
+T*
+(- keep gpu_sandbox enabled,) Tj
+T*
+(- set gpu_strict based on SLA preference:) Tj
+T*
+(- false for resilience-first environments,) Tj
+T*
+(- true for deterministic GPU-only testing and benchmarks.) Tj
+T*
+() Tj
+T*
+(Logging and Observability) Tj
+T*
+() Tj
+T*
+(Relevant logs:) Tj
 T*
 (- logs/<network>/pow/pow_runtime.log) Tj
 T*
@@ -115,21 +200,150 @@ T*
 T*
 () Tj
 T*
-(Validation) Tj
+(What to watch:) Tj
+T*
+(- backend detection at startup,) Tj
+T*
+(- probe failures and fallback events,) Tj
+T*
+(- repeated timeout/retry loops,) Tj
+T*
+(- hashrate instability across identical workload windows.) Tj
+T*
+() Tj
+T*
+(A quick health baseline should include stable backend availability and predictable batch) Tj
+T*
+(completion latency.) Tj
+T*
+() Tj
+T*
+(Validation Checklist) Tj
+T*
+() Tj
+T*
+(Run after binary rebuilds, driver upgrades, or major runtime tuning changes:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Expected outcome:) Tj
+T*
+(- strict audit passes,) Tj
+T*
+(- CPU/GPU outputs match for identical templates/targets,) Tj
+T*
+(- no hash or nonce-format drift versus CPU reference path.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1670 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Common Failure Patterns) Tj
+T*
+() Tj
+T*
+(Frequent causes of GPU miner issues:) Tj
+T*
+(- stale or mismatched OpenCL/CUDA drivers,) Tj
+T*
+(- running wrong platform binary,) Tj
+T*
+(- missing device permissions in containerized environments,) Tj
+T*
+(- overly aggressive batch sizes that trigger repeated timeout churn,) Tj
+T*
+(- strict mode enabled with no validated backend available.) Tj
+T*
+() Tj
+T*
+(First-response sequence:) Tj
+T*
+(- run --probe,) Tj
+T*
+(- reduce batch size and timeout pressure,) Tj
+T*
+(- rerun strict audit,) Tj
+T*
+(- compare with CPU output for deterministic parity,) Tj
+T*
+(- verify binary hash metadata is current.) Tj
+T*
+() Tj
+T*
+(Security and Consensus Notes) Tj
+T*
+() Tj
+T*
+(The GPU miner does not alter consensus policy constants. Active production values remain:) Tj
+T*
+(- block target cadence 120s,) Tj
+T*
+(- retarget interval 180 blocks,) Tj
+T*
+(- fee floor 350 atoms/vB,) Tj
+T*
+(- tx confirmations 10, private tx confirmations 10, coinbase maturity 150.) Tj
+T*
+() Tj
+T*
+(GPU acceleration changes throughput potential for hash search, not chain validity semantics.) Tj
+T*
+() Tj
+T*
+(Operational Recommendation) Tj
+T*
+() Tj
+T*
+(Treat GPU mining as a controlled acceleration feature:) Tj
+T*
+(- keep reproducible build artifacts,) Tj
+T*
+(- keep pin metadata synchronized,) Tj
+T*
+(- enforce preflight probe + strict audit in deployment pipelines,) Tj
+T*
+(- maintain documented fallback behavior so operators know exactly what happens under backend) Tj
+T*
+(failure.) Tj
+T*
+() Tj
+T*
+(This keeps mining performance improvements compatible with deterministic consensus and) Tj
+T*
+(predictable runtime behavior.) Tj
 T*
 ET
 endstream
 endobj
 xref
-0 6
+0 10
 0000000000 65535 f 
 0000000015 00000 n 
 0000000064 00000 n 
-0000000121 00000 n 
-0000000189 00000 n 
-0000000315 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000002536 00000 n 
+0000002662 00000 n 
+0000004665 00000 n 
+0000004791 00000 n 
 trailer
-<< /Size 6 /Root 1 0 R >>
+<< /Size 10 /Root 1 0 R >>
 startxref
-2044
+6513
 %%EOF

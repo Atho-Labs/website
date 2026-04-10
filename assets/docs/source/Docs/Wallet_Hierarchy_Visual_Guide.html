@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Atho Wallet Hierarchy Visual Guide</title>
+  <style>
+:root {
+  --bg: #0e1117;
+  --panel: #131926;
+  --text: #e6ecff;
+  --muted: #aeb9d6;
+  --accent: #28e0be;
+  --border: #22314d;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
+.page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 40px 36px 80px;
+}
+h1, h2, h3, h4 {
+  color: #ffffff;
+  line-height: 1.25;
+  margin-top: 1.6em;
+}
+h1 { font-size: 2rem; margin-top: 0.2em; }
+h2 { font-size: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+h3 { font-size: 1.2rem; }
+p, li { font-size: 1rem; color: var(--text); }
+ul, ol { padding-left: 1.4rem; }
+code {
+  background: #1b2435;
+  border: 1px solid #2d3f61;
+  color: #d4f8ef;
+  padding: 0.12rem 0.35rem;
+  border-radius: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+pre {
+  background: #121a2a;
+  border: 1px solid #2b3f65;
+  color: #d9f7f1;
+  padding: 14px;
+  border-radius: 10px;
+  overflow: auto;
+}
+pre code {
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+hr { border: 0; border-top: 1px solid var(--border); margin: 28px 0; }
+a { color: #87f6e1; }
+img {
+  width: 100%;
+  max-width: 1000px;
+  display: block;
+  margin: 16px auto 24px;
+  border: 1px solid #2a3a5a;
+  border-radius: 12px;
+  background: #0d1320;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+}
+th, td {
+  border: 1px solid #2a3a5a;
+  padding: 8px 10px;
+  text-align: left;
+}
+th { background: #182238; }
+blockquote {
+  margin: 16px 0;
+  padding: 10px 14px;
+  border-left: 4px solid var(--accent);
+  background: #111a29;
+  color: var(--muted);
+}
+@media print {
+  body { background: #ffffff; color: #111; }
+  .page { max-width: none; padding: 20px; }
+  h1, h2, h3, h4, p, li { color: #111; }
+  code, pre { color: #111; background: #f5f5f5; border-color: #ccc; }
+  img { page-break-inside: avoid; border-color: #ddd; }
+}
+</style>
+</head>
+<body>
+  <main class="page">
+    <h1 id="atho-wallet-hierarchy-visual-guide-beginner-deep-technical">Atho Wallet Hierarchy Visual Guide (Beginner + Deep Technical)</h1>
+<p>Date: 2026-04-08</p>
+<p>Audience:
+- Beginner users who want a simple mental model.
+- Operators and developers who need exact code-level math and derivation behavior.</p>
+<p>Goal:
+- Explain from step 1 how mnemonic, seed, Falcon, Kyber, addresses, private bundles, and private notes work together.
+- Explain recovery rules and what is and is not recoverable.
+- Explain why keys are long and why that is expected in a post-quantum design.</p>
+<hr />
+<h2 id="0-explain-like-i-am-5-the-toy-box-version">0) Explain Like I Am 5 (the toy-box version)</h2>
+<p>Think of your wallet like a big toy factory with one master recipe card.</p>
+<ul>
+<li>Your <strong>mnemonic words</strong> are that recipe card.</li>
+<li>The wallet uses the recipe card to make one giant secret dough called the <strong>seed</strong>.</li>
+<li>From that seed, the wallet bakes two different toy families:</li>
+<li><strong>Falcon toys</strong>: used to prove "this is really me" (signatures).</li>
+<li><strong>Kyber toys</strong>: used to lock and unlock secret messages (private payload encryption).</li>
+<li>Then the wallet makes addresses from those toys:</li>
+<li>normal address (public receive/spend),</li>
+<li>bond address,</li>
+<li>stake address,</li>
+<li>private bundle identity (X-address).</li>
+</ul>
+<p>If you keep the recipe card (mnemonic) and the same options (passphrase, account/index/role path), the factory can rebuild the same toy family again.</p>
+<p>That is deterministic recovery.</p>
+<hr />
+<h2 id="1-big-picture-diagram">1) Big Picture Diagram</h2>
+<p><img alt="Wallet seed hierarchy" src="images/wallet_hierarchy/wallet_seed_tree.svg" /></p>
+<p>What this means:
+- One mnemonic root can deterministically rebuild both public identity (Falcon path) and private receive identity (Kyber/bundle path).
+- Role separation is intentional. Regular, bond, and stake are domain-separated identities, even if they come from one root.</p>
+<hr />
+<h2 id="2-core-terms-plain-language-jargon">2) Core Terms (plain language + jargon)</h2>
+<ul>
+<li><strong>Entropy</strong>: random bytes the wallet generates first.</li>
+<li><strong>Checksum bits</strong>: short hash-derived bits added to entropy to catch typing mistakes.</li>
+<li><strong>Mnemonic</strong>: human-readable word list encoding entropy + checksum.</li>
+<li><strong>Seed</strong>: 64-byte root secret derived from mnemonic using PBKDF2.</li>
+<li><strong>PBKDF2</strong>: password-based key derivation function. Slows down brute-force attacks.</li>
+<li><strong>HKDF</strong>: key expansion method with context labels so different branches are separated.</li>
+<li><strong>Falcon</strong>: post-quantum signature scheme (identity + signing).</li>
+<li><strong>Kyber</strong>: post-quantum KEM/encryption key agreement (private payload lock/unlock).</li>
+<li><strong>HPK</strong>: hashed public key digest (role/network-domain hashed Falcon pubkey).</li>
+<li><strong>Base56</strong>: human-oriented encoding alphabet with typo-resistant rules.</li>
+<li><strong>Private bundle</strong>: binary package that contains Falcon public key + Kyber public key.</li>
+<li><strong>X-hash / X-address</strong>: hash-based identifier for private bundle sharing.</li>
+<li><strong>Note</strong>: private spendable object (private UTXO-like record).</li>
+<li><strong>Nullifier</strong>: one-time spend marker that prevents private double-spend.</li>
+<li><strong>Anchor/Merkle path</strong>: proof that a note exists in the private note tree.</li>
+</ul>
+<hr />
+<h2 id="3-exact-mnemonic-math-from-code">3) Exact Mnemonic Math (from code)</h2>
+<p>Source behavior: <code>Src/Accounts/mnemonic.py</code>.</p>
+<h3 id="31-supported-mnemonic-lengths">3.1 Supported mnemonic lengths</h3>
+<p>The code maps word-count to entropy bytes:
+- 12 words -&gt; 16 bytes entropy (128 bits)
+- 24 words -&gt; 32 bytes entropy (256 bits)
+- 48 words -&gt; 64 bytes entropy (512 bits)</p>
+<h3 id="32-checksum-formula">3.2 Checksum formula</h3>
+<pre><code class="language-text">checksum_bits = entropy_bits / 32
+</code></pre>
+<p>Checksum bits are taken from the start of <code>SHA3-512(entropy)</code>.</p>
+<h3 id="33-word-conversion-formula">3.3 Word conversion formula</h3>
+<pre><code class="language-text">bitstream = entropy_bits + checksum_bits
+words = bitstream / 11
+</code></pre>
+<p>Each 11-bit chunk indexes one word in a 2048-word list.</p>
+<p>Examples:
+- 12 words: 128 + 4 = 132 bits -&gt; 132 / 11 = 12
+- 24 words: 256 + 8 = 264 bits -&gt; 264 / 11 = 24
+- 48 words: 512 + 16 = 528 bits -&gt; 528 / 11 = 48</p>
+<h3 id="34-visual-mnemonic-math">3.4 Visual mnemonic math</h3>
+<p><img alt="Mnemonic math" src="images/wallet_hierarchy/mnemonic_math.svg" /></p>
+<hr />
+<h2 id="4-seed-derivation-pbkdf2-details">4) Seed Derivation (PBKDF2 details)</h2>
+<p>Source behavior: <code>Src/Accounts/mnemonic.py</code>.</p>
+<p>Mnemonic is normalized (NFKD). Passphrase is normalized (NFKD).</p>
+<p>The code derives seed exactly as:</p>
+<pre><code class="language-text">seed = PBKDF2-HMAC-SHA3-512(
+  password = normalized_mnemonic,
+  salt     = &quot;atho-mnemonic-v1&quot; + normalized_passphrase,
+  iterations = 600000,
+  dklen = 64
+)
+</code></pre>
+<p>Important:
+- A minimum of 100000 iterations is enforced by code guard.
+- Current default in code is 600000.
+- Output is 64 bytes.</p>
+<p>Why this matters:
+- Same mnemonic + same passphrase + same scheme -&gt; same seed.
+- Different passphrase -&gt; different seed (completely different wallet tree).</p>
+<hr />
+<h2 id="5-hierarchical-derivation-into-falcon-and-kyber">5) Hierarchical Derivation into Falcon and Kyber</h2>
+<h3 id="51-falcon-branch">5.1 Falcon branch</h3>
+<p>Code uses domain-separated HKDF context:</p>
+<pre><code class="language-text">context = &quot;ATHO-HD-FALCON-V1&quot;
+info    = &quot;atho-mnemonic-v1|&lt;network&gt;|&lt;account&gt;|&lt;role&gt;|&lt;index&gt;&quot;
+falcon_seed_64 = HKDF-SHA3-512(seed, context, info, 64)
+</code></pre>
+<p>This deterministic Falcon seed goes to deterministic Falcon keygen.</p>
+<h3 id="52-kyber-branch">5.2 Kyber branch</h3>
+<p>Code uses another independent context:</p>
+<pre><code class="language-text">context = &quot;ATHO-HD-KYBER-V1&quot;
+info    = &quot;atho-mnemonic-v1|&lt;network&gt;|&lt;account&gt;|&lt;role&gt;|&lt;index&gt;|kyber=&lt;level&gt;&quot;
+kyber_seed_64 = HKDF-SHA3-512(seed, context, info, 64)
+</code></pre>
+<p>Then Kyber deterministic keypair is generated.</p>
+<h3 id="53-why-separate-contexts-are-critical">5.3 Why separate contexts are critical</h3>
+<p>If Falcon and Kyber reused one derivation domain, cross-protocol key coupling risk increases.</p>
+<p>Domain separation means:
+- Falcon material cannot accidentally become Kyber material.
+- Changing one branch policy does not silently break the other.</p>
+<hr />
+<h2 id="6-address-math-roledomain-separated">6) Address Math (role/domain separated)</h2>
+<p>Role hash digest uses SHA3-384 with domain tags and network tags.</p>
+<p>At a high level:</p>
+<pre><code class="language-text">role_digest = SHA3-384(role_domain || 0x00 || network_domain || 0x00 || falcon_pubkey_bytes)
+</code></pre>
+<p>Then Base56 address formatting uses:</p>
+<pre><code class="language-text">body = role_prefix + Base56(role_digest)
+checksum_raw = SHA3-256(body_utf8)[0:4]
+checksum_b56 = Base56(checksum_raw), fixed to 6 chars
+address = body + checksum_b56
+</code></pre>
+<p>From code:
+- Base56 alphabet excludes ambiguous chars.
+- Checksum bytes = 4.
+- Checksum printed length = 6 Base56 chars.</p>
+<p>So addresses are:
+- human-shareable wrapper,
+- with typo-detection checksum,
+- while cryptographic identity still comes from hashed key bytes.</p>
+<hr />
+<h2 id="7-private-bundle-format-and-why-keys-are-long">7) Private Bundle Format and Why Keys Are Long</h2>
+<h3 id="71-visual-layout">7.1 Visual layout</h3>
+<p><img alt="Private bundle layout" src="images/wallet_hierarchy/private_bundle_layout.svg" /></p>
+<h3 id="72-exact-binary-structure">7.2 Exact binary structure</h3>
+<p>From <code>Src/Utility/private_bundle.py</code>:</p>
+<pre><code class="language-text">bundle_bytes = [version:1 byte] || [falcon_pubkey] || [kyber_pubkey]
+</code></pre>
+<p>Typical lengths:
+- Falcon public key: 897 bytes.
+- Kyber public key: 800, 1184, or 1568 bytes (level-dependent).</p>
+<h3 id="73-bundle-identity-math">7.3 Bundle identity math</h3>
+<pre><code class="language-text">x_hash = SHA3-384(bundle_bytes)
+x_address = &quot;X&quot; + Base56(x_hash)
+</code></pre>
+<h3 id="74-why-are-private-keys-and-public-keys-so-long">7.4 "Why are private keys and public keys so long?"</h3>
+<p>Short answer: because this is post-quantum crypto.</p>
+<p>Long answer:
+- Falcon and Kyber use lattices and structures that require larger key/signature/ciphertext sizes than legacy ECC.
+- Bigger payloads are expected engineering tradeoffs for quantum-resistance.
+- This is not accidental bloat. It is the design cost for future safety.</p>
+<hr />
+<h2 id="8-private-note-derivation-and-spend-safety">8) Private Note Derivation and Spend Safety</h2>
+<h3 id="81-visual-note-math">8.1 Visual note math</h3>
+<p><img alt="Private note math" src="images/wallet_hierarchy/private_note_math.svg" /></p>
+<h3 id="82-master-note-seed">8.2 Master note seed</h3>
+<p>From <code>key_manager.py</code> logic:</p>
+<pre><code class="language-text">note_master = SHA3-256(
+  &quot;atho/private-note-master/v1&quot; || network || falcon_pub || f || g || F || G
+)
+</code></pre>
+<h3 id="83-per-note-deterministic-seed">8.3 Per-note deterministic seed</h3>
+<p>From <code>deterministic_keygen.py</code> path:</p>
+<pre><code class="language-text">note_seed = SHA3-256(
+  domain || network || note_master || account_u32_le || counter_u64_le
+)
+</code></pre>
+<p>Counter gives deterministic stream progression.</p>
+<h3 id="84-spend-prevention-logic-concept">8.4 Spend prevention logic (concept)</h3>
+<p>For private spends, consensus/mempool expect valid proof material:
+- nullifier must be unique (no replay/double-spend),
+- anchor/path must prove membership in note tree,
+- note signature must match expected note key and spend digest,
+- amount relations must be valid (no mint from thin air),
+- malformed inputs get rejected.</p>
+<hr />
+<h2 id="9-private-transaction-flow-easy-view-technical-view">9) Private Transaction Flow (easy view + technical view)</h2>
+<p><img alt="Private send flow" src="images/wallet_hierarchy/private_send_flow.svg" /></p>
+<h3 id="91-fee-math">9.1 Fee math</h3>
+<p>System policy (current constants):
+- <code>fee_per_vb_atoms = 350</code>
+- <code>min_tx_fee_atoms = 100000</code></p>
+<p>General formula:</p>
+<pre><code class="language-text">required_fee_atoms = max(vsize * fee_per_vb_atoms, min_tx_fee_atoms)
+</code></pre>
+<p>With <code>1 ATHO = 1,000,000,000 atoms</code>, this means:
+- 350 atoms/vB = 3.5e-7 ATHO/vB.</p>
+<h3 id="92-confirmation-policy-current-constants">9.2 Confirmation policy (current constants)</h3>
+<ul>
+<li>regular tx confirmations required: 3</li>
+<li>private tx confirmations required: 3</li>
+<li>coinbase maturity blocks: 5</li>
+</ul>
+<p>So private notes should be tracked as pending first, then move to spendable when confirmation requirement is met.</p>
+<hr />
+<h2 id="10-recovery-process-exact-behavior">10) Recovery Process (exact behavior)</h2>
+<p><img alt="Recovery flow" src="images/wallet_hierarchy/recovery_flow.svg" /></p>
+<p>Recovery has two layers:</p>
+<h3 id="101-deterministic-identity-reconstruction">10.1 Deterministic identity reconstruction</h3>
+<p>Given same:
+- mnemonic,
+- passphrase,
+- account/index/role derivation path,
+- network,</p>
+<p>the wallet can recreate:
+- Falcon identity,
+- role addresses,
+- deterministic Kyber/bundle identity.</p>
+<h3 id="102-chain-state-reconstruction">10.2 Chain-state reconstruction</h3>
+<p>After identity is rebuilt, node must fully sync/rescan chain to recover:
+- confirmed public UTXOs,
+- confirmed private notes and spend states,
+- matured/spendable vs pending classification.</p>
+<h3 id="103-what-mnemonic-does-not-restore-by-itself">10.3 What mnemonic does NOT restore by itself</h3>
+<p>Mnemonic alone does not magically restore purely local transient state, for example:
+- only-local mempool pending metadata not yet finalized on-chain,
+- ephemeral UI-only cache artifacts.</p>
+<p>Canonical truth is confirmed chain state after scan.</p>
+<hr />
+<h2 id="11-why-deterministic-design-was-chosen">11) Why deterministic design was chosen</h2>
+<ol>
+<li>Reproducible recovery.</li>
+<li>
+<p>If path inputs match, key outputs match.</p>
+</li>
+<li>
+<p>Operational resilience.</p>
+</li>
+<li>
+<p>Device loss can be recovered from mnemonic + chain rescan.</p>
+</li>
+<li>
+<p>Auditable derivation.</p>
+</li>
+<li>
+<p>Deterministic formulas make behavior predictable and testable.</p>
+</li>
+<li>
+<p>Separation of duties.</p>
+</li>
+<li>
+<p>Falcon branch and Kyber branch are domain-separated.</p>
+</li>
+<li>
+<p>Reduced accidental identity drift.</p>
+</li>
+<li>The same wallet path does not produce random new identity each restart.</li>
+</ol>
+<hr />
+<h2 id="12-important-security-boundaries">12) Important security boundaries</h2>
+<ul>
+<li>Mnemonic is the crown jewel.</li>
+<li>Passphrase is a second lock. Without correct passphrase, same words produce a different wallet tree.</li>
+<li>Key files can still contain additional local state and metadata; backup policy still matters.</li>
+<li>Confirmed chain state is the source of truth for balances.</li>
+<li>Mempool-only state is temporary.</li>
+</ul>
+<hr />
+<h2 id="13-jargon-decoder-mini-dictionary">13) Jargon decoder (mini dictionary)</h2>
+<ul>
+<li><strong>NFKD normalization</strong>: standard way to normalize unicode text so same phrase bytes are reproducible.</li>
+<li><strong>Domain separation</strong>: adding fixed tags/contexts so one hash/derivation use cannot be confused with another.</li>
+<li><strong>Nullifier</strong>: one-time marker created when spending a private note. Reusing it means replay attempt.</li>
+<li><strong>Anchor</strong>: snapshot root (or root-linked value) the proof references.</li>
+<li><strong>Merkle path</strong>: sibling hash path proving note exists under an anchor root.</li>
+<li><strong>Commitment</strong>: cryptographic binding to note data without exposing raw data.</li>
+<li><strong>Spend digest</strong>: canonical hashed message that signatures are checked against.</li>
+</ul>
+<hr />
+<h2 id="14-step-by-step-example-toy-numbers-for-intuition">14) Step-by-step example (toy numbers for intuition)</h2>
+<p>This is conceptual, not real key material.</p>
+<ol>
+<li>User creates 24-word mnemonic.</li>
+<li>Wallet builds 256-bit entropy + 8 checksum bits.</li>
+<li>PBKDF2 generates 64-byte seed.</li>
+<li>Falcon branch derives deterministic seed and keypair.</li>
+<li>Role hashes produce regular/bond/stake addresses.</li>
+<li>Kyber branch derives deterministic seed and keypair.</li>
+<li>Bundle is assembled and hashed to X-address.</li>
+<li>Wallet receives private outputs targeted to that bundle.</li>
+<li>On restore with same mnemonic/passphrase/path:</li>
+<li>addresses match,</li>
+<li>bundle identity matches,</li>
+<li>full scan restores confirmed balances.</li>
+</ol>
+<hr />
+<h2 id="15-faq-high-detail">15) FAQ (high detail)</h2>
+<h3 id="q1-is-mnemonic-generated-from-seed">Q1) Is mnemonic generated from seed?</h3>
+<p>No. In this implementation, entropy is generated first, mnemonic is encoded from entropy+checksum, then seed is derived from mnemonic.</p>
+<h3 id="q2-why-can-two-wallets-with-same-words-look-different">Q2) Why can two wallets with same words look different?</h3>
+<p>Common reasons:
+- different passphrase,
+- different account/index/role path,
+- different network.</p>
+<h3 id="q3-why-are-falcon-and-kyber-both-needed">Q3) Why are Falcon and Kyber both needed?</h3>
+<p>Falcon signs ownership and spend intent. Kyber encrypts private payload exchange for note delivery/decode.</p>
+<h3 id="q4-why-not-one-key-type-for-everything">Q4) Why not one key type for everything?</h3>
+<p>Separation reduces cross-protocol risk and keeps concerns cleaner: signing vs encapsulation.</p>
+<h3 id="q5-is-address-checksum-optional">Q5) Is address checksum optional?</h3>
+<p>No. It is integral for typo detection and safe sharing.</p>
+<h3 id="q6-why-base56-instead-of-hex-everywhere">Q6) Why Base56 instead of hex everywhere?</h3>
+<p>Base56 is shorter, more human-friendly, and avoids visually ambiguous characters.</p>
+<h3 id="q7-if-i-lose-local-key-json-can-mnemonic-recover-me">Q7) If I lose local key JSON, can mnemonic recover me?</h3>
+<p>Yes for deterministic key identity and confirmed on-chain state, after full sync/rescan.</p>
+<h3 id="q8-will-pending-mempool-items-always-recover">Q8) Will pending mempool items always recover?</h3>
+<p>Not guaranteed as local transient state. They are resolved by eventual chain inclusion or drop.</p>
+<h3 id="q9-why-does-private-send-sometimes-require-shielding-first">Q9) Why does private send sometimes require shielding first?</h3>
+<p>If you do not have enough confirmed private note balance, wallet may need public -&gt; private-self first.</p>
+<h3 id="q10-does-private-sending-hide-everything">Q10) Does private sending hide everything?</h3>
+<p>Private outputs are hidden as commitments, but flow design still matters. Public legs are public by definition.</p>
+<h3 id="q11-why-is-role-separation-important">Q11) Why is role separation important?</h3>
+<p>It prevents one role identity from being accidentally reused as another role in policy-sensitive logic.</p>
+<h3 id="q12-can-deterministic-keys-still-be-secure">Q12) Can deterministic keys still be secure?</h3>
+<p>Yes, if root seed is secret and derivation is domain-separated and cryptographically strong.</p>
+<h3 id="q13-what-if-attacker-sees-my-public-address">Q13) What if attacker sees my public address?</h3>
+<p>Public address alone does not reveal private key. It is derived from hashed pubkey and protected by signature hardness assumptions.</p>
+<h3 id="q14-what-if-attacker-sees-my-x-address">Q14) What if attacker sees my X-address?</h3>
+<p>X-address is an identifier from bundle hash, not your private secret itself.</p>
+<h3 id="q15-why-are-some-private-tx-payload-fields-large">Q15) Why are some private tx payload fields large?</h3>
+<p>Because they include proof-related data, encrypted payloads, commitments, and post-quantum key material.</p>
+<h3 id="q16-what-prevents-private-double-spend">Q16) What prevents private double-spend?</h3>
+<p>Nullifier uniqueness checks plus proof/signature validation in mempool and block validation paths.</p>
+<h3 id="q17-what-prevents-fake-note-minting">Q17) What prevents fake note minting?</h3>
+<p>Amount/commit/proof validation and consensus rules. Inputs and outputs must satisfy protocol constraints.</p>
+<h3 id="q18-is-wallet-ui-balance-always-authoritative">Q18) Is wallet UI balance always authoritative?</h3>
+<p>UI is a view. Consensus-confirmed chain state is authoritative.</p>
+<h3 id="q19-why-do-notes-move-pending-spendable">Q19) Why do notes move pending -&gt; spendable?</h3>
+<p>Confirmation policy exists to avoid spendability on unstable/unconfirmed state.</p>
+<h3 id="q20-why-does-passphrase-matter-so-much">Q20) Why does passphrase matter so much?</h3>
+<p>Passphrase changes PBKDF2 salt input. Same words + different passphrase = completely different seed and keys.</p>
+<h3 id="q21-can-i-share-mnemonic-to-support-staff">Q21) Can I share mnemonic to support staff?</h3>
+<p>Never. Mnemonic + passphrase controls your entire deterministic wallet tree.</p>
+<h3 id="q22-why-store-notes-in-a-separate-notes-json-too">Q22) Why store notes in a separate notes JSON too?</h3>
+<p>Operational/audit clarity and faster reconciliation workflows, while canonical spend truth remains consensus.</p>
+<h3 id="q23-if-chain-is-wiped-and-restarted-should-old-spendable-notes-still-show">Q23) If chain is wiped and restarted, should old spendable notes still show?</h3>
+<p>No. Proper rescan/reconciliation should self-heal against current chain state.</p>
+<h3 id="q24-why-does-code-enforce-integer-atoms">Q24) Why does code enforce integer atoms?</h3>
+<p>Integer atoms avoid floating-point rounding errors in monetary accounting.</p>
+<h3 id="q25-what-is-the-single-most-important-backup-set">Q25) What is the single most important backup set?</h3>
+<p>Mnemonic phrase, passphrase (if used), and derivation path metadata. Then run full node sync/rescan.</p>
+<hr />
+<h2 id="16-current-protocol-policy-snapshot-from-constants">16) Current protocol policy snapshot (from constants)</h2>
+<p>These values are currently hard-coded in <code>Src/Utility/const.py</code> policy tuning and invariants:</p>
+<ul>
+<li>Atoms per coin: <code>1,000,000,000</code></li>
+<li>Fee floor: <code>350 atoms/vB</code> (<code>3.5e-7 ATHO/vB</code>)</li>
+<li>Min transaction fee: <code>100,000 atoms</code></li>
+<li>Dust limit: <code>250 atoms</code></li>
+<li>Tx confirmations required: <code>3</code></li>
+<li>Private tx confirmations required: <code>3</code></li>
+<li>Coinbase maturity: <code>5</code></li>
+<li>Min stake: <code>20 ATHO</code></li>
+<li>Max stake per address: <code>500 ATHO</code></li>
+<li>Max network staked total: <code>25,000,000 ATHO</code></li>
+<li>Max new stake rolling 30d: <code>25,000 ATHO</code></li>
+<li>Stake rolling window blocks: <code>21,600</code></li>
+<li>Stake unbonding delay blocks: <code>129,600</code></li>
+<li>Min mining bond: <code>25 ATHO</code></li>
+<li>Max bond per address: <code>30 ATHO</code></li>
+<li>Bond unbonding delay blocks: <code>10,080</code></li>
+<li>Fee pool post-tail buckets: miner <code>25%</code>, stake <code>30%</code> (remaining share can be burn path per emissions/pool routing logic)</li>
+</ul>
+<hr />
+<h2 id="17-final-takeaway">17) Final takeaway</h2>
+<p>If you remember only five things:</p>
+<ol>
+<li>Mnemonic + passphrase + path is your deterministic root identity.</li>
+<li>Falcon and Kyber are separate branches on purpose.</li>
+<li>Long key sizes are expected in post-quantum cryptography.</li>
+<li>Private spends depend on note proofs/nullifiers, not just a simple signature.</li>
+<li>Recovery means deterministic key rebuild plus full chain rescan for confirmed state.</li>
+</ol>
+<p>That is the wallet hierarchy in both kid-simple language and code-accurate math.</p>
+  </main>
+</body>
+</html>

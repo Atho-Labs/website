@@ -4,7 +4,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Count 2 /Kids [4 0 R 6 0 R] >>
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Courier >>
@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 1928 >>
+<< /Length 2391 >>
 stream
 BT
 /F1 10 Tf
@@ -23,13 +23,15 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-04-04) Tj
+(Date: 2026-04-09) Tj
 T*
 () Tj
 T*
-(This document describes active LMDB usage for chain persistence and transaction paths.) Tj
+(This document defines which LMDB stores are consensus-critical vs local/runtime) Tj
 T*
-(- Core Stores) Tj
+(state, and why each store exists.) Tj
+T*
+(- Database Root) Tj
 T*
 (Root path:) Tj
 T*
@@ -37,91 +39,89 @@ T*
 T*
 () Tj
 T*
-(Primary LMDB environments:) Tj
+(Configured in:) Tj
 T*
-(- full_block_chain.lmdb \(block storage + tx location index\)) Tj
+(- Src/Utility/const.py \(Constants.DATABASES\)) Tj
 T*
-(- utxo.lmdb \(UTXO set\)) Tj
-T*
-(- mempool.lmdb \(pending transactions\)) Tj
-T*
-(- orphan_blocks.lmdb \(side/orphan branch staging\)) Tj
-T*
-(- Block Store) Tj
-T*
-(Code:) Tj
-T*
-(- Src/Storage/blockstorage.py) Tj
+(- Store Classification) Tj
 T*
 () Tj
 T*
-(Responsibilities:) Tj
+(Consensus-Critical Stores \(network state\)) Tj
 T*
-(- persist blocks by height and hash,) Tj
+(These stores are replayed/validated from canonical blocks and directly affect) Tj
 T*
-(- maintain tx location index,) Tj
+(validation outcomes.) Tj
 T*
-(- provide fast tx lookup,) Tj
+(- full_block_chain*.lmdb) Tj
 T*
-(- support block-add/reorg storage operations under consensus write context.) Tj
+(- Code: Src/Storage/blockstorage.py) Tj
 T*
-(- UTXO Store) Tj
+(- Role: canonical block bodies, tx location index, tip metadata.) Tj
 T*
-(Code:) Tj
+(- Consensus impact: highest.) Tj
 T*
-(- Src/Storage/utxostorage.py) Tj
+(- utxo*.lmdb) Tj
+T*
+(- Code: Src/Storage/utxostorage.py) Tj
+T*
+(- Role: spendable output set + apply/unspend markers.) Tj
+T*
+(- Consensus impact: highest.) Tj
+T*
+(- private_notes*.lmdb) Tj
+T*
+(- Code: Src/Storage/private_notes_store.py) Tj
+T*
+(- Role: shielded note set, nullifier sets, Merkle tree nodes, anchor roots.) Tj
+T*
+(- Consensus impact: highest for private tx validity.) Tj
+T*
+(- bond*.lmdb) Tj
+T*
+(- Code: Src/Storage/bondstake.py) Tj
+T*
+(- Role: bond lock state machine, miner eligibility linkage.) Tj
+T*
+(- Consensus impact: high \(bonded mining checks\).) Tj
+T*
+(- stake*.lmdb) Tj
+T*
+(- Code: Src/Storage/bondstake.py) Tj
+T*
+(- Role: stake lock state machine + network totals used by staking logic.) Tj
+T*
+(- Consensus impact: high \(staking constraints/rewards\).) Tj
+T*
+(- payout_journal*.lmdb) Tj
+T*
+(- Code: Src/Storage/bondstake.py) Tj
+T*
+(- Role: deterministic payout idempotency/event history.) Tj
+T*
+(- Consensus impact: high for safe replay/reorg payout behavior.) Tj
+T*
+(- Why it is required:) Tj
+T*
+(- prevents duplicate payouts across retries/restarts,) Tj
+T*
+(- preserves ordered payout transitions \(pending -> submitted -> confirmed\),) Tj
+T*
+(- enables deterministic reprocessing after crashes/reorg windows.) Tj
 T*
 () Tj
 T*
-(Responsibilities:) Tj
+(Local Runtime/Propagation Stores) Tj
 T*
-(- store spendable outputs,) Tj
+(Important for networking and performance, but not canonical chain truth.) Tj
 T*
-(- indexed lookup by canonical address binding,) Tj
+(- mempool*.lmdb) Tj
 T*
-(- apply/spend/unspend operations during block connect/disconnect,) Tj
+(- Code: Src/Storage/mempool.py) Tj
 T*
-(- provide deterministic read behavior for tx verification.) Tj
+(- Role: pending tx propagation, fee/ranking indexes, tombstones.) Tj
 T*
-(- Mempool Store) Tj
-T*
-(Code:) Tj
-T*
-(- Src/Storage/mempool.py) Tj
-T*
-() Tj
-T*
-(Responsibilities:) Tj
-T*
-(- persist and index pending txs,) Tj
-T*
-(- track confirmed tombstones,) Tj
-T*
-(- maintain revision marker for cross-process refresh behavior,) Tj
-T*
-(- support consensus-safe add/remove paths.) Tj
-T*
-(- Orphan/Reorg Store) Tj
-T*
-(Code:) Tj
-T*
-(- Src/Blockchain/orphreorgs.py) Tj
-T*
-() Tj
-T*
-(Responsibilities:) Tj
-T*
-(- hold side/orphan blocks,) Tj
-T*
-(- assist bounded reorg flow when stronger branches appear.) Tj
-T*
-(- Map Growth and Rollover Behavior) Tj
-T*
-(Atho uses bounded LMDB map growth:) Tj
-T*
-(- on MapFullError, stores can grow map size \(when enabled\),) Tj
-T*
-(- growth is capped by per-store max map settings,) Tj
+(- Canonical source remains accepted blocks, not mempool records.) Tj
 T*
 ET
 endstream
@@ -130,29 +130,63 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 712 >>
+<< /Length 2771 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(- near-limit status is logged for operator visibility.) Tj
+(- orphan_blocks*.lmdb) Tj
+T*
+(- Code: Src/Blockchain/orphreorgs.py) Tj
+T*
+(- Role: orphan/side-branch staging for bounded reorg handling.) Tj
+T*
+(- Becomes canonical only when blocks are accepted into block store.) Tj
+T*
+(- Runtime Deletion/Recovery Expectations) Tj
+T*
+(- Deleting a consensus store while node is running is unsafe by default.) Tj
+T*
+(- Current hardening behavior:) Tj
+T*
+(- LMDB begin paths detect missing backing paths,) Tj
+T*
+(- affected stores attempt environment recovery/reopen,) Tj
+T*
+(- consensus code still treats missing/corrupt required state as validation) Tj
+T*
+(    failure rather than accepting uncertain state.) Tj
+T*
+(- Operational recommendation:) Tj
+T*
+(- stop node before manual DB deletion unless intentionally testing recovery.) Tj
+T*
+(- Map Growth / Rollover) Tj
+T*
+(Atho uses bounded LMDB map growth:) Tj
+T*
+(- on MapFullError, stores may grow map size \(if enabled\),) Tj
+T*
+(- growth is capped by per-store limits,) Tj
+T*
+(- near-limit pressure is logged.) Tj
 T*
 () Tj
 T*
 (Important:) Tj
 T*
-(- LMDB page reuse does not automatically shrink file map size.) Tj
+(- LMDB page reuse does not shrink map size automatically.) Tj
 T*
-(- pruning/cleanup frees reusable pages but does not compact map size by itself.) Tj
+(- pruning/cleanup frees pages for reuse but does not compact file size.) Tj
 T*
 (- Operational Checks) Tj
 T*
 (- Inspect store health:) Tj
 T*
-(- Watch logs for storage pressure and map-limit events.) Tj
+(- Watch logs for map pressure and recovery events.) Tj
 T*
-(- If a store reaches max map size, increase configured max before resuming high write load.) Tj
+(- Increase max map size before sustained high-write load if near limits.) Tj
 T*
 (- Related Files) Tj
 T*
@@ -162,25 +196,88 @@ T*
 T*
 (- Src/Storage/utxostorage.py) Tj
 T*
+(- Src/Storage/private_notes_store.py) Tj
+T*
 (- Src/Storage/mempool.py) Tj
 T*
+(- Src/Storage/bondstake.py) Tj
+T*
 (- Src/Blockchain/orphreorgs.py) Tj
+T*
+(- Production Operating Guidance) Tj
+T*
+() Tj
+T*
+(For long-running production-like nodes, treat LMDB behavior as part of reliability engineering,) Tj
+T*
+(not just storage internals. Recommended baseline:) Tj
+T*
+(- monitor map usage growth trends, not only absolute map size,) Tj
+T*
+(- alert before LMDB_ROLLOVER_ALERT_THRESHOLD is reached,) Tj
+T*
+(- snapshot/backup before planned store maintenance,) Tj
+T*
+(- keep store path ownership and permissions explicit per deployment user.) Tj
+T*
+() Tj
+T*
+(When migrating hosts, copy complete store sets together \(block, utxo, private_notes, bond,) Tj
+T*
+(stake, payout_journal\) so state-machine relationships remain consistent. Partial copies can) Tj
+T*
+(produce hard-to-debug replay inconsistencies.) Tj
+T*
+(- Policy Snapshot Context) Tj
+T*
+() Tj
+T*
+(Storage behavior supports active policy constants but does not define them. Current production) Tj
+T*
+(policy references used by upper layers include:) Tj
+T*
+(- tx confirmations 10, private tx confirmations 10, coinbase maturity 150,) Tj
+T*
+(- fee floor 350 atoms/vB,) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 261 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- tail start 8,000,000, supply floor 21,000,000 ATHO.) Tj
+T*
+() Tj
+T*
+(Keeping storage docs synchronized with these values helps operators reason about expected) Tj
+T*
+(maturity and accounting behavior in persisted state.) Tj
 T*
 ET
 endstream
 endobj
 xref
-0 8
+0 10
 0000000000 65535 f 
 0000000015 00000 n 
 0000000064 00000 n 
-0000000127 00000 n 
-0000000195 00000 n 
-0000000321 00000 n 
-0000002301 00000 n 
-0000002427 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000002770 00000 n 
+0000002896 00000 n 
+0000005719 00000 n 
+0000005845 00000 n 
 trailer
-<< /Size 8 /Root 1 0 R >>
+<< /Size 10 /Root 1 0 R >>
 startxref
-3190
+6157
 %%EOF

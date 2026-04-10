@@ -1,40 +1,49 @@
 # Atho Binary Build and Pinning Guide
 
-Date: 2026-04-04
+Date: 2026-04-10
 
-This document defines the current binary layout, build flow, and hash-pinning behavior.
+This document defines the production binary layout, build flow, and pinning controls for Atho native components. The goal is deterministic runtime loading with explicit integrity checks, while keeping build and deployment workflows straightforward for operators.
 
-## Canonical Layout
-All runtime binaries are expected under:
+## 1) Canonical Binary Layout
+
+All runtime binaries are loaded from:
 - `Binaries/<platform-tag>/`
 
-Typical outputs:
+Typical platform-tag examples include architecture and OS identity (for example, macOS arm64 vs Linux x86_64). Runtime should not depend on ad-hoc source-tree paths.
+
+Common binary artifacts:
 - `falcon_cli(.exe)`
 - `libatho_falcon_verify.(dylib|so|dll)`
 - `libtx_signing_body_bridge.(dylib|so|dll)`
 - `libutxo_batch_check.(dylib|so|dll)`
 - `libatho_pow_cpu.(dylib|so|dll)`
 - `gpu_miner_opencl(.exe)`
-- `gpu_miner_cuda(.exe)` (when CUDA build is available)
+- `gpu_miner_cuda(.exe)` when CUDA build is available
 
-## Registry and Metadata
-Build scripts auto-register SHA3-384 hashes in:
+## 2) Pin Registry and Metadata
+
+Integrity metadata is maintained in:
 - `Binaries/pin_registry.json`
 - `Binaries/<platform-tag>/binary_meta.json`
 
-These files are consumed by runtime pin validators.
+These files map expected SHA3-384 digests to binary names and are consumed by runtime pin validators. If a binary is rebuilt and metadata is not refreshed, strict mode will reject the load.
 
-## Strict Mode (Default)
-Runtime binary loading is canonical-path only by default:
+## 3) Strict Loading Mode
+
+Enable strict canonical-path loading with:
 ```bash
 export ATHO_BINARIES_STRICT=1
 ```
 
-Effect:
-- Runtime loads from canonical `Binaries/<platform-tag>/` paths only.
-- Legacy fallback paths are disabled.
+Behavior in strict mode:
+- runtime only loads from canonical `Binaries/<platform-tag>/` paths,
+- legacy fallback paths are disabled,
+- hash mismatches fail closed.
 
-## Build Commands
+This is the recommended production setting.
+
+## 4) Build Commands
+
 From repository root:
 
 ```bash
@@ -57,48 +66,83 @@ From repository root:
 ./Src/Miner/GPU/build_gpu_miner.sh
 ```
 
-## Script Outputs and Env Vars
-### Falcon FFI verifier
-Script prints:
-- `ATHO_FALCON_FFI_ENABLE`
-- `FALCON_VERIFY_SO`
-- `FALCON_VERIFY_SO_SHA3_384`
+Run these in your release pipeline before packaging or smoke tests.
 
-### TX signing bridge
-Script prints:
-- `ATHO_TX_SIGNING_SO`
-- `ATHO_TX_SIGNING_SO_SHA3_384`
+## 5) Script Output Variables
 
-### UTXO batch checker
-Script prints:
-- `ATHO_UTXO_BATCH_CHECK_SO`
-- `ATHO_UTXO_BATCH_CHECK_SO_SHA3_384`
+Build scripts emit expected environment values so downstream tooling can verify exact artifacts.
 
-### CPU PoW bridge
-Script prints:
-- `ATHO_POW_NATIVE_SO`
-- `ATHO_POW_NATIVE_SO_SHA3_384`
+Examples:
+- Falcon FFI verifier:
+  - `ATHO_FALCON_FFI_ENABLE`
+  - `FALCON_VERIFY_SO`
+  - `FALCON_VERIFY_SO_SHA3_384`
+- TX signing bridge:
+  - `ATHO_TX_SIGNING_SO`
+  - `ATHO_TX_SIGNING_SO_SHA3_384`
+- UTXO checker:
+  - `ATHO_UTXO_BATCH_CHECK_SO`
+  - `ATHO_UTXO_BATCH_CHECK_SO_SHA3_384`
+- CPU PoW bridge:
+  - `ATHO_POW_NATIVE_SO`
+  - `ATHO_POW_NATIVE_SO_SHA3_384`
 
-## GPU Build Behavior
-- OpenCL binary build is attempted on all supported hosts.
-- CUDA binary build is attempted only when:
-  - OS supports CUDA build path, and
-  - `nvcc` is present.
-- On macOS, CUDA output is expected to be skipped.
+## 6) GPU Build Notes
 
-## Legacy Paths
-Legacy source-tree binary mirrors are disabled. Runtime and pinning use only `Binaries/`.
+GPU build behavior is backend-aware:
+- OpenCL build is attempted broadly,
+- CUDA build runs only where toolchain and platform support are present,
+- on macOS, CUDA output may be intentionally absent.
 
-## Release Packaging
-Release artifact helper:
+Treat missing CUDA binary on unsupported hosts as expected, not a build failure.
+
+## 7) Release Packaging
+
+Release helper:
 ```bash
 ./scripts/build_release_binaries.sh
 ```
 
-This creates timestamped output under `releases/binaries/<timestamp>/` and includes source snapshot fallback packaging.
+This produces timestamped bundles under:
+- `releases/binaries/<timestamp>/`
 
-## Failure Modes to Check First
-- Wrong platform tag (binary built for different OS/arch).
-- Missing LMDB headers for UTXO checker build.
-- Hash mismatch after rebuilding without refreshing or using expected pin metadata.
-- Runtime strict mode enabled while required binary is missing.
+Recommended release flow:
+1. build all required binaries,
+2. verify pin metadata updates,
+3. run runtime smoke tests in strict mode,
+4. package release payload,
+5. generate and sign checksums for distribution.
+
+## 8) Common Failure Modes
+
+Most frequent issues:
+- wrong platform artifact loaded,
+- missing LMDB headers during native build,
+- hash mismatch after rebuild without metadata update,
+- strict mode enabled while a required binary is absent.
+
+First response:
+- confirm active platform-tag path,
+- inspect pin metadata for expected digest,
+- rebuild artifact + refresh metadata,
+- retest with strict mode still enabled.
+
+## 9) Security and Policy Context
+
+Binary integrity controls complement consensus policy but do not replace consensus validation. Active policy values remain independent:
+- block target `120s`, retarget `180`,
+- tx confirmations `10`, private tx confirmations `10`, coinbase maturity `150`,
+- fee floor `350 atoms/vB`.
+
+Binary pinning protects runtime execution integrity; consensus rules protect chain validity.
+
+## 10) Recommended Production Standard
+
+Use this baseline in all production-like environments:
+- canonical binary paths only,
+- strict mode enabled,
+- deterministic build logs retained,
+- pin registry/version control updates reviewed,
+- release checksums signed and externally verifiable.
+
+Following this standard reduces upgrade risk and makes binary-level audit trails clear for operators and security reviewers.

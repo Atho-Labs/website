@@ -4,7 +4,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Count 2 /Kids [4 0 R 6 0 R] >>
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Courier >>
@@ -13,37 +13,51 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 1224 >>
+<< /Length 1889 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(Packaging & Snapshot \(Alpha\)) Tj
+(Packaging and Runtime Snapshot \(Alpha\)) Tj
 T*
 () Tj
 T*
-(Last refresh: 2026-04-04.) Tj
+(Last refresh: 2026-04-10) Tj
 T*
 () Tj
 T*
-(Goal) Tj
+(This guide describes the production packaging workflow for Atho alpha builds. The packaging) Tj
 T*
-(Create a portable package you can launch directly into the GUI while preserving a timestamped) Tj
+(process keeps repository-relative paths intact, captures a timestamped snapshot, and supports) Tj
 T*
-(copy of the current project runtime snapshot.) Tj
+(reproducible release verification with checksums and signatures.) Tj
 T*
-() Tj
-T*
-(This workflow keeps Atho in its repository layout so existing relative paths continue to work.) Tj
+(- Packaging Goal) Tj
 T*
 () Tj
 T*
-(Quick Start) Tj
+(The current packaging strategy is intentionally conservative:) Tj
+T*
+(- preserve runnable repository structure,) Tj
+T*
+(- avoid breaking path assumptions used by runtime modules,) Tj
+T*
+(- make release artifacts portable across operators,) Tj
+T*
+(- keep a deterministic, timestamped build trail.) Tj
 T*
 () Tj
 T*
-(From the project root:) Tj
+(This is preferred over aggressive single-binary packaging until all runtime paths are fully) Tj
+T*
+(migrated to OS-native application data directories.) Tj
+T*
+(- Quick Start) Tj
+T*
+() Tj
+T*
+(From project root:) Tj
 T*
 () Tj
 T*
@@ -51,25 +65,13 @@ T*
 T*
 () Tj
 T*
-() Tj
+(Optional Windows executable inclusion:) Tj
 T*
-(To include a prebuilt Windows .exe in the package:) Tj
-T*
-() Tj
+(- Build Native Release Binaries First) Tj
 T*
 () Tj
 T*
-() Tj
-T*
-() Tj
-T*
-(Build Native Binary Artifacts) Tj
-T*
-() Tj
-T*
-(To build per-OS GUI binaries \(plus source fallback package\):) Tj
-T*
-() Tj
+(For multi-OS release binaries and source fallback package:) Tj
 T*
 () Tj
 T*
@@ -85,43 +87,41 @@ T*
 T*
 () Tj
 T*
-() Tj
+(Output roots:) Tj
 T*
-(Binary output root:) Tj
+(- binary artifacts: releases/binaries/<UTC_TIMESTAMP>/) Tj
 T*
-() Tj
+(- package snapshot: releases/Atho-Alpha-<UTC_TIMESTAMP>-p<PID>/) Tj
 T*
-() Tj
-T*
-() Tj
+(- Package Content Layout) Tj
 T*
 () Tj
 T*
-(Output goes to:) Tj
+(Inside each package root:) Tj
+T*
+(- Atho-Alpha/ portable project copy,) Tj
+T*
+(- tarball archive \(.tar.gz\),) Tj
+T*
+(- zip archive \(.zip\) when zip tool is available.) Tj
 T*
 () Tj
 T*
-() Tj
+(Default behavior:) Tj
+T*
+(- includes project data and Keys/ unless excluded,) Tj
+T*
+(- excludes .venv unless --with-venv is set,) Tj
+T*
+(- excludes test tree unless --with-tests is passed.) Tj
+T*
+(- Packaging Options) Tj
 T*
 () Tj
 T*
-() Tj
-T*
-(Inside each package:) Tj
-T*
-(- Atho-Alpha/ \(portable project copy\)) Tj
-T*
-(- Atho-Alpha-<UTC_TIMESTAMP>-p<PID>.tar.gz) Tj
-T*
-(- Atho-Alpha-<UTC_TIMESTAMP>-p<PID>.zip \(if zip exists\)) Tj
+(Useful flags:) Tj
 T*
 () Tj
-T*
-(Run The Packaged Copy) Tj
-T*
-() Tj
-T*
-(Inside the packaged Atho-Alpha folder:) Tj
 T*
 ET
 endstream
@@ -130,127 +130,160 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 1637 >>
+<< /Length 1766 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(- macOS: double-click Atho.command) Tj
-T*
-(- Linux: run ./run_gui.sh) Tj
-T*
-(- Windows: run run_gui.bat \(it uses AthoAlpha.exe first if present\)) Tj
-T*
-() Tj
-T*
-(Keep Or Exclude Sensitive Data) Tj
-T*
-() Tj
-T*
-(Default package behavior:) Tj
-T*
-(- Includes Keys/ and project data.) Tj
-T*
-(- Excludes .venv unless --with-venv is used.) Tj
-T*
-(- Excludes Src/Test/ \(production payload default\).) Tj
-T*
-() Tj
-T*
-(Options:) Tj
-T*
 () Tj
 T*
 () Tj
 T*
-() Tj
+(Operational guidance:) Tj
+T*
+(- use --without-keys for distributable public release bundles,) Tj
+T*
+(- use --with-tests for internal QA or partner technical review payloads.) Tj
+T*
+(- Running Packaged Builds) Tj
 T*
 () Tj
 T*
-(Release checksums and signature) Tj
+(Inside packaged Atho-Alpha folder:) Tj
+T*
+(- macOS: Atho.command) Tj
+T*
+(- Linux: ./run_gui.sh) Tj
+T*
+(- Windows: run_gui.bat \(prefers packaged AthoAlpha.exe when present\)) Tj
 T*
 () Tj
 T*
-(Create checksums, sign the checksum hash, and verify on another machine:) Tj
+(Local working-copy launchers remain available from repository root:) Tj
+T*
+(- ./run_gui.command) Tj
+T*
+(- ./run_gui.sh) Tj
+T*
+(- run_gui.bat) Tj
 T*
 () Tj
+T*
+(For foreground debugging:) Tj
 T*
 () Tj
 T*
 () Tj
 T*
 () Tj
-T*
-(If you publish an expected checksum-file hash with the release note:) Tj
-T*
-() Tj
-T*
-() Tj
-T*
-() Tj
-T*
-() Tj
-T*
-(Local One-Click Launch \(Current Working Copy\)) Tj
-T*
-() Tj
-T*
-(From the repository root, you can launch GUI directly with:) Tj
-T*
-(- macOS: ./run_gui.command) Tj
-T*
-(- Linux/macOS shell: ./run_gui.sh) Tj
-T*
-(- Windows: run_gui.bat) Tj
-T*
-() Tj
-T*
-(These launchers now start the GUI detached in background so terminal can be closed.) Tj
 T*
 (Launcher log path:) Tj
 T*
 (- logs/gui/gui_launcher.log) Tj
 T*
-() Tj
-T*
-(To force foreground mode for debugging:) Tj
+(- Release Integrity Workflow) Tj
 T*
 () Tj
 T*
+(Generate checksums:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Sign checksum hash with Falcon key JSON:) Tj
+T*
 () Tj
 T*
 () Tj
 T*
 () Tj
 T*
-(Notes) Tj
+(Verify checksums + signature:) Tj
 T*
-(- This is the safest packaging path for current alpha architecture because many modules use) Tj
+() Tj
 T*
-(repo-relative roots.) Tj
+() Tj
 T*
-(- If you want a single binary installer later \(.app, .dmg, .exe, .deb\), first migrate runtime) Tj
+() Tj
 T*
-(paths \(logs/keys/db/config\) to OS app-data directories and then freeze with) Tj
+(Optional pinned expected hash verification:) Tj
 T*
-(PyInstaller/Briefcase.) Tj
+(- Production Policy Context) Tj
+T*
+() Tj
+T*
+(Packaging does not alter consensus constants, but release communication should include current) Tj
+T*
+(policy reference so downstream operators validate against the right profile:) Tj
+T*
+(- block target 120s, retarget 180,) Tj
+T*
+(- tx confirmations 10, private tx confirmations 10, coinbase maturity 150,) Tj
+T*
+(- fee floor 350 atoms/vB, minimum fee 100,000 atoms.) Tj
+T*
+(- Recommended Release Checklist) Tj
+T*
+(- Build native binaries.) Tj
+T*
+(- Validate binary pin metadata.) Tj
+T*
+(- Run smoke tests for node + GUI launch.) Tj
+T*
+(- Create package snapshot.) Tj
+T*
+(- Generate checksums and Falcon signature.) Tj
+T*
+(- Verify artifact integrity on a second machine.) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 492 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Publish release note with expected checksum-file hash.) Tj
+T*
+(- Bottom Line) Tj
+T*
+() Tj
+T*
+(The current Atho packaging flow favors reproducibility and operational reliability over) Tj
+T*
+(installer-style polish. That tradeoff is intentional for alpha hardening. Until path migration) Tj
+T*
+(and freeze tooling are fully mature, this repository-preserving packaging strategy remains the) Tj
+T*
+(safest way to distribute consistent runtime artifacts.) Tj
 T*
 ET
 endstream
 endobj
 xref
-0 8
+0 10
 0000000000 65535 f 
 0000000015 00000 n 
 0000000064 00000 n 
-0000000127 00000 n 
-0000000195 00000 n 
-0000000321 00000 n 
-0000001597 00000 n 
-0000001723 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000002268 00000 n 
+0000002394 00000 n 
+0000004212 00000 n 
+0000004338 00000 n 
 trailer
-<< /Size 8 /Root 1 0 R >>
+<< /Size 10 /Root 1 0 R >>
 startxref
-3412
+4881
 %%EOF
