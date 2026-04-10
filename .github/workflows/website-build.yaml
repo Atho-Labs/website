@@ -14,7 +14,7 @@ on:
         type: string
 
 env:
-  DEPLOYMENT_FOLDER: ./
+  DEPLOYMENT_FOLDER: ./ionos-upload
 
 jobs:
 # Please do not rename this job
@@ -26,6 +26,23 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: 'recursive'
+
+      - name: Build deploy bundle
+        run: |
+          bash scripts/build_ionos_bundle.sh
+
+      - name: Validate deploy size
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          root = Path("ionos-upload")
+          size = sum(p.stat().st_size for p in root.rglob("*") if p.is_file())
+          print(f"Deployment folder size: {size} bytes")
+          # Keep a safety margin below the IONOS quota shown in workflow failures (~50,003,968 bytes).
+          if size > 49_000_000:
+              raise SystemExit("Deployment folder is too large for IONOS quota.")
+          PY
 
 # Please do not touch the following action
       - name: Store deployment content
