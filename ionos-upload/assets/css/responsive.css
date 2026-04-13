@@ -62,16 +62,13 @@
   }
 
   .brand {
-    padding: 0.16rem 0.36rem 0.16rem 0.16rem;
+    padding: 0.16rem;
   }
 
   .brand-mark {
-    width: 37px;
-    height: 37px;
-  }
-
-  .brand-title {
-font-size: 1.20rem;
+    width: 46px;
+    height: 46px;
+    padding: 3px;
   }
 
   .global-nav-drawer {
@@ -153,10 +150,6 @@ font-size: 1.20rem;
   .nav-shell {
     min-height: 68px;
     gap: 0.5rem;
-  }
-
-  .brand-title {
-font-size: 1.06rem;
   }
 
   .menu-toggle {
