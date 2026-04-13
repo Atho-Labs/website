@@ -156,7 +156,7 @@ body:not(.home-page) .site-header::before {
 .brand-title {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 1.72rem;
+font-size: 1.34rem;
   line-height: 1;
   letter-spacing: 0.005em;
   color: #092018;
