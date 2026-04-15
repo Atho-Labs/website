@@ -2,7 +2,7 @@
 
 Document ID: `ATHO-WP-V3-TECH`
 Version: `3.0`
-Date: `2026-04-10`
+Date: `2026-04-14`
 Status: Technical publication draft for protocol, operations, and security review
 Audience: protocol engineers, security reviewers, operators, integrators, institutional technical diligence teams
 
@@ -168,20 +168,20 @@ This section summarizes active policy constants and their first-order implicatio
 - Max block base size: `3,500,000` bytes.
 - Max block weight: `14,000,000`.
 - Max transaction policy size: `250,000 vB`.
-- Fee floor: `350 atoms/vB`.
-- Minimum transaction fee: `100,000 atoms`.
-- Dust threshold: `250 atoms`.
+- Fee floor: `500 atoms/vB`.
+- Minimum transaction fee: `200,000 atoms`.
+- Dust threshold: `20,000 atoms` (`1/10` of minimum transaction fee).
 
 These values define pacing, settlement confidence, and anti-spam boundaries.[^6][^7]
 
 ### 3.2 Monetary Constants
 
 - Unit denomination: `1 ATHO = 1,000,000,000 atoms`.
-- Pre-tail base supply target: `100,000,000 ATHO`.
-- Hard max emitted supply cap: `150,000,000 ATHO`.
+- Pre-tail base supply target: `400,000,000 ATHO`.
+- Hard max emitted supply cap: `500,000,000 ATHO`.
 - Supply floor guardrail: `21,000,000 ATHO`.
-- Bootstrap allocation: `390,625 ATHO` at block `1`.
-- Tail start: height `8,000,000`.
+- Bootstrap allocation: `781,250 ATHO` at block `1`.
+- Tail start: height `17,000,000`.
 - Tail reward: `0.1953125 ATHO/block`.
 
 ### 3.3 BPoW and Staking Constants
@@ -197,9 +197,9 @@ These values define pacing, settlement confidence, and anti-spam boundaries.[^6]
 Staking policy constants:
 
 - Minimum stake: `20 ATHO`.
-- Maximum stake per address: `500 ATHO`.
-- Maximum new stake entering rolling 30-day window (network-wide): `25,000 ATHO`.
-- Maximum total staked network-wide: `25,000,000 ATHO`.
+- Maximum stake per address: `1,000 ATHO`.
+- Maximum new stake entering rolling 30-day window (network-wide): `50,000 ATHO`.
+- Maximum total staked network-wide: `75,000,000 ATHO`.
 - Stake unbond delay: `129,600` blocks (`180 days`).
 - Reward accrual stops when unstake request is filed.
 
@@ -216,7 +216,7 @@ Atho’s parameter regime is built around moderate cadence with deterministic ma
 - A `120` second cadence reduces extreme orphan-pressure relative to very short block intervals while retaining practical settlement progression.
 - `10` confirmation policy reflects a balance between user UX and finality confidence under expected reorg distributions.
 - `150` block coinbase maturity restricts immediate spendability of newly mined outputs, reducing short-cycle manipulation surfaces.
-- The `350 atoms/vB` floor and `100,000` atom absolute minimum fee provide a two-layer anti-spam filter.
+- The `500 atoms/vB` floor and `200,000` atom absolute minimum fee provide a two-layer anti-spam filter.
 
 ### 3.6 Engineering Implication
 
@@ -950,30 +950,31 @@ This avoids floating-point rounding drift and supports exact replay/audit arithm
 
 ### 12.2 Era-Based Reward Schedule
 
-Pre-tail eras each span `1,000,000` blocks:
+Pre-tail eras each span `2,000,000` blocks:
 
-- Era 1: `50 ATHO/block`
-- Era 2: `25 ATHO/block`
-- Era 3: `12.5 ATHO/block`
-- Era 4: `6.25 ATHO/block`
-- Era 5: `3.125 ATHO/block`
-- Era 6: `1.5625 ATHO/block`
-- Era 7: `0.78125 ATHO/block`
-- Era 8: `0.390625 ATHO/block`
+- Era 1: `100 ATHO/block`
+- Era 2: `50 ATHO/block`
+- Era 3: `25 ATHO/block`
+- Era 4: `12.5 ATHO/block`
+- Era 5: `6.25 ATHO/block`
+- Era 6: `3.125 ATHO/block`
+- Era 7: `1.5625 ATHO/block`
+- Era 8: `0.78125 ATHO/block`
+- Transition: `0.78125 ATHO/block` for `1,000,000` blocks.
 
-Tail reward after height `8,000,000`: `0.1953125 ATHO/block`.
+Tail reward after height `17,000,000`: `0.1953125 ATHO/block`.
 
 ### 12.3 Bootstrap and Base Supply
 
-- Bootstrap allocation: `390,625 ATHO` at block `1`.
-- Pre-tail subsidy path total: `99,609,375 ATHO`.
-- Combined pre-tail base target: `100,000,000 ATHO`.
+- Bootstrap allocation: `781,250 ATHO` at block `1`.
+- Pre-tail subsidy path total: `399,218,750 ATHO`.
+- Combined pre-tail base target: `400,000,000 ATHO`.
 
 This preserves explicit launch allocation while maintaining deterministic long-horizon issuance math.
 
 ### 12.4 Cap and Clipping Rule
 
-Hard maximum emitted supply cap: `150,000,000 ATHO`.
+Hard maximum emitted supply cap: `500,000,000 ATHO`.
 
 Clipping behavior:
 
@@ -1003,15 +1004,15 @@ This prevents protocol-level over-burn from pushing effective circulating supply
 At full utilization assumptions under active floor and routing constants:
 
 - Tail issuance per year: `51,328.125 ATHO`.
-- Burn-path fee capacity per year at full utilization: `144,868.5 ATHO`.
+- Burn-path fee capacity per year at full utilization: `206,955 ATHO`.
 
 Net change formula:
 
-`Delta_supply = 51,328.125 - (144,868.5 * utilization)`
+`Delta_supply = 51,328.125 - (206,955 * utilization)`
 
 Neutral threshold:
 
-`utilization ~= 51,328.125 / 144,868.5 ~= 0.3543` (`35.43%`).
+`utilization ~= 51,328.125 / 206,955 ~= 0.24802` (`24.802%`).
 
 Interpretation:
 
@@ -1063,9 +1064,9 @@ Fee routing is both an anti-spam and economic steering mechanism in Atho.
 
 ### 13.1 Active Fee Policy Baseline
 
-- Fee floor: `350 atoms/vB`.
-- Minimum transaction fee: `100,000 atoms`.
-- Dust threshold: `250 atoms`.
+- Fee floor: `500 atoms/vB`.
+- Minimum transaction fee: `200,000 atoms`.
+- Dust threshold: `20,000 atoms` (`1/10` of minimum transaction fee).
 
 ### 13.2 Routing Splits by Regime
 

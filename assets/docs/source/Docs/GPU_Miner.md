@@ -122,7 +122,7 @@ First-response sequence:
 The GPU miner does not alter consensus policy constants. Active production values remain:
 - block target cadence `120s`,
 - retarget interval `180` blocks,
-- fee floor `350 atoms/vB`,
+- fee floor `500 atoms/vB`,
 - tx confirmations `10`, private tx confirmations `10`, coinbase maturity `150`.
 
 GPU acceleration changes throughput potential for hash search, not chain validity semantics.

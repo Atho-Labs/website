@@ -83,7 +83,7 @@ Current policy-adjacent constants that matter for private-layer runtime behavior
 - standard tx confirmations: `10`,
 - private tx confirmations: `10`,
 - coinbase maturity: `150`,
-- fee floor: `350 atoms/vB`,
+- fee floor: `500 atoms/vB`,
 - BPoW bond requirement: `25 ATHO` with activation at `25` confirmations.
 
 These values influence wallet visibility timing, note maturity interpretation, and mempool/user expectations around when outputs become practically spendable.

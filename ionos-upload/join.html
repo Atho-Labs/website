@@ -67,6 +67,7 @@
             <a class="global-nav-link" href="./join.html">Join</a>
             <a class="global-nav-link" href="./rewards.html">Rewards</a>
             <a class="global-nav-link" href="./wallet.html">Wallet</a>
+            <a class="global-nav-link" href="./wallet-hierarchy.html">Wallet Hierarchy</a>
             <a class="global-nav-link" href="./platinum-shield.html">Platinum Shield</a>
             <a class="global-nav-link" href="./bpow-docs.html">BPoW</a>
             <a class="global-nav-link" href="./inflation-deflation.html">Inflation / Deflation</a>
@@ -89,7 +90,7 @@
           </div>
           <h1>From fresh clone to active node in minutes.</h1>
           <p>
-            This page follows the latest quickstart runbook: dependency setup, native binary build and registration, API auth, key management, node launch, and runtime verification.
+            This runbook now starts with a Docker-assisted one-click minimum-hassle onboarding path, then provides a full manual build path for operators who want total control.
           </p>
           <p class="hero-footnote join-network-note">
             <strong>Network notice:</strong> Atho supports <code>mainnet</code>, <code>testnet</code>, and <code>regnet</code>. Set <code>ATHO_NETWORK</code> explicitly before starting nodes.
@@ -129,8 +130,8 @@
               <li class="key-item">
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
-                  <strong>Build and pin binaries before launch</strong>
-                  <span>Compile/register Falcon, signing, UTXO, PoW, and GPU binaries in canonical <code>Binaries/&lt;platform-tag&gt;/</code> paths.</span>
+                  <strong>Bootstrap runtime before launch</strong>
+                  <span>Use Docker-assisted bootstrap (<code>run.py</code>/<code>build.py</code>) or manual native builds, then verify binary metadata and API auth.</span>
                 </span>
               </li>
             </ul>
@@ -142,77 +143,83 @@
     <section id="quickstart" class="section">
       <div class="wrap">
         <span class="section-eyebrow">Setup Steps</span>
-        <h2 class="section-title">Join flow and binary bootstrap by operating system</h2>
+        <h2 class="section-title">Basic setup and manual builds: Docker-first onboarding, then full manual controls</h2>
+        <p class="section-copy">
+          Start with one-command Docker-assisted bootstrap for fastest onboarding, then use the manual path when you need explicit build/runtime control. Both paths share the same network/profile and API-auth requirements.
+        </p>
         <div class="feature-grid">
           <article class="card card-pad feature-card" data-reveal>
-            <h3>Linux Setup</h3>
-            <p>Clone, install dependencies, build/register native binaries, then launch nodes.</p>
-            <pre class="join-code"><code>git clone &lt;repo-url&gt;
+            <h3>One-click minimum-hassle (Docker-first, recommended)</h3>
+            <p>Start here first. Docker provides reproducible bootstrap/build artifacts, while runtime execution still runs natively on your host.</p>
+            <pre class="join-code"><code># macOS / Linux
+git clone &lt;repo-url&gt;
 cd &lt;repo-dir&gt;
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip setuptools wheel
-python -m pip install -r requirements.txt
-./Src/Falcon/Falcon/compile_falcon.sh
-./Src/Falcon/Falcon/build_falcon_verify_shared.sh
-./Src/Utility/build_tx_signing_bridge.sh
-./Src/Transactions/build_utxo_batch_check.sh
-./Src/Miner/build_pow_cpu_bridge.sh
-./Src/Miner/GPU/build_gpu_miner.sh
-export ATHO_BINARIES_STRICT=1
-./.venv/bin/python Src/Api/auth.py
-./.venv/bin/python Src/GUI/cliui.py
-# CLI: wallet new 24
-./.venv/bin/python Src/Main/runnode.py</code></pre>
-            <span class="feature-tag">Linux</span>
+python3 run.py mainnet
+
+# Windows PowerShell
+git clone &lt;repo-url&gt;
+cd &lt;repo-dir&gt;
+py -3 run.py mainnet</code></pre>
+            <ul class="key-list">
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>What it does</strong><span>Bootstraps runtime artifacts, validates manifests, and launches GUI-first onboarding.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>One-command path</strong><span>Use <code>python run.py &lt;network&gt;</code> for the fastest clean setup.</span></span></li>
+            </ul>
+            <span class="feature-tag">Recommended</span>
           </article>
 
           <article class="card card-pad feature-card" data-reveal>
-            <h3>macOS Setup</h3>
-            <p>Same flow as Linux. Install LMDB headers first, then build/register binaries and run.</p>
-            <pre class="join-code"><code>git clone &lt;repo-url&gt;
-cd &lt;repo-dir&gt;
-brew install lmdb
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip setuptools wheel
-python -m pip install -r requirements.txt
-./Src/Falcon/Falcon/compile_falcon.sh
-./Src/Falcon/Falcon/build_falcon_verify_shared.sh
-./Src/Utility/build_tx_signing_bridge.sh
-./Src/Transactions/build_utxo_batch_check.sh
-./Src/Miner/build_pow_cpu_bridge.sh
-./Src/Miner/GPU/build_gpu_miner.sh
-export ATHO_BINARIES_STRICT=1
-./.venv/bin/python Src/Api/auth.py
-./.venv/bin/python Src/GUI/cliui.py
-# CLI: wallet new 24
-./.venv/bin/python Src/Main/runnode.py</code></pre>
-            <span class="feature-tag">macOS</span>
+            <h3>Basic setup checklist (required for Docker and manual paths)</h3>
+            <ul class="key-list">
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Install prerequisites</strong><span>Git + Python 3.9+ + Docker Desktop/Engine before first bootstrap.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Set network explicitly</strong><span>Use <code>mainnet</code>, <code>testnet</code>, or <code>regnet</code> consistently across launcher and CLI.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Run API auth once</strong><span>Create credentials before normal wallet/node operations.</span></span></li>
+            </ul>
+            <pre class="join-code"><code># set network profile for shell-based commands
+export ATHO_NETWORK=mainnet
+
+# Windows PowerShell
+$env:ATHO_NETWORK="mainnet"
+
+# create API credentials
+./.venv/bin/python Src/Api/auth.py</code></pre>
+            <span class="feature-tag">Required</span>
           </article>
 
           <article class="card card-pad feature-card" data-reveal>
-            <h3>Windows Setup (PowerShell)</h3>
-            <p>Use PowerShell for Python setup, then run binary build scripts in WSL/Git Bash.</p>
+            <h3>Manual build path (advanced / full control)</h3>
+            <p>Use this when you want explicit control of bootstrap/build stages and non-GUI backend startup.</p>
             <pre class="join-code"><code>git clone &lt;repo-url&gt;
 cd &lt;repo-dir&gt;
-py -3 -m venv .venv
-.\.venv\Scripts\Activate.ps1
+python3 -m venv .venv
+
+# macOS / Linux
+source .venv/bin/activate
+
+# Windows PowerShell alternative
+# .venv\Scripts\Activate.ps1
+
 python -m pip install --upgrade pip setuptools wheel
 python -m pip install -r requirements.txt
-# run build scripts in Bash:
-# ./Src/Falcon/Falcon/compile_falcon.sh
-# ./Src/Falcon/Falcon/build_falcon_verify_shared.sh
-# ./Src/Utility/build_tx_signing_bridge.sh
-# ./Src/Transactions/build_utxo_batch_check.sh
-# ./Src/Miner/build_pow_cpu_bridge.sh
-# ./Src/Miner/GPU/build_gpu_miner.sh
-setx ATHO_BINARIES_STRICT 1
-python Src/Api/auth.py
-python Src/GUI/cliui.py
-# CLI: wallet new 24
-python Src/Main/runnode.py</code></pre>
-            <span class="feature-tag">Windows</span>
+
+# bootstrap artifacts via build pipeline
+python build.py --network mainnet
+
+# optional: start backend without GUI
+python run.py mainnet --no-gui</code></pre>
+            <span class="feature-tag">Manual Build</span>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Basic errors you will hit first</h3>
+            <p>These are the most common onboarding failures in both Docker-first and manual paths.</p>
+            <ul class="key-list">
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong><code>docker</code> command not found</strong><span>Install Docker Desktop/Engine, restart terminal, re-run <code>python run.py mainnet</code>.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Docker daemon unavailable</strong><span>Start Docker service/app, wait until healthy, then re-run bootstrap.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Python/venv mismatch</strong><span>Recreate <code>.venv</code> and reinstall <code>requirements.txt</code>.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Native toolchain missing (manual path)</strong><span>Install host build prerequisites from <code>build-prereqs.md</code> and rerun <code>python build.py --network &lt;network&gt;</code>.</span></span></li>
+              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>401/403 API responses</strong><span>Recreate API credentials with <code>Src/Api/auth.py</code> and retry with valid headers.</span></span></li>
+            </ul>
+            <span class="feature-tag">Common Errors</span>
           </article>
 
           <article class="card card-pad feature-card" data-reveal>
@@ -250,7 +257,7 @@ python Src/Main/runnode.py</code></pre>
     <section id="key-manager" class="section">
       <div class="wrap">
         <span class="section-eyebrow">Key Management</span>
-        <h2 class="section-title">After venv + Falcon build, run key manager before normal wallet/miner use.</h2>
+        <h2 class="section-title">After bootstrap (Docker-first or manual), run key manager before normal wallet/miner use.</h2>
         <p class="section-copy">
           This is the required step between dependency setup and ongoing node operation. Create or import keys first, then confirm defaults and wallet security policy so send/mining flows have valid signing material.
         </p>
@@ -519,7 +526,7 @@ Src/Utility/const.py</code></pre>
       <span>Atho Labs</span>
       <span class="footer-contact">
         <span class="footer-slogan">Atho — Private. Secure. The Platinum Standard of the Quantum Age</span>
-        <span class="footer-updated">Last updated: April 10, 2026</span>
+        <span class="footer-updated">Last updated: April 15, 2026</span>
         <span>
           To report bugs, security issues, or general inquiries:
           <a href="./contact.html">Contact</a>

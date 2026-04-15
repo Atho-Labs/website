@@ -5,16 +5,30 @@ Date: 2026-04-04
 This guide is the canonical setup path for current development builds.
 
 ## 0) Prerequisites
-- Python 3.9+
-- `git`
-- C/C++ compiler (`clang` or `gcc`)
-- Bash shell for build scripts (`.sh`) on macOS/Linux/WSL
-- For GPU OpenCL build: OpenCL runtime + headers
-- For CUDA build (optional): NVIDIA GPU + `nvcc` (non-macOS)
+- Canonical OS package matrix:
+  - [build-prereqs.md](build-prereqs.md)
+- Minimum required everywhere:
+  - Python 3.9+
+  - `git`
+  - Docker Desktop (Windows/macOS) or Docker Engine (Linux)
+- Host-native fallback builders (bash/compiler/cargo/LMDB) are documented in:
+  - [build-prereqs.md](build-prereqs.md)
 
-LMDB native headers are required for the UTXO batch checker build.
-- macOS: `brew install lmdb`
-- Ubuntu/Debian: `sudo apt-get install liblmdb-dev`
+One-click Docker-first launch:
+
+macOS/Linux:
+```bash
+git clone <repo-url>
+cd <repo-dir>
+python3 run.py mainnet
+```
+
+Windows PowerShell:
+```powershell
+git clone <repo-url>
+cd <repo-dir>
+py -3 run.py mainnet
+```
 
 ## 1) Clone + virtualenv + dependencies
 
@@ -154,6 +168,7 @@ Scripted terminal-only launch (no prompts):
 ## 7) Performance-related runtime knobs
 - `ATHO_TX_VERIFY_WORKERS=<n>`: parallel tx verification workers.
 - `ATHO_UTXO_BATCH_CHECK_ENABLE=1`: enable native UTXO batch path (default on).
+- `ATHO_ALLOW_UTXO_BATCH_FALLBACK=1`: keep bootstrap/runtime usable when the native UTXO checker cannot be built.
 - `ATHO_GPU_BACKEND=auto|opencl|cuda`: GPU backend selection override.
 - `ATHO_BINARIES_STRICT=1`: require canonical binary locations.
 
@@ -171,7 +186,7 @@ tail -f logs/mainnet/miner/gpu_runtime.log
 
 ## 9) Common failure points
 - Falcon binary not installed for current platform tag.
-- LMDB headers missing when building `libutxo_batch_check`.
+- LMDB headers missing when building `libutxo_batch_check` only matter if you want the native checker; bootstrap now falls back to Python validation when allowed.
 - CUDA expected on macOS (CUDA build is skipped there).
 - API auth not initialized.
 - Stale background processes holding ports.
@@ -182,12 +197,13 @@ Useful verification values for deployment checks:
 - difficulty retarget interval: `180` blocks
 - transaction confirmations required: `10`
 - coinbase maturity: `150` blocks
-- fee floor: `350 atoms/vB`
-- min tx fee: `100,000 atoms`
+- fee floor: `500 atoms/vB`
+- min tx fee: `200,000 atoms`
 - BPoW enforcement height: `10,000`
 - bond requirement: `25 ATHO`
 
 Use:
+- [build-prereqs.md](build-prereqs.md)
 - [Troubleshooting.md](Troubleshooting.md)
 - [Binaries.md](Binaries.md)
 - [Node_Stop.md](Node_Stop.md)

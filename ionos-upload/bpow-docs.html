@@ -69,6 +69,7 @@
             <a class="global-nav-link" href="./join.html">Join</a>
             <a class="global-nav-link" href="./rewards.html">Rewards</a>
             <a class="global-nav-link" href="./wallet.html">Wallet</a>
+            <a class="global-nav-link" href="./wallet-hierarchy.html">Wallet Hierarchy</a>
             <a class="global-nav-link" href="./platinum-shield.html">Platinum Shield</a>
             <a class="global-nav-link" href="./bpow-docs.html">BPoW</a>
             <a class="global-nav-link" href="./inflation-deflation.html">Inflation / Deflation</a>
@@ -180,9 +181,9 @@ Unbond delay                = 10,080 blocks
 Slash penalty               = 2.5 ATHO
 Epoch length                = 720 blocks
 Finalization buffer         = 3600 blocks
-Bootstrap allocation        = 390,625 ATHO at block 1
-Pre-tail base target        = 100,000,000 ATHO total
-Hard max supply             = 150,000,000 ATHO (subsidy clipped at cap)
+Bootstrap allocation        = 781,250 ATHO at block 1
+Pre-tail base target        = 400,000,000 ATHO total
+Hard max supply             = 500,000,000 ATHO (subsidy clipped at cap)
 
 Fee uplift                  = +25%
 Fee routing to pool         = 40% pre-tail / 55% post-tail
@@ -252,7 +253,7 @@ Stake: pending -> active -> exiting -> unlockable -> withdrawn</code></pre>
       <div class="wrap split-grid">
         <article class="card card-pad" data-reveal>
           <h3 class="panel-title">Fee Routing + Burn Math</h3>
-          <pre class="join-code"><code>if height &lt; 8_000_000:  # pre-tail
+          <pre class="join-code"><code>if height &lt; 17_000_000:  # pre-tail
   pool_share      = total_fees * 0.40
   routed_non_pool = total_fees * 0.60
   pool_miner_side = total_fees * 0.20
@@ -330,7 +331,7 @@ subject_to       = supply_floor_clipping(21,000,000 ATHO)</code></pre>
       <span>Atho Labs</span>
       <span class="footer-contact">
         <span class="footer-slogan">Atho — Private. Secure. The Platinum Standard of the Quantum Age</span>
-        <span class="footer-updated">Last updated: April 10, 2026</span>
+        <span class="footer-updated">Last updated: April 15, 2026</span>
         <span>
           To report bugs, security issues, or general inquiries:
           <a href="./contact.html">Contact</a>

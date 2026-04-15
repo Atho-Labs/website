@@ -1,8 +1,11 @@
 # Troubleshooting Guide (Atho)
 
-Last refresh: 2026-04-04.
+Last refresh: 2026-04-14.
 
 This guide collects common issues and fixes by area (network/P2P, APIs/auth, storage/LMDB, mining, Docker, build/tooling).
+
+Canonical prerequisite matrix:
+- `Docs/build-prereqs.md`
 
 ## Most Common Right Now (Fast Fixes)
 - **Nodes won’t start from GUI / start inconsistently**
@@ -21,7 +24,8 @@ This guide collects common issues and fixes by area (network/P2P, APIs/auth, sto
 - **Falcon/Kyber binary or compile failures**
   - Cause: missing compiler/toolchain or wrong platform binary.
   - Fix:
-    - follow compile sections in `README.md` and `Docs/quickstart.md`
+    - follow `Docs/build-prereqs.md` first (OS package matrix + one-click launcher path)
+    - then follow compile sections in `README.md` and `Docs/quickstart.md`
     - register Falcon binary:
       - `./.venv/bin/python Src/Falcon/Falcon/install_platform_binary.py`
     - confirm compiler exists (`clang`/`gcc`/`cc`).
@@ -70,8 +74,8 @@ This guide collects common issues and fixes by area (network/P2P, APIs/auth, sto
 ## API / Auth
 - **401/403 errors:** Missing/invalid `X-API-Key`/`X-User`/`X-Pass` or missing permissions (e.g., `send_tx`, `mining`). Check `Src/Config/Api_Keys.json`; recreate keys with `Src/Api/auth.py` if needed.
 - **HMAC failures:** If `REQUIRE_HMAC` is on, include `X-TS` and `X-Sig` for every request; ensure clock skew < ±60s.
-- **CLI can’t connect:** Verify `ATHO_API_URL` (CLI reads `Src/Config/NodePorts.json`). If using Docker, use the host-mapped API port from `docker compose port`.
-- **HTTP 500 from API:** Often missing deps or missing API key file in container. Rebuild images and ensure `Src/Config/Api_Keys.json` exists/mounted; check container logs for import errors.
+- **CLI can’t connect:** Verify `ATHO_API_URL` (CLI reads `Src/Config/NodePorts.json`) and confirm native API is up on the active network port.
+- **HTTP 500 from API:** Often missing deps or missing API key file. Re-run launcher bootstrap and ensure `Src/Config/Api_Keys.json` exists; check local logs for import/runtime errors.
 
 ## GUI / Web Explorer
 - **Request inbox icon appears in wrong place / top-bar alignment looks off**
@@ -104,7 +108,7 @@ This guide collects common issues and fixes by area (network/P2P, APIs/auth, sto
 ## Storage / LMDB
 - **LMDB file not found / map full:** Ensure storage paths exist; increase map size if needed. Clean start: remove `blockchain_storage*` if you intend to resync.
 - **Corruption/stale data after upgrades:** Wipe `blockchain_storage*` and `Peers.json` and resync; keep backups before deleting.
-- **Permission errors on LMDB:** Ensure the process/container user can write to the volume; adjust ownership/permissions on macOS/Linux.
+- **Permission errors on LMDB:** Ensure the local runtime user can write to the storage path; adjust ownership/permissions on macOS/Linux.
 
 ## Mining
 - **Miner mining its own fork:** Bootstrap it to the authoritative node (`ATHO_BOOTSTRAP=<seed>:56000`), align networks, and clear peers/storage if formats changed.
@@ -122,14 +126,26 @@ This guide collects common issues and fixes by area (network/P2P, APIs/auth, sto
 - **Cannot delete address:** Deletion is blocked only if it would remove the last key on the selected network. Ensure at least two keys exist; defaults are reassigned automatically when one is removed.
 - **Hashrate stuck / no blocks:** Verify mining is enabled, check logs for PoW errors, and ensure the mempool isn’t rejecting constructed blocks.
 
-## Docker / Compose
-- **Port binding errors:** If a host port is in use, remove the mapping or use random host ports (e.g., `ports: ["10200"]`). P2P ports are fixed (56000 in-container; host binds 56000/56001/56002/56003).
-- **API key missing in containers:** Entry point auto-creates one; read logs for the generated key/user/pass. Ensure `Src/Config` is mounted.
-- **Containers not following host chain:** Set `ATHO_BOOTSTRAP=host.docker.internal:56000` (or your LAN IP) and wipe peers/storage before `docker compose up`.
-- **Modules missing in container:** Rebuild after updating `requirements.txt` (`docker compose build --no-cache`); ensure Python is 3.11 in the image.
-- **Random API ports on miners:** Discover with `docker compose port miner 10200` (and `... 10250` for miner2) when host ports are randomized.
+## Docker Bootstrap
+- **Need the fastest setup path?**
+  - Use one-click launcher:
+    - macOS/Linux: `python3 run.py mainnet`
+    - Windows: `py -3 run.py mainnet`
+  - Prerequisites: `Docs/build-prereqs.md`
+- **`docker` command not found:** install Docker Desktop/Engine and restart terminal.
+- **`docker_daemon_unavailable` / cannot connect to Docker daemon:** open Docker Desktop (or start Docker Engine service) and wait for healthy status, then retry.
+- **`--no-build` fails with missing builder image:** run once without `--no-build` so launcher can build/cache bootstrap image.
+- **Bootstrap export missing:** rerun `python run.py <network> --build-only` and verify `runtime/docker_bootstrap/bootstrap_manifest.json` exists.
+- **Native runtime still missing modules after bootstrap:** run without `--skip-pip` so `.venv` is updated from `requirements.txt`.
 
 ## Build / Tooling
+- **`host_native_bash_not_found` on fallback builds (common on Windows):**
+  - install Git Bash, MSYS2, or Cygwin
+  - or set `ATHO_HOST_BASH` to a working `bash.exe` path
+  - note: WSL bash shim is not sufficient for Windows host-native `.sh` scripts
+- **`no compiler found (gcc/clang/cc)` errors in native scripts:** follow OS package installs in `Docs/build-prereqs.md`.
+- **`cargo not found` while building private STARK binaries:** install Rust via `rustup` (see `Docs/build-prereqs.md`).
+- **`lmdb.h not found` while building UTXO batch checker:** install LMDB dev package from `Docs/build-prereqs.md`, or continue with Python fallback path if native checker is optional.
 - **falcon_cli build fails:** Install toolchain (`build-essential`/`clang`/`libssl-dev` on Linux; Xcode CLT on macOS). On ARM, disable AVX2 (`FALCON_USE_AVX2=false`). Use Docker to avoid local toolchain issues.
 - **`falcon_cli pinning is required but no expected digest is configured`**: Update `Constants.FALCONCLI_PINNED_VERSION_DIGESTS` in `Src/Utility/const.py` for the active `CONSENSUS_VERSION`, using the release-audited version-bound digest. Mainnet/testnet startup is intentionally blocked until this is set.
 - **Runtime guard fail-closed startup error:** If startup reports runtime guard bootstrap failure, inspect `logs/<network>/security/security.log`, verify `Src/Config/security_manifest.json`, and ensure `ATHO_RUNTIME_GUARD_RELEASE_PUBKEY_HEX` matches release signer pubkey when signature is required.
@@ -158,9 +174,11 @@ python -m pip install -r requirements.txt
 ```
 
 - **`lmdb` install fails**
-  - First retry inside activated venv:
+  - This only blocks the native `libutxo_batch_check` fast path.
+  - The launcher/bootstrap now falls back to Python validation by default, so you can keep going unless you explicitly require the native checker.
+  - If you do want the native checker, retry inside an activated venv first:
     - `python -m pip install lmdb`
-  - If still failing, install OS build tools then retry:
+  - If that still fails, install OS build tools then retry:
     - macOS: `xcode-select --install`
     - Linux (Debian/Ubuntu): `sudo apt-get install -y build-essential python3-dev`
     - Windows: install Visual Studio Build Tools or use MSYS2/WSL
@@ -175,8 +193,8 @@ python -m pip install -r requirements.txt
 
 ## General tips
 - Align versions across all nodes; mismatched code can reject blocks/tx.
-- When in doubt, clean runtime data: stop nodes, `docker compose down -v`, remove `blockchain_storage*`, `Keys*`, `Logs*`, `Src/Config/Peers.json`, then restart with correct env.
-- Check logs at source (not just grep): `docker compose logs -f fullnode miner miner2` or tail `Logs*/network.log` for detailed reasons.
+- When in doubt, clean runtime data: stop nodes, remove `blockchain_storage*`, `Keys*`, `Logs*`, `Src/Config/Peers.json`, then restart with correct env.
+- Check logs at source (not just grep): tail `Logs*/network.log` and `logs/*` audit files for detailed reasons.
 - For hashrate telemetry validation, query:
   - `/network/hashrate/live`
   - `/network/hashrate/chart`

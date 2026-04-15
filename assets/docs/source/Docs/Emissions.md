@@ -1,6 +1,6 @@
 # Atho Emissions and Fee Routing Policy
 
-Date: 2026-04-05
+Date: 2026-04-15
 
 This document defines active monetary policy and fee routing under current consensus constants.
 
@@ -11,80 +11,51 @@ This document defines active monetary policy and fee routing under current conse
 ## 2) Reward Schedule (Current)
 - Block time target: `120` seconds.
 - Blocks/year: `262,800`.
-- Era size: `1,000,000` blocks (~3.805 years).
+- Era size: `2,000,000` blocks (~7.61 years).
 
 Pre-tail eras:
-- Era 1: `50 ATHO/block`
-- Era 2: `25 ATHO/block`
-- Era 3: `12.5 ATHO/block`
-- Era 4: `6.25 ATHO/block`
-- Era 5: `3.125 ATHO/block`
-- Era 6: `1.5625 ATHO/block`
-- Era 7: `0.78125 ATHO/block`
-- Era 8: `0.390625 ATHO/block`
+- Era 1: `100 ATHO/block`
+- Era 2: `50 ATHO/block`
+- Era 3: `25 ATHO/block`
+- Era 4: `12.5 ATHO/block`
+- Era 5: `6.25 ATHO/block`
+- Era 6: `3.125 ATHO/block`
+- Era 7: `1.5625 ATHO/block`
+- Era 8: `0.78125 ATHO/block`
 
 Bootstrap and pre-tail totals:
-- One-time bootstrap allocation: `390,625 ATHO` at block `1`.
-- Pre-tail subsidy target: `99,609,375 ATHO`.
-- Total pre-tail base target = `99,609,375 + 390,625 = 100,000,000 ATHO`.
-- Hard max supply cap = `150,000,000 ATHO`.
+- One-time bootstrap allocation: `781,250 ATHO` at block `1`.
+- Pre-tail subsidy target: `399,218,750 ATHO`.
+- Total pre-tail base target = `399,218,750 + 781,250 = 400,000,000 ATHO`.
+- Hard max supply cap = `500,000,000 ATHO`.
+- Supply-closure check: `399,218,750 + 781,250 + 100,000,000 = 500,000,000`.
 
 Tail:
-- Tail reward `0.1953125 ATHO/block` from height `8,000,000` onward.
-- Tail activation occurs at `~30.44 years` from genesis.
+- Tail reward `0.1953125 ATHO/block` from height `17,000,000` onward.
+- Tail activation occurs at `~64.69 years` from genesis.
 - Tail annual issuance: `51,328.125 ATHO/year`.
 
 Hard-cap clipping rule:
 - Subsidy is clipped at coinbase path by remaining cap headroom.
-- Once `total_emitted_atoms` reaches `150,000,000 ATHO`, subsidy is `0` for all later heights.
+- Once `total_emitted_atoms` reaches `500,000,000 ATHO`, subsidy is `0` for all later heights.
 - Fee routing/burn/pool accounting remains unchanged (fees do not mint new supply).
 
-## 3) Why This Bounded Model Exists
-Atho uses three monetary anchors for stability and auditability:
-
-- `100,000,000 ATHO` base issuance path:
-  - defines the long-form launch distribution and predictable early-to-mid lifecycle issuance,
-  - gives operators and integrators a deterministic emission curve to model from genesis.
-
-- `150,000,000 ATHO` hard max supply cap:
-  - enforces a strict upper bound on minted supply at consensus level,
-  - prevents perpetual subsidy expansion and guarantees issuance eventually terminates (`subsidy = 0` after cap is reached).
-
-- `21,000,000 ATHO` protected supply floor:
-  - ensures burn logic cannot reduce effective circulating supply below a minimum economic base,
-  - protects against pathological over-burn in sustained high-fee periods.
+## 3) Monetary Anchors
+Atho uses three monetary anchors:
+- `400,000,000 ATHO` base issuance path.
+- `500,000,000 ATHO` hard max supply cap.
+- `21,000,000 ATHO` protected supply floor.
 
 Design intent:
-- The base path controls structured distribution,
-- the max cap bounds long-run inflation risk,
-- the floor bounds long-run deflation pressure from fee burn.
+- Base path controls deterministic launch distribution.
+- Max cap bounds long-run mint expansion.
+- Floor bounds long-run burn pressure.
 
-Result:
-- supply is constrained inside a deterministic corridor and remains consensus-verifiable on every block.
-
-## 4) How This Differs and Why It Matters
-How Atho differs:
-- It combines a finite hard cap (`150M`) with a structured base path (`100M`) and an enforced lower floor (`21M`).
-- Many networks implement only one side of this envelope:
-  - cap-only systems constrain inflation but do not include a protocol burn-floor guardrail,
-  - perpetual-tail systems preserve ongoing issuance but do not hard-stop minting at a fixed maximum.
-- Atho enforces both boundaries in consensus math:
-  - upper bound through subsidy clipping at coinbase,
-  - lower bound through burn headroom clipping.
-
-Why this is important:
-- Predictability: issuance and boundary behavior can be modeled from genesis with no discretionary policy step.
-- Safety: prevents two extremes at protocol level:
-  - unbounded long-run mint expansion,
-  - over-aggressive fee burn reducing circulating supply below intended minimum.
-- Auditability: nodes can verify boundary adherence per block using deterministic fields (`fees_*_atoms`, `cumulative_burned_atoms`, emitted totals).
-- Upgrade clarity: monetary changes are explicit hard-fork events, not hidden runtime tuning.
-
-## 5) Active Fee Policy
+## 4) Active Fee Policy
 Current constants:
-- `FEE_PER_BYTE_ATOMS = 350` (policy unit is `vsize`)
-- `MIN_TRANSACTION_FEE_ATOMS = 100,000`
-- `DUST_LIMIT_ATOMS = 250`
+- `FEE_PER_BYTE_ATOMS = 500` (policy unit is `vsize`)
+- `MIN_TRANSACTION_FEE_ATOMS = 200,000`
+- `DUST_LIMIT_ATOMS = 20,000` (`1/10` of `MIN_TRANSACTION_FEE_ATOMS`)
 - Max block base cap: `3,500,000` bytes
 - Max block weight: `14,000,000`
 
@@ -96,20 +67,7 @@ Fee routing:
 Supply floor:
 - Effective circulating supply is clipped to never go below `21,000,000 ATHO`.
 
-## 6) No Fixed Base Transaction Size Assumption
-Atho does **not** use one static tx size for economics or TPS planning. Real size depends on:
-- input/output counts,
-- varint widths,
-- witness lengths,
-- optional metadata.
-
-Representative estimates (compressed witness, metadata empty):
-- `1 in / 1 out`: ~513 vB
-- `1 in / 2 out`: ~566 vB
-- `2 in / 2 out`: ~615 vB
-- `3 in / 2 out`: ~664 vB
-
-## 7) Throughput Formulas
+## 5) Throughput Formulas
 Let:
 - `Bv = 3,500,000` effective vbytes per block cap
 - `T = 120` seconds
@@ -119,33 +77,49 @@ Then:
 - `tx_per_block = Bv / Savg`
 - `TPS = tx_per_block / T`
 
-Examples:
-- `Savg=566` -> `~51.5 TPS`
-- `Savg=615` -> `~47.4 TPS`
-- `Savg=664` -> `~43.9 TPS`
-
-## 8) Post-Tail Net Supply Math
+## 6) Post-Tail Net Supply Math
 At full block utilization by vbytes:
-- Total fee floor capacity per block = `3,500,000 * 350 = 1,225,000,000 atoms = 1.225 ATHO`
-- Annual total fees at full utilization = `321,930 ATHO/year`
-- Burnable routed share (`45%`) at full utilization = `144,868.5 ATHO/year`
+- Total fee floor capacity per block = `3,500,000 * 500 = 1,750,000,000 atoms = 1.75 ATHO`
+- Annual total fees at full utilization = `459,900 ATHO/year`
+- Burnable routed share (`45%`) at full utilization = `206,955 ATHO/year`
 
 Post-tail net annual change:
-- `Delta_supply = 51,328.125 - (144,868.5 * utilization)`
-- This formula applies while subsidy is still positive; after hard-cap clip, subsidy term is `0`.
+- `Delta_supply = 51,328.125 - (206,955 * utilization)`
 
 Deflation threshold:
-- `utilization ~= 51,328.125 / 144,868.5 ~= 0.3543` (`35.43%`)
+- `utilization ~= 51,328.125 / 206,955 ~= 0.24802` (`24.802%`)
 
 Interpretation:
-- `<35.43%` utilization: inflationary net.
-- `=35.43%`: neutral net.
-- `>35.43%`: deflationary net (subject to floor clipping).
+- `<24.802%` utilization: inflationary net.
+- `=24.802%`: neutral net.
+- `>24.802%`: deflationary net (subject to floor clipping).
 
-## 9) Coinbase Invariants
+## 7) Milestones
+- Pre-tail complete at height `16,999,999`: `400,000,000 ATHO` emitted total.
+- Tail starts at height `17,000,000`.
+- Tail subsidy headroom to hard cap: `100,000,000 ATHO`.
+- Tail blocks required to exhaust hard-cap headroom: `512,000,000` blocks.
+- Last positive-subsidy height: `528,999,999` (~`2012.94` years from genesis).
+- First zero-subsidy height after cap clip: `529,000,000` (~`2012.94` years from genesis).
+- Time from tail start to subsidy shutdown: `~1,948.25` years.
+
+Supply-floor timing (burn-enabled scenarios, sustained utilization, current fee policy):
+
+| Sustained utilization | Post-tail net (ATHO/year, pre-cap) | Circulating at hard cap | Additional blocks from `529,000,000` to floor | Approx years from genesis to floor |
+|---:|---:|---:|---:|---:|
+| 25% | `-410.625` | `399,200,000 ATHO` | `1,921,015,874` | `~9,322.74` |
+| 50% | `-52,149.375` | `298,400,000 ATHO` | `704,507,937` | `~4,693.71` |
+| 75% | `-103,888.125` | `197,600,000 ATHO` | `299,005,292` | `~3,150.71` |
+| 100% | `-155,626.875` | `96,800,000 ATHO` | `96,253,969` | `~2,379.20` |
+
+Notes:
+- No-burn scenarios never reach floor by protocol burn logic.
+- For any burn-enabled utilization above `0%`, floor is eventually reached because subsidy becomes `0` after hard-cap clip.
+
+## 8) Coinbase Invariants
 Consensus payout invariants:
 - `coinbase_outputs_sum_atoms == block_reward_atoms + fees_miner_atoms`
-- `total_emitted_atoms(height) <= 150,000,000 * 1e9 atoms`
+- `total_emitted_atoms(height) <= 500,000,000 * 1e9 atoms`
 
 When fee routing is active, blocks carry auditable fields:
 - `fees_total_atoms`
@@ -154,7 +128,7 @@ When fee routing is active, blocks carry auditable fields:
 - `fees_pool_atoms`
 - `cumulative_burned_atoms`
 
-## 10) Consensus Change Reminder
+## 9) Consensus Change Reminder
 Changing any of the following is consensus-breaking and requires coordinated upgrade:
 - reward schedule,
 - hard max supply cap and subsidy clipping rule,

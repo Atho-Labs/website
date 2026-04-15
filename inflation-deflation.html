@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Atho inflation and deflation mechanics: 100M base issuance path, 150M hard-cap subsidy clipping, tail policy, fee routing, burn model, and 21M floor protection.">
+  <meta name="description" content="Atho inflation and deflation mechanics: 400M base issuance path, 500M hard-cap subsidy clipping, tail policy, fee routing, burn model, and 21M floor protection.">
   <title>Atho Inflation / Deflation</title>
   <link rel="canonical" href="https://atho.io/inflation-deflation.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Atho">
   <meta property="og:url" content="https://atho.io/inflation-deflation.html">
   <meta property="og:title" content="Atho Inflation / Deflation">
-  <meta property="og:description" content="Atho inflation and deflation mechanics: 100M base issuance path, 150M hard-cap subsidy clipping, tail policy, fee routing, burn model, and 21M floor protection.">
+  <meta property="og:description" content="Atho inflation and deflation mechanics: 400M base issuance path, 500M hard-cap subsidy clipping, tail policy, fee routing, burn model, and 21M floor protection.">
   <meta property="og:image" content="https://image.thum.io/get/width/1200/crop/630/https://atho.io/inflation-deflation.html">
   <meta property="og:image:secure_url" content="https://image.thum.io/get/width/1200/crop/630/https://atho.io/inflation-deflation.html">
   <meta property="og:image:width" content="1200">
@@ -19,7 +19,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@AthoHQ">
   <meta name="twitter:title" content="Atho Inflation / Deflation">
-  <meta name="twitter:description" content="Atho inflation and deflation mechanics: 100M base issuance path, 150M hard-cap subsidy clipping, tail policy, fee routing, burn model, and 21M floor protection.">
+  <meta name="twitter:description" content="Atho inflation and deflation mechanics: 400M base issuance path, 500M hard-cap subsidy clipping, tail policy, fee routing, burn model, and 21M floor protection.">
   <meta name="twitter:image" content="https://image.thum.io/get/width/1200/crop/630/https://atho.io/inflation-deflation.html">
   <meta name="twitter:image:alt" content="Atho inflation and deflation page preview">
   <link rel="icon" type="image/png" href="./assets/media/logo2website.png">
@@ -65,6 +65,7 @@
             <a class="global-nav-link" href="./join.html">Join</a>
             <a class="global-nav-link" href="./rewards.html">Rewards</a>
             <a class="global-nav-link" href="./wallet.html">Wallet</a>
+            <a class="global-nav-link" href="./wallet-hierarchy.html">Wallet Hierarchy</a>
             <a class="global-nav-link" href="./platinum-shield.html">Platinum Shield</a>
             <a class="global-nav-link" href="./bpow-docs.html">BPoW</a>
             <a class="global-nav-link" href="./inflation-deflation.html">Inflation / Deflation</a>
@@ -87,7 +88,7 @@
           </div>
           <h1>How Atho supply expands, clips, then stabilizes.</h1>
           <p>
-            Atho uses a bounded supply corridor: deterministic expansion through the 100M base path, tail issuance clipped by a 150M hard cap, and burn-floor protection at 21M. This page visualizes the full flow so miners, stakers, and operators can reason about policy behavior from chain data.
+            Atho uses a bounded supply corridor: deterministic expansion through the 400M base path, tail issuance clipped by a 500M hard cap, and burn-floor protection at 21M. This page visualizes the full flow so miners, stakers, and operators can reason about policy behavior from chain data.
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary btn-inline" href="./bpow-docs.html">Open BPoW Deep Dive</a>
@@ -105,21 +106,21 @@
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
                   <strong>Pre-tail target path</strong>
-                  <span><code>100,000,000 ATHO</code> total pre-tail base path (<code>99,609,375</code> subsidy + <code>390,625</code> bootstrap at block <code>1</code>).</span>
+                  <span><code>400,000,000 ATHO</code> total pre-tail base path (<code>399,218,750</code> subsidy + <code>781,250</code> bootstrap at block <code>1</code>).</span>
                 </span>
               </li>
               <li class="key-item">
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
                   <strong>Hard maximum supply</strong>
-                  <span><code>150,000,000 ATHO</code> cap enforced on subsidy minting; coinbase subsidy is clipped by remaining headroom and becomes <code>0</code> at cap.</span>
+                  <span><code>500,000,000 ATHO</code> cap enforced on subsidy minting; coinbase subsidy is clipped by remaining headroom and becomes <code>0</code> at cap.</span>
                 </span>
               </li>
               <li class="key-item">
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
                   <strong>Tail emission</strong>
-                  <span>Tail begins at <code>8,000,000</code> (about 30.44 years) with baseline <code>0.1953125 ATHO</code> per block, or <code>51,328.125 ATHO/year</code>, while cap headroom exists.</span>
+                  <span>Tail begins at <code>17,000,000</code> (about 64.69 years) with baseline <code>0.1953125 ATHO</code> per block, or <code>51,328.125 ATHO/year</code>, while cap headroom exists.</span>
                 </span>
               </li>
               <li class="key-item">
@@ -147,22 +148,22 @@
         <span class="section-eyebrow">Network Timeline</span>
         <h2 class="section-title">Pre-tail and post-tail are different network modes.</h2>
         <p class="section-copy">
-          Deflation mode is disabled before tail. It only becomes possible after the chain crosses tail start height <code>8,000,000</code> (about 30.44 years), where post-tail baseline issuance is <code>51,328.125 ATHO/year</code> until subsidy clipping reaches <code>0</code> at the <code>150,000,000 ATHO</code> cap.
+          Deflation mode is disabled before tail. It only becomes possible after the chain crosses tail start height <code>17,000,000</code> (about 64.69 years), where post-tail baseline issuance is <code>51,328.125 ATHO/year</code> until subsidy clipping reaches <code>0</code> at the <code>500,000,000 ATHO</code> cap.
         </p>
 
         <article class="card card-pad phase-map-card" data-reveal>
           <div class="phase-track-shell" aria-hidden="true">
             <div class="phase-segment phase-segment-pre">
-              <strong>Pre-tail: blocks 0-7,999,999</strong>
+              <strong>Pre-tail: blocks 0-16,999,999</strong>
               <span>Emission schedule dominates. Inflation mode only.</span>
               <span class="phase-runner phase-runner-pre"></span>
             </div>
             <div class="phase-switch-node">
               <strong>Tail Switch</strong>
-              <span>Block 8,000,000</span>
+              <span>Block 17,000,000</span>
             </div>
             <div class="phase-segment phase-segment-post">
-              <strong>Post-tail: blocks 8,000,000+</strong>
+              <strong>Post-tail: blocks 17,000,000+</strong>
               <span>Tail subsidy + burn logic, then fee-routed mode after cap clip.</span>
               <span class="phase-runner phase-runner-post"></span>
             </div>
@@ -196,7 +197,7 @@
             <div class="mode-flow mode-flow-post" aria-hidden="true">
               <span class="mode-box">Tail Subsidy 0.1953125</span>
               <span class="mode-arrow">-></span>
-              <span class="mode-box">Cap Clip @ 150M</span>
+              <span class="mode-box">Cap Clip @ 500M</span>
               <span class="mode-arrow">-></span>
               <span class="mode-box">Burn Request (45% Routed Fees)</span>
               <span class="mode-arrow">-></span>
@@ -220,17 +221,17 @@
           <p class="panel-copy">
             Deflation logic is gated by height. Before tail switch, deflation is not active. After tail switch, deflation can happen if clipped burn exceeds clipped issuance.
           </p>
-          <pre class="join-code"><code>if height < 8,000,000:
+          <pre class="join-code"><code>if height < 17,000,000:
   deflation_mode = OFF
   network_mode = pre-tail inflation schedule
 else:
   deflation_mode = ON (conditional)
-  subsidy_atoms = min(tail_subsidy_atoms, cap_headroom_atoms(150,000,000 ATHO))
+  subsidy_atoms = min(tail_subsidy_atoms, cap_headroom_atoms(500,000,000 ATHO))
   net_delta = (subsidy_atoms + fee_credit_atoms) - burned_clipped
   where burned_clipped <= floor_headroom(21,000,000 ATHO)</code></pre>
           <ol class="join-step-list">
-            <li>At block <code>8,000,000</code>, tail subsidy locks to <code>0.1953125 ATHO</code>.</li>
-            <li>Tail subsidy is clipped by remaining headroom under the <code>150,000,000 ATHO</code> cap.</li>
+            <li>At block <code>17,000,000</code>, tail subsidy locks to <code>0.1953125 ATHO</code>.</li>
+            <li>Tail subsidy is clipped by remaining headroom under the <code>500,000,000 ATHO</code> cap.</li>
             <li>Burn request comes from routed non-pool fees (<code>45%</code> in post-tail mode).</li>
             <li>Burn is clipped to stay above the <code>21,000,000 ATHO</code> effective floor.</li>
             <li>Deflation appears only if post-clip burn exceeds total issuance components; after cap clip, subsidy term is <code>0</code>.</li>
@@ -263,7 +264,7 @@ else:
             </div>
             <div class="matrix-row">
               <span class="matrix-state">Pre-tail</span>
-              <span>height &lt; <code>8,000,000</code></span>
+              <span>height &lt; <code>17,000,000</code></span>
               <span class="matrix-result matrix-result-off">Deflation OFF</span>
             </div>
             <div class="matrix-row">
@@ -311,20 +312,20 @@ else:
         <span class="section-eyebrow">Post-tail Scenarios</span>
         <h2 class="section-title">After tail starts, fee pressure determines inflation vs deflation direction.</h2>
         <p class="section-copy">
-          These scenarios apply only in post-tail mode. Before tail, the network remains in pre-tail inflation schedule mode by rule. Deflation threshold is near <code>35.43%</code> sustained utilization while subsidy headroom remains; after cap, subsidy is clipped to <code>0</code> and fee routing dominates net direction.
+          These scenarios apply only in post-tail mode. Before tail, the network remains in pre-tail inflation schedule mode by rule. Deflation threshold is near <code>24.802%</code> sustained utilization while subsidy headroom remains; after cap, subsidy is clipped to <code>0</code> and fee routing dominates net direction.
         </p>
 
         <article class="card card-pad" data-reveal>
           <h3 class="panel-title">Post-Tail Utilization Snapshot</h3>
           <p class="panel-copy">
-            Current docs model post-tail net annual change as <code>Delta_supply = 51,328.125 - (144,868.5 * utilization)</code> while subsidy headroom remains.
+            Current docs model post-tail net annual change as <code>Delta_supply = 51,328.125 - (206,955 * utilization)</code> while subsidy headroom remains.
           </p>
           <ul class="key-list">
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Neutral threshold</strong>
-                <span>Protocol net supply is approximately neutral at <code>35.43%</code> sustained utilization.</span>
+                <span>Protocol net supply is approximately neutral at <code>24.802%</code> sustained utilization.</span>
               </span>
             </li>
             <li class="key-item">
@@ -377,8 +378,8 @@ else:
             Atho publishes the constants, formulas, and lifecycle rules behind inflation and deflation so miners, stakers, and integrators can independently validate long-run behavior.
           </p>
           <div class="badge-row">
-            <span class="badge">100,000,000 ATHO total pre-tail base</span>
-            <span class="badge">150,000,000 ATHO hard max supply</span>
+            <span class="badge">400,000,000 ATHO total pre-tail base</span>
+            <span class="badge">500,000,000 ATHO hard max supply</span>
             <span class="badge">51,328.125 ATHO/year tail baseline (until cap)</span>
             <span class="badge">40% pre-tail / 55% post-tail pool route</span>
             <span class="badge">21,000,000 ATHO floor clipping</span>
@@ -394,7 +395,7 @@ else:
       <span>Atho Labs</span>
       <span class="footer-contact">
         <span class="footer-slogan">Atho — Private. Secure. The Platinum Standard of the Quantum Age</span>
-        <span class="footer-updated">Last updated: April 10, 2026</span>
+        <span class="footer-updated">Last updated: April 15, 2026</span>
         <span>
           To report bugs, security issues, or general inquiries:
           <a href="./contact.html">Contact</a>

@@ -109,7 +109,7 @@ When compatibility mode is temporarily enabled:
 Related production policy values (not Falcon-specific, but relevant to tx lifecycle):
 - block target `120s`, retarget interval `180`,
 - tx confirmations `10`, private tx confirmations `10`, coinbase maturity `150`,
-- fee floor `350 atoms/vB`, min tx fee `100,000 atoms`.
+- fee floor `500 atoms/vB`, min tx fee `200,000 atoms`.
 
 Falcon signatures protect transaction authenticity; these constants govern confirmation and economic policy around those authenticated transactions.
 

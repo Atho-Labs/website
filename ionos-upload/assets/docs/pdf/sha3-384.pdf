@@ -285,7 +285,7 @@ T*
 T*
 (- tx confirmations 10, private tx confirmations 10, coinbase maturity 150,) Tj
 T*
-(- fee floor 350 atoms/vB, min tx fee 100,000 atoms.) Tj
+(- fee floor 500 atoms/vB, min tx fee 200,000 atoms.) Tj
 T*
 () Tj
 T*

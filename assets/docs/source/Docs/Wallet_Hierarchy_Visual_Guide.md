@@ -1,6 +1,6 @@
 # Atho Wallet Hierarchy Visual Guide (Beginner + Deep Technical)
 
-Date: 2026-04-08
+Date: 2026-04-14
 
 Audience:
 - Beginner users who want a simple mental model.
@@ -280,8 +280,8 @@ For private spends, consensus/mempool expect valid proof material:
 ### 9.1 Fee math
 
 System policy (current constants):
-- `fee_per_vb_atoms = 350`
-- `min_tx_fee_atoms = 100000`
+- `fee_per_vb_atoms = 500`
+- `min_tx_fee_atoms = 200000`
 
 General formula:
 
@@ -290,7 +290,7 @@ required_fee_atoms = max(vsize * fee_per_vb_atoms, min_tx_fee_atoms)
 ```
 
 With `1 ATHO = 1,000,000,000 atoms`, this means:
-- 350 atoms/vB = 3.5e-7 ATHO/vB.
+- 500 atoms/vB = 5e-7 ATHO/vB.
 
 ### 9.2 Confirmation policy (current constants)
 
@@ -485,16 +485,16 @@ Mnemonic phrase, passphrase (if used), and derivation path metadata. Then run fu
 These values are currently hard-coded in `Src/Utility/const.py` policy tuning and invariants:
 
 - Atoms per coin: `1,000,000,000`
-- Fee floor: `350 atoms/vB` (`3.5e-7 ATHO/vB`)
-- Min transaction fee: `100,000 atoms`
-- Dust limit: `250 atoms`
+- Fee floor: `500 atoms/vB` (`5e-7 ATHO/vB`)
+- Min transaction fee: `200,000 atoms`
+- Dust limit: `20,000 atoms` (`1/10` of min tx fee)
 - Tx confirmations required: `10`
 - Private tx confirmations required: `10`
 - Coinbase maturity: `150`
 - Min stake: `20 ATHO`
-- Max stake per address: `500 ATHO`
-- Max network staked total: `25,000,000 ATHO`
-- Max new stake rolling 30d: `25,000 ATHO`
+- Max stake per address: `1,000 ATHO`
+- Max network staked total: `75,000,000 ATHO`
+- Max new stake rolling 30d: `50,000 ATHO`
 - Stake rolling window blocks: `21,600`
 - Stake unbonding delay blocks: `129,600`
 - Min mining bond: `25 ATHO`

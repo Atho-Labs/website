@@ -124,7 +124,7 @@ The stop utility itself does not change consensus policy. It supports safe opera
 - block cadence `120s`,
 - tx confirmations `10`, private tx confirmations `10`,
 - coinbase maturity `150`,
-- fee floor `350 atoms/vB`.
+- fee floor `500 atoms/vB`.
 
 Reliable process lifecycle control is part of maintaining operational consistency for these policy-governed runtimes.
 

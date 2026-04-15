@@ -27,7 +27,7 @@ T*
 T*
 (Version: 3.0) Tj
 T*
-(Date: 2026-04-10) Tj
+(Date: 2026-04-14) Tj
 T*
 (Status: Technical publication draft for protocol, operations, and security review) Tj
 T*
@@ -364,7 +364,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
 endobj
 11 0 obj
-<< /Length 2570 >>
+<< /Length 2609 >>
 stream
 BT
 /F1 10 Tf
@@ -466,11 +466,11 @@ T*
 T*
 (- Max transaction policy size: 250,000 vB.) Tj
 T*
-(- Fee floor: 350 atoms/vB.) Tj
+(- Fee floor: 500 atoms/vB.) Tj
 T*
-(- Minimum transaction fee: 100,000 atoms.) Tj
+(- Minimum transaction fee: 200,000 atoms.) Tj
 T*
-(- Dust threshold: 250 atoms.) Tj
+(- Dust threshold: 20,000 atoms \(1/10 of minimum transaction fee\).) Tj
 T*
 () Tj
 T*
@@ -481,7 +481,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
 endobj
 13 0 obj
-<< /Length 2450 >>
+<< /Length 2453 >>
 stream
 BT
 /F1 10 Tf
@@ -495,15 +495,15 @@ T*
 T*
 (- Unit denomination: 1 ATHO = 1,000,000,000 atoms.) Tj
 T*
-(- Pre-tail base supply target: 100,000,000 ATHO.) Tj
+(- Pre-tail base supply target: 400,000,000 ATHO.) Tj
 T*
-(- Hard max emitted supply cap: 150,000,000 ATHO.) Tj
+(- Hard max emitted supply cap: 500,000,000 ATHO.) Tj
 T*
 (- Supply floor guardrail: 21,000,000 ATHO.) Tj
 T*
-(- Bootstrap allocation: 390,625 ATHO at block 1.) Tj
+(- Bootstrap allocation: 781,250 ATHO at block 1.) Tj
 T*
-(- Tail start: height 8,000,000.) Tj
+(- Tail start: height 17,000,000.) Tj
 T*
 (- Tail reward: 0.1953125 ATHO/block.) Tj
 T*
@@ -531,11 +531,11 @@ T*
 T*
 (- Minimum stake: 20 ATHO.) Tj
 T*
-(- Maximum stake per address: 500 ATHO.) Tj
+(- Maximum stake per address: 1,000 ATHO.) Tj
 T*
-(- Maximum new stake entering rolling 30-day window \(network-wide\): 25,000 ATHO.) Tj
+(- Maximum new stake entering rolling 30-day window \(network-wide\): 50,000 ATHO.) Tj
 T*
-(- Maximum total staked network-wide: 25,000,000 ATHO.) Tj
+(- Maximum total staked network-wide: 75,000,000 ATHO.) Tj
 T*
 (- Stake unbond delay: 129,600 blocks \(180 days\).) Tj
 T*
@@ -577,7 +577,7 @@ T*
 T*
 (short-cycle manipulation surfaces.) Tj
 T*
-(- The 350 atoms/vB floor and 100,000 atom absolute minimum fee provide a two-layer anti-spam) Tj
+(- The 500 atoms/vB floor and 200,000 atom absolute minimum fee provide a two-layer anti-spam) Tj
 T*
 (filter.) Tj
 T*
@@ -2236,7 +2236,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 43 0 R >>
 endobj
 43 0 obj
-<< /Length 2103 >>
+<< /Length 2063 >>
 stream
 BT
 /F1 10 Tf
@@ -2272,37 +2272,39 @@ T*
 T*
 () Tj
 T*
-(Pre-tail eras each span 1,000,000 blocks:) Tj
+(Pre-tail eras each span 2,000,000 blocks:) Tj
 T*
-(- Era 1: 50 ATHO/block) Tj
+(- Era 1: 100 ATHO/block) Tj
 T*
-(- Era 2: 25 ATHO/block) Tj
+(- Era 2: 50 ATHO/block) Tj
 T*
-(- Era 3: 12.5 ATHO/block) Tj
+(- Era 3: 25 ATHO/block) Tj
 T*
-(- Era 4: 6.25 ATHO/block) Tj
+(- Era 4: 12.5 ATHO/block) Tj
 T*
-(- Era 5: 3.125 ATHO/block) Tj
+(- Era 5: 6.25 ATHO/block) Tj
 T*
-(- Era 6: 1.5625 ATHO/block) Tj
+(- Era 6: 3.125 ATHO/block) Tj
 T*
-(- Era 7: 0.78125 ATHO/block) Tj
+(- Era 7: 1.5625 ATHO/block) Tj
 T*
-(- Era 8: 0.390625 ATHO/block) Tj
+(- Era 8: 0.78125 ATHO/block) Tj
+T*
+(- Transition: 0.78125 ATHO/block for 1,000,000 blocks.) Tj
 T*
 () Tj
 T*
-(Tail reward after height 8,000,000: 0.1953125 ATHO/block.) Tj
+(Tail reward after height 17,000,000: 0.1953125 ATHO/block.) Tj
 T*
 () Tj
 T*
 (12.3 Bootstrap and Base Supply) Tj
 T*
-(- Bootstrap allocation: 390,625 ATHO at block 1.) Tj
+(- Bootstrap allocation: 781,250 ATHO at block 1.) Tj
 T*
-(- Pre-tail subsidy path total: 99,609,375 ATHO.) Tj
+(- Pre-tail subsidy path total: 399,218,750 ATHO.) Tj
 T*
-(- Combined pre-tail base target: 100,000,000 ATHO.) Tj
+(- Combined pre-tail base target: 400,000,000 ATHO.) Tj
 T*
 () Tj
 T*
@@ -2316,7 +2318,7 @@ T*
 T*
 () Tj
 T*
-(Hard maximum emitted supply cap: 150,000,000 ATHO.) Tj
+(Hard maximum emitted supply cap: 500,000,000 ATHO.) Tj
 T*
 () Tj
 T*
@@ -2344,8 +2346,6 @@ T*
 T*
 (Burn clipping concept:) Tj
 T*
-(- desired burn from routed fee share is constrained by available burn headroom above floor.) Tj
-T*
 ET
 endstream
 endobj
@@ -2353,12 +2353,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 45 0 R >>
 endobj
 45 0 obj
-<< /Length 1914 >>
+<< /Length 2001 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(- desired burn from routed fee share is constrained by available burn headroom above floor.) Tj
+T*
 (- if burn headroom is exhausted, burn is clipped and non-burned routed value follows defined) Tj
 T*
 (fallback accounting paths.) Tj
@@ -2387,7 +2389,7 @@ T*
 T*
 (- Tail issuance per year: 51,328.125 ATHO.) Tj
 T*
-(- Burn-path fee capacity per year at full utilization: 144,868.5 ATHO.) Tj
+(- Burn-path fee capacity per year at full utilization: 206,955 ATHO.) Tj
 T*
 () Tj
 T*
@@ -2395,7 +2397,7 @@ T*
 T*
 () Tj
 T*
-(Delta_supply = 51,328.125 - \(144,868.5 * utilization\)) Tj
+(Delta_supply = 51,328.125 - \(206,955 * utilization\)) Tj
 T*
 () Tj
 T*
@@ -2403,7 +2405,7 @@ T*
 T*
 () Tj
 T*
-(utilization ~= 51,328.125 / 144,868.5 ~= 0.3543 \(35.43%\).) Tj
+(utilization ~= 51,328.125 / 206,955 ~= 0.24802 \(24.802%\).) Tj
 T*
 () Tj
 T*
@@ -2461,8 +2463,6 @@ T*
 T*
 (12.11 Monetary Invariant Checklist) Tj
 T*
-() Tj
-T*
 ET
 endstream
 endobj
@@ -2470,12 +2470,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 47 0 R >>
 endobj
 47 0 obj
-<< /Length 1811 >>
+<< /Length 1850 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+() Tj
+T*
 (Consensus invariants include:) Tj
 T*
 (- coinbase_outputs_sum_atoms == subsidy_atoms + fees_miner_atoms) Tj
@@ -2520,11 +2522,11 @@ T*
 T*
 (13.1 Active Fee Policy Baseline) Tj
 T*
-(- Fee floor: 350 atoms/vB.) Tj
+(- Fee floor: 500 atoms/vB.) Tj
 T*
-(- Minimum transaction fee: 100,000 atoms.) Tj
+(- Minimum transaction fee: 200,000 atoms.) Tj
 T*
-(- Dust threshold: 250 atoms.) Tj
+(- Dust threshold: 20,000 atoms \(1/10 of minimum transaction fee\).) Tj
 T*
 () Tj
 T*
@@ -2578,8 +2580,6 @@ T*
 T*
 (13.5 Fee Heatmap and Sensitivity) Tj
 T*
-() Tj
-T*
 ET
 endstream
 endobj
@@ -2587,12 +2587,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 49 0 R >>
 endobj
 49 0 obj
-<< /Length 2013 >>
+<< /Length 1962 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+() Tj
+T*
 () Tj
 T*
 () Tj
@@ -2695,8 +2697,6 @@ T*
 T*
 (Representative model outcomes:) Tj
 T*
-(- public 1 in / 2 out \(553 vB\): ~52.74 TPS ideal,) Tj
-T*
 ET
 endstream
 endobj
@@ -2704,12 +2704,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 51 0 R >>
 endobj
 51 0 obj
-<< /Length 2069 >>
+<< /Length 2120 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(- public 1 in / 2 out \(553 vB\): ~52.74 TPS ideal,) Tj
+T*
 (- public -> private \(2471 vB\): ~11.80 TPS ideal,) Tj
 T*
 (- private -> public \(2708 vB\): ~10.77 TPS ideal,) Tj
@@ -2812,8 +2814,6 @@ T*
 T*
 (14.9 Throughput Misinterpretation Risks) Tj
 T*
-() Tj
-T*
 ET
 endstream
 endobj
@@ -2827,6 +2827,8 @@ BT
 /F1 10 Tf
 50 760 Td
 13 TL
+() Tj
+T*
 (Common errors:) Tj
 T*
 (- quoting single ?max TPS? ignoring private workload share,) Tj
@@ -2929,8 +2931,6 @@ T*
 T*
 (15.4 Storage Layer Diagram) Tj
 T*
-() Tj
-T*
 ET
 endstream
 endobj
@@ -2944,6 +2944,8 @@ BT
 /F1 10 Tf
 50 760 Td
 13 TL
+() Tj
+T*
 () Tj
 T*
 () Tj
@@ -3046,8 +3048,6 @@ T*
 T*
 (16.1 API Authentication Model) Tj
 T*
-() Tj
-T*
 ET
 endstream
 endobj
@@ -3061,6 +3061,8 @@ BT
 /F1 10 Tf
 50 760 Td
 13 TL
+() Tj
+T*
 (Core request headers:) Tj
 T*
 (- X-API-Key,) Tj
@@ -3163,8 +3165,6 @@ T*
 T*
 (- unsafe secret handling in logs/env.) Tj
 T*
-() Tj
-T*
 ET
 endstream
 endobj
@@ -3172,12 +3172,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 59 0 R >>
 endobj
 59 0 obj
-<< /Length 2201 >>
+<< /Length 2157 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+() Tj
+T*
 (Control posture should include strong passwords, HMAC/TLS where exposed, key rotation, and log) Tj
 T*
 (redaction.) Tj
@@ -3280,8 +3282,6 @@ T*
 T*
 (Secure lifecycle for native changes:) Tj
 T*
-(- Build artifacts in controlled environment.) Tj
-T*
 ET
 endstream
 endobj
@@ -3289,12 +3289,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 61 0 R >>
 endobj
 61 0 obj
-<< /Length 2293 >>
+<< /Length 2244 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(- Build artifacts in controlled environment.) Tj
+T*
 (- Generate fresh digest metadata.) Tj
 T*
 (- Review and commit metadata updates with code changes.) Tj
@@ -3397,8 +3399,6 @@ T*
 T*
 (Security posture in Atho is layered: cryptographic soundness, deterministic parsing/validation,) Tj
 T*
-(storage integrity, network controls, runtime binary governance, and operator discipline. This) Tj
-T*
 ET
 endstream
 endobj
@@ -3406,12 +3406,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 63 0 R >>
 endobj
 63 0 obj
-<< /Length 2523 >>
+<< /Length 2616 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(storage integrity, network controls, runtime binary governance, and operator discipline. This) Tj
+T*
 (section frames the threat model by attacker class and control surface.) Tj
 T*
 () Tj
@@ -3514,8 +3516,6 @@ T*
 T*
 (18.5 Runtime and Supply-Chain Surfaces) Tj
 T*
-() Tj
-T*
 ET
 endstream
 endobj
@@ -3523,12 +3523,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 65 0 R >>
 endobj
 65 0 obj
-<< /Length 2421 >>
+<< /Length 2335 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+() Tj
+T*
 (Native binaries are high-value targets. Attack classes include:) Tj
 T*
 (- binary replacement in non-strict load mode,) Tj
@@ -3631,8 +3633,6 @@ T*
 T*
 (checks |) Tj
 T*
-(| Anchor spoofing | invalid anchor root | anchor freshness + root checks | Merkle path) Tj
-T*
 ET
 endstream
 endobj
@@ -3640,12 +3640,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 67 0 R >>
 endobj
 67 0 obj
-<< /Length 2540 >>
+<< /Length 2573 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(| Anchor spoofing | invalid anchor root | anchor freshness + root checks | Merkle path) Tj
+T*
 (validation |) Tj
 T*
 (| Witness tampering | malformed signature/pubkey bytes | strict byte policy bounds | canonical) Tj
@@ -3748,8 +3750,6 @@ T*
 T*
 (---) Tj
 T*
-(- Audit Evidence, Harness Results, and Interpretation) Tj
-T*
 ET
 endstream
 endobj
@@ -3757,12 +3757,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 69 0 R >>
 endobj
 69 0 obj
-<< /Length 2328 >>
+<< /Length 2324 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(- Audit Evidence, Harness Results, and Interpretation) Tj
+T*
 () Tj
 T*
 (Atho?s security posture should be judged on measurable adversarial testing outcomes in addition) Tj
@@ -3865,8 +3867,6 @@ T*
 T*
 (rejects for wrong reasons can mask regressions in deeper checks. Atho?s testing program should) Tj
 T*
-(therefore include policy-synchronized fixture generation.) Tj
-T*
 ET
 endstream
 endobj
@@ -3874,12 +3874,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 71 0 R >>
 endobj
 71 0 obj
-<< /Length 2255 >>
+<< /Length 2258 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(therefore include policy-synchronized fixture generation.) Tj
+T*
 () Tj
 T*
 (19.6 Audit Roadmap Chart) Tj
@@ -3982,8 +3984,6 @@ T*
 T*
 (---) Tj
 T*
-(- Operator Runbooks and Production Deployment Guidance) Tj
-T*
 ET
 endstream
 endobj
@@ -3991,12 +3991,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 73 0 R >>
 endobj
 73 0 obj
-<< /Length 2189 >>
+<< /Length 2200 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(- Operator Runbooks and Production Deployment Guidance) Tj
+T*
 () Tj
 T*
 (Security and correctness depend heavily on operational execution quality. This section provides) Tj
@@ -4099,8 +4101,6 @@ T*
 T*
 (LMDB-specific runbook items:) Tj
 T*
-(- alert before map-size pressure threshold,) Tj
-T*
 ET
 endstream
 endobj
@@ -4108,12 +4108,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 75 0 R >>
 endobj
 75 0 obj
-<< /Length 2311 >>
+<< /Length 2329 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(- alert before map-size pressure threshold,) Tj
+T*
 (- perform safe snapshots,) Tj
 T*
 (- avoid partial store copies,) Tj
@@ -4216,8 +4218,6 @@ T*
 T*
 () Tj
 T*
-(20.12 Deployment Profiles) Tj
-T*
 ET
 endstream
 endobj
@@ -4225,12 +4225,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 77 0 R >>
 endobj
 77 0 obj
-<< /Length 2864 >>
+<< /Length 2882 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(20.12 Deployment Profiles) Tj
+T*
 () Tj
 T*
 (Recommended profiles:) Tj
@@ -4333,8 +4335,6 @@ T*
 T*
 (| no-witness digest | Src/Utility/txdhash.py | stable signing identity | malleability and verify) Tj
 T*
-(drift |) Tj
-T*
 ET
 endstream
 endobj
@@ -4342,12 +4342,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 79 0 R >>
 endobj
 79 0 obj
-<< /Length 2751 >>
+<< /Length 2757 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(drift |) Tj
+T*
 () Tj
 T*
 (21.3 Private Layer Surfaces) Tj
@@ -4450,8 +4452,6 @@ T*
 T*
 (| UTXO store | Src/Storage/utxostorage.py | spend/unspend correctness | double-spend acceptance) Tj
 T*
-(|) Tj
-T*
 ET
 endstream
 endobj
@@ -4459,12 +4459,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 81 0 R >>
 endobj
 81 0 obj
-<< /Length 2602 >>
+<< /Length 2603 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(|) Tj
+T*
 (| private notes store | Src/Storage/private_notes_store.py | notes/nullifiers/roots coherence |) Tj
 T*
 (private replay or false reject |) Tj
@@ -4567,8 +4569,6 @@ T*
 T*
 (This minimizes policy-code-document drift and keeps technical claims defensible.) Tj
 T*
-() Tj
-T*
 ET
 endstream
 endobj
@@ -4576,12 +4576,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 83 0 R >>
 endobj
 83 0 obj
-<< /Length 834 >>
+<< /Length 843 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+() Tj
+T*
 (21.11 Cross-Reference Strategy for External Reviewers) Tj
 T*
 () Tj
@@ -4633,80 +4635,80 @@ xref
 0000007063 00000 n 
 0000009956 00000 n 
 0000010084 00000 n 
-0000012707 00000 n 
-0000012835 00000 n 
-0000015338 00000 n 
-0000015466 00000 n 
-0000018250 00000 n 
-0000018378 00000 n 
-0000020827 00000 n 
-0000020955 00000 n 
-0000023519 00000 n 
-0000023647 00000 n 
-0000025855 00000 n 
-0000025983 00000 n 
-0000028352 00000 n 
-0000028480 00000 n 
-0000030747 00000 n 
-0000030875 00000 n 
-0000033049 00000 n 
-0000033177 00000 n 
-0000035616 00000 n 
-0000035744 00000 n 
-0000037886 00000 n 
-0000038014 00000 n 
-0000040214 00000 n 
-0000040342 00000 n 
-0000042585 00000 n 
-0000042713 00000 n 
-0000045102 00000 n 
-0000045230 00000 n 
-0000047333 00000 n 
-0000047461 00000 n 
-0000050023 00000 n 
-0000050151 00000 n 
-0000052307 00000 n 
-0000052435 00000 n 
-0000054402 00000 n 
-0000054530 00000 n 
-0000056394 00000 n 
+0000012746 00000 n 
+0000012874 00000 n 
+0000015380 00000 n 
+0000015508 00000 n 
+0000018292 00000 n 
+0000018420 00000 n 
+0000020869 00000 n 
+0000020997 00000 n 
+0000023561 00000 n 
+0000023689 00000 n 
+0000025897 00000 n 
+0000026025 00000 n 
+0000028394 00000 n 
+0000028522 00000 n 
+0000030789 00000 n 
+0000030917 00000 n 
+0000033091 00000 n 
+0000033219 00000 n 
+0000035658 00000 n 
+0000035786 00000 n 
+0000037928 00000 n 
+0000038056 00000 n 
+0000040256 00000 n 
+0000040384 00000 n 
+0000042627 00000 n 
+0000042755 00000 n 
+0000045144 00000 n 
+0000045272 00000 n 
+0000047375 00000 n 
+0000047503 00000 n 
+0000050065 00000 n 
+0000050193 00000 n 
+0000052309 00000 n 
+0000052437 00000 n 
+0000054491 00000 n 
+0000054619 00000 n 
 0000056522 00000 n 
-0000058588 00000 n 
-0000058716 00000 n 
-0000060838 00000 n 
+0000056650 00000 n 
+0000058665 00000 n 
+0000058793 00000 n 
 0000060966 00000 n 
-0000063081 00000 n 
+0000061094 00000 n 
 0000063209 00000 n 
-0000065518 00000 n 
+0000063337 00000 n 
 0000065646 00000 n 
-0000067754 00000 n 
+0000065774 00000 n 
 0000067882 00000 n 
-0000070136 00000 n 
-0000070264 00000 n 
-0000072610 00000 n 
-0000072738 00000 n 
-0000075314 00000 n 
+0000068010 00000 n 
+0000070220 00000 n 
+0000070348 00000 n 
+0000072645 00000 n 
+0000072773 00000 n 
 0000075442 00000 n 
-0000077916 00000 n 
-0000078044 00000 n 
-0000080637 00000 n 
-0000080765 00000 n 
-0000083146 00000 n 
-0000083274 00000 n 
-0000085582 00000 n 
-0000085710 00000 n 
-0000087952 00000 n 
-0000088080 00000 n 
-0000090444 00000 n 
-0000090572 00000 n 
-0000093489 00000 n 
-0000093617 00000 n 
-0000096421 00000 n 
-0000096549 00000 n 
-0000099204 00000 n 
+0000075570 00000 n 
+0000077958 00000 n 
+0000078086 00000 n 
+0000080712 00000 n 
+0000080840 00000 n 
+0000083217 00000 n 
+0000083345 00000 n 
+0000085656 00000 n 
+0000085784 00000 n 
+0000088037 00000 n 
+0000088165 00000 n 
+0000090547 00000 n 
+0000090675 00000 n 
+0000093610 00000 n 
+0000093738 00000 n 
+0000096548 00000 n 
+0000096676 00000 n 
 0000099332 00000 n 
+0000099460 00000 n 
 trailer
 << /Size 84 /Root 1 0 R >>
 startxref
-100218
+100355
 %%EOF

@@ -64,6 +64,7 @@
             <a class="global-nav-link" href="./join.html">Join</a>
             <a class="global-nav-link" href="./rewards.html">Rewards</a>
             <a class="global-nav-link" href="./wallet.html">Wallet</a>
+            <a class="global-nav-link" href="./wallet-hierarchy.html">Wallet Hierarchy</a>
             <a class="global-nav-link" href="./platinum-shield.html">Platinum Shield</a>
             <a class="global-nav-link" href="./bpow-docs.html">BPoW</a>
             <a class="global-nav-link" href="./inflation-deflation.html">Inflation / Deflation</a>
@@ -140,7 +141,15 @@
               This release aligns the public website and docs bundle with active consensus constants used in the current Atho repository.
             </p>
             <p class="consensus-release-meta">
-              Published April 10, 2026. Scope includes consensus constants, emission simulation references, synchronized documentation updates, PrivateTx v3 references, and wallet hierarchy documentation refresh.
+              Published April 10, 2026. Updated April 15, 2026. Scope includes consensus constants, emission simulation references, synchronized documentation updates, PrivateTx v3 references, and wallet hierarchy documentation refresh.
+            </p>
+            <p>
+              April 15, 2026 distribution update: wallet hierarchy guidance is now published as a branded web page
+              (<code>wallet-hierarchy.html</code>) in addition to PDF delivery, global navigation now links that page,
+              and <code>og-home-preview.jpg</code> was refreshed from the current homepage state for social preview parity.
+            </p>
+            <p>
+              This refresh was intentionally completed ahead of mainnet to improve accessibility for non-expert operators, reduce onboarding friction through Docker-first distribution, and lock public emissions math before production launch.
             </p>
 
             <div class="consensus-compare-grid" aria-label="Previous and current policy summary">
@@ -158,11 +167,11 @@
                 <h4>Current active policy</h4>
                 <p>Current docs and site now match active chain policy constants.</p>
                 <ul class="consensus-mini-list">
-                  <li><strong>Path:</strong> 99,609,375 subsidy + 390,625 bootstrap.</li>
-                  <li><strong>Pre-tail total:</strong> exactly 100,000,000.</li>
-                  <li><strong>Hard max:</strong> 150,000,000 ATHO with subsidy clipping at cap headroom.</li>
+                  <li><strong>Path:</strong> 399,218,750 subsidy + 781,250 bootstrap.</li>
+                  <li><strong>Pre-tail total:</strong> exactly 400,000,000.</li>
+                  <li><strong>Hard max:</strong> 500,000,000 ATHO with subsidy clipping at cap headroom.</li>
                   <li><strong>Supply floor:</strong> 21,000,000 ATHO floor-clipped burn guardrail.</li>
-                  <li><strong>Tail switch:</strong> block <code>8,000,000</code>.</li>
+                  <li><strong>Tail switch:</strong> block <code>17,000,000</code>.</li>
                 </ul>
               </article>
             </div>
@@ -176,8 +185,8 @@
             </div>
 
             <p class="consensus-release-summary">
-              Post-tail subsidy baseline is <code>0.1953125 ATHO</code> per block (<code>51,328.125 ATHO/year</code>) while cap headroom exists, then clips to <code>0</code> at <code>150,000,000 ATHO</code>. Routing is documented as
-              <code>40%/60%</code> pre-tail and <code>55%/45%</code> post-tail (pool/non-pool), and continues after cap because fees do not mint new supply.
+              Post-tail subsidy baseline is <code>0.1953125 ATHO</code> per block (<code>51,328.125 ATHO/year</code>) while cap headroom exists, then clips to <code>0</code> at <code>500,000,000 ATHO</code>. Routing is documented as
+              <code>40%/60%</code> pre-tail and <code>55%/45%</code> post-tail (pool/non-pool), with routed post-tail non-pool share burn-targeted and floor-clipped. Routing continues after cap because fees do not mint new supply.
             </p>
 
             <div class="hero-actions consensus-release-actions">
@@ -216,7 +225,7 @@
       <span>Atho Labs</span>
       <span class="footer-contact">
         <span class="footer-slogan">Atho — Private. Secure. The Platinum Standard of the Quantum Age</span>
-        <span class="footer-updated">Last updated: April 10, 2026</span>
+        <span class="footer-updated">Last updated: April 15, 2026</span>
         <span>
           To report bugs, security issues, or general inquiries:
           <a href="./contact.html">Contact</a>

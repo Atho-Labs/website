@@ -69,6 +69,7 @@
             <a class="global-nav-link" href="./join.html">Join</a>
             <a class="global-nav-link" href="./rewards.html">Rewards</a>
             <a class="global-nav-link" href="./wallet.html">Wallet</a>
+            <a class="global-nav-link" href="./wallet-hierarchy.html">Wallet Hierarchy</a>
             <a class="global-nav-link" href="./platinum-shield.html">Platinum Shield</a>
             <a class="global-nav-link" href="./bpow-docs.html">BPoW</a>
             <a class="global-nav-link" href="./inflation-deflation.html">Inflation / Deflation</a>
@@ -97,6 +98,7 @@
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/keymanager.pdf" download>Download Key Manager Spec</a>
+            <a class="btn btn-primary btn-inline" href="./wallet-hierarchy.html">Open Wallet Hierarchy Web Guide</a>
             <a class="btn btn-primary btn-inline" href="./rewards.html#reward-breakdown">Open Reward Split Math</a>
             <a class="btn btn-primary btn-inline" href="./docs.html#security-docs">Open Security Docs</a>
             <a class="btn btn-primary btn-inline" href="#wallet-private">Open Private Send Flow</a>
@@ -149,7 +151,7 @@
         <p class="section-copy">
           Wallet addresses are generated from Falcon public-key material through deterministic SHA3-384 pathways, then
           encoded in Base56 for human use. Fee policy is calculated by <code>vsize</code> with a floor of
-          <code>350 atoms/vB</code> and minimum transaction fee <code>100,000 atoms</code>.
+          <code>500 atoms/vB</code> and minimum transaction fee <code>200,000 atoms</code>.
         </p>
 
         <div class="feature-grid wallet-address-grid" data-stagger>
@@ -199,21 +201,21 @@
             <h3>Fee-Per-Byte Policy in Wallet Send Flow</h3>
             <p class="panel-copy">
               Wallet send estimation uses virtual size (<code>vsize</code>) policy. Current floor is
-              <code>350 atoms/vB</code> with minimum tx fee <code>100,000 atoms</code> and dust limit
-              <code>250 atoms</code>.
+              <code>500 atoms/vB</code> with minimum tx fee <code>200,000 atoms</code> and dust limit
+              <code>20,000 atoms</code>.
             </p>
             <div class="wallet-fee-meter" aria-hidden="true">
               <div class="wallet-fee-row">
                 <span>Policy Floor</span>
-                <strong>350 atoms/vB</strong>
+                <strong>500 atoms/vB</strong>
               </div>
               <div class="wallet-fee-track"><span class="wallet-fee-fill"></span></div>
               <div class="wallet-fee-row">
                 <span>Minimum Tx Fee</span>
-                <strong>100,000 atoms</strong>
+                <strong>200,000 atoms</strong>
               </div>
             </div>
-            <pre class="join-code"><code>required_fee_atoms = max(350 * vsize, 100000)</code></pre>
+            <pre class="join-code"><code>required_fee_atoms = max(500 * vsize, 200000)</code></pre>
           </article>
         </div>
       </div>
@@ -593,7 +595,7 @@
       <span>Atho Labs</span>
       <span class="footer-contact">
         <span class="footer-slogan">Atho — Private. Secure. The Platinum Standard of the Quantum Age</span>
-        <span class="footer-updated">Last updated: April 10, 2026</span>
+        <span class="footer-updated">Last updated: April 15, 2026</span>
         <span>
           To report bugs, security issues, or general inquiries:
           <a href="./contact.html">Contact</a>

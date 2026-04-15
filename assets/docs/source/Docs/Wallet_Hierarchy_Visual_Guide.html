@@ -282,18 +282,18 @@ x_address = &quot;X&quot; + Base56(x_hash)
 <p><img alt="Private send flow" src="images/wallet_hierarchy/private_send_flow.svg" /></p>
 <h3 id="91-fee-math">9.1 Fee math</h3>
 <p>System policy (current constants):
-- <code>fee_per_vb_atoms = 350</code>
-- <code>min_tx_fee_atoms = 100000</code></p>
+- <code>fee_per_vb_atoms = 500</code>
+- <code>min_tx_fee_atoms = 200000</code></p>
 <p>General formula:</p>
 <pre><code class="language-text">required_fee_atoms = max(vsize * fee_per_vb_atoms, min_tx_fee_atoms)
 </code></pre>
 <p>With <code>1 ATHO = 1,000,000,000 atoms</code>, this means:
-- 350 atoms/vB = 3.5e-7 ATHO/vB.</p>
+- 500 atoms/vB = 5e-7 ATHO/vB.</p>
 <h3 id="92-confirmation-policy-current-constants">9.2 Confirmation policy (current constants)</h3>
 <ul>
-<li>regular tx confirmations required: 3</li>
-<li>private tx confirmations required: 3</li>
-<li>coinbase maturity blocks: 5</li>
+<li>regular tx confirmations required: 10</li>
+<li>private tx confirmations required: 10</li>
+<li>coinbase maturity blocks: 150</li>
 </ul>
 <p>So private notes should be tracked as pending first, then move to spendable when confirmation requirement is met.</p>
 <hr />
@@ -447,16 +447,16 @@ x_address = &quot;X&quot; + Base56(x_hash)
 <p>These values are currently hard-coded in <code>Src/Utility/const.py</code> policy tuning and invariants:</p>
 <ul>
 <li>Atoms per coin: <code>1,000,000,000</code></li>
-<li>Fee floor: <code>350 atoms/vB</code> (<code>3.5e-7 ATHO/vB</code>)</li>
-<li>Min transaction fee: <code>100,000 atoms</code></li>
-<li>Dust limit: <code>250 atoms</code></li>
-<li>Tx confirmations required: <code>3</code></li>
-<li>Private tx confirmations required: <code>3</code></li>
-<li>Coinbase maturity: <code>5</code></li>
+<li>Fee floor: <code>500 atoms/vB</code> (<code>5e-7 ATHO/vB</code>)</li>
+<li>Min transaction fee: <code>200,000 atoms</code></li>
+<li>Dust limit: <code>20,000 atoms</code> (<code>1/10</code> of min tx fee)</li>
+<li>Tx confirmations required: <code>10</code></li>
+<li>Private tx confirmations required: <code>10</code></li>
+<li>Coinbase maturity: <code>150</code></li>
 <li>Min stake: <code>20 ATHO</code></li>
-<li>Max stake per address: <code>500 ATHO</code></li>
-<li>Max network staked total: <code>25,000,000 ATHO</code></li>
-<li>Max new stake rolling 30d: <code>25,000 ATHO</code></li>
+<li>Max stake per address: <code>1,000 ATHO</code></li>
+<li>Max network staked total: <code>75,000,000 ATHO</code></li>
+<li>Max new stake rolling 30d: <code>50,000 ATHO</code></li>
 <li>Stake rolling window blocks: <code>21,600</code></li>
 <li>Stake unbonding delay blocks: <code>129,600</code></li>
 <li>Min mining bond: <code>25 ATHO</code></li>

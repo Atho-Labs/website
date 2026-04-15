@@ -104,27 +104,27 @@ export const metricCards = [
   },
   {
     label: "Bootstrap Budget",
-    value: 390625,
+    value: 781250,
     suffix: " ATHO",
     foot: "Consensus bootstrap allocation at block 1"
   },
   {
     label: "Starting Block Reward",
-    value: 50,
+    value: 100,
     suffix: " ATHO",
-    foot: "Block rewards start at 50 ATHO in Era 1"
+    foot: "Block rewards start at 100 ATHO in Era 1"
   },
   {
     label: "Base Emission Supply",
-    value: 100000000,
+    value: 400000000,
     suffix: " ATHO",
-    foot: "Total pre-tail base: 99,609,375 subsidy + 390,625 bootstrap"
+    foot: "Total pre-tail base: 399,218,750 subsidy + 781,250 bootstrap"
   },
   {
     label: "Max Supply",
-    value: 150000000,
+    value: 500000000,
     suffix: " ATHO",
-    foot: "Hard cap enforced by consensus subsidy clipping at 150,000,000 ATHO"
+    foot: "Hard cap enforced by consensus subsidy clipping at 500,000,000 ATHO"
   },
   {
     label: "Supply Floor",

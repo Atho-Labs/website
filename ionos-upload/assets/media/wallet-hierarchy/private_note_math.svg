@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="840" viewBox="0 0 1600 840" role="img" aria-label="Private note math">
+  <defs>
+    <style>
+      .bg { fill: #0f1117; }
+      .title { fill: #ffffff; font: 700 36px Arial, sans-serif; }
+      .box { fill: #171b26; stroke: #3ae0c3; stroke-width: 2; rx: 16; }
+      .box2 { fill: #1f2f1f; stroke: #72f091; stroke-width: 2; rx: 16; }
+      .h { fill: #9afbe8; font: 700 22px Arial, sans-serif; }
+      .t { fill: #d7e3ff; font: 500 18px Arial, sans-serif; }
+      .small { fill: #a8b8dc; font: 500 16px Arial, sans-serif; }
+      .arrow { stroke: #48f2d0; stroke-width: 3; fill: none; marker-end: url(#m); }
+    </style>
+    <marker id="m" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#48f2d0"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1600" height="840"/>
+  <text class="title" x="60" y="70">Private Note Deterministic Math</text>
+
+  <rect class="box" x="80" y="130" width="1440" height="180"/>
+  <text class="h" x="110" y="175">Master note seed</text>
+  <text class="t" x="110" y="206">master = SHA3-256("atho/private-note-master/v1" || network || falcon_pub || f || g || F || G)</text>
+  <text class="small" x="110" y="238">This binds note stream to one wallet identity and one network.</text>
+
+  <rect class="box" x="80" y="350" width="1440" height="180"/>
+  <text class="h" x="110" y="395">Per-note seed</text>
+  <text class="t" x="110" y="426">note_seed = SHA3-256(domain || network || master || account_u32_le || counter_u64_le)</text>
+  <text class="small" x="110" y="458">Counter guarantees deterministic progression; same wallet path can replay this sequence.</text>
+
+  <rect class="box2" x="80" y="570" width="1440" height="200"/>
+  <text class="h" x="110" y="615">From seed to spendable note</text>
+  <text class="t" x="110" y="646">1) deterministic Falcon note keypair from note_seed</text>
+  <text class="t" x="110" y="674">2) payload encrypted to receiver Kyber key</text>
+  <text class="t" x="110" y="702">3) commitment = hash(note_pubkey, amount, nonce, metadata)</text>
+  <text class="small" x="110" y="732">On spend, nullifier + signature proves ownership and prevents replay/double-spend.</text>
+
+  <path class="arrow" d="M800 310 L800 350"/>
+  <path class="arrow" d="M800 530 L800 570"/>
+</svg>

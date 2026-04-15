@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-label="Private send flow">
+  <defs>
+    <style>
+      .bg { fill: #0f1117; }
+      .title { fill: #ffffff; font: 700 36px Arial, sans-serif; }
+      .node { fill: #171b26; stroke: #32e0c2; stroke-width: 2; rx: 16; }
+      .warn { fill: #3b2a10; stroke: #ffc05a; stroke-width: 2; rx: 16; }
+      .ok { fill: #17331e; stroke: #6af088; stroke-width: 2; rx: 16; }
+      .h { fill: #9afbe8; font: 700 22px Arial, sans-serif; }
+      .t { fill: #d7e3ff; font: 500 18px Arial, sans-serif; }
+      .small { fill: #a8b8dc; font: 500 16px Arial, sans-serif; }
+      .arrow { stroke: #48f2d0; stroke-width: 3; fill: none; marker-end: url(#m); }
+    </style>
+    <marker id="m" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#48f2d0"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1600" height="980"/>
+  <text class="title" x="60" y="70">Private Send Flow (what happens in code)</text>
+
+  <rect class="node" x="80" y="130" width="1440" height="120"/>
+  <text class="h" x="110" y="175">1) Wallet chooses spend source</text>
+  <text class="t" x="110" y="206">If enough confirmed private notes exist, spend private -> private directly.</text>
+  <text class="small" x="110" y="233">If not enough private notes, wallet can shield first: public -> private-self, then private -> recipient.</text>
+
+  <rect class="warn" x="80" y="290" width="1440" height="120"/>
+  <text class="h" x="110" y="335">2) Fee and amount checks happen before broadcast</text>
+  <text class="t" x="110" y="366">fee_atoms = max(vsize * fee_per_vb_atoms, min_tx_fee_atoms)</text>
+  <text class="small" x="110" y="393">No note can spend more than its amount. No negative outputs. No fake amount creation.</text>
+
+  <rect class="node" x="80" y="450" width="700" height="210"/>
+  <text class="h" x="110" y="495">3A) Private input proof material</text>
+  <text class="t" x="110" y="526">- nullifier (one-time spend marker)</text>
+  <text class="t" x="110" y="554">- anchor + merkle path (prove note is in note tree)</text>
+  <text class="t" x="110" y="582">- note signature (prove ownership of note key)</text>
+  <text class="small" x="110" y="615">Mempool and consensus both reject duplicate nullifiers and invalid proofs.</text>
+
+  <rect class="node" x="820" y="450" width="700" height="210"/>
+  <text class="h" x="850" y="495">3B) Private output creation</text>
+  <text class="t" x="850" y="526">- fresh output note pubkey</text>
+  <text class="t" x="850" y="554">- encrypted payload for receiver bundle</text>
+  <text class="t" x="850" y="582">- commitment binds note key + amount + nonce</text>
+  <text class="small" x="850" y="615">Outputs are hidden as commitments; chain does not expose raw private amounts.</text>
+
+  <rect class="ok" x="80" y="700" width="1440" height="200"/>
+  <text class="h" x="110" y="745">4) Consensus validation + state update</text>
+  <text class="t" x="110" y="776">- reject double-spend/nullifier reuse</text>
+  <text class="t" x="110" y="804">- reject malformed private fields or ownership mismatch</text>
+  <text class="t" x="110" y="832">- if valid: mark nullifier spent, insert new notes, enforce confirmations for spendability</text>
+  <text class="small" x="110" y="865">Wallet UI should show pending first, then spendable only after required confirmations.</text>
+
+  <path class="arrow" d="M800 250 L800 290"/>
+  <path class="arrow" d="M800 410 L800 450"/>
+  <path class="arrow" d="M430 660 L430 700"/>
+  <path class="arrow" d="M1170 660 L1170 700"/>
+</svg>

@@ -1,6 +1,6 @@
 # Atho Documentation Index
 
-Date: 2026-04-10
+Date: 2026-04-14
 
 This is the canonical documentation map for the current Atho repository state. Use this file as the first checkpoint before reading topic-specific docs, because it reflects the active production policy profile and the most recent rewrite pass.
 
@@ -16,8 +16,8 @@ Current baseline profile referenced across docs:
 - target block time `120s`,
 - difficulty retarget interval `180` blocks,
 - tx confirmations `10`, private tx confirmations `10`, coinbase maturity `150`,
-- fee floor `350 atoms/vB`, minimum fee `100,000 atoms`,
-- pre-tail base target `100,000,000 ATHO`, hard max `150,000,000 ATHO`, supply floor `21,000,000 ATHO`,
+- fee floor `500 atoms/vB`, minimum fee `200,000 atoms`,
+- pre-tail base target `400,000,000 ATHO`, hard max `500,000,000 ATHO`, supply floor `21,000,000 ATHO`,
 - BPoW bond requirement `25 ATHO` with activation at `25` confirmations,
 - fee pool routing pre-tail/post-tail `40% / 55%`.
 
@@ -25,10 +25,11 @@ Current baseline profile referenced across docs:
 
 If you are new to the repository, read in this order:
 1. [quickstart.md](quickstart.md): environment setup, native binaries, first node launch.
-2. [Binaries.md](Binaries.md): binary build outputs, pin metadata, strict loading controls.
-3. [Troubleshooting.md](Troubleshooting.md): common failures and known fixes.
-4. [Consensus.md](Consensus.md): block validity, policy constants, deterministic checks.
-5. [Tx.md](Tx.md): tx encoding, fee rules, witness-size behavior.
+2. [build-prereqs.md](build-prereqs.md): exact OS package prerequisites + one-click Docker-first setup path.
+3. [Binaries.md](Binaries.md): binary build outputs, pin metadata, strict loading controls.
+4. [Troubleshooting.md](Troubleshooting.md): common failures and known fixes.
+5. [Consensus.md](Consensus.md): block validity, policy constants, deterministic checks.
+6. [Tx.md](Tx.md): tx encoding, fee rules, witness-size behavior.
 
 This sequence minimizes confusion by placing runtime prerequisites before protocol detail.
 
@@ -67,7 +68,7 @@ Operational docs for day-to-day deployment and support:
 - [Base56.md](Base56.md)
 - [GPU_Miner.md](GPU_Miner.md)
 - [Docker.md](Docker.md)
-- [dockertest.md](dockertest.md)
+- [build-prereqs.md](build-prereqs.md)
 - [Packaging.md](Packaging.md)
 - [Node_Stop.md](Node_Stop.md)
 - [gui.md](gui.md)
@@ -109,7 +110,7 @@ When adding a new doc:
 
 ## Reader Guidance by Role
 
-- Operators: prioritize `quickstart`, `Binaries`, `Network_Stack`, `LMDB`, and `Troubleshooting`.
+- Operators: prioritize `quickstart`, `build-prereqs`, `Binaries`, `Network_Stack`, `LMDB`, and `Troubleshooting`.
 - Wallet/API integrators: prioritize `Tx`, `ApiAuth`, `Wallet_Hierarchy_Visual_Guide`, `KeyManager`.
 - Security reviewers: prioritize `WhitePaper`, `Consensus`, `Threat`, `Transaction_Security_Audit_FAQ`, and `SRC_FILE_MAP`.
 - Economic reviewers: prioritize `Atho_Final_Specs`, `Emissions`, `Inflation_Deflationary`, and `Emissions Modeling/Entire_Overview.md`.

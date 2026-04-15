@@ -4,7 +4,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
+<< /Type /Pages /Count 2 /Kids [4 0 R 6 0 R] >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Courier >>
@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2453 >>
+<< /Length 2005 >>
 stream
 BT
 /F1 10 Tf
@@ -23,77 +23,43 @@ BT
 T*
 () Tj
 T*
-(Last refresh: 2026-04-04.) Tj
+(Last refresh: 2026-04-14.) Tj
 T*
 () Tj
 T*
-(This guide walks through building and running Atho nodes with Docker/Compose on Linux, macOS,) Tj
+(Docker in Atho is now build/bootstrap only.) Tj
 T*
-(and Windows \(Docker Desktop\). It also shows how to run multiple nodes without port conflicts and) Tj
+(Runtime is native on host.) Tj
 T*
-(how to use the CLI container.) Tj
+() Tj
+T*
+(Model) Tj
+T*
+(- Docker builds pinned binaries and bootstrap metadata in a reproducible Linux toolchain.) Tj
+T*
+(- Launcher exports those artifacts to local folders.) Tj
+T*
+(- Node/miner/wallet/gui processes are launched natively \(not in containers\).) Tj
 T*
 () Tj
 T*
 (Prereqs) Tj
 T*
-(- Install Docker \(Docker Desktop on macOS/Windows; Docker Engine on Linux\).) Tj
+(- Docker Desktop \(macOS/Windows\) or Docker Engine \(Linux\).) Tj
 T*
-(- Optional: docker-compose v1/v2 \(Compose v2 is built into recent Docker Desktop\).) Tj
+(- Host Python environment for runtime \(.venv is managed by launcher unless --skip-pip\).) Tj
 T*
-() Tj
-T*
-(What?s in the repo) Tj
-T*
-(- docker/Dockerfile: builds a Python 3.11 image, installs deps, builds falcon_cli, and runs) Tj
-T*
-(Src/Node/fullnode.py by default.) Tj
-T*
-(- docker/docker-entrypoint.sh: simple entrypoint wrapper.) Tj
-T*
-(- docker/docker-compose.yml: services fullnode, miner, miner2, optional fullnode2, and cli. P2P) Tj
-T*
-(is fixed to 56000 in-container; host ports are distinct \(56000/56001/56002/56003\). Miner APIs) Tj
-T*
-(use randomized host ports \(still 10200/10250 in-container\) to avoid conflicts.) Tj
-T*
-(- Bootstrap defaults: fullnode sets ATHO_BOOTSTRAP="" \(no external seed\); miners bootstrap to) Tj
-T*
-(fullnode:56000 on the compose network.) Tj
-T*
-(- P2P bootstrap seeds are now **env-only** \(ATHO_BOOTSTRAP as comma-separated host:port\); no) Tj
-T*
-(hardcoded seeds.) Tj
+(- Full OS package matrix \(including host-native fallback tools\): build-prereqs.md) Tj
 T*
 () Tj
 T*
-(Quick start \(full node + miners + CLI, internal networking\)) Tj
+(One-Command Usage) Tj
+T*
+(From repo root:) Tj
 T*
 () Tj
 T*
-() Tj
-T*
-(This builds the image and starts:) Tj
-T*
-(- fullnode: P2P 56000 and API 10100 inside the compose network.) Tj
-T*
-(- miner: P2P 56000 \(host bind 56001\) and API 10200 in-container \(host port randomized\);) Tj
-T*
-(bootstraps to fullnode:56000.) Tj
-T*
-(- miner2: P2P 56000 \(host bind 56003\) and API 10250 in-container \(host port randomized\);) Tj
-T*
-(bootstraps to fullnode:56000.) Tj
-T*
-(- cli: interactive CLI pointing at http://fullnode:10100.) Tj
-T*
-() Tj
-T*
-(Stop: docker compose -f docker/docker-compose.yml -f docker/docker-compose.override.yml down) Tj
-T*
-() Tj
-T*
-(Run just a full node \(no miner/cli\)) Tj
+(Option 1 \(recommended\):) Tj
 T*
 () Tj
 T*
@@ -101,9 +67,7 @@ T*
 T*
 () Tj
 T*
-(Run just a miner \(no full/cli\)) Tj
-T*
-(Be sure there?s a peer to bootstrap to \(in this repo the compose default is fullnode:56000\):) Tj
+(Windows PowerShell equivalent:) Tj
 T*
 () Tj
 T*
@@ -111,7 +75,7 @@ T*
 T*
 () Tj
 T*
-(Run both nodes \(no cli\)) Tj
+(Option 2 \(power users\):) Tj
 T*
 () Tj
 T*
@@ -119,9 +83,45 @@ T*
 T*
 () Tj
 T*
-(Accessing the CLI) Tj
+(What happens:) Tj
 T*
-(If the CLI container exits \(after a session\), rerun it:) Tj
+(- run.py launches GUI natively.) Tj
+T*
+(- If GUI dependencies are missing on the current interpreter, run.py runs build.py once and) Tj
+T*
+(relaunches GUI from .venv.) Tj
+T*
+(- GUI checks runtime readiness \(runtime/build_manifest_<network>.json + required binaries/libs\).) Tj
+T*
+(- If missing, GUI invokes build.py.) Tj
+T*
+(- build.py runs Docker preflight checks \(binary + daemon\), then calls Docker builder flow) Tj
+T*
+(\(docker/run.py --mode builder\), exports artifacts, validates output, writes) Tj
+T*
+(runtime/build_manifest_<network>.json.) Tj
+T*
+(- If selected network binaries are already present, build.py skips Docker rebuild and only) Tj
+T*
+(finalizes runtime metadata.) Tj
+T*
+(- GUI continues with native runtime controls and opens first-run Setup Assistant \(wallet +) Tj
+T*
+(encryption + node profile\).) Tj
+T*
+() Tj
+T*
+(Useful Flags) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Artifacts and Paths) Tj
+T*
+(- Docker export root: runtime/docker_bootstrap/) Tj
 T*
 ET
 endstream
@@ -130,188 +130,69 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 2822 >>
+<< /Length 1367 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-() Tj
+(- Export manifest: runtime/docker_bootstrap/bootstrap_manifest.json) Tj
+T*
+(- In-image metadata: runtime/docker_bootstrap/image/docker_bootstrap/build_manifest.json) Tj
+T*
+(- Binary destination \(network-scoped\): Binaries/<network>/) Tj
+T*
+(- Runtime-ready marker: runtime/build_manifest_<network>.json \(legacy) Tj
+T*
+(runtime/build_manifest.json kept for compatibility\)) Tj
 T*
 () Tj
 T*
-() Tj
+(Runtime Notes) Tj
 T*
-(Running multiple nodes \(no host port conflicts\)) Tj
+(- Storage/key/log directories are managed by native runtime logic.) Tj
 T*
-(Use the built-in services; they run on internal ports \(P2P 56000, APIs 10100/10200/10250\) with) Tj
+(- Docker no longer starts/stops node containers and no longer manages compose stacks.) Tj
 T*
-(separate volumes. For more nodes, duplicate a service with a new name and distinct volumes.) Tj
-T*
-(Example addition:) Tj
-T*
-() Tj
-T*
-() Tj
-T*
-(Now run docker compose -f docker/docker-compose.yml -f docker/docker-compose.override.yml up) Tj
-T*
-(--build and both nodes run on internal ports \(56000/10100/10300\). CLI can target either by) Tj
-T*
-(setting ATHO_API_URL to http://fullnode:10100 or http://fullnode2:10300.) Tj
-T*
-() Tj
-T*
-(Exposing ports to the host \(optional\)) Tj
-T*
-(If you want to reach a node from the host, add ports: with unique host mappings:) Tj
-T*
-() Tj
-T*
-() Tj
-T*
-(Use different host ports per node \(e.g., 56001/10101, 56002/10102, etc.\). Then set CLI) Tj
-T*
-(ATHO_API_URL to http://localhost:10101 for that node.) Tj
-T*
-() Tj
-T*
-(Running the image manually \(without compose\)) Tj
-T*
-() Tj
-T*
-() Tj
-T*
-() Tj
-T*
-(Configuring CLI target) Tj
-T*
-(- Internal compose network: ATHO_API_URL=http://fullnode:10100 \(default in CLI service\).) Tj
-T*
-(- Host-mapped ports: set ATHO_API_URL=http://localhost:<host_api_port> when running cliui.py.) Tj
-T*
-(- External bootstrap: set ATHO_BOOTSTRAP=<seed_ip>:56000 so docker nodes sync to your host/seed.) Tj
-T*
-(Use ATHO_RESET_PEERS=1 to clear stale peers on startup.) Tj
-T*
-() Tj
-T*
-(Performance-related knobs \(containers\)) Tj
-T*
-(- PoW worker scaling:) Tj
-T*
-(- POW_MULTIPROCESS_ENABLED \(default on\)) Tj
-T*
-(- POW_WORKER_CORES \(requested core count; runtime-capped to available CPUs\)) Tj
-T*
-(- POW_WORKER_NONCE_CHUNK \(worker batch size\)) Tj
-T*
-(- POW_PROGRESS_INTERVAL_SEC \(progress print interval\)) Tj
-T*
-(- Network/API scan controls:) Tj
-T*
-(- ATHO_MAX_MESSAGE_SIZE \(P2P message cap; defaults to consensus block-size ceiling\)) Tj
-T*
-(- API history/recent/balance caps are constant-driven and already bounded.) Tj
-T*
-() Tj
-T*
-(Security notes \(even for testnets\)) Tj
-T*
-(- API key + user/pass auth is required by default. If you expose APIs without TLS/HMAC,) Tj
-T*
-(credentials and payloads can still be intercepted/replayed. Set ATHO_API_HMAC=true and run) Tj
-T*
-(behind TLS/reverse proxy when publishing ports.) Tj
-T*
-(- P2P is plaintext/unauthenticated by design; firewall appropriately if exposed.) Tj
-T*
-(- Keys/LMDB data are stored on host volumes \(blockchain_storage, Keys, Logs\); they are) Tj
-T*
-(unencrypted. Use permissions and avoid sharing volumes across nodes unless intentional.) Tj
-T*
-(- Falcon CLI pinning is strict on mainnet/testnet; keep) Tj
-T*
-(Constants.FALCONCLI_PINNED_VERSION_DIGESTS current for the active consensus version before) Tj
-T*
-(deployment.) Tj
-T*
-() Tj
-T*
-(Platform notes) Tj
-T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 1615 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
-(- macOS/Windows: use Docker Desktop; commands are the same. Host volume paths may differ \(%cd%) Tj
-T*
-(or absolute paths\).) Tj
-T*
-(- ARM hosts: AVX2 is opt-in \(FALCON_USE_AVX2=true\). Keep the default \(false\) on ARM/older CPUs,) Tj
-T*
-(or provide a known-good prebuilt binary.) Tj
+(- Closing GUI stops native nodes by default \(ATHO_STOP_ON_GUI_EXIT=0 to keep running\).) Tj
 T*
 () Tj
 T*
 (Troubleshooting) Tj
 T*
-(- Port in use: adjust host mappings in ports: or remove them to keep services internal.) Tj
+(- docker not found: install Docker Desktop/Engine and restart terminal.) Tj
 T*
-(- falcon_cli build fails: ensure build-essential/clang is present \(installed in Dockerfile\); if) Tj
+(- docker daemon unavailable: open Docker Desktop \(or start Docker Engine service\) and wait until) Tj
 T*
-(AVX2 was enabled on an unsupported CPU, rebuild with FALCON_USE_AVX2=false.) Tj
+(engine status is healthy.) Tj
 T*
-(- Map full errors: ensure the mounted volume has free space and raise the relevant LMDB size) Tj
+(- no cached Docker builder image with --no-build: rerun without --no-build once.) Tj
 T*
-(ceiling if a store reaches its configured max; bounded AUTO_RESIZE_LMDB growth is already) Tj
+(- GUI bootstrap popup failed: run python build.py --network <mainnet|testnet|regnet> in terminal) Tj
 T*
-(supported and enabled in current code.) Tj
+(to inspect direct output.) Tj
 T*
-(- CLI can?t connect: check NodePorts.json and ATHO_API_URL; ensure correct host/port mapping if) Tj
+(- If native runtime fails after bootstrap, inspect local logs and run:) Tj
 T*
-(accessing from host.) Tj
+(- python Src/Main/runnode.py) Tj
 T*
-(- Miner not starting: ensure you?re running the miner service \(docker compose up miner\) and that) Tj
-T*
-(it can reach a bootstrap peer \(defaults to fullnode:56000 in compose\).) Tj
-T*
-(- Miner not starting: ensure you?re running the miner service \(docker compose -f) Tj
-T*
-(docker/docker-compose.yml -f docker/docker-compose.override.yml up miner\) and that it can reach) Tj
-T*
-(a bootstrap peer \(defaults to fullnode:56000 in compose\).) Tj
-T*
-(- Hashrate telemetry check: query /network/hashrate/live on your API port to verify local and) Tj
-T*
-(peer reports are being aggregated.) Tj
+(- python Src/Main/stop.py --all --include-launcher) Tj
 T*
 ET
 endstream
 endobj
 xref
-0 10
+0 8
 0000000000 65535 f 
 0000000015 00000 n 
 0000000064 00000 n 
-0000000133 00000 n 
-0000000201 00000 n 
-0000000327 00000 n 
-0000002832 00000 n 
-0000002958 00000 n 
-0000005832 00000 n 
-0000005958 00000 n 
+0000000127 00000 n 
+0000000195 00000 n 
+0000000321 00000 n 
+0000002378 00000 n 
+0000002504 00000 n 
 trailer
-<< /Size 10 /Root 1 0 R >>
+<< /Size 8 /Root 1 0 R >>
 startxref
-7625
+3923
 %%EOF

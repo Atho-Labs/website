@@ -4781,9 +4781,9 @@ T*
 T*
 (using the hard-coded emission schedule.) Tj
 T*
-(- BASE_SUPPLY\(\) ? Exact pre-tail base target from the hard-coded emission schedule \(100,000,000) Tj
+(- BASE_SUPPLY\(\) ? Exact pre-tail base target from the hard-coded emission schedule \(400,000,000) Tj
 T*
-(ATHO total, including 390,625 ATHO bootstrap at block 1\).) Tj
+(ATHO total, including 781,250 ATHO bootstrap at block 1\).) Tj
 T*
 (- BASE_SUPPLY_ATOMS\(\) ? Exact pre-tail base target in atomic units for consensus math.) Tj
 T*

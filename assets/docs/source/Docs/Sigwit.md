@@ -26,8 +26,8 @@ Interpretation:
 - fee policy and packing policy are both driven by `vsize`.
 
 Current fee baseline tied to `vsize`:
-- fee floor `350 atoms/vB`,
-- minimum fee `100,000 atoms`.
+- fee floor `500 atoms/vB`,
+- minimum fee `200,000 atoms`.
 
 ## 3) Base vs Witness Counting Rules
 
@@ -108,7 +108,7 @@ Sizing assumptions in this doc align with active policy:
 - retarget `180` blocks,
 - tx confirmations `10`, private tx confirmations `10`,
 - coinbase maturity `150` blocks,
-- fee floor `350 atoms/vB`.
+- fee floor `500 atoms/vB`.
 
 These values are not part of `vsize` math directly, but they define transaction lifecycle and fee policy behavior around it.
 

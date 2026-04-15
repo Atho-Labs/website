@@ -1,6 +1,6 @@
 # Atho Consensus (Current)
 
-Date: 2026-04-05
+Date: 2026-04-14
 
 This document defines active consensus-enforced behavior for blocks, transactions, fee routing, and BPoW state transitions.
 
@@ -13,11 +13,11 @@ From `Src/Utility/const.py`:
 - Max block base bytes: `3,500,000`
 - Max block weight: `14,000,000`
 - Max tx policy size (`vsize`): `250,000`
-- Fee floor: `350 atoms` per policy byte (`vsize`)
-- Min tx fee: `100,000 atoms`
-- Dust limit: `250 atoms`
-- Pre-tail base supply target: `100,000,000 ATHO`
-- Hard max supply cap: `150,000,000 ATHO`
+- Fee floor: `500 atoms` per policy byte (`vsize`)
+- Min tx fee: `200,000 atoms`
+- Dust limit: `20,000 atoms` (`1/10` of min tx fee)
+- Pre-tail base supply target: `400,000,000 ATHO`
+- Hard max supply cap: `500,000,000 ATHO`
 - Supply floor: `21,000,000 ATHO`
 
 ## 2) BPoW and Stake Constants
@@ -28,11 +28,11 @@ From `Src/Utility/const.py`:
 - Slash penalty: `2.5 ATHO`
 - Epoch length: `720` blocks
 - Finalization buffer: `3,600` blocks
-- Bootstrap allocation: `390,625 ATHO` at block `1`
+- Bootstrap allocation: `781,250 ATHO` at block `1`
 - Stake minimum: `20 ATHO`
-- Stake max per address: `500 ATHO`
-- Stake max new entry (rolling 30 days, network-wide): `25,000 ATHO`
-- Stake max total locked (network-wide): `25,000,000 ATHO`
+- Stake max per address: `1,000 ATHO`
+- Stake max new entry (rolling window, network-wide): `50,000 ATHO` over `21,600` blocks
+- Stake max total locked (network-wide): `75,000,000 ATHO`
 - Stake unbond delay: `129,600` blocks (`180 days`)
 - Stake rewards stop on unstake request: `true`
 
@@ -61,8 +61,8 @@ Both are enforced by deterministic height and confirmation checks. No state tran
 ## 3) Fee Routing and Pool Rules
 - Fee uplift policy: `+25%`
 - Fee pool routing:
-  - pre-tail (`height < 8,000,000`): `40%` of total fees (`20%` miner-side, `20%` stake-side),
-  - post-tail (`height >= 8,000,000`): `55%` of total fees (`25%` miner-side, `30%` stake-side).
+  - pre-tail (`height < 17,000,000`): `40%` of total fees (`20%` miner-side, `20%` stake-side),
+  - post-tail (`height >= 17,000,000`): `55%` of total fees (`25%` miner-side, `30%` stake-side).
 - Miner-side split:
   - pre-tail: `0%` winner-proportional, `20%` bonded-idle split (of total fees),
   - post-tail: `20%` winner-proportional, `5%` bonded-idle split (of total fees).
@@ -146,7 +146,7 @@ Without this rebind step, block merkle roots can drift from canonical tx content
 - Coinbase payout must match:
   - block subsidy +
   - miner-routed fee share for that height.
-- Hard-cap invariant: `total_supply <= 150,000,000 ATHO`.
+- Hard-cap invariant: `total_supply <= 500,000,000 ATHO`.
 - Subsidy path is clipped at coinbase so when cap headroom is exhausted:
   - block subsidy becomes `0`,
   - fee routing/burn/pool logic remains unchanged.

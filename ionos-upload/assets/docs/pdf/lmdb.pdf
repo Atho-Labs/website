@@ -238,7 +238,7 @@ T*
 T*
 (- tx confirmations 10, private tx confirmations 10, coinbase maturity 150,) Tj
 T*
-(- fee floor 350 atoms/vB,) Tj
+(- fee floor 500 atoms/vB,) Tj
 T*
 ET
 endstream
@@ -247,13 +247,13 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 261 >>
+<< /Length 262 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(- tail start 8,000,000, supply floor 21,000,000 ATHO.) Tj
+(- tail start 17,000,000, supply floor 21,000,000 ATHO.) Tj
 T*
 () Tj
 T*
@@ -279,5 +279,5 @@ xref
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-6157
+6158
 %%EOF

@@ -56,8 +56,8 @@ A whitepaper is only technically useful if it captures the active baseline. The 
 | Standard tx confirmations | `10` |
 | Private tx confirmations | `10` |
 | Coinbase maturity | `150` |
-| Fee floor | `350 atoms/vB` |
-| Minimum transaction fee | `100000 atoms` |
+| Fee floor | `500 atoms/vB` |
+| Minimum transaction fee | `200000 atoms` |
 | Private Merkle depth | `20` |
 | Max private anchor age | `10000 blocks` |
 | Private payload (v4/v5/max) | `860/868/905 bytes` |
@@ -66,12 +66,12 @@ A whitepaper is only technically useful if it captures the active baseline. The 
 | Falcon private note public key size | `897 bytes` |
 | BPoW bond requirement | `25 ATHO` |
 | BPoW bond activation confirmations | `25` |
-| Tail start height | `8,000,000` |
+| Tail start height | `17,000,000` |
 | Tail reward | `0.1953125 ATHO/block` |
 | Fee pool routing pre/post tail | `40% / 55%` |
 | Post-tail fee pool miner/stake buckets | `25% / 30%` |
-| Base supply target | `100,000,000 ATHO` |
-| Hard max supply | `150,000,000 ATHO` |
+| Base supply target | `400,000,000 ATHO` |
+| Hard max supply | `500,000,000 ATHO` |
 
 Under this baseline, the private layer assumes a `120`-second cadence, `10` private confirmations for practical finality interpretation, and `10000` blocks for anchor recency checks. The current annual tail issuance implied by active constants is approximately `51,328.125 ATHO/year` before fee burn and pool routing effects. These values directly shape how private throughput, fee floors, and long-run scarcity are interpreted by technical and non-technical stakeholders.
 
@@ -261,7 +261,7 @@ Resource budgeting includes CPU time for cryptographic checks, memory for pendin
 
 PrivateTx v3 does not redefine Atho's monetary policy; it operates inside existing issuance, fee-floor, burn, and pool-routing rules. The private layer changes transaction cost structure and throughput mix, which in turn influences practical utilization and fee-flow dynamics, but it does not alter hard-cap logic or supply-floor controls. This distinction is crucial for investor communication: privacy mechanics affect operational economics and network usage composition, while consensus monetary bounds remain governed by constants and burn logic in the core system[^15].
 
-Current production policy implies a tail reward of approximately `0.1953125 ATHO/block`, fee floor `350` atoms/vB, and post-tail fee-pool routing of `55`%. Under heavy private usage, per-transaction byte footprint increases and throughput decreases, which can increase fee competition without changing underlying issuance formulas. Whitepaper readers should therefore interpret private economics as a utilization-and-cost profile issue, not a cap-change issue. The interaction is material for planning but bounded by deterministic monetary controls.
+Current production policy implies a tail reward of approximately `0.1953125 ATHO/block`, fee floor `500` atoms/vB, and post-tail fee-pool routing of `55`%. Under heavy private usage, per-transaction byte footprint increases and throughput decreases, which can increase fee competition without changing underlying issuance formulas. Whitepaper readers should therefore interpret private economics as a utilization-and-cost profile issue, not a cap-change issue. The interaction is material for planning but bounded by deterministic monetary controls.
 
 ## 14. Deployment Controls and Runtime Integrity
 

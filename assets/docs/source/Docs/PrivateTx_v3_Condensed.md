@@ -59,7 +59,7 @@ PrivateTx v3 does not change Atho's fixed monetary boundaries. Hard cap, base ta
 
 What PrivateTx does change is transaction composition. Private transfers are byte-heavier and compute-heavier than standard public transfers. As private usage increases, throughput and fee dynamics can shift. That can be positive for network fee generation but requires realistic capacity expectations. The network's economic story therefore combines bounded issuance with variable utilization economics.
 
-Current production values remain explicit: fee floor `350 atoms/vB`, minimum tx fee `100000 atoms`, private confirmations `10`, and post-tail fee-pool routing `55`%. These fixed values provide a concrete baseline for evaluating economic sensitivity in different adoption scenarios.
+Current production values remain explicit: fee floor `500 atoms/vB`, minimum tx fee `200000 atoms`, private confirmations `10`, and post-tail fee-pool routing `55`%. These fixed values provide a concrete baseline for evaluating economic sensitivity in different adoption scenarios.
 
 ## 6. Performance and User Expectations
 

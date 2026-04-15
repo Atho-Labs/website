@@ -238,7 +238,7 @@ T*
 T*
 (Fee floor in production policy:) Tj
 T*
-(- required_fee = max\(vsize * 350 atoms, 100,000 atoms\)) Tj
+(- required_fee = max\(vsize * 500 atoms, 200,000 atoms\)) Tj
 T*
 ET
 endstream

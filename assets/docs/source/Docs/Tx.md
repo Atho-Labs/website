@@ -16,8 +16,8 @@ Atho uses SegWit-style policy metrics:
 - transaction size policy limits.
 
 Active policy constants:
-- fee floor: `350 atoms/vB`
-- minimum tx fee: `100,000 atoms`
+- fee floor: `500 atoms/vB`
+- minimum tx fee: `200,000 atoms`
 - tx confirmations required for regular spend visibility: `10`
 
 ## 2) Binary Transport Codec

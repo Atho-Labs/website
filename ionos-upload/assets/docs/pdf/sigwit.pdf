@@ -77,9 +77,9 @@ T*
 T*
 (Current fee baseline tied to vsize:) Tj
 T*
-(- fee floor 350 atoms/vB,) Tj
+(- fee floor 500 atoms/vB,) Tj
 T*
-(- minimum fee 100,000 atoms.) Tj
+(- minimum fee 200,000 atoms.) Tj
 T*
 (- Base vs Witness Counting Rules) Tj
 T*
@@ -261,7 +261,7 @@ T*
 T*
 (- coinbase maturity 150 blocks,) Tj
 T*
-(- fee floor 350 atoms/vB.) Tj
+(- fee floor 500 atoms/vB.) Tj
 T*
 () Tj
 T*

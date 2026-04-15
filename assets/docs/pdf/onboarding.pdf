@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2122 >>
+<< /Length 2468 >>
 stream
 BT
 /F1 10 Tf
@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Last refresh: 2026-04-04.) Tj
+(Last refresh: 2026-04-15.) Tj
 T*
 () Tj
 T*
@@ -39,7 +39,7 @@ T*
 T*
 (- Python 3.9+) Tj
 T*
-(- Docker Desktop \(optional, for multi-node testing\)) Tj
+(- Docker Desktop/Engine \(required for recommended first-run bootstrap path\)) Tj
 T*
 (- macOS/Linux/WSL recommended) Tj
 T*
@@ -49,13 +49,53 @@ T*
 T*
 (- Docs/ ? protocol and component docs) Tj
 T*
-(- docker/docker-compose.yml ? Docker services \(fullnode/miner/etc.\)) Tj
+(- docker/Dockerfile ? reproducible Docker build toolchain for pinned binaries/bootstrap metadata) Tj
 T*
 (- Src/Main/runnode.py ? local launcher for full/miner/wallet nodes) Tj
 T*
 (- logs/ ? runtime logs \(ignored in onboarding\)) Tj
 T*
-(- Local setup \(venv\)) Tj
+(- Option 1 \(Recommended\): Docker-first one-click bootstrap) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Behavior:) Tj
+T*
+(- This is the first-path onboarding flow \(minimum hassle\).) Tj
+T*
+(- GUI launches first.) Tj
+T*
+(- If runtime/binaries are missing, GUI auto-runs build.py.) Tj
+T*
+(- build.py uses Docker once for first setup \(builder/export only\), then runtime stays native.) Tj
+T*
+(- If binaries already exist for the selected network/platform, bootstrap skips Docker rebuild.) Tj
+T*
+(- GUI opens Setup Assistant \(wallet, encryption, node profile\).) Tj
+T*
+(- Option 2 \(Power users\): manual build + run) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Common first errors \(Docker + manual\):) Tj
+T*
+(- docker: command not found -> install Docker Desktop/Engine and restart shell.) Tj
+T*
+(- Docker daemon not running -> start Docker service/app, then rerun bootstrap.) Tj
+T*
+(- Venv activation/package mismatch -> remove .venv, recreate, and reinstall requirements.txt.) Tj
+T*
+(- API 401/403 failures -> regenerate credentials via Src/Api/auth.py.) Tj
+T*
+(- Manual build toolchain missing -> install host prerequisites from build-prereqs.md.) Tj
 T*
 (- Local run \(single machine\)) Tj
 T*
@@ -69,22 +109,33 @@ T*
 T*
 (1 = Full node, 2 = Miner, 3 = Wallet/API, 4 = All.) Tj
 T*
-(- Docker run \(multi?node test\)) Tj
+(- Docker bootstrap build \(native runtime\)) Tj
 T*
-(Start full node in one terminal:) Tj
-T*
-() Tj
+(Use Docker only for deterministic build/bootstrap:) Tj
 T*
 () Tj
 T*
 () Tj
 T*
-(Start miner in another terminal:) Tj
+(Then launch GUI \(which also auto-checks runtime readiness\):) Tj
 T*
 (- Logs to watch) Tj
 T*
 () Tj
 T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2361 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 () Tj
 T*
 () Tj
@@ -101,7 +152,7 @@ T*
 T*
 (- Common env knobs) Tj
 T*
-(Set per shell \(or docker-compose override\):) Tj
+(Set per shell:) Tj
 T*
 (- ATHO_P2P_PORT ? P2P TCP port) Tj
 T*
@@ -117,25 +168,12 @@ T*
 T*
 () Tj
 T*
-(6.1\) Wallet/key model \(current\)) Tj
+(7.1\) Wallet/key model \(current\)) Tj
 T*
 (- Key generation is mnemonic-first \(atho-mnemonic-v1\) with default **24 words**.) Tj
 T*
 (- Supported phrase lengths: **12 / 24 / 48**.) Tj
 T*
-ET
-endstream
-endobj
-6 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
-endobj
-7 0 obj
-<< /Length 2475 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- Mnemonic restore is deterministic by phrase + passphrase + path \(network/account/role/index\).) Tj
 T*
 (- Wallet APIs now include:) Tj
@@ -202,6 +240,19 @@ T*
 T*
 (- Vendored Kyber KEM implementation and wrappers used by wallet lockbox workflows.) Tj
 T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1981 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- Src/GUI/) Tj
 T*
 (- Desktop GUI, CLI UI, Web Explorer \(web_explorer.html\), and local explorer bridge server.) Tj
@@ -240,19 +291,6 @@ T*
 T*
 (- Node/* starts services ? initializes Storage/*, Blockchain/*, Transactions/*.) Tj
 T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 1021 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- Network/* handles P2P, peers, sync ? feeds blocks/tx into Blockchain/* + Transactions/*.) Tj
 T*
 (- Miner/* builds candidates ? validates via Blockchain/* + Transactions/*.) Tj
@@ -283,7 +321,7 @@ T*
 T*
 (- Read: Consensus.md, Tx.md, Sigwit.md) Tj
 T*
-(- Run: local full + miner, then Docker full + miner, compare tip heights.) Tj
+(- Run: local full + miner, then Docker bootstrap + native launch, compare tip heights.) Tj
 T*
 (- Keep the documentation index open while you work.) Tj
 T*
@@ -298,12 +336,12 @@ xref
 0000000133 00000 n 
 0000000201 00000 n 
 0000000327 00000 n 
-0000002501 00000 n 
-0000002627 00000 n 
-0000005154 00000 n 
-0000005280 00000 n 
+0000002847 00000 n 
+0000002973 00000 n 
+0000005386 00000 n 
+0000005512 00000 n 
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-6353
+7545
 %%EOF

@@ -94,7 +94,7 @@ Policy model:
 - `vsize = ceil(weight / 4)`
 
 Fee floor in production policy:
-- `required_fee = max(vsize * 350 atoms, 100,000 atoms)`
+- `required_fee = max(vsize * 500 atoms, 200,000 atoms)`
 
 Measured empirical `vsize` from current serializer/metrics path:
 - public `1 in / 2 out`: `553 vB`

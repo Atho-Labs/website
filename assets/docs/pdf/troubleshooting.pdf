@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 3056 >>
+<< /Length 2918 >>
 stream
 BT
 /F1 10 Tf
@@ -23,13 +23,19 @@ BT
 T*
 () Tj
 T*
-(Last refresh: 2026-04-04.) Tj
+(Last refresh: 2026-04-14.) Tj
 T*
 () Tj
 T*
 (This guide collects common issues and fixes by area \(network/P2P, APIs/auth, storage/LMDB,) Tj
 T*
 (mining, Docker, build/tooling\).) Tj
+T*
+() Tj
+T*
+(Canonical prerequisite matrix:) Tj
+T*
+(- Docs/build-prereqs.md) Tj
 T*
 () Tj
 T*
@@ -63,7 +69,9 @@ T*
 T*
 (- Fix:) Tj
 T*
-(- follow compile sections in README.md and Docs/quickstart.md) Tj
+(- follow Docs/build-prereqs.md first \(OS package matrix + one-click launcher path\)) Tj
+T*
+(- then follow compile sections in README.md and Docs/quickstart.md) Tj
 T*
 (- register Falcon binary:) Tj
 T*
@@ -115,6 +123,19 @@ T*
 T*
 (- **Port in use:** Pick a free P2P/API port \(ATHO_P2P_PORT, ATHO_FULLNODE_API_PORT,) Tj
 T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 3626 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (ATHO_MINERNODE_API_PORT\) or let runnode.py auto-assign. On Docker, avoid binding API ports if) Tj
 T*
 (they conflict; use random host ports.) Tj
@@ -123,19 +144,6 @@ T*
 T*
 (network; if a node lags, clear its storage/peers and resync.) Tj
 T*
-ET
-endstream
-endobj
-6 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
-endobj
-7 0 obj
-<< /Length 3539 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- **Repeated sync_headers_ok but no progress:** The serving peer may be on a short fork or) Tj
 T*
 (serving invalid blocks. Point to a trusted seed with the desired tip; stop low-tip peers.) Tj
@@ -206,13 +214,13 @@ T*
 T*
 (clock skew < ±60s.) Tj
 T*
-(- **CLI can?t connect:** Verify ATHO_API_URL \(CLI reads Src/Config/NodePorts.json\). If using) Tj
+(- **CLI can?t connect:** Verify ATHO_API_URL \(CLI reads Src/Config/NodePorts.json\) and confirm) Tj
 T*
-(Docker, use the host-mapped API port from docker compose port.) Tj
+(native API is up on the active network port.) Tj
 T*
-(- **HTTP 500 from API:** Often missing deps or missing API key file in container. Rebuild images) Tj
+(- **HTTP 500 from API:** Often missing deps or missing API key file. Re-run launcher bootstrap) Tj
 T*
-(and ensure Src/Config/Api_Keys.json exists/mounted; check container logs for import errors.) Tj
+(and ensure Src/Config/Api_Keys.json exists; check local logs for import/runtime errors.) Tj
 T*
 () Tj
 T*
@@ -232,6 +240,19 @@ T*
 T*
 (- **Clicking inbox does not open request page**) Tj
 T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 3779 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- Cause: stale GUI process or feature-disabled runtime.) Tj
 T*
 (- Fix:) Tj
@@ -240,19 +261,6 @@ T*
 T*
 (- note: current alpha build keeps request inbox UI disabled by default,) Tj
 T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 3909 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- confirm requests page is present only in builds where it is explicitly enabled,) Tj
 T*
 (- verify node/API is reachable and authenticated.) Tj
@@ -299,7 +307,7 @@ T*
 T*
 (keep backups before deleting.) Tj
 T*
-(- **Permission errors on LMDB:** Ensure the process/container user can write to the volume;) Tj
+(- **Permission errors on LMDB:** Ensure the local runtime user can write to the storage path;) Tj
 T*
 (adjust ownership/permissions on macOS/Linux.) Tj
 T*
@@ -349,6 +357,19 @@ T*
 T*
 (identifier already exists but HPK/Base56 is unique, the importer auto-renames to import_#.) Tj
 T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 3813 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- **Mnemonic restore mismatch:** Ensure the phrase words and order are exact, and use the same) Tj
 T*
 (passphrase/account/index used at creation time. A different passphrase/path intentionally) Tj
@@ -357,19 +378,6 @@ T*
 T*
 (- **CLI shows API reported non-canonical recovery mode... after a successful mnemonic recover:**) Tj
 T*
-ET
-endstream
-endobj
-10 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
-endobj
-11 0 obj
-<< /Length 3853 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (This can happen when the recovered key is an existing additional miner key outside canonical) Tj
 T*
 (slots \(for example miner_3\). On current builds, this path is reported as informational) Tj
@@ -402,33 +410,59 @@ T*
 T*
 () Tj
 T*
-(Docker / Compose) Tj
+(Docker Bootstrap) Tj
 T*
-(- **Port binding errors:** If a host port is in use, remove the mapping or use random host ports) Tj
+(- **Need the fastest setup path?**) Tj
 T*
-(\(e.g., ports: ["10200"]\). P2P ports are fixed \(56000 in-container; host binds) Tj
+(- Use one-click launcher:) Tj
 T*
-(56000/56001/56002/56003\).) Tj
+(- macOS/Linux: python3 run.py mainnet) Tj
 T*
-(- **API key missing in containers:** Entry point auto-creates one; read logs for the generated) Tj
+(- Windows: py -3 run.py mainnet) Tj
 T*
-(key/user/pass. Ensure Src/Config is mounted.) Tj
+(- Prerequisites: Docs/build-prereqs.md) Tj
 T*
-(- **Containers not following host chain:** Set ATHO_BOOTSTRAP=host.docker.internal:56000 \(or) Tj
+(- **docker command not found:** install Docker Desktop/Engine and restart terminal.) Tj
 T*
-(your LAN IP\) and wipe peers/storage before docker compose up.) Tj
+(- **docker_daemon_unavailable / cannot connect to Docker daemon:** open Docker Desktop \(or start) Tj
 T*
-(- **Modules missing in container:** Rebuild after updating requirements.txt \(docker compose) Tj
+(Docker Engine service\) and wait for healthy status, then retry.) Tj
 T*
-(build --no-cache\); ensure Python is 3.11 in the image.) Tj
+(- **--no-build fails with missing builder image:** run once without --no-build so launcher can) Tj
 T*
-(- **Random API ports on miners:** Discover with docker compose port miner 10200 \(and ... 10250) Tj
+(build/cache bootstrap image.) Tj
 T*
-(for miner2\) when host ports are randomized.) Tj
+(- **Bootstrap export missing:** rerun python run.py <network> --build-only and verify) Tj
+T*
+(runtime/docker_bootstrap/bootstrap_manifest.json exists.) Tj
+T*
+(- **Native runtime still missing modules after bootstrap:** run without --skip-pip so .venv is) Tj
+T*
+(updated from requirements.txt.) Tj
 T*
 () Tj
 T*
 (Build / Tooling) Tj
+T*
+(- **host_native_bash_not_found on fallback builds \(common on Windows\):**) Tj
+T*
+(- install Git Bash, MSYS2, or Cygwin) Tj
+T*
+(- or set ATHO_HOST_BASH to a working bash.exe path) Tj
+T*
+(- note: WSL bash shim is not sufficient for Windows host-native .sh scripts) Tj
+T*
+(- **no compiler found \(gcc/clang/cc\) errors in native scripts:** follow OS package installs in) Tj
+T*
+(Docs/build-prereqs.md.) Tj
+T*
+(- **cargo not found while building private STARK binaries:** install Rust via rustup \(see) Tj
+T*
+(Docs/build-prereqs.md\).) Tj
+T*
+(- **lmdb.h not found while building UTXO batch checker:** install LMDB dev package from) Tj
+T*
+(Docs/build-prereqs.md, or continue with Python fallback path if native checker is optional.) Tj
 T*
 (- **falcon_cli build fails:** Install toolchain \(build-essential/clang/libssl-dev on Linux;) Tj
 T*
@@ -440,6 +474,19 @@ T*
 T*
 (Constants.FALCONCLI_PINNED_VERSION_DIGESTS in Src/Utility/const.py for the active) Tj
 T*
+ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 2910 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (CONSENSUS_VERSION, using the release-audited version-bound digest. Mainnet/testnet startup is) Tj
 T*
 (intentionally blocked until this is set.) Tj
@@ -474,19 +521,6 @@ T*
 T*
 (- Why: avoids global package conflicts and broken mixed installs.) Tj
 T*
-ET
-endstream
-endobj
-12 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
-endobj
-13 0 obj
-<< /Length 1532 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 () Tj
 T*
 (macOS / Linux:) Tj
@@ -501,11 +535,17 @@ T*
 T*
 (- **lmdb install fails**) Tj
 T*
-(- First retry inside activated venv:) Tj
+(- This only blocks the native libutxo_batch_check fast path.) Tj
+T*
+(- The launcher/bootstrap now falls back to Python validation by default, so you can keep going) Tj
+T*
+(unless you explicitly require the native checker.) Tj
+T*
+(- If you do want the native checker, retry inside an activated venv first:) Tj
 T*
 (- python -m pip install lmdb) Tj
 T*
-(- If still failing, install OS build tools then retry:) Tj
+(- If that still fails, install OS build tools then retry:) Tj
 T*
 (- macOS: xcode-select --install) Tj
 T*
@@ -531,13 +571,13 @@ T*
 T*
 (- Align versions across all nodes; mismatched code can reject blocks/tx.) Tj
 T*
-(- When in doubt, clean runtime data: stop nodes, docker compose down -v, remove) Tj
+(- When in doubt, clean runtime data: stop nodes, remove blockchain_storage*, Keys*, Logs*,) Tj
 T*
-(blockchain_storage*, Keys*, Logs*, Src/Config/Peers.json, then restart with correct env.) Tj
+(Src/Config/Peers.json, then restart with correct env.) Tj
 T*
-(- Check logs at source \(not just grep\): docker compose logs -f fullnode miner miner2 or tail) Tj
+(- Check logs at source \(not just grep\): tail Logs*/network.log and logs/* audit files for) Tj
 T*
-(Logs*/network.log for detailed reasons.) Tj
+(detailed reasons.) Tj
 T*
 (- For hashrate telemetry validation, query:) Tj
 T*
@@ -558,16 +598,16 @@ xref
 0000000147 00000 n 
 0000000215 00000 n 
 0000000341 00000 n 
-0000003449 00000 n 
-0000003575 00000 n 
-0000007166 00000 n 
-0000007292 00000 n 
-0000011253 00000 n 
-0000011381 00000 n 
-0000015287 00000 n 
-0000015415 00000 n 
+0000003311 00000 n 
+0000003437 00000 n 
+0000007115 00000 n 
+0000007241 00000 n 
+0000011072 00000 n 
+0000011200 00000 n 
+0000015066 00000 n 
+0000015194 00000 n 
 trailer
 << /Size 14 /Root 1 0 R >>
 startxref
-17000
+18157
 %%EOF

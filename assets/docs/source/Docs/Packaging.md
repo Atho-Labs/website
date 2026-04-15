@@ -132,7 +132,7 @@ Optional pinned expected hash verification:
 Packaging does not alter consensus constants, but release communication should include current policy reference so downstream operators validate against the right profile:
 - block target `120s`, retarget `180`,
 - tx confirmations `10`, private tx confirmations `10`, coinbase maturity `150`,
-- fee floor `350 atoms/vB`, minimum fee `100,000 atoms`.
+- fee floor `500 atoms/vB`, minimum fee `200,000 atoms`.
 
 ## 9) Recommended Release Checklist
 

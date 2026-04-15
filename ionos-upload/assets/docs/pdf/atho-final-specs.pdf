@@ -13,31 +13,31 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 1899 >>
+<< /Length 1996 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(Atho Final Specs \(350 Model\)) Tj
+(Atho Final Specs \(500 Model\)) Tj
 T*
 () Tj
 T*
-(Date: 2026-04-08) Tj
+(Date: 2026-04-15) Tj
 T*
 () Tj
 T*
-(This file is the canonical Markdown policy snapshot for the 350 atoms/vB model and updated stake) Tj
+(This file is the canonical Markdown policy snapshot for the active 500 atoms/vB fee model and) Tj
 T*
-(routing.) Tj
+(updated supply/staking policy.) Tj
 T*
 () Tj
 T*
 (Core Policy) Tj
 T*
-(- Base issuance path: 100,000,000 ATHO) Tj
+(- Base issuance path: 400,000,000 ATHO) Tj
 T*
-(- Hard max supply cap: 150,000,000 ATHO) Tj
+(- Hard max supply cap: 500,000,000 ATHO) Tj
 T*
 (- Protected supply floor: 21,000,000 ATHO) Tj
 T*
@@ -53,31 +53,33 @@ T*
 T*
 (- Blocks/year: 262,800) Tj
 T*
-(- Era size: 1,000,000 blocks) Tj
+(- Era size: 2,000,000 blocks) Tj
 T*
-(- Tail start height: 8,000,000) Tj
+(- Tail start height: 17,000,000) Tj
 T*
-(- Tail start time from genesis: ~30.44 years) Tj
+(- Tail start time from genesis: ~64.69 years) Tj
 T*
 () Tj
 T*
 (Reward schedule:) Tj
 T*
-(- Era 1: 50 ATHO/block) Tj
+(- Era 1: 100 ATHO/block) Tj
 T*
-(- Era 2: 25 ATHO/block) Tj
+(- Era 2: 50 ATHO/block) Tj
 T*
-(- Era 3: 12.5 ATHO/block) Tj
+(- Era 3: 25 ATHO/block) Tj
 T*
-(- Era 4: 6.25 ATHO/block) Tj
+(- Era 4: 12.5 ATHO/block) Tj
 T*
-(- Era 5: 3.125 ATHO/block) Tj
+(- Era 5: 6.25 ATHO/block) Tj
 T*
-(- Era 6: 1.5625 ATHO/block) Tj
+(- Era 6: 3.125 ATHO/block) Tj
 T*
-(- Era 7: 0.78125 ATHO/block) Tj
+(- Era 7: 1.5625 ATHO/block) Tj
 T*
-(- Era 8: 0.390625 ATHO/block) Tj
+(- Era 8: 0.78125 ATHO/block) Tj
+T*
+(- Transition: 0.78125 ATHO/block for 1,000,000 blocks) Tj
 T*
 (- Tail: 0.1953125 ATHO/block) Tj
 T*
@@ -85,15 +87,17 @@ T*
 T*
 (Bootstrap and totals:) Tj
 T*
-(- Bootstrap allocation: 390,625 ATHO at block 1) Tj
+(- Bootstrap allocation: 781,250 ATHO at block 1) Tj
 T*
-(- Pre-tail subsidy path: 99,609,375 ATHO) Tj
+(- Pre-tail subsidy path: 399,218,750 ATHO) Tj
 T*
-(- Pre-tail total including bootstrap: 100,000,000 ATHO) Tj
+(- Pre-tail total including bootstrap: 400,000,000 ATHO) Tj
+T*
+(- Supply-closure check: 399,218,750 + 781,250 + 100,000,000 = 500,000,000) Tj
 T*
 (- Tail annual issuance: 51,328.125 ATHO/year) Tj
 T*
-(- Subsidy clipping: clipped by remaining headroom under 150M) Tj
+(- Subsidy clipping: clipped by remaining headroom under 500M) Tj
 T*
 (- After cap reached: subsidy = 0) Tj
 T*
@@ -101,15 +105,15 @@ T*
 T*
 (Fee Policy) Tj
 T*
-(- Fee floor: 350 atoms/vB) Tj
+(- Fee floor: 500 atoms/vB) Tj
 T*
-(- ATHO equivalent: 0.00000035 ATHO/vB) Tj
+(- ATHO equivalent: 0.0000005 ATHO/vB) Tj
 T*
-(- Scientific notation: 3.5e-7 ATHO/vB) Tj
+(- Scientific notation: 5e-7 ATHO/vB) Tj
 T*
-(- Minimum transaction fee: 100,000 atoms) Tj
+(- Minimum transaction fee: 200,000 atoms) Tj
 T*
-(- Dust limit: 250 atoms) Tj
+(- Dust limit: 20,000 atoms \(1/10 of min tx fee\)) Tj
 T*
 () Tj
 T*
@@ -119,10 +123,6 @@ T*
 T*
 (- vsize = ceil\(weight / 4\)) Tj
 T*
-(- vsize is used for mempool admission, miner packing, and tx policy.) Tj
-T*
-() Tj
-T*
 ET
 endstream
 endobj
@@ -130,12 +130,16 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 2039 >>
+<< /Length 2066 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(- vsize is used for mempool admission, miner packing, and tx policy.) Tj
+T*
+() Tj
+T*
 (Block capacity:) Tj
 T*
 (- Effective vbyte cap per block: 3,500,000 vB) Tj
@@ -170,49 +174,104 @@ T*
 T*
 () Tj
 T*
-(350 atoms/vB Annual Math) Tj
+(500 atoms/vB Annual Math) Tj
 T*
 (Full-utilization totals:) Tj
 T*
-(- Total annual fees: 321,930 ATHO/year) Tj
+(- Total annual fees: 459,900 ATHO/year) Tj
 T*
-(- Miner pool post-tail: 80,482.5 ATHO/year) Tj
+(- Miner pool post-tail: 114,975 ATHO/year) Tj
 T*
-(- Stake pool post-tail: 96,579 ATHO/year) Tj
+(- Stake pool post-tail: 137,970 ATHO/year) Tj
 T*
-(- Burn path post-tail: 144,868.5 ATHO/year) Tj
+(- Burn path post-tail: 206,955 ATHO/year) Tj
 T*
 (- Tail subsidy: 51,328.125 ATHO/year) Tj
 T*
-(- Net supply change at 100% utilization: -93,540.375 ATHO/year) Tj
+(- Net supply change at 100% utilization: -155,626.875 ATHO/year) Tj
 T*
 () Tj
 T*
 (Per block at full utilization:) Tj
 T*
-(- Total fees/block: 1.225 ATHO) Tj
+(- Total fees/block: 1.75 ATHO) Tj
 T*
-(- Miner pool/block: 0.30625 ATHO) Tj
+(- Miner pool/block: 0.4375 ATHO) Tj
 T*
-(- Stake pool/block: 0.3675 ATHO) Tj
+(- Stake pool/block: 0.525 ATHO) Tj
 T*
-(- Burn/block: 0.55125 ATHO) Tj
+(- Burn/block: 0.7875 ATHO) Tj
 T*
 (- Tail subsidy/block: 0.1953125 ATHO) Tj
 T*
-(- Net burn/block after tail: 0.3559375 ATHO) Tj
+(- Net burn/block after tail: 0.5921875 ATHO) Tj
 T*
 () Tj
 T*
 (Post-tail net annual formula:) Tj
 T*
-(- Delta_supply = 51,328.125 - \(144,868.5 * utilization\)) Tj
+(- Delta_supply = 51,328.125 - \(206,955 * utilization\)) Tj
 T*
 () Tj
 T*
 (Neutral utilization point:) Tj
 T*
-(- ~35.43%) Tj
+(- ~24.802%) Tj
+T*
+() Tj
+T*
+(Emission Milestone Timing) Tj
+T*
+(- Tail headroom to hard cap: 100,000,000 ATHO.) Tj
+T*
+(- Tail blocks required to reach hard cap: 512,000,000.) Tj
+T*
+(- Last positive-subsidy height: 528,999,999 \(~2,012.94 years from genesis\).) Tj
+T*
+(- First zero-subsidy height: 529,000,000 \(~2,012.94 years from genesis\).) Tj
+T*
+(- Time from tail start \(17,000,000\) to zero subsidy: ~1,948.25 years.) Tj
+T*
+() Tj
+T*
+(Floor timing \(burn-enabled scenarios, sustained utilization\):) Tj
+T*
+() Tj
+T*
+(| Sustained utilization | Circulating at hard cap | Additional blocks to floor after 529,000,000) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 2283 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(| Approx years from genesis to floor |) Tj
+T*
+(|---:|---:|---:|---:|) Tj
+T*
+(| 25% | 399,200,000 ATHO | 1,921,015,874 | ~9,322.74 |) Tj
+T*
+(| 50% | 298,400,000 ATHO | 704,507,937 | ~4,693.71 |) Tj
+T*
+(| 75% | 197,600,000 ATHO | 299,005,292 | ~3,150.71 |) Tj
+T*
+(| 100% | 96,800,000 ATHO | 96,253,969 | ~2,379.20 |) Tj
+T*
+() Tj
+T*
+(Notes:) Tj
+T*
+(- No-burn scenarios do not reach floor via protocol burn.) Tj
+T*
+(- Any burn-enabled utilization above 0% eventually reaches floor after subsidy shutdown.) Tj
 T*
 () Tj
 T*
@@ -220,11 +279,13 @@ T*
 T*
 (- Minimum stake: 20 ATHO) Tj
 T*
-(- Maximum per staking address: 500 ATHO) Tj
+(- Maximum per staking address: 1,000 ATHO) Tj
 T*
-(- Maximum new ATHO entering staking per rolling 30 days \(network-wide\): 25,000 ATHO) Tj
+(- Maximum new ATHO entering staking per rolling window \(network-wide\): 50,000 ATHO per 21,600) Tj
 T*
-(- Maximum total staked network-wide at any time: 25,000,000 ATHO) Tj
+(blocks) Tj
+T*
+(- Maximum total staked network-wide at any time: 75,000,000 ATHO) Tj
 T*
 (- Unstake finalization: 180 days worth of blocks \(129,600 blocks\)) Tj
 T*
@@ -236,23 +297,10 @@ T*
 T*
 (Derived stake throughput:) Tj
 T*
-(- Max new staking per year: 300,000 ATHO/year) Tj
+(- Max new staking per year: 608,333.333 ATHO/year \(50,000 * 262,800 / 21,600\)) Tj
 T*
-(- Time from zero to 25M cap \(at max inflow\): ~83.33 years) Tj
+(- Time from zero to 75M cap \(at max inflow\): ~123.29 years) Tj
 T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 1388 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 () Tj
 T*
 (Bonding Policy) Tj
@@ -271,43 +319,27 @@ T*
 T*
 () Tj
 T*
-(Post-tail Miner-Side Support) Tj
-T*
-(Miner-side annual support = tail subsidy + miner fee bucket:) Tj
-T*
-(- 0% utilization: 51,328.125 ATHO/year) Tj
-T*
-(- 25% utilization: 71,448.75 ATHO/year) Tj
-T*
-(- 50% utilization: 91,569.375 ATHO/year) Tj
-T*
-(- 75% utilization: 111,690 ATHO/year) Tj
-T*
-(- 100% utilization: 131,810.625 ATHO/year) Tj
-T*
-() Tj
-T*
 (Final Summary) Tj
 T*
-(- Base supply path: 100M ATHO) Tj
+(- Base supply path: 400M ATHO) Tj
 T*
-(- Hard cap: 150M ATHO) Tj
+(- Hard cap: 500M ATHO) Tj
 T*
 (- Protected floor: 21M ATHO) Tj
 T*
-(- Fee floor: 350 atoms/vB) Tj
+(- Fee floor: 500 atoms/vB) Tj
 T*
 (- Post-tail routing: 25% miners / 30% stakers / 45% burn) Tj
 T*
-(- Neutral utilization: ~35.43%) Tj
+(- Neutral utilization: ~24.802%) Tj
 T*
 (- Minimum stake: 20 ATHO) Tj
 T*
-(- Max stake per address: 500 ATHO) Tj
+(- Max stake per address: 1,000 ATHO) Tj
 T*
-(- Max new staking per rolling 30 days: 25,000 ATHO) Tj
+(- Max new staking per rolling window: 50,000 ATHO / 21,600 blocks) Tj
 T*
-(- Max total staked: 25M ATHO) Tj
+(- Max total staked: 75M ATHO) Tj
 T*
 (- Unstake delay: 180 days) Tj
 T*
@@ -332,12 +364,12 @@ xref
 0000000133 00000 n 
 0000000201 00000 n 
 0000000327 00000 n 
-0000002278 00000 n 
-0000002404 00000 n 
-0000004495 00000 n 
-0000004621 00000 n 
+0000002375 00000 n 
+0000002501 00000 n 
+0000004619 00000 n 
+0000004745 00000 n 
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-6061
+7080
 %%EOF

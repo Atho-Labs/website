@@ -35,7 +35,7 @@ This note explains how Atho secures its HTTP API, how passwords/permissions work
 
 ## File locations
 - API keys: `Src/Config/Api_Keys.json`
-- Auto-creation: the entrypoint (`docker/docker-entrypoint.sh`) calls `ensure_api_key_auto()` if no keys exist; `cliui`/`runnode` call interactive setup.
+- Auto-creation: launcher/runtime startup calls `ensure_api_key_auto()` if no keys exist; `cliui`/`runnode` also support interactive setup.
 
 ## Why this matters
 - The API can submit transactions, manage mining, and expose node data. Without authentication, anyone could double-spend, drain wallets, or disrupt your node.

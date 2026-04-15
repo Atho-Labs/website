@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-label="Recovery flow">
+  <defs>
+    <style>
+      .bg { fill: #0f1117; }
+      .title { fill: #ffffff; font: 700 36px Arial, sans-serif; }
+      .step { fill: #171b26; stroke: #34dfc1; stroke-width: 2; rx: 16; }
+      .note { fill: #32251b; stroke: #f9b769; stroke-width: 2; rx: 16; }
+      .good { fill: #143123; stroke: #72f091; stroke-width: 2; rx: 16; }
+      .h { fill: #9afbe8; font: 700 22px Arial, sans-serif; }
+      .t { fill: #d7e3ff; font: 500 18px Arial, sans-serif; }
+      .small { fill: #a8b8dc; font: 500 16px Arial, sans-serif; }
+      .arrow { stroke: #48f2d0; stroke-width: 3; fill: none; marker-end: url(#m); }
+    </style>
+    <marker id="m" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#48f2d0"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1600" height="980"/>
+  <text class="title" x="60" y="70">Mnemonic Recovery Flow</text>
+
+  <rect class="step" x="80" y="130" width="1440" height="120"/>
+  <text class="h" x="110" y="175">1) User enters mnemonic (+ optional passphrase)</text>
+  <text class="t" x="110" y="206">Wallet runs PBKDF2-HMAC-SHA3-512 exactly like original creation path.</text>
+
+  <rect class="step" x="80" y="290" width="700" height="210"/>
+  <text class="h" x="110" y="335">2A) Rebuild public identity</text>
+  <text class="t" x="110" y="366">Derive Falcon seed -> deterministic Falcon keypair.</text>
+  <text class="t" x="110" y="394">Recompute role hashes and Base56 addresses.</text>
+  <text class="small" x="110" y="426">If path params match, addresses match exactly.</text>
+
+  <rect class="step" x="820" y="290" width="700" height="210"/>
+  <text class="h" x="850" y="335">2B) Rebuild private receive identity</text>
+  <text class="t" x="850" y="366">Derive deterministic Kyber seed from same mnemonic path context.</text>
+  <text class="t" x="850" y="394">Rebuild bundle and X-address (same path => same bundle id).</text>
+  <text class="small" x="850" y="426">Then wallet can decrypt notes sent to that bundle.</text>
+
+  <rect class="step" x="80" y="540" width="1440" height="140"/>
+  <text class="h" x="110" y="585">3) Full sync/rescan</text>
+  <text class="t" x="110" y="616">Node scans confirmed chain state, rebuilds UTXO and private note spendable/pending status.</text>
+  <text class="small" x="110" y="645">Reorg-safe logic should reconcile by block height + leaf/index state.</text>
+
+  <rect class="note" x="80" y="720" width="1440" height="100"/>
+  <text class="h" x="110" y="763">Important limitation</text>
+  <text class="t" x="110" y="792">Mnemonic recovers confirmed on-chain state, not purely local transient mempool/pending-only state.</text>
+
+  <rect class="good" x="80" y="850" width="1440" height="90"/>
+  <text class="h" x="110" y="900">Result: deterministic wallet restoration at current confirmed chain state</text>
+
+  <path class="arrow" d="M800 250 L800 290"/>
+  <path class="arrow" d="M430 500 L430 540"/>
+  <path class="arrow" d="M1170 500 L1170 540"/>
+  <path class="arrow" d="M800 680 L800 720"/>
+  <path class="arrow" d="M800 820 L800 850"/>
+</svg>

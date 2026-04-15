@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Atho wallet hierarchy guide: deterministic mnemonic-to-seed derivation, Falcon/Kyber branch separation, Base56 address math, private bundle identity, and recovery rules.">
+  <title>Atho Wallet Hierarchy Guide</title>
+  <link rel="canonical" href="https://atho.io/wallet-hierarchy.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Atho">
+  <meta property="og:url" content="https://atho.io/wallet-hierarchy.html">
+  <meta property="og:title" content="Atho Wallet Hierarchy Guide">
+  <meta property="og:description" content="Deterministic wallet hierarchy from mnemonic to Falcon/Kyber identities, role-separated addresses, private bundles, and recovery behavior.">
+  <meta property="og:image" content="https://image.thum.io/get/width/1200/crop/630/https://atho.io/wallet-hierarchy.html">
+  <meta property="og:image:secure_url" content="https://image.thum.io/get/width/1200/crop/630/https://atho.io/wallet-hierarchy.html">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Atho wallet hierarchy page preview">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@AthoHQ">
+  <meta name="twitter:title" content="Atho Wallet Hierarchy Guide">
+  <meta name="twitter:description" content="Deterministic wallet hierarchy from mnemonic to Falcon/Kyber identities, role-separated addresses, private bundles, and recovery behavior.">
+  <meta name="twitter:image" content="https://image.thum.io/get/width/1200/crop/630/https://atho.io/wallet-hierarchy.html">
+  <meta name="twitter:image:alt" content="Atho wallet hierarchy page preview">
+  <link rel="icon" type="image/png" href="./assets/media/logo2website.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/variables.css">
+  <link rel="stylesheet" href="./assets/css/base.css">
+  <link rel="stylesheet" href="./assets/css/layout.css">
+  <link rel="stylesheet" href="./assets/css/components.css">
+  <link rel="stylesheet" href="./assets/css/motion.css">
+  <link rel="stylesheet" href="./assets/css/responsive.css">
+  <style>
+    .wallet-hierarchy-page .diagram-grid {
+      margin-top: var(--space-6);
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+
+    .wallet-hierarchy-page .diagram-card img {
+      width: 100%;
+      height: auto;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(125, 183, 161, 0.45);
+      background: linear-gradient(180deg, #ffffff, #f5fbf8);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+      margin-top: var(--space-3);
+    }
+
+    .wallet-hierarchy-page .pill-grid {
+      margin-top: var(--space-3);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .wallet-hierarchy-page .formula-grid {
+      margin-top: var(--space-5);
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+
+    .wallet-hierarchy-page .constants-grid {
+      margin-top: var(--space-5);
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-3);
+    }
+
+    .wallet-hierarchy-page .constant-row {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-3);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--ink-700);
+      border-top: 1px dashed rgba(125, 183, 161, 0.42);
+      padding-top: 8px;
+    }
+
+    .wallet-hierarchy-page .constant-row:first-child {
+      margin-top: 0;
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .wallet-hierarchy-page .source-note {
+      margin-top: var(--space-4);
+      border: 1px solid rgba(58, 184, 238, 0.34);
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, rgba(226, 246, 255, 0.56), rgba(250, 254, 255, 0.9));
+      padding: var(--space-4);
+      color: var(--ink-700);
+      font-size: 0.93rem;
+    }
+
+    .wallet-hierarchy-page .source-note strong {
+      color: var(--accent-blue-700);
+    }
+
+    @media (max-width: 980px) {
+      .wallet-hierarchy-page .diagram-grid,
+      .wallet-hierarchy-page .formula-grid,
+      .wallet-hierarchy-page .constants-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="wallet-hierarchy-page">
+  <header class="site-header">
+    <div class="wrap nav-shell">
+      <a class="brand" href="./home.html#overview" aria-label="Atho home">
+        <img class="brand-mark" src="./assets/media/logo2website.png" alt="Atho logo" width="72" height="72" decoding="async">
+        <span class="brand-title">Atho</span>
+      </a>
+
+      <div class="header-right">
+        <nav id="main-nav" class="nav-links" data-nav-links>
+          <a class="nav-link" href="#hierarchy-overview">Overview</a>
+          <a class="nav-link" href="#mnemonic-seed">Mnemonic</a>
+          <a class="nav-link" href="#derivation">Derivation</a>
+          <a class="nav-link" href="#addressing">Addressing</a>
+          <a class="nav-link" href="#private-flow">Private Flow</a>
+          <a class="nav-link" href="#recovery">Recovery</a>
+          <a class="nav-link" href="#policy-snapshot">Policy</a>
+        </nav>
+      </div>
+
+      <button class="menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="main-nav" aria-label="Toggle menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <div class="global-nav-drawer" data-global-drawer>
+        <div class="global-nav-card">
+          <span class="global-nav-title">All Pages</span>
+          <div class="global-nav-grid">
+            <a class="global-nav-link" href="./home.html">Home</a>
+            <a class="global-nav-link" href="./docs.html">Docs</a>
+            <a class="global-nav-link" href="./falcon-512.html">Falcon-512</a>
+            <a class="global-nav-link" href="./join.html">Join</a>
+            <a class="global-nav-link" href="./rewards.html">Rewards</a>
+            <a class="global-nav-link" href="./wallet.html">Wallet</a>
+            <a class="global-nav-link" href="./wallet-hierarchy.html">Wallet Hierarchy</a>
+            <a class="global-nav-link" href="./platinum-shield.html">Platinum Shield</a>
+            <a class="global-nav-link" href="./bpow-docs.html">BPoW</a>
+            <a class="global-nav-link" href="./inflation-deflation.html">Inflation / Deflation</a>
+            <a class="global-nav-link" href="./changelog.html">Changelog</a>
+            <a class="global-nav-link" href="./roadmap.html">Roadmap</a>
+            <a class="global-nav-link" href="./contact.html">Contact</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="hierarchy-overview" class="section">
+      <div class="wrap hero-grid">
+        <div class="hero-copy" data-reveal>
+          <div class="eyebrow-row">
+            <span class="section-eyebrow section-eyebrow-hot">Wallet Hierarchy Visual Guide</span>
+            <span class="section-eyebrow">Updated: April 14, 2026</span>
+          </div>
+          <h1>Deterministic wallet architecture from mnemonic to private notes.</h1>
+          <p>
+            This page turns the wallet hierarchy reference into a browsable website guide so users can learn recovery,
+            key derivation, and private-send behavior before mainnet. It is the same model used for distribution docs,
+            with math and constants kept aligned to the current implementation guidance.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/wallet-hierarchy-visual-guide.pdf" download>Download PDF Version</a>
+            <a class="btn btn-primary btn-inline" href="#mnemonic-seed">Open Mnemonic Math</a>
+            <a class="btn btn-primary btn-inline" href="#private-flow">Open Private Send Flow</a>
+            <a class="btn btn-primary btn-inline" href="#recovery">Open Recovery Rules</a>
+            <a class="btn btn-primary btn-inline" href="./wallet.html">Open Wallet Page</a>
+          </div>
+        </div>
+
+        <div class="hero-panel" data-reveal>
+          <article class="card card-pad">
+            <h2 class="panel-title">Simple Mental Model</h2>
+            <ul class="key-list">
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Mnemonic words</strong>
+                  <span>Your recovery root. Same words plus same passphrase and derivation path reconstruct the same wallet tree.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Two cryptographic branches</strong>
+                  <span>Falcon handles identity/signing, while Kyber handles private payload encryption pathways.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Role-separated addresses</strong>
+                  <span>Regular, bond, and stake addresses are domain-separated even when they come from one root.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Recovery is two-stage</strong>
+                  <span>Rebuild deterministic identity first, then rescan chain state to restore confirmed balances and note status.</span>
+                </span>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Visual Map</span>
+        <h2 class="section-title">One mnemonic root, multiple deterministic identities.</h2>
+        <div class="card card-pad diagram-card" data-reveal>
+          <img src="./assets/media/wallet-hierarchy/wallet_seed_tree.svg" alt="Atho wallet hierarchy from mnemonic to Falcon and Kyber branches.">
+        </div>
+      </div>
+    </section>
+
+    <section id="mnemonic-seed" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Mnemonic + Seed Math</span>
+        <h2 class="section-title">Exact mnemonic sizing, checksum, and PBKDF2 behavior.</h2>
+        <p class="section-copy">
+          Source behavior from <code>Src/Accounts/mnemonic.py</code> maps supported word lengths to entropy, checksum,
+          and deterministic seed derivation with fixed normalization and iteration rules.
+        </p>
+
+        <div class="formula-grid" data-stagger>
+          <article class="card card-pad" data-reveal>
+            <h3 class="panel-title">Supported Mnemonic Sizes</h3>
+            <div class="constant-row"><span>12 words</span><strong>16 bytes entropy (128 bits)</strong></div>
+            <div class="constant-row"><span>24 words</span><strong>32 bytes entropy (256 bits)</strong></div>
+            <div class="constant-row"><span>48 words</span><strong>64 bytes entropy (512 bits)</strong></div>
+            <pre class="join-code"><code>checksum_bits = entropy_bits / 32
+bitstream = entropy_bits + checksum_bits
+words = bitstream / 11</code></pre>
+          </article>
+
+          <article class="card card-pad" data-reveal>
+            <h3 class="panel-title">Seed Derivation</h3>
+            <pre class="join-code"><code>seed = PBKDF2-HMAC-SHA3-512(
+  password = normalized_mnemonic,
+  salt = "atho-mnemonic-v1" + normalized_passphrase,
+  iterations = 600000,
+  dklen = 64
+)</code></pre>
+            <div class="pill-grid">
+              <span class="badge">NFKD normalization</span>
+              <span class="badge">Iteration guard: minimum 100000</span>
+              <span class="badge">Output: 64 bytes</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="card card-pad diagram-card" data-reveal>
+          <h3 class="panel-title">Mnemonic Checksum Visual</h3>
+          <img src="./assets/media/wallet-hierarchy/mnemonic_math.svg" alt="Mnemonic entropy plus checksum bitstream diagram.">
+        </div>
+      </div>
+    </section>
+
+    <section id="derivation" class="section">
+      <div class="wrap split-grid">
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Falcon Branch Derivation</h3>
+          <p class="panel-copy">
+            Falcon deterministic seed uses domain-separated HKDF context to isolate signing identity derivation from every
+            other branch.
+          </p>
+          <pre class="join-code"><code>context = "ATHO-HD-FALCON-V1"
+info = "atho-mnemonic-v1|&lt;network&gt;|&lt;account&gt;|&lt;role&gt;|&lt;index&gt;"
+falcon_seed_64 = HKDF-SHA3-512(seed, context, info, 64)</code></pre>
+          <div class="pill-grid">
+            <span class="badge">Deterministic Falcon keygen</span>
+            <span class="badge">Role + network scoped</span>
+          </div>
+        </article>
+
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Kyber Branch Derivation</h3>
+          <p class="panel-copy">
+            Kyber deterministic seed uses a distinct context and an explicit Kyber level suffix, preventing Falcon/Kyber
+            cross-protocol key coupling.
+          </p>
+          <pre class="join-code"><code>context = "ATHO-HD-KYBER-V1"
+info = "atho-mnemonic-v1|&lt;network&gt;|&lt;account&gt;|&lt;role&gt;|&lt;index&gt;|kyber=&lt;level&gt;"
+kyber_seed_64 = HKDF-SHA3-512(seed, context, info, 64)</code></pre>
+          <div class="pill-grid">
+            <span class="badge">Independent branch domain</span>
+            <span class="badge">Level-aware derivation info</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="addressing" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Address and Bundle Identity</span>
+        <h2 class="section-title">Role-separated address math and private bundle structure.</h2>
+
+        <div class="formula-grid" data-stagger>
+          <article class="card card-pad" data-reveal>
+            <h3 class="panel-title">Address Derivation + Checksum</h3>
+            <pre class="join-code"><code>role_digest = SHA3-384(
+  role_domain || 0x00 || network_domain || 0x00 || falcon_pubkey_bytes
+)
+
+body = role_prefix + Base56(role_digest)
+checksum_raw = SHA3-256(body_utf8)[0:4]
+checksum_b56 = Base56(checksum_raw), fixed to 6 chars
+address = body + checksum_b56</code></pre>
+            <div class="pill-grid">
+              <span class="badge">Domains: ATHO_ADDR_V1 / ATHO_BOND_V1 / ATHO_STAKE_V1</span>
+              <span class="badge">Base56 typo-resistant alphabet</span>
+            </div>
+          </article>
+
+          <article class="card card-pad" data-reveal>
+            <h3 class="panel-title">Private Bundle Bytes</h3>
+            <pre class="join-code"><code>bundle_bytes = [version:1 byte] || [falcon_pubkey] || [kyber_pubkey]
+x_hash = SHA3-384(bundle_bytes)
+x_address = "X" + Base56(x_hash)</code></pre>
+            <div class="constant-row"><span>Falcon public key</span><strong>897 bytes</strong></div>
+            <div class="constant-row"><span>Kyber public key</span><strong>800 / 1184 / 1568 bytes</strong></div>
+            <div class="constant-row"><span>Reason for size</span><strong>Post-quantum lattice security tradeoff</strong></div>
+          </article>
+        </div>
+
+        <div class="diagram-grid" data-stagger>
+          <article class="card card-pad diagram-card" data-reveal>
+            <h3 class="panel-title">Private Bundle Layout</h3>
+            <img src="./assets/media/wallet-hierarchy/private_bundle_layout.svg" alt="Binary layout of private bundle format with version and key payload fields.">
+          </article>
+
+          <article class="card card-pad diagram-card" data-reveal>
+            <h3 class="panel-title">Private Note Math</h3>
+            <img src="./assets/media/wallet-hierarchy/private_note_math.svg" alt="Private note commitment and deterministic note seed generation flow.">
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="private-flow" class="section">
+      <div class="wrap split-grid">
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Private Send Fee and Confirmation Policy</h3>
+          <pre class="join-code"><code>required_fee_atoms = max(vsize * fee_per_vb_atoms, min_tx_fee_atoms)
+
+fee_per_vb_atoms = 500
+min_tx_fee_atoms = 200000
+private_tx_confirmations = 10
+coinbase_maturity = 150</code></pre>
+          <div class="pill-grid">
+            <span class="badge">1 ATHO = 1,000,000,000 atoms</span>
+            <span class="badge">500 atoms/vB = 5e-7 ATHO/vB</span>
+            <span class="badge">Pending -> spendable after confirmation policy</span>
+          </div>
+        </article>
+
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Spend-Safety Rules (Conceptual)</h3>
+          <pre class="join-code"><code>note_master = SHA3-256(
+  "atho/private-note-master/v1" || network || falcon_pub || f || g || F || G
+)
+
+note_seed = SHA3-256(
+  domain || network || note_master || account_u32_le || counter_u64_le
+)</code></pre>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Nullifier uniqueness</strong>
+                <span>Rejects replay and private double-spend attempts.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Anchor and Merkle-path checks</strong>
+                <span>Spend proof must reference valid note-tree membership.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Signature and amount constraints</strong>
+                <span>Malformed payloads and invalid arithmetic are fail-closed rejected.</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="wrap diagram-grid" data-stagger>
+        <article class="card card-pad diagram-card" data-reveal>
+          <h3 class="panel-title">Private Send Flow</h3>
+          <img src="./assets/media/wallet-hierarchy/private_send_flow.svg" alt="Private send transaction flow from note selection through proof validation and confirmation.">
+        </article>
+
+        <article class="card card-pad diagram-card" data-reveal>
+          <h3 class="panel-title">Recovery Flow</h3>
+          <img src="./assets/media/wallet-hierarchy/recovery_flow.svg" alt="Recovery flow from mnemonic restoration through chain rescan and note reconciliation.">
+        </article>
+      </div>
+    </section>
+
+    <section id="recovery" class="section">
+      <div class="wrap split-grid">
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Recovery Includes Two Layers</h3>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Deterministic identity rebuild</strong>
+                <span>Mnemonic + passphrase + account/index/role + network recreate Falcon, role addresses, and Kyber bundle identity.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Chain-state reconstruction</strong>
+                <span>Full sync/rescan restores confirmed UTXOs, private notes, and matured spendability state.</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">What Mnemonic Alone Does Not Restore</h3>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Unfinalized local mempool metadata</strong>
+                <span>Transient local-only pending markers are not canonical if they never finalize on-chain.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>UI cache artifacts</strong>
+                <span>Display cache is reconstructable but not equivalent to consensus-confirmed balance truth.</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="policy-snapshot" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Current Policy Snapshot</span>
+        <h2 class="section-title">Constants referenced in wallet hierarchy behavior.</h2>
+        <p class="section-copy">
+          These values are listed in the guide as the active protocol policy snapshot used for wallet and private-note flows.
+        </p>
+
+        <div class="constants-grid" data-stagger>
+          <article class="card card-pad" data-reveal>
+            <h3 class="panel-title">Monetary Units + Fees</h3>
+            <div class="constant-row"><span>Atoms per coin</span><strong>1,000,000,000</strong></div>
+            <div class="constant-row"><span>Fee floor</span><strong>500 atoms/vB</strong></div>
+            <div class="constant-row"><span>Min transaction fee</span><strong>200,000 atoms</strong></div>
+            <div class="constant-row"><span>Dust limit</span><strong>20,000 atoms</strong></div>
+          </article>
+
+          <article class="card card-pad" data-reveal>
+            <h3 class="panel-title">Confirmations + Spendability</h3>
+            <div class="constant-row"><span>Regular confirmations</span><strong>10</strong></div>
+            <div class="constant-row"><span>Private confirmations</span><strong>10</strong></div>
+            <div class="constant-row"><span>Coinbase maturity</span><strong>150 blocks</strong></div>
+          </article>
+
+          <article class="card card-pad" data-reveal>
+            <h3 class="panel-title">Staking + Bonding Bounds</h3>
+            <div class="constant-row"><span>Min stake</span><strong>20 ATHO</strong></div>
+            <div class="constant-row"><span>Max stake per address</span><strong>1,000 ATHO</strong></div>
+            <div class="constant-row"><span>Max network staked total</span><strong>75,000,000 ATHO</strong></div>
+            <div class="constant-row"><span>Max new stake rolling 30d</span><strong>50,000 ATHO</strong></div>
+            <div class="constant-row"><span>Stake rolling window</span><strong>21,600 blocks</strong></div>
+            <div class="constant-row"><span>Stake unbonding delay</span><strong>129,600 blocks</strong></div>
+            <div class="constant-row"><span>Min mining bond</span><strong>25 ATHO</strong></div>
+            <div class="constant-row"><span>Max bond per address</span><strong>30 ATHO</strong></div>
+            <div class="constant-row"><span>Bond unbonding delay</span><strong>10,080 blocks</strong></div>
+            <div class="constant-row"><span>Post-tail fee bucket</span><strong>Miner 25% / Stake 30%</strong></div>
+          </article>
+        </div>
+
+        <div class="source-note" data-reveal>
+          <strong>Source alignment note:</strong> This webpage is synchronized to the wallet hierarchy source guide dated
+          <code>2026-04-14</code> and published ahead of mainnet to improve onboarding accessibility and distribution.
+          For offline sharing and archival review, use the downloadable PDF version linked at the top of this page.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <span>Atho Labs</span>
+      <span class="footer-contact">
+        <span class="footer-slogan">Atho — Private. Secure. The Platinum Standard of the Quantum Age</span>
+        <span class="footer-updated">Last updated: April 15, 2026</span>
+        <span>
+          To report bugs, security issues, or general inquiries:
+          <a href="./contact.html">Contact</a>
+          or
+          <a href="mailto:labs@atho.io">labs@atho.io</a>
+        </span>
+      </span>
+      <span>&copy; <span data-year></span> Atho Labs. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>

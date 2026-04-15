@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2345 >>
+<< /Length 2391 >>
 stream
 BT
 /F1 10 Tf
@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-04-05) Tj
+(Date: 2026-04-14) Tj
 T*
 () Tj
 T*
@@ -49,15 +49,15 @@ T*
 T*
 (- Max tx policy size \(vsize\): 250,000) Tj
 T*
-(- Fee floor: 350 atoms per policy byte \(vsize\)) Tj
+(- Fee floor: 500 atoms per policy byte \(vsize\)) Tj
 T*
-(- Min tx fee: 100,000 atoms) Tj
+(- Min tx fee: 200,000 atoms) Tj
 T*
-(- Dust limit: 250 atoms) Tj
+(- Dust limit: 20,000 atoms \(1/10 of min tx fee\)) Tj
 T*
-(- Pre-tail base supply target: 100,000,000 ATHO) Tj
+(- Pre-tail base supply target: 400,000,000 ATHO) Tj
 T*
-(- Hard max supply cap: 150,000,000 ATHO) Tj
+(- Hard max supply cap: 500,000,000 ATHO) Tj
 T*
 (- Supply floor: 21,000,000 ATHO) Tj
 T*
@@ -77,15 +77,15 @@ T*
 T*
 (- Finalization buffer: 3,600 blocks) Tj
 T*
-(- Bootstrap allocation: 390,625 ATHO at block 1) Tj
+(- Bootstrap allocation: 781,250 ATHO at block 1) Tj
 T*
 (- Stake minimum: 20 ATHO) Tj
 T*
-(- Stake max per address: 500 ATHO) Tj
+(- Stake max per address: 1,000 ATHO) Tj
 T*
-(- Stake max new entry \(rolling 30 days, network-wide\): 25,000 ATHO) Tj
+(- Stake max new entry \(rolling window, network-wide\): 50,000 ATHO over 21,600 blocks) Tj
 T*
-(- Stake max total locked \(network-wide\): 25,000,000 ATHO) Tj
+(- Stake max total locked \(network-wide\): 75,000,000 ATHO) Tj
 T*
 (- Stake unbond delay: 129,600 blocks \(180 days\)) Tj
 T*
@@ -130,7 +130,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 2619 >>
+<< /Length 2621 >>
 stream
 BT
 /F1 10 Tf
@@ -158,9 +158,9 @@ T*
 T*
 (- Fee pool routing:) Tj
 T*
-(- pre-tail \(height < 8,000,000\): 40% of total fees \(20% miner-side, 20% stake-side\),) Tj
+(- pre-tail \(height < 17,000,000\): 40% of total fees \(20% miner-side, 20% stake-side\),) Tj
 T*
-(- post-tail \(height >= 8,000,000\): 55% of total fees \(25% miner-side, 30% stake-side\).) Tj
+(- post-tail \(height >= 17,000,000\): 55% of total fees \(25% miner-side, 30% stake-side\).) Tj
 T*
 (- Miner-side split:) Tj
 T*
@@ -341,7 +341,7 @@ T*
 T*
 (- miner-routed fee share for that height.) Tj
 T*
-(- Hard-cap invariant: total_supply <= 150,000,000 ATHO.) Tj
+(- Hard-cap invariant: total_supply <= 500,000,000 ATHO.) Tj
 T*
 (- Subsidy path is clipped at coinbase so when cap headroom is exhausted:) Tj
 T*
@@ -469,14 +469,14 @@ xref
 0000000140 00000 n 
 0000000208 00000 n 
 0000000334 00000 n 
-0000002731 00000 n 
-0000002857 00000 n 
-0000005528 00000 n 
-0000005654 00000 n 
-0000008107 00000 n 
-0000008235 00000 n 
+0000002777 00000 n 
+0000002903 00000 n 
+0000005576 00000 n 
+0000005702 00000 n 
+0000008155 00000 n 
+0000008283 00000 n 
 trailer
 << /Size 12 /Root 1 0 R >>
 startxref
-10440
+10488
 %%EOF

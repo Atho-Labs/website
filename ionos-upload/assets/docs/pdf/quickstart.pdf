@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 1680 >>
+<< /Length 1550 >>
 stream
 BT
 /F1 10 Tf
@@ -31,25 +31,37 @@ T*
 T*
 (- Prerequisites) Tj
 T*
+(- Canonical OS package matrix:) Tj
+T*
+(- build-prereqs.md) Tj
+T*
+(- Minimum required everywhere:) Tj
+T*
 (- Python 3.9+) Tj
 T*
 (- git) Tj
 T*
-(- C/C++ compiler \(clang or gcc\)) Tj
+(- Docker Desktop \(Windows/macOS\) or Docker Engine \(Linux\)) Tj
 T*
-(- Bash shell for build scripts \(.sh\) on macOS/Linux/WSL) Tj
+(- Host-native fallback builders \(bash/compiler/cargo/LMDB\) are documented in:) Tj
 T*
-(- For GPU OpenCL build: OpenCL runtime + headers) Tj
-T*
-(- For CUDA build \(optional\): NVIDIA GPU + nvcc \(non-macOS\)) Tj
+(- build-prereqs.md) Tj
 T*
 () Tj
 T*
-(LMDB native headers are required for the UTXO batch checker build.) Tj
+(One-click Docker-first launch:) Tj
 T*
-(- macOS: brew install lmdb) Tj
+() Tj
 T*
-(- Ubuntu/Debian: sudo apt-get install liblmdb-dev) Tj
+(macOS/Linux:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Windows PowerShell:) Tj
 T*
 (- Clone + virtualenv + dependencies) Tj
 T*
@@ -111,6 +123,19 @@ T*
 T*
 (- FALCON_VERIFY_SO_SHA3_384=<hash>) Tj
 T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 1820 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 () Tj
 T*
 (2.3 TX signing-body native bridge) Tj
@@ -123,19 +148,6 @@ T*
 T*
 (- ATHO_TX_SIGNING_SO=<path>) Tj
 T*
-ET
-endstream
-endobj
-6 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
-endobj
-7 0 obj
-<< /Length 1943 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- ATHO_TX_SIGNING_SO_SHA3_384=<hash>) Tj
 T*
 () Tj
@@ -220,17 +232,36 @@ T*
 T*
 (- ATHO_UTXO_BATCH_CHECK_ENABLE=1: enable native UTXO batch path \(default on\).) Tj
 T*
+(- ATHO_ALLOW_UTXO_BATCH_FALLBACK=1: keep bootstrap/runtime usable when the native UTXO checker) Tj
+T*
+(cannot be built.) Tj
+T*
 (- ATHO_GPU_BACKEND=auto|opencl|cuda: GPU backend selection override.) Tj
 T*
 (- ATHO_BINARIES_STRICT=1: require canonical binary locations.) Tj
 T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1031 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- Basic health checks) Tj
 T*
 (- Common failure points) Tj
 T*
 (- Falcon binary not installed for current platform tag.) Tj
 T*
-(- LMDB headers missing when building libutxo_batch_check.) Tj
+(- LMDB headers missing when building libutxo_batch_check only matter if you want the native) Tj
+T*
+(checker; bootstrap now falls back to Python validation when allowed.) Tj
 T*
 (- CUDA expected on macOS \(CUDA build is skipped there\).) Tj
 T*
@@ -240,19 +271,6 @@ T*
 T*
 (- Current Consensus Runtime Defaults) Tj
 T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 502 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (Useful verification values for deployment checks:) Tj
 T*
 (- block target: 120s) Tj
@@ -263,9 +281,9 @@ T*
 T*
 (- coinbase maturity: 150 blocks) Tj
 T*
-(- fee floor: 350 atoms/vB) Tj
+(- fee floor: 500 atoms/vB) Tj
 T*
-(- min tx fee: 100,000 atoms) Tj
+(- min tx fee: 200,000 atoms) Tj
 T*
 (- BPoW enforcement height: 10,000) Tj
 T*
@@ -274,6 +292,8 @@ T*
 () Tj
 T*
 (Use:) Tj
+T*
+(- build-prereqs.md) Tj
 T*
 (- Troubleshooting.md) Tj
 T*
@@ -292,12 +312,12 @@ xref
 0000000133 00000 n 
 0000000201 00000 n 
 0000000327 00000 n 
-0000002059 00000 n 
-0000002185 00000 n 
-0000004180 00000 n 
-0000004306 00000 n 
+0000001929 00000 n 
+0000002055 00000 n 
+0000003927 00000 n 
+0000004053 00000 n 
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-4859
+5136
 %%EOF

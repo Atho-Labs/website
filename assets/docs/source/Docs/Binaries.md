@@ -132,7 +132,7 @@ First response:
 Binary integrity controls complement consensus policy but do not replace consensus validation. Active policy values remain independent:
 - block target `120s`, retarget `180`,
 - tx confirmations `10`, private tx confirmations `10`, coinbase maturity `150`,
-- fee floor `350 atoms/vB`.
+- fee floor `500 atoms/vB`.
 
 Binary pinning protects runtime execution integrity; consensus rules protect chain validity.
 

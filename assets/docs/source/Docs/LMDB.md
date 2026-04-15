@@ -117,7 +117,7 @@ When migrating hosts, copy complete store sets together (`block`, `utxo`, `priva
 
 Storage behavior supports active policy constants but does not define them. Current production policy references used by upper layers include:
 - tx confirmations `10`, private tx confirmations `10`, coinbase maturity `150`,
-- fee floor `350 atoms/vB`,
-- tail start `8,000,000`, supply floor `21,000,000 ATHO`.
+- fee floor `500 atoms/vB`,
+- tail start `17,000,000`, supply floor `21,000,000 ATHO`.
 
 Keeping storage docs synchronized with these values helps operators reason about expected maturity and accounting behavior in persisted state.

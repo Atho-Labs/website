@@ -1,6 +1,6 @@
 # Atho Whitepaper Condensed v3
 
-Date: 2026-04-10
+Date: 2026-04-14
 Audience: investors, strategic partners, and non-specialist technical readers.
 
 ## Executive Summary
@@ -36,11 +36,11 @@ Atho also uses native acceleration for performance-critical paths while preservi
 Atho’s monetary system is explicit and integer-based. The network uses atomic units (atoms) for consensus-critical accounting and does not rely on floating-point arithmetic in value rules. This avoids rounding drift and makes audits easier.
 
 Current supply profile:
-- pre-tail base target: `100,000,000 ATHO`,
-- hard max emitted supply: `150,000,000 ATHO`,
+- pre-tail base target: `400,000,000 ATHO`,
+- hard max emitted supply: `500,000,000 ATHO`,
 - supply floor guardrail: `21,000,000 ATHO`,
-- bootstrap allocation: `390,625 ATHO` at block `1`,
-- tail start at height `8,000,000`.
+- bootstrap allocation: `781,250 ATHO` at block `1`,
+- tail start at height `17,000,000`.
 
 Before tail start, block rewards follow a stepped era schedule. At tail start, reward behavior transitions to a lower fixed reward path (`0.1953125 ATHO/block`) and fee-routing rules become central to net supply behavior.
 
@@ -48,11 +48,11 @@ What matters for high-level readers is that Atho does not depend on vague “fut
 
 ## Fee Policy and Deflation Dynamics
 
-Atho’s fee floor is `350 atoms/vB`, with a minimum transaction fee of `100,000 atoms`. Fees are split by deterministic routing rules that vary by regime:
+Atho’s fee floor is `500 atoms/vB`, with a minimum transaction fee of `200,000 atoms`. Fees are split by deterministic routing rules that vary by regime:
 - pre-tail: `40%` of fees routed to consensus pool,
 - post-tail: `55%` of fees routed to consensus pool.
 
-In post-tail conditions, the non-pool portion is burn-routed under active policy constraints, subject to supply-floor clipping behavior. At full utilization under current assumptions, annual burn capacity can exceed annual tail issuance. This is why Atho’s modeled neutral utilization threshold is around `35.43%`: above that level, protocol-level net supply pressure becomes deflationary until floor constraints become the limiting factor.
+In post-tail conditions, the non-pool portion is burn-routed under active policy constraints, subject to supply-floor clipping behavior. At full utilization under current assumptions, annual burn capacity can exceed annual tail issuance. This is why Atho’s modeled neutral utilization threshold is around `24.802%`: above that level, protocol-level net supply pressure becomes deflationary until floor constraints become the limiting factor.
 
 This is an important investor concept. Atho is not “always inflationary” and not “always deflationary.” It is utilization-sensitive and policy-bounded. That makes the model more realistic than static labels.
 
