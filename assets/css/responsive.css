@@ -822,3 +822,123 @@
     font-size: 0.74rem;
   }
 }
+
+@media (max-width: 900px) {
+  .wallet-page,
+  .wallet-hierarchy-page,
+  .wallet-page main,
+  .wallet-hierarchy-page main {
+    overflow-x: clip;
+  }
+
+  .wallet-page .hero-actions,
+  .wallet-hierarchy-page .hero-actions {
+    flex-direction: column !important;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .wallet-page .hero-actions .btn,
+  .wallet-hierarchy-page .hero-actions .btn {
+    display: flex;
+    flex: 0 0 auto !important;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    justify-content: center;
+    white-space: normal;
+    padding: 0.9rem 1rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .wallet-hierarchy-page .split-grid,
+  .wallet-hierarchy-page .diagram-grid,
+  .wallet-hierarchy-page .formula-grid,
+  .wallet-hierarchy-page .constants-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.95rem !important;
+  }
+
+  .wallet-hierarchy-page .card,
+  .wallet-hierarchy-page .card.card-pad,
+  .wallet-hierarchy-page .diagram-card,
+  .wallet-hierarchy-page .diagram-note,
+  .wallet-hierarchy-page .source-note,
+  .wallet-hierarchy-page .join-code,
+  .wallet-hierarchy-page .pill-grid,
+  .wallet-hierarchy-page .constant-row,
+  .wallet-hierarchy-page .badge {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .wallet-hierarchy-page .pill-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+  }
+
+  .wallet-hierarchy-page .badge {
+    width: 100%;
+    justify-content: flex-start;
+    white-space: normal;
+  }
+
+  .wallet-hierarchy-page .join-code {
+    overflow-x: auto;
+  }
+
+  .wallet-hierarchy-page .join-code code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+}
+
+@media (max-width: 680px) {
+  .wallet-lockbox-shell {
+    min-height: 364px;
+    padding: 0.95rem 0.72rem;
+  }
+
+  .wallet-lockbox-line {
+    left: calc(50% - 1px);
+    right: auto;
+    top: 11%;
+    bottom: 11%;
+    width: 2px;
+    height: auto;
+    background: linear-gradient(180deg, rgba(51, 175, 234, 0.18), rgba(54, 196, 138, 0.88), rgba(51, 175, 234, 0.18));
+  }
+
+  .wallet-lockbox-node {
+    left: 50% !important;
+    transform: translateX(-50%);
+    width: calc(100% - 1rem);
+    min-width: 0 !important;
+    max-width: calc(100% - 1rem) !important;
+    padding: 0.44rem 0.56rem;
+    text-align: center;
+  }
+
+  .wallet-node-kdf {
+    top: 6%;
+  }
+
+  .wallet-node-aes {
+    top: 29%;
+  }
+
+  .wallet-node-wrap {
+    top: 52%;
+  }
+
+  .wallet-node-store {
+    top: 75%;
+  }
+
+  .wallet-lockbox-packet {
+    display: none;
+  }
+}
