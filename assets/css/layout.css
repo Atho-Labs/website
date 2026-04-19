@@ -206,6 +206,7 @@ body:not(.home-page) .site-header::before {
   min-width: 0;
   width: 100%;
   max-width: 540px;
+  max-width: min(100%, 540px);
   justify-self: end;
   align-self: stretch;
 }

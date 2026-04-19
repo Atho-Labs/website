@@ -40,11 +40,120 @@
 
   .hero-panel {
     max-width: none;
+    width: 100%;
     justify-self: stretch;
   }
 
   .site-quick-pages {
     justify-content: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .wallet-page .hero-grid,
+  .wallet-hierarchy-page .hero-grid {
+    gap: 1.5rem;
+  }
+  
+  .hero-panel,
+  .hero-panel > .card {
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+  
+  .hero-panel {
+    width: 100% !important;
+  }
+  
+  .hero-panel > * {
+    max-width: 100% !important;
+  }
+  
+  .card-pad {
+    padding: clamp(0.75rem, 2.2vw, 0.95rem) !important;
+  }
+  
+  /* Hierarchy diagram grids */
+  .wallet-hierarchy-page .diagram-grid,
+  .wallet-hierarchy-page .formula-grid,
+  .wallet-hierarchy-page .constants-grid {
+    grid-template-columns: 1fr;
+    gap: clamp(0.8rem, 1.8vw, 1.2rem);
+  }
+  
+  .wallet-hierarchy-page .diagram-note,
+  .wallet-hierarchy-page .source-note {
+    padding: clamp(0.85rem, 2vw, 1rem);
+  }
+
+  .wallet-hierarchy-page .pill-grid {
+    gap: 0.4rem;
+  }
+
+  .wallet-hierarchy-page .constant-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.26rem;
+  }
+
+  .wallet-hierarchy-page .constant-row strong {
+    max-width: 100%;
+  }
+ }
+
+@media (max-width: 480px) {
+  .hero-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .hero-actions .btn {
+    min-width: 100%;
+    justify-content: center;
+  }
+  
+  .wallet-page .hero-actions,
+  .wallet-hierarchy-page .hero-actions {
+    gap: 0.6rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .wrap {
+    padding-inline: 0.5rem !important;
+    max-width: 100% !important;
+  }
+  
+  .wallet-page .hero-grid,
+  .wallet-hierarchy-page .hero-grid,
+  .hero-grid {
+    gap: 1rem !important;
+    margin: 0;
+  }
+  
+  .wallet-page .hero-panel,
+  .wallet-page .hero-panel > *,
+  .wallet-hierarchy-page .hero-panel,
+  .wallet-hierarchy-page .hero-panel > * {
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+  
+  .card-pad {
+    padding: 0.6rem !important;
+  }
+  
+  .hero-copy {
+    padding: 0.6rem !important;
+  }
+  
+  .hero-copy h1 {
+    font-size: 1.6rem !important;
+    line-height: 1.1 !important;
+  }
+  
+  .section-title {
+    font-size: 1.4rem !important;
   }
 }
 
@@ -629,5 +738,87 @@
   .wallet-resource-actions .btn,
   .doc-actions .btn {
     width: 100%;
+  }
+}
+
+@media (max-width: 1220px) {
+  .wallet-page .hero-grid,
+  .wallet-hierarchy-page .hero-grid {
+    grid-template-columns: 1fr;
+    gap: clamp(1.25rem, 2.8vw, 1.85rem);
+  }
+
+  .wallet-page .hero-panel,
+  .wallet-hierarchy-page .hero-panel {
+    max-width: none;
+    width: 100%;
+    justify-self: stretch;
+  }
+
+  .wallet-page .hero-copy h1,
+  .wallet-hierarchy-page .hero-copy h1,
+  .wallet-page .hero-copy p,
+  .wallet-hierarchy-page .hero-copy p,
+  .wallet-page .section-title,
+  .wallet-hierarchy-page .section-title,
+  .wallet-page .panel-title,
+  .wallet-hierarchy-page .panel-title {
+    max-width: 100%;
+  }
+
+  .wallet-page .section-eyebrow,
+  .wallet-hierarchy-page .section-eyebrow,
+  .wallet-page .feature-tag,
+  .wallet-hierarchy-page .badge {
+    max-width: 100%;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 1080px) {
+  .wallet-hierarchy-page .split-grid,
+  .wallet-hierarchy-page .diagram-grid,
+  .wallet-hierarchy-page .formula-grid,
+  .wallet-hierarchy-page .constants-grid {
+    grid-template-columns: 1fr;
+    gap: clamp(0.85rem, 1.8vw, 1.2rem);
+  }
+}
+
+@media (max-width: 780px) {
+  .wallet-hierarchy-page .diagram-note,
+  .wallet-hierarchy-page .source-note {
+    padding: 1rem;
+  }
+
+  .wallet-hierarchy-page .pill-grid {
+    gap: 0.4rem;
+  }
+
+  .wallet-hierarchy-page .constant-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.26rem;
+  }
+
+  .wallet-hierarchy-page .constant-row strong {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .wallet-hierarchy-page .diagram-note,
+  .wallet-hierarchy-page .source-note {
+    padding: 0.9rem;
+    font-size: 0.88rem;
+  }
+
+  .wallet-hierarchy-page .diagram-note strong,
+  .wallet-hierarchy-page .source-note strong {
+    font-size: 0.72rem;
+  }
+
+  .wallet-hierarchy-page .constant-row {
+    font-size: 0.74rem;
   }
 }
