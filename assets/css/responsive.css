@@ -28,6 +28,7 @@
   }
 
   .metric-grid,
+  .artifact-grid,
   .feature-grid,
   .roadmap-grid,
   .docs-grid,
@@ -109,6 +110,7 @@
   .feature-grid,
   .roadmap-grid,
   .metric-grid,
+  .artifact-grid,
   .docs-grid,
   .docs-catalog-grid,
   .story-summary-grid,

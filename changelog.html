@@ -125,11 +125,79 @@
       </div>
     </section>
 
+    <section id="release-discipline" class="section">
+      <div class="wrap">
+        <div class="section-intro-stack">
+          <span class="section-eyebrow">Release Discipline</span>
+          <h2 class="section-title">Each public change should point to a protocol surface, a deploy surface, or a security surface.</h2>
+          <p class="section-copy">
+            The changelog is useful only if it stays concrete. Entries below are tied to live docs, deployable website
+            output, or explicit security-response posture.
+          </p>
+        </div>
+
+        <div class="artifact-grid" data-stagger>
+          <article class="card card-pad artifact-card" data-reveal>
+            <span class="artifact-label">Protocol Surface</span>
+            <h3 class="artifact-value">Docs and wallet guidance sync first.</h3>
+            <p class="artifact-note">Public-facing protocol language should change only when the active baseline, wallet model, or operator path changes.</p>
+            <div class="artifact-actions">
+              <a class="btn btn-primary btn-inline" href="./docs.html">Docs Hub</a>
+            </div>
+          </article>
+
+          <article class="card card-pad artifact-card" data-reveal>
+            <span class="artifact-label">Deploy Surface</span>
+            <h3 class="artifact-value">IONOS bundle is part of the record.</h3>
+            <p class="artifact-note">Website updates count only when the deploy bundle reflects the same source state as the live site and upload zip.</p>
+            <div class="artifact-actions">
+              <a class="btn btn-primary btn-inline" href="./docs.html#verification-docs">Review References</a>
+            </div>
+          </article>
+
+          <article class="card card-pad artifact-card" data-reveal>
+            <span class="artifact-label">Security Surface</span>
+            <h3 class="artifact-value">Disclosure path stays public.</h3>
+            <p class="artifact-note">If a security issue requires public notice, the changelog, contact page, and docs hub form the public response path.</p>
+            <div class="artifact-actions">
+              <a class="btn btn-primary btn-inline" href="./contact.html">Contact</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section id="version-releases" class="section">
       <div class="wrap">
         <span class="section-eyebrow">Version Releases</span>
         <h2 class="section-title">Main release thread</h2>
         <div class="roadmap-grid">
+          <article class="card card-pad roadmap-card" data-reveal>
+            <header class="roadmap-head">
+              <h3 class="roadmap-phase">Professional polish + proof pass</h3>
+              <span class="roadmap-state state-active">released</span>
+            </header>
+            <p>
+              On April 19, 2026, the public site received a consistency pass focused on section rhythm, clearer proof
+              paths, and stronger page-to-page polish.
+            </p>
+            <p class="consensus-release-meta">
+              Scope includes wider section-intro hierarchy tuning, new artifact/proof strips on key pages, roadmap copy
+              cleanup, and refreshed IONOS deployment output.
+            </p>
+            <ul class="join-step-list">
+              <li>Standardized section-intro rhythm with broader desktop heading measure and tighter supporting copy widths.</li>
+              <li>Added artifact and proof strips to the docs hub, Falcon page, roadmap, changelog, and contact page.</li>
+              <li>Tightened copy hierarchy on text-heavy pages so the strongest point in each section is easier to scan.</li>
+              <li>Rebuilt the IONOS upload bundle and synced the deployment zip to the current source state.</li>
+            </ul>
+            <div class="hero-actions consensus-release-actions">
+              <a class="btn btn-primary btn-inline" href="./docs.html#review-path">Open Review Path</a>
+              <a class="btn btn-ghost btn-inline" href="./roadmap.html#delivery-signals">Open Delivery Signals</a>
+              <a class="btn btn-ghost btn-inline" href="./falcon-512.html#falcon-proof">Open Falcon Proof</a>
+            </div>
+          </article>
+
           <article class="card card-pad roadmap-card" data-reveal>
             <header class="roadmap-head">
               <h3 class="roadmap-phase">Payment-Only Redesign Website Refresh</h3>
@@ -184,7 +252,7 @@
       <span>Atho Labs</span>
       <span class="footer-contact">
         <span class="footer-slogan">Atho. Public or private payments. The Platinum Standard for the Quantum Age.</span>
-        <span class="footer-updated">Last updated: April 18, 2026</span>
+        <span class="footer-updated">Last updated: April 19, 2026</span>
         <span>
           To report bugs, security issues, or general inquiries:
           <a href="./contact.html">Contact</a>

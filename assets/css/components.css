@@ -7061,6 +7061,91 @@ body:not(.home-page) .site-header,
   margin-top: var(--space-6);
 }
 
+.section-intro-stack {
+  display: grid;
+  gap: clamp(0.5rem, 1vw, 0.85rem);
+}
+
+.section-intro-stack .section-eyebrow,
+.section-intro-stack .eyebrow-row,
+.section-intro-stack .section-title,
+.section-intro-stack .section-copy {
+  margin: 0;
+}
+
+.section-intro-stack + .artifact-grid,
+.section-intro-stack + .docs-catalog-grid,
+.section-intro-stack + .feature-grid,
+.section-intro-stack + .roadmap-grid,
+.section-intro-stack + .roadmap-highway-shell,
+.section-intro-stack + .split-grid {
+  margin-top: var(--space-6);
+}
+
+.artifact-grid {
+  margin-top: var(--space-6);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 1.7vw, 1.35rem);
+}
+
+.artifact-card {
+  position: relative;
+  min-height: 100%;
+  display: grid;
+  align-content: start;
+  gap: 0.82rem;
+  overflow: hidden;
+}
+
+.artifact-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(240px 150px at 100% 0%, rgba(25, 166, 114, 0.12), transparent 72%),
+    radial-gradient(220px 140px at 0% 100%, rgba(51, 175, 234, 0.08), transparent 74%);
+  opacity: 0.92;
+}
+
+.artifact-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.artifact-label {
+  color: rgba(211, 232, 221, 0.68);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.artifact-value {
+  margin: 0;
+  color: #f4fbf7;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.artifact-note {
+  margin: 0;
+  max-width: 34ch;
+  color: rgba(220, 233, 226, 0.8);
+  line-height: 1.58;
+}
+
+.artifact-actions {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.62rem;
+}
+
 .doc-actions {
   flex-wrap: wrap;
 }

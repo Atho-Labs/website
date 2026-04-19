@@ -76,10 +76,18 @@
     <section id="contact-overview" class="section">
       <div class="wrap split-grid">
         <article class="card card-pad" data-reveal>
-          <h1 class="section-title">Contact Atho Labs</h1>
-          <p class="section-copy">For bug reports, security disclosures, integration questions, or general communication, use the email below.</p>
+          <div class="section-intro-stack">
+            <div class="eyebrow-row">
+              <span class="section-eyebrow section-eyebrow-hot">Contact</span>
+              <span class="section-eyebrow">Atho Labs</span>
+            </div>
+            <h1 class="section-title">Contact Atho Labs</h1>
+            <p class="section-copy">For bug reports, security disclosures, integration questions, or general communication, use the email below.</p>
+          </div>
           <div class="hero-actions">
-            <a class="btn btn-primary btn-inline" href="mailto:Labs@Atho.io">Labs@Atho.io</a>
+            <a class="btn btn-primary btn-inline" href="mailto:labs@atho.io">labs@atho.io</a>
+            <a class="btn btn-ghost btn-inline" href="./changelog.html">Release Trail</a>
+            <a class="btn btn-ghost btn-inline" href="./docs.html">Docs Hub</a>
           </div>
         </article>
         <article id="security-guidance" class="card card-pad" data-reveal>
@@ -110,6 +118,48 @@
         </article>
       </div>
     </section>
+
+    <section id="contact-routes" class="section">
+      <div class="wrap">
+        <div class="section-intro-stack">
+          <span class="section-eyebrow">Best Contact Path</span>
+          <h2 class="section-title">Send the right artifact set so routing is fast.</h2>
+          <p class="section-copy">
+            Good reports are easier to action when they include the right context on first contact. Different request
+            types need different inputs, and the cards below define the fastest path.
+          </p>
+        </div>
+
+        <div class="artifact-grid" data-stagger>
+          <article class="card card-pad artifact-card" data-reveal>
+            <span class="artifact-label">Security Reports</span>
+            <h3 class="artifact-value">Repro steps plus impact.</h3>
+            <p class="artifact-note">Include affected surface, environment, logs, and safe reproduction detail so the issue can be validated without guesswork.</p>
+            <div class="artifact-actions">
+              <a class="btn btn-primary btn-inline" href="mailto:labs@atho.io?subject=Security%20Report">Report Security Issue</a>
+            </div>
+          </article>
+
+          <article class="card card-pad artifact-card" data-reveal>
+            <span class="artifact-label">Integration Questions</span>
+            <h3 class="artifact-value">Goal, environment, and docs link.</h3>
+            <p class="artifact-note">Reference the exact guide, API path, or wallet flow you are trying to use so the response can stay technical and specific.</p>
+            <div class="artifact-actions">
+              <a class="btn btn-primary btn-inline" href="./docs.html">Open Docs Hub</a>
+            </div>
+          </article>
+
+          <article class="card card-pad artifact-card" data-reveal>
+            <span class="artifact-label">General Contact</span>
+            <h3 class="artifact-value">Context first, ask second.</h3>
+            <p class="artifact-note">General messages move faster when they include the topic, intended outcome, and any relevant public page or changelog reference.</p>
+            <div class="artifact-actions">
+              <a class="btn btn-primary btn-inline" href="./changelog.html">Open Changelog</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
@@ -117,7 +167,7 @@
       <span>Atho Labs</span>
       <span class="footer-contact">
         <span class="footer-slogan">Atho. Public or private payments. The Platinum Standard for the Quantum Age.</span>
-        <span class="footer-updated">Last updated: April 18, 2026</span>
+        <span class="footer-updated">Last updated: April 19, 2026</span>
         <span>
           To report bugs, security issues, or general inquiries:
           <a href="./contact.html">Contact</a>
