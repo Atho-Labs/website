@@ -14,14 +14,13 @@ html.perf-lite {
 
 body {
   margin: 0;
-  color: #f5efe3;
+  color: #e7f1eb;
   font-family: var(--font-body);
   background-color: var(--bg);
   background:
-    radial-gradient(1080px 420px at 50% 118%, rgba(227, 186, 114, 0.12), transparent 58%),
-    radial-gradient(860px 240px at 50% 110%, rgba(51, 175, 234, 0.09), transparent 66%),
-    radial-gradient(900px 620px at 0% 0%, rgba(17, 108, 82, 0.16), transparent 62%),
-    radial-gradient(760px 520px at 100% 4%, rgba(15, 149, 101, 0.12), transparent 64%),
+    radial-gradient(980px 360px at 50% 118%, rgba(18, 73, 56, 0.12), transparent 58%),
+    radial-gradient(900px 620px at 0% 0%, rgba(17, 108, 82, 0.15), transparent 62%),
+    radial-gradient(760px 520px at 100% 4%, rgba(12, 81, 62, 0.11), transparent 64%),
     linear-gradient(180deg, #020705 0%, #030a08 22%, #04100c 54%, #07130f 100%);
   line-height: 1.6;
   min-height: 100vh;
@@ -34,26 +33,26 @@ body::before {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(2px 2px at 8% 16%, rgba(244, 251, 247, 0.78), transparent 58%),
-    radial-gradient(1.6px 1.6px at 16% 29%, rgba(143, 215, 255, 0.64), transparent 60%),
-    radial-gradient(1.8px 1.8px at 24% 12%, rgba(244, 251, 247, 0.76), transparent 58%),
-    radial-gradient(1.5px 1.5px at 34% 24%, rgba(143, 215, 255, 0.54), transparent 60%),
-    radial-gradient(2px 2px at 42% 14%, rgba(244, 251, 247, 0.74), transparent 58%),
-    radial-gradient(1.5px 1.5px at 54% 18%, rgba(227, 186, 114, 0.56), transparent 60%),
-    radial-gradient(1.8px 1.8px at 62% 10%, rgba(244, 251, 247, 0.72), transparent 58%),
-    radial-gradient(1.4px 1.4px at 72% 25%, rgba(143, 215, 255, 0.56), transparent 62%),
-    radial-gradient(1.8px 1.8px at 82% 16%, rgba(244, 251, 247, 0.74), transparent 58%),
-    radial-gradient(1.6px 1.6px at 92% 30%, rgba(143, 215, 255, 0.52), transparent 60%),
-    radial-gradient(1.5px 1.5px at 12% 54%, rgba(143, 215, 255, 0.42), transparent 62%),
-    radial-gradient(1.7px 1.7px at 29% 60%, rgba(244, 251, 247, 0.62), transparent 60%),
-    radial-gradient(1.4px 1.4px at 48% 52%, rgba(143, 215, 255, 0.42), transparent 62%),
-    radial-gradient(1.7px 1.7px at 68% 58%, rgba(244, 251, 247, 0.62), transparent 60%),
-    radial-gradient(1.5px 1.5px at 88% 48%, rgba(143, 215, 255, 0.44), transparent 62%),
-    radial-gradient(1px 1px at 22% 74%, rgba(244, 251, 247, 0.34), transparent 62%),
-    radial-gradient(1px 1px at 58% 80%, rgba(143, 215, 255, 0.32), transparent 62%),
-    radial-gradient(1px 1px at 84% 72%, rgba(244, 251, 247, 0.34), transparent 62%),
+    radial-gradient(2px 2px at 8% 16%, rgba(244, 251, 247, 0.72), transparent 58%),
+    radial-gradient(1.6px 1.6px at 16% 29%, rgba(164, 219, 195, 0.42), transparent 60%),
+    radial-gradient(1.8px 1.8px at 24% 12%, rgba(244, 251, 247, 0.68), transparent 58%),
+    radial-gradient(1.5px 1.5px at 34% 24%, rgba(116, 203, 232, 0.28), transparent 60%),
+    radial-gradient(2px 2px at 42% 14%, rgba(244, 251, 247, 0.68), transparent 58%),
+    radial-gradient(1.5px 1.5px at 54% 18%, rgba(164, 219, 195, 0.32), transparent 60%),
+    radial-gradient(1.8px 1.8px at 62% 10%, rgba(244, 251, 247, 0.64), transparent 58%),
+    radial-gradient(1.4px 1.4px at 72% 25%, rgba(116, 203, 232, 0.24), transparent 62%),
+    radial-gradient(1.8px 1.8px at 82% 16%, rgba(244, 251, 247, 0.68), transparent 58%),
+    radial-gradient(1.6px 1.6px at 92% 30%, rgba(164, 219, 195, 0.28), transparent 60%),
+    radial-gradient(1.5px 1.5px at 12% 54%, rgba(116, 203, 232, 0.2), transparent 62%),
+    radial-gradient(1.7px 1.7px at 29% 60%, rgba(244, 251, 247, 0.52), transparent 60%),
+    radial-gradient(1.4px 1.4px at 48% 52%, rgba(164, 219, 195, 0.22), transparent 62%),
+    radial-gradient(1.7px 1.7px at 68% 58%, rgba(244, 251, 247, 0.52), transparent 60%),
+    radial-gradient(1.5px 1.5px at 88% 48%, rgba(116, 203, 232, 0.2), transparent 62%),
+    radial-gradient(1px 1px at 22% 74%, rgba(244, 251, 247, 0.26), transparent 62%),
+    radial-gradient(1px 1px at 58% 80%, rgba(164, 219, 195, 0.18), transparent 62%),
+    radial-gradient(1px 1px at 84% 72%, rgba(244, 251, 247, 0.26), transparent 62%),
     radial-gradient(1100px 580px at 50% -18%, rgba(10, 82, 63, 0.14), transparent 64%);
-  opacity: 0.95;
+  opacity: 0.78;
   pointer-events: none;
   z-index: -1;
 }
@@ -64,10 +63,10 @@ body::after {
   inset: 0;
   pointer-events: none;
   z-index: -1;
-  opacity: 0.74;
+  opacity: 0.56;
   background:
-    radial-gradient(520px 110px at 50% 100%, rgba(255, 214, 135, 0.2), transparent 76%),
-    radial-gradient(980px 220px at 50% 108%, rgba(51, 175, 234, 0.12), transparent 72%),
+    radial-gradient(920px 180px at 50% 104%, rgba(25, 149, 106, 0.12), transparent 74%),
+    radial-gradient(780px 280px at 50% -10%, rgba(9, 66, 52, 0.08), transparent 74%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0) 22%);
 }
 
@@ -108,12 +107,12 @@ select {
 }
 
 ::selection {
-  background: rgba(143, 215, 255, 0.38);
-  color: #f7f1e5;
+  background: rgba(86, 203, 154, 0.34);
+  color: #f3fcf7;
 }
 
 :focus-visible {
-  outline: 2px solid rgba(57, 172, 233, 0.7);
+  outline: 2px solid rgba(86, 203, 154, 0.62);
   outline-offset: 2px;
 }
 
@@ -150,11 +149,11 @@ main [id] {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  border: 1px solid rgba(192, 222, 206, 0.18);
+  border: 1px solid rgba(178, 219, 199, 0.14);
   border-radius: var(--radius-pill);
-  background: rgba(250, 244, 233, 0.08);
-  color: #f5efe4;
-  backdrop-filter: blur(10px);
+  background: rgba(10, 21, 17, 0.62);
+  color: #eaf6f0;
+  backdrop-filter: blur(6px);
   font-family: var(--font-mono);
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -171,8 +170,8 @@ main [id] {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(110deg, transparent 0, rgba(255, 248, 236, 0.22) 46%, transparent 64%);
-  opacity: 0.45;
+  background: linear-gradient(110deg, transparent 0, rgba(255, 255, 255, 0.12) 46%, transparent 64%);
+  opacity: 0.2;
 }
 
 body:not(.home-page) .section-eyebrow::after {
@@ -180,10 +179,10 @@ body:not(.home-page) .section-eyebrow::after {
 }
 
 .section-eyebrow-hot {
-  border-color: rgba(166, 218, 186, 0.2);
-  background: linear-gradient(180deg, rgba(49, 141, 97, 0.22), rgba(185, 135, 50, 0.12));
-  color: #f8f2e8;
-  box-shadow: 0 12px 26px rgba(2, 8, 6, 0.18);
+  border-color: rgba(151, 222, 189, 0.22);
+  background: linear-gradient(180deg, rgba(32, 118, 87, 0.3), rgba(10, 44, 34, 0.2));
+  color: #effaf4;
+  box-shadow: 0 10px 22px rgba(2, 8, 6, 0.12);
 }
 
 .section-title {
@@ -194,14 +193,14 @@ body:not(.home-page) .section-eyebrow::after {
   line-height: 1.08;
   letter-spacing: -0.02em;
   text-wrap: balance;
-  color: #f7f1e5;
+  color: #f5fcf8;
   max-width: 20ch;
 }
 
 .section-copy {
   margin: 0;
   max-width: 70ch;
-  color: rgba(235, 228, 216, 0.72);
+  color: rgba(223, 236, 229, 0.76);
   font-size: clamp(1rem, 1.25vw, 1.08rem);
   line-height: 1.7;
 }
