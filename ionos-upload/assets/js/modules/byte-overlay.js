@@ -1,6 +1,5 @@
 const WORDS = [
   "ATHO",
-  "BPOW",
   "FALCON512",
   "SHA3-384",
   "UTXO",
@@ -13,9 +12,9 @@ const WORDS = [
   "KEY",
   "WITNESS",
   "HASH",
-  "POOL",
-  "STAKE",
-  "BOND",
+  "PRIVATE",
+  "PAYMENT",
+  "X-ADDR",
   "TX"
 ];
 

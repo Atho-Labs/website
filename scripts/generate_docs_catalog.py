@@ -15,8 +15,8 @@ REPO_ROOT = SITE_ROOT.parent.parent
 PDF_ROOT = SITE_ROOT / "assets" / "docs" / "pdf"
 CATALOG_OUT = SITE_ROOT / "assets" / "js" / "data" / "docs-catalog.js"
 LOCAL_DOCS_ROOT = SITE_ROOT / "assets" / "docs" / "source" / "Docs"
-ATHO_BETA_DOCS_ROOT = REPO_ROOT / "Atho-Beta-main" / "Docs"
-LEGACY_DOCS_ROOT = REPO_ROOT / "Docs"
+ATHO_BETA_DOCS_ROOT = REPO_ROOT / "Atho-Beta-main" / "docs"
+LEGACY_DOCS_ROOT = REPO_ROOT / "docs"
 
 
 def resolve_docs_root() -> Path:
@@ -24,7 +24,7 @@ def resolve_docs_root() -> Path:
     candidates = []
     if env_root:
         candidates.append(Path(env_root).expanduser())
-    candidates.extend([LOCAL_DOCS_ROOT, ATHO_BETA_DOCS_ROOT, LEGACY_DOCS_ROOT])
+    candidates.extend([ATHO_BETA_DOCS_ROOT, LOCAL_DOCS_ROOT, LEGACY_DOCS_ROOT])
     for candidate in candidates:
         if candidate.exists() and candidate.is_dir():
             return candidate.resolve()
@@ -296,6 +296,20 @@ def source_files() -> list[Path]:
             continue
         if "Whitepaper_Assets" in path.as_posix():
             continue
+        rel = path.relative_to(DOCS_ROOT)
+        rel_posix = rel.as_posix()
+        if rel_posix.startswith("Emissions Modeling/") and path.name != "Entire_Overview.md":
+            continue
+        if rel_posix.startswith("Genesis/"):
+            continue
+        if "Consensus_Verification_Grade_Audit" in path.name:
+            continue
+        if path.name == "SRC_FILE_MAP.md":
+            continue
+        if path.name == "inflation-deflationary.pdf":
+            continue
+        if path.stem == "Inflation_Deflationary":
+            continue
         paths.append(path)
     return paths
 
@@ -305,7 +319,9 @@ def build_catalog() -> list[dict[str, object]]:
     for stale in PDF_ROOT.glob("*.pdf"):
         stale.unlink(missing_ok=True)
 
-    priority = {".pdf": 0, ".md": 1, ".txt": 2, ".csv": 3, ".json": 4}
+    # Prefer editable text sources over bundled PDFs so the site reflects the
+    # latest docs-tree updates instead of older prebuilt exports.
+    priority = {".md": 0, ".txt": 1, ".csv": 2, ".json": 3, ".pdf": 4}
     selected_by_slug: dict[str, Path] = {}
 
     for source in source_files():

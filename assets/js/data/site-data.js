@@ -1,68 +1,33 @@
 export const featureCards = [
   {
-    title: "Quantum-First Design",
-    body: "Atho is designed for a future where quantum attacks are real, not as a last-minute patch later.",
+    title: "Payments-Only Core",
+    body: "Atho keeps the product surface narrow: proof-of-work payments with public settlement and privacy when it is actually needed.",
     tag: "Mission"
   },
   {
-    title: "Falcon-512 Signatures",
-    body: "Transactions use post-quantum signatures designed to stay secure beyond classical cryptography.",
-    tag: "Signatures"
+    title: "Falcon-512 Security",
+    body: "Transaction signatures are post-quantum by default, giving the chain a long-horizon security posture instead of a classical-only fallback.",
+    tag: "Security"
   },
   {
-    title: "SHA3-384 Core Hashing",
-    body: "Core IDs and signing payloads use SHA3-384 for a stronger long-term security margin.",
-    tag: "Hashing"
+    title: "Public + Private Payments",
+    body: "Standard UTXO transfers and Platinum Shield private flows live on the same chain, so users do not have to switch networks to switch privacy modes.",
+    tag: "Payments"
   },
   {
-    title: "BPoW + Wallet Staking",
-    body: "Bonded Proof of Work secures block production while wallet staking remains a separate deterministic reward role.",
-    tag: "Consensus"
-  },
-  {
-    title: "UTXO by Design",
-    body: "Atho keeps state simple and verifiable with a UTXO model that reduces complexity and attack surface.",
-    tag: "Ledger"
-  },
-  {
-    title: "Platinum Shield Privacy Layer",
-    body: "Public UTXO and private-note transaction paths coexist on Layer 1 with deterministic bridge rules and fail-closed validation.",
-    tag: "Privacy"
-  },
-  {
-    title: "Tighten-Only Upgrades",
-    body: "Protocol changes are meant to increase rigor over time, not quietly loosen core safety rules.",
+    title: "Deterministic Emissions",
+    body: "Issuance starts at 100 ATHO, decays once per day across 720 blocks, and stays easy to audit from docs to runtime constants.",
     tag: "Policy"
   },
   {
-    title: "Binary Integrity Pinning",
-    body: "Critical cryptographic binaries are verified by digest before use to reduce supply-chain risk.",
-    tag: "Integrity"
+    title: "Finite Max Supply",
+    body: "The active model points to a single one-billion ATHO cap, replacing older mixed messaging with a cleaner long-run monetary story.",
+    tag: "Supply"
   },
   {
-    title: "Base56 Addresses",
-    body: "Ambiguous characters are removed to reduce human mistakes when reading or sharing addresses.",
-    tag: "UX Safety"
-  },
-  {
-    title: "Dual-Layer Key Protection",
-    body: "AES-256-GCM plus Kyber-based key wrapping protects wallet secrets with independent security layers.",
-    tag: "Wallet Security"
-  },
-  {
-    title: "Mnemonic Phrase Recovery",
-    body: "Deterministic mnemonic recovery keeps wallet portability practical while preserving local custody boundaries.",
-    tag: "Recovery"
-  },
-  {
-    title: "SegWit Transaction Layout",
-    body: "SegWit-style structure reduces malleability risk and keeps transaction handling cleaner for signing and relay paths.",
-    tag: "SegWit"
-  },
-  {
-    title: "Deterministic Fee Routing",
-    body: "Fee uplift, pool routing, burn, and miner/stake splits are consensus-accounted so reward flows can be independently audited.",
-    tag: "Tokenomics"
+    title: "Wallet Recovery Discipline",
+    body: "Wallet custody keeps payment addresses, private receive material, encryption, and deterministic recovery in one readable model.",
+    tag: "Wallet"
   }
 ];
 
@@ -91,51 +56,33 @@ export const roadmapItems = [
 
 export const metricCards = [
   {
-    label: "Target Block Time",
+    label: "Block Time",
     value: 120,
-    suffix: " sec",
-    foot: "Fast, steady chain cadence"
+    display: "120 sec",
+    foot: "Steady two-minute block cadence"
   },
   {
-    label: "Simple-Flow Peak Throughput",
-    value: 56.86,
-    suffix: " TPS",
-    foot: "Estimated 1-in/1-out peak at 3,500,000 vB and 120s blocks"
+    label: "Confirmations",
+    value: 6,
+    display: "6",
+    foot: "Standard and private confirmation target"
   },
   {
-    label: "Bootstrap Budget",
-    value: 781250,
-    suffix: " ATHO",
-    foot: "Consensus bootstrap allocation at block 1"
-  },
-  {
-    label: "Starting Block Reward",
+    label: "Starting Reward",
     value: 100,
-    suffix: " ATHO",
-    foot: "Block rewards start at 100 ATHO in Era 1"
+    display: "100 ATHO",
+    foot: "Initial block subsidy at genesis"
   },
   {
-    label: "Base Emission Supply",
-    value: 400000000,
-    suffix: " ATHO",
-    foot: "Total pre-tail base: 399,218,750 subsidy + 781,250 bootstrap"
+    label: "Daily Decay",
+    value: 720,
+    display: "720 blocks",
+    foot: "Reward steps down once per day"
   },
   {
     label: "Max Supply",
-    value: 500000000,
-    suffix: " ATHO",
-    foot: "Hard cap enforced by consensus subsidy clipping at 500,000,000 ATHO"
-  },
-  {
-    label: "Supply Floor",
-    value: 21000000,
-    suffix: " ATHO",
-    foot: "Effective floor for burn clipping; total supply cannot be burned below 21,000,000 ATHO"
-  },
-  {
-    label: "Transaction Confirmations",
-    value: 10,
-    suffix: "",
-    foot: "Recommended finality target"
+    value: 1000000000,
+    display: "1B ATHO",
+    foot: "Single hard-cap supply model"
   }
 ];

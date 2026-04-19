@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 1908 >>
+<< /Length 1900 >>
 stream
 BT
 /F1 10 Tf
@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-04-05) Tj
+(Date: 2026-04-18) Tj
 T*
 () Tj
 T*
@@ -53,11 +53,11 @@ T*
 T*
 (Active policy constants:) Tj
 T*
-(- fee floor: 500 atoms/vB) Tj
+(- fee floor: 1 atom/vB) Tj
 T*
-(- minimum tx fee: 200,000 atoms) Tj
+(- minimum tx fee: 500 atoms) Tj
 T*
-(- tx confirmations required for regular spend visibility: 10) Tj
+(- tx confirmations required for regular spend visibility: 6) Tj
 T*
 (- Binary Transport Codec) Tj
 T*
@@ -247,7 +247,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 2481 >>
+<< /Length 2421 >>
 stream
 BT
 /F1 10 Tf
@@ -309,33 +309,25 @@ T*
 T*
 () Tj
 T*
-(11.1\) Role-Aware Lockup Flows \(Bond and Stake\)) Tj
+(11.1\) Payment-Only Ownership Model) Tj
 T*
-(Bonding and staking are represented as normal transaction flows to deterministic role-derived) Tj
-T*
-(destinations, with additional consensus state handling:) Tj
-T*
-(- bond deposit/top-up to bond-derived address,) Tj
-T*
-(- stake deposit/top-up to stake-derived address,) Tj
-T*
-(- exit/withdraw paths gated by state and height rules.) Tj
+(The active chain no longer supports bond or stake transaction roles.) Tj
 T*
 () Tj
 T*
-(Consensus rejects malformed or unauthorized role-path interactions, even when base transaction) Tj
+(Current public ownership model:) Tj
 T*
-(format is otherwise valid.) Tj
+(- payment outputs bind to the regular owner digest,) Tj
+T*
+(- spend authorization is checked against the payment owner,) Tj
+T*
+(- no lockup-role exit/withdraw transaction class is active.) Tj
 T*
 () Tj
 T*
-(Key point:) Tj
+(Any older mention of bond/stake transaction flows is historical and not part of the current) Tj
 T*
-(- display addresses can vary by UI form,) Tj
-T*
-(- consensus ownership/eligibility checks are driven by deterministic pubkey-derived role) Tj
-T*
-(digests.) Tj
+(transaction-validity path.) Tj
 T*
 (- Throughput Mapping \(Measured\)) Tj
 T*
@@ -357,19 +349,6 @@ T*
 T*
 (| public 1 in / 2 out | 553 | 52.74 | 50.11 |) Tj
 T*
-ET
-endstream
-endobj
-10 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
-endobj
-11 0 obj
-<< /Length 441 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (| public -> private | 2471 | 11.80 | 11.21 |) Tj
 T*
 (| private -> public | 2708 | 10.77 | 10.23 |) Tj
@@ -378,6 +357,19 @@ T*
 T*
 () Tj
 T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 274 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (Conclusion:) Tj
 T*
 (- public throughput envelope remains high for standard payments,) Tj
@@ -397,14 +389,14 @@ xref
 0000000140 00000 n 
 0000000208 00000 n 
 0000000334 00000 n 
-0000002294 00000 n 
-0000002420 00000 n 
-0000005062 00000 n 
-0000005188 00000 n 
-0000007721 00000 n 
-0000007849 00000 n 
+0000002286 00000 n 
+0000002412 00000 n 
+0000005054 00000 n 
+0000005180 00000 n 
+0000007653 00000 n 
+0000007781 00000 n 
 trailer
 << /Size 12 /Root 1 0 R >>
 startxref
-8342
+8107
 %%EOF

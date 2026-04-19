@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2368 >>
+<< /Length 2117 >>
 stream
 BT
 /F1 10 Tf
@@ -23,13 +23,51 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-04-04) Tj
+(Date: 2026-04-18) Tj
 T*
 () Tj
 T*
 (This document explains the current stack, why each layer exists, and where the implementation) Tj
 T*
 (lives.) Tj
+T*
+() Tj
+T*
+(2026-04-18 Redesign Note) Tj
+T*
+() Tj
+T*
+(The active Atho protocol is now payment-only public/private UTXO.) Tj
+T*
+() Tj
+T*
+(Current policy differences from older stack descriptions:) Tj
+T*
+(- no staking) Tj
+T*
+(- no bonding) Tj
+T*
+(- no BPoW payout or slash logic) Tj
+T*
+(- no fee-pool routing) Tj
+T*
+(- no protocol fee burn) Tj
+T*
+(- 5 decimals) Tj
+T*
+(- 1 ATHO = 100,000 atoms) Tj
+T*
+(- fee floor 1 atom/vB) Tj
+T*
+(- minimum tx fee 500 atoms) Tj
+T*
+() Tj
+T*
+(If later sections in this document mention bond/stake stores, BPoW eligibility, or the old fee) Tj
+T*
+(model, treat those passages as historical context and cross-check active behavior against) Tj
+T*
+(Consensus.md and Emissions.md.) Tj
 T*
 () Tj
 T*
@@ -85,6 +123,19 @@ T*
 T*
 () Tj
 T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2421 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (Components:) Tj
 T*
 (- falcon_cli binary for keygen/sign/verify.) Tj
@@ -123,22 +174,11 @@ T*
 T*
 (- API/UI display remains stable \(human-readable fields, canonical encoding\), while internal math) Tj
 T*
-ET
-endstream
-endobj
-6 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
-endobj
-7 0 obj
-<< /Length 2336 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (stays integer-atom based.) Tj
 T*
-(- Fee policy is enforced on canonical vsize with current floor 500 atoms/vB.) Tj
+(- Fee policy is enforced on canonical vsize with current floor 1 atom/vB and minimum tx fee 500) Tj
+T*
+(atoms.) Tj
 T*
 () Tj
 T*
@@ -188,19 +228,32 @@ T*
 T*
 (- Block verification and consensus admission gates.) Tj
 T*
-(- BPoW bond/stake state machines \(bond.lmdb, stake.lmdb\) and fee-pool routing logic.) Tj
+(- Private note validation and anchor/nullifier enforcement.) Tj
 T*
 () Tj
 T*
-(BPoW execution in this layer:) Tj
+(Current payment-only execution in this layer:) Tj
 T*
-(- validates miner proof fields in block body \(miner_pubkey, reward_address, miner_signature\),) Tj
+(- validates public UTXO spends and signatures,) Tj
 T*
-(- derives expected bond identity from raw pubkey + role domain,) Tj
+(- validates private note proofs, anchors, and nullifiers,) Tj
 T*
-(- enforces bond state/confirmations/threshold at active heights,) Tj
+(- enforces fee, dust, and max-supply policy,) Tj
 T*
-(- classifies slashable-invalid vs stale/orphan conditions deterministically.) Tj
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 2216 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- admits blocks without bonded-role or stake-eligibility side state.) Tj
 T*
 () Tj
 T*
@@ -240,19 +293,6 @@ T*
 T*
 (- CUDA miner binary \(gpu_miner_cuda\) for NVIDIA systems where supported.) Tj
 T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 1399 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- Runtime backend auto/probe logic with explicit error reporting.) Tj
 T*
 () Tj
@@ -328,12 +368,12 @@ xref
 0000000133 00000 n 
 0000000201 00000 n 
 0000000327 00000 n 
-0000002747 00000 n 
-0000002873 00000 n 
-0000005261 00000 n 
-0000005387 00000 n 
+0000002496 00000 n 
+0000002622 00000 n 
+0000005095 00000 n 
+0000005221 00000 n 
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-6838
+7489
 %%EOF

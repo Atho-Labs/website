@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2407 >>
+<< /Length 2428 >>
 stream
 BT
 /F1 10 Tf
@@ -23,13 +23,27 @@ BT
 T*
 () Tj
 T*
-(Last refresh: 2026-04-04.) Tj
+(Last refresh: 2026-04-18.) Tj
 T*
 () Tj
 T*
 (This document covers the desktop client \(Src/GUI/gui.py\) and the integrated Web Explorer served) Tj
 T*
 (from Src/GUI/web_explorer.html.) Tj
+T*
+() Tj
+T*
+(2026-04-18 Redesign Note) Tj
+T*
+() Tj
+T*
+(The active GUI path is payment-only:) Tj
+T*
+(- wallet cards and send flows use payment addresses,) Tj
+T*
+(- staking/bonding dashboards and commands are removed,) Tj
+T*
+(- GUI policy displays should follow the 5-decimal payment-focused network profile.) Tj
 T*
 () Tj
 T*
@@ -109,6 +123,19 @@ T*
 T*
 (- summary + inputs/outputs + metadata + raw JSON section) Tj
 T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2179 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- **Address page**:) Tj
 T*
 (- confirmed/pending/available balances) Tj
@@ -123,19 +150,6 @@ T*
 T*
 () Tj
 T*
-ET
-endstream
-endobj
-6 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
-endobj
-7 0 obj
-<< /Length 2214 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (Copy and audit UX) Tj
 T*
 (- Clickable hashes/txids/addresses include compact copy buttons.) Tj
@@ -224,11 +238,30 @@ T*
 T*
 (and balance states should reflect current network policy:) Tj
 T*
-(- regular confirmations target: 10,) Tj
+(- regular confirmations target: 6,) Tj
 T*
-(- private note confirmations target: 10,) Tj
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 958 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- private note confirmations target: 6,) Tj
 T*
-(- coinbase maturity: 150.) Tj
+(- coinbase maturity: 150,) Tj
+T*
+(- display precision: 5 decimals,) Tj
+T*
+(- fee floor: 1 atom/vB,) Tj
+T*
+(- minimum tx fee: 500 atoms.) Tj
 T*
 () Tj
 T*
@@ -240,19 +273,6 @@ T*
 T*
 (Recommended operational checks for GUI deployments:) Tj
 T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 525 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- confirm GUI and API are running from the same repository/build snapshot,) Tj
 T*
 (- confirm bridge endpoint accessibility from local browser,) Tj
@@ -278,12 +298,12 @@ xref
 0000000133 00000 n 
 0000000201 00000 n 
 0000000327 00000 n 
-0000002786 00000 n 
-0000002912 00000 n 
-0000005178 00000 n 
-0000005304 00000 n 
+0000002807 00000 n 
+0000002933 00000 n 
+0000005164 00000 n 
+0000005290 00000 n 
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-5880
+6299
 %%EOF

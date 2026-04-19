@@ -1,0 +1,6414 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 54 /Kids [4 0 R 6 0 R 8 0 R 10 0 R 12 0 R 14 0 R 16 0 R 18 0 R 20 0 R 22 0 R 24 0 R 26 0 R 28 0 R 30 0 R 32 0 R 34 0 R 36 0 R 38 0 R 40 0 R 42 0 R 44 0 R 46 0 R 48 0 R 50 0 R 52 0 R 54 0 R 56 0 R 58 0 R 60 0 R 62 0 R 64 0 R 66 0 R 68 0 R 70 0 R 72 0 R 74 0 R 76 0 R 78 0 R 80 0 R 82 0 R 84 0 R 86 0 R 88 0 R 90 0 R 92 0 R 94 0 R 96 0 R 98 0 R 100 0 R 102 0 R 104 0 R 106 0 R 108 0 R 110 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2786 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Master Production-Readiness Checklist) Tj
+T*
+() Tj
+T*
+(Date: 2026-04-15) Tj
+T*
+() Tj
+T*
+(Scope: implementation checklist for taking Atho from its current beta / pre-production state to) Tj
+T*
+(a production-grade version 1.) Tj
+T*
+() Tj
+T*
+(Primary source base:) Tj
+T*
+(- Verification_Grade_Architecture_Audit) Tj
+T*
+(- Consensus_Verification_Grade_Audit) Tj
+T*
+(- Production_Grade_Refactoring_Blueprint) Tj
+T*
+(- Production_Desktop_and_External_Interface_Blueprint) Tj
+T*
+(- Master_Prioritized_Checklist) Tj
+T*
+(- Atho_Performance_Language_Migration_Audit) Tj
+T*
+(- Atho_Improvement_Proposal_Beta_to_Production) Tj
+T*
+(- Alpha_Alpha_Master) Tj
+T*
+() Tj
+T*
+(Working rules:) Tj
+T*
+(- correctness outranks optimization) Tj
+T*
+(- canonical truth outranks convenience) Tj
+T*
+(- proof and observability come before invasive refactors) Tj
+T*
+(- topology is a first-class production concern, not a side note) Tj
+T*
+(- Python is acceptable in many areas if authority, boundaries, and hot paths are cleaned up) Tj
+T*
+(first) Tj
+T*
+(- native migration must be targeted, not ideological) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(Executive Summary) Tj
+T*
+() Tj
+T*
+(This document is the working execution board for taking Atho from ?substantial beta system? to) Tj
+T*
+(?production-grade release candidate.? It is not a new audit and not a replacement architecture) Tj
+T*
+(essay. It is the same core checklist direction you already had, but reorganized so it is easier) Tj
+T*
+(to follow top to bottom, easier to execute in the right order, and easier to use as a real) Tj
+T*
+(engineering tracker.) Tj
+T*
+() Tj
+T*
+(The governing logic of the checklist is:) Tj
+T*
+(- Prove canonical truth first.) Tj
+T*
+(   Consensus authority, serialization authority, replay equivalence, private/public) Tj
+T*
+(conservation, supply closure, and single-writer state all come before convenience improvements.) Tj
+T*
+(- Harden storage and runtime ownership next.) Tj
+T*
+(   Once canonical behavior is proved, the next job is to make state mutation, lifecycle control,) Tj
+T*
+(restart behavior, and topology boundaries explicit and safe.) Tj
+T*
+(- Then clean up service boundaries and desktop behavior.) Tj
+T*
+(   API, GUI, localhost contracts, revision-aware reads, and event flow should only be stabilized) Tj
+T*
+(after backend ownership is clear.) Tj
+T*
+(- Then make packaging, deployment, and external integration safe.) Tj
+T*
+(   Installer behavior, OS-native layouts, network separation, public-safe APIs, operator) Tj
+T*
+(runbooks, and release engineering should be built on top of already-stable ownership and) Tj
+T*
+(contracts.) Tj
+T*
+(- Optimize last, and only where it matters.) Tj
+T*
+(   Performance work should be mostly selective and kernel-focused. Broad rewrites are not) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2859 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(justified before semantic centralization and parity harnesses exist.) Tj
+T*
+() Tj
+T*
+(The biggest current strengths:) Tj
+T*
+(- Atho already has real protocol, wallet, mining, storage, private-state, GUI, and packaging) Tj
+T*
+(machinery.) Tj
+T*
+(- There is enough structure to harden rather than start over.) Tj
+T*
+(- The repo already uses native code selectively where it is clearly useful.) Tj
+T*
+() Tj
+T*
+(The biggest current risks:) Tj
+T*
+(- overlapping authority in tx/block validation and runtime control) Tj
+T*
+(- incomplete proof around private-state behavior, replay, and fail-closed boundaries) Tj
+T*
+(- ambiguous lifecycle and GUI/backend orchestration responsibilities) Tj
+T*
+(- uneven production hardening across packaging, external interfaces, and release discipline) Tj
+T*
+() Tj
+T*
+(How this version differs from the prior checklist:) Tj
+T*
+(- the content is preserved in spirit and mostly in substance) Tj
+T*
+(- the ordering now follows system dependency flow) Tj
+T*
+(- every major section now has a clearer internal execution path) Tj
+T*
+(- section hierarchy is more deliberate) Tj
+T*
+(- dependencies, ?do not move on before,? and ?what this unlocks? are more visible) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(How to Use This Checklist) Tj
+T*
+() Tj
+T*
+(Read It in System Order, Not by Excitement) Tj
+T*
+() Tj
+T*
+(This checklist is meant to be worked through from top to bottom. The order is deliberate:) Tj
+T*
+(- prove and stabilize canonical truth first) Tj
+T*
+(- then stabilize replay, storage, and runtime authority) Tj
+T*
+(- then stabilize service, API, and GUI behavior) Tj
+T*
+(- then harden packaging, deployment, and external interfaces) Tj
+T*
+(- then do performance and later-stage polish) Tj
+T*
+() Tj
+T*
+(If a later section looks easier or more fun, that does not mean it is safe to do early. In Atho,) Tj
+T*
+(the dangerous mistakes are usually not ?missing features.? They are premature refactors that) Tj
+T*
+(cross an authority boundary before the lower layer is proven.) Tj
+T*
+() Tj
+T*
+(Distinguish Four Kinds of Work) Tj
+T*
+() Tj
+T*
+(Use the checklist by classifying work correctly:) Tj
+T*
+(- Proof work) Tj
+T*
+(  Evidence-building work: traces, vectors, parity checks, authority maps, topology diagrams,) Tj
+T*
+(fault injection, replay tests.) Tj
+T*
+(- Low-risk cleanup) Tj
+T*
+(  Work that reduces ambiguity without changing semantics: module splits, path cleanup, response) Tj
+T*
+(envelopes, clearer ownership maps, structured logs.) Tj
+T*
+(- Medium-risk structural refactor) Tj
+T*
+(  Work that changes boundaries or execution flow but should not change consensus semantics:) Tj
+T*
+(supervisor extraction, API cleanup, GUI state-store cleanup, query/read separation.) Tj
+T*
+(- High-risk change) Tj
+T*
+(  Work that can affect consensus or runtime safety if done wrong: block admission changes,) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 2089 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(replay sequencing changes, private-state semantics changes, storage layout changes, canonical) Tj
+T*
+(topology changes.) Tj
+T*
+() Tj
+T*
+(Do not treat these as interchangeable. In most sections, the safe order is:) Tj
+T*
+(- instrument) Tj
+T*
+(- prove) Tj
+T*
+(- wrap) Tj
+T*
+(- centralize) Tj
+T*
+(- refactor) Tj
+T*
+(- optimize) Tj
+T*
+() Tj
+T*
+(Use Dependencies Explicitly) Tj
+T*
+() Tj
+T*
+(Each major section now shows:) Tj
+T*
+(- what it depends on) Tj
+T*
+(- what should be done first inside the section) Tj
+T*
+(- what not to touch yet) Tj
+T*
+(- what must be true before moving on) Tj
+T*
+(- what it unlocks later) Tj
+T*
+() Tj
+T*
+(If a section says ?do not move on before,? take that literally. For example:) Tj
+T*
+(- do not refactor consensus flow before observability and vectors exist) Tj
+T*
+(- do not split services before ownership is clarified) Tj
+T*
+(- do not package for production before path/config/network separation is hardened) Tj
+T*
+(- do not expose public interfaces before contracts are stable) Tj
+T*
+() Tj
+T*
+(Track by System and by Phase) Tj
+T*
+() Tj
+T*
+(This document supports two tracking modes:) Tj
+T*
+(- System mode) Tj
+T*
+(   Use the main checklist when a team or contributor owns a system area such as consensus,) Tj
+T*
+(storage, GUI, or packaging.) Tj
+T*
+(- Phase mode) Tj
+T*
+(   Use the phase section when planning releases, milestones, or sequencing work across the whole) Tj
+T*
+(project.) Tj
+T*
+() Tj
+T*
+(The safest operating pattern is:) Tj
+T*
+(- use the system sections to understand the work) Tj
+T*
+(- use the phase section to schedule the work) Tj
+T*
+(- use the completion section as the release gate) Tj
+T*
+() Tj
+T*
+(Mark Items Done Only When the Risk Is Actually Reduced) Tj
+T*
+() Tj
+T*
+(Do not mark an item done because code merged.) Tj
+T*
+() Tj
+T*
+(Mark it done only when:) Tj
+T*
+(- the intended code boundary exists) Tj
+T*
+(- the required tests pass) Tj
+T*
+(- the runtime behavior is provable) Tj
+T*
+(- the needed logs/traces/diagrams exist) Tj
+T*
+(- the ambiguity the item was addressing is actually removed) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 2260 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Use the Checklist as a Change-Control Tool) Tj
+T*
+() Tj
+T*
+(Before starting a risky change, ask:) Tj
+T*
+(- which section does this belong to) Tj
+T*
+(- what dependencies are listed there) Tj
+T*
+(- what ?do not move on before? items are not complete yet) Tj
+T*
+(- what tests and observability should exist first) Tj
+T*
+(- whether this is truly a current-phase change or a later-phase change) Tj
+T*
+() Tj
+T*
+(If the answer is unclear, the change is probably being attempted too early.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(Improved Master Production-Readiness Checklist) Tj
+T*
+() Tj
+T*
+(2026-04-17 Protocol Redesign Override) Tj
+T*
+() Tj
+T*
+(This checklist originally assumed stake/bond/BPoW-era consensus surfaces. That is no longer the) Tj
+T*
+(active design.) Tj
+T*
+() Tj
+T*
+(Current protocol direction:) Tj
+T*
+(- payment-focused public/private UTXO only) Tj
+T*
+(- staking removed) Tj
+T*
+(- bonding removed) Tj
+T*
+(- BPoW payout / fee-pool routing removed) Tj
+T*
+(- 5 decimal precision) Tj
+T*
+(- 1 ATHO = 100,000 base units) Tj
+T*
+(- dust limit = 1 base unit = 0.00001 ATHO) Tj
+T*
+(- fee per byte = 1 base unit = 0.00001 ATHO) Tj
+T*
+(- minimum transaction fee = 500 base units = 0.00500 ATHO) Tj
+T*
+(- max supply = 1,000,000,000.00000 ATHO) Tj
+T*
+(- initial block reward = 100.00000 ATHO) Tj
+T*
+(- block time = 120s) Tj
+T*
+(- deterministic fixed-point emission multiplier = 999_928_027_050_395_505 / 10^18) Tj
+T*
+(- emission end height = 78,894,000) Tj
+T*
+() Tj
+T*
+(Interpretation rule:) Tj
+T*
+(- Any later checklist item that refers to stake, bond, slashing, payout-set routing, or miner) Tj
+T*
+(eligibility via bonded state should be treated as historical and replaced by payment-only) Tj
+T*
+(monetary-policy, subsidy-closure, and replay-safety work.) Tj
+T*
+() Tj
+T*
+(System Order Overview) Tj
+T*
+() Tj
+T*
+(Follow the systems in this order:) Tj
+T*
+(- Consensus and canonical truth) Tj
+T*
+(- Public/private transaction safety) Tj
+T*
+(- Monetary policy, supply closure, and miner rewards) Tj
+T*
+(- Block acceptance, replay, and recovery) Tj
+T*
+(- Storage, atomicity, and data lifecycle) Tj
+T*
+(- Runtime, process, and control-plane ownership) Tj
+T*
+(- Node, network, mempool, and sync) Tj
+T*
+(- API and service boundaries) Tj
+T*
+ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 2209 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- GUI and desktop topology) Tj
+T*
+(- Observability and diagnostics) Tj
+T*
+(- Testing and adversarial verification) Tj
+T*
+(- File structure and module decomposition) Tj
+T*
+(- Packaging, installer, runtime layout, and network separation) Tj
+T*
+(- Ecosystem and external interface readiness) Tj
+T*
+(- Production operations, release engineering, and governance) Tj
+T*
+(- User safety, recovery, and supportability) Tj
+T*
+(- Documentation, specs, ADRs, and release notes) Tj
+T*
+(- Performance, language migration, and long-term optimization) Tj
+T*
+() Tj
+T*
+(This order reflects system dependency and blast radius, not popularity.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Consensus and Canonical Truth) Tj
+T*
+() Tj
+T*
+(**Section Summary**) Tj
+T*
+() Tj
+T*
+(This is the canonical truth layer: tx validity, block validity, fork choice, canonical) Tj
+T*
+(serialization, reward closure, and tip advancement. Every other section depends on this one) Tj
+T*
+(being explicit and stable.) Tj
+T*
+() Tj
+T*
+(**Why This Section Matters**) Tj
+T*
+() Tj
+T*
+(If Atho cannot prove one canonical tx/block admission path and one canonical serialization) Tj
+T*
+(authority, no later cleanup is safe. Consensus ambiguity is the highest-cost class of bug in the) Tj
+T*
+(system.) Tj
+T*
+() Tj
+T*
+(**Depends On**) Tj
+T*
+(- observability for tracing current paths) Tj
+T*
+(- vector and regression test scaffolding) Tj
+T*
+() Tj
+T*
+(**Feeds Into**) Tj
+T*
+(- replay safety) Tj
+T*
+(- storage safety) Tj
+T*
+(- mempool authority) Tj
+T*
+(- API contract stability) Tj
+T*
+(- external integration confidence) Tj
+T*
+() Tj
+T*
+(**Recommended Order**) Tj
+T*
+(- map current tx/block validation and codec entry points) Tj
+T*
+(- add trace IDs and block/tx acceptance stage logs) Tj
+T*
+(- build canonical vectors for txid, sighash, block validity, and decode failures) Tj
+T*
+(- centralize through wrappers) Tj
+T*
+(- only then remove or bypass duplicate logic) Tj
+T*
+() Tj
+T*
+(**Do Not Move On Before**) Tj
+T*
+(- one authoritative tx validity path is documented) Tj
+T*
+(- one authoritative block commit path is documented) Tj
+T*
+(- fork-choice behavior is explicit) Tj
+T*
+(- reward closure and supply rules are backed by tests) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+14 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 15 0 R >>
+endobj
+15 0 obj
+<< /Length 3562 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**Main Checklist Items**) Tj
+T*
+(- [ ] **C1. Establish one authoritative tx validity path**) Tj
+T*
+(- Current modules: Src/Main/txveri.py, Src/Transactions/txvalidation.py, helper utilities) Tj
+T*
+(- Current language: Python with existing C/native helpers) Tj
+T*
+(- Recommended language posture: stay in Python for orchestration; do not migrate until authority) Tj
+T*
+(is singular) Tj
+T*
+(- Exact goal: one authoritative tx validation stack; all others delegate, wrap, or are marked) Tj
+T*
+(non-authoritative) Tj
+T*
+(- What this unlocks: safe mempool cleanup, safer API cleanup, safer native kernel centralization) Tj
+T*
+(- [ ] **C2. Establish one authoritative block admission and commit path**) Tj
+T*
+(- Current modules: Src/Main/consensus.py, Src/Blockchain/blockchain.py,) Tj
+T*
+(Src/Blockchain/orphreorgs.py) Tj
+T*
+(- Current language: Python) Tj
+T*
+(- Recommended language posture: remain in Python for v1) Tj
+T*
+(- Exact goal: one ordered block-admission pipeline with one canonical commit boundary) Tj
+T*
+(- What this unlocks: replay proof, crash-recovery proof, safer runtime hardening) Tj
+T*
+(- [ ] **C3. Centralize canonical serialization, txid, sighash, and block/tx codec rules**) Tj
+T*
+(- Current modules: Src/Transactions/tx.py, Src/Transactions/txbinary.py, Src/Utility/txdhash.py,) Tj
+T*
+(wire helpers) Tj
+T*
+(- Current language: Python plus some native helpers) Tj
+T*
+(- Recommended language posture: centralize in Python first; consider a narrow Rust/C codec later) Tj
+T*
+(- Exact goal: one CanonicalCodec authority with golden vectors) Tj
+T*
+(- What this unlocks: safer P2P cleanup, safer external contract stability, future native codec) Tj
+T*
+(work) Tj
+T*
+(- [ ] **C4. Define deterministic block validity ordering**) Tj
+T*
+(- Current language: Python) Tj
+T*
+(- Recommended language posture: stay in Python) Tj
+T*
+(- Exact goal: explicit ordering for header checks, linkage, timestamps, tx checks, private-state) Tj
+T*
+(checks, reward closure, and commit) Tj
+T*
+(- What this unlocks: easier incident investigation and compatibility testing) Tj
+T*
+(- [ ] **C5. Prove fork choice, tie-break rules, and tip advancement semantics**) Tj
+T*
+(- Current modules: Src/Blockchain/orphreorgs.py, branch handling) Tj
+T*
+(- Current language: Python) Tj
+T*
+(- Recommended language posture: stay in Python) Tj
+T*
+(- Exact goal: one explicit fork-choice rule and one deterministic side-chain promotion rule) Tj
+T*
+(- What this unlocks: exchange confidence, reorg policy clarity, operator trust) Tj
+T*
+(- [ ] **C6. Unify monetary policy, supply accounting, and coinbase closure**) Tj
+T*
+(- Current modules: Src/Utility/const.py, reward/coinbase logic, docs and API status surfaces) Tj
+T*
+(- Current language: Python) Tj
+T*
+(- Recommended language posture: remain in Python; optimize test coverage before any migration) Tj
+T*
+(- Exact goal: one active schedule, one reward-closure implementation, one authoritative status) Tj
+T*
+(export) Tj
+T*
+(- What this unlocks: economic trust and stronger release discipline) Tj
+T*
+() Tj
+T*
+(**Sub-Checklist Breakdown**) Tj
+T*
+(- [ ] Build a call-graph map for tx validity, block validity, and codec entry points) Tj
+T*
+(- [ ] Produce golden vectors for txid, sighash, block hashes, and decode failures) Tj
+T*
+(- [ ] Add stage-level acceptance tracing for block admission) Tj
+T*
+(- [ ] Add fork-choice tests for equal-work, shallow, and deep competing branches) Tj
+T*
+(- [ ] Add economic simulations for reward, burn, and cap edge cases) Tj
+T*
+() Tj
+T*
+(**Implementation Strategy**) Tj
+T*
+ET
+endstream
+endobj
+16 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 17 0 R >>
+endobj
+17 0 obj
+<< /Length 1812 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(Do first:) Tj
+T*
+(- instrument and trace) Tj
+T*
+(- create vectors) Tj
+T*
+(- centralize behind wrappers) Tj
+T*
+() Tj
+T*
+(Do after:) Tj
+T*
+(- remove duplicate helpers) Tj
+T*
+(- consider narrow native codec/preimage work) Tj
+T*
+() Tj
+T*
+(Do not touch too early:) Tj
+T*
+(- full consensus rewrite) Tj
+T*
+(- splitting consensus across process boundaries) Tj
+T*
+() Tj
+T*
+(**Module / Service Breakdown**) Tj
+T*
+() Tj
+T*
+(Target boundaries:) Tj
+T*
+(- ConsensusEngine: authoritative tx/block admission sequencing) Tj
+T*
+(- CanonicalCodec: canonical encoding, txid, sighash, wire/compact codec semantics) Tj
+T*
+(- ChainstateManager: canonical tip advancement and commit) Tj
+T*
+(- ForkChoicePolicy: explicit branch-selection semantics) Tj
+T*
+() Tj
+T*
+(Keep together:) Tj
+T*
+(- admission sequencing and canonical writes) Tj
+T*
+() Tj
+T*
+(Do not split yet:) Tj
+T*
+(- consensus into independent services) Tj
+T*
+() Tj
+T*
+(**Topology / Runtime Layout Guidance**) Tj
+T*
+() Tj
+T*
+(Current likely topology:) Tj
+T*
+(- consensus is embedded in the backend runtime with overlapping helper paths) Tj
+T*
+() Tj
+T*
+(Target topology:) Tj
+T*
+(- one backend process owns canonical tx/block admission and chainstate writes) Tj
+T*
+(- everything else consumes consensus results, not consensus internals) Tj
+T*
+() Tj
+T*
+(Safest v1 topology:) Tj
+T*
+(- monolithic canonical writer) Tj
+T*
+() Tj
+T*
+(**Language / Runtime Guidance**) Tj
+T*
+() Tj
+T*
+(Python is still acceptable here if semantics are centralized.) Tj
+T*
+() Tj
+T*
+(Use native code only later for:) Tj
+T*
+(- repeated canonical codec work) Tj
+T*
+(- repeated sighash/preimage work) Tj
+T*
+(- repeated structural validation kernels if profiling proves it) Tj
+T*
+() Tj
+T*
+(Do not migrate now:) Tj
+T*
+(- the whole consensus state machine) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+18 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 19 0 R >>
+endobj
+19 0 obj
+<< /Length 1606 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**Refactor Risk Levels**) Tj
+T*
+() Tj
+T*
+(Low-risk:) Tj
+T*
+(- tracing) Tj
+T*
+(- vectors) Tj
+T*
+(- authority annotations) Tj
+T*
+() Tj
+T*
+(Medium-risk:) Tj
+T*
+(- centralizing through wrappers) Tj
+T*
+(- removing duplicate helpers) Tj
+T*
+() Tj
+T*
+(High-risk:) Tj
+T*
+(- changing admission sequencing) Tj
+T*
+(- changing fork-choice behavior) Tj
+T*
+(- moving commit ownership) Tj
+T*
+() Tj
+T*
+(**Completion Criteria**) Tj
+T*
+() Tj
+T*
+(Artifacts:) Tj
+T*
+(- authority map) Tj
+T*
+(- codec authority map) Tj
+T*
+(- block-admission sequence diagram) Tj
+T*
+(- monetary policy snapshot) Tj
+T*
+() Tj
+T*
+(Tests:) Tj
+T*
+(- tx/block vectors) Tj
+T*
+(- invalid decode vectors) Tj
+T*
+(- fork-choice tests) Tj
+T*
+(- reward/supply tests) Tj
+T*
+() Tj
+T*
+(Runtime proof:) Tj
+T*
+(- one tx validity path) Tj
+T*
+(- one block commit path) Tj
+T*
+(- deterministic ordering and tie behavior) Tj
+T*
+() Tj
+T*
+(**What This Unlocks**) Tj
+T*
+(- replay hardening) Tj
+T*
+(- safer storage refactors) Tj
+T*
+(- safer API and external contract cleanup) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Public/Private Transaction Safety) Tj
+T*
+() Tj
+T*
+(**Section Summary**) Tj
+T*
+() Tj
+T*
+(This section covers mixed public/private transaction behavior, proof boundaries, nullifiers,) Tj
+T*
+(commitments, anchors, mixed-domain conservation, and private relay behavior.) Tj
+T*
+() Tj
+T*
+(**Why This Section Matters**) Tj
+T*
+() Tj
+T*
+(This is the most subtle area of protocol safety after the core block pipeline. If mixed-domain) Tj
+T*
+(behavior is wrong, Atho can suffer hidden inflation, replay divergence, or false privacy claims.) Tj
+T*
+ET
+endstream
+endobj
+20 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 21 0 R >>
+endobj
+21 0 obj
+<< /Length 2882 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(**Depends On**) Tj
+T*
+(- canonical tx/block admission traces) Tj
+T*
+(- test scaffolding and replay instrumentation) Tj
+T*
+() Tj
+T*
+(**Feeds Into**) Tj
+T*
+(- wallet correctness) Tj
+T*
+(- exchange confidence) Tj
+T*
+(- external messaging about privacy and hidden state) Tj
+T*
+() Tj
+T*
+(**Recommended Order**) Tj
+T*
+(- fix failing private-path tests) Tj
+T*
+(- formalize fail-closed verifier behavior) Tj
+T*
+(- prove public/private conservation) Tj
+T*
+(- prove live-vs-replay parity for nullifier and commitment state) Tj
+T*
+(- only then modernize the proof bridge transport) Tj
+T*
+() Tj
+T*
+(**Do Not Move On Before**) Tj
+T*
+(- proof backend failures are deterministic) Tj
+T*
+(- mixed-domain conservation is explicitly tested) Tj
+T*
+(- live and replayed private state match) Tj
+T*
+() Tj
+T*
+(**Main Checklist Items**) Tj
+T*
+(- [ ] **P1. Fix the private pipeline failures and enforce fail-closed verifier behavior**) Tj
+T*
+(- Current modules: Src/Transactions/private_layer.py, proof backend integration, private tests) Tj
+T*
+(- Current language: Python + Rust subprocess boundary) Tj
+T*
+(- Recommended language posture: keep Rust proof engine; change transport later, not proof) Tj
+T*
+(semantics now) Tj
+T*
+(- Exact goal: no unresolved core private-pipeline failures; verifier-unavailable and) Tj
+T*
+(malformed-proof cases fail closed deterministically) Tj
+T*
+(- What this unlocks: any credible privacy or hidden-state production claim) Tj
+T*
+(- [ ] **P2. Prove mixed public/private value conservation**) Tj
+T*
+(- Current language: Python orchestration + Rust proof engine) Tj
+T*
+(- Recommended language posture: stay mixed; do not migrate the orchestration layer now) Tj
+T*
+(- Exact goal: public-only, private-only, and mixed transactions conserve value under live) Tj
+T*
+(commit, replay, and reorg) Tj
+T*
+(- What this unlocks: exchange trust and safer wallet behavior) Tj
+T*
+(- [ ] **P3. Prove nullifier, commitment, anchor, and note-state replay safety**) Tj
+T*
+(- Current modules: private state store, replay logic, reorg handlers) Tj
+T*
+(- Current language: Python + Rust proof engine) Tj
+T*
+(- Recommended language posture: keep replay/state logic in Python for v1) Tj
+T*
+(- Exact goal: rebuild from canonical chain yields the same nullifier state, roots, and note) Tj
+T*
+(visibility as live application) Tj
+T*
+(- What this unlocks: durable private-state recovery claims) Tj
+T*
+(- [ ] **P4. Define relay, metadata, and privacy-boundary behavior**) Tj
+T*
+(- Current modules: P2P relay paths, wallet send flows) Tj
+T*
+(- Current language: Python) Tj
+T*
+(- Recommended language posture: remain in Python) Tj
+T*
+(- Exact goal: private relay semantics, metadata exposure boundaries, and error handling are) Tj
+T*
+(documented and tested) Tj
+T*
+(- What this unlocks: honest external documentation and safer third-party expectations) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+22 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 23 0 R >>
+endobj
+23 0 obj
+<< /Length 1949 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**Sub-Checklist Breakdown**) Tj
+T*
+(- [ ] Classify proof backend failures and required fail-closed behavior) Tj
+T*
+(- [ ] Add mixed-domain block tests and reorg tests) Tj
+T*
+(- [ ] Add replay parity tools for nullifiers, anchors, notes, and roots) Tj
+T*
+(- [ ] Add relay traces and metadata-boundary notes) Tj
+T*
+() Tj
+T*
+(**Implementation Strategy**) Tj
+T*
+() Tj
+T*
+(Do first:) Tj
+T*
+(- fix failing tests) Tj
+T*
+(- document failure taxonomy) Tj
+T*
+(- add replay comparison tooling) Tj
+T*
+() Tj
+T*
+(Do after:) Tj
+T*
+(- replace subprocess-per-call proof boundary with FFI or persistent worker) Tj
+T*
+(- optimize heavy tree/path verification only if profiling supports it) Tj
+T*
+() Tj
+T*
+(Do not touch too early:) Tj
+T*
+(- redesign the private transaction model) Tj
+T*
+(- move private canonical state out of the backend process) Tj
+T*
+() Tj
+T*
+(**Module / Service Breakdown**) Tj
+T*
+() Tj
+T*
+(Target boundaries:) Tj
+T*
+(- PrivateProofBridge) Tj
+T*
+(- PrivateStateManager) Tj
+T*
+(- MixedValueRules) Tj
+T*
+(- PrivateRelayPolicy) Tj
+T*
+() Tj
+T*
+(Keep together:) Tj
+T*
+(- private canonical writes with block application) Tj
+T*
+() Tj
+T*
+(Do not split yet:) Tj
+T*
+(- canonical private-state mutation into a separate service) Tj
+T*
+() Tj
+T*
+(**Topology / Runtime Layout Guidance**) Tj
+T*
+() Tj
+T*
+(Current likely topology:) Tj
+T*
+(- Python private layer with Rust proof backend called over subprocess boundaries) Tj
+T*
+() Tj
+T*
+(Target topology:) Tj
+T*
+(- backend still owns public and private canonical state in one process) Tj
+T*
+(- proof generation/verification transport becomes more robust later) Tj
+T*
+() Tj
+T*
+(Safest v1 topology:) Tj
+T*
+(- monolithic canonical mixed-state validation with optional workerized proof transport only if) Tj
+T*
+(semantics remain backend-owned) Tj
+T*
+() Tj
+T*
+(**Language / Runtime Guidance**) Tj
+T*
+() Tj
+T*
+(Recommended:) Tj
+T*
+(- keep private-state policy/orchestration in Python) Tj
+T*
+ET
+endstream
+endobj
+24 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 25 0 R >>
+endobj
+25 0 obj
+<< /Length 1552 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- keep proof engine in Rust) Tj
+T*
+(- improve the boundary, not the language choice) Tj
+T*
+() Tj
+T*
+(Possible later native work:) Tj
+T*
+(- proof bridge transport) Tj
+T*
+(- Merkle/path verification kernels if they are proven hot) Tj
+T*
+() Tj
+T*
+(**Refactor Risk Levels**) Tj
+T*
+() Tj
+T*
+(Low-risk:) Tj
+T*
+(- failure classification) Tj
+T*
+(- tracing) Tj
+T*
+(- additional negative tests) Tj
+T*
+() Tj
+T*
+(Medium-risk:) Tj
+T*
+(- explicit proof bridge abstraction) Tj
+T*
+(- transport cleanup) Tj
+T*
+() Tj
+T*
+(High-risk:) Tj
+T*
+(- changing proof semantics) Tj
+T*
+(- changing note/nullifier meaning) Tj
+T*
+() Tj
+T*
+(**Completion Criteria**) Tj
+T*
+() Tj
+T*
+(Artifacts:) Tj
+T*
+(- proof failure matrix) Tj
+T*
+(- mixed-value conservation matrix) Tj
+T*
+(- replay parity tooling) Tj
+T*
+() Tj
+T*
+(Tests:) Tj
+T*
+(- full private pipeline suite) Tj
+T*
+(- mixed-domain conservation tests) Tj
+T*
+(- nullifier/anchor replay tests) Tj
+T*
+(- malformed-proof tests) Tj
+T*
+() Tj
+T*
+(Runtime proof:) Tj
+T*
+(- fail closed on verifier faults) Tj
+T*
+(- deterministic private-state rebuild) Tj
+T*
+() Tj
+T*
+(**What This Unlocks**) Tj
+T*
+(- stable wallet/private flows) Tj
+T*
+(- safer external integration) Tj
+T*
+(- lower-risk proof-boundary modernization) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Monetary Policy, Supply Closure, and Miner Rewards) Tj
+T*
+() Tj
+T*
+(**Section Summary**) Tj
+T*
+() Tj
+T*
+(This section covers emission correctness, hard-cap enforcement, fee routing, miner reward) Tj
+T*
+(determinism, and replay-safe subsidy closure.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+26 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 27 0 R >>
+endobj
+27 0 obj
+<< /Length 2407 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**Why This Section Matters**) Tj
+T*
+() Tj
+T*
+(If issuance, fee routing, or miner rewards are ambiguous, supply closure breaks and replay) Tj
+T*
+(safety becomes unprovable.) Tj
+T*
+() Tj
+T*
+(**Depends On**) Tj
+T*
+(- canonical block admission ordering) Tj
+T*
+(- replay instrumentation) Tj
+T*
+() Tj
+T*
+(**Feeds Into**) Tj
+T*
+(- mining correctness) Tj
+T*
+(- economic trust) Tj
+T*
+(- wallet/operator surfaces) Tj
+T*
+() Tj
+T*
+(**Recommended Order**) Tj
+T*
+(- map all subsidy, fee, and max-supply writers/readers) Tj
+T*
+(- make one monetary-policy authority explicit) Tj
+T*
+(- snapshot and replay reward behavior across heights/reorgs) Tj
+T*
+(- only then extract manager boundaries) Tj
+T*
+() Tj
+T*
+(**Do Not Move On Before**) Tj
+T*
+(- one canonical owner exists for emission and reward calculations) Tj
+T*
+(- reward closure is replay-equivalent and hard-cap safe) Tj
+T*
+() Tj
+T*
+(**Main Checklist Items**) Tj
+T*
+(- [ ] **S1. Make monetary-policy state ownership singular**) Tj
+T*
+(- Current language: Python) Tj
+T*
+(- Recommended language posture: stay in Python) Tj
+T*
+(- Exact goal: one canonical owner for subsidy scheduling, fee routing, and replay) Tj
+T*
+(- What this unlocks: stable mining validation and clearer service boundaries) Tj
+T*
+(- [ ] **S2. Prove deterministic miner rewards**) Tj
+T*
+(- Current language: Python) Tj
+T*
+(- Recommended language posture: remain in Python for v1) Tj
+T*
+(- Exact goal: identical canonical state always yields identical subsidy and fee results) Tj
+T*
+(- What this unlocks: operator trust and replay safety) Tj
+T*
+(- [ ] **S3. Prove reorg-safe emission replay**) Tj
+T*
+(- Exact goal: reorg rollback and reapply restore supply/reward truth exactly) Tj
+T*
+(- What this unlocks: safer crash recovery and long-term economics hardening) Tj
+T*
+(- [ ] **S4. Formalize economics-adjacent reward rules**) Tj
+T*
+(- Exact goal: fee policy, maturity assumptions, subsidy decay, and cap enforcement are) Tj
+T*
+(code-backed and documented) Tj
+T*
+(- What this unlocks: clearer operator and wallet expectations) Tj
+T*
+() Tj
+T*
+(**Sub-Checklist Breakdown**) Tj
+T*
+(- [ ] Inventory every emission and reward write path) Tj
+T*
+(- [ ] Add subsidy/fee snapshots and replay comparisons) Tj
+T*
+(- [ ] Add edge-case tests for decay, cap enforcement, and maturity) Tj
+T*
+() Tj
+T*
+(**Implementation Strategy**) Tj
+T*
+() Tj
+T*
+(Do first:) Tj
+T*
+(- map writes) Tj
+T*
+ET
+endstream
+endobj
+28 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 29 0 R >>
+endobj
+29 0 obj
+<< /Length 1547 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- add snapshots) Tj
+T*
+(- prove replay equivalence) Tj
+T*
+() Tj
+T*
+(Do after:) Tj
+T*
+(- extract explicit manager modules) Tj
+T*
+() Tj
+T*
+(Do not touch too early:) Tj
+T*
+(- any broad redesign of emission semantics without vectors) Tj
+T*
+() Tj
+T*
+(**Module / Service Breakdown**) Tj
+T*
+() Tj
+T*
+(Target boundaries:) Tj
+T*
+(- MonetaryPolicy) Tj
+T*
+(- MinerRewardEngine) Tj
+T*
+(- RewardClosureVerifier) Tj
+T*
+() Tj
+T*
+(Keep together:) Tj
+T*
+(- canonical reward calculation with backend consensus state) Tj
+T*
+() Tj
+T*
+(**Topology / Runtime Layout Guidance**) Tj
+T*
+() Tj
+T*
+(Safest v1 topology:) Tj
+T*
+(- backend node process owns canonical monetary truth) Tj
+T*
+(- API and GUI remain read-only clients for this domain) Tj
+T*
+() Tj
+T*
+(**Language / Runtime Guidance**) Tj
+T*
+() Tj
+T*
+(This remains a Python-owned semantics area for v1. There is no strong case for a language) Tj
+T*
+(migration before semantics and replay are proven.) Tj
+T*
+() Tj
+T*
+(**Refactor Risk Levels**) Tj
+T*
+() Tj
+T*
+(Low-risk:) Tj
+T*
+(- rule documentation) Tj
+T*
+(- tracing) Tj
+T*
+() Tj
+T*
+(Medium-risk:) Tj
+T*
+(- manager extraction) Tj
+T*
+() Tj
+T*
+(High-risk:) Tj
+T*
+(- altering emission or reward semantics without vectors and replay proof) Tj
+T*
+() Tj
+T*
+(**Completion Criteria**) Tj
+T*
+(- monetary-policy authority map) Tj
+T*
+(- payout reconstruction tests) Tj
+T*
+(- reorg/restart parity tests) Tj
+T*
+() Tj
+T*
+(**What This Unlocks**) Tj
+T*
+(- safer mining and reward handling) Tj
+T*
+(- clearer economic surfaces) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+ET
+endstream
+endobj
+30 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 31 0 R >>
+endobj
+31 0 obj
+<< /Length 2026 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Block Acceptance, Replay, and Recovery) Tj
+T*
+() Tj
+T*
+(**Section Summary**) Tj
+T*
+() Tj
+T*
+(This section covers live commit, crash recovery, journals, replay equivalence, orphan handling,) Tj
+T*
+(mempool repair, and rollback safety across all state domains.) Tj
+T*
+() Tj
+T*
+(**Why This Section Matters**) Tj
+T*
+() Tj
+T*
+(Even correct validation rules are insufficient if the system cannot recover cleanly from) Tj
+T*
+(crashes, reorgs, or restarts. Production safety depends on replay matching live behavior.) Tj
+T*
+() Tj
+T*
+(**Depends On**) Tj
+T*
+(- authoritative block admission path) Tj
+T*
+(- storage instrumentation) Tj
+T*
+() Tj
+T*
+(**Feeds Into**) Tj
+T*
+(- storage migration safety) Tj
+T*
+(- operator trust) Tj
+T*
+(- packaging/update safety) Tj
+T*
+() Tj
+T*
+(**Recommended Order**) Tj
+T*
+(- instrument journals and recovery entry points) Tj
+T*
+(- add crash injection and replay parity tools) Tj
+T*
+(- centralize repair logic) Tj
+T*
+(- only then tighten journal or replay structure) Tj
+T*
+() Tj
+T*
+(**Do Not Move On Before**) Tj
+T*
+(- live commit and replay use the same logical transition model) Tj
+T*
+(- mempool repair after block/reorg is deterministic) Tj
+T*
+() Tj
+T*
+(**Main Checklist Items**) Tj
+T*
+(- [ ] **R1. Make live commit and replay use the same state transition model**) Tj
+T*
+(- [ ] **R2. Prove crash-mid-commit recovery safety**) Tj
+T*
+(- [ ] **R3. Make mempool repair deterministic after block acceptance and reorg**) Tj
+T*
+(- [ ] **R4. Define orphan, side-chain, and branch-pruning policy**) Tj
+T*
+() Tj
+T*
+(**Sub-Checklist Breakdown**) Tj
+T*
+(- [ ] Add crash injection harnesses around commit stages) Tj
+T*
+(- [ ] Snapshot chainstate and extension state before/after replay) Tj
+T*
+(- [ ] Make mempool repair paths traceable) Tj
+T*
+() Tj
+T*
+(**Implementation Strategy**) Tj
+T*
+() Tj
+T*
+(Do first:) Tj
+T*
+(- journal tracing) Tj
+T*
+(- crash tests) Tj
+T*
+(- parity checks) Tj
+T*
+() Tj
+T*
+(Do after:) Tj
+T*
+(- repair centralization) Tj
+T*
+(- journal format tightening) Tj
+T*
+ET
+endstream
+endobj
+32 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 33 0 R >>
+endobj
+33 0 obj
+<< /Length 1463 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(Do not touch too early:) Tj
+T*
+(- commit order changes) Tj
+T*
+(- replay order changes) Tj
+T*
+() Tj
+T*
+(**Module / Service Breakdown**) Tj
+T*
+() Tj
+T*
+(Target boundaries:) Tj
+T*
+(- BlockCommitJournal) Tj
+T*
+(- ReplayEngine) Tj
+T*
+(- MempoolRepairManager) Tj
+T*
+(- OrphanBranchManager) Tj
+T*
+() Tj
+T*
+(Keep together:) Tj
+T*
+(- live commit and canonical replay) Tj
+T*
+() Tj
+T*
+(**Topology / Runtime Layout Guidance**) Tj
+T*
+() Tj
+T*
+(Safest v1 topology:) Tj
+T*
+(- live commit, replay, and repair remain in one backend writer process) Tj
+T*
+() Tj
+T*
+(**Language / Runtime Guidance**) Tj
+T*
+() Tj
+T*
+(Stay in Python. This is a semantics and recovery problem first, not a language problem.) Tj
+T*
+() Tj
+T*
+(**Refactor Risk Levels**) Tj
+T*
+() Tj
+T*
+(Low-risk:) Tj
+T*
+(- tracing) Tj
+T*
+(- crash injection tooling) Tj
+T*
+() Tj
+T*
+(Medium-risk:) Tj
+T*
+(- repair logic centralization) Tj
+T*
+() Tj
+T*
+(High-risk:) Tj
+T*
+(- changing commit/replay sequencing) Tj
+T*
+() Tj
+T*
+(**Completion Criteria**) Tj
+T*
+(- commit journal contract) Tj
+T*
+(- crash injection tests) Tj
+T*
+(- replay parity report) Tj
+T*
+() Tj
+T*
+(**What This Unlocks**) Tj
+T*
+(- safe storage and packaging work) Tj
+T*
+(- credible durability claims) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Storage, Atomicity, and Data Lifecycle) Tj
+T*
+() Tj
+T*
+(**Section Summary**) Tj
+T*
+() Tj
+T*
+(This section covers canonical vs rebuildable data, LMDB discipline, repository ownership,) Tj
+T*
+ET
+endstream
+endobj
+34 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 35 0 R >>
+endobj
+35 0 obj
+<< /Length 2185 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(revision markers, migrations, backups, restore, pruning/archive posture, and data retention.) Tj
+T*
+() Tj
+T*
+(**Why This Section Matters**) Tj
+T*
+() Tj
+T*
+(Storage is where authority mistakes become durable. If write ownership, revision markers,) Tj
+T*
+(migrations, or backup/restore behavior are vague, production incidents become much harder to) Tj
+T*
+(diagnose or recover from.) Tj
+T*
+() Tj
+T*
+(**Depends On**) Tj
+T*
+(- canonical writer ownership) Tj
+T*
+(- replay proof) Tj
+T*
+() Tj
+T*
+(**Feeds Into**) Tj
+T*
+(- packaging) Tj
+T*
+(- upgrades) Tj
+T*
+(- operator trust) Tj
+T*
+(- external indexing and query systems) Tj
+T*
+() Tj
+T*
+(**Recommended Order**) Tj
+T*
+(- inventory stores and writers) Tj
+T*
+(- classify canonical vs rebuildable vs cache data) Tj
+T*
+(- add revision markers) Tj
+T*
+(- define migration policy) Tj
+T*
+(- only then attempt deeper storage refactors) Tj
+T*
+() Tj
+T*
+(**Do Not Move On Before**) Tj
+T*
+(- single-writer discipline is explicit) Tj
+T*
+(- canonical vs rebuildable vs cache data is classified) Tj
+T*
+(- schema versioning and migration policy exist) Tj
+T*
+() Tj
+T*
+(**Main Checklist Items**) Tj
+T*
+(- [ ] **D1. Publish a storage ownership map**) Tj
+T*
+(- [ ] **D2. Enforce single-writer discipline across canonical state**) Tj
+T*
+(- [ ] **D3. Add explicit revision markers for chainstate, mempool, and read models**) Tj
+T*
+(- [ ] **D4. Separate canonical, rebuildable, and cache-only data**) Tj
+T*
+(- [ ] **D5. Introduce schema versioning and tested migrations**) Tj
+T*
+(- [ ] **D6. Define backup, restore, snapshot, pruning, and archival policy**) Tj
+T*
+(- [ ] **D7. Define data retention and cleanup behavior**) Tj
+T*
+() Tj
+T*
+(**Sub-Checklist Breakdown**) Tj
+T*
+(- [ ] Inventory every store and every writer) Tj
+T*
+(- [ ] Define canonical, rebuildable, cache, and ephemeral classes) Tj
+T*
+(- [ ] Add migration version tags) Tj
+T*
+(- [ ] Add snapshot/restore rules) Tj
+T*
+(- [ ] Add retention rules for logs, temp files, orphan data, mempool cleanup, stale locks, and) Tj
+T*
+(crash dumps) Tj
+T*
+() Tj
+T*
+(**Implementation Strategy**) Tj
+T*
+() Tj
+T*
+(Do first:) Tj
+T*
+(- store inventory) Tj
+T*
+(- write ownership map) Tj
+T*
+ET
+endstream
+endobj
+36 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 37 0 R >>
+endobj
+37 0 obj
+<< /Length 1569 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- revision metadata) Tj
+T*
+() Tj
+T*
+(Do after:) Tj
+T*
+(- repository cleanup) Tj
+T*
+(- migration framework) Tj
+T*
+(- pruning/archive policy) Tj
+T*
+() Tj
+T*
+(Do not touch too early:) Tj
+T*
+(- replacing LMDB) Tj
+T*
+(- major layout changes without replay and restore proof) Tj
+T*
+() Tj
+T*
+(**Module / Service Breakdown**) Tj
+T*
+() Tj
+T*
+(Target boundaries:) Tj
+T*
+(- ChainRepositories) Tj
+T*
+(- PrivateRepositories) Tj
+T*
+(- ReadModelRepositories) Tj
+T*
+(- SchemaMigrationManager) Tj
+T*
+(- RevisionTracker) Tj
+T*
+() Tj
+T*
+(Keep together:) Tj
+T*
+(- canonical write transactions and revision advancement) Tj
+T*
+() Tj
+T*
+(Do not split yet:) Tj
+T*
+(- canonical state writes into multiple services) Tj
+T*
+() Tj
+T*
+(**Topology / Runtime Layout Guidance**) Tj
+T*
+() Tj
+T*
+(Safest v1 topology:) Tj
+T*
+(- one backend writer per network data root) Tj
+T*
+(- GUI/API never touch raw chainstate directly) Tj
+T*
+(- read-heavy models may separate later, but canonical write ownership stays singular) Tj
+T*
+() Tj
+T*
+(**Language / Runtime Guidance**) Tj
+T*
+() Tj
+T*
+(Python LMDB repositories remain acceptable. The first storage wins are ownership and) Tj
+T*
+(access-shape fixes, not language migration.) Tj
+T*
+() Tj
+T*
+(**Refactor Risk Levels**) Tj
+T*
+() Tj
+T*
+(Low-risk:) Tj
+T*
+(- store maps) Tj
+T*
+(- revision markers) Tj
+T*
+(- retention rules) Tj
+T*
+() Tj
+T*
+(Medium-risk:) Tj
+T*
+(- repository interfaces) Tj
+T*
+(- migration framework) Tj
+T*
+() Tj
+T*
+(High-risk:) Tj
+T*
+(- changing canonical store layout without parity and restore proof) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+38 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 39 0 R >>
+endobj
+39 0 obj
+<< /Length 1961 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**Completion Criteria**) Tj
+T*
+(- storage ownership inventory) Tj
+T*
+(- revision contract) Tj
+T*
+(- migration tests) Tj
+T*
+(- backup/restore/pruning policy) Tj
+T*
+(- data retention and cleanup policy) Tj
+T*
+() Tj
+T*
+(**What This Unlocks**) Tj
+T*
+(- safe upgrades) Tj
+T*
+(- safe packaging and network separation) Tj
+T*
+(- safer query/indexer work) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Runtime, Process, and Control-Plane Ownership) Tj
+T*
+() Tj
+T*
+(**Section Summary**) Tj
+T*
+() Tj
+T*
+(This section covers launcher, supervisor, lifecycle ownership, startup/shutdown ordering,) Tj
+T*
+(readiness vs liveness, restart semantics, network switching, and multi-instance behavior.) Tj
+T*
+() Tj
+T*
+(**Why This Section Matters**) Tj
+T*
+() Tj
+T*
+(Even with correct consensus code, production behavior can still fail if multiple layers think) Tj
+T*
+(they can start, stop, restart, or reconfigure the node. Lifecycle ambiguity is one of the) Tj
+T*
+(biggest product-layer risks in Atho.) Tj
+T*
+() Tj
+T*
+(**Depends On**) Tj
+T*
+(- clearer backend authority) Tj
+T*
+(- observability for startup/shutdown/restart traces) Tj
+T*
+() Tj
+T*
+(**Feeds Into**) Tj
+T*
+(- GUI stability) Tj
+T*
+(- packaging) Tj
+T*
+(- operator trust) Tj
+T*
+(- multi-instance safety) Tj
+T*
+() Tj
+T*
+(**Recommended Order**) Tj
+T*
+(- map every current start/stop path) Tj
+T*
+(- define readiness vs liveness) Tj
+T*
+(- define startup and shutdown order) Tj
+T*
+(- centralize lifecycle ownership under a supervisor model) Tj
+T*
+(- only then harden network switching and multi-instance behavior) Tj
+T*
+() Tj
+T*
+(**Do Not Move On Before**) Tj
+T*
+(- one lifecycle owner is defined) Tj
+T*
+(- readiness is different from liveness) Tj
+T*
+(- shutdown order is documented) Tj
+T*
+() Tj
+T*
+(**Main Checklist Items**) Tj
+T*
+(- [ ] **L1. Make supervisor the sole lifecycle authority**) Tj
+T*
+(- [ ] **L2. Separate readiness from liveness**) Tj
+T*
+(- [ ] **L3. Define startup dependency ordering**) Tj
+T*
+ET
+endstream
+endobj
+40 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 41 0 R >>
+endobj
+41 0 obj
+<< /Length 1765 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- [ ] **L4. Define shutdown ordering and restart semantics**) Tj
+T*
+(- [ ] **L5. Harden network switching**) Tj
+T*
+(- [ ] **L6. Define multi-instance behavior and lock semantics**) Tj
+T*
+() Tj
+T*
+(**Sub-Checklist Breakdown**) Tj
+T*
+(- [ ] Map every start, stop, restart, and network-switch path) Tj
+T*
+(- [ ] Add lifecycle trace IDs) Tj
+T*
+(- [ ] Define same-data-dir conflict behavior) Tj
+T*
+(- [ ] Define stale-lock cleanup rules) Tj
+T*
+(- [ ] Define restart-after-failure and partial-initialization behavior) Tj
+T*
+() Tj
+T*
+(**Implementation Strategy**) Tj
+T*
+() Tj
+T*
+(Do first:) Tj
+T*
+(- lifecycle mapping) Tj
+T*
+(- readiness contract) Tj
+T*
+(- startup/shutdown traces) Tj
+T*
+() Tj
+T*
+(Do after:) Tj
+T*
+(- supervisor extraction) Tj
+T*
+(- network-switch controller) Tj
+T*
+() Tj
+T*
+(Do not touch too early:) Tj
+T*
+(- distributed orchestration) Tj
+T*
+(- hidden lifecycle paths from GUI or API) Tj
+T*
+() Tj
+T*
+(**Module / Service Breakdown**) Tj
+T*
+() Tj
+T*
+(Target boundaries:) Tj
+T*
+(- SupervisorService) Tj
+T*
+(- LifecycleController) Tj
+T*
+(- ReadinessProbe) Tj
+T*
+(- ShutdownCoordinator) Tj
+T*
+(- NetworkSwitchController) Tj
+T*
+() Tj
+T*
+(Keep together:) Tj
+T*
+(- lifecycle authority and backend process ownership) Tj
+T*
+() Tj
+T*
+(**Topology / Runtime Layout Guidance**) Tj
+T*
+() Tj
+T*
+(Current likely topology:) Tj
+T*
+(- launcher, GUI, API, and backend each own pieces of lifecycle behavior) Tj
+T*
+() Tj
+T*
+(Target topology:) Tj
+T*
+(- one supervisor-owned lifecycle path) Tj
+T*
+(- GUI and API become clients, not orchestrators) Tj
+T*
+() Tj
+T*
+(Safest v1 topology:) Tj
+T*
+(- GUI process + backend process + optional miner worker, all under a clear lifecycle owner) Tj
+T*
+() Tj
+T*
+(**Language / Runtime Guidance**) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+42 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 43 0 R >>
+endobj
+43 0 obj
+<< /Length 1687 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(This stays in Python. The issue here is topology and authority, not language performance.) Tj
+T*
+() Tj
+T*
+(**Refactor Risk Levels**) Tj
+T*
+() Tj
+T*
+(Low-risk:) Tj
+T*
+(- probes) Tj
+T*
+(- logging) Tj
+T*
+(- startup order docs) Tj
+T*
+() Tj
+T*
+(Medium-risk:) Tj
+T*
+(- supervisor extraction) Tj
+T*
+(- multi-instance discipline) Tj
+T*
+() Tj
+T*
+(High-risk:) Tj
+T*
+(- lifecycle changes before backend authority and replay safety are instrumented) Tj
+T*
+() Tj
+T*
+(**Completion Criteria**) Tj
+T*
+(- lifecycle owner map) Tj
+T*
+(- readiness/liveness contract) Tj
+T*
+(- startup/shutdown spec) Tj
+T*
+(- multi-instance policy) Tj
+T*
+() Tj
+T*
+(**What This Unlocks**) Tj
+T*
+(- safer desktop startup) Tj
+T*
+(- safer packaging) Tj
+T*
+(- easier support and incident response) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Node, Network, Mempool, and Sync) Tj
+T*
+() Tj
+T*
+(**Section Summary**) Tj
+T*
+() Tj
+T*
+(This section covers peer management, peer persistence, sync, mempool admission and eviction,) Tj
+T*
+(relay, abuse resistance, time assumptions, and backpressure behavior.) Tj
+T*
+() Tj
+T*
+(**Why This Section Matters**) Tj
+T*
+() Tj
+T*
+(Node behavior is where protocol rules meet real-world adversarial traffic. Production readiness) Tj
+T*
+(requires more than ?can connect to peers.? It requires explicit authority, resilience, and) Tj
+T*
+(bounded failure behavior.) Tj
+T*
+() Tj
+T*
+(**Depends On**) Tj
+T*
+(- canonical tx validity path) Tj
+T*
+(- replay and mempool repair clarity) Tj
+T*
+() Tj
+T*
+(**Feeds Into**) Tj
+T*
+(- operator trust) Tj
+T*
+(- API/explorer stability) Tj
+T*
+(- performance tuning) Tj
+T*
+() Tj
+T*
+(**Recommended Order**) Tj
+T*
+(- make mempool authority explicit) Tj
+T*
+ET
+endstream
+endobj
+44 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 45 0 R >>
+endobj
+45 0 obj
+<< /Length 1910 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- map peer/sync flows) Tj
+T*
+(- define peer scoring and persistence) Tj
+T*
+(- define rate limits, overload behavior, and time assumptions) Tj
+T*
+(- only then optimize codecs or peer logic) Tj
+T*
+() Tj
+T*
+(**Do Not Move On Before**) Tj
+T*
+(- mempool admission path is authoritative) Tj
+T*
+(- sync state and peer state are traceable) Tj
+T*
+(- backpressure behavior is defined) Tj
+T*
+() Tj
+T*
+(**Main Checklist Items**) Tj
+T*
+(- [ ] **N1. Make peer truth, peer scoring, and peer persistence explicit**) Tj
+T*
+(- [ ] **N2. Prove sync correctness, bootstrap behavior, and peer selection**) Tj
+T*
+(- [ ] **N3. Make mempool admission, eviction, and relay authoritative**) Tj
+T*
+(- [ ] **N4. Define message boundaries, rate limits, and abuse handling**) Tj
+T*
+(- [ ] **N5. Define time/clock assumptions and timestamp tolerance**) Tj
+T*
+(- [ ] **N6. Define backpressure and overload behavior**) Tj
+T*
+() Tj
+T*
+(**Sub-Checklist Breakdown**) Tj
+T*
+(- [ ] Add peer/sync/mempool traces) Tj
+T*
+(- [ ] Document bootstrap and seed behavior) Tj
+T*
+(- [ ] Add abuse and malformed-message tests) Tj
+T*
+(- [ ] Add overload tests for sync, relay, and query pressure) Tj
+T*
+(- [ ] Define timestamp and clock-skew policy) Tj
+T*
+() Tj
+T*
+(**Implementation Strategy**) Tj
+T*
+() Tj
+T*
+(Do first:) Tj
+T*
+(- authority mapping) Tj
+T*
+(- sync and mempool traces) Tj
+T*
+(- abuse case tests) Tj
+T*
+() Tj
+T*
+(Do after:) Tj
+T*
+(- compact codec cleanup) Tj
+T*
+(- peer persistence tuning) Tj
+T*
+() Tj
+T*
+(Do not touch too early:) Tj
+T*
+(- full P2P rewrite) Tj
+T*
+(- separate mempool service before authority cleanup) Tj
+T*
+() Tj
+T*
+(**Module / Service Breakdown**) Tj
+T*
+() Tj
+T*
+(Target boundaries:) Tj
+T*
+(- PeerManager) Tj
+T*
+(- SyncManager) Tj
+T*
+(- MempoolService) Tj
+T*
+(- P2PCodec) Tj
+T*
+(- AbuseProtectionPolicy) Tj
+T*
+() Tj
+T*
+(Keep together:) Tj
+T*
+(- mempool admission and backend truth) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+46 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 47 0 R >>
+endobj
+47 0 obj
+<< /Length 1745 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**Topology / Runtime Layout Guidance**) Tj
+T*
+() Tj
+T*
+(Safest v1 topology:) Tj
+T*
+(- P2P, sync, and mempool stay in the backend node process) Tj
+T*
+(- query-heavy workloads move elsewhere later, not mempool truth) Tj
+T*
+() Tj
+T*
+(**Language / Runtime Guidance**) Tj
+T*
+() Tj
+T*
+(P2P orchestration can stay in Python for v1. The first wins are authority and shared codec) Tj
+T*
+(semantics, not a broad rewrite.) Tj
+T*
+() Tj
+T*
+(Possible later native work:) Tj
+T*
+(- shared compact/wire codec kernel if profiling still justifies it) Tj
+T*
+() Tj
+T*
+(**Refactor Risk Levels**) Tj
+T*
+() Tj
+T*
+(Low-risk:) Tj
+T*
+(- tracing) Tj
+T*
+(- limits) Tj
+T*
+(- policy docs) Tj
+T*
+() Tj
+T*
+(Medium-risk:) Tj
+T*
+(- mempool service cleanup) Tj
+T*
+(- peer manager extraction) Tj
+T*
+() Tj
+T*
+(High-risk:) Tj
+T*
+(- topology split of hot-path networking before contracts and codecs are centralized) Tj
+T*
+() Tj
+T*
+(**Completion Criteria**) Tj
+T*
+(- peer/scoring policy doc) Tj
+T*
+(- sync trace harness) Tj
+T*
+(- mempool authority map) Tj
+T*
+(- abuse and overload tests) Tj
+T*
+(- clock/timestamp policy) Tj
+T*
+() Tj
+T*
+(**What This Unlocks**) Tj
+T*
+(- safer operator onboarding) Tj
+T*
+(- safer external query surfaces) Tj
+T*
+(- clearer performance work) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- API and Service Boundaries) Tj
+T*
+() Tj
+T*
+(**Section Summary**) Tj
+T*
+() Tj
+T*
+(This section covers command/query separation, response normalization, error taxonomy,) Tj
+T*
+(revision-aware reads, idempotency, auth scopes, rate limiting, versioning, and event/stream) Tj
+T*
+(interfaces.) Tj
+T*
+() Tj
+T*
+(**Why This Section Matters**) Tj
+T*
+() Tj
+T*
+(The API is where internal ambiguity becomes externally visible. If it does not clearly separate) Tj
+T*
+ET
+endstream
+endobj
+48 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 49 0 R >>
+endobj
+49 0 obj
+<< /Length 2074 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(commands from queries, or if it returns unstable or revision-blind data, GUI, operators, and) Tj
+T*
+(third parties will all build on shaky assumptions.) Tj
+T*
+() Tj
+T*
+(**Depends On**) Tj
+T*
+(- backend ownership clarity) Tj
+T*
+(- revision markers) Tj
+T*
+(- lifecycle clarity) Tj
+T*
+() Tj
+T*
+(**Feeds Into**) Tj
+T*
+(- GUI stability) Tj
+T*
+(- explorer/exchange readiness) Tj
+T*
+(- operator tooling) Tj
+T*
+() Tj
+T*
+(**Recommended Order**) Tj
+T*
+(- classify endpoints by authority type) Tj
+T*
+(- normalize response envelopes) Tj
+T*
+(- define error taxonomy) Tj
+T*
+(- define idempotency and auth scopes) Tj
+T*
+(- add revision-aware reads) Tj
+T*
+(- then add event streams and public-safe separation) Tj
+T*
+() Tj
+T*
+(**Do Not Move On Before**) Tj
+T*
+(- command vs query ownership is explicit) Tj
+T*
+(- response envelopes include stable metadata) Tj
+T*
+(- auth boundaries are classified) Tj
+T*
+() Tj
+T*
+(**Main Checklist Items**) Tj
+T*
+(- [ ] **A1. Split command and query ownership**) Tj
+T*
+(- [ ] **A2. Normalize response envelopes and revision/tip metadata**) Tj
+T*
+(- [ ] **A3. Create an explicit error taxonomy**) Tj
+T*
+(- [ ] **A4. Make commands idempotent where required**) Tj
+T*
+(- [ ] **A5. Define localhost-only, operator-only, and public-safe auth scopes**) Tj
+T*
+(- [ ] **A6. Add event/stream interfaces with ordering guarantees**) Tj
+T*
+(- [ ] **A7. Add rate limiting, pagination, and contract versioning**) Tj
+T*
+() Tj
+T*
+(**Sub-Checklist Breakdown**) Tj
+T*
+(- [ ] Define request/response envelopes) Tj
+T*
+(- [ ] Define error classes and retryability semantics) Tj
+T*
+(- [ ] Define idempotency for send, unlock, switch network, start, stop, and rebroadcast flows) Tj
+T*
+(- [ ] Add revision and tip metadata to related reads) Tj
+T*
+(- [ ] Document event ordering assumptions) Tj
+T*
+() Tj
+T*
+(**Implementation Strategy**) Tj
+T*
+() Tj
+T*
+(Do first:) Tj
+T*
+(- response schema cleanup) Tj
+T*
+(- error taxonomy) Tj
+T*
+(- endpoint classification) Tj
+T*
+() Tj
+T*
+(Do after:) Tj
+T*
+(- event streams) Tj
+T*
+(- public-safe query separation) Tj
+T*
+ET
+endstream
+endobj
+50 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 51 0 R >>
+endobj
+51 0 obj
+<< /Length 1464 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(Do not touch too early:) Tj
+T*
+(- public exposure of admin or write surfaces) Tj
+T*
+() Tj
+T*
+(**Module / Service Breakdown**) Tj
+T*
+() Tj
+T*
+(Target boundaries:) Tj
+T*
+(- APIGateway) Tj
+T*
+(- CommandService) Tj
+T*
+(- QueryService) Tj
+T*
+(- EventStream) Tj
+T*
+(- AuthScopePolicy) Tj
+T*
+() Tj
+T*
+(Keep together:) Tj
+T*
+(- command execution and backend mutation ownership) Tj
+T*
+() Tj
+T*
+(**Topology / Runtime Layout Guidance**) Tj
+T*
+() Tj
+T*
+(Target topology:) Tj
+T*
+(- localhost API for desktop/admin use) Tj
+T*
+(- separate public-safe query contracts) Tj
+T*
+(- later, separate read-model process if needed for scale) Tj
+T*
+() Tj
+T*
+(**Language / Runtime Guidance**) Tj
+T*
+() Tj
+T*
+(Keep API logic in Python. The key issues are contracts, ownership, and read/write separation,) Tj
+T*
+(not CPU limits.) Tj
+T*
+() Tj
+T*
+(**Refactor Risk Levels**) Tj
+T*
+() Tj
+T*
+(Low-risk:) Tj
+T*
+(- envelope normalization) Tj
+T*
+(- error taxonomy) Tj
+T*
+() Tj
+T*
+(Medium-risk:) Tj
+T*
+(- command/query split) Tj
+T*
+(- stream interfaces) Tj
+T*
+() Tj
+T*
+(High-risk:) Tj
+T*
+(- exposing unstable contracts publicly) Tj
+T*
+() Tj
+T*
+(**Completion Criteria**) Tj
+T*
+(- endpoint classification matrix) Tj
+T*
+(- stable envelope schema) Tj
+T*
+(- error taxonomy) Tj
+T*
+(- idempotency policy) Tj
+T*
+(- auth scope map) Tj
+T*
+(- event order specification) Tj
+T*
+() Tj
+T*
+(**What This Unlocks**) Tj
+T*
+(- cleaner GUI) Tj
+T*
+(- safer public interfaces) Tj
+T*
+ET
+endstream
+endobj
+52 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 53 0 R >>
+endobj
+53 0 obj
+<< /Length 2426 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- lower-risk ecosystem onboarding) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- GUI and Desktop Topology) Tj
+T*
+() Tj
+T*
+(**Section Summary**) Tj
+T*
+() Tj
+T*
+(This section covers GUI decomposition, thin-client discipline, one state store, event-driven) Tj
+T*
+(updates, wallet flows, node-control flows, startup UX, and desktop runtime cleanliness.) Tj
+T*
+() Tj
+T*
+(**Why This Section Matters**) Tj
+T*
+() Tj
+T*
+(The GUI is the most visible part of Atho, but it should not be the most authoritative. The) Tj
+T*
+(production goal is a GUI that is clean, explainable, and easy to support because it is a client) Tj
+T*
+(of stable backend services rather than a second orchestrator.) Tj
+T*
+() Tj
+T*
+(**Depends On**) Tj
+T*
+(- API envelopes and revision-aware reads) Tj
+T*
+(- runtime lifecycle ownership) Tj
+T*
+(- event ordering assumptions) Tj
+T*
+() Tj
+T*
+(**Feeds Into**) Tj
+T*
+(- desktop usability) Tj
+T*
+(- packaging) Tj
+T*
+(- supportability) Tj
+T*
+() Tj
+T*
+(**Recommended Order**) Tj
+T*
+(- split views, state, controllers, and API client) Tj
+T*
+(- add one state store) Tj
+T*
+(- remove orchestration from the GUI) Tj
+T*
+(- connect the GUI to revision-aware reads and events) Tj
+T*
+(- then harden wallet UX and first-run behavior) Tj
+T*
+() Tj
+T*
+(**Do Not Move On Before**) Tj
+T*
+(- GUI no longer owns lifecycle or truth) Tj
+T*
+(- GUI state comes from one state store and backend contracts) Tj
+T*
+() Tj
+T*
+(**Main Checklist Items**) Tj
+T*
+(- [ ] **G1. Split gui.py into view, state, controller, and transport modules**) Tj
+T*
+(- [ ] **G2. Add one GUI state store and remove scattered local truth**) Tj
+T*
+(- [ ] **G3. Remove orchestration and cross-role write failover from the GUI**) Tj
+T*
+(- [ ] **G4. Make GUI state update from backend events plus revision-aware reads**) Tj
+T*
+(- [ ] **G5. Define wallet UX boundaries, dangerous actions, and recovery flows**) Tj
+T*
+(- [ ] **G6. Define desktop startup topology and first-run behavior**) Tj
+T*
+(- [ ] **G7. Add accessibility, locale safety, and user-facing diagnostics**) Tj
+T*
+() Tj
+T*
+(**Sub-Checklist Breakdown**) Tj
+T*
+(- [ ] Create gui_views, gui_store, gui_controllers, gui_api_client, gui_events,) Tj
+T*
+(gui_wallet_flows, gui_node_control) Tj
+T*
+(- [ ] Remove widget-level truth and direct orchestration assumptions) Tj
+T*
+(- [ ] Add backend reconnect and restart recovery behavior) Tj
+T*
+(- [ ] Add first-run, sync, and dangerous-action UX flows) Tj
+T*
+ET
+endstream
+endobj
+54 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 55 0 R >>
+endobj
+55 0 obj
+<< /Length 1559 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(**Implementation Strategy**) Tj
+T*
+() Tj
+T*
+(Do first:) Tj
+T*
+(- create store and API-client boundaries) Tj
+T*
+(- remove orchestration from widgets) Tj
+T*
+(- define launch and readiness UX) Tj
+T*
+() Tj
+T*
+(Do after:) Tj
+T*
+(- richer event-driven UI updates) Tj
+T*
+(- optional explorer bridge cleanup) Tj
+T*
+() Tj
+T*
+(Do not touch too early:) Tj
+T*
+(- GUI rewrite in another language) Tj
+T*
+(- embedding canonical services directly into GUI runtime) Tj
+T*
+() Tj
+T*
+(**Module / Service Breakdown**) Tj
+T*
+() Tj
+T*
+(Target boundaries:) Tj
+T*
+(- gui_views) Tj
+T*
+(- gui_store) Tj
+T*
+(- gui_controllers) Tj
+T*
+(- gui_api_client) Tj
+T*
+(- gui_events) Tj
+T*
+(- gui_wallet_flows) Tj
+T*
+(- gui_node_control) Tj
+T*
+() Tj
+T*
+(Keep together:) Tj
+T*
+(- GUI process as a thin client) Tj
+T*
+() Tj
+T*
+(**Topology / Runtime Layout Guidance**) Tj
+T*
+() Tj
+T*
+(Current likely topology:) Tj
+T*
+(- GUI mixes presentation with some orchestration assumptions) Tj
+T*
+() Tj
+T*
+(Target topology:) Tj
+T*
+(- GUI talks only to localhost backend services) Tj
+T*
+(- GUI never touches raw chainstate directly) Tj
+T*
+(- GUI never owns canonical lifecycle decisions) Tj
+T*
+() Tj
+T*
+(Easiest desktop-user topology:) Tj
+T*
+(- one launcher) Tj
+T*
+(- one GUI) Tj
+T*
+(- one backend) Tj
+T*
+(- optional miner worker) Tj
+T*
+() Tj
+T*
+(**Language / Runtime Guidance**) Tj
+T*
+() Tj
+T*
+(Keep GUI in Python for v1. Performance is not the primary GUI risk. Architecture, state) Tj
+T*
+(ownership, and user safety are.) Tj
+T*
+() Tj
+T*
+(**Refactor Risk Levels**) Tj
+T*
+ET
+endstream
+endobj
+56 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 57 0 R >>
+endobj
+57 0 obj
+<< /Length 1790 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(Low-risk:) Tj
+T*
+(- module splits) Tj
+T*
+(- state-store introduction) Tj
+T*
+() Tj
+T*
+(Medium-risk:) Tj
+T*
+(- controller and event-model cleanup) Tj
+T*
+() Tj
+T*
+(High-risk:) Tj
+T*
+(- hidden lifecycle logic remaining in GUI after backend contracts change) Tj
+T*
+() Tj
+T*
+(**Completion Criteria**) Tj
+T*
+(- GUI module map) Tj
+T*
+(- one state store) Tj
+T*
+(- no GUI-owned lifecycle authority) Tj
+T*
+(- tested restart/reconnect behavior) Tj
+T*
+(- first-run and safety UX documented) Tj
+T*
+() Tj
+T*
+(**What This Unlocks**) Tj
+T*
+(- cleaner packaging) Tj
+T*
+(- lower support burden) Tj
+T*
+(- safer backend and API changes) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Observability and Diagnostics) Tj
+T*
+() Tj
+T*
+(**Section Summary**) Tj
+T*
+() Tj
+T*
+(This section covers structured logs, correlation IDs, lifecycle traces, tx/block/reorg traces,) Tj
+T*
+(metrics, alerting, and diagnostic export.) Tj
+T*
+() Tj
+T*
+(**Why This Section Matters**) Tj
+T*
+() Tj
+T*
+(This section is cross-cutting, but it is intentionally placed here because by this point the) Tj
+T*
+(backend, runtime, API, and GUI boundaries are understandable enough to instrument coherently.) Tj
+T*
+(Observability is what allows the project to make later structural changes without guesswork.) Tj
+T*
+() Tj
+T*
+(**Depends On**) Tj
+T*
+(- basic boundary clarity in consensus, runtime, API, and GUI) Tj
+T*
+() Tj
+T*
+(**Feeds Into**) Tj
+T*
+(- testing) Tj
+T*
+(- operations) Tj
+T*
+(- incident response) Tj
+T*
+(- performance work) Tj
+T*
+() Tj
+T*
+(**Recommended Order**) Tj
+T*
+(- standardize event names and correlation IDs) Tj
+T*
+(- add lifecycle and state-transition traces) Tj
+T*
+(- add health and pressure metrics) Tj
+T*
+(- add diagnostic bundle export) Tj
+T*
+(- only then build richer dashboards and alerts) Tj
+T*
+ET
+endstream
+endobj
+58 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 59 0 R >>
+endobj
+59 0 obj
+<< /Length 1938 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(**Do Not Move On Before**) Tj
+T*
+(- launch, send, accept, replay, and restart flows are traceable) Tj
+T*
+() Tj
+T*
+(**Main Checklist Items**) Tj
+T*
+(- [ ] **O1. Add structured logs and correlation IDs across backend, API, GUI, and installer**) Tj
+T*
+(- [ ] **O2. Add tx lifecycle, block acceptance, reorg, and recovery tracing**) Tj
+T*
+(- [ ] **O3. Add startup, shutdown, health-check, and dependency-order tracing**) Tj
+T*
+(- [ ] **O4. Add node, mempool, sync, API, storage, and GUI metrics**) Tj
+T*
+(- [ ] **O5. Add diagnostic bundle export and crash report export**) Tj
+T*
+(- [ ] **O6. Define alert thresholds and operator dashboard expectations**) Tj
+T*
+() Tj
+T*
+(**Sub-Checklist Breakdown**) Tj
+T*
+(- [ ] Standardize correlation ID format) Tj
+T*
+(- [ ] Standardize event names across runtime surfaces) Tj
+T*
+(- [ ] Separate health metrics from business metrics) Tj
+T*
+(- [ ] Add log retention, redaction, and export rules) Tj
+T*
+() Tj
+T*
+(**Implementation Strategy**) Tj
+T*
+() Tj
+T*
+(Do first:) Tj
+T*
+(- correlation IDs) Tj
+T*
+(- event names) Tj
+T*
+(- lifecycle traces) Tj
+T*
+() Tj
+T*
+(Do after:) Tj
+T*
+(- dashboards and alerts) Tj
+T*
+(- richer diagnostics) Tj
+T*
+() Tj
+T*
+(Do not touch too early:) Tj
+T*
+(- remote telemetry in the hot path) Tj
+T*
+() Tj
+T*
+(**Module / Service Breakdown**) Tj
+T*
+() Tj
+T*
+(Target domains:) Tj
+T*
+(- LifecycleTrace) Tj
+T*
+(- ConsensusTrace) Tj
+T*
+(- StorageTrace) Tj
+T*
+(- APIMetrics) Tj
+T*
+(- GUITelemetry) Tj
+T*
+(- OperatorMetrics) Tj
+T*
+() Tj
+T*
+(**Topology / Runtime Layout Guidance**) Tj
+T*
+() Tj
+T*
+(Metrics and logs should:) Tj
+T*
+(- remain local and process-scoped by default in desktop mode) Tj
+T*
+(- support operator scraping/export in node mode) Tj
+T*
+(- never block canonical writes) Tj
+T*
+() Tj
+T*
+(**Language / Runtime Guidance**) Tj
+T*
+() Tj
+T*
+(Keep observability in Python at emission points. No separate observability service is needed) Tj
+T*
+ET
+endstream
+endobj
+60 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 61 0 R >>
+endobj
+61 0 obj
+<< /Length 1658 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(before contracts stabilize.) Tj
+T*
+() Tj
+T*
+(**Refactor Risk Levels**) Tj
+T*
+() Tj
+T*
+(Low-risk:) Tj
+T*
+(- log schemas) Tj
+T*
+(- metric names) Tj
+T*
+() Tj
+T*
+(Medium-risk:) Tj
+T*
+(- event model harmonization) Tj
+T*
+() Tj
+T*
+(High-risk:) Tj
+T*
+(- any telemetry path that can delay canonical state mutation) Tj
+T*
+() Tj
+T*
+(**Completion Criteria**) Tj
+T*
+(- trace IDs across start/send/accept/reorg/recover) Tj
+T*
+(- metrics for node health, API health, storage pressure, sync) Tj
+T*
+(- diagnostic export available) Tj
+T*
+() Tj
+T*
+(**What This Unlocks**) Tj
+T*
+(- safer refactors) Tj
+T*
+(- stronger release gates) Tj
+T*
+(- better incident response) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Testing, Verification, and Adversarial Simulation) Tj
+T*
+() Tj
+T*
+(**Section Summary**) Tj
+T*
+() Tj
+T*
+(This section covers vectors, regression suites, multi-process tests, crash tests, private-state) Tj
+T*
+(parity, installer/runtime tests, event-order tests, and adversarial economic simulations.) Tj
+T*
+() Tj
+T*
+(**Why This Section Matters**) Tj
+T*
+() Tj
+T*
+(This is the proof layer for the rest of the checklist. It converts assumptions into evidence.) Tj
+T*
+() Tj
+T*
+(**Depends On**) Tj
+T*
+(- observability) Tj
+T*
+(- authority maps) Tj
+T*
+(- topology clarity) Tj
+T*
+() Tj
+T*
+(**Feeds Into**) Tj
+T*
+(- release gating) Tj
+T*
+(- language migration safety) Tj
+T*
+(- governance and review discipline) Tj
+T*
+() Tj
+T*
+(**Recommended Order**) Tj
+T*
+(- build golden vectors) Tj
+T*
+(- add crash/replay and multi-process tests) Tj
+T*
+(- add private-state and economic simulations) Tj
+T*
+(- then expand packaging and multi-OS smoke coverage) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+62 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 63 0 R >>
+endobj
+63 0 obj
+<< /Length 1932 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**Do Not Move On Before**) Tj
+T*
+(- vectors exist for critical codec and validity rules) Tj
+T*
+(- replay and crash behavior are covered) Tj
+T*
+() Tj
+T*
+(**Main Checklist Items**) Tj
+T*
+(- [ ] **T1. Build and maintain golden vectors for consensus-critical behavior**) Tj
+T*
+(- [ ] **T2. Expand integration and multi-process runtime tests**) Tj
+T*
+(- [ ] **T3. Add restart, crash, and recovery test suites**) Tj
+T*
+(- [ ] **T4. Expand private-state, staking, and replay parity tests**) Tj
+T*
+(- [ ] **T5. Add installer/runtime/desktop smoke tests**) Tj
+T*
+(- [ ] **T6. Add API contract tests and event-order tests**) Tj
+T*
+(- [ ] **T7. Add adversarial economic simulations**) Tj
+T*
+(- [ ] **T8. Add threat-model-driven abuse-case tests**) Tj
+T*
+() Tj
+T*
+(**Sub-Checklist Breakdown**) Tj
+T*
+(- [ ] Serialization compatibility vectors) Tj
+T*
+(- [ ] Restart/replay comparison snapshots) Tj
+T*
+(- [ ] Multi-instance and port-conflict tests) Tj
+T*
+(- [ ] Secret/auth boundary tests) Tj
+T*
+(- [ ] Reward/reorg/emission adversarial simulations) Tj
+T*
+(- [ ] Load and backpressure tests) Tj
+T*
+() Tj
+T*
+(**Implementation Strategy**) Tj
+T*
+() Tj
+T*
+(Do first:) Tj
+T*
+(- vectors) Tj
+T*
+(- parity tests) Tj
+T*
+(- crash tests) Tj
+T*
+() Tj
+T*
+(Do after:) Tj
+T*
+(- performance regression harnesses) Tj
+T*
+(- full packaging matrix automation) Tj
+T*
+() Tj
+T*
+(Do not touch too early:) Tj
+T*
+(- semantic refactors that outrun vector coverage) Tj
+T*
+() Tj
+T*
+(**Module / Service Breakdown**) Tj
+T*
+() Tj
+T*
+(Recommended layers:) Tj
+T*
+(- consensus_vectors) Tj
+T*
+(- runtime_integration) Tj
+T*
+(- crash_recovery) Tj
+T*
+(- private_state_parity) Tj
+T*
+(- reward_emission_replay) Tj
+T*
+(- desktop_packaging_smoke) Tj
+T*
+(- api_contract) Tj
+T*
+(- economic_simulation) Tj
+T*
+() Tj
+T*
+(**Topology / Runtime Layout Guidance**) Tj
+T*
+() Tj
+T*
+(Testing topology should include:) Tj
+T*
+(- single-process deterministic tests) Tj
+T*
+ET
+endstream
+endobj
+64 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 65 0 R >>
+endobj
+65 0 obj
+<< /Length 1674 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- multi-process desktop tests) Tj
+T*
+(- headless node/operator topology tests) Tj
+T*
+(- multi-OS packaging tests) Tj
+T*
+() Tj
+T*
+(**Language / Runtime Guidance**) Tj
+T*
+() Tj
+T*
+(Tests remain primarily Python-based, with cross-language parity tests for any C/Rust boundaries.) Tj
+T*
+() Tj
+T*
+(**Refactor Risk Levels**) Tj
+T*
+() Tj
+T*
+(Low-risk:) Tj
+T*
+(- more vectors) Tj
+T*
+(- more fault injection) Tj
+T*
+() Tj
+T*
+(Medium-risk:) Tj
+T*
+(- full multi-process CI matrix) Tj
+T*
+() Tj
+T*
+(High-risk:) Tj
+T*
+(- claiming production readiness without replay, private-state, and packaging coverage) Tj
+T*
+() Tj
+T*
+(**Completion Criteria**) Tj
+T*
+(- required suites listed and green) Tj
+T*
+(- failure classes mapped to tests) Tj
+T*
+(- simulation artifacts archived per release) Tj
+T*
+() Tj
+T*
+(**What This Unlocks**) Tj
+T*
+(- safe refactors) Tj
+T*
+(- safe native migration) Tj
+T*
+(- credible launch gating) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- File Structure and Module Decomposition) Tj
+T*
+() Tj
+T*
+(**Section Summary**) Tj
+T*
+() Tj
+T*
+(This section covers package layout, module extraction, import boundaries, path cleanup, and) Tj
+T*
+(dev/build/runtime separation.) Tj
+T*
+() Tj
+T*
+(**Why This Section Matters**) Tj
+T*
+() Tj
+T*
+(The goal is not a prettier tree. It is a clearer codebase where ownership and review boundaries) Tj
+T*
+(are visible and where packaging/runtime behavior is not entangled with developer tooling.) Tj
+T*
+() Tj
+T*
+(**Depends On**) Tj
+T*
+(- authority maps for key systems) Tj
+T*
+() Tj
+T*
+(**Feeds Into**) Tj
+T*
+(- packaging) Tj
+T*
+(- service extraction) Tj
+T*
+(- contributor onboarding) Tj
+T*
+() Tj
+T*
+(**Recommended Order**) Tj
+T*
+ET
+endstream
+endobj
+66 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 67 0 R >>
+endobj
+67 0 obj
+<< /Length 2054 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- publish target package and ownership map) Tj
+T*
+(- centralize paths) Tj
+T*
+(- split giant files without semantic changes) Tj
+T*
+(- add import-boundary rules) Tj
+T*
+(- then add stronger CI quality gates) Tj
+T*
+() Tj
+T*
+(**Do Not Move On Before**) Tj
+T*
+(- path resolution is centralized) Tj
+T*
+(- giant-file splits are non-semantic first) Tj
+T*
+() Tj
+T*
+(**Main Checklist Items**) Tj
+T*
+(- [ ] **F1. Publish target package and ownership map**) Tj
+T*
+(- [ ] **F2. Break oversized modules into stable domain modules**) Tj
+T*
+(- [ ] **F3. Centralize path resolution and remove hardcoded paths**) Tj
+T*
+(- [ ] **F4. Separate runtime code, build scripts, installer assets, and audit/tooling assets**) Tj
+T*
+(- [ ] **F5. Add architectural import-boundary rules and CI checks**) Tj
+T*
+(- [ ] **F6. Add dead-code, complexity, lint, type, and formatting gates**) Tj
+T*
+() Tj
+T*
+(**Sub-Checklist Breakdown**) Tj
+T*
+(- [ ] Publish module ownership and review-owner map) Tj
+T*
+(- [ ] Break giant files into domain modules without changing behavior) Tj
+T*
+(- [ ] Add import-boundary lint rules) Tj
+T*
+(- [ ] Add type/lint/format gates where realistic) Tj
+T*
+(- [ ] Separate live docs from historical/audit assets) Tj
+T*
+() Tj
+T*
+(**Implementation Strategy**) Tj
+T*
+() Tj
+T*
+(Do first:) Tj
+T*
+(- ownership map) Tj
+T*
+(- path cleanup) Tj
+T*
+(- non-semantic file splits) Tj
+T*
+() Tj
+T*
+(Do after:) Tj
+T*
+(- stronger CI structural rules) Tj
+T*
+(- broader type checking) Tj
+T*
+() Tj
+T*
+(Do not touch too early:) Tj
+T*
+(- large renames across consensus-sensitive code without vector coverage) Tj
+T*
+() Tj
+T*
+(**Module / Service Breakdown**) Tj
+T*
+() Tj
+T*
+(Recommended top-level decomposition:) Tj
+T*
+(- consensus / canonical state) Tj
+T*
+(- private / proof) Tj
+T*
+(- runtime / supervisor) Tj
+T*
+(- api / gateway / query) Tj
+T*
+(- gui / store / controllers / views) Tj
+T*
+(- storage / repos / migrations) Tj
+T*
+(- packaging / installer assets) Tj
+T*
+(- ops / release / signing) Tj
+T*
+() Tj
+T*
+(**Topology / Runtime Layout Guidance**) Tj
+T*
+ET
+endstream
+endobj
+68 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 69 0 R >>
+endobj
+69 0 obj
+<< /Length 1689 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(Package layout should mirror runtime topology:) Tj
+T*
+(- backend-only code) Tj
+T*
+(- read-only/query code) Tj
+T*
+(- GUI-only code) Tj
+T*
+(- packaging-only assets) Tj
+T*
+() Tj
+T*
+(**Language / Runtime Guidance**) Tj
+T*
+() Tj
+T*
+(Stay in Python. This is maintainability work, not a migration opportunity.) Tj
+T*
+() Tj
+T*
+(**Refactor Risk Levels**) Tj
+T*
+() Tj
+T*
+(Low-risk:) Tj
+T*
+(- asset and path cleanup) Tj
+T*
+() Tj
+T*
+(Medium-risk:) Tj
+T*
+(- module extraction) Tj
+T*
+(- import rules) Tj
+T*
+() Tj
+T*
+(High-risk:) Tj
+T*
+(- deep consensus file refactors without proof scaffolding) Tj
+T*
+() Tj
+T*
+(**Completion Criteria**) Tj
+T*
+(- package map) Tj
+T*
+(- import rules) Tj
+T*
+(- hardcoded paths removed) Tj
+T*
+(- dev/build/runtime assets separated) Tj
+T*
+() Tj
+T*
+(**What This Unlocks**) Tj
+T*
+(- safer packaging) Tj
+T*
+(- safer service boundary cleanup) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Packaging, Installer, Runtime Layout, and Network Separation) Tj
+T*
+() Tj
+T*
+(**Section Summary**) Tj
+T*
+() Tj
+T*
+(This section combines packaging, installer behavior, OS-native runtime layout, config layering,) Tj
+T*
+(network separation, version compatibility, beta-to-production migration, and multi-instance) Tj
+T*
+(safety.) Tj
+T*
+() Tj
+T*
+(**Why This Section Matters**) Tj
+T*
+() Tj
+T*
+(This is where architecture becomes a real desktop product. A system can be technically correct) Tj
+T*
+(and still be unfit for release if its data roots, startup model, update behavior, or network) Tj
+T*
+(separation are unsafe.) Tj
+T*
+() Tj
+T*
+(**Depends On**) Tj
+T*
+(- runtime lifecycle discipline) Tj
+T*
+(- storage ownership and migration rules) Tj
+T*
+(- path cleanup) Tj
+T*
+ET
+endstream
+endobj
+70 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 71 0 R >>
+endobj
+71 0 obj
+<< /Length 2354 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(**Feeds Into**) Tj
+T*
+(- desktop readiness) Tj
+T*
+(- operator trust) Tj
+T*
+(- release engineering) Tj
+T*
+() Tj
+T*
+(**Recommended Order**) Tj
+T*
+(- define network-separated roots and config precedence) Tj
+T*
+(- define OS-native path layout) Tj
+T*
+(- define startup topology and first-run flow) Tj
+T*
+(- define update, uninstall, and migration behavior) Tj
+T*
+(- only then build installer automation) Tj
+T*
+() Tj
+T*
+(**Do Not Move On Before**) Tj
+T*
+(- mainnet/testnet/regtest/dev separation is enforced) Tj
+T*
+(- config precedence is explicit) Tj
+T*
+(- same-data-dir conflict behavior is defined) Tj
+T*
+() Tj
+T*
+(**Main Checklist Items**) Tj
+T*
+(- [ ] **PK1. Define OS-native runtime directory layout**) Tj
+T*
+(- [ ] **PK2. Define installer behavior for Windows, Linux, and macOS**) Tj
+T*
+(- [ ] **PK3. Define desktop startup topology and one-click launch flow**) Tj
+T*
+(- [ ] **PK4. Define update, migration, and uninstall behavior**) Tj
+T*
+(- [ ] **PK5. Define network-separated app-data layout**) Tj
+T*
+(- [ ] **PK6. Define crash dump, temp file, and update-cache policy**) Tj
+T*
+(- [ ] **NS1. Hard-separate mainnet, testnet, regtest, and dev data roots**) Tj
+T*
+(- [ ] **NS2. Define config layering and safe environment-variable usage**) Tj
+T*
+(- [ ] **NS3. Define version compatibility and rollout rules**) Tj
+T*
+(- [ ] **NS4. Define beta-to-production data reuse, discard, and migration rules**) Tj
+T*
+(- [ ] **NS5. Define branch, staging, and release-environment discipline**) Tj
+T*
+() Tj
+T*
+(**Sub-Checklist Breakdown**) Tj
+T*
+(- [ ] Windows installer, shortcut, signing, uninstall/data-retention policy) Tj
+T*
+(- [ ] Linux package targets, desktop integration, portable vs package-manager posture) Tj
+T*
+(- [ ] macOS .app/notarization/support-path layout) Tj
+T*
+(- [ ] first-run data-dir and sync UX) Tj
+T*
+(- [ ] config-file, env-var, installer-selected, and GUI-editable setting classification) Tj
+T*
+(- [ ] same-data-dir conflict and stale-lock behavior) Tj
+T*
+(- [ ] beta-to-production migration rules) Tj
+T*
+() Tj
+T*
+(**Implementation Strategy**) Tj
+T*
+() Tj
+T*
+(Do first:) Tj
+T*
+(- path and config cleanup) Tj
+T*
+(- network separation) Tj
+T*
+(- startup discipline) Tj
+T*
+() Tj
+T*
+(Do after:) Tj
+T*
+(- installer generation) Tj
+T*
+(- updater automation) Tj
+T*
+() Tj
+T*
+(Do not touch too early:) Tj
+T*
+ET
+endstream
+endobj
+72 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 73 0 R >>
+endobj
+73 0 obj
+<< /Length 1483 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- auto-update without rollback and signing) Tj
+T*
+(- ambiguous beta-data reuse) Tj
+T*
+() Tj
+T*
+(**Module / Service Breakdown**) Tj
+T*
+() Tj
+T*
+(Target boundaries:) Tj
+T*
+(- PathResolver) Tj
+T*
+(- RuntimeProfileManager) Tj
+T*
+(- ConfigResolver) Tj
+T*
+(- CompatibilityPolicy) Tj
+T*
+(- DataMigrationAssistant) Tj
+T*
+(- DesktopLaunchController) Tj
+T*
+() Tj
+T*
+(**Topology / Runtime Layout Guidance**) Tj
+T*
+() Tj
+T*
+(Desktop topology should package together:) Tj
+T*
+(- GUI) Tj
+T*
+(- launcher/supervisor) Tj
+T*
+(- localhost backend) Tj
+T*
+(- optional miner binaries if enabled) Tj
+T*
+() Tj
+T*
+(Should package separately later:) Tj
+T*
+(- infra query/indexer tools) Tj
+T*
+(- operator bundles) Tj
+T*
+() Tj
+T*
+(Every network should have:) Tj
+T*
+(- separate data dir) Tj
+T*
+(- separate logs) Tj
+T*
+(- separate peer DB) Tj
+T*
+(- separate wallet DB) Tj
+T*
+(- separate lock files) Tj
+T*
+(- separate default ports and IDs) Tj
+T*
+() Tj
+T*
+(**Language / Runtime Guidance**) Tj
+T*
+() Tj
+T*
+(Keep packaging logic in Python/shell/tooling. This is a discipline and layout problem, not a) Tj
+T*
+(C++/Rust problem.) Tj
+T*
+() Tj
+T*
+(**Refactor Risk Levels**) Tj
+T*
+() Tj
+T*
+(Low-risk:) Tj
+T*
+(- path maps) Tj
+T*
+(- config precedence) Tj
+T*
+(- data-root separation) Tj
+T*
+() Tj
+T*
+(Medium-risk:) Tj
+T*
+(- installer generation) Tj
+T*
+(- startup cleanup) Tj
+T*
+(- migration assistant) Tj
+T*
+() Tj
+T*
+(High-risk:) Tj
+T*
+(- in-place data migration without tested rollback) Tj
+T*
+ET
+endstream
+endobj
+74 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 75 0 R >>
+endobj
+75 0 obj
+<< /Length 1890 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(**Completion Criteria**) Tj
+T*
+(- per-OS directory map) Tj
+T*
+(- installer behavior spec) Tj
+T*
+(- startup flow spec) Tj
+T*
+(- compatibility matrix) Tj
+T*
+(- beta migration policy) Tj
+T*
+() Tj
+T*
+(**What This Unlocks**) Tj
+T*
+(- real desktop usability) Tj
+T*
+(- safer public beta and mainnet onboarding) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Ecosystem and External Interface Readiness) Tj
+T*
+() Tj
+T*
+(**Section Summary**) Tj
+T*
+() Tj
+T*
+(This section covers explorer/indexer surfaces, wallet/exchange/custodian needs, event streams,) Tj
+T*
+(public-safe query contracts, versioning, and external-facing docs.) Tj
+T*
+() Tj
+T*
+(**Why This Section Matters**) Tj
+T*
+() Tj
+T*
+(If third parties cannot safely and predictably build on Atho, the chain will be hard to) Tj
+T*
+(integrate no matter how good the desktop app is.) Tj
+T*
+() Tj
+T*
+(**Depends On**) Tj
+T*
+(- stable API contracts) Tj
+T*
+(- read/write separation) Tj
+T*
+(- network and version discipline) Tj
+T*
+() Tj
+T*
+(**Feeds Into**) Tj
+T*
+(- exchange onboarding) Tj
+T*
+(- explorer/indexer ecosystem) Tj
+T*
+(- hosted infrastructure support) Tj
+T*
+() Tj
+T*
+(**Recommended Order**) Tj
+T*
+(- stabilize response schemas) Tj
+T*
+(- classify public-safe vs local/admin/operator surfaces) Tj
+T*
+(- add explorer/indexer-oriented query models) Tj
+T*
+(- add event streams and versioning policy) Tj
+T*
+(- publish integrator docs) Tj
+T*
+() Tj
+T*
+(**Do Not Move On Before**) Tj
+T*
+(- contract shapes are stable) Tj
+T*
+(- auth and exposure boundaries are classified) Tj
+T*
+(- public queries do not depend on hot-path write surfaces) Tj
+T*
+() Tj
+T*
+(**Main Checklist Items**) Tj
+T*
+(- [ ] **E1. Define public-safe query surfaces**) Tj
+T*
+(- [ ] **E2. Define local-only/admin/operator surfaces**) Tj
+T*
+(- [ ] **E3. Add explorer/indexer-ready query models**) Tj
+T*
+(- [ ] **E4. Add stable event/stream interfaces**) Tj
+T*
+ET
+endstream
+endobj
+76 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 77 0 R >>
+endobj
+77 0 obj
+<< /Length 1955 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- [ ] **E5. Define external contract versioning and deprecation policy**) Tj
+T*
+(- [ ] **E6. Produce integrator docs for explorers, wallets, exchanges, and operators**) Tj
+T*
+(- [ ] **E7. Define compliance/exposure boundaries for public distribution**) Tj
+T*
+() Tj
+T*
+(**Sub-Checklist Breakdown**) Tj
+T*
+(- [ ] explorer support: block, tx, address, mempool, confirmations, supply, chain status) Tj
+T*
+(- [ ] exchange support: deposit monitoring, withdrawal broadcast, network identification,) Tj
+T*
+(confirmation semantics) Tj
+T*
+(- [ ] operator support: sync, health, storage pressure, peer visibility, upgrade guidance) Tj
+T*
+(- [ ] contract policy: pagination, rate limits, error codes, event ordering, deprecation) Tj
+T*
+() Tj
+T*
+(**Implementation Strategy**) Tj
+T*
+() Tj
+T*
+(Do first:) Tj
+T*
+(- stabilize schema shapes) Tj
+T*
+(- separate public-safe from local/admin surfaces) Tj
+T*
+() Tj
+T*
+(Do after:) Tj
+T*
+(- richer event streams) Tj
+T*
+(- separate read-model processes if needed) Tj
+T*
+() Tj
+T*
+(Do not touch too early:) Tj
+T*
+(- public exposure of unstable write/admin endpoints) Tj
+T*
+() Tj
+T*
+(**Module / Service Breakdown**) Tj
+T*
+() Tj
+T*
+(Target boundaries:) Tj
+T*
+(- PublicQueryAPI) Tj
+T*
+(- LocalAdminAPI) Tj
+T*
+(- OperatorAPI) Tj
+T*
+(- EventStreamAPI) Tj
+T*
+(- ExplorerReadModel) Tj
+T*
+() Tj
+T*
+(**Topology / Runtime Layout Guidance**) Tj
+T*
+() Tj
+T*
+(Best v1 topology:) Tj
+T*
+(- external builders use query/read surfaces) Tj
+T*
+(- node operators use localhost/admin surfaces) Tj
+T*
+(- hosted infra can run separate read models later) Tj
+T*
+() Tj
+T*
+(**Language / Runtime Guidance**) Tj
+T*
+() Tj
+T*
+(API/query layers can remain Python for v1. If scale later requires a separate indexer or read) Tj
+T*
+(service, that can evolve independently.) Tj
+T*
+() Tj
+T*
+(**Refactor Risk Levels**) Tj
+T*
+() Tj
+T*
+(Low-risk:) Tj
+T*
+(- schema docs) Tj
+T*
+(- endpoint classification) Tj
+T*
+() Tj
+T*
+(Medium-risk:) Tj
+T*
+ET
+endstream
+endobj
+78 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 79 0 R >>
+endobj
+79 0 obj
+<< /Length 1834 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- read-model extraction) Tj
+T*
+(- event stream addition) Tj
+T*
+() Tj
+T*
+(High-risk:) Tj
+T*
+(- exposing public contracts before auth/versioning/read-write separation are stable) Tj
+T*
+() Tj
+T*
+(**Completion Criteria**) Tj
+T*
+(- endpoint catalog) Tj
+T*
+(- stable contract docs) Tj
+T*
+(- versioning policy) Tj
+T*
+(- operator/integrator runbooks) Tj
+T*
+() Tj
+T*
+(**What This Unlocks**) Tj
+T*
+(- real ecosystem onboarding) Tj
+T*
+(- safer third-party support) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Production Operations, Release Engineering, and Governance) Tj
+T*
+() Tj
+T*
+(**Section Summary**) Tj
+T*
+() Tj
+T*
+(This section covers governance, change control, branch strategy, reproducible or verifiable) Tj
+T*
+(builds, signing, provenance, dependency security, secret management, CI/CD, incident response,) Tj
+T*
+(runbooks, and ownership.) Tj
+T*
+() Tj
+T*
+(**Why This Section Matters**) Tj
+T*
+() Tj
+T*
+(Production readiness is not just code. It is the ability to change, build, ship, sign, roll) Tj
+T*
+(back, and respond to incidents without chaos.) Tj
+T*
+() Tj
+T*
+(**Depends On**) Tj
+T*
+(- stable system boundaries) Tj
+T*
+(- release-gate tests) Tj
+T*
+(- packaging strategy) Tj
+T*
+() Tj
+T*
+(**Feeds Into**) Tj
+T*
+(- launch readiness) Tj
+T*
+(- emergency response) Tj
+T*
+(- long-term maintainership) Tj
+T*
+() Tj
+T*
+(**Recommended Order**) Tj
+T*
+(- define governance and review rules) Tj
+T*
+(- define release and hotfix discipline) Tj
+T*
+(- define signing, provenance, and dependency-security policy) Tj
+T*
+(- define runbooks and incident response) Tj
+T*
+(- automate carefully after the process is understood) Tj
+T*
+() Tj
+T*
+(**Do Not Move On Before**) Tj
+T*
+(- consensus-affecting changes have formal review rules) Tj
+T*
+(- release signing and rollback policy exist) Tj
+T*
+(- subsystem owners are named) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+80 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 81 0 R >>
+endobj
+81 0 obj
+<< /Length 2415 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**Main Checklist Items**) Tj
+T*
+(- [ ] **OP1. Define governance and change-control policy for consensus-affecting changes**) Tj
+T*
+(- [ ] **OP2. Define branch, freeze, hotfix, and promotion discipline**) Tj
+T*
+(- [ ] **OP3. Implement reproducible or strongly verifiable builds and provenance**) Tj
+T*
+(- [ ] **OP4. Add release signing, checksum publication, and artifact verification**) Tj
+T*
+(- [ ] **OP5. Define secret-management and credential-rotation policy**) Tj
+T*
+(- [ ] **OP6. Define dependency pinning, vulnerability scanning, and supply-chain review**) Tj
+T*
+(- [ ] **OP7. Define CI/CD gates and multi-OS release automation**) Tj
+T*
+(- [ ] **OP8. Create incident response, rollback, and emergency patch plans**) Tj
+T*
+(- [ ] **OP9. Create operator runbooks and release sign-off workflow**) Tj
+T*
+(- [ ] **OP10. Define subsystem ownership and ADR discipline**) Tj
+T*
+() Tj
+T*
+(**Sub-Checklist Breakdown**) Tj
+T*
+(- [ ] formal review requirements for consensus, storage, serialization, and topology changes) Tj
+T*
+(- [ ] who can approve consensus constants and monetary policy changes) Tj
+T*
+(- [ ] build provenance, SBOM, and bundled-binary trust model) Tj
+T*
+(- [ ] secret storage and rotation rules for API/auth/build-signing credentials) Tj
+T*
+(- [ ] CI gates for lint, tests, packaging smoke, migration checks, and multi-OS verification) Tj
+T*
+(- [ ] rollback process for desktop releases, schema failures, and consensus-adjacent bugs) Tj
+T*
+() Tj
+T*
+(**Implementation Strategy**) Tj
+T*
+() Tj
+T*
+(Do first:) Tj
+T*
+(- governance policy) Tj
+T*
+(- release sign-off checklist) Tj
+T*
+(- rollback runbooks) Tj
+T*
+() Tj
+T*
+(Do after:) Tj
+T*
+(- stronger provenance automation) Tj
+T*
+(- stronger CI/CD automation) Tj
+T*
+() Tj
+T*
+(Do not touch too early:) Tj
+T*
+(- fully automatic release promotion without rollback gates) Tj
+T*
+() Tj
+T*
+(**Module / Service Breakdown**) Tj
+T*
+() Tj
+T*
+(Operational domains:) Tj
+T*
+(- ReleasePolicy) Tj
+T*
+(- BuildProvenance) Tj
+T*
+(- SigningAndVerification) Tj
+T*
+(- SecretManagement) Tj
+T*
+(- DependencySecurity) Tj
+T*
+(- IncidentResponse) Tj
+T*
+(- RunbookRegistry) Tj
+T*
+(- OwnershipAndADR) Tj
+T*
+() Tj
+T*
+(**Topology / Runtime Layout Guidance**) Tj
+T*
+() Tj
+T*
+(Operational topology should separate:) Tj
+T*
+(- build and signing environments) Tj
+T*
+(- testnet and mainnet promotion tracks) Tj
+T*
+(- operator docs from desktop-user docs) Tj
+T*
+ET
+endstream
+endobj
+82 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 83 0 R >>
+endobj
+83 0 obj
+<< /Length 1682 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(Do not couple:) Tj
+T*
+(- build-signing credentials with developer machines) Tj
+T*
+(- production release signing with ad hoc scripts) Tj
+T*
+() Tj
+T*
+(**Language / Runtime Guidance**) Tj
+T*
+() Tj
+T*
+(This remains tooling/process work. Python and standard build tooling are fine.) Tj
+T*
+() Tj
+T*
+(**Refactor Risk Levels**) Tj
+T*
+() Tj
+T*
+(Low-risk:) Tj
+T*
+(- runbooks) Tj
+T*
+(- sign-off templates) Tj
+T*
+() Tj
+T*
+(Medium-risk:) Tj
+T*
+(- release automation) Tj
+T*
+(- secret rotation automation) Tj
+T*
+() Tj
+T*
+(High-risk:) Tj
+T*
+(- uncontrolled emergency fixes in consensus-sensitive areas) Tj
+T*
+() Tj
+T*
+(**Completion Criteria**) Tj
+T*
+(- governance policy) Tj
+T*
+(- release checklist) Tj
+T*
+(- artifact verification process) Tj
+T*
+(- incident/rollback runbooks) Tj
+T*
+(- subsystem owner map) Tj
+T*
+(- ADR process) Tj
+T*
+() Tj
+T*
+(**What This Unlocks**) Tj
+T*
+(- credible release discipline) Tj
+T*
+(- lower-chaos emergency handling) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- User Safety, Recovery, and Supportability) Tj
+T*
+() Tj
+T*
+(**Section Summary**) Tj
+T*
+() Tj
+T*
+(This section covers wallet backup/restore, wrong-network protection, stale-instance detection,) Tj
+T*
+(corruption handling, self-check tools, support surfaces, and safe UX around failure modes.) Tj
+T*
+() Tj
+T*
+(**Why This Section Matters**) Tj
+T*
+() Tj
+T*
+(Production software must be survivable by users and supportable by operators. Good code is not) Tj
+T*
+(enough if users cannot recover safely or understand what the system is doing.) Tj
+T*
+() Tj
+T*
+(**Depends On**) Tj
+T*
+(- stable runtime ownership) Tj
+T*
+(- packaging/runtime layout) Tj
+T*
+(- API/GUI stability) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+84 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 85 0 R >>
+endobj
+85 0 obj
+<< /Length 2074 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**Feeds Into**) Tj
+T*
+(- support burden reduction) Tj
+T*
+(- safer public rollout) Tj
+T*
+() Tj
+T*
+(**Recommended Order**) Tj
+T*
+(- define backup/restore and wrong-network protections) Tj
+T*
+(- expose support surfaces and build info) Tj
+T*
+(- define partial-failure and corruption messaging) Tj
+T*
+(- then improve guided recovery flows) Tj
+T*
+() Tj
+T*
+(**Do Not Move On Before**) Tj
+T*
+(- backup/restore behavior is documented) Tj
+T*
+(- wrong-network and same-data-dir protections exist) Tj
+T*
+() Tj
+T*
+(**Main Checklist Items**) Tj
+T*
+(- [ ] **U1. Define wallet backup and restore flows**) Tj
+T*
+(- [ ] **U2. Add wrong-network, wrong-data-dir, and stale-instance protections**) Tj
+T*
+(- [ ] **U3. Define corruption, partial-failure, and low-disk handling**) Tj
+T*
+(- [ ] **U4. Improve first-run, sync, and dangerous-action UX**) Tj
+T*
+(- [ ] **U5. Add supportability surfaces: build info, network info, storage path view, log) Tj
+T*
+(export, self-check**) Tj
+T*
+(- [ ] **U6. Add locale/Unicode/path safety and basic accessibility review**) Tj
+T*
+() Tj
+T*
+(**Sub-Checklist Breakdown**) Tj
+T*
+(- [ ] backup reminders and verification flow) Tj
+T*
+(- [ ] low-disk, corrupted-state, and same-data-dir conflict warnings) Tj
+T*
+(- [ ] sync progress and backend readiness clarity) Tj
+T*
+(- [ ] log export, config summary, and storage path visibility) Tj
+T*
+(- [ ] keyboard/basic accessibility review and locale safety) Tj
+T*
+() Tj
+T*
+(**Implementation Strategy**) Tj
+T*
+() Tj
+T*
+(Do first:) Tj
+T*
+(- supportability surfaces) Tj
+T*
+(- backup/restore clarity) Tj
+T*
+(- wrong-network protections) Tj
+T*
+() Tj
+T*
+(Do after:) Tj
+T*
+(- richer guided recovery and self-check flows) Tj
+T*
+() Tj
+T*
+(Do not touch too early:) Tj
+T*
+(- automatic ?repair? features that mutate canonical state without clear user/operator control) Tj
+T*
+() Tj
+T*
+(**Module / Service Breakdown**) Tj
+T*
+() Tj
+T*
+(Recommended domains:) Tj
+T*
+(- BackupRestoreFlow) Tj
+T*
+(- RecoveryAssistant) Tj
+T*
+(- SafetyPrompts) Tj
+T*
+(- DiagnosticExport) Tj
+T*
+(- SelfCheckTools) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+86 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 87 0 R >>
+endobj
+87 0 obj
+<< /Length 1666 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**Topology / Runtime Layout Guidance**) Tj
+T*
+() Tj
+T*
+(Desktop mode should emphasize:) Tj
+T*
+(- one obvious launch path) Tj
+T*
+(- clear readiness/sync state) Tj
+T*
+(- safe recovery without raw internal manipulation) Tj
+T*
+() Tj
+T*
+(**Language / Runtime Guidance**) Tj
+T*
+() Tj
+T*
+(This stays in Python/GUI/API. The problem is safety and clarity, not raw speed.) Tj
+T*
+() Tj
+T*
+(**Refactor Risk Levels**) Tj
+T*
+() Tj
+T*
+(Low-risk:) Tj
+T*
+(- warnings) Tj
+T*
+(- export screens) Tj
+T*
+() Tj
+T*
+(Medium-risk:) Tj
+T*
+(- guided recovery tooling) Tj
+T*
+() Tj
+T*
+(High-risk:) Tj
+T*
+(- automatic repair flows that can hide root causes) Tj
+T*
+() Tj
+T*
+(**Completion Criteria**) Tj
+T*
+(- backup/restore docs and tests) Tj
+T*
+(- supportability surface list) Tj
+T*
+(- safe error messaging matrix) Tj
+T*
+(- self-check and export tools) Tj
+T*
+() Tj
+T*
+(**What This Unlocks**) Tj
+T*
+(- lower support burden) Tj
+T*
+(- safer onboarding) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Documentation, Specifications, ADRs, and Release Notes) Tj
+T*
+() Tj
+T*
+(**Section Summary**) Tj
+T*
+() Tj
+T*
+(This section covers authoritative docs, versioned specs, release notes, migration notes,) Tj
+T*
+(external docs, operator docs, and architectural decision records.) Tj
+T*
+() Tj
+T*
+(**Why This Section Matters**) Tj
+T*
+() Tj
+T*
+(Production-readiness depends on code and documentation converging. If docs drift, the same) Tj
+T*
+(ambiguity you remove in code will reappear in operations and integrations.) Tj
+T*
+() Tj
+T*
+(**Depends On**) Tj
+T*
+(- stable code and topology decisions) Tj
+T*
+() Tj
+T*
+(**Feeds Into**) Tj
+T*
+(- release engineering) Tj
+T*
+(- external onboarding) Tj
+T*
+ET
+endstream
+endobj
+88 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 89 0 R >>
+endobj
+89 0 obj
+<< /Length 1896 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- contributor continuity) Tj
+T*
+() Tj
+T*
+(**Recommended Order**) Tj
+T*
+(- define authoritative vs historical docs) Tj
+T*
+(- tie release notes to code and migration changes) Tj
+T*
+(- add ADRs for major decisions) Tj
+T*
+(- then expand operator and integrator docs) Tj
+T*
+() Tj
+T*
+(**Do Not Move On Before**) Tj
+T*
+(- source-of-truth docs are identified) Tj
+T*
+(- major topology and language decisions are recorded) Tj
+T*
+() Tj
+T*
+(**Main Checklist Items**) Tj
+T*
+(- [ ] **DOC1. Define authoritative docs vs historical docs**) Tj
+T*
+(- [ ] **DOC2. Keep protocol, packaging, and API docs versioned and release-linked**) Tj
+T*
+(- [ ] **DOC3. Add migration notes and ?what changed? docs per release**) Tj
+T*
+(- [ ] **DOC4. Add ADRs for major boundary, topology, and language decisions**) Tj
+T*
+(- [ ] **DOC5. Assign doc ownership per subsystem**) Tj
+T*
+() Tj
+T*
+(**Sub-Checklist Breakdown**) Tj
+T*
+(- [ ] mark authoritative vs historical protocol/economics docs) Tj
+T*
+(- [ ] tie release notes to migrations and operator impacts) Tj
+T*
+(- [ ] require ADRs for topology, ownership, and language migration decisions) Tj
+T*
+(- [ ] define doc owners alongside code owners) Tj
+T*
+() Tj
+T*
+(**Implementation Strategy**) Tj
+T*
+() Tj
+T*
+(Do first:) Tj
+T*
+(- source-authority map) Tj
+T*
+(- release note discipline) Tj
+T*
+() Tj
+T*
+(Do after:) Tj
+T*
+(- versioned operator and integrator docs) Tj
+T*
+(- ADR workflow automation) Tj
+T*
+() Tj
+T*
+(**Module / Service Breakdown**) Tj
+T*
+() Tj
+T*
+(Documentation domains:) Tj
+T*
+(- ProtocolSpec) Tj
+T*
+(- OperatorDocs) Tj
+T*
+(- DesktopUserDocs) Tj
+T*
+(- IntegratorDocs) Tj
+T*
+(- MigrationNotes) Tj
+T*
+(- ADRLog) Tj
+T*
+() Tj
+T*
+(**Language / Runtime Guidance**) Tj
+T*
+() Tj
+T*
+(Not a language migration area. The issue is lifecycle and authority of documentation.) Tj
+T*
+() Tj
+T*
+(**Refactor Risk Levels**) Tj
+T*
+() Tj
+T*
+(Low-risk:) Tj
+T*
+ET
+endstream
+endobj
+90 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 91 0 R >>
+endobj
+91 0 obj
+<< /Length 1877 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- ownership metadata) Tj
+T*
+(- release note structure) Tj
+T*
+() Tj
+T*
+(Medium-risk:) Tj
+T*
+(- converting historical docs into versioned source-of-truth material) Tj
+T*
+() Tj
+T*
+(**Completion Criteria**) Tj
+T*
+(- source-authority map) Tj
+T*
+(- release notes discipline) Tj
+T*
+(- ADR registry) Tj
+T*
+(- doc owner map) Tj
+T*
+() Tj
+T*
+(**What This Unlocks**) Tj
+T*
+(- lower drift between code and claims) Tj
+T*
+(- easier contributor onboarding) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Performance, Language Migration, and Later Optimization) Tj
+T*
+() Tj
+T*
+(**Section Summary**) Tj
+T*
+() Tj
+T*
+(This section covers profiling, hot-path measurement, selective native migration, resource) Tj
+T*
+(contention, capacity planning, pruning/archive posture, and what to optimize now versus later.) Tj
+T*
+() Tj
+T*
+(**Why This Section Matters**) Tj
+T*
+() Tj
+T*
+(Performance matters, but premature performance work is dangerous if semantics and boundaries are) Tj
+T*
+(still unstable. This section exists to prevent both neglect and premature rewrite enthusiasm.) Tj
+T*
+() Tj
+T*
+(**Depends On**) Tj
+T*
+(- authority centralization) Tj
+T*
+(- vectors and parity harnesses) Tj
+T*
+(- topology clarity) Tj
+T*
+() Tj
+T*
+(**Feeds Into**) Tj
+T*
+(- long-term scalability) Tj
+T*
+(- lower operating cost) Tj
+T*
+(- later platform specialization) Tj
+T*
+() Tj
+T*
+(**Recommended Order**) Tj
+T*
+(- benchmark and profile) Tj
+T*
+(- remove duplicate work and architectural waste) Tj
+T*
+(- optimize Python hot spots) Tj
+T*
+(- migrate only the highest-value repeated kernels) Tj
+T*
+(- defer broader rewrite ideas) Tj
+T*
+() Tj
+T*
+(**Do Not Move On Before**) Tj
+T*
+(- benchmark baselines exist) Tj
+T*
+(- semantic and codec parity harnesses exist for any native boundary) Tj
+T*
+() Tj
+T*
+(**Main Checklist Items**) Tj
+T*
+(- [ ] **PF1. Establish repeatable profiling and benchmark baselines**) Tj
+T*
+ET
+endstream
+endobj
+92 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 93 0 R >>
+endobj
+93 0 obj
+<< /Length 2074 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- [ ] **PF2. Separate architectural bottlenecks from kernel bottlenecks**) Tj
+T*
+(- [ ] **PF3. Optimize Python hot spots before rewriting**) Tj
+T*
+(- [ ] **PF4. Migrate only the highest-value repeated kernels**) Tj
+T*
+(- [ ] **PF5. Define resource ownership, contention, and backpressure policy**) Tj
+T*
+(- [ ] **PF6. Define capacity planning and hardware profiles**) Tj
+T*
+(- [ ] **PF7. Define pruning/archive strategy and query/indexer growth plan**) Tj
+T*
+() Tj
+T*
+(**Sub-Checklist Breakdown**) Tj
+T*
+(- [ ] benchmark tx validation, block assembly, private proof bridge, sync, and API/query load) Tj
+T*
+(- [ ] measure CPU, RAM, disk, and bandwidth profiles for desktop and infrastructure nodes) Tj
+T*
+(- [ ] measure miner/node/API/GUI/proof contention) Tj
+T*
+(- [ ] define archive vs pruned expectations for explorers, wallets, and public query services) Tj
+T*
+() Tj
+T*
+(**Implementation Strategy**) Tj
+T*
+() Tj
+T*
+(Do first:) Tj
+T*
+(- profile) Tj
+T*
+(- centralize semantics) Tj
+T*
+(- remove duplicate work) Tj
+T*
+() Tj
+T*
+(Do after:) Tj
+T*
+(- targeted kernel extraction behind compatibility layers) Tj
+T*
+() Tj
+T*
+(Do not touch too early:) Tj
+T*
+(- full rewrite of node, API, GUI, storage, or consensus) Tj
+T*
+() Tj
+T*
+(**Module / Service Breakdown**) Tj
+T*
+() Tj
+T*
+(Hot-path candidates already identified:) Tj
+T*
+(- canonical tx/block codec and sighash work) Tj
+T*
+(- private proof transport) Tj
+T*
+(- miner candidate sizing) Tj
+T*
+(- P2P compact codec) Tj
+T*
+(- repeated validation kernels) Tj
+T*
+() Tj
+T*
+(**Topology / Runtime Layout Guidance**) Tj
+T*
+() Tj
+T*
+(Performance topology rule:) Tj
+T*
+(- keep hot write-path ownership singular) Tj
+T*
+(- move read-heavy or query-heavy workloads off the write path before changing languages) Tj
+T*
+() Tj
+T*
+(**Language / Runtime Guidance**) Tj
+T*
+() Tj
+T*
+(Keep in Python now:) Tj
+T*
+(- consensus state machine) Tj
+T*
+(- storage repositories) Tj
+T*
+(- API business logic) Tj
+T*
+(- GUI) Tj
+T*
+() Tj
+T*
+(Optimize in Python first:) Tj
+T*
+(- object churn) Tj
+T*
+(- repeated normalization) Tj
+T*
+ET
+endstream
+endobj
+94 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 95 0 R >>
+endobj
+95 0 obj
+<< /Length 1727 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- cache boundaries) Tj
+T*
+() Tj
+T*
+(Consider later native work:) Tj
+T*
+(- codec kernel) Tj
+T*
+(- proof bridge transport) Tj
+T*
+(- miner template sizing) Tj
+T*
+(- compact P2P codec) Tj
+T*
+() Tj
+T*
+(**Refactor Risk Levels**) Tj
+T*
+() Tj
+T*
+(Low-risk:) Tj
+T*
+(- profiling) Tj
+T*
+(- object churn cleanup) Tj
+T*
+(- benchmark harnesses) Tj
+T*
+() Tj
+T*
+(Medium-risk:) Tj
+T*
+(- targeted native kernel extraction) Tj
+T*
+() Tj
+T*
+(High-risk:) Tj
+T*
+(- broad language migration before semantic centralization) Tj
+T*
+() Tj
+T*
+(**Completion Criteria**) Tj
+T*
+(- benchmark suite) Tj
+T*
+(- capacity profile) Tj
+T*
+(- migration decision records) Tj
+T*
+(- parity tests for any native boundary) Tj
+T*
+() Tj
+T*
+(**What This Unlocks**) Tj
+T*
+(- safer throughput gains) Tj
+T*
+(- lower long-term operating cost) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(Cross-Cutting Production Topology Blueprint) Tj
+T*
+() Tj
+T*
+(**Why This Exists**) Tj
+T*
+() Tj
+T*
+(Topology touches almost every section above. It should be visible as its own cross-cutting) Tj
+T*
+(checkpoint, not left implied.) Tj
+T*
+() Tj
+T*
+(**Current Topology Summary**) Tj
+T*
+(- Python-led backend with overlapping responsibilities) Tj
+T*
+(- GUI likely mixes thin-client behavior with some orchestration assumptions) Tj
+T*
+(- API, launcher, and backend lifecycle overlap) Tj
+T*
+(- canonical writes appear to live in one runtime but with boundary ambiguity) Tj
+T*
+() Tj
+T*
+(**Target Production Topology Summary**) Tj
+T*
+() Tj
+T*
+(Version-one target:) Tj
+T*
+(- one supervisor-managed backend process owns canonical state mutation) Tj
+T*
+(- one GUI process acts as a thin client over localhost) Tj
+T*
+(- one localhost API/gateway mediates commands and queries) Tj
+T*
+ET
+endstream
+endobj
+96 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 97 0 R >>
+endobj
+97 0 obj
+<< /Length 2181 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- optional miner worker remains separate and optional) Tj
+T*
+(- optional query/indexer service exists only for infrastructure and later external scale-out) Tj
+T*
+() Tj
+T*
+(**Checklist**) Tj
+T*
+(- [ ] Approve target production topology as the v1 baseline) Tj
+T*
+(- [ ] Publish current-to-target topology diagrams) Tj
+T*
+(- [ ] Publish desktop, node/infrastructure, and development topology variants) Tj
+T*
+(- [ ] Publish mainnet/testnet/regtest topology and data-root rules) Tj
+T*
+(- [ ] Publish localhost-only, public-safe, and supervisor-owned boundary map) Tj
+T*
+() Tj
+T*
+(**Topology Change Risk Register**) Tj
+T*
+(- [ ] **TR1. Low-risk topology cleanup**) Tj
+T*
+(- move GUI to thin-client discipline) Tj
+T*
+(- clarify localhost boundaries) Tj
+T*
+(- clarify network-separated runtime roots) Tj
+T*
+(- [ ] **TR2. Medium-risk topology refactor**) Tj
+T*
+(- supervisor extraction) Tj
+T*
+(- API gateway cleanup) Tj
+T*
+(- optional query/read separation) Tj
+T*
+(- [ ] **TR3. High-risk topology change**) Tj
+T*
+(- splitting canonical write paths across services) Tj
+T*
+(- moving private canonical logic out of backend) Tj
+T*
+(- moving consensus admission across process boundaries) Tj
+T*
+(- [ ] **TR4. Topology changes that should wait until after launch**) Tj
+T*
+(- large-scale public query scale-out) Tj
+T*
+(- richer infrastructure-only daemons) Tj
+T*
+(- non-essential distributed components) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(Improved Checklist Reorganized by Phase) Tj
+T*
+() Tj
+T*
+(Phase 0: Proof, Observability, and Safety Rails) Tj
+T*
+() Tj
+T*
+(Goal:) Tj
+T*
+(- make the system inspectable before deeper changes) Tj
+T*
+() Tj
+T*
+(Includes:) Tj
+T*
+(- C1-C6 tracing and vectors) Tj
+T*
+(- P1-P3 proof-path and replay traces) Tj
+T*
+(- R1-R4 journal and recovery tracing) Tj
+T*
+(- O1-O6 observability baseline) Tj
+T*
+(- T1-T4 core proof and crash tests) Tj
+T*
+(- D1-D4 storage ownership and revision markers) Tj
+T*
+() Tj
+T*
+(Do not start yet:) Tj
+T*
+(- broad service extraction) Tj
+T*
+(- native codec migration) Tj
+T*
+() Tj
+T*
+(Exit gate:) Tj
+T*
+(- authoritative path maps exist) Tj
+T*
+(- traces exist for tx, block, replay, startup, and shutdown) Tj
+T*
+ET
+endstream
+endobj
+98 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 99 0 R >>
+endobj
+99 0 obj
+<< /Length 1327 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- failing private-path tests are fixed or fully understood) Tj
+T*
+() Tj
+T*
+(Phase 1: Consensus and Launch Blockers) Tj
+T*
+() Tj
+T*
+(Goal:) Tj
+T*
+(- eliminate the highest-confidence pre-mainnet blockers) Tj
+T*
+() Tj
+T*
+(Includes:) Tj
+T*
+(- C1-C6) Tj
+T*
+(- P1-P3) Tj
+T*
+(- S1-S4) Tj
+T*
+(- R1-R3) Tj
+T*
+(- D2-D5) Tj
+T*
+(- N3) Tj
+T*
+() Tj
+T*
+(Exit gate:) Tj
+T*
+(- one canonical admission path) Tj
+T*
+(- private pipeline passes) Tj
+T*
+(- replay/live equivalence proved) Tj
+T*
+(- reward/supply closure proved) Tj
+T*
+() Tj
+T*
+(Phase 2: Low-Risk Structural Cleanup) Tj
+T*
+() Tj
+T*
+(Goal:) Tj
+T*
+(- reduce ambiguity without destabilizing protocol semantics) Tj
+T*
+() Tj
+T*
+(Includes:) Tj
+T*
+(- F1-F6) Tj
+T*
+(- L1-L3) Tj
+T*
+(- A1-A4) Tj
+T*
+(- G1-G2) Tj
+T*
+(- PK/NS path and config groundwork) Tj
+T*
+() Tj
+T*
+(Exit gate:) Tj
+T*
+(- ownership maps published) Tj
+T*
+(- package boundaries clearer) Tj
+T*
+(- GUI store/API-client boundaries exist) Tj
+T*
+() Tj
+T*
+(Phase 3: Runtime, Service, and Topology Stabilization) Tj
+T*
+() Tj
+T*
+(Goal:) Tj
+T*
+(- improve lifecycle discipline, service boundaries, and runtime stability) Tj
+T*
+() Tj
+T*
+(Includes:) Tj
+T*
+(- L4-L6) Tj
+T*
+(- A5-A7) Tj
+T*
+(- G3-G6) Tj
+T*
+(- N1-N2, N4-N6) Tj
+T*
+(- TR2 items) Tj
+T*
+() Tj
+T*
+(Exit gate:) Tj
+T*
+(- readiness contract exists) Tj
+T*
+ET
+endstream
+endobj
+100 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 101 0 R >>
+endobj
+101 0 obj
+<< /Length 1474 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- event model exists) Tj
+T*
+(- network switching and multi-instance behavior are defined and tested) Tj
+T*
+() Tj
+T*
+(Phase 4: Packaging, Runtime Layout, and Desktop Hardening) Tj
+T*
+() Tj
+T*
+(Goal:) Tj
+T*
+(- make desktop and node runtime behavior production-safe) Tj
+T*
+() Tj
+T*
+(Includes:) Tj
+T*
+(- PK1-PK6) Tj
+T*
+(- NS1-NS5 completion) Tj
+T*
+(- U1-U6) Tj
+T*
+(- topology blueprint implementation) Tj
+T*
+() Tj
+T*
+(Exit gate:) Tj
+T*
+(- OS-native data layout exists) Tj
+T*
+(- installer behavior is defined) Tj
+T*
+(- wrong-network and stale-instance protections work) Tj
+T*
+() Tj
+T*
+(Phase 5: Ecosystem and External Readiness) Tj
+T*
+() Tj
+T*
+(Goal:) Tj
+T*
+(- make Atho safe to build on) Tj
+T*
+() Tj
+T*
+(Includes:) Tj
+T*
+(- E1-E7) Tj
+T*
+(- DOC1-DOC5) Tj
+T*
+(- public query/read topology stabilization) Tj
+T*
+() Tj
+T*
+(Exit gate:) Tj
+T*
+(- stable public-safe contracts) Tj
+T*
+(- explorer/exchange/operator docs) Tj
+T*
+(- versioning and deprecation policy) Tj
+T*
+() Tj
+T*
+(Phase 6: Operations, Release, and Governance Hardening) Tj
+T*
+() Tj
+T*
+(Goal:) Tj
+T*
+(- make shipping controlled and repeatable) Tj
+T*
+() Tj
+T*
+(Includes:) Tj
+T*
+(- OP1-OP10) Tj
+T*
+(- final release gating) Tj
+T*
+(- artifact verification) Tj
+T*
+(- rollback plans) Tj
+T*
+() Tj
+T*
+(Exit gate:) Tj
+T*
+(- release sign-off process) Tj
+T*
+(- verifiable builds) Tj
+T*
+(- incident and rollback readiness) Tj
+T*
+() Tj
+T*
+(Phase 7: Performance and Selective Native Work) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+102 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 103 0 R >>
+endobj
+103 0 obj
+<< /Length 1517 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Goal:) Tj
+T*
+(- improve throughput without destabilizing semantics) Tj
+T*
+() Tj
+T*
+(Includes:) Tj
+T*
+(- PF1-PF7) Tj
+T*
+(- only targeted native work with parity harnesses) Tj
+T*
+() Tj
+T*
+(Exit gate:) Tj
+T*
+(- benchmark gains demonstrated) Tj
+T*
+(- no semantic drift) Tj
+T*
+() Tj
+T*
+(Phase 8: Post-Launch Improvements) Tj
+T*
+() Tj
+T*
+(Goal:) Tj
+T*
+(- evolve topology, performance, and ecosystem scale after the core system is stable) Tj
+T*
+() Tj
+T*
+(Includes:) Tj
+T*
+(- deferred topology changes) Tj
+T*
+(- deeper query/indexer separation) Tj
+T*
+(- optional broader native work) Tj
+T*
+(- long-term scalability and operational polish) Tj
+T*
+() Tj
+T*
+(Enter only after:) Tj
+T*
+(- mainnet stability is understood) Tj
+T*
+(- launch incident baseline is understood) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(Improved Completion and Verification Criteria) Tj
+T*
+() Tj
+T*
+(Before Declaring Consensus and Canonical Truth Stable) Tj
+T*
+() Tj
+T*
+(Required artifacts:) Tj
+T*
+(- tx/block authority map) Tj
+T*
+(- codec authority map) Tj
+T*
+(- fork-choice spec from code) Tj
+T*
+(- monetary policy snapshot) Tj
+T*
+() Tj
+T*
+(Required tests:) Tj
+T*
+(- tx/block vectors) Tj
+T*
+(- invalid-case vectors) Tj
+T*
+(- fork-choice tests) Tj
+T*
+(- reward/supply tests) Tj
+T*
+() Tj
+T*
+(Required runtime proof:) Tj
+T*
+(- one block commit path) Tj
+T*
+(- one tx validity path) Tj
+T*
+(- deterministic ordering traces) Tj
+T*
+() Tj
+T*
+(Before Declaring Public/Private Behavior Stable) Tj
+T*
+() Tj
+T*
+(Required artifacts:) Tj
+T*
+ET
+endstream
+endobj
+104 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 105 0 R >>
+endobj
+105 0 obj
+<< /Length 1577 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- proof failure matrix) Tj
+T*
+(- conservation rule matrix) Tj
+T*
+(- replay parity tooling) Tj
+T*
+() Tj
+T*
+(Required tests:) Tj
+T*
+(- private pipeline suite) Tj
+T*
+(- mixed-domain conservation tests) Tj
+T*
+(- nullifier/anchor replay tests) Tj
+T*
+(- reorg parity tests) Tj
+T*
+() Tj
+T*
+(Required runtime proof:) Tj
+T*
+(- fail closed on proof backend faults) Tj
+T*
+(- rebuild matches live private state) Tj
+T*
+() Tj
+T*
+(Before Declaring Storage and Replay Safe) Tj
+T*
+() Tj
+T*
+(Required artifacts:) Tj
+T*
+(- store ownership inventory) Tj
+T*
+(- canonical vs rebuildable vs cache classification) Tj
+T*
+(- migration policy) Tj
+T*
+(- backup/restore/pruning policy) Tj
+T*
+() Tj
+T*
+(Required tests:) Tj
+T*
+(- migration tests) Tj
+T*
+(- crash/recovery tests) Tj
+T*
+(- snapshot/restore tests) Tj
+T*
+() Tj
+T*
+(Required runtime proof:) Tj
+T*
+(- single writer enforced) Tj
+T*
+(- revision markers advance correctly) Tj
+T*
+() Tj
+T*
+(Before Declaring Runtime and Topology Stable) Tj
+T*
+() Tj
+T*
+(Required artifacts:) Tj
+T*
+(- process/topology diagrams) Tj
+T*
+(- readiness/liveness contract) Tj
+T*
+(- startup/shutdown order spec) Tj
+T*
+(- multi-instance policy) Tj
+T*
+() Tj
+T*
+(Required tests:) Tj
+T*
+(- startup/restart/shutdown tests) Tj
+T*
+(- network switch tests) Tj
+T*
+(- GUI/backend reconnect tests) Tj
+T*
+() Tj
+T*
+(Required runtime proof:) Tj
+T*
+(- supervisor owns lifecycle) Tj
+T*
+(- GUI is a client only) Tj
+T*
+() Tj
+T*
+(Before Declaring API and External Contracts Stable) Tj
+T*
+() Tj
+T*
+(Required artifacts:) Tj
+T*
+(- endpoint classification matrix) Tj
+T*
+ET
+endstream
+endobj
+106 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 107 0 R >>
+endobj
+107 0 obj
+<< /Length 1587 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- response schema docs) Tj
+T*
+(- error taxonomy) Tj
+T*
+(- versioning policy) Tj
+T*
+() Tj
+T*
+(Required tests:) Tj
+T*
+(- contract tests) Tj
+T*
+(- idempotency tests) Tj
+T*
+(- auth boundary tests) Tj
+T*
+(- event order tests) Tj
+T*
+() Tj
+T*
+(Before Declaring Desktop and User Safety Ready) Tj
+T*
+() Tj
+T*
+(Required artifacts:) Tj
+T*
+(- GUI module map) Tj
+T*
+(- first-run UX flow) Tj
+T*
+(- dangerous-action flow) Tj
+T*
+(- supportability surface list) Tj
+T*
+() Tj
+T*
+(Required tests:) Tj
+T*
+(- GUI state-store tests) Tj
+T*
+(- restart/reconnect tests) Tj
+T*
+(- wrong-network and stale-instance tests) Tj
+T*
+(- backup/restore tests) Tj
+T*
+() Tj
+T*
+(Before Declaring Packaging and Release Ready) Tj
+T*
+() Tj
+T*
+(Required artifacts:) Tj
+T*
+(- per-OS directory map) Tj
+T*
+(- installer behavior spec) Tj
+T*
+(- release checklist) Tj
+T*
+(- rollback runbook) Tj
+T*
+(- governance policy) Tj
+T*
+() Tj
+T*
+(Required tests:) Tj
+T*
+(- multi-OS packaging smoke tests) Tj
+T*
+(- artifact verification checks) Tj
+T*
+(- migration and update-path tests) Tj
+T*
+() Tj
+T*
+(Before Declaring Topology Work Done) Tj
+T*
+() Tj
+T*
+(Topology-related work is done only when:) Tj
+T*
+(- process boundaries are explicit) Tj
+T*
+(- service boundaries are explicit) Tj
+T*
+(- localhost-only boundaries are explicit) Tj
+T*
+(- supervisor boundaries are explicit) Tj
+T*
+(- packaging/runtime layout matches topology) Tj
+T*
+(- user-visible launch flow matches documented process ownership) Tj
+T*
+(- cross-process state ambiguity is removed) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(Immediate Priorities) Tj
+T*
+ET
+endstream
+endobj
+108 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 109 0 R >>
+endobj
+109 0 obj
+<< /Length 2807 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Fix and prove the private pipeline fail-closed behavior.) Tj
+T*
+(- Establish one canonical tx validity path and one canonical block commit path.) Tj
+T*
+(- Add tx/block/replay/startup tracing before further structural refactors.) Tj
+T*
+(- Prove public/private conservation and private-state replay equivalence.) Tj
+T*
+(- Make supervisor the sole lifecycle authority in design, then in code.) Tj
+T*
+(- Separate canonical, rebuildable, and cache data; add revision markers.) Tj
+T*
+(- Define response envelopes, error taxonomy, and revision-aware reads.) Tj
+T*
+(- Move GUI toward one store + API client + event-driven updates.) Tj
+T*
+(- Lock down network separation, config precedence, and multi-instance policy.) Tj
+T*
+(- Publish current and target topology diagrams and bind packaging/runtime work to them.) Tj
+T*
+(- Establish release engineering, signing, and rollback discipline.) Tj
+T*
+(- Build operator/user recovery runbooks and diagnostic export.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(Launch Blockers) Tj
+T*
+(- unresolved private pipeline failures) Tj
+T*
+(- inability to prove one canonical tx/block admission path) Tj
+T*
+(- inability to prove replay/live equivalence) Tj
+T*
+(- unclear fork-choice and reorg semantics) Tj
+T*
+(- incomplete supply/coinbase closure proof) Tj
+T*
+(- ambiguous monetary-policy/miner-reward ownership) Tj
+T*
+(- lack of single-writer storage proof) Tj
+T*
+(- missing readiness vs liveness discipline) Tj
+T*
+(- GUI still owning orchestration or truth inference) Tj
+T*
+(- no stable API contract / revision metadata) Tj
+T*
+(- mainnet/testnet/regtest contamination risk) Tj
+T*
+(- no installer/runtime safety model) Tj
+T*
+(- no rollback-ready release process) Tj
+T*
+(- no clear external/public-safe boundary model) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(Highest-Risk Changes) Tj
+T*
+(- changing block admission sequencing) Tj
+T*
+(- changing canonical serialization or txid/sighash rules without vectors) Tj
+T*
+(- changing private-state semantics while proof failures remain unresolved) Tj
+T*
+(- changing replay / journal / commit order) Tj
+T*
+(- moving canonical writers across process boundaries) Tj
+T*
+(- changing emission/miner reward semantics without replay parity) Tj
+T*
+(- exposing public APIs before auth, versioning, and query/read separation) Tj
+T*
+(- large topology refactors before readiness and revision contracts exist) Tj
+T*
+(- broad native rewrites before semantic centralization) Tj
+T*
+(- storage layout changes without migration, restore, and rollback proof) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(Lowest-Risk / Highest-Value Changes) Tj
+T*
+(- add structured logs and correlation IDs) Tj
+T*
+(- add vector harnesses and parity checks) Tj
+T*
+(- add revision metadata to reads) Tj
+T*
+(- publish ownership maps and topology diagrams) Tj
+T*
+ET
+endstream
+endobj
+110 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 111 0 R >>
+endobj
+111 0 obj
+<< /Length 2011 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- centralize response envelopes and error taxonomy) Tj
+T*
+(- split GUI into store/controller/api client/view modules) Tj
+T*
+(- centralize path and config resolution) Tj
+T*
+(- classify canonical vs rebuildable vs cache data) Tj
+T*
+(- add startup/shutdown/readiness tracing) Tj
+T*
+(- document and enforce network-separated runtime roots) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(What Should Not Be Refactored Yet) Tj
+T*
+(- full consensus rewrite into Rust or C++) Tj
+T*
+(- moving consensus admission into multiple services) Tj
+T*
+(- replacing LMDB before ownership and migration discipline are fixed) Tj
+T*
+(- GUI rewrite for performance reasons) Tj
+T*
+(- API rewrite in another language before contracts and ownership are stable) Tj
+T*
+(- splitting private-state canonical writes into a separate process) Tj
+T*
+(- deep miner/backend topology changes before lifecycle and packaging are stable) Tj
+T*
+(- broad P2P rewrite before message/codec authority is centralized) Tj
+T*
+(- large storage schema redesign before replay and backup/restore are proven) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(Important Honorable Mentions) Tj
+T*
+(- internationalization and locale safety must be checked anywhere parsing or formatting touches) Tj
+T*
+(hashes, amounts, times, or paths) Tj
+T*
+(- accessibility matters for sync clarity, dangerous actions, backup flows, and error visibility) Tj
+T*
+(even if full accessibility work lands after v1) Tj
+T*
+(- telemetry must respect privacy and legal/disclosure requirements if enabled) Tj
+T*
+(- archive vs pruning posture should be explicit before public explorer and operator onboarding) Tj
+T*
+(- supportability features like diagnostic export and build-info screens pay off earlier than) Tj
+T*
+(teams usually expect) Tj
+T*
+(- beta-to-production data migration policy must be explicit before public users are told to) Tj
+T*
+(upgrade) Tj
+T*
+(- ADRs and owner maps are not bureaucracy here; they are protection against repeating) Tj
+T*
+(architecture drift) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 112
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000497 00000 n 
+0000000565 00000 n 
+0000000691 00000 n 
+0000003529 00000 n 
+0000003655 00000 n 
+0000006566 00000 n 
+0000006692 00000 n 
+0000008833 00000 n 
+0000008961 00000 n 
+0000011274 00000 n 
+0000011402 00000 n 
+0000013664 00000 n 
+0000013792 00000 n 
+0000017407 00000 n 
+0000017535 00000 n 
+0000019400 00000 n 
+0000019528 00000 n 
+0000021187 00000 n 
+0000021315 00000 n 
+0000024250 00000 n 
+0000024378 00000 n 
+0000026380 00000 n 
+0000026508 00000 n 
+0000028113 00000 n 
+0000028241 00000 n 
+0000030701 00000 n 
+0000030829 00000 n 
+0000032429 00000 n 
+0000032557 00000 n 
+0000034636 00000 n 
+0000034764 00000 n 
+0000036280 00000 n 
+0000036408 00000 n 
+0000038646 00000 n 
+0000038774 00000 n 
+0000040396 00000 n 
+0000040524 00000 n 
+0000042538 00000 n 
+0000042666 00000 n 
+0000044484 00000 n 
+0000044612 00000 n 
+0000046352 00000 n 
+0000046480 00000 n 
+0000048443 00000 n 
+0000048571 00000 n 
+0000050369 00000 n 
+0000050497 00000 n 
+0000052624 00000 n 
+0000052752 00000 n 
+0000054269 00000 n 
+0000054397 00000 n 
+0000056876 00000 n 
+0000057004 00000 n 
+0000058616 00000 n 
+0000058744 00000 n 
+0000060587 00000 n 
+0000060715 00000 n 
+0000062706 00000 n 
+0000062834 00000 n 
+0000064545 00000 n 
+0000064673 00000 n 
+0000066658 00000 n 
+0000066786 00000 n 
+0000068513 00000 n 
+0000068641 00000 n 
+0000070748 00000 n 
+0000070876 00000 n 
+0000072618 00000 n 
+0000072746 00000 n 
+0000075153 00000 n 
+0000075281 00000 n 
+0000076817 00000 n 
+0000076945 00000 n 
+0000078888 00000 n 
+0000079016 00000 n 
+0000081024 00000 n 
+0000081152 00000 n 
+0000083039 00000 n 
+0000083167 00000 n 
+0000085635 00000 n 
+0000085763 00000 n 
+0000087498 00000 n 
+0000087626 00000 n 
+0000089753 00000 n 
+0000089881 00000 n 
+0000091600 00000 n 
+0000091728 00000 n 
+0000093677 00000 n 
+0000093805 00000 n 
+0000095735 00000 n 
+0000095863 00000 n 
+0000097990 00000 n 
+0000098118 00000 n 
+0000099898 00000 n 
+0000100026 00000 n 
+0000102260 00000 n 
+0000102388 00000 n 
+0000103768 00000 n 
+0000103898 00000 n 
+0000105426 00000 n 
+0000105556 00000 n 
+0000107127 00000 n 
+0000107257 00000 n 
+0000108888 00000 n 
+0000109018 00000 n 
+0000110659 00000 n 
+0000110789 00000 n 
+0000113650 00000 n 
+0000113780 00000 n 
+trailer
+<< /Size 112 /Root 1 0 R >>
+startxref
+115845
+%%EOF

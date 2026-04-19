@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2974 >>
+<< /Length 2865 >>
 stream
 BT
 /F1 10 Tf
@@ -30,6 +30,38 @@ T*
 (replay/malleability, double spend, state recovery, reorg safety, and operational abuse) Tj
 T*
 (resistance.) Tj
+T*
+() Tj
+T*
+(2026-04-18 Redesign Note) Tj
+T*
+() Tj
+T*
+(This FAQ predates the payment-only redesign. Treat any mention of BPoW, bond/stake policy, old) Tj
+T*
+(fee floors, or older confirmation targets as historical unless it is explicitly restated by the) Tj
+T*
+(current canonical docs.) Tj
+T*
+() Tj
+T*
+(Current policy snapshot:) Tj
+T*
+(- standard confirmations: 6) Tj
+T*
+(- private confirmations: 6) Tj
+T*
+(- display precision: 5 decimals) Tj
+T*
+(- fee floor: 1 atom/vB) Tj
+T*
+(- minimum tx fee: 500 atoms) Tj
+T*
+(- no staking) Tj
+T*
+(- no bonding) Tj
+T*
+(- no BPoW eligibility gating) Tj
 T*
 () Tj
 T*
@@ -91,6 +123,19 @@ T*
 T*
 (Audit Method) Tj
 T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2863 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 () Tj
 T*
 (What was attacked?) Tj
@@ -123,19 +168,6 @@ T*
 T*
 (Tools used) Tj
 T*
-ET
-endstream
-endobj
-6 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
-endobj
-7 0 obj
-<< /Length 2707 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- scripts/sandbox_private_tx_attack_audit.py --attack-points 20000 --strict) Tj
 T*
 (- scripts/sandbox_crypto_attack_audit.py --timing-samples 2000 --strict) Tj
@@ -208,6 +240,19 @@ T*
 T*
 (- ok=true) Tj
 T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 2187 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- passed=500) Tj
 T*
 (- failed=0) Tj
@@ -240,19 +285,6 @@ T*
 T*
 (- anchor_expired_invalid) Tj
 T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 2476 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- anchor_future_block_mode) Tj
 T*
 (- merkle_path_invalid) Tj
@@ -325,6 +357,19 @@ T*
 T*
 (- Added block-overlay checks for private input commits and private output commits.) Tj
 T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 2741 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- Prevents two transactions in the same block from spending the same private input commit.) Tj
 T*
 (- Prevents duplicate private output commit insertion in a block assembly cycle.) Tj
@@ -357,19 +402,6 @@ T*
 T*
 (- Stronger private amount handling at mempool path) Tj
 T*
-ET
-endstream
-endobj
-10 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
-endobj
-11 0 obj
-<< /Length 2793 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- For private vector validation, mempool mode now rejects cases where required amount fields are) Tj
 T*
 (unavailable.) Tj
@@ -442,6 +474,19 @@ T*
 T*
 () Tj
 T*
+ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 2804 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (Public UTXO path) Tj
 T*
 (- Ownership binding: signer pubkey-derived role addresses are enforced against consumed UTXO) Tj
@@ -474,19 +519,6 @@ T*
 T*
 (- Note spend signature verifies against stored note public key and computed spend digest.) Tj
 T*
-ET
-endstream
-endobj
-12 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
-endobj
-13 0 obj
-<< /Length 2717 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- Duplicate private commit handling now protected in mempool and block overlays.) Tj
 T*
 () Tj
@@ -559,6 +591,19 @@ T*
 T*
 (Yes, operationally. Even if they are not exploit bypasses, they indicate testing drift. A stale) Tj
 T*
+ET
+endstream
+endobj
+14 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 15 0 R >>
+endobj
+15 0 obj
+<< /Length 2633 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (harness can hide real regressions in future runs because it fails too early for wrong reasons.) Tj
 T*
 (Recommended fix is to update the harness templates to current constants and block-shape) Tj
@@ -591,19 +636,6 @@ T*
 T*
 (Private spends use nullifiers plus commit tracking:) Tj
 T*
-ET
-endstream
-endobj
-14 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 15 0 R >>
-endobj
-15 0 obj
-<< /Length 2758 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- Nullifier must be unique per spend.) Tj
 T*
 (- Nullifier cannot already be confirmed.) Tj
@@ -676,6 +708,19 @@ T*
 T*
 (proof/accumulator gates. However, this is a sensitive area: correctness depends on enforcement) Tj
 T*
+ET
+endstream
+endobj
+16 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 17 0 R >>
+endobj
+17 0 obj
+<< /Length 2842 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (of the proof gate and commitment consistency checks. Current implementation rejects placeholder) Tj
 T*
 (proofs and validates private-layer block metadata. This is strong policy-gating, but should) Tj
@@ -708,19 +753,6 @@ T*
 T*
 (If mempool-form private outputs and block-form private outputs use non-deterministic conversion) Tj
 T*
-ET
-endstream
-endobj
-16 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 17 0 R >>
-endobj
-17 0 obj
-<< /Length 2579 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (inputs, signatures and expected commitments can desync across contexts, causing valid-looking tx) Tj
 T*
 (to fail at block time. Deterministic conversion makes conversion reproducible and removes that) Tj
@@ -793,6 +825,19 @@ T*
 T*
 () Tj
 T*
+ET
+endstream
+endobj
+18 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 19 0 R >>
+endobj
+19 0 obj
+<< /Length 2565 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (Q19\) How are fee-based mempool replacement attacks handled?) Tj
 T*
 () Tj
@@ -825,19 +870,6 @@ T*
 T*
 () Tj
 T*
-ET
-endstream
-endobj
-18 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 19 0 R >>
-endobj
-19 0 obj
-<< /Length 2747 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (Yes, role-based spend constraints are enforced. The signer must match the role-derived owner) Tj
 T*
 (address, and lockup spend operations require appropriate metadata and unlockable state.) Tj
@@ -910,6 +942,19 @@ T*
 T*
 (Q29\) Can pending-state races cause double spend?) Tj
 T*
+ET
+endstream
+endobj
+20 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 21 0 R >>
+endobj
+21 0 obj
+<< /Length 2829 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 () Tj
 T*
 (Potential race classes are reduced by lock-protected mempool indexes and pending nullifier) Tj
@@ -942,19 +987,6 @@ T*
 T*
 (Q32\) How do reorgs affect private notes?) Tj
 T*
-ET
-endstream
-endobj
-20 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 21 0 R >>
-endobj
-21 0 obj
-<< /Length 2791 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 () Tj
 T*
 (Reorg handling depends on private note store and key manager reconciliation. Recent key manager) Tj
@@ -1027,6 +1059,19 @@ T*
 T*
 (No. Block verifier rejects hash mismatch, previous-hash mismatch, merkle mismatch, and invalid) Tj
 T*
+ET
+endstream
+endobj
+22 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 23 0 R >>
+endobj
+23 0 obj
+<< /Length 2999 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (PoW target checks.) Tj
 T*
 () Tj
@@ -1059,19 +1104,6 @@ T*
 T*
 () Tj
 T*
-ET
-endstream
-endobj
-22 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 23 0 R >>
-endobj
-23 0 obj
-<< /Length 3055 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (LMDB attack tests show many corrupted/poisoned records fail closed: lookup returns none or) Tj
 T*
 (rejected state without accepting poisoned data as valid consensus state.) Tj
@@ -1144,6 +1176,19 @@ T*
 T*
 (- Output commit overlay prevents duplicate output note insertion collisions.) Tj
 T*
+ET
+endstream
+endobj
+24 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 25 0 R >>
+endobj
+25 0 obj
+<< /Length 2951 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 () Tj
 T*
 (All three together provide stronger anti-collision coverage.) Tj
@@ -1176,19 +1221,6 @@ T*
 T*
 (Q50\) What should be updated in harnesses immediately?) Tj
 T*
-ET
-endstream
-endobj
-24 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 25 0 R >>
-endobj
-25 0 obj
-<< /Length 2827 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- Update fee assumptions to current FEE_PER_BYTE_ATOMS and min fee.) Tj
 T*
 (- Update bond seed amounts to current cap.) Tj
@@ -1261,6 +1293,19 @@ T*
 T*
 (Q56\) Is Merkle path verification optional?) Tj
 T*
+ET
+endstream
+endobj
+26 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 27 0 R >>
+endobj
+27 0 obj
+<< /Length 2304 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 () Tj
 T*
 (No for valid private spend paths. Path verification is part of acceptance criteria.) Tj
@@ -1293,19 +1338,6 @@ T*
 T*
 (Yes. Negative private component values are rejected explicitly.) Tj
 T*
-ET
-endstream
-endobj
-26 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 27 0 R >>
-endobj
-27 0 obj
-<< /Length 2528 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 () Tj
 T*
 (Q60\) How is output dust handled for privacy sends?) Tj
@@ -1378,6 +1410,19 @@ T*
 T*
 (remain:) Tj
 T*
+ET
+endstream
+endobj
+28 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 29 0 R >>
+endobj
+29 0 obj
+<< /Length 2372 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- Keep strict attack harness fixtures aligned with policy constants.) Tj
 T*
 (- Continue deep testing around reorg + private note state transitions.) Tj
@@ -1410,19 +1455,6 @@ T*
 T*
 (- Better default privacy behavior in mixed send construction.) Tj
 T*
-ET
-endstream
-endobj
-28 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 29 0 R >>
-endobj
-29 0 obj
-<< /Length 1859 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- Better wallet note state reconciliation under chain movement.) Tj
 T*
 () Tj
@@ -1495,6 +1527,19 @@ T*
 T*
 () Tj
 T*
+ET
+endstream
+endobj
+30 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 31 0 R >>
+endobj
+31 0 obj
+<< /Length 1470 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (Defense:) Tj
 T*
 (- Duplicate outpoint rejection in verifier and mempool.) Tj
@@ -1527,19 +1572,6 @@ T*
 T*
 (- Defended.) Tj
 T*
-ET
-endstream
-endobj
-30 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 31 0 R >>
-endobj
-31 0 obj
-<< /Length 1482 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 () Tj
 T*
 (Surface D: Private nullifier replay) Tj
@@ -1612,6 +1644,19 @@ T*
 T*
 () Tj
 T*
+ET
+endstream
+endobj
+32 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 33 0 R >>
+endobj
+33 0 obj
+<< /Length 1576 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (Surface G: Fake private note injection) Tj
 T*
 () Tj
@@ -1644,19 +1689,6 @@ T*
 T*
 () Tj
 T*
-ET
-endstream
-endobj
-32 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 33 0 R >>
-endobj
-33 0 obj
-<< /Length 1511 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (Attack idea:) Tj
 T*
 (- Use hidden/unknown amount fields to bypass arithmetic checks.) Tj
@@ -1729,6 +1761,19 @@ T*
 T*
 (- Spend immature coinbase outputs.) Tj
 T*
+ET
+endstream
+endobj
+34 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 35 0 R >>
+endobj
+35 0 obj
+<< /Length 1452 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 () Tj
 T*
 (Defense:) Tj
@@ -1761,19 +1806,6 @@ T*
 T*
 (Status:) Tj
 T*
-ET
-endstream
-endobj
-34 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 35 0 R >>
-endobj
-35 0 obj
-<< /Length 1554 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- Defended; stronger policy now active.) Tj
 T*
 () Tj
@@ -1846,6 +1878,19 @@ T*
 T*
 (---) Tj
 T*
+ET
+endstream
+endobj
+36 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 37 0 R >>
+endobj
+37 0 obj
+<< /Length 1689 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 () Tj
 T*
 (Examples \(Easy-to-Follow\)) Tj
@@ -1878,19 +1923,6 @@ T*
 T*
 (Example 2: Same-tx duplicate input attack) Tj
 T*
-ET
-endstream
-endobj
-36 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 37 0 R >>
-endobj
-37 0 obj
-<< /Length 1693 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 () Tj
 T*
 (Scenario:) Tj
@@ -1963,6 +1995,19 @@ T*
 T*
 (- Two txs in same block both try to spend same note commit.) Tj
 T*
+ET
+endstream
+endobj
+38 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 39 0 R >>
+endobj
+39 0 obj
+<< /Length 1695 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 () Tj
 T*
 (Expected:) Tj
@@ -1995,19 +2040,6 @@ T*
 T*
 (Security effect:) Tj
 T*
-ET
-endstream
-endobj
-38 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 39 0 R >>
-endobj
-39 0 obj
-<< /Length 1871 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- Prevents duplicate private output note insertion.) Tj
 T*
 () Tj
@@ -2080,6 +2112,19 @@ T*
 T*
 () Tj
 T*
+ET
+endstream
+endobj
+40 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 41 0 R >>
+endobj
+41 0 obj
+<< /Length 1797 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (Edge case: duplicate private input commit in one tx) Tj
 T*
 (- Handled in private validation and mempool parser checks.) Tj
@@ -2112,19 +2157,6 @@ T*
 T*
 () Tj
 T*
-ET
-endstream
-endobj
-40 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 41 0 R >>
-endobj
-41 0 obj
-<< /Length 2015 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (Edge case: private note missing in store) Tj
 T*
 (- Private spend reject.) Tj
@@ -2197,6 +2229,19 @@ T*
 T*
 () Tj
 T*
+ET
+endstream
+endobj
+42 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 43 0 R >>
+endobj
+43 0 obj
+<< /Length 3127 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (Edge case: pending note state after restart) Tj
 T*
 (- Reconciliation logic re-evaluates maturity and state transition using refreshed metadata.) Tj
@@ -2229,19 +2274,6 @@ T*
 T*
 (behavior under partition.) Tj
 T*
-ET
-endstream
-endobj
-42 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 43 0 R >>
-endobj
-43 0 obj
-<< /Length 3231 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 () Tj
 T*
 (---) Tj
@@ -2314,6 +2346,19 @@ T*
 T*
 (Q73\) Could fake script_sig values in private-input transactions be used to bypass checks?) Tj
 T*
+ET
+endstream
+endobj
+44 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 45 0 R >>
+endobj
+45 0 obj
+<< /Length 3346 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 () Tj
 T*
 (For pure private spends, spend authorization is not derived from top-level input script_sig; it) Tj
@@ -2346,19 +2391,6 @@ T*
 T*
 (No. Private spend uniqueness is tied to note/nullifier/commit checks, not output shape. If the) Tj
 T*
-ET
-endstream
-endobj
-44 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 45 0 R >>
-endobj
-45 0 obj
-<< /Length 3316 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (same private note is attempted again, nullifier and input commit collision checks trip. Output) Tj
 T*
 (permutations do not permit duplicate spending of one note.) Tj
@@ -2431,6 +2463,19 @@ T*
 T*
 (rules. The rule is that hidden accounting must still pass consensus gates; hidden does not mean) Tj
 T*
+ET
+endstream
+endobj
+46 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 47 0 R >>
+endobj
+47 0 obj
+<< /Length 3384 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (unvalidated.) Tj
 T*
 () Tj
@@ -2463,19 +2508,6 @@ T*
 T*
 () Tj
 T*
-ET
-endstream
-endobj
-46 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 47 0 R >>
-endobj
-47 0 obj
-<< /Length 3350 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (Recovery logic now rehydrates and re-evaluates note state with updated created-height and) Tj
 T*
 (leaf-index metadata, then transitions between pending_receive and unspent more safely. If) Tj
@@ -2548,6 +2580,19 @@ T*
 T*
 (said, timing side-channel hardening is continuous work. The correct posture is to keep critical) Tj
 T*
+ET
+endstream
+endobj
+48 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 49 0 R >>
+endobj
+49 0 obj
+<< /Length 3200 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (operations in vetted libraries and maintain differential timing regression tests.) Tj
 T*
 () Tj
@@ -2580,19 +2625,6 @@ T*
 T*
 () Tj
 T*
-ET
-endstream
-endobj
-48 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 49 0 R >>
-endobj
-49 0 obj
-<< /Length 3212 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (For pure private-input spends, yes, top-level public witness can be empty by design because) Tj
 T*
 (spend authorization comes from private input signatures. That is not a bypass. For any spend) Tj
@@ -2665,6 +2697,19 @@ T*
 T*
 () Tj
 T*
+ET
+endstream
+endobj
+50 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 51 0 R >>
+endobj
+51 0 obj
+<< /Length 3150 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (Q97\) Can a private tx hide a public linkage accidentally?) Tj
 T*
 () Tj
@@ -2697,19 +2742,6 @@ T*
 T*
 (Coinbase maturity applies to UTXO spends regardless of later private conversion intent. Immature) Tj
 T*
-ET
-endstream
-endobj
-50 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 51 0 R >>
-endobj
-51 0 obj
-<< /Length 3156 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (coinbase attempts are rejected. Shielding does not bypass coinbase maturity.) Tj
 T*
 () Tj
@@ -2782,6 +2814,19 @@ T*
 T*
 (in testing. This cycle showed several strict-suite failures caused by old fee assumptions.) Tj
 T*
+ET
+endstream
+endobj
+52 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 53 0 R >>
+endobj
+53 0 obj
+<< /Length 3185 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (Security posture improves when constants, docs, and tests are updated together.) Tj
 T*
 () Tj
@@ -2814,19 +2859,6 @@ T*
 T*
 (inputs?) Tj
 T*
-ET
-endstream
-endobj
-52 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 53 0 R >>
-endobj
-53 0 obj
-<< /Length 3221 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 () Tj
 T*
 (Transaction shape validation requires valid input vectors. Empty-input normal tx is invalid) Tj
@@ -2899,6 +2931,19 @@ T*
 T*
 (Q114\) Could manual tx injection through API bypass GUI safety defaults?) Tj
 T*
+ET
+endstream
+endobj
+54 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 55 0 R >>
+endobj
+55 0 obj
+<< /Length 3272 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 () Tj
 T*
 (Potentially, if API callers explicitly disable safe defaults. That is why policy defaults) Tj
@@ -2931,19 +2976,6 @@ T*
 T*
 (attached to unrelated notes.) Tj
 T*
-ET
-endstream
-endobj
-54 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 55 0 R >>
-endobj
-55 0 obj
-<< /Length 3067 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 () Tj
 T*
 (Q117\) What prevents "unknown private validation failed" silent errors from masking bugs?) Tj
@@ -3016,6 +3048,19 @@ T*
 T*
 (double-spend payloads early.) Tj
 T*
+ET
+endstream
+endobj
+56 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 57 0 R >>
+endobj
+57 0 obj
+<< /Length 2828 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 () Tj
 T*
 (Q123\) Could attacker abuse high-fee tx replacement to censor specific users?) Tj
@@ -3048,19 +3093,6 @@ T*
 T*
 (- pending-note age distribution,) Tj
 T*
-ET
-endstream
-endobj
-56 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 57 0 R >>
-endobj
-57 0 obj
-<< /Length 2937 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- reorg count/depth,) Tj
 T*
 (- fee-floor reject volume.) Tj
@@ -3133,6 +3165,19 @@ T*
 T*
 () Tj
 T*
+ET
+endstream
+endobj
+58 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 59 0 R >>
+endobj
+59 0 obj
+<< /Length 3184 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (For transaction integrity and double-spend resistance: materially improved and strong in audited) Tj
 T*
 (paths.) Tj
@@ -3165,19 +3210,6 @@ T*
 T*
 (per-spend signature checks.) Tj
 T*
-ET
-endstream
-endobj
-58 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 59 0 R >>
-endobj
-59 0 obj
-<< /Length 2843 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- Private state store wiring: private_notes_store drives note/nullifier/anchor validation.) Tj
 T*
 (- Preimage helper \(txid_without_signatures\): hardens signature binding against witness mutation.) Tj
@@ -3250,6 +3282,19 @@ T*
 T*
 (Expected:) Tj
 T*
+ET
+endstream
+endobj
+60 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 61 0 R >>
+endobj
+61 0 obj
+<< /Length 2069 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- Tx B rejected by confirmed-nullifier check.) Tj
 T*
 () Tj
@@ -3282,19 +3327,6 @@ T*
 T*
 () Tj
 T*
-ET
-endstream
-endobj
-60 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 61 0 R >>
-endobj
-61 0 obj
-<< /Length 2122 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (Example 11: Mempool fake private output commit reuse) Tj
 T*
 () Tj
@@ -3367,6 +3399,19 @@ T*
 T*
 (Example 14: Missing private block metadata) Tj
 T*
+ET
+endstream
+endobj
+62 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 63 0 R >>
+endobj
+63 0 obj
+<< /Length 1366 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 () Tj
 T*
 (Scenario:) Tj
@@ -3399,19 +3444,6 @@ T*
 T*
 (for high-risk transaction paths. Remaining strict-suite failures do not currently indicate a) Tj
 T*
-ET
-endstream
-endobj
-62 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 63 0 R >>
-endobj
-63 0 obj
-<< /Length 764 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (demonstrated acceptance bypass; they mostly indicate policy-aware harness maintenance work that) Tj
 T*
 (should be prioritized immediately. In a security program, this distinction matters: exploit) Tj
@@ -3445,66 +3477,66 @@ xref
 0000000323 00000 n 
 0000000391 00000 n 
 0000000517 00000 n 
-0000003543 00000 n 
-0000003669 00000 n 
-0000006428 00000 n 
-0000006554 00000 n 
-0000009082 00000 n 
-0000009210 00000 n 
-0000012056 00000 n 
-0000012184 00000 n 
-0000014954 00000 n 
-0000015082 00000 n 
-0000017893 00000 n 
-0000018021 00000 n 
-0000020653 00000 n 
-0000020781 00000 n 
-0000023581 00000 n 
-0000023709 00000 n 
-0000026553 00000 n 
-0000026681 00000 n 
-0000029789 00000 n 
-0000029917 00000 n 
-0000032797 00000 n 
-0000032925 00000 n 
-0000035506 00000 n 
-0000035634 00000 n 
-0000037546 00000 n 
-0000037674 00000 n 
-0000039209 00000 n 
-0000039337 00000 n 
-0000040901 00000 n 
-0000041029 00000 n 
-0000042636 00000 n 
-0000042764 00000 n 
-0000044510 00000 n 
-0000044638 00000 n 
-0000046562 00000 n 
-0000046690 00000 n 
-0000048758 00000 n 
-0000048886 00000 n 
-0000052170 00000 n 
-0000052298 00000 n 
-0000055667 00000 n 
-0000055795 00000 n 
-0000059198 00000 n 
-0000059326 00000 n 
-0000062591 00000 n 
-0000062719 00000 n 
-0000065928 00000 n 
-0000066056 00000 n 
-0000069330 00000 n 
-0000069458 00000 n 
-0000072578 00000 n 
-0000072706 00000 n 
-0000075696 00000 n 
-0000075824 00000 n 
-0000078720 00000 n 
-0000078848 00000 n 
-0000081023 00000 n 
-0000081151 00000 n 
+0000003434 00000 n 
+0000003560 00000 n 
+0000006475 00000 n 
+0000006601 00000 n 
+0000008840 00000 n 
+0000008968 00000 n 
+0000011762 00000 n 
+0000011890 00000 n 
+0000014747 00000 n 
+0000014875 00000 n 
+0000017561 00000 n 
+0000017689 00000 n 
+0000020584 00000 n 
+0000020712 00000 n 
+0000023330 00000 n 
+0000023458 00000 n 
+0000026340 00000 n 
+0000026468 00000 n 
+0000029520 00000 n 
+0000029648 00000 n 
+0000032652 00000 n 
+0000032780 00000 n 
+0000035137 00000 n 
+0000035265 00000 n 
+0000037690 00000 n 
+0000037818 00000 n 
+0000039341 00000 n 
+0000039469 00000 n 
+0000041098 00000 n 
+0000041226 00000 n 
+0000042731 00000 n 
+0000042859 00000 n 
+0000044601 00000 n 
+0000044729 00000 n 
+0000046477 00000 n 
+0000046605 00000 n 
+0000048455 00000 n 
+0000048583 00000 n 
+0000051763 00000 n 
+0000051891 00000 n 
+0000055290 00000 n 
+0000055418 00000 n 
+0000058855 00000 n 
+0000058983 00000 n 
+0000062236 00000 n 
+0000062364 00000 n 
+0000065567 00000 n 
+0000065695 00000 n 
+0000068933 00000 n 
+0000069061 00000 n 
+0000072386 00000 n 
+0000072514 00000 n 
+0000075395 00000 n 
+0000075523 00000 n 
+0000078760 00000 n 
+0000078888 00000 n 
+0000081010 00000 n 
+0000081138 00000 n 
 trailer
 << /Size 64 /Root 1 0 R >>
 startxref
-81967
+82557
 %%EOF

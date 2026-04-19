@@ -56,15 +56,8 @@ const FALLBACK_SOCIAL_LINKS = [
 
 let fallbackSocialTemplate = null;
 
-function getPerformanceProfile(options = {}) {
-  const { isHomePage = false } = options;
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const nav = navigator;
-  const connection = nav.connection || nav.mozConnection || nav.webkitConnection;
-  const saveData = Boolean(connection && connection.saveData);
-  const liteEffects = reduceMotion || saveData;
-
-  return { liteEffects };
+function getPerformanceProfile() {
+  return { liteEffects: true };
 }
 
 function deferVisualWork(task, liteEffects) {
@@ -275,20 +268,14 @@ async function initInteractionLayer({ liteEffects, enableClickFx }) {
   }
 }
 
-async function initHomeVisualLayer(liteEffects) {
-  const [{ initBackgroundFlow }, { initByteOverlay }] = await Promise.all([
-    import("./modules/background-flow.js"),
-    import("./modules/byte-overlay.js")
-  ]);
-
-  initBackgroundFlow({ liteEffects });
-  initByteOverlay({ liteEffects });
+async function initHomeVisualLayer() {
+  return;
 }
 
 function boot() {
   const isHomePage = document.body.classList.contains("home-page");
-  const { liteEffects } = getPerformanceProfile({ isHomePage });
-  document.documentElement.classList.toggle("perf-lite", liteEffects);
+  const { liteEffects } = getPerformanceProfile();
+  document.documentElement.classList.add("perf-lite");
 
   initNavigation();
   initYear();
@@ -296,7 +283,7 @@ function boot() {
   Promise.all([initRenderedSections(), initDocsCatalogIfNeeded()])
     .catch(() => {})
     .finally(() => {
-      initReveal({ immediate: liteEffects });
+      initReveal({ immediate: true });
     });
 
   deferVisualWork(() => {
@@ -306,7 +293,7 @@ function boot() {
   }, liteEffects);
 
   deferVisualWork(() => {
-    initInteractionLayer({ liteEffects, enableClickFx: isHomePage }).catch(() => {});
+    initInteractionLayer({ liteEffects, enableClickFx: false }).catch(() => {});
   }, liteEffects);
 
   if (isHomePage) {

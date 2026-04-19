@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2468 >>
+<< /Length 2221 >>
 stream
 BT
 /F1 10 Tf
@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Last refresh: 2026-04-15.) Tj
+(Last refresh: 2026-04-11.) Tj
 T*
 () Tj
 T*
@@ -55,7 +55,7 @@ T*
 T*
 (- logs/ ? runtime logs \(ignored in onboarding\)) Tj
 T*
-(- Option 1 \(Recommended\): Docker-first one-click bootstrap) Tj
+(- Option 1 \(Recommended\): GUI-first bootstrap) Tj
 T*
 () Tj
 T*
@@ -64,8 +64,6 @@ T*
 () Tj
 T*
 (Behavior:) Tj
-T*
-(- This is the first-path onboarding flow \(minimum hassle\).) Tj
 T*
 (- GUI launches first.) Tj
 T*
@@ -78,24 +76,6 @@ T*
 (- GUI opens Setup Assistant \(wallet, encryption, node profile\).) Tj
 T*
 (- Option 2 \(Power users\): manual build + run) Tj
-T*
-() Tj
-T*
-() Tj
-T*
-() Tj
-T*
-(Common first errors \(Docker + manual\):) Tj
-T*
-(- docker: command not found -> install Docker Desktop/Engine and restart shell.) Tj
-T*
-(- Docker daemon not running -> start Docker service/app, then rerun bootstrap.) Tj
-T*
-(- Venv activation/package mismatch -> remove .venv, recreate, and reinstall requirements.txt.) Tj
-T*
-(- API 401/403 failures -> regenerate credentials via Src/Api/auth.py.) Tj
-T*
-(- Manual build toolchain missing -> install host prerequisites from build-prereqs.md.) Tj
 T*
 (- Local run \(single machine\)) Tj
 T*
@@ -123,19 +103,6 @@ T*
 T*
 () Tj
 T*
-ET
-endstream
-endobj
-6 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
-endobj
-7 0 obj
-<< /Length 2361 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 () Tj
 T*
 () Tj
@@ -156,6 +123,19 @@ T*
 T*
 (- ATHO_P2P_PORT ? P2P TCP port) Tj
 T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2507 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- ATHO_DB_ROOT ? storage root) Tj
 T*
 (- ATHO_LOG_ROOT ? logs root) Tj
@@ -240,19 +220,6 @@ T*
 T*
 (- Vendored Kyber KEM implementation and wrappers used by wallet lockbox workflows.) Tj
 T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 1981 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- Src/GUI/) Tj
 T*
 (- Desktop GUI, CLI UI, Web Explorer \(web_explorer.html\), and local explorer bridge server.) Tj
@@ -273,6 +240,19 @@ T*
 T*
 (- Witness model, commitments, wtxid logic, pruning helpers.) Tj
 T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1475 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- Src/Storage/) Tj
 T*
 (- LMDB stores for blocks, UTXO, mempool, and orphan branches.) Tj
@@ -336,12 +316,12 @@ xref
 0000000133 00000 n 
 0000000201 00000 n 
 0000000327 00000 n 
-0000002847 00000 n 
-0000002973 00000 n 
-0000005386 00000 n 
-0000005512 00000 n 
+0000002600 00000 n 
+0000002726 00000 n 
+0000005285 00000 n 
+0000005411 00000 n 
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-7545
+6938
 %%EOF

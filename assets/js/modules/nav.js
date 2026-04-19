@@ -1,13 +1,11 @@
 const SITE_PAGE_ORDER = [
   { href: "./home.html", label: "Home" },
   { href: "./docs.html", label: "Docs" },
-  { href: "./join.html", label: "Join" },
   { href: "./wallet.html", label: "Wallet" },
+  { href: "./wallet-hierarchy.html", label: "Wallet Hierarchy" },
   { href: "./platinum-shield.html", label: "Platinum Shield" },
-  { href: "./bpow-docs.html", label: "BPoW" },
-  { href: "./rewards.html", label: "Rewards" },
-  { href: "./inflation-deflation.html", label: "Inflation/Deflation" },
   { href: "./falcon-512.html", label: "Falcon-512" },
+  { href: "./join.html", label: "Join" },
   { href: "./changelog.html", label: "Changelog" },
   { href: "./roadmap.html", label: "Roadmap" },
   { href: "./contact.html", label: "Contact" }
@@ -58,13 +56,12 @@ function updateActiveByLocation(links) {
       "#docs-overview",
       "#contact-overview",
       "#wallet-overview",
+      "#hierarchy-overview",
       "#quickstart",
-      "#bpow-overview",
       "#version-releases",
       "#falcon-vs-ecc",
-      "#inflation-flow",
-      "#bpow",
       "#shield-overview",
+      "#policy-baseline",
       "#atho-story"
     ]);
     setActiveLink(links, (link) => {

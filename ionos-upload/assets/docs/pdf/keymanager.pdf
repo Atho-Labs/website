@@ -4,7 +4,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Count 4 /Kids [4 0 R 6 0 R 8 0 R 10 0 R] >>
+<< /Type /Pages /Count 5 /Kids [4 0 R 6 0 R 8 0 R 10 0 R 12 0 R] >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Courier >>
@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2945 >>
+<< /Length 2856 >>
 stream
 BT
 /F1 10 Tf
@@ -23,13 +23,29 @@ BT
 T*
 () Tj
 T*
-(Last refresh: 2026-04-04.) Tj
+(Last refresh: 2026-04-18.) Tj
 T*
 () Tj
 T*
 (This note explains how Atho?s key manager stores, loads, and uses keys for wallets, mining) Tj
 T*
 (rewards, and API authentication.) Tj
+T*
+() Tj
+T*
+(2026-04-18 Redesign Note) Tj
+T*
+() Tj
+T*
+(The active wallet model is payment-only:) Tj
+T*
+(- wallet send/receive flows expose payment addresses only,) Tj
+T*
+(- staking and bonding address roles are no longer part of the active wallet interface,) Tj
+T*
+(- any remaining role metadata in older key records is historical or compatibility data, not an) Tj
+T*
+(active spend class.) Tj
 T*
 () Tj
 T*
@@ -107,6 +123,19 @@ T*
 T*
 (- Encrypted fields:) Tj
 T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2785 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- raw public_key / cli_public_key) Tj
 T*
 (- all private key parts \(f/g/F/G\)) Tj
@@ -123,19 +152,6 @@ T*
 T*
 (- importer fails closed on tampered/invalid format.) Tj
 T*
-ET
-endstream
-endobj
-6 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
-endobj
-7 0 obj
-<< /Length 2742 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 () Tj
 T*
 (Kyber + AES-256 together \(why both\)) Tj
@@ -224,6 +240,19 @@ T*
 T*
 (- sensitive wallet operations \(create/recover/import/export/sign/send/rename/delete/default\) now) Tj
 T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 3515 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (fail closed with wallet_locked when encrypted and locked.) Tj
 T*
 (- unlock endpoint includes brute-force controls \(per-client backoff + temporary lockout after) Tj
@@ -240,19 +269,6 @@ T*
 T*
 (unavailable until unlock.) Tj
 T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 3501 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- Mnemonic passphrases are never stored in key JSON or export files; keep passphrases) Tj
 T*
 (separately.) Tj
@@ -341,13 +357,26 @@ T*
 T*
 (overridden.) Tj
 T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 3005 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- CLI key-creation/import/recovery flow now prompts \(interactive TTY only\) to enable encryption) Tj
 T*
 (before proceeding when wallet is still unencrypted.) Tj
 T*
-(- Changing the default key updates all roles for that network and is enforced by the API and) Tj
+(- Changing the default key updates the default payment identity for that network and is enforced) Tj
 T*
-(GUI.) Tj
+(by the API and GUI.) Tj
 T*
 () Tj
 T*
@@ -357,19 +386,6 @@ T*
 T*
 (- logs/.../wallet/wallet_recovery_audit.log) Tj
 T*
-ET
-endstream
-endobj
-10 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
-endobj
-11 0 obj
-<< /Length 2696 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- Audit records include timestamp, network, identifier, canonical source, and canonical flag so) Tj
 T*
 (recovery decisions are traceable.) Tj
@@ -458,6 +474,19 @@ T*
 T*
 (- Wallet tab actions \(copy, rename, delete, set default/star\) call the wallet API endpoints) Tj
 T*
+ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 166 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (above.) Tj
 T*
 (- Hover tooltips and click animations are provided for clarity; the star indicates the current) Tj
@@ -468,21 +497,23 @@ ET
 endstream
 endobj
 xref
-0 12
+0 14
 0000000000 65535 f 
 0000000015 00000 n 
 0000000064 00000 n 
-0000000140 00000 n 
-0000000208 00000 n 
-0000000334 00000 n 
-0000003331 00000 n 
-0000003457 00000 n 
-0000006251 00000 n 
-0000006377 00000 n 
-0000009930 00000 n 
-0000010058 00000 n 
+0000000147 00000 n 
+0000000215 00000 n 
+0000000341 00000 n 
+0000003249 00000 n 
+0000003375 00000 n 
+0000006212 00000 n 
+0000006338 00000 n 
+0000009905 00000 n 
+0000010033 00000 n 
+0000013091 00000 n 
+0000013219 00000 n 
 trailer
-<< /Size 12 /Root 1 0 R >>
+<< /Size 14 /Root 1 0 R >>
 startxref
-12807
+13437
 %%EOF

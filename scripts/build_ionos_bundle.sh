@@ -18,7 +18,9 @@ rsync -a \
   --exclude=".github/" \
   --exclude="ionos-upload.zip" \
   --exclude=".DS_Store" \
+  --exclude=".gitignore" \
   --exclude="README.md" \
+  --exclude="TODO.md" \
   --exclude="runweb.py" \
   --exclude="scripts/" \
   --exclude="ionos-upload/" \

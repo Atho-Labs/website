@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2166 >>
+<< /Length 2159 >>
 stream
 BT
 /F1 10 Tf
@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-04-10) Tj
+(Date: 2026-04-18) Tj
 T*
 () Tj
 T*
@@ -77,9 +77,9 @@ T*
 T*
 (Current fee baseline tied to vsize:) Tj
 T*
-(- fee floor 500 atoms/vB,) Tj
+(- fee floor 1 atom/vB,) Tj
 T*
-(- minimum fee 200,000 atoms.) Tj
+(- minimum fee 500 atoms.) Tj
 T*
 (- Base vs Witness Counting Rules) Tj
 T*
@@ -247,7 +247,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 880 >>
+<< /Length 898 >>
 stream
 BT
 /F1 10 Tf
@@ -257,11 +257,11 @@ BT
 T*
 (- retarget 180 blocks,) Tj
 T*
-(- tx confirmations 10, private tx confirmations 10,) Tj
+(- tx confirmations 6, private tx confirmations 6,) Tj
 T*
 (- coinbase maturity 150 blocks,) Tj
 T*
-(- fee floor 500 atoms/vB.) Tj
+(- fee floor 1 atom/vB, minimum fee 500 atoms.) Tj
 T*
 () Tj
 T*
@@ -300,12 +300,12 @@ xref
 0000000133 00000 n 
 0000000201 00000 n 
 0000000327 00000 n 
-0000002545 00000 n 
-0000002671 00000 n 
-0000004998 00000 n 
-0000005124 00000 n 
+0000002538 00000 n 
+0000002664 00000 n 
+0000004991 00000 n 
+0000005117 00000 n 
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-6055
+6066
 %%EOF

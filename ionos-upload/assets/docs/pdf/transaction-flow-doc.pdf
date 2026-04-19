@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2905 >>
+<< /Length 2427 >>
 stream
 BT
 /F1 10 Tf
@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-04-05) Tj
+(Date: 2026-04-18) Tj
 T*
 () Tj
 T*
@@ -56,6 +56,28 @@ T*
 (admission, mining transforms, block verification, state commit, wallet-side private scanning,) Tj
 T*
 (and deterministic recovery semantics.) Tj
+T*
+() Tj
+T*
+(2026-04-18 Redesign Note) Tj
+T*
+() Tj
+T*
+(The active transaction model is payment-only with shared public/private monetary policy:) Tj
+T*
+(- 5 decimal precision) Tj
+T*
+(- 1 ATHO = 100,000 atoms) Tj
+T*
+(- fee floor 1 atom/vB) Tj
+T*
+(- minimum tx fee 500 atoms) Tj
+T*
+(- dust limit 1 atom) Tj
+T*
+(- no staking or bonding transaction classes) Tj
+T*
+(- no protocol fee burn or fee-pool routing) Tj
 T*
 () Tj
 T*
@@ -101,6 +123,19 @@ T*
 T*
 (Atho is a layered system where each stage has a narrow responsibility. That separation is) Tj
 T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2813 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (important because it prevents one component from becoming a hidden consensus authority.) Tj
 T*
 (- Interface layer \(GUI/API\): gathers inputs, normalizes payloads, and applies UX safeguards.) Tj
@@ -123,19 +158,6 @@ T*
 T*
 (- Wallet recovery layer: scans chain and decodes private receives for local ownership.) Tj
 T*
-ET
-endstream
-endobj
-6 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
-endobj
-7 0 obj
-<< /Length 2328 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 () Tj
 T*
 (This division means wallet usability logic and consensus logic are not the same thing. A GUI bug) Tj
@@ -218,6 +240,19 @@ T*
 T*
 () Tj
 T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 2187 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (---) Tj
 T*
 (- Fee Policy and Size Policy \(Operational, Not Theoretical\)) Tj
@@ -238,21 +273,8 @@ T*
 T*
 (Fee floor in production policy:) Tj
 T*
-(- required_fee = max\(vsize * 500 atoms, 200,000 atoms\)) Tj
+(- required_fee = max\(vsize * 1 atom, 500 atoms\)) Tj
 T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 2342 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 () Tj
 T*
 (Measured empirical vsize from current serializer/metrics path:) Tj
@@ -335,6 +357,19 @@ T*
 T*
 () Tj
 T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 2682 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (The derived Falcon seed is fed into deterministic Falcon keygen, producing the same keypair for) Tj
 T*
 (the same path inputs.) Tj
@@ -349,7 +384,7 @@ T*
 T*
 (- base56 display address,) Tj
 T*
-(- derived role-separated addresses,) Tj
+(- active payment address identity,) Tj
 T*
 (- mnemonic metadata \(role, account, index, iterations, passphrase-used flag\).) Tj
 T*
@@ -357,19 +392,6 @@ T*
 T*
 (Idempotent behavior is built in: if imported mnemonic path maps to an already-present public) Tj
 T*
-ET
-endstream
-endobj
-10 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
-endobj
-11 0 obj
-<< /Length 2760 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (key, KeyManager updates metadata rather than duplicating divergent records.) Tj
 T*
 () Tj
@@ -452,6 +474,19 @@ T*
 T*
 (- Falcon keypair and address identity are regenerated deterministically,) Tj
 T*
+ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 2593 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- chain UTXOs for those addresses are discoverable and spendable.) Tj
 T*
 () Tj
@@ -474,19 +509,6 @@ T*
 T*
 () Tj
 T*
-ET
-endstream
-endobj
-12 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
-endobj
-13 0 obj
-<< /Length 2528 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (8.3 Non-fund local state) Tj
 T*
 (Not strictly blockchain funds and not guaranteed from mnemonic alone:) Tj
@@ -569,6 +591,19 @@ T*
 T*
 (- this generates a per-output shared secret,) Tj
 T*
+ET
+endstream
+endobj
+14 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 15 0 R >>
+endobj
+15 0 obj
+<< /Length 2592 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- recipient id and encrypted payload are derived from that shared secret,) Tj
 T*
 (- per-note Falcon child key in output is tied to encrypted note seed, not to a static) Tj
@@ -591,19 +626,6 @@ T*
 T*
 () Tj
 T*
-ET
-endstream
-endobj
-14 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 15 0 R >>
-endobj
-15 0 obj
-<< /Length 2507 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (---) Tj
 T*
 (- Private Send Build Pipeline \(Public->Private and Private->Private\)) Tj
@@ -686,6 +708,19 @@ T*
 T*
 (- if view-tag present, derived tag must match payload tag,) Tj
 T*
+ET
+endstream
+endobj
+16 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 17 0 R >>
+endobj
+17 0 obj
+<< /Length 2518 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- decrypted note seed must regenerate note pubkey that matches output note pubkey,) Tj
 T*
 (- recomputed commit must match output commit.) Tj
@@ -708,19 +743,6 @@ T*
 T*
 (- bundle,) Tj
 T*
-ET
-endstream
-endobj
-16 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 17 0 R >>
-endobj
-17 0 obj
-<< /Length 2522 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- bundle hash,) Tj
 T*
 (- x-address,) Tj
@@ -803,6 +825,19 @@ T*
 T*
 (- Critical Consistency Fix: Bundle Hash Length in Scan) Tj
 T*
+ET
+endstream
+endobj
+18 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 19 0 R >>
+endobj
+19 0 obj
+<< /Length 2112 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 () Tj
 T*
 (Bundle hash in this protocol is SHA3-384 hex \(96 chars\), not 64 chars.) Tj
@@ -825,19 +860,6 @@ T*
 T*
 () Tj
 T*
-ET
-endstream
-endobj
-18 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 19 0 R >>
-endobj
-19 0 obj
-<< /Length 2163 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (Operational meaning:) Tj
 T*
 (- imported/recovered wallets with valid private bundle data are not silently excluded from scan) Tj
@@ -920,6 +942,19 @@ T*
 T*
 (---) Tj
 T*
+ET
+endstream
+endobj
+20 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 21 0 R >>
+endobj
+21 0 obj
+<< /Length 2208 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- Private->Private Flow) Tj
 T*
 () Tj
@@ -942,19 +977,6 @@ T*
 T*
 (- accounting consistency,) Tj
 T*
-ET
-endstream
-endobj
-20 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 21 0 R >>
-endobj
-21 0 obj
-<< /Length 2198 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- proof/commitment gates as configured.) Tj
 T*
 () Tj
@@ -1037,6 +1059,19 @@ T*
 T*
 () Tj
 T*
+ET
+endstream
+endobj
+22 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 23 0 R >>
+endobj
+23 0 obj
+<< /Length 2330 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (21.1 Restores from mnemonic path alone \(when matching\)) Tj
 T*
 (- Falcon wallet keypair.) Tj
@@ -1059,19 +1094,6 @@ T*
 T*
 () Tj
 T*
-ET
-endstream
-endobj
-22 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 23 0 R >>
-endobj
-23 0 obj
-<< /Length 2333 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (21.3 Passphrase caveat) Tj
 T*
 (If mnemonic metadata indicates passphrase was used, deterministic restore requires the same) Tj
@@ -1154,6 +1176,19 @@ T*
 T*
 (- Private Scan Performance Model and View Tags) Tj
 T*
+ET
+endstream
+endobj
+24 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 25 0 R >>
+endobj
+25 0 obj
+<< /Length 2975 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 () Tj
 T*
 (Scan performance is constrained by chain size and private output density.) Tj
@@ -1176,19 +1211,6 @@ T*
 T*
 (- reduces sync catch-up cost materially.) Tj
 T*
-ET
-endstream
-endobj
-24 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 25 0 R >>
-endobj
-25 0 obj
-<< /Length 2973 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 () Tj
 T*
 (The 4-byte view tag does not replace cryptographic verification. It is a cheap reject filter) Tj
@@ -1271,6 +1293,19 @@ T*
 T*
 (- Validate public->private, private->public, and private->private round trips on multi-node) Tj
 T*
+ET
+endstream
+endobj
+26 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 27 0 R >>
+endobj
+27 0 obj
+<< /Length 2978 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (topology.) Tj
 T*
 (- Confirm mempool-to-block private output transforms and txid rebinding are active in miner) Tj
@@ -1293,19 +1328,6 @@ T*
 T*
 (Q1\) If I recover wallet from mnemonic, will all funds come back?) Tj
 T*
-ET
-endstream
-endobj
-26 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 27 0 R >>
-endobj
-27 0 obj
-<< /Length 3018 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (Public funds: yes when path inputs match.) Tj
 T*
 (Private funds: yes for deterministic bundle paths \(mnemonic_v1 and falcon_root_v1\) after chain) Tj
@@ -1388,6 +1410,19 @@ T*
 T*
 (- kyber_decapsulate_failed during scan:) Tj
 T*
+ET
+endstream
+endobj
+28 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 29 0 R >>
+endobj
+29 0 obj
+<< /Length 2304 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- output not for this wallet key, malformed ciphertext, or wrong secret key material.) Tj
 T*
 (- note_pk_mismatch or commit_mismatch after decrypt:) Tj
@@ -1410,19 +1445,6 @@ T*
 T*
 () Tj
 T*
-ET
-endstream
-endobj
-28 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 29 0 R >>
-endobj
-29 0 obj
-<< /Length 1743 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (Determinism claims that are valid from current code behavior:) Tj
 T*
 (- same mnemonic path inputs => same Falcon wallet keypair.) Tj
@@ -1492,32 +1514,32 @@ xref
 0000000204 00000 n 
 0000000272 00000 n 
 0000000398 00000 n 
-0000003355 00000 n 
-0000003481 00000 n 
-0000005861 00000 n 
-0000005987 00000 n 
-0000008381 00000 n 
-0000008509 00000 n 
-0000011322 00000 n 
-0000011450 00000 n 
-0000014031 00000 n 
-0000014159 00000 n 
-0000016719 00000 n 
-0000016847 00000 n 
-0000019422 00000 n 
-0000019550 00000 n 
-0000021766 00000 n 
-0000021894 00000 n 
-0000024145 00000 n 
-0000024273 00000 n 
-0000026659 00000 n 
-0000026787 00000 n 
-0000029813 00000 n 
-0000029941 00000 n 
-0000033012 00000 n 
-0000033140 00000 n 
+0000002877 00000 n 
+0000003003 00000 n 
+0000005868 00000 n 
+0000005994 00000 n 
+0000008233 00000 n 
+0000008361 00000 n 
+0000011096 00000 n 
+0000011224 00000 n 
+0000013870 00000 n 
+0000013998 00000 n 
+0000016643 00000 n 
+0000016771 00000 n 
+0000019342 00000 n 
+0000019470 00000 n 
+0000021635 00000 n 
+0000021763 00000 n 
+0000024024 00000 n 
+0000024152 00000 n 
+0000026535 00000 n 
+0000026663 00000 n 
+0000029691 00000 n 
+0000029819 00000 n 
+0000032850 00000 n 
+0000032978 00000 n 
 trailer
 << /Size 30 /Root 1 0 R >>
 startxref
-34936
+35335
 %%EOF

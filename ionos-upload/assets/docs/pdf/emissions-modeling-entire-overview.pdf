@@ -4,1461 +4,159 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Count 6 /Kids [ 12 0 R 13 0 R 14 0 R 15 0 R 16 0 R 17 0 R ] >>
+<< /Type /Pages /Count 2 /Kids [4 0 R 6 0 R] >>
 endobj
 3 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
-endobj
-4 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
-endobj
-5 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Courier >>
 endobj
-6 0 obj
-<< /Length 5727 >>
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 1749 >>
 stream
-0.9686 0.9765 0.9882 rg
-0.00 0.00 792.00 612.00 re f
-0.9176 0.9412 0.9725 rg
-0.00 538.00 792.00 74.00 re f
 BT
-0.0588 0.0902 0.1647 rg
-/F2 18.00 Tf
-1 0 0 1 26.00 572.00 Tm
+/F1 10 Tf
+50 760 Td
+13 TL
 (Entire Overview - Atho Emissions Modeling) Tj
-ET
-BT
-0.2784 0.3333 0.4118 rg
-/F1 9.00 Tf
-1 0 0 1 26.00 554.00 Tm
-(Full observation-based sustainability and policy report) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 516.00 Tm
-(ENTIRE OVERVIEW - ATHO EMISSIONS MODELING) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 501.30 Tm
-(Date: 2026-04-15 \(UTC\)) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 486.60 Tm
-(This document is a complete observation-based report of the active Atho emissions and burn model. It) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 476.90 Tm
-(explains what the model computes, why the outputs look the way they do, and where practical limits show up) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 467.20 Tm
-(under different utilization assumptions. It is intentionally deterministic: every claim in this overview) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 457.50 Tm
-(maps back to current consensus constants and generated artifacts under Docs/Emissions Modeling.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 442.80 Tm
-(SCOPE AND METHOD) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 428.10 Tm
-(Scope includes consensus math, issuance behavior, burn mechanics, miner incentive surface, user fee costs,) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 418.40 Tm
-(inflation/deflation transitions, floor clipping behavior, and long-horizon supply trajectories. The model) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 408.70 Tm
-(evaluates no-burn and burn-enabled scenarios side-by-side under identical throughput assumptions to avoid) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 399.00 Tm
-(framing bias. This report is observational rather than predictive; it does not treat demand, price, or) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 389.30 Tm
-(realized capacity as known values.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 374.60 Tm
-(Core constants used by the active model are: 120-second blocks, 262,800 blocks/year, 9 initial pre-tail) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 364.90 Tm
-(eras of 2,000,000 blocks each, one-time bootstrap allocation of 781,250 ATHO at block 1, total pre-tail) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 355.20 Tm
-(base target 400,000,000 ATHO, and tail reward 0.1953125 ATHO/block, fee floor 0.00000050 ATHO per policy) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 345.50 Tm
-(byte \(500 atoms/byte\), max block policy budget 3,500,000 vbytes, burn share 45.0%, miner fee share 0.0%,) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 335.80 Tm
-(consensus-pool routing share 55.0%, supply floor 21,000,000 ATHO, and hard max supply cap 500,000,000) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 326.10 Tm
-(ATHO.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 311.40 Tm
-(CONSENSUS ALIGNMENT STATUS) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 296.70 Tm
-(PASS: Year-250 supply ordering NoBurn >= Burn25 >= Burn50 >= Burn75 >= Burn100.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 282.00 Tm
-(PASS: no_burn_100 post-tail net change matches tail_issuance - burned_fees.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 267.30 Tm
-(PASS: burn_25 post-tail net change matches tail_issuance - burned_fees.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 252.60 Tm
-(PASS: burn_50 post-tail net change matches tail_issuance - burned_fees.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 237.90 Tm
-(PASS: burn_75 post-tail net change matches tail_issuance - burned_fees.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 223.20 Tm
-(PASS: burn_100 post-tail net change matches tail_issuance - burned_fees.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 208.50 Tm
-(PASS: Annual burn never exceeds annual fee pool.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 193.80 Tm
-(PASS: Burn activation flips between year 64 \(off\) and 65 \(on\) in sampled yearly outputs.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 179.10 Tm
-(Consensus alignment checks verify that the model schedule and policy math match live constants \(tail) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 169.40 Tm
-(start, fee floor, burn split, supply floor, and hard max cap\). The same constants are enforced during) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 159.70 Tm
-(block verification and persistence in the node, so model and chain policy remain coupled.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 145.00 Tm
-(EMISSION SHAPE) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 130.30 Tm
-(Pre-tail emission is fixed by the consensus era sequence \(100 -> 50 -> 25 -> 12.5 -> 6.25 -> 3.125 ->) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 120.60 Tm
-(1.5625 -> 0.78125 -> 0.78125 -> tail 0.1953125 ATHO/block\), producing an exact pre-tail issuance of) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 110.90 Tm
-(400,000,000.000 ATHO. Tail mode starts at height 17,000,000 \(~year 64.69\). Tail activation combines two) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 101.20 Tm
-(transitions: reward moves from 0.7812500 to 0.1953125 ATHO/block, burn policy activates, and subsidy is) Tj
-ET
-BT
-0.2784 0.3333 0.4118 rg
-/F1 8.00 Tf
-1 0 0 1 26.00 18.00 Tm
-(Page 1/6) Tj
+T*
+() Tj
+T*
+(Date: 2026-04-18) Tj
+T*
+() Tj
+T*
+(Status) Tj
+T*
+() Tj
+T*
+(This folder currently contains historical modeling artifacts from the pre-redesign Atho monetary) Tj
+T*
+(model.) Tj
+T*
+() Tj
+T*
+(Those archived PDFs and CSVs assumed features that are no longer active:) Tj
+T*
+(- premine / bootstrap allocation) Tj
+T*
+(- tail issuance) Tj
+T*
+(- fee burn) Tj
+T*
+(- fee-pool routing) Tj
+T*
+(- staking and bonding side channels) Tj
+T*
+(- 9-decimal accounting) Tj
+T*
+() Tj
+T*
+(They should not be used as the current tokenomics reference.) Tj
+T*
+() Tj
+T*
+(Current Canonical Model) Tj
+T*
+() Tj
+T*
+(The active Atho monetary policy is now:) Tj
+T*
+(- 5 decimals) Tj
+T*
+(- 1 ATHO = 100,000 atoms) Tj
+T*
+(- no premine) Tj
+T*
+(- no tail reward) Tj
+T*
+(- no protocol burn) Tj
+T*
+(- no fee pool) Tj
+T*
+(- no staking) Tj
+T*
+(- no bonding) Tj
+T*
+(- max supply 1,000,000,000.00000 ATHO) Tj
+T*
+(- initial reward 100.00000 ATHO/block) Tj
+T*
+(- deterministic daily fixed-point decay for 300 years) Tj
+T*
+(- exact cap reached at height 78,894,000) Tj
+T*
+() Tj
+T*
+(Correct fixed-point multiplier:) Tj
+T*
+(- 999_928_027_050_395_505 / 10^18) Tj
+T*
+() Tj
+T*
+(Canonical references:) Tj
+T*
+(- ../Emissions.md) Tj
+T*
+(- ../Inflation_Deflationary.md) Tj
+T*
+(- ../Atho_Final_Specs.md) Tj
+T*
+() Tj
+T*
+(What This Means) Tj
+T*
+() Tj
+T*
+(For the current chain design:) Tj
+T*
+(- supply rises monotonically during the scheduled decay window) Tj
+T*
+(- supply reaches the cap exactly at the end of the scheduled emission window) Tj
+T*
+(- supply stays flat after the cap is reached) Tj
+T*
+(- protocol-level deflation modeling from fee burn is no longer applicable) Tj
+T*
+() Tj
+T*
+(Documentation Rule) Tj
+T*
 ET
 endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 6053 >>
+<< /Length 176 >>
 stream
-0.9686 0.9765 0.9882 rg
-0.00 0.00 792.00 612.00 re f
-0.9176 0.9412 0.9725 rg
-0.00 538.00 792.00 74.00 re f
 BT
-0.0588 0.0902 0.1647 rg
-/F2 18.00 Tf
-1 0 0 1 26.00 572.00 Tm
-(Entire Overview - Atho Emissions Modeling) Tj
-ET
-BT
-0.2784 0.3333 0.4118 rg
-/F1 9.00 Tf
-1 0 0 1 26.00 554.00 Tm
-(Full observation-based sustainability and policy report) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 516.00 Tm
-(clipped to zero after the hard-cap headroom is exhausted.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 501.30 Tm
-(Tail annual issuance is 51,328.125 ATHO. At 100% policy-budget utilization, annual fee pool is 459,900.000) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 491.60 Tm
-(ATHO and max annual burn equals 206,955.000 ATHO. Therefore post-tail protocol net supply change is a) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 481.90 Tm
-(linear function of utilization: Delta_supply = tail_issuance - max_annual_burn * utilization.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 467.20 Tm
-(SCENARIO OUTCOMES) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 452.50 Tm
-(Year-250 circulating supply ordering is strictly monotonic: NoBurn100=409,511,718.750 ATHO,) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 442.80 Tm
-(Burn25=399,888,311.250, Burn50=390,264,903.750, Burn75=380,641,496.250, Burn100=371,018,088.750. This) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 433.10 Tm
-(confirms expected policy behavior: greater sustained utilization under burn policy removes more aggregate) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 423.40 Tm
-(fees from circulating supply.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 408.70 Tm
-(At year 100, NoBurn100 exceeds Burn100 by 7,450,380.000 ATHO. At year 250, Burn100 is 9.400% below) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 399.00 Tm
-(NoBurn100. These are material differences for long-horizon communications and treasury planning, so) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 389.30 Tm
-(scenario labels must always accompany projected supply numbers.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 374.60 Tm
-(Protocol-only deflation threshold is >24.802% utilization. Under current constants, that means the) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 364.90 Tm
-(protocol can be inflationary at low-to-mid utilization but deflationary in sustained high-usage regimes.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 350.20 Tm
-(FEE MARKET AND USER COSTS) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 335.50 Tm
-(Model baseline uses 566 vB as representative transaction size, so typical fee at floor is 0.000283 ATHO. A) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 325.80 Tm
-(2,000-vB heavy transaction costs 0.001000 ATHO. Fee burden therefore scales linearly with vsize and market) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 316.10 Tm
-(price, so any public affordability claim should publish both coin-denominated and fiat-translated cost) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 306.40 Tm
-(bands.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 291.70 Tm
-(Throughput and fee policy are coupled. If the realized transaction-size distribution shifts upward, fees) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 282.00 Tm
-(per transaction increase even when fee-per-byte policy remains unchanged. The model already includes) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 272.30 Tm
-(measured vsize references to avoid treating all traffic as uniform 1-in/2-out activity.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 257.60 Tm
-(MINER ECONOMICS) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 242.90 Tm
-(Post-tail miner income in NoBurn100 is 511,228.125 ATHO/year. In Burn100 it is 51,328.125 ATHO/year) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 233.20 Tm
-(because fee share is policy-limited to 0.0%. The difference is 459,900.000 ATHO/year \(89.960%\).) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 218.50 Tm
-(Interpretation is straightforward: this design explicitly prioritizes fee destruction over fee-funded tail) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 208.80 Tm
-(miner uplift. Security remains funded by tail issuance, while fee burn tightens supply path under higher) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 199.10 Tm
-(usage. Whether this split is optimal depends on expected hashrate elasticity, power markets, and miner) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 189.40 Tm
-(treasury tolerance in late-stage eras.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 174.70 Tm
-(FLOOR SAFETY AND ACCOUNTING INVARIANTS) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 160.00 Tm
-(The supply floor is not a narrative hint; it is an accounting guardrail. Burn is clipped by burn headroom) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 150.30 Tm
-(\(emitted_up_to - cumulative_burned_before - floor\), so modeled circulating supply cannot be reduced below) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 140.60 Tm
-(floor via burn accounting.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 125.90 Tm
-(Coinbase payout invariants are enforced as: coinbase_sum_atoms = block_reward_atoms + fees_miner_atoms.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 116.20 Tm
-(Fee accounting fields \(fees_total_atoms, fees_miner_atoms, fees_burned_atoms, cumulative_burned_atoms\) are) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 106.50 Tm
-(validated once burn policy is active, ensuring every block exposes reviewable token-flow decomposition.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 91.80 Tm
-(RISK BOUNDARIES) Tj
-ET
-BT
-0.2784 0.3333 0.4118 rg
-/F1 8.00 Tf
-1 0 0 1 26.00 18.00 Tm
-(Page 2/6) Tj
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(Until new modeling artifacts are generated from the current constants, treat the files in this) Tj
+T*
+(folder as archival only.) Tj
+T*
 ET
 endstream
-endobj
-8 0 obj
-<< /Length 6115 >>
-stream
-0.9686 0.9765 0.9882 rg
-0.00 0.00 792.00 612.00 re f
-0.9176 0.9412 0.9725 rg
-0.00 538.00 792.00 74.00 re f
-BT
-0.0588 0.0902 0.1647 rg
-/F2 18.00 Tf
-1 0 0 1 26.00 572.00 Tm
-(Entire Overview - Atho Emissions Modeling) Tj
-ET
-BT
-0.2784 0.3333 0.4118 rg
-/F1 9.00 Tf
-1 0 0 1 26.00 554.00 Tm
-(Full observation-based sustainability and policy report) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 511.00 Tm
-(This model is deterministic but intentionally bounded. It does not natively model cyclic utilization,) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 501.30 Tm
-(above-floor fee spikes, network topology effects, orphan dynamics, hashrate migration, hardware) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 491.60 Tm
-(replacement curves, or policy feedback from external exchanges.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 476.90 Tm
-(Those omissions do not invalidate the base math; they define confidence boundaries. Protocol outputs) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 467.20 Tm
-(should be treated as first-principles anchors, then layered with market and infrastructure assumptions) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 457.50 Tm
-(during governance or investor communication.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 442.80 Tm
-(SCENARIO DEEP DIVE \(YEAR CHECKPOINTS\)) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 428.10 Tm
-(No Burn \(100% block capacity\): year25 circulating=357,906,250.000 ATHO, year50=396,312,500.000,) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 418.40 Tm
-(year100=401,812,500.000, year250=409,511,718.750. Annual net change at year250 is 51,328.125 ATHO with) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 408.70 Tm
-(annual net rate 0.013%.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 394.00 Tm
-(Burn On \(25% block capacity\): year25 circulating=357,906,250.000 ATHO, year50=396,312,500.000,) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 384.30 Tm
-(year100=399,949,905.000, year250=399,888,311.250. Annual net change at year250 is -410.625 ATHO with) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 374.60 Tm
-(annual net rate -0.000%.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 359.90 Tm
-(Burn On \(50% block capacity\): year25 circulating=357,906,250.000 ATHO, year50=396,312,500.000,) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 350.20 Tm
-(year100=398,087,310.000, year250=390,264,903.750. Annual net change at year250 is -52,149.375 ATHO with) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 340.50 Tm
-(annual net rate -0.013%.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 325.80 Tm
-(Burn On \(75% block capacity\): year25 circulating=357,906,250.000 ATHO, year50=396,312,500.000,) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 316.10 Tm
-(year100=396,224,715.000, year250=380,641,496.250. Annual net change at year250 is -103,888.125 ATHO with) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 306.40 Tm
-(annual net rate -0.027%.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 291.70 Tm
-(Burn On \(100% block capacity\): year25 circulating=357,906,250.000 ATHO, year50=396,312,500.000,) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 282.00 Tm
-(year100=394,362,120.000, year250=371,018,088.750. Annual net change at year250 is -155,626.875 ATHO with) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 272.30 Tm
-(annual net rate -0.042%.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 257.60 Tm
-(CONCLUSIONS) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 242.90 Tm
-(The active Atho emissions model is internally coherent, reproducible, and strongly reviewable. Supply) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 233.20 Tm
-(outcomes move monotonically with utilization under burn-enabled scenarios, and the floor clipping) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 223.50 Tm
-(invariant protects against pathological long-run over-burn.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 208.80 Tm
-(The model now provides a clearer evidence chain: deterministic constants, scenario CSVs, narrative) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 199.10 Tm
-(reports, and presentation PDFs. This is the correct operating baseline for production tokenomics) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 189.40 Tm
-(communication.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 174.70 Tm
-(Final report position: treat these outputs as deterministic policy maps, not market certainties. Maintain) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 165.00 Tm
-(explicit assumptions, publish versioned artifacts, and preserve strict separation between protocol math) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 155.30 Tm
-(and external market assumptions.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 140.60 Tm
-(Appendix note 1: At year 10, scenario No Burn \(100% block capacity\) reports circulating supply) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 130.90 Tm
-(232,181,250.000 ATHO, cumulative burned 0.000 ATHO, and annual net change 13,140,000.000 ATHO. This) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 121.20 Tm
-(checkpoint reinforces that cumulative burn tracks utilization and burn policy directly, while net-rate) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 111.50 Tm
-(drift depends on the ratio of annual delta to existing circulating base.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 96.80 Tm
-(Appendix note 2: For No Burn \(100% block capacity\) at year 25, annual issuance remains 3,285,000.000 ATHO) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 87.10 Tm
-(and annual fee pool assumption is 459,900.000 ATHO. Under the configured burn split, annual burned amount) Tj
-ET
-BT
-0.2784 0.3333 0.4118 rg
-/F1 8.00 Tf
-1 0 0 1 26.00 18.00 Tm
-(Page 3/6) Tj
-ET
-endstream
-endobj
-9 0 obj
-<< /Length 7115 >>
-stream
-0.9686 0.9765 0.9882 rg
-0.00 0.00 792.00 612.00 re f
-0.9176 0.9412 0.9725 rg
-0.00 538.00 792.00 74.00 re f
-BT
-0.0588 0.0902 0.1647 rg
-/F2 18.00 Tf
-1 0 0 1 26.00 572.00 Tm
-(Entire Overview - Atho Emissions Modeling) Tj
-ET
-BT
-0.2784 0.3333 0.4118 rg
-/F1 9.00 Tf
-1 0 0 1 26.00 554.00 Tm
-(Full observation-based sustainability and policy report) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 516.00 Tm
-(is 0.000 ATHO and miner revenue is 3,744,900.000 ATHO. This makes token flow decomposition explicit for) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 506.30 Tm
-(auditing and economics review.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 491.60 Tm
-(Appendix note 3: The No Burn \(100% block capacity\) curve at year 50 shows net rate 0.104% with TPS) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 481.90 Tm
-(estimate 51.525. Even though TPS is scenario-constrained in this model, net supply behavior is controlled) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 472.20 Tm
-(by utilization and burn policy rather than by nominal subsidy transitions after tail start.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 457.50 Tm
-(Appendix note 4: At year 75, scenario No Burn \(100% block capacity\) reports circulating supply) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 447.80 Tm
-(400,529,296.875 ATHO, cumulative burned 0.000 ATHO, and annual net change 51,328.125 ATHO. This checkpoint) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 438.10 Tm
-(reinforces that cumulative burn tracks utilization and burn policy directly, while net-rate drift depends) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 428.40 Tm
-(on the ratio of annual delta to existing circulating base.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 413.70 Tm
-(Appendix note 5: For No Burn \(100% block capacity\) at year 100, annual issuance remains 51,328.125 ATHO) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 404.00 Tm
-(and annual fee pool assumption is 459,900.000 ATHO. Under the configured burn split, annual burned amount) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 394.30 Tm
-(is 0.000 ATHO and miner revenue is 511,228.125 ATHO. This makes token flow decomposition explicit for) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 384.60 Tm
-(auditing and economics review.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 369.90 Tm
-(Appendix note 6: The No Burn \(100% block capacity\) curve at year 150 shows net rate 0.013% with TPS) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 360.20 Tm
-(estimate 51.525. Even though TPS is scenario-constrained in this model, net supply behavior is controlled) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 350.50 Tm
-(by utilization and burn policy rather than by nominal subsidy transitions after tail start.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 335.80 Tm
-(Appendix note 7: At year 200, scenario No Burn \(100% block capacity\) reports circulating supply) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 326.10 Tm
-(406,945,312.500 ATHO, cumulative burned 0.000 ATHO, and annual net change 51,328.125 ATHO. This checkpoint) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 316.40 Tm
-(reinforces that cumulative burn tracks utilization and burn policy directly, while net-rate drift depends) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 306.70 Tm
-(on the ratio of annual delta to existing circulating base.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 292.00 Tm
-(Appendix note 8: For No Burn \(100% block capacity\) at year 250, annual issuance remains 51,328.125 ATHO) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 282.30 Tm
-(and annual fee pool assumption is 459,900.000 ATHO. Under the configured burn split, annual burned amount) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 272.60 Tm
-(is 0.000 ATHO and miner revenue is 511,228.125 ATHO. This makes token flow decomposition explicit for) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 262.90 Tm
-(auditing and economics review.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 248.20 Tm
-(Appendix note 9: The Burn On \(25% block capacity\) curve at year 10 shows net rate 5.999% with TPS estimate) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 238.50 Tm
-(12.875. Even though TPS is scenario-constrained in this model, net supply behavior is controlled by) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 228.80 Tm
-(utilization and burn policy rather than by nominal subsidy transitions after tail start.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 214.10 Tm
-(Appendix note 10: At year 25, scenario Burn On \(25% block capacity\) reports circulating supply) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 204.40 Tm
-(357,906,250.000 ATHO, cumulative burned 0.000 ATHO, and annual net change 3,285,000.000 ATHO. This) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 194.70 Tm
-(checkpoint reinforces that cumulative burn tracks utilization and burn policy directly, while net-rate) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 185.00 Tm
-(drift depends on the ratio of annual delta to existing circulating base.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 170.30 Tm
-(Appendix note 11: For Burn On \(25% block capacity\) at year 50, annual issuance remains 410,625.000 ATHO) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 160.60 Tm
-(and annual fee pool assumption is 114,975.000 ATHO. Under the configured burn split, annual burned amount) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 150.90 Tm
-(is 0.000 ATHO and miner revenue is 525,600.000 ATHO. This makes token flow decomposition explicit for) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 141.20 Tm
-(auditing and economics review.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 126.50 Tm
-(Appendix note 12: The Burn On \(25% block capacity\) curve at year 75 shows net rate -0.000% with TPS) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 116.80 Tm
-(estimate 12.875. Even though TPS is scenario-constrained in this model, net supply behavior is controlled) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 107.10 Tm
-(by utilization and burn policy rather than by nominal subsidy transitions after tail start.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 92.40 Tm
-(Appendix note 13: At year 100, scenario Burn On \(25% block capacity\) reports circulating supply) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 82.70 Tm
-(399,949,905.000 ATHO, cumulative burned 1,862,595.000 ATHO, and annual net change -410.625 ATHO. This) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 73.00 Tm
-(checkpoint reinforces that cumulative burn tracks utilization and burn policy directly, while net-rate) Tj
-ET
-BT
-0.2784 0.3333 0.4118 rg
-/F1 8.00 Tf
-1 0 0 1 26.00 18.00 Tm
-(Page 4/6) Tj
-ET
-endstream
-endobj
-10 0 obj
-<< /Length 7136 >>
-stream
-0.9686 0.9765 0.9882 rg
-0.00 0.00 792.00 612.00 re f
-0.9176 0.9412 0.9725 rg
-0.00 538.00 792.00 74.00 re f
-BT
-0.0588 0.0902 0.1647 rg
-/F2 18.00 Tf
-1 0 0 1 26.00 572.00 Tm
-(Entire Overview - Atho Emissions Modeling) Tj
-ET
-BT
-0.2784 0.3333 0.4118 rg
-/F1 9.00 Tf
-1 0 0 1 26.00 554.00 Tm
-(Full observation-based sustainability and policy report) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 516.00 Tm
-(drift depends on the ratio of annual delta to existing circulating base.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 501.30 Tm
-(Appendix note 14: For Burn On \(25% block capacity\) at year 150, annual issuance remains 51,328.125 ATHO) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 491.60 Tm
-(and annual fee pool assumption is 114,975.000 ATHO. Under the configured burn split, annual burned amount) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 481.90 Tm
-(is 51,738.750 ATHO and miner revenue is 114,564.375 ATHO. This makes token flow decomposition explicit for) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 472.20 Tm
-(auditing and economics review.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 457.50 Tm
-(Appendix note 15: The Burn On \(25% block capacity\) curve at year 200 shows net rate -0.000% with TPS) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 447.80 Tm
-(estimate 12.875. Even though TPS is scenario-constrained in this model, net supply behavior is controlled) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 438.10 Tm
-(by utilization and burn policy rather than by nominal subsidy transitions after tail start.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 423.40 Tm
-(Appendix note 16: At year 250, scenario Burn On \(25% block capacity\) reports circulating supply) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 413.70 Tm
-(399,888,311.250 ATHO, cumulative burned 9,623,407.500 ATHO, and annual net change -410.625 ATHO. This) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 404.00 Tm
-(checkpoint reinforces that cumulative burn tracks utilization and burn policy directly, while net-rate) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 394.30 Tm
-(drift depends on the ratio of annual delta to existing circulating base.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 379.60 Tm
-(Appendix note 17: For Burn On \(50% block capacity\) at year 10, annual issuance remains 13,140,000.000 ATHO) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 369.90 Tm
-(and annual fee pool assumption is 229,950.000 ATHO. Under the configured burn split, annual burned amount) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 360.20 Tm
-(is 0.000 ATHO and miner revenue is 13,369,950.000 ATHO. This makes token flow decomposition explicit for) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 350.50 Tm
-(auditing and economics review.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 335.80 Tm
-(Appendix note 18: The Burn On \(50% block capacity\) curve at year 25 shows net rate 0.926% with TPS) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 326.10 Tm
-(estimate 25.758. Even though TPS is scenario-constrained in this model, net supply behavior is controlled) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 316.40 Tm
-(by utilization and burn policy rather than by nominal subsidy transitions after tail start.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 301.70 Tm
-(Appendix note 19: At year 50, scenario Burn On \(50% block capacity\) reports circulating supply) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 292.00 Tm
-(396,312,500.000 ATHO, cumulative burned 0.000 ATHO, and annual net change 410,625.000 ATHO. This) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 282.30 Tm
-(checkpoint reinforces that cumulative burn tracks utilization and burn policy directly, while net-rate) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 272.60 Tm
-(drift depends on the ratio of annual delta to existing circulating base.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 257.90 Tm
-(Appendix note 20: For Burn On \(50% block capacity\) at year 75, annual issuance remains 51,328.125 ATHO and) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 248.20 Tm
-(annual fee pool assumption is 229,950.000 ATHO. Under the configured burn split, annual burned amount is) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 238.50 Tm
-(103,477.500 ATHO and miner revenue is 177,800.625 ATHO. This makes token flow decomposition explicit for) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 228.80 Tm
-(auditing and economics review.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 214.10 Tm
-(Appendix note 21: The Burn On \(50% block capacity\) curve at year 100 shows net rate -0.013% with TPS) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 204.40 Tm
-(estimate 25.758. Even though TPS is scenario-constrained in this model, net supply behavior is controlled) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 194.70 Tm
-(by utilization and burn policy rather than by nominal subsidy transitions after tail start.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 180.00 Tm
-(Appendix note 22: At year 150, scenario Burn On \(50% block capacity\) reports circulating supply) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 170.30 Tm
-(395,479,841.250 ATHO, cumulative burned 8,899,065.000 ATHO, and annual net change -52,149.375 ATHO. This) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 160.60 Tm
-(checkpoint reinforces that cumulative burn tracks utilization and burn policy directly, while net-rate) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 150.90 Tm
-(drift depends on the ratio of annual delta to existing circulating base.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 136.20 Tm
-(Appendix note 23: For Burn On \(50% block capacity\) at year 200, annual issuance remains 51,328.125 ATHO) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 126.50 Tm
-(and annual fee pool assumption is 229,950.000 ATHO. Under the configured burn split, annual burned amount) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 116.80 Tm
-(is 103,477.500 ATHO and miner revenue is 177,800.625 ATHO. This makes token flow decomposition explicit) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 107.10 Tm
-(for auditing and economics review.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 92.40 Tm
-(Appendix note 24: The Burn On \(50% block capacity\) curve at year 250 shows net rate -0.013% with TPS) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 82.70 Tm
-(estimate 25.758. Even though TPS is scenario-constrained in this model, net supply behavior is controlled) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 73.00 Tm
-(by utilization and burn policy rather than by nominal subsidy transitions after tail start.) Tj
-ET
-BT
-0.2784 0.3333 0.4118 rg
-/F1 8.00 Tf
-1 0 0 1 26.00 18.00 Tm
-(Page 5/6) Tj
-ET
-endstream
-endobj
-11 0 obj
-<< /Length 2891 >>
-stream
-0.9686 0.9765 0.9882 rg
-0.00 0.00 792.00 612.00 re f
-0.9176 0.9412 0.9725 rg
-0.00 538.00 792.00 74.00 re f
-BT
-0.0588 0.0902 0.1647 rg
-/F2 18.00 Tf
-1 0 0 1 26.00 572.00 Tm
-(Entire Overview - Atho Emissions Modeling) Tj
-ET
-BT
-0.2784 0.3333 0.4118 rg
-/F1 9.00 Tf
-1 0 0 1 26.00 554.00 Tm
-(Full observation-based sustainability and policy report) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 511.00 Tm
-(Appendix note 25: At year 10, scenario Burn On \(75% block capacity\) reports circulating supply) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 501.30 Tm
-(232,181,250.000 ATHO, cumulative burned 0.000 ATHO, and annual net change 13,140,000.000 ATHO. This) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 491.60 Tm
-(checkpoint reinforces that cumulative burn tracks utilization and burn policy directly, while net-rate) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 481.90 Tm
-(drift depends on the ratio of annual delta to existing circulating base.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 467.20 Tm
-(Appendix note 26: For Burn On \(75% block capacity\) at year 25, annual issuance remains 3,285,000.000 ATHO) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 457.50 Tm
-(and annual fee pool assumption is 344,925.000 ATHO. Under the configured burn split, annual burned amount) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 447.80 Tm
-(is 0.000 ATHO and miner revenue is 3,629,925.000 ATHO. This makes token flow decomposition explicit for) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 438.10 Tm
-(auditing and economics review.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 423.40 Tm
-(Appendix note 27: The Burn On \(75% block capacity\) curve at year 50 shows net rate 0.104% with TPS) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 413.70 Tm
-(estimate 38.642. Even though TPS is scenario-constrained in this model, net supply behavior is controlled) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 404.00 Tm
-(by utilization and burn policy rather than by nominal subsidy transitions after tail start.) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 389.30 Tm
-(Appendix note 28: At year 75, scenario Burn On \(75% block capacity\) reports circulating supply) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 379.60 Tm
-(398,821,918.125 ATHO, cumulative burned 1,707,378.750 ATHO, and annual net change -103,888.125 ATHO. This) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 369.90 Tm
-(checkpoint reinforces that cumulative burn tracks utilization and burn policy directly, while net-rate) Tj
-ET
-BT
-0.0588 0.0902 0.1647 rg
-/F1 8.80 Tf
-1 0 0 1 26.00 360.20 Tm
-(drift depends on the ratio of annual delta to existing circulating base.) Tj
-ET
-BT
-0.2784 0.3333 0.4118 rg
-/F1 8.00 Tf
-1 0 0 1 26.00 18.00 Tm
-(Page 6/6) Tj
-ET
-endstream
-endobj
-12 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 792 612] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 6 0 R >>
-endobj
-13 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 792 612] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 7 0 R >>
-endobj
-14 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 792 612] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 8 0 R >>
-endobj
-15 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 792 612] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 9 0 R >>
-endobj
-16 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 792 612] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 10 0 R >>
-endobj
-17 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 792 612] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 11 0 R >>
 endobj
 xref
-0 18
+0 8
 0000000000 65535 f 
 0000000015 00000 n 
 0000000064 00000 n 
-0000000159 00000 n 
-0000000229 00000 n 
-0000000304 00000 n 
-0000000372 00000 n 
-0000006151 00000 n 
-0000012256 00000 n 
-0000018423 00000 n 
-0000025590 00000 n 
-0000032779 00000 n 
-0000035723 00000 n 
-0000035870 00000 n 
-0000036017 00000 n 
-0000036164 00000 n 
-0000036311 00000 n 
-0000036459 00000 n 
+0000000127 00000 n 
+0000000195 00000 n 
+0000000321 00000 n 
+0000002122 00000 n 
+0000002248 00000 n 
 trailer
-<< /Size 18 /Root 1 0 R >>
+<< /Size 8 /Root 1 0 R >>
 startxref
-36607
+2475
 %%EOF

@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-04-10) Tj
+(Date: 2026-04-18) Tj
 T*
 () Tj
 T*
@@ -247,7 +247,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 1094 >>
+<< /Length 1115 >>
 stream
 BT
 /F1 10 Tf
@@ -267,9 +267,9 @@ T*
 T*
 (- block target 120s, retarget 180,) Tj
 T*
-(- tx confirmations 10, private tx confirmations 10, coinbase maturity 150,) Tj
+(- tx confirmations 6, private tx confirmations 6, coinbase maturity 150,) Tj
 T*
-(- fee floor 500 atoms/vB.) Tj
+(- fee floor 1 atom/vB, minimum tx fee 500 atoms.) Tj
 T*
 () Tj
 T*
@@ -315,5 +315,5 @@ xref
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-5711
+5732
 %%EOF

@@ -37,9 +37,11 @@ export function renderMetricCards(target, metrics = []) {
       (metric) => `
         <article class="card card-pad metric-card" data-reveal>
           <div class="metric-label">${escapeHtml(metric.label)}</div>
-          <div class="metric-value" data-counter data-target="${Number(metric.value)}" data-suffix="${escapeHtml(
-            metric.suffix || ""
-          )}">0${escapeHtml(metric.suffix || "")}</div>
+          <div class="metric-value"${
+            metric.display
+              ? ""
+              : ` data-counter data-target="${Number(metric.value)}" data-suffix="${escapeHtml(metric.suffix || "")}"`
+          }>${escapeHtml(metric.display || `0${metric.suffix || ""}`)}</div>
           <div class="metric-foot">${escapeHtml(metric.foot || "")}</div>
         </article>
       `

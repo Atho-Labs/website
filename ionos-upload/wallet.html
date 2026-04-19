@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Atho wallet architecture: AES-256-GCM + Kyber lockbox, deterministic private-note send flows, wallet staking math, and mobile roadmap.">
+  <meta name="description" content="Atho wallet architecture: AES-256-GCM and Kyber lockbox controls, deterministic recovery, payment-only addressing, and private transaction flows.">
   <title>Atho Wallet</title>
   <link rel="canonical" href="https://atho.io/wallet.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Atho">
   <meta property="og:url" content="https://atho.io/wallet.html">
   <meta property="og:title" content="Atho Wallet">
-  <meta property="og:description" content="Atho wallet architecture: AES-256-GCM + Kyber lockbox, deterministic private-note send flows, wallet staking math, and mobile roadmap.">
+  <meta property="og:description" content="Wallet security, recovery, public payment addresses, and Platinum Shield private transaction flows.">
   <meta property="og:image" content="https://image.thum.io/get/width/1200/crop/630/https://atho.io/wallet.html">
   <meta property="og:image:secure_url" content="https://image.thum.io/get/width/1200/crop/630/https://atho.io/wallet.html">
   <meta property="og:image:width" content="1200">
@@ -19,13 +19,13 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@AthoHQ">
   <meta name="twitter:title" content="Atho Wallet">
-  <meta name="twitter:description" content="Atho wallet architecture: AES-256-GCM + Kyber lockbox, deterministic private-note send flows, wallet staking math, and mobile roadmap.">
+  <meta name="twitter:description" content="Wallet security, recovery, public payment addresses, and Platinum Shield private transaction flows.">
   <meta name="twitter:image" content="https://image.thum.io/get/width/1200/crop/630/https://atho.io/wallet.html">
   <meta name="twitter:image:alt" content="Atho wallet page preview">
   <link rel="icon" type="image/png" href="./assets/media/logo2website.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/css/variables.css">
   <link rel="stylesheet" href="./assets/css/base.css">
   <link rel="stylesheet" href="./assets/css/layout.css">
@@ -37,8 +37,7 @@
   <header class="site-header">
     <div class="wrap nav-shell">
       <a class="brand" href="./home.html#overview" aria-label="Atho home">
-<img class="brand-mark" src="./assets/media/logo2website.png" alt="Atho logo" width="72" height="72" decoding="async">
-        <span class="brand-title">Atho</span>
+        <img class="brand-mark" src="./assets/media/logo2website.png" alt="Atho logo" width="72" height="72" decoding="async">
       </a>
 
       <div class="header-right">
@@ -47,7 +46,6 @@
           <a class="nav-link" href="#wallet-addressing">Addressing</a>
           <a class="nav-link" href="#wallet-protection">Protection</a>
           <a class="nav-link" href="#wallet-private">Private Tx</a>
-          <a class="nav-link" href="#wallet-staking">Staking</a>
           <a class="nav-link" href="#wallet-recovery">Recovery</a>
           <a class="nav-link" href="#mobile-wallet">Mobile</a>
         </nav>
@@ -65,17 +63,14 @@
           <div class="global-nav-grid">
             <a class="global-nav-link" href="./home.html">Home</a>
             <a class="global-nav-link" href="./docs.html">Docs</a>
-            <a class="global-nav-link" href="./falcon-512.html">Falcon-512</a>
-            <a class="global-nav-link" href="./join.html">Join</a>
-            <a class="global-nav-link" href="./rewards.html">Rewards</a>
             <a class="global-nav-link" href="./wallet.html">Wallet</a>
             <a class="global-nav-link" href="./wallet-hierarchy.html">Wallet Hierarchy</a>
             <a class="global-nav-link" href="./platinum-shield.html">Platinum Shield</a>
-            <a class="global-nav-link" href="./bpow-docs.html">BPoW</a>
-            <a class="global-nav-link" href="./inflation-deflation.html">Inflation / Deflation</a>
+            <a class="global-nav-link" href="./falcon-512.html">Falcon-512</a>
+            <a class="global-nav-link" href="./join.html">Join</a>
             <a class="global-nav-link" href="./changelog.html">Changelog</a>
-                        <a class="global-nav-link" href="./roadmap.html">Roadmap</a>
-<a class="global-nav-link" href="./contact.html">Contact</a>
+            <a class="global-nav-link" href="./roadmap.html">Roadmap</a>
+            <a class="global-nav-link" href="./contact.html">Contact</a>
           </div>
         </div>
       </div>
@@ -87,22 +82,21 @@
       <div class="wrap hero-grid">
         <div class="hero-copy" data-reveal>
           <div class="eyebrow-row">
-            <span class="section-eyebrow section-eyebrow-hot">Wallet Security + Staking</span>
-            <span class="section-eyebrow">AES / Kyber Lockbox</span>
+            <span class="section-eyebrow section-eyebrow-hot">Wallet Security + Recovery</span>
+            <span class="section-eyebrow">Payment-Only Model</span>
           </div>
-          <h1>Wallet custody and staking designed for long-run network safety.</h1>
+          <h1>Wallet custody built for payments, privacy, and recovery.</h1>
           <p>
-            Atho wallet security uses encrypted-at-rest lockbox controls with Argon2id, AES-256-GCM payload encryption,
-            and mandatory Kyber DEK wrap. Wallet staking remains deterministic and auditable: payouts are weighted by
-            each address share of total active stake in the settled epoch.
+            The Atho wallet is aligned to the current chain design: public payment addresses, private bundle identities,
+            encrypted local custody, and deterministic recovery. It stays focused on sending, receiving, and restoring
+            funds across the public and private lanes.
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/keymanager.pdf" download>Download Key Manager Spec</a>
-            <a class="btn btn-primary btn-inline" href="./wallet-hierarchy.html">Open Wallet Hierarchy Web Guide</a>
-            <a class="btn btn-primary btn-inline" href="./rewards.html#reward-breakdown">Open Reward Split Math</a>
-            <a class="btn btn-primary btn-inline" href="./docs.html#security-docs">Open Security Docs</a>
-            <a class="btn btn-primary btn-inline" href="#wallet-private">Open Private Send Flow</a>
-            <a class="btn btn-primary btn-inline" href="./join.html#key-manager">Open Key Manager Guide</a>
+            <a class="btn btn-primary btn-inline" href="./wallet-hierarchy.html">Wallet Hierarchy Guide</a>
+            <a class="btn btn-primary btn-inline" href="./docs.html#privacy-docs">Privacy Docs</a>
+            <a class="btn btn-primary btn-inline" href="#wallet-private">Private Send Flow</a>
+            <a class="btn btn-primary btn-inline" href="./join.html#key-manager">Join Guide</a>
           </div>
         </div>
 
@@ -114,28 +108,28 @@
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
                   <strong>Encryption stack</strong>
-                  <span>Argon2id KDF, AES-256-GCM payload encryption, AES-256-GCM DEK wrap, and mandatory Kyber DEK wrap.</span>
+                  <span>Argon2id KDF, AES-256-GCM payload encryption, AES wrap, and Kyber-based DEK wrap.</span>
                 </span>
               </li>
               <li class="key-item">
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
-                  <strong>Unlock modes</strong>
-                  <span><code>default</code> (password path) and <code>advanced</code> (password + Kyber unlock file import).</span>
+                  <strong>Address surface</strong>
+                  <span>Regular payment addresses plus private bundle / X-address material for private receive flows.</span>
                 </span>
               </li>
               <li class="key-item">
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
-                  <strong>Staking weighting rule</strong>
-                  <span><code>stake_payout_i = stake_pool_epoch * (active_stake_i / total_active_stake_epoch)</code>.</span>
+                  <strong>Fee policy</strong>
+                  <span><code>1 atom/vB</code> floor, <code>500 atoms</code> minimum transaction fee, and <code>1</code> atom dust limit.</span>
                 </span>
               </li>
               <li class="key-item">
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
-                  <strong>Settlement windows</strong>
-                  <span>Deterministic <code>720</code>-block epoch plus <code>3600</code>-block finalization buffer.</span>
+                  <strong>Spendability</strong>
+                  <span><code>6</code> standard confirmations, <code>6</code> private confirmations, and <code>150</code> block coinbase maturity.</span>
                 </span>
               </li>
             </ul>
@@ -147,25 +141,23 @@
     <section id="wallet-addressing" class="section">
       <div class="wrap">
         <span class="section-eyebrow">Wallet Addressing + Fees</span>
-        <h2 class="section-title">How Base56 addresses and fee-per-byte policy work in Atho wallets.</h2>
+        <h2 class="section-title">Public payment addresses stay simple while private receive flows use bundle identity.</h2>
         <p class="section-copy">
-          Wallet addresses are generated from Falcon public-key material through deterministic SHA3-384 pathways, then
-          encoded in Base56 for human use. Fee policy is calculated by <code>vsize</code> with a floor of
-          <code>500 atoms/vB</code> and minimum transaction fee <code>200,000 atoms</code>.
+          Atho’s active wallet surface has two user-facing destination types: a regular payment address for public value
+          and a private bundle / X-address for Platinum Shield transactions.
         </p>
 
         <div class="feature-grid wallet-address-grid" data-stagger>
           <article class="card card-pad feature-card wallet-address-card" data-reveal>
-            <h3>Deterministic Address Pipeline</h3>
+            <h3>Public Payment Address Pipeline</h3>
             <p class="panel-copy">
-              One key source, multiple role-safe addresses. Domain-separated hashes prevent regular, bond, and stake
-              destination mix-ups.
+              Public ownership is now regular-only. The wallet derives one payment address class from Falcon public-key material.
             </p>
             <div class="wallet-address-flow" aria-hidden="true">
               <span class="wallet-address-line"></span>
               <span class="wallet-address-node node-pub">Falcon Pubkey</span>
               <span class="wallet-address-node node-hpk">SHA3-384 -&gt; HPK</span>
-              <span class="wallet-address-node node-role">Role Domain</span>
+              <span class="wallet-address-node node-role">ATHO_ADDR_V1</span>
               <span class="wallet-address-node node-b56">Base56 Address</span>
               <span class="wallet-address-packet"></span>
               <span class="wallet-address-packet wallet-address-packet-b"></span>
@@ -174,48 +166,46 @@
               <li class="key-item">
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
-                  <strong>Role domains</strong>
-                  <span><code>ATHO_ADDR_V1</code>, <code>ATHO_BOND_V1</code>, <code>ATHO_STAKE_V1</code>.</span>
+                  <strong>Prefixes</strong>
+                  <span>Mainnet public addresses begin with <code>A</code>; testnet/regnet public addresses begin with <code>T</code>.</span>
                 </span>
               </li>
             </ul>
           </article>
 
           <article class="card card-pad feature-card wallet-address-card" data-reveal>
-            <h3>Base56 Format (Human-Safe Encoding)</h3>
+            <h3>Private Receive Bundle + X-Address</h3>
             <p class="panel-copy">
-              Base56 avoids ambiguous symbols to reduce copy/read mistakes in wallets, terminals, and printed records.
+              Private receive identity is derived from the bundle hash, not from a separate bond or stake role.
             </p>
             <div class="wallet-base56-shell" aria-hidden="true">
-              <span class="wallet-base56-label">Base56 character set (excerpt)</span>
-              <code class="wallet-base56-row">23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz</code>
+              <span class="wallet-base56-label">Private receive identity</span>
+              <code class="wallet-base56-row">bundle_bytes = [version] || [falcon_pubkey] || [kyber_pubkey]</code>
               <div class="wallet-base56-prefixes">
-                <span><strong>Mainnet:</strong> <code>A</code> regular, <code>B</code> bond, <code>S</code> stake</span>
-                <span><strong>Testnet/Regnet:</strong> <code>T</code> regular, <code>D</code> bond, <code>E</code> stake</span>
+                <span><strong>X-address:</strong> <code>X</code> + Base56(bundle hash)</span>
+                <span><strong>Use:</strong> Share with private recipients or private self-shielding flows</span>
               </div>
             </div>
-            <span class="feature-tag">Role-Separated Base56 UX</span>
+            <span class="feature-tag">Bundle-Bound Private Receive UX</span>
           </article>
 
           <article class="card card-pad feature-card wallet-address-card" data-reveal>
-            <h3>Fee-Per-Byte Policy in Wallet Send Flow</h3>
+            <h3>Fee Policy in Wallet Send Flow</h3>
             <p class="panel-copy">
-              Wallet send estimation uses virtual size (<code>vsize</code>) policy. Current floor is
-              <code>500 atoms/vB</code> with minimum tx fee <code>200,000 atoms</code> and dust limit
-              <code>20,000 atoms</code>.
+              The current wallet fee path mirrors the simplified chain policy: one floor, one minimum, and no extra routing logic.
             </p>
             <div class="wallet-fee-meter" aria-hidden="true">
               <div class="wallet-fee-row">
                 <span>Policy Floor</span>
-                <strong>500 atoms/vB</strong>
+                <strong>1 atom/vB</strong>
               </div>
               <div class="wallet-fee-track"><span class="wallet-fee-fill"></span></div>
               <div class="wallet-fee-row">
                 <span>Minimum Tx Fee</span>
-                <strong>200,000 atoms</strong>
+                <strong>500 atoms</strong>
               </div>
             </div>
-            <pre class="join-code"><code>required_fee_atoms = max(500 * vsize, 200000)</code></pre>
+            <pre class="join-code"><code>required_fee_atoms = max(vsize * 1, 500)</code></pre>
           </article>
         </div>
       </div>
@@ -226,36 +216,36 @@
         <article class="card card-pad" data-reveal>
           <h3 class="panel-title">Address Protection and Key Isolation</h3>
           <p class="panel-copy">
-            Role addresses are deterministic and domain-separated from the same Falcon pubkey source bytes, so regular,
-            bond, and stake pathways cannot be confused or replayed across roles.
+            The wallet keeps the active public payment surface narrow while still isolating private receive material for
+            private transaction workflows.
           </p>
           <ul class="key-list">
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
-                <strong>Role derivation domains</strong>
-                <span><code>ATHO_ADDR_V1</code>, <code>ATHO_BOND_V1</code>, and <code>ATHO_STAKE_V1</code> each hash to separate addresses.</span>
+                <strong>Payment-only public ownership</strong>
+                <span>Consensus recognizes regular payment addresses only; legacy bond/stake address roles are not active.</span>
               </span>
             </li>
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
-                <strong>Plaintext vs encrypted fields</strong>
-                <span>Display identifiers and Base56 addresses stay visible; raw keys, mnemonic material, and private components remain encrypted while locked.</span>
+                <strong>Visible vs encrypted fields</strong>
+                <span>Base56 address and identifier data stay shareable; mnemonic, private keys, and raw secret material remain encrypted while locked.</span>
               </span>
             </li>
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Fail-closed lock policy</strong>
-                <span>Sensitive wallet operations refuse to run while lockbox is encrypted and locked.</span>
+                <span>Sensitive actions refuse to run until wallet auth requirements are satisfied.</span>
               </span>
             </li>
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
-                <strong>Atomic + backup-safe writes</strong>
-                <span>Key file writes are lock-protected and backup-on-write to reduce corruption risk.</span>
+                <strong>Atomic local writes</strong>
+                <span>Wallet files use lock-protected and backup-safe write behavior to reduce corruption risk.</span>
               </span>
             </li>
           </ul>
@@ -264,15 +254,15 @@
             <div class="wallet-visibility-card wallet-visibility-open">
               <strong>Visible While Locked</strong>
               <span>identifier</span>
-              <span>network / role</span>
-              <span>hashed public key</span>
-              <span>Base56 address</span>
+              <span>network</span>
+              <span>payment address</span>
+              <span>X-address preview</span>
             </div>
             <div class="wallet-visibility-card wallet-visibility-sealed">
               <strong>Encrypted In Lockbox</strong>
-              <span>public/private key material</span>
-              <span>mnemonic fields + metadata</span>
-              <span>raw Falcon components</span>
+              <span>mnemonic + passphrase data</span>
+              <span>Falcon secret material</span>
+              <span>Kyber private material</span>
               <span>signing secrets</span>
             </div>
           </div>
@@ -281,8 +271,8 @@
         <article class="card card-pad" data-reveal>
           <h3 class="panel-title">Hybrid Security Stack Visual</h3>
           <p class="panel-copy">
-            Kyber does not replace AES; it wraps the same DEK used by AES payload encryption. This keeps fast encrypted
-            payload handling plus a post-quantum recovery/control plane.
+            Kyber does not replace AES. It wraps the same DEK used by AES payload encryption so wallet custody stays fast
+            in practice while keeping a post-quantum protection path.
           </p>
 
           <div class="wallet-lockbox-shell" aria-hidden="true">
@@ -309,29 +299,29 @@
         <article class="card card-pad" data-reveal>
           <h3 class="panel-title">Private Transaction UX in Wallet Nodes</h3>
           <p class="panel-copy">
-            Wallet nodes orchestrate private transaction assembly: sender authentication, note selection, deterministic witness context,
-            recipient bundle parsing, and payload encryption before any transaction reaches mempool.
+            Wallet nodes assemble private transactions locally: sender auth, note selection, bundle parsing, X-address
+            binding, payload encryption, and deterministic witness context all happen before mempool submission.
           </p>
           <ul class="key-list">
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Public -> private funding</strong>
-                <span>Spend public UTXOs and produce private commitments with recipient-bound encrypted note payloads.</span>
+                <span>Spend public UTXOs and create private commitments targeted to the recipient bundle.</span>
               </span>
             </li>
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Private -> private transfer</strong>
-                <span>Consume private notes via nullifiers and create fresh commitments while preserving spend privacy.</span>
+                <span>Consume private notes via nullifiers and create fresh private outputs without exposing public value flow.</span>
               </span>
             </li>
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Private -> public release</strong>
-                <span>Spend private notes and emit public UTXO outputs when transparent settlement is needed.</span>
+                <span>Return value to a regular public payment address when transparent settlement is required.</span>
               </span>
             </li>
           </ul>
@@ -342,143 +332,44 @@
         </article>
 
         <article class="card card-pad" data-reveal>
-          <h3 class="panel-title">Recipient Bundles, QR, and Address Binding</h3>
+          <h3 class="panel-title">Recipient Bundles, QR, and Binding Checks</h3>
           <ul class="key-list">
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Reusable receive bundles</strong>
-                <span>Wallets can expose reusable bundle data for receive UX while private-note derivation remains unlinkable through deterministic counters.</span>
+                <span>Wallets can expose reusable private receive data while keeping note derivation deterministic and counter-based.</span>
               </span>
             </li>
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>QR and copy workflows</strong>
-                <span>Receive views support QR payload sharing and direct address/bundle copy for low-friction transaction initiation.</span>
+                <span>Private receive screens can share both bundle payload and derived X-address for low-friction initiation.</span>
               </span>
             </li>
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
-                <strong>X-address integrity checks</strong>
-                <span>Validation logic enforces x-address hash consistency with bundle material before accepting private payloads.</span>
+                <strong>Fail-closed binding</strong>
+                <span>The wallet rejects mismatched bundle/X-address combinations before the private send path is allowed to continue.</span>
               </span>
             </li>
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Password-gated private sends</strong>
-                <span>Sensitive private send operations require unlocked wallet auth policy on each send path.</span>
+                <span>Private actions require unlock policy checks on each sensitive send path.</span>
               </span>
             </li>
           </ul>
           <div class="badge-row">
             <span class="badge">Bundle Reuse UX</span>
-            <span class="badge">Deterministic Note Keys</span>
+            <span class="badge">X-Address Match</span>
             <span class="badge">Encrypted Payload</span>
-            <span class="badge">X-Address Hash Match</span>
+            <span class="badge">Note-State Refresh</span>
           </div>
         </article>
-      </div>
-    </section>
-
-    <section id="wallet-staking" class="section">
-      <div class="wrap">
-        <span class="section-eyebrow">Wallet Staking Mechanics</span>
-        <h2 class="section-title">Staking rewards are weighted by active stake share, not fixed equally.</h2>
-        <p class="section-copy">
-          Wallet staking is separate from mining rights. Rewards are settled from the stake-side bucket and distributed
-          by proportional active share in each settled epoch.
-        </p>
-
-        <div class="feature-grid wallet-stake-grid" data-stagger>
-          <article class="card card-pad feature-card" data-reveal>
-            <h3>Staking Lifecycle</h3>
-            <p class="panel-copy">
-              Stake transitions follow deterministic state rules: <code>pending -&gt; active -&gt; exiting -&gt; unlockable -&gt; withdrawn</code>.
-            </p>
-            <div class="wallet-state-strip" aria-hidden="true">
-              <span>Pending</span>
-              <span>Active</span>
-              <span>Exiting</span>
-              <span>Unlockable</span>
-              <span>Withdrawn</span>
-              <i class="wallet-state-runner"></i>
-            </div>
-            <ul class="key-list wallet-mini-list">
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Epoch accounting</strong>
-                  <span><code>720</code>-block epoch with <code>3600</code>-block finalization buffer.</span>
-                </span>
-              </li>
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Role separation</strong>
-                  <span>Staking accrues economic rewards only; block production still requires PoW + active bond.</span>
-                </span>
-              </li>
-            </ul>
-          </article>
-
-          <article class="card card-pad feature-card" data-reveal>
-            <h3>Stake Pool Weighting Visual</h3>
-            <p class="panel-copy">
-              Example from reward docs: if epoch stake pool is <code>900 ATHO</code>, payout follows each staker's active share.
-            </p>
-            <div class="wallet-stake-radar" aria-hidden="true">
-              <span class="wallet-radar-ring wallet-radar-ring-a"></span>
-              <span class="wallet-radar-ring wallet-radar-ring-b"></span>
-              <span class="wallet-radar-core">Stake Pool</span>
-              <span class="wallet-radar-orbit wallet-orbit-a">A 50%<br>450 ATHO</span>
-              <span class="wallet-radar-orbit wallet-orbit-b">B 30%<br>270 ATHO</span>
-              <span class="wallet-radar-orbit wallet-orbit-c">C 20%<br>180 ATHO</span>
-            </div>
-            <pre class="join-code"><code>stake_payout_i_epoch
-  = stake_pool_epoch * (active_stake_i / total_active_stake_epoch)</code></pre>
-          </article>
-
-          <article class="card card-pad feature-card" data-reveal>
-            <h3>What This Means for Wallet Users</h3>
-            <ul class="key-list">
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Bigger active share = bigger payout</strong>
-                  <span>Rewards scale linearly with your active stake percentage in the settled epoch.</span>
-                </span>
-              </li>
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>No hidden manual overrides</strong>
-                  <span>Pool split and weighting rules are deterministic consensus/accounting pathways.</span>
-                </span>
-              </li>
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Auditability</strong>
-                  <span>Reward constants, split math, and epoch windows are documented across Whitepaper, Consensus, and Rewards docs.</span>
-                </span>
-              </li>
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Current staking bounds</strong>
-                  <span><code>20 ATHO</code> minimum, <code>500 ATHO</code> max per address, <code>25,000 ATHO</code> max new stake per rolling 30 days, and <code>25,000,000 ATHO</code> max total staked network-wide.</span>
-                </span>
-              </li>
-            </ul>
-            <div class="hero-actions wallet-stake-actions">
-              <a class="btn btn-primary btn-inline" href="./rewards.html#reward-breakdown">Open Full Reward Breakdown</a>
-              <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/atho-whitepaper-v3.pdf" download>Download Whitepaper v3</a>
-            </div>
-          </article>
-        </div>
       </div>
     </section>
 
@@ -487,9 +378,9 @@
         <article class="card card-pad" data-reveal>
           <h3 class="panel-title">Mnemonic Recovery Options at Wallet Creation</h3>
           <p class="panel-copy">
-            Wallet creation defaults to mnemonic-backed deterministic keys with <code>24</code> words. Creation flow
-            supports <code>12</code>, <code>24</code>, or <code>48</code> words, and recovery can import the same
-            mnemonic path later.
+            Wallet creation remains mnemonic-first. The current flow supports <code>12</code>, <code>24</code>, or
+            <code>48</code> words and deterministically rebuilds the same payment and private receive identity when the
+            same passphrase and derivation path are used.
           </p>
           <div class="wallet-mnemonic-strip" aria-hidden="true">
             <span class="wallet-mnemonic-pill">12 Words</span>
@@ -509,27 +400,27 @@
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Passphrase handling</strong>
-                <span>Mnemonic passphrases are never stored in key JSON or export files; keep passphrases separately.</span>
+                <span>Passphrases are not stored in exports; keeping them separately is part of safe recovery hygiene.</span>
               </span>
             </li>
           </ul>
         </article>
 
         <article class="card card-pad" data-reveal>
-          <h3 class="panel-title">Recovery + Lockbox Flow</h3>
+          <h3 class="panel-title">Recovery + Rescan Flow</h3>
           <p class="panel-copy">
-            After import or recovery, lockbox controls apply the same encrypted-at-rest policy and unlock controls used
-            for daily wallet operations.
+            Mnemonic recovery rebuilds identity first. A full node sync or rescan then reconstructs confirmed public
+            balances, private notes, and spendability state from canonical chain history.
           </p>
           <div class="wallet-recovery-lane" aria-hidden="true">
-            <span class="wallet-recovery-step">Create / Recover</span>
-            <span class="wallet-recovery-step">Verify Address + HPK</span>
-            <span class="wallet-recovery-step">Encrypt Lockbox</span>
-            <span class="wallet-recovery-step">Unlock to Sign</span>
+            <span class="wallet-recovery-step">Recover Seed</span>
+            <span class="wallet-recovery-step">Rebuild Address + Bundle</span>
+            <span class="wallet-recovery-step">Rescan Chain State</span>
+            <span class="wallet-recovery-step">Restore Spendable Funds</span>
             <span class="wallet-recovery-pulse"></span>
           </div>
           <div class="hero-actions wallet-stake-actions">
-            <a class="btn btn-primary btn-inline" href="./join.html#key-manager">Wallet Setup + Recovery</a>
+            <a class="btn btn-primary btn-inline" href="./wallet-hierarchy.html">Open Recovery Guide</a>
             <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/keymanager.pdf" download>Key Manager PDF</a>
           </div>
         </article>
@@ -541,23 +432,22 @@
         <article class="cta-box wallet-mobile-cta">
           <h2 class="cta-title">Mobile Wallet (App Store + Google Play) is in progress.</h2>
           <p class="cta-copy">
-            Mobile clients are being prepared with the same custody posture: encrypted lockbox pathways, deterministic
-            role-address handling, and transparent staking controls. Release will prioritize security review, predictable
-            backup flows, and clear recovery UX before public launch.
+            Mobile clients are being shaped around the same current wallet model: payment-first UX, encrypted lockbox
+            controls, private send support, deterministic recovery, and clear public/private destination handling.
           </p>
           <div class="badge-row">
-            <span class="badge">AES-256-GCM wallet lockbox</span>
-            <span class="badge">Kyber-based DEK wrap path</span>
-            <span class="badge">Base56 role-safe addresses</span>
-            <span class="badge">Wallet staking visibility</span>
-            <span class="badge">Recovery + export controls</span>
+            <span class="badge">AES-256-GCM lockbox</span>
+            <span class="badge">Kyber DEK wrap path</span>
+            <span class="badge">Public + private sends</span>
+            <span class="badge">Mnemonic recovery</span>
+            <span class="badge">Base56 payment addresses</span>
           </div>
         </article>
 
         <article class="card card-pad wallet-store-card">
           <h3 class="panel-title">Coming Soon</h3>
           <p class="panel-copy">
-            iOS and Android releases are planned after wallet security QA, recovery-flow testing, and operator rollout validation.
+            iOS and Android releases are planned after wallet security QA, recovery-flow testing, and private send UX validation.
           </p>
           <div class="wallet-store-grid" aria-label="Mobile store launch badges">
             <div class="wallet-store-badge" aria-label="Apple App Store coming soon">
@@ -594,8 +484,8 @@
     <div class="wrap footer-row">
       <span>Atho Labs</span>
       <span class="footer-contact">
-        <span class="footer-slogan">Atho — Private. Secure. The Platinum Standard of the Quantum Age</span>
-        <span class="footer-updated">Last updated: April 15, 2026</span>
+        <span class="footer-slogan">Atho. Public or private payments. The Platinum Standard for the Quantum Age.</span>
+        <span class="footer-updated">Last updated: April 18, 2026</span>
         <span>
           To report bugs, security issues, or general inquiries:
           <a href="./contact.html">Contact</a>

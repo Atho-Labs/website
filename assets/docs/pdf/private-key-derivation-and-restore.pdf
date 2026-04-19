@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2603 >>
+<< /Length 2418 >>
 stream
 BT
 /F1 10 Tf
@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-04-05) Tj
+(Date: 2026-04-18) Tj
 T*
 () Tj
 T*
@@ -58,6 +58,26 @@ T*
 (- Src/Wallet/private_receive.py) Tj
 T*
 (- Src/Api/apis.py) Tj
+T*
+() Tj
+T*
+(2026-04-18 Redesign Note) Tj
+T*
+() Tj
+T*
+(Wallet/runtime policy is now payment-only:) Tj
+T*
+(- no active bond address flows) Tj
+T*
+(- no active stake address flows) Tj
+T*
+(- no stake/bond command surface) Tj
+T*
+() Tj
+T*
+(If later sections mention bond/stake derivation, treat that as historical or compatibility) Tj
+T*
+(context rather than the active wallet model.) Tj
 T*
 (- Direct Answers) Tj
 T*
@@ -103,6 +123,19 @@ T*
 T*
 (Practical consequence:) Tj
 T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2426 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- mnemonic restore recreates Falcon/public identity as before,) Tj
 T*
 (- private bundle/x-address can also be regenerated deterministically from the same key) Tj
@@ -123,19 +156,6 @@ T*
 T*
 (- there are meaningful hardening controls \(hash pinning, trusted binary path checks, strict) Tj
 T*
-ET
-endstream
-endobj
-6 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
-endobj
-7 0 obj
-<< /Length 2345 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (byte-length validation, deterministic bundle-binding checks\),) Tj
 T*
 (- but this is not equivalent to a formal cryptographic audit proving unbreakability,) Tj
@@ -166,7 +186,9 @@ T*
 T*
 () Tj
 T*
-(If those match, add_key_from_mnemonic derives same Falcon key and same role-derived addresses.) Tj
+(If those match, add_key_from_mnemonic derives the same Falcon key and the same payment address) Tj
+T*
+(identity.) Tj
 T*
 () Tj
 T*
@@ -218,6 +240,19 @@ T*
 T*
 (- role,) Tj
 T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 2460 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- index,) Tj
 T*
 (- scheme/domain labels.) Tj
@@ -232,27 +267,20 @@ T*
 T*
 (2.4 Address derivation) Tj
 T*
-(After Falcon public key is generated, KeyManager derives role-separated addresses \(regular,) Tj
+(After Falcon public key is generated, KeyManager derives the active payment address identity) Tj
 T*
-(bond, stake\) deterministically from public key + network policy.) Tj
+(\(HPK/Base56\) deterministically from public key + network policy.) Tj
+T*
+() Tj
+T*
+(Legacy role-separated derivations from the bond/stake era are no longer part of the active) Tj
+T*
+(wallet surface.) Tj
 T*
 () Tj
 T*
 (This is why public identity is recoverable with mnemonic import.) Tj
 T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 2494 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- Private Layer Derivation Model) Tj
 T*
 () Tj
@@ -329,6 +357,19 @@ T*
 T*
 (- note commit derivation,) Tj
 T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 2981 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- AES-GCM encryption of seed payload,) Tj
 T*
 (- private output assembly with recipient binding fields.) Tj
@@ -357,19 +398,6 @@ T*
 T*
 (- prior private_note_state.next_counter unless retained in key storage,) Tj
 T*
-ET
-endstream
-endobj
-10 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
-endobj
-11 0 obj
-<< /Length 3279 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- historical *legacy-random* Kyber private bundle identity if that wallet was created before) Tj
 T*
 (deterministic bundle derivation and cannot be safely migrated.) Tj
@@ -446,6 +474,19 @@ T*
 T*
 (A fault in either path can break privacy recovery or spendability. Current code has checks and) Tj
 T*
+ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 2711 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (tests, but still requires operational controls and regression testing per release.) Tj
 T*
 (- Private Flow Gaps Still Missing \(Current\)) Tj
@@ -474,19 +515,6 @@ T*
 T*
 (- Current Test Evidence) Tj
 T*
-ET
-endstream
-endobj
-12 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
-endobj
-13 0 obj
-<< /Length 1742 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 () Tj
 T*
 (Environment execution result in this audit run:) Tj
@@ -562,16 +590,16 @@ xref
 0000000147 00000 n 
 0000000215 00000 n 
 0000000341 00000 n 
-0000002996 00000 n 
-0000003122 00000 n 
-0000005519 00000 n 
-0000005645 00000 n 
-0000008191 00000 n 
-0000008319 00000 n 
-0000011651 00000 n 
-0000011779 00000 n 
+0000002811 00000 n 
+0000002937 00000 n 
+0000005415 00000 n 
+0000005541 00000 n 
+0000008053 00000 n 
+0000008181 00000 n 
+0000011215 00000 n 
+0000011343 00000 n 
 trailer
 << /Size 14 /Root 1 0 R >>
 startxref
-13574
+14107
 %%EOF

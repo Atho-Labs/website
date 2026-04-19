@@ -13,115 +13,115 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2234 >>
+<< /Length 1792 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(Atho Emissions and Fee Routing Policy) Tj
+(Atho Emissions Policy) Tj
 T*
 () Tj
 T*
-(Date: 2026-04-15) Tj
+(Date: 2026-04-18) Tj
 T*
 () Tj
 T*
-(This document defines active monetary policy and fee routing under current consensus constants.) Tj
+(This document is the canonical monetary-policy reference for the current Atho redesign.) Tj
 T*
-(- Accounting Units) Tj
-T*
-(- All consensus accounting is integer-atom based.) Tj
-T*
-(- 1 ATHO = 1,000,000,000 atoms.) Tj
-T*
-(- Reward Schedule \(Current\)) Tj
-T*
-(- Block time target: 120 seconds.) Tj
-T*
-(- Blocks/year: 262,800.) Tj
-T*
-(- Era size: 2,000,000 blocks \(~7.61 years\).) Tj
+(- Summary) Tj
 T*
 () Tj
 T*
-(Pre-tail eras:) Tj
+(Active monetary policy:) Tj
 T*
-(- Era 1: 100 ATHO/block) Tj
+(- 5 decimal precision) Tj
 T*
-(- Era 2: 50 ATHO/block) Tj
+(- 1 ATHO = 100,000 atoms) Tj
 T*
-(- Era 3: 25 ATHO/block) Tj
+(- max supply: 1,000,000,000.00000 ATHO) Tj
 T*
-(- Era 4: 12.5 ATHO/block) Tj
+(- no premine) Tj
 T*
-(- Era 5: 6.25 ATHO/block) Tj
+(- no tail extension) Tj
 T*
-(- Era 6: 3.125 ATHO/block) Tj
+(- no protocol fee burn) Tj
 T*
-(- Era 7: 1.5625 ATHO/block) Tj
+(- no fee-pool routing) Tj
 T*
-(- Era 8: 0.78125 ATHO/block) Tj
+(- initial reward: 100.00000 ATHO/block) Tj
 T*
-() Tj
+(- block time: 120s) Tj
 T*
-(Bootstrap and pre-tail totals:) Tj
+(- blocks per day: 720) Tj
 T*
-(- One-time bootstrap allocation: 781,250 ATHO at block 1.) Tj
-T*
-(- Pre-tail subsidy target: 399,218,750 ATHO.) Tj
-T*
-(- Total pre-tail base target = 399,218,750 + 781,250 = 400,000,000 ATHO.) Tj
-T*
-(- Hard max supply cap = 500,000,000 ATHO.) Tj
-T*
-(- Supply-closure check: 399,218,750 + 781,250 + 100,000,000 = 500,000,000.) Tj
+(- emission duration: 300 years) Tj
 T*
 () Tj
 T*
-(Tail:) Tj
+(The schedule is a deterministic fixed-point daily decay model implemented in monetary_policy.py.) Tj
 T*
-(- Tail reward 0.1953125 ATHO/block from height 17,000,000 onward.) Tj
-T*
-(- Tail activation occurs at ~64.69 years from genesis.) Tj
-T*
-(- Tail annual issuance: 51,328.125 ATHO/year.) Tj
+(- Canonical Constants) Tj
 T*
 () Tj
 T*
-(Hard-cap clipping rule:) Tj
+(Unit Model) Tj
 T*
-(- Subsidy is clipped at coinbase path by remaining cap headroom.) Tj
+(- DECIMALS = 5) Tj
 T*
-(- Once total_emitted_atoms reaches 500,000,000 ATHO, subsidy is 0 for all later heights.) Tj
+(- ATOMS_PER_COIN = 100,000) Tj
 T*
-(- Fee routing/burn/pool accounting remains unchanged \(fees do not mint new supply\).) Tj
-T*
-(- Monetary Anchors) Tj
-T*
-(Atho uses three monetary anchors:) Tj
-T*
-(- 400,000,000 ATHO base issuance path.) Tj
-T*
-(- 500,000,000 ATHO hard max supply cap.) Tj
-T*
-(- 21,000,000 ATHO protected supply floor.) Tj
+(- 1 atom = 0.00001 ATHO) Tj
 T*
 () Tj
 T*
-(Design intent:) Tj
+(Time Model) Tj
 T*
-(- Base path controls deterministic launch distribution.) Tj
+(- BLOCK_TIME_SECONDS = 120) Tj
 T*
-(- Max cap bounds long-run mint expansion.) Tj
+(- BLOCKS_PER_DAY = 720) Tj
 T*
-(- Floor bounds long-run burn pressure.) Tj
+(- BLOCKS_PER_YEAR = 262,980) Tj
 T*
-(- Active Fee Policy) Tj
+(- DAYS_TOTAL = 109,575) Tj
 T*
-(Current constants:) Tj
+(- TOTAL_BLOCKS = 78,894,000) Tj
 T*
-(- FEE_PER_BYTE_ATOMS = 500 \(policy unit is vsize\)) Tj
+() Tj
+T*
+(Supply Model) Tj
+T*
+(- INITIAL_BLOCK_REWARD_ATOMS = 10,000,000) Tj
+T*
+(- INITIAL_BLOCK_REWARD = 100.00000 ATHO) Tj
+T*
+(- INITIAL_DAILY_ISSUANCE = 72,000.00000 ATHO) Tj
+T*
+(- MAX_SUPPLY_ATOMS = 100,000,000,000,000) Tj
+T*
+(- MAX_SUPPLY = 1,000,000,000.00000 ATHO) Tj
+T*
+(- PREMINE_ATOMS = 0) Tj
+T*
+(- TAIL_REWARD = 0) Tj
+T*
+() Tj
+T*
+(Fixed-Point Decay) Tj
+T*
+(- MULTIPLIER_NUM = 999_928_027_050_395_505) Tj
+T*
+(- MULTIPLIER_DEN = 1_000_000_000_000_000_000) Tj
+T*
+(- daily multiplier = 0.999928027050395505) Tj
+T*
+() Tj
+T*
+(This is the corrected multiplier currently enforced in code. Older drafts that used) Tj
+T*
+(999_928_031_682_865_577 / 10^18 are not canonical.) Tj
+T*
+(- Schedule Definition) Tj
 T*
 ET
 endstream
@@ -130,115 +130,115 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 2591 >>
+<< /Length 2481 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(- MIN_TRANSACTION_FEE_ATOMS = 200,000) Tj
+() Tj
 T*
-(- DUST_LIMIT_ATOMS = 20,000 \(1/10 of MIN_TRANSACTION_FEE_ATOMS\)) Tj
-T*
-(- Max block base cap: 3,500,000 bytes) Tj
-T*
-(- Max block weight: 14,000,000) Tj
+(The active schedule is daily_fixed_point_decay_v1.) Tj
 T*
 () Tj
 T*
-(Fee routing:) Tj
+(Conceptually:) Tj
 T*
-(- Pre-tail: 40% of total fees route to consensus pool \(20% miner bucket, 20% stake bucket\).) Tj
+(- Start day 0 with 100.00000 ATHO/block.) Tj
 T*
-(- Post-tail: 55% of total fees route to consensus pool \(25% miner bucket, 30% stake bucket\).) Tj
+(- Hold the same reward for all 720 blocks in that day.) Tj
 T*
-(- At tail, routed non-pool fees \(45%\) are burn-targeted \(100% burn policy\), clipped by) Tj
+(- Apply the fixed-point multiplier once per day.) Tj
 T*
-(supply-floor headroom.) Tj
+(- Preserve remainder carry in integer math so cumulative supply reaches the cap exactly.) Tj
 T*
-() Tj
-T*
-(Supply floor:) Tj
-T*
-(- Effective circulating supply is clipped to never go below 21,000,000 ATHO.) Tj
-T*
-(- Throughput Formulas) Tj
-T*
-(Let:) Tj
-T*
-(- Bv = 3,500,000 effective vbytes per block cap) Tj
-T*
-(- T = 120 seconds) Tj
-T*
-(- Savg = average non-coinbase tx vsize) Tj
+(- After the final scheduled block, block subsidy becomes 0.) Tj
 T*
 () Tj
 T*
-(Then:) Tj
-T*
-(- tx_per_block = Bv / Savg) Tj
-T*
-(- TPS = tx_per_block / T) Tj
-T*
-(- Post-Tail Net Supply Math) Tj
-T*
-(At full block utilization by vbytes:) Tj
-T*
-(- Total fee floor capacity per block = 3,500,000 * 500 = 1,750,000,000 atoms = 1.75 ATHO) Tj
-T*
-(- Annual total fees at full utilization = 459,900 ATHO/year) Tj
-T*
-(- Burnable routed share \(45%\) at full utilization = 206,955 ATHO/year) Tj
+(Implementation shape:) Tj
 T*
 () Tj
 T*
-(Post-tail net annual change:) Tj
-T*
-(- Delta_supply = 51,328.125 - \(206,955 * utilization\)) Tj
+() Tj
 T*
 () Tj
 T*
-(Deflation threshold:) Tj
+() Tj
 T*
-(- utilization ~= 51,328.125 / 206,955 ~= 0.24802 \(24.802%\)) Tj
+(This is consensus-critical integer arithmetic. There is no floating-point issuance math in block) Tj
+T*
+(validation.) Tj
+T*
+(- Emission Milestones) Tj
+T*
+(- Genesis reward: 100.00000 ATHO/block) Tj
+T*
+(- Final scheduled positive-subsidy height: 78,893,999) Tj
+T*
+(- First zero-subsidy height: 78,894,000) Tj
+T*
+(- Emission end day: 109,575) Tj
+T*
+(- Emission end time from genesis: 300.0 years) Tj
+T*
+(- Supply at end of final scheduled day: 1,000,000,000.00000 ATHO) Tj
 T*
 () Tj
 T*
-(Interpretation:) Tj
+(Because there is no premine and no tail reward:) Tj
 T*
-(- <24.802% utilization: inflationary net.) Tj
+(- base supply = max supply) Tj
 T*
-(- =24.802%: neutral net.) Tj
+(- subsidy is positive only during the scheduled decay window) Tj
 T*
-(- >24.802%: deflationary net \(subject to floor clipping\).) Tj
+(- after the cap is reached, supply stays flat) Tj
 T*
-(- Milestones) Tj
-T*
-(- Pre-tail complete at height 16,999,999: 400,000,000 ATHO emitted total.) Tj
-T*
-(- Tail starts at height 17,000,000.) Tj
-T*
-(- Tail subsidy headroom to hard cap: 100,000,000 ATHO.) Tj
-T*
-(- Tail blocks required to exhaust hard-cap headroom: 512,000,000 blocks.) Tj
-T*
-(- Last positive-subsidy height: 528,999,999 \(~2012.94 years from genesis\).) Tj
-T*
-(- First zero-subsidy height after cap clip: 529,000,000 \(~2012.94 years from genesis\).) Tj
-T*
-(- Time from tail start to subsidy shutdown: ~1,948.25 years.) Tj
+(- Sample Checkpoints) Tj
 T*
 () Tj
 T*
-(Supply-floor timing \(burn-enabled scenarios, sustained utilization, current fee policy\):) Tj
+(The table below is code-backed from the active schedule. Circulating Supply is shown at the end) Tj
+T*
+(of the checkpoint day.) Tj
 T*
 () Tj
 T*
-(| Sustained utilization | Post-tail net \(ATHO/year, pre-cap\) | Circulating at hard cap |) Tj
+(| Years | Day | Start-of-Day Reward | Daily Issuance | Circulating Supply |) Tj
 T*
-(Additional blocks from 529,000,000 to floor | Approx years from genesis to floor |) Tj
+(| ---: | ---: | ---: | ---: | ---: |) Tj
 T*
-(|---:|---:|---:|---:|---:|) Tj
+(| 0 | 0 | 100.00000 | 72,000.00000 | 0.00000 |) Tj
+T*
+(| 5 | 1,826 | 87.68430 | 63,132.69514 | 123,266,432.11046 |) Tj
+T*
+(| 10 | 3,652 | 76.88536 | 55,357.46105 | 231,288,606.07414 |) Tj
+T*
+(| 25 | 9,131 | 51.82961 | 37,317.31639 | 481,922,300.51803 |) Tj
+T*
+(| 50 | 18,262 | 26.86308 | 19,341.41809 | 731,663,413.24721 |) Tj
+T*
+(| 100 | 36,525 | 7.21573 | 5,195.32679 | 928,196,600.16474 |) Tj
+T*
+(| 150 | 54,788 | 1.93823 | 1,395.52438 | 980,987,668.92754 |) Tj
+T*
+(| 200 | 73,050 | 0.52066 | 374.88084 | 995,167,580.79691 |) Tj
+T*
+(| 250 | 91,312 | 0.13986 | 100.70454 | 998,976,741.96277 |) Tj
+T*
+(| 295 | 107,749 | 0.04284 | 30.84976 | 999,947,242.06941 |) Tj
+T*
+(| 300 | 109,575 | 0.03758 | 27.05235 | 1,000,000,000.00000 |) Tj
+T*
+(- Fee Policy Under the New Model) Tj
+T*
+() Tj
+T*
+(The current fee model is independent of the emissions curve:) Tj
+T*
+(- FEE_PER_BYTE_ATOMS = 1) Tj
+T*
+(- MIN_TRANSACTION_FEE_ATOMS = 500) Tj
 T*
 ET
 endstream
@@ -247,69 +247,101 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 1353 >>
+<< /Length 1533 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(| 25% | -410.625 | 399,200,000 ATHO | 1,921,015,874 | ~9,322.74 |) Tj
+(- DUST_LIMIT_ATOMS = 1) Tj
 T*
-(| 50% | -52,149.375 | 298,400,000 ATHO | 704,507,937 | ~4,693.71 |) Tj
+(- FEE_BURN_PERCENT = 0) Tj
 T*
-(| 75% | -103,888.125 | 197,600,000 ATHO | 299,005,292 | ~3,150.71 |) Tj
-T*
-(| 100% | -155,626.875 | 96,800,000 ATHO | 96,253,969 | ~2,379.20 |) Tj
+(- FEE_POOL_ENABLE = False) Tj
 T*
 () Tj
 T*
-(Notes:) Tj
+(That means:) Tj
 T*
-(- No-burn scenarios never reach floor by protocol burn logic.) Tj
+(- all transaction fees go directly to the block miner) Tj
 T*
-(- For any burn-enabled utilization above 0%, floor is eventually reached because subsidy becomes) Tj
+(- fees do not mint new supply) Tj
 T*
-(0 after hard-cap clip.) Tj
+(- fees do not destroy supply) Tj
 T*
-(- Coinbase Invariants) Tj
+(- fees do not route into a consensus pool) Tj
 T*
-(Consensus payout invariants:) Tj
-T*
-(- coinbase_outputs_sum_atoms == block_reward_atoms + fees_miner_atoms) Tj
-T*
-(- total_emitted_atoms\(height\) <= 500,000,000 * 1e9 atoms) Tj
+(- What Changed from the Older Model) Tj
 T*
 () Tj
 T*
-(When fee routing is active, blocks carry auditable fields:) Tj
+(Removed from active monetary policy:) Tj
 T*
-(- fees_total_atoms) Tj
+(- 9-decimal atom model) Tj
 T*
-(- fees_miner_atoms) Tj
+(- higher legacy fee floor) Tj
 T*
-(- fees_burned_atoms) Tj
+(- larger legacy minimum tx fee) Tj
 T*
-(- fees_pool_atoms) Tj
+(- larger legacy dust threshold) Tj
 T*
-(- cumulative_burned_atoms) Tj
+(- premine/bootstrap allocation) Tj
 T*
-(- Consensus Change Reminder) Tj
+(- tail reward) Tj
 T*
-(Changing any of the following is consensus-breaking and requires coordinated upgrade:) Tj
+(- supply floor clipping) Tj
 T*
-(- reward schedule,) Tj
+(- burn-based deflation logic) Tj
 T*
-(- hard max supply cap and subsidy clipping rule,) Tj
+(- consensus fee-pool routing) Tj
 T*
-(- tail reward,) Tj
+(- bond/stake-linked monetary side channels) Tj
 T*
-(- fee uplift/routing percents,) Tj
+() Tj
 T*
-(- burn split and floor,) Tj
+(The new model is simpler:) Tj
 T*
-(- fee constants,) Tj
+(- one unit model) Tj
 T*
-(- atom denomination.) Tj
+(- one reward schedule) Tj
+T*
+(- one hard cap) Tj
+T*
+(- one payment-only fee path) Tj
+T*
+(- Consensus-Breaking Changes) Tj
+T*
+() Tj
+T*
+(The following remain consensus-breaking if changed:) Tj
+T*
+(- decimals / atom conversion) Tj
+T*
+(- max supply) Tj
+T*
+(- initial reward) Tj
+T*
+(- multiplier numerator or denominator) Tj
+T*
+(- total scheduled days / blocks) Tj
+T*
+(- fee floor) Tj
+T*
+(- minimum tx fee) Tj
+T*
+(- dust limit) Tj
+T*
+(- confirmation policy when embedded in wallet/node assumptions) Tj
+T*
+(- Code References) Tj
+T*
+(- Src/Utility/monetary_policy.py) Tj
+T*
+(- Src/Utility/const.py) Tj
+T*
+(- Src/Main/consensus.py) Tj
+T*
+(- Src/Main/blockveri.py) Tj
 T*
 ET
 endstream
@@ -322,12 +354,12 @@ xref
 0000000133 00000 n 
 0000000201 00000 n 
 0000000327 00000 n 
-0000002613 00000 n 
-0000002739 00000 n 
-0000005382 00000 n 
-0000005508 00000 n 
+0000002171 00000 n 
+0000002297 00000 n 
+0000004830 00000 n 
+0000004956 00000 n 
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-6913
+6541
 %%EOF

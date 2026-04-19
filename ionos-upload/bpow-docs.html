@@ -3,29 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Atho BPoW deep-dive: constants, state machines, slashing, fee routing, and implementation references.">
-  <title>Atho BPoW Documentation</title>
-  <link rel="canonical" href="https://atho.io/bpow-docs.html">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Atho">
-  <meta property="og:url" content="https://atho.io/bpow-docs.html">
-  <meta property="og:title" content="Atho BPoW Documentation">
-  <meta property="og:description" content="Atho BPoW deep-dive: constants, state machines, slashing, fee routing, and implementation references.">
-  <meta property="og:image" content="https://image.thum.io/get/width/1200/crop/630/https://atho.io/bpow-docs.html">
-  <meta property="og:image:secure_url" content="https://image.thum.io/get/width/1200/crop/630/https://atho.io/bpow-docs.html">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Atho BPoW documentation page preview">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@AthoHQ">
-  <meta name="twitter:title" content="Atho BPoW Documentation">
-  <meta name="twitter:description" content="Atho BPoW deep-dive: constants, state machines, slashing, fee routing, and implementation references.">
-  <meta name="twitter:image" content="https://image.thum.io/get/width/1200/crop/630/https://atho.io/bpow-docs.html">
-  <meta name="twitter:image:alt" content="Atho BPoW documentation page preview">
+  <meta name="robots" content="noindex">
+  <meta name="description" content="Retired Atho page. Bonded PoW references are no longer part of the active protocol.">
+  <title>Atho BPoW Page Retired</title>
+  <link rel="canonical" href="https://atho.io/docs.html#policy-baseline">
   <link rel="icon" type="image/png" href="./assets/media/logo2website.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/css/variables.css">
   <link rel="stylesheet" href="./assets/css/base.css">
   <link rel="stylesheet" href="./assets/css/layout.css">
@@ -37,291 +22,52 @@
   <header class="site-header">
     <div class="wrap nav-shell">
       <a class="brand" href="./home.html#overview" aria-label="Atho home">
-<img class="brand-mark" src="./assets/media/logo2website.png" alt="Atho logo" width="72" height="72" decoding="async">
-        <span class="brand-title">Atho</span>
+        <img class="brand-mark" src="./assets/media/logo2website.png" alt="Atho logo" width="72" height="72" decoding="async">
       </a>
-
-      <div class="header-right">
-        <nav id="main-nav" class="nav-links" data-nav-links>
-          <a class="nav-link" href="#bpow-overview">Overview</a>
-          <a class="nav-link" href="#bpow-why">Why</a>
-          <a class="nav-link" href="#bpow-constants">Constants</a>
-          <a class="nav-link" href="#bpow-lifecycle">Lifecycle</a>
-          <a class="nav-link" href="#bpow-slashing">Slashing</a>
-          <a class="nav-link" href="#bpow-routing">Fee Routing</a>
-          <a class="nav-link" href="#bpow-downloads">Downloads</a>
-        </nav>
-      </div>
-
-      <button class="menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="main-nav" aria-label="Toggle menu">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </button>
-
-      <div class="global-nav-drawer" data-global-drawer>
-        <div class="global-nav-card">
-          <span class="global-nav-title">All Pages</span>
-          <div class="global-nav-grid">
-            <a class="global-nav-link" href="./home.html">Home</a>
-            <a class="global-nav-link" href="./docs.html">Docs</a>
-            <a class="global-nav-link" href="./falcon-512.html">Falcon-512</a>
-            <a class="global-nav-link" href="./join.html">Join</a>
-            <a class="global-nav-link" href="./rewards.html">Rewards</a>
-            <a class="global-nav-link" href="./wallet.html">Wallet</a>
-            <a class="global-nav-link" href="./wallet-hierarchy.html">Wallet Hierarchy</a>
-            <a class="global-nav-link" href="./platinum-shield.html">Platinum Shield</a>
-            <a class="global-nav-link" href="./bpow-docs.html">BPoW</a>
-            <a class="global-nav-link" href="./inflation-deflation.html">Inflation / Deflation</a>
-            <a class="global-nav-link" href="./changelog.html">Changelog</a>
-                        <a class="global-nav-link" href="./roadmap.html">Roadmap</a>
-<a class="global-nav-link" href="./contact.html">Contact</a>
-          </div>
-        </div>
-      </div>
     </div>
   </header>
 
   <main>
-    <section id="bpow-overview" class="section">
-      <div class="wrap hero-grid">
-        <div class="hero-copy" data-reveal>
-          <div class="eyebrow-row">
-            <span class="section-eyebrow section-eyebrow-hot">BPoW Technical Spec</span>
-            <span class="section-eyebrow">Consensus + Economics + Operations</span>
-          </div>
-          <h1>BPoW Documentation Pack (Deep Dive)</h1>
-          <p>
-            This page is the concentrated BPoW reference: why Atho uses Bonded Proof of Work, how miner bond/stake state machines are enforced, what gets slashed, how fees are routed, and how each constant maps to consensus behavior.
-            Content is derived from current source docs: <code>Consensus.md</code>, <code>WhitePaper.md</code>, <code>Emissions.md</code>, and <code>Atho_Final_Specs.md</code>.
+    <section class="section">
+      <div class="wrap cta-shell" data-reveal>
+        <article class="cta-box">
+          <h1 class="cta-title">The BPoW page is retired.</h1>
+          <p class="cta-copy">
+            Atho is still proof of work, but the old bonded proof-of-work model is no longer active. Bonding, staking,
+            slash logic, and role-based payout routing were removed from the current payment-only public/private chain.
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/consensus.pdf" download>Download Consensus PDF</a>
-            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/atho-whitepaper-v3.pdf" download>Download Whitepaper v3</a>
-            <a class="btn btn-primary btn-inline" href="./inflation-deflation.html">Open Inflation / Deflation</a>
-            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/atho-final-specs.pdf" download>Download Final Specs</a>
-            <a class="btn btn-primary btn-inline" href="./docs.html#bpow-docs">Open Docs Hub BPoW Section</a>
+            <a class="btn btn-primary btn-inline" href="./docs.html#policy-baseline">Open Current Baseline</a>
+            <a class="btn btn-ghost btn-inline" href="./home.html">Back to Home</a>
           </div>
-        </div>
+        </article>
 
-        <div class="hero-panel" data-reveal>
-          <div class="card card-pad">
-            <h2 class="panel-title">BPoW At A Glance</h2>
-            <ul class="key-list">
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Enforcement Height</strong>
-                  <span><code>10,000</code> (mainnet/testnet/regnet default).</span>
-                </span>
-              </li>
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Bond Requirement</strong>
-                  <span><code>25 ATHO</code> with <code>25</code> confirmations before active mining eligibility.</span>
-                </span>
-              </li>
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Unbond + Slash</strong>
-                  <span><code>10,080</code>-block unbond delay; slash penalty <code>2.5 ATHO</code>.</span>
-                </span>
-              </li>
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Fee Routing</strong>
-                  <span><code>40%</code> pool pre-tail and <code>55%</code> pool post-tail, with tail-era burn targeting on the <code>45%</code> non-pool path and unchanged routing after subsidy clipping at cap.</span>
-                </span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="bpow-why" class="section">
-      <div class="wrap split-grid">
-        <article class="card card-pad" data-reveal>
-          <h3 class="panel-title">Why BPoW Is Structured This Way</h3>
-          <p>
-            Atho separates security roles to avoid blending validator authority with passive capital participation:
-          </p>
+        <article class="card card-pad">
+          <h2 class="panel-title">What replaced it</h2>
           <ul class="key-list">
-            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Mining security role</strong><span>PoW + active bond state controls block production.</span></span></li>
-            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Wallet staking role</strong><span>Economic participation lane that does not independently grant block-authoring rights.</span></span></li>
-            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Deterministic role separation</strong><span>Address derivation uses domain-separated hashes so one key cannot ambiguously act as multiple consensus roles.</span></span></li>
-            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Launch stability runway</strong><span>Bootstrap allocation at block <code>1</code> and enforcement activation at height <code>10,000</code> provide deterministic onboarding before strict bond-gated production.</span></span></li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Proof of work remains</strong>
+                <span>Block production still uses PoW with the active consensus and transaction rules.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Payment-only public/private UTXO</strong>
+                <span>The live protocol is organized around payments rather than bond or stake participation roles.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Docs hub</strong>
+                <span>Use the docs hub, final specs, and emissions policy for the current chain constants.</span>
+              </span>
+            </li>
           </ul>
         </article>
-
-        <article class="card card-pad" data-reveal>
-          <h3 class="panel-title">Design Objectives</h3>
-          <ul class="key-list">
-            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Auditable economics</strong><span>Every fee path and pool split is deterministic and visible at block level.</span></span></li>
-            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Consensus-safe slashing</strong><span>Slashable only when PoW-valid but consensus-invalid; stale/reorg race losses are non-slashable.</span></span></li>
-            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Supply floor safety</strong><span>Tail burn logic cannot reduce effective circulating supply below <code>21,000,000 ATHO</code>.</span></span></li>
-            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Backend neutrality</strong><span>CPU/GPU miner engines are execution backends only; consensus validity remains engine-independent.</span></span></li>
-          </ul>
-        </article>
-      </div>
-    </section>
-
-    <section id="bpow-constants" class="section">
-      <div class="wrap">
-        <span class="section-eyebrow">Consensus Constants</span>
-        <h2 class="section-title">BPoW constants, thresholds, and economic routing values.</h2>
-        <div class="card card-pad" data-reveal>
-          <pre class="join-code"><code>BPoW enforcement height     = 10,000
-Bond requirement            = 25 ATHO
-Bond activation confs       = 25 blocks
-Unbond delay                = 10,080 blocks
-Slash penalty               = 2.5 ATHO
-Epoch length                = 720 blocks
-Finalization buffer         = 3600 blocks
-Bootstrap allocation        = 781,250 ATHO at block 1
-Pre-tail base target        = 400,000,000 ATHO total
-Hard max supply             = 500,000,000 ATHO (subsidy clipped at cap)
-
-Fee uplift                  = +25%
-Fee routing to pool         = 40% pre-tail / 55% post-tail
-Routed non-pool path        = 60% pre-tail / 45% post-tail
-Pool split (pre-tail)       = 20% miner-side / 20% stake-side
-Pool split (post-tail)      = 25% miner-side / 30% stake-side
-Miner-side split (pre-tail) = 0% winner / 20% bonded-idle
-Miner-side split (post-tail)= 20% winner / 5% bonded-idle
-Tail burn target            = 100% burn on routed non-pool fees
-Supply floor                = 21,000,000 ATHO (floor clipping enforced)
-Post-cap subsidy            = 0 ATHO (fee routing still active)</code></pre>
-        </div>
-      </div>
-    </section>
-
-    <section id="bpow-lifecycle" class="section">
-      <div class="wrap split-grid">
-        <article class="card card-pad" data-reveal>
-          <h3 class="panel-title">Deterministic Role Address Derivation</h3>
-          <p>Role addresses are derived from Falcon public key bytes with domain separation:</p>
-          <pre class="join-code"><code>regular = SHA3-384("ATHO_ADDR_V1"  || network || pubkey)
-bond    = SHA3-384("ATHO_BOND_V1"  || network || pubkey)
-stake   = SHA3-384("ATHO_STAKE_V1" || network || pubkey)</code></pre>
-          <p>
-            Prefixes are network-role specific (<code>A/B/S</code> on mainnet; <code>T/D/E</code> on testnet/regnet), but consensus validates derivation rules, not string prefix alone.
-          </p>
-        </article>
-
-        <article class="card card-pad" data-reveal>
-          <h3 class="panel-title">Bond + Stake State Machines</h3>
-          <pre class="join-code"><code>Bond:  pending -> active -> exiting -> unlockable -> withdrawn
-Stake: pending -> active -> exiting -> unlockable -> withdrawn</code></pre>
-          <p>
-            Both state machines are enforced by deterministic block height + confirmation checks. No transition is accepted if preconditions fail.
-          </p>
-          <ul class="key-list">
-            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Bond top-up behavior</strong><span>If slash reduces bond below threshold, additional bond deposit + confirmations restore eligibility.</span></span></li>
-            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Unbond safety window</strong><span><code>10,080</code> block delay reduces fast-exit attack surface and stabilizes accountability windows.</span></span></li>
-          </ul>
-        </article>
-      </div>
-    </section>
-
-    <section id="bpow-slashing" class="section">
-      <div class="wrap split-grid">
-        <article class="card card-pad" data-reveal>
-          <h3 class="panel-title">Block-Level Miner Proof Requirements</h3>
-          <ul class="key-list">
-            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Required metadata fields</strong><span><code>miner_pubkey</code>, <code>reward_address</code>, <code>miner_signature</code>, and role tag <code>bonded_pow_v1</code>.</span></span></li>
-            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Consensus validation</strong><span>Parent linkage, PoW target, merkle/witness commitments, byte/weight limits, tx validity, coinbase invariants, and active bond eligibility.</span></span></li>
-            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Data stores used</strong><span><code>bond.lmdb</code>, <code>stake.lmdb</code>, and <code>utxo.lmdb</code> feed consensus admission and payout logic.</span></span></li>
-          </ul>
-        </article>
-
-        <article class="card card-pad" data-reveal>
-          <h3 class="panel-title">Slashable vs Non-Slashable Matrix</h3>
-          <p><strong>Slashable</strong>: PoW-valid block that is consensus-invalid (invalid miner signature, invalid bond eligibility, invalid tx validity/structure, payout invariants broken).</p>
-          <p><strong>Not slashable</strong>: stale/orphan valid block from honest race, reorged-out valid block, or late but otherwise valid relay.</p>
-          <p>
-            This distinction is deterministic and specifically designed to avoid punishing honest propagation races.
-          </p>
-        </article>
-      </div>
-    </section>
-
-    <section id="bpow-routing" class="section">
-      <div class="wrap split-grid">
-        <article class="card card-pad" data-reveal>
-          <h3 class="panel-title">Fee Routing + Burn Math</h3>
-          <pre class="join-code"><code>if height &lt; 17_000_000:  # pre-tail
-  pool_share      = total_fees * 0.40
-  routed_non_pool = total_fees * 0.60
-  pool_miner_side = total_fees * 0.20
-  pool_stake_side = total_fees * 0.20
-  miner_winner    = total_fees * 0.00
-  miner_bond_idle = total_fees * 0.20
-else:  # post-tail
-  pool_share      = total_fees * 0.55
-  routed_non_pool = total_fees * 0.45
-  pool_miner_side = total_fees * 0.25
-  pool_stake_side = total_fees * 0.30
-  miner_winner    = total_fees * 0.20
-  miner_bond_idle = total_fees * 0.05
-
-stake_weight_i   = active_stake_i / total_active_stake_epoch
-stake_reward_i   = stake_pool_epoch * stake_weight_i
-
-post_tail_target = burn(100% of routed_non_pool)
-subject_to       = supply_floor_clipping(21,000,000 ATHO)</code></pre>
-          <p>
-            Tail-era burn is clipped by burn headroom so protocol accounting cannot cross the effective circulating floor.
-          </p>
-          <p>
-            Stake rewards are weighted by active stake share inside each settlement window, so payout is proportional to each wallet's percentage of the active stake pool.
-          </p>
-        </article>
-
-        <article class="card card-pad" data-reveal>
-          <h3 class="panel-title">Coinbase + Monetary Invariants</h3>
-          <ul class="key-list">
-            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Atom-level accounting</strong><span>All value math is integer atoms only; display units are presentation-only.</span></span></li>
-            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Coinbase invariant</strong><span><code>coinbase_outputs_sum_atoms == block_reward_atoms + fees_miner_atoms</code>.</span></span></li>
-            <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Auditable fee fields</strong><span><code>fees_total_atoms</code>, <code>fees_miner_atoms</code>, <code>fees_burned_atoms</code>, <code>fees_pool_atoms</code>, <code>cumulative_burned_atoms</code>.</span></span></li>
-          </ul>
-        </article>
-      </div>
-    </section>
-
-    <section id="bpow-downloads" class="section">
-      <div class="wrap">
-        <span class="section-eyebrow">Download Pack</span>
-        <h2 class="section-title">BPoW source references and deep technical downloads.</h2>
-        <div class="feature-grid" data-stagger>
-          <article class="card card-pad feature-card" data-reveal>
-            <h3 class="panel-title">Consensus Spec</h3>
-            <p class="panel-copy">Active constants, BPoW state transitions, slashing rules, fee routing, and invariants.</p>
-            <div class="hero-actions">
-              <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/consensus.pdf" download>Download consensus.pdf</a>
-            </div>
-          </article>
-
-          <article class="card card-pad feature-card" data-reveal>
-            <h3 class="panel-title">Whitepaper v3</h3>
-            <p class="panel-copy">Complete protocol direction including BPoW architecture and rationale.</p>
-            <div class="hero-actions">
-              <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/atho-whitepaper-v3.pdf" download>Download whitepaper v3</a>
-            </div>
-          </article>
-
-          <article class="card card-pad feature-card" data-reveal>
-            <h3 class="panel-title">Monetary + Fee Policy</h3>
-            <p class="panel-copy">Emission schedule, tail economics, routing model, and burn-floor mechanics.</p>
-            <div class="hero-actions">
-              <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/emissions.pdf" download>Download emissions.pdf</a>
-              <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/inflation-deflationary.pdf" download>Download inflation-deflationary.pdf</a>
-            </div>
-          </article>
-        </div>
       </div>
     </section>
   </main>
@@ -330,14 +76,8 @@ subject_to       = supply_floor_clipping(21,000,000 ATHO)</code></pre>
     <div class="wrap footer-row">
       <span>Atho Labs</span>
       <span class="footer-contact">
-        <span class="footer-slogan">Atho — Private. Secure. The Platinum Standard of the Quantum Age</span>
-        <span class="footer-updated">Last updated: April 15, 2026</span>
-        <span>
-          To report bugs, security issues, or general inquiries:
-          <a href="./contact.html">Contact</a>
-          or
-          <a href="mailto:labs@atho.io">labs@atho.io</a>
-        </span>
+        <span class="footer-slogan">Atho. Public or private payments. The Platinum Standard for the Quantum Age.</span>
+        <span class="footer-updated">Last updated: April 18, 2026</span>
       </span>
       <span>&copy; <span data-year></span> Atho Labs. All rights reserved.</span>
     </div>

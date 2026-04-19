@@ -1,50 +1,55 @@
 :root {
-  --brand-50: #ebfff7;
-  --brand-100: #d4fbe9;
-  --brand-200: #a7f4d6;
-  --brand-300: #6fe8bf;
-  --brand-400: #3cd6a1;
-  --brand-500: #09b07f;
-  --brand-600: #038962;
-  --brand-700: #006a4a;
-  --brand-800: #0f4a38;
-  --brand-900: #103b2f;
+  --brand-50: #eefef6;
+  --brand-100: #d7fae8;
+  --brand-200: #aef2cf;
+  --brand-300: #71e0ab;
+  --brand-400: #36c48a;
+  --brand-500: #159565;
+  --brand-600: #0f724d;
+  --brand-700: #0a5238;
+  --brand-800: #072d20;
+  --brand-900: #04120d;
 
-  --accent-cyan-100: #e2f6ff;
-  --accent-cyan-300: #91daff;
-  --accent-cyan-500: #3ab8ee;
-  --accent-blue-600: #2f7bcf;
-  --accent-blue-700: #205ea5;
-  --accent-amber-100: #fff3dc;
-  --accent-amber-300: #ffd38a;
+  --accent-cyan-100: #e6fbff;
+  --accent-cyan-300: #89dbff;
+  --accent-cyan-500: #33afea;
+  --accent-blue-600: #2b74bb;
+  --accent-blue-700: #1f578a;
+  --accent-amber-100: #faedd2;
+  --accent-amber-300: #e3ba72;
+  --accent-amber-500: #bb8640;
 
-  --ink-900: #081712;
-  --ink-700: #1a392f;
-  --ink-600: #33584d;
-  --ink-500: #4d7065;
-  --ink-300: #89a79d;
-  --ink-100: #e6f1ec;
+  --ink-900: #f4fbf7;
+  --ink-800: #eaf6f1;
+  --ink-700: #d4e7de;
+  --ink-600: #adc5ba;
+  --ink-500: #84a095;
+  --ink-300: #547369;
+  --ink-100: #0c1713;
 
-  --bg: #f2f8f4;
-  --bg-muted: #ebf3ee;
-  --surface: #fcfffd;
-  --surface-soft: #f2faf6;
-  --surface-glass: rgba(252, 255, 253, 0.84);
-  --line: #c7dfd3;
-  --line-strong: #87bea7;
+  --bg: #030907;
+  --bg-muted: #07110e;
+  --surface: rgba(10, 19, 16, 0.86);
+  --surface-soft: rgba(14, 28, 22, 0.92);
+  --surface-glass: rgba(8, 18, 14, 0.72);
+  --surface-dark: #050d0a;
+  --line: rgba(154, 195, 176, 0.14);
+  --line-strong: rgba(162, 211, 190, 0.26);
+  --glass-highlight: rgba(244, 252, 247, 0.08);
+  --glass-glow: rgba(75, 201, 154, 0.12);
 
-  --success: #0f9c6d;
-  --warning: #9e7200;
-  --danger: #b43f3f;
+  --success: #13845c;
+  --warning: #9a6c12;
+  --danger: #b14c44;
 
-  --radius-sm: 12px;
-  --radius-md: 18px;
-  --radius-lg: 26px;
+  --radius-sm: 14px;
+  --radius-md: 22px;
+  --radius-lg: 30px;
   --radius-pill: 999px;
 
-  --shadow-soft: 0 10px 24px rgba(9, 45, 35, 0.08);
-  --shadow-mid: 0 16px 42px rgba(9, 39, 30, 0.13);
-  --shadow-pop: 0 22px 54px rgba(8, 34, 26, 0.18);
+  --shadow-soft: 0 22px 48px rgba(1, 7, 6, 0.34);
+  --shadow-mid: 0 30px 64px rgba(1, 7, 6, 0.4);
+  --shadow-pop: 0 38px 88px rgba(1, 7, 6, 0.46);
 
   --space-1: 6px;
   --space-2: 10px;
@@ -55,9 +60,9 @@
   --space-7: 44px;
   --space-8: 64px;
 
-  --max-wrap: 1200px;
+  --max-wrap: 1260px;
 
-  --font-display: "Sora", "Space Grotesk", "Trebuchet MS", sans-serif;
+  --font-display: "Oxanium", "Space Grotesk", "Trebuchet MS", sans-serif;
   --font-body: "Space Grotesk", "Avenir Next", "Segoe UI", sans-serif;
-  --font-mono: "JetBrains Mono", "IBM Plex Mono", "Courier New", monospace;
+  --font-mono: "IBM Plex Mono", "JetBrains Mono", "Courier New", monospace;
 }

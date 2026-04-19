@@ -23,7 +23,7 @@ BT
 T*
 () Tj
 T*
-(Last refresh: 2026-04-10) Tj
+(Last refresh: 2026-04-18) Tj
 T*
 () Tj
 T*
@@ -130,7 +130,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 1766 >>
+<< /Length 1757 >>
 stream
 BT
 /F1 10 Tf
@@ -222,9 +222,9 @@ T*
 T*
 (- block target 120s, retarget 180,) Tj
 T*
-(- tx confirmations 10, private tx confirmations 10, coinbase maturity 150,) Tj
+(- tx confirmations 6, private tx confirmations 6, coinbase maturity 150,) Tj
 T*
-(- fee floor 500 atoms/vB, minimum fee 200,000 atoms.) Tj
+(- fee floor 1 atom/vB, minimum fee 500 atoms.) Tj
 T*
 (- Recommended Release Checklist) Tj
 T*
@@ -280,10 +280,10 @@ xref
 0000000327 00000 n 
 0000002268 00000 n 
 0000002394 00000 n 
-0000004212 00000 n 
-0000004338 00000 n 
+0000004203 00000 n 
+0000004329 00000 n 
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-4881
+4872
 %%EOF

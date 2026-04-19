@@ -4,7 +4,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Count 4 /Kids [4 0 R 6 0 R 8 0 R 10 0 R] >>
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Courier >>
@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 2391 >>
+<< /Length 1963 >>
 stream
 BT
 /F1 10 Tf
@@ -23,25 +23,57 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-04-14) Tj
+(Date: 2026-04-18) Tj
 T*
 () Tj
 T*
-(This document defines active consensus-enforced behavior for blocks, transactions, fee routing,) Tj
+(This document defines the active consensus rules for the current Atho payment-only redesign.) Tj
 T*
-(and BPoW state transitions.) Tj
+(- Active Protocol Profile) Tj
+T*
+() Tj
+T*
+(The active chain is:) Tj
+T*
+(- payment-focused public/private UTXO) Tj
+T*
+(- 5 decimal precision) Tj
+T*
+(- deterministic fixed-point emissions) Tj
+T*
+(- no staking) Tj
+T*
+(- no bonding) Tj
+T*
+(- no BPoW role gating) Tj
+T*
+(- no premine) Tj
+T*
+(- no fee burn) Tj
+T*
+(- no consensus fee-pool routing) Tj
+T*
+() Tj
+T*
+(Anything in older docs that describes stake/bond/BPoW validation, lockup state machines,) Tj
+T*
+(slashing, payout-set routing, or tail-burn economics is historical and not active consensus.) Tj
 T*
 (- Core Constants) Tj
 T*
-(From Src/Utility/const.py:) Tj
+() Tj
+T*
+(From const.py:) Tj
 T*
 (- Block target time: 120 seconds) Tj
 T*
 (- Difficulty retarget interval: 180 blocks) Tj
 T*
-(- Transaction confirmations required: 10 blocks) Tj
+(- Standard transaction confirmations required: 6) Tj
 T*
-(- Coinbase maturity: 150 blocks) Tj
+(- Private transaction confirmations required: 6) Tj
+T*
+(- Coinbase maturity: 150) Tj
 T*
 (- Max block base bytes: 3,500,000) Tj
 T*
@@ -49,140 +81,39 @@ T*
 T*
 (- Max tx policy size \(vsize\): 250,000) Tj
 T*
-(- Fee floor: 500 atoms per policy byte \(vsize\)) Tj
+(- Display precision: 5 decimals) Tj
 T*
-(- Min tx fee: 200,000 atoms) Tj
+(- 1 ATHO = 100,000 atoms) Tj
 T*
-(- Dust limit: 20,000 atoms \(1/10 of min tx fee\)) Tj
+(- Fee floor: 1 atom/vB) Tj
 T*
-(- Pre-tail base supply target: 400,000,000 ATHO) Tj
+(- Minimum transaction fee: 500 atoms) Tj
 T*
-(- Hard max supply cap: 500,000,000 ATHO) Tj
+(- Dust limit: 1 atom) Tj
 T*
-(- Supply floor: 21,000,000 ATHO) Tj
+(- Max supply: 1,000,000,000.00000 ATHO) Tj
 T*
-(- BPoW and Stake Constants) Tj
+(- Premine: 0) Tj
 T*
-(- BPoW enforcement height: 10,000 \(mainnet, testnet, regnet\)) Tj
+(- Supply floor: 0) Tj
 T*
-(- Bond requirement: 25 ATHO) Tj
-T*
-(- Bond activation confirmations: 25) Tj
-T*
-(- Bond unbond delay: 10,080 blocks) Tj
-T*
-(- Slash penalty: 2.5 ATHO) Tj
-T*
-(- Epoch length: 720 blocks) Tj
-T*
-(- Finalization buffer: 3,600 blocks) Tj
-T*
-(- Bootstrap allocation: 781,250 ATHO at block 1) Tj
-T*
-(- Stake minimum: 20 ATHO) Tj
-T*
-(- Stake max per address: 1,000 ATHO) Tj
-T*
-(- Stake max new entry \(rolling window, network-wide\): 50,000 ATHO over 21,600 blocks) Tj
-T*
-(- Stake max total locked \(network-wide\): 75,000,000 ATHO) Tj
-T*
-(- Stake unbond delay: 129,600 blocks \(180 days\)) Tj
-T*
-(- Stake rewards stop on unstake request: true) Tj
+(- Address and Ownership Rules) Tj
 T*
 () Tj
 T*
-(Primary data stores:) Tj
-T*
-(- bond.lmdb for miner bond lifecycle state) Tj
-T*
-(- stake.lmdb for wallet staking lifecycle state) Tj
-T*
-(- utxo.lmdb for standard spendable outputs) Tj
-T*
-() Tj
-T*
-(2.1 Deterministic Role Address Rules) Tj
-T*
-(Consensus role derivation is domain-separated from raw Falcon pubkey bytes:) Tj
+(Active public address role derivation is regular-only:) Tj
 T*
 (- regular: SHA3-384\("ATHO_ADDR_V1" || network || pubkey\)) Tj
 T*
-(- bond: SHA3-384\("ATHO_BOND_V1" || network || pubkey\)) Tj
-T*
-(- stake: SHA3-384\("ATHO_STAKE_V1" || network || pubkey\)) Tj
-T*
 () Tj
 T*
-(Consensus does not trust user-facing string prefix alone. It validates deterministic derivation) Tj
+(Consensus no longer recognizes bond or stake address roles as active ownership classes. Public) Tj
 T*
-(rules plus network role domains.) Tj
-T*
-() Tj
-T*
-(2.2 State Machines) Tj
-T*
-ET
-endstream
-endobj
-6 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
-endobj
-7 0 obj
-<< /Length 2621 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
-(Bond state machine:) Tj
-T*
-(- pending -> active -> exiting -> unlockable -> withdrawn) Tj
-T*
-() Tj
-T*
-(Stake state machine:) Tj
-T*
-(- pending -> active -> exiting -> unlockable -> withdrawn) Tj
-T*
-() Tj
-T*
-(Both are enforced by deterministic height and confirmation checks. No state transition is) Tj
-T*
-(accepted if preconditions fail.) Tj
-T*
-(- Fee Routing and Pool Rules) Tj
-T*
-(- Fee uplift policy: +25%) Tj
-T*
-(- Fee pool routing:) Tj
-T*
-(- pre-tail \(height < 17,000,000\): 40% of total fees \(20% miner-side, 20% stake-side\),) Tj
-T*
-(- post-tail \(height >= 17,000,000\): 55% of total fees \(25% miner-side, 30% stake-side\).) Tj
-T*
-(- Miner-side split:) Tj
-T*
-(- pre-tail: 0% winner-proportional, 20% bonded-idle split \(of total fees\),) Tj
-T*
-(- post-tail: 20% winner-proportional, 5% bonded-idle split \(of total fees\).) Tj
-T*
-(- Burn policy at tail: 100% burn on routed non-pool fees \(45% of total fees at post-tail) Tj
-T*
-(routing, subject to floor clipping\).) Tj
-T*
-() Tj
-T*
-(Consensus-managed pool address is deterministic and network-separated:) Tj
-T*
-(- mainnet: "P" + Base56\(SHA3-384\("ATHO_PROTOCOL_POOL_MAINNET"\)\)) Tj
-T*
-(- testnet: "L" + Base56\(SHA3-384\("ATHO_PROTOCOL_POOL_TESTNET"\)\)) Tj
-T*
-(- regnet: "L" + Base56\(SHA3-384\("ATHO_PROTOCOL_POOL_REGNET"\)\)) Tj
+(UTXO ownership and wallet derivation are payment-only.) Tj
 T*
 (- Transaction Consensus Path) Tj
+T*
+() Tj
 T*
 (Primary code:) Tj
 T*
@@ -192,67 +123,81 @@ T*
 T*
 () Tj
 T*
-(Consensus checks include:) Tj
-T*
-(- canonical serialization/hash consistency,) Tj
-T*
-(- Falcon signature validity,) Tj
-T*
-(- UTXO existence + unspent state,) Tj
-T*
-(- no in-block or mempool double spend,) Tj
-T*
-(- strict integer-atom conservation,) Tj
-T*
-(- fee floor by canonical vsize,) Tj
-T*
-(- role/address consistency checks for bond/stake specific flows,) Tj
-T*
-(- rejection if role-targeted lockup paths do not match derived ownership semantics.) Tj
-T*
-() Tj
-T*
-(Private-layer checks are part of this path:) Tj
-T*
-(- private nullifier uniqueness and replay checks,) Tj
-T*
-(- anchor age + merkle path validation,) Tj
-T*
-(- note ownership/signature checks,) Tj
-T*
-(- product-v1 hidden-amount mode gating,) Tj
-T*
-(- block proof gate validation.) Tj
-T*
-(- Signature and Witness Rules) Tj
-T*
-(- Transport codec is binary \(ATX2; ATX1 decode compatibility\).) Tj
-T*
-(- Witness is processed as bytes in consensus paths.) Tj
-T*
-(- Falcon witness policy:) Tj
-T*
-(- signature bytes in 600..690 \(target 666\)) Tj
-T*
-(- pubkey bytes 897 canonical) Tj
-T*
-(- legacy 1024-byte pubkey acceptance is disabled by default.) Tj
-T*
-(- Block Consensus Path) Tj
-T*
 ET
 endstream
 endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
-9 0 obj
-<< /Length 2401 >>
+7 0 obj
+<< /Length 2066 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
+(Consensus checks include:) Tj
+T*
+(- canonical serialization and hash consistency) Tj
+T*
+(- Falcon signature validity) Tj
+T*
+(- UTXO existence and unspent state) Tj
+T*
+(- no in-block or mempool double spend) Tj
+T*
+(- strict integer conservation in atoms) Tj
+T*
+(- fee floor enforcement by canonical vsize) Tj
+T*
+(- minimum transaction fee enforcement) Tj
+T*
+(- payment-owner derivation consistency) Tj
+T*
+() Tj
+T*
+(Removed from the active path:) Tj
+T*
+(- bond deposits and withdrawals) Tj
+T*
+(- stake deposits and withdrawals) Tj
+T*
+(- bonded miner eligibility checks) Tj
+T*
+(- slash-trigger evaluation) Tj
+T*
+(- bond/stake-specific output role checks) Tj
+T*
+(- Private Layer Rules) Tj
+T*
+() Tj
+T*
+(Private-layer checks remain consensus-critical:) Tj
+T*
+(- private nullifier uniqueness and replay protection) Tj
+T*
+(- anchor age and Merkle path validation) Tj
+T*
+(- note ownership and signature checks) Tj
+T*
+(- block proof-gate validation) Tj
+T*
+() Tj
+T*
+(PrivateTx now inherits the same active monetary and fee profile as public sends:) Tj
+T*
+(- 6 practical confirmations) Tj
+T*
+(- 1 atom/vB fee floor) Tj
+T*
+(- 500 atom minimum transaction fee) Tj
+T*
+(- no special fee-pool or stake-routing behavior) Tj
+T*
+(- Block Consensus Path) Tj
+T*
+() Tj
+T*
 (Primary code:) Tj
 T*
 (- Src/Main/blockveri.py) Tj
@@ -263,198 +208,146 @@ T*
 T*
 (Block acceptance enforces:) Tj
 T*
-(- parent linkage and index continuity,) Tj
+(- parent linkage and index continuity) Tj
 T*
-(- PoW target validation,) Tj
+(- PoW target validation) Tj
 T*
-(- merkle/witness commitment checks,) Tj
+(- merkle and witness-commitment checks) Tj
 T*
-(- byte and weight limits,) Tj
+(- byte and weight limits) Tj
 T*
-(- coinbase payout invariants,) Tj
+(- coinbase payout invariants) Tj
 T*
-(- tx list validity under active tx rules,) Tj
-T*
-(- BPoW miner metadata checks \(miner_pubkey, reward_address, miner_signature, role tag\),) Tj
-T*
-(- active bond eligibility once BPoW is active.) Tj
+(- transaction list validity under active tx rules) Tj
 T*
 () Tj
 T*
-(6.1 Slashable vs Non-Slashable) Tj
+(Removed from the active block path:) Tj
 T*
-(Slashable:) Tj
+(- BPoW miner metadata enforcement) Tj
 T*
-(- PoW-valid block that is consensus-invalid \(miner proof, bond eligibility, tx validity,) Tj
+(- bonded miner role-tag enforcement) Tj
 T*
-(structure, or reward correctness\).) Tj
+(- active-bond eligibility checks) Tj
 T*
-() Tj
-T*
-(Not slashable:) Tj
-T*
-(- stale/orphan valid block from honest race,) Tj
-T*
-(- reorged-out valid block,) Tj
-T*
-(- late but otherwise valid relay.) Tj
+(- stake/bond payout accounting) Tj
 T*
 () Tj
 T*
-(This distinction is deterministic and required for safe slashing enforcement.) Tj
+(The miner signature payload still exists as canonical block metadata, but it is no longer tied) Tj
 T*
-() Tj
-T*
-(6.2 Private Block-Mode TXID Rebinding) Tj
-T*
-(Current miner behavior includes a required canonical txid rebind step after private output) Tj
-T*
-(block-mode conversion:) Tj
-T*
-(- private mempool form uses amount_plain,) Tj
-T*
-(- block form uses amount_commit,) Tj
-T*
-(- miner must recompute tx_id from canonical no-witness payload after conversion.) Tj
-T*
-() Tj
-T*
-(Code path:) Tj
-T*
-(- Src/Transactions/private_layer.py -> transform_v5_outputs_for_block\(...\)) Tj
-T*
-(- Src/Miner/miner.py -> _rederive_block_txid_in_place\(...\)) Tj
-T*
-() Tj
-T*
-(Without this rebind step, block merkle roots can drift from canonical tx content and be rejected) Tj
-T*
-(by block verification.) Tj
+(to bonded-role activation logic.) Tj
 T*
 (- Monetary Invariants) Tj
-T*
-(- All consensus value math is integer atoms.) Tj
-T*
-(- Coinbase payout must match:) Tj
-T*
-(- block subsidy +) Tj
-T*
-(- miner-routed fee share for that height.) Tj
-T*
-(- Hard-cap invariant: total_supply <= 500,000,000 ATHO.) Tj
-T*
-(- Subsidy path is clipped at coinbase so when cap headroom is exhausted:) Tj
-T*
-(- block subsidy becomes 0,) Tj
-T*
-(- fee routing/burn/pool logic remains unchanged.) Tj
-T*
-(- Tail-era floor clipping guarantees effective circulating supply cannot burn below 21,000,000) Tj
-T*
-(ATHO.) Tj
-T*
-(- Pool routing is consensus-accounted independently \(fees_pool_atoms\) and cannot be user-spent) Tj
-T*
-(by arbitrary keys.) Tj
 T*
 ET
 endstream
 endobj
-10 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
-11 0 obj
-<< /Length 2152 >>
+9 0 obj
+<< /Length 2126 >>
 stream
 BT
 /F1 10 Tf
 50 760 Td
 13 TL
-(- Throughput Framing \(Measured\)) Tj
+() Tj
 T*
-(Measured tx-size profile is in Docs/Tx.md.) Tj
+(The active monetary schedule is implemented in monetary_policy.py.) Tj
 T*
 () Tj
 T*
-(Using current measured vectors and policy limits \(3,500,000 vB, 120s\):) Tj
+(Current schedule:) Tj
+T*
+(- kind: daily_fixed_point_decay_v1) Tj
+T*
+(- initial reward: 100.00000 ATHO/block) Tj
+T*
+(- initial daily issuance: 72,000.00000 ATHO/day) Tj
+T*
+(- total scheduled days: 109,575) Tj
+T*
+(- total scheduled blocks: 78,894,000) Tj
+T*
+(- max supply: 1,000,000,000.00000 ATHO) Tj
+T*
+(- corrected daily multiplier: 999_928_027_050_395_505 / 10^18) Tj
+T*
+(- last positive-subsidy height: 78,893,999) Tj
+T*
+(- first zero-subsidy height: 78,894,000) Tj
+T*
+(- tail reward: 0) Tj
 T*
 () Tj
 T*
-(| Flow Shape | vsize | TPS \(ideal\) | TPS \(95% pack\) |) Tj
+(Consensus invariants:) Tj
 T*
-(| --- | ---: | ---: | ---: |) Tj
+(- all value math is integer atoms) Tj
 T*
-(| public 1 in / 2 out | 553 | 52.74 | 50.11 |) Tj
+(- total_emitted_atoms\(height\) <= 100,000,000,000,000) Tj
 T*
-(| public -> private | 2471 | 11.80 | 11.21 |) Tj
+(- block_subsidy_atoms\(78,894,000\) == 0) Tj
 T*
-(| private -> public | 2708 | 10.77 | 10.23 |) Tj
+(- supply stays pinned once the cap is reached) Tj
 T*
-(| private -> private | 4673 | 6.24 | 5.93 |) Tj
-T*
-() Tj
-T*
-(These are policy-capacity estimates. Real throughput depends on tx mix and sustained) Tj
-T*
-(utilization.) Tj
-T*
-(- Engine Independence) Tj
-T*
-(CPU and GPU miners are execution backends only. Consensus validity is engine-independent: a) Tj
-T*
-(valid block verifies identically regardless of mining backend.) Tj
-T*
-(- Audit Snapshot \(2026-04-05\)) Tj
-T*
-(Audit artifacts generated from local sandbox runners:) Tj
-T*
-(- consensus attack audit:) Tj
-T*
-(sandbox/consensus_attack_audit/reports/consensus_attack_audit_20260405_003607.json) Tj
-T*
-(- private attack audit \(v1-updated harness\):) Tj
-T*
-(sandbox/private_tx_attack_audit/reports/private_tx_attack_audit_20260405_003824.json) Tj
-T*
-(- BPoW flow audit: sandbox/bpow_flow_audit/reports/bpow_flow_audit_20260405_003611.json) Tj
+(- coinbase payout must equal block subsidy + miner fee share) Tj
 T*
 () Tj
 T*
-(Observed summary:) Tj
+(Because fee burn and fee-pool routing are disabled, block-fee accounting is simple:) Tj
 T*
-(- consensus attack audit: 15 total, 8 passed, 7 failed.) Tj
+(- fees_miner_atoms = total fees) Tj
 T*
-(- private attack audit: 5000 total, 5000 passed, 0 failed.) Tj
+(- fees_burned_atoms = 0) Tj
 T*
-(- BPoW flow audit: 39 checks, 35 passed, 4 failed.) Tj
+(- fees_pool_atoms = 0) Tj
+T*
+(- Reorg and State Safety) Tj
 T*
 () Tj
 T*
-(Interpretation notes:) Tj
+(Current replay and recovery focus is:) Tj
 T*
-(- consensus audit failures are primarily harness expectation mismatches \(baseline vector) Tj
+(- public/private UTXO correctness) Tj
 T*
-(assumptions\), not an accepted-invalid consensus path.) Tj
+(- private state apply/revert symmetry) Tj
 T*
-(- private attack harness now targets v1 semantics and shows full pass on nullifier/anchor/replay) Tj
+(- atomic tip advancement) Tj
 T*
-(vectors.) Tj
+(- orphan/reorg recovery without legacy bond/stake state rebuilds) Tj
 T*
-(- BPoW failed checks are in slash-activation scenarios where the sandbox run reports) Tj
+() Tj
 T*
-(bpow_inactive.) Tj
+(MAX_REORG_DEPTH_BLOCKS remains active. The legacy consensus finalization buffer is not part of) Tj
+T*
+(active BPoW policy anymore.) Tj
+T*
+(- Throughput Framing) Tj
+T*
+() Tj
+T*
+(Measured tx-size behavior is still workload-dependent and documented separately in Tx.md. The) Tj
+T*
+(payment-only redesign did not change the principle that:) Tj
+T*
+(- public-heavy blocks are much denser than private-heavy blocks) Tj
+T*
+(- fee policy is vsize-based) Tj
+T*
+(- throughput estimates must be workload-specific, not one-number marketing claims) Tj
 T*
 (- Related Docs) Tj
 T*
-(- Network_Stack.md) Tj
+(- Emissions.md) Tj
+T*
+(- Inflation_Deflationary.md) Tj
+T*
+(- Atho_Final_Specs.md) Tj
 T*
 (- Tx.md) Tj
-T*
-(- Sigwit.md) Tj
-T*
-(- Falcon512.md) Tj
-T*
-(- Emissions.md) Tj
 T*
 (- WhitePaper.md) Tj
 T*
@@ -462,21 +355,19 @@ ET
 endstream
 endobj
 xref
-0 12
+0 10
 0000000000 65535 f 
 0000000015 00000 n 
 0000000064 00000 n 
-0000000140 00000 n 
-0000000208 00000 n 
-0000000334 00000 n 
-0000002777 00000 n 
-0000002903 00000 n 
-0000005576 00000 n 
-0000005702 00000 n 
-0000008155 00000 n 
-0000008283 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000002342 00000 n 
+0000002468 00000 n 
+0000004586 00000 n 
+0000004712 00000 n 
 trailer
-<< /Size 12 /Root 1 0 R >>
+<< /Size 10 /Root 1 0 R >>
 startxref
-10488
+6890
 %%EOF

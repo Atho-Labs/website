@@ -13,7 +13,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 1550 >>
+<< /Length 1841 >>
 stream
 BT
 /F1 10 Tf
@@ -23,11 +23,41 @@ BT
 T*
 () Tj
 T*
-(Date: 2026-04-04) Tj
+(Date: 2026-04-18) Tj
 T*
 () Tj
 T*
 (This guide is the canonical setup path for current development builds.) Tj
+T*
+() Tj
+T*
+(0.1\) 2026-04-17 Protocol Redesign Override) Tj
+T*
+(- Payment-focused public/private UTXO chain.) Tj
+T*
+(- Staking, bonding, fee-pool routing, and BPoW payout logic are removed.) Tj
+T*
+(- Monetary precision is 5 decimals.) Tj
+T*
+(- 1 ATHO = 100,000 base units.) Tj
+T*
+(- Dust limit: 1 base unit = 0.00001 ATHO.) Tj
+T*
+(- Fee per byte: 1 base unit = 0.00001 ATHO.) Tj
+T*
+(- Minimum transaction fee: 500 base units = 0.00500 ATHO.) Tj
+T*
+(- Max supply: 1,000,000,000.00000 ATHO.) Tj
+T*
+(- Initial block reward: 100.00000 ATHO.) Tj
+T*
+(- Block time: 120s.) Tj
+T*
+(- Emission schedule uses deterministic fixed-point daily decay:) Tj
+T*
+(- multiplier = 999_928_027_050_395_505 / 10^18) Tj
+T*
+(- emission end height = 78,894,000) Tj
 T*
 (- Prerequisites) Tj
 T*
@@ -93,6 +123,19 @@ T*
 T*
 (2.1 Falcon CLI \(required\)) Tj
 T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 1559 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (Build + auto-register falcon_cli into Binaries/<platform-tag>/:) Tj
 T*
 () Tj
@@ -123,19 +166,6 @@ T*
 T*
 (- FALCON_VERIFY_SO_SHA3_384=<hash>) Tj
 T*
-ET
-endstream
-endobj
-6 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
-endobj
-7 0 obj
-<< /Length 1820 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 () Tj
 T*
 (2.3 TX signing-body native bridge) Tj
@@ -210,6 +240,19 @@ T*
 T*
 (- start full + wallet/API) Tj
 T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1922 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
 (- then add miner role after baseline sync is healthy) Tj
 T*
 () Tj
@@ -224,7 +267,7 @@ T*
 T*
 () Tj
 T*
-(6.1\) Terminal sender + bond/stake flows) Tj
+(6.1\) Terminal sender flows) Tj
 T*
 (- Performance-related runtime knobs) Tj
 T*
@@ -240,19 +283,6 @@ T*
 T*
 (- ATHO_BINARIES_STRICT=1: require canonical binary locations.) Tj
 T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 1031 >>
-stream
-BT
-/F1 10 Tf
-50 760 Td
-13 TL
 (- Basic health checks) Tj
 T*
 (- Common failure points) Tj
@@ -277,17 +307,27 @@ T*
 T*
 (- difficulty retarget interval: 180 blocks) Tj
 T*
-(- transaction confirmations required: 10) Tj
+(- transaction confirmations required: 6) Tj
+T*
+(- private transaction confirmations required: 6) Tj
 T*
 (- coinbase maturity: 150 blocks) Tj
 T*
-(- fee floor: 500 atoms/vB) Tj
+(- fee per byte: 1 atom/vB) Tj
 T*
-(- min tx fee: 200,000 atoms) Tj
+(- min tx fee: 500 atoms) Tj
 T*
-(- BPoW enforcement height: 10,000) Tj
+(- dust limit: 1 atom) Tj
 T*
-(- bond requirement: 25 ATHO) Tj
+(- decimals: 5) Tj
+T*
+(- max supply: 100,000,000,000,000 atoms) Tj
+T*
+(- emission end height: 78,894,000) Tj
+T*
+(- premine: 0) Tj
+T*
+(- consensus mode: payment-only public/private UTXO) Tj
 T*
 () Tj
 T*
@@ -312,12 +352,12 @@ xref
 0000000133 00000 n 
 0000000201 00000 n 
 0000000327 00000 n 
-0000001929 00000 n 
-0000002055 00000 n 
-0000003927 00000 n 
-0000004053 00000 n 
+0000002220 00000 n 
+0000002346 00000 n 
+0000003957 00000 n 
+0000004083 00000 n 
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-5136
+6057
 %%EOF
