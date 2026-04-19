@@ -34,7 +34,7 @@
   <link rel="stylesheet" href="./assets/css/motion.css">
   <link rel="stylesheet" href="./assets/css/responsive.css">
 </head>
-<body>
+<body class="join-page">
   <header class="site-header">
     <div class="wrap nav-shell">
       <a class="brand" href="./home.html#overview" aria-label="Atho home">
@@ -59,14 +59,14 @@
 
       <div class="global-nav-drawer" data-global-drawer>
         <div class="global-nav-card">
-          <span class="global-nav-title">All Pages</span>
           <div class="global-nav-grid">
             <a class="global-nav-link" href="./home.html">Home</a>
             <a class="global-nav-link" href="./docs.html">Docs</a>
             <a class="global-nav-link" href="./wallet.html">Wallet</a>
             <a class="global-nav-link" href="./wallet-hierarchy.html">Wallet Hierarchy</a>
             <a class="global-nav-link" href="./platinum-shield.html">Platinum Shield</a>
-            <a class="global-nav-link" href="./falcon-512.html">Falcon-512</a>
+            <a class="global-nav-link" href="./kyber.html">Kyber</a>
+            <a class="global-nav-link" href="./falcon-512.html">Falcon 512</a>
             <a class="global-nav-link" href="./join.html">Join</a>
             <a class="global-nav-link" href="./changelog.html">Changelog</a>
             <a class="global-nav-link" href="./roadmap.html">Roadmap</a>
@@ -101,37 +101,55 @@
 
         <div class="hero-panel" data-reveal>
           <div class="card card-pad">
-            <h2 class="panel-title">Before you start</h2>
-            <ul class="key-list">
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Select network profile first</strong>
-                  <span>Use <code>ATHO_NETWORK=mainnet|testnet|regnet</code> consistently across launcher, GUI, and CLI tools.</span>
-                </span>
-              </li>
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Python + venv</strong>
-                  <span>Python 3.9+ with an isolated virtual environment is required.</span>
-                </span>
-              </li>
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>API key is mandatory</strong>
-                  <span>Node and CLI actions require API auth headers and permissions.</span>
-                </span>
-              </li>
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Bootstrap runtime before launch</strong>
-                  <span>Use Docker-assisted bootstrap (<code>run.py</code>/<code>build.py</code>) or manual native builds, then verify binary metadata and API auth.</span>
-                </span>
-              </li>
-            </ul>
+            <h2 class="panel-title">Grab these first</h2>
+            <p class="panel-copy">
+              Most join failures come from skipping shell profile setup or API auth. Copy these first, then move into the runbook rows below.
+            </p>
+            <div class="join-copy-grid">
+              <div class="join-copy-shell">
+                <div class="join-copy-head">
+                  <span class="join-copy-label">macOS / Linux network</span>
+                  <button class="join-copy-btn" type="button" data-copy-target="join-hero-network-unix" aria-label="Copy macOS or Linux network setup">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                    <span>Copy</span>
+                  </button>
+                </div>
+                <pre class="join-code" id="join-hero-network-unix"><code>export ATHO_NETWORK=mainnet</code></pre>
+              </div>
+
+              <div class="join-copy-shell">
+                <div class="join-copy-head">
+                  <span class="join-copy-label">PowerShell network</span>
+                  <button class="join-copy-btn" type="button" data-copy-target="join-hero-network-win" aria-label="Copy PowerShell network setup">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                    <span>Copy</span>
+                  </button>
+                </div>
+                <pre class="join-code" id="join-hero-network-win"><code>$env:ATHO_NETWORK="mainnet"</code></pre>
+              </div>
+
+              <div class="join-copy-shell">
+                <div class="join-copy-head">
+                  <span class="join-copy-label">Create API auth</span>
+                  <button class="join-copy-btn" type="button" data-copy-target="join-hero-auth" aria-label="Copy API auth command">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                    <span>Copy</span>
+                  </button>
+                </div>
+                <pre class="join-code" id="join-hero-auth"><code>./.venv/bin/python Src/Api/auth.py</code></pre>
+              </div>
+
+              <div class="join-copy-shell">
+                <div class="join-copy-head">
+                  <span class="join-copy-label">Health check</span>
+                  <button class="join-copy-btn" type="button" data-copy-target="join-hero-health" aria-label="Copy health check command">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                    <span>Copy</span>
+                  </button>
+                </div>
+                <pre class="join-code" id="join-hero-health"><code>curl -H "X-API-Key:&lt;KEY&gt;" -H "X-User:&lt;USER&gt;" -H "X-Pass:&lt;PASS&gt;" http://127.0.0.1:&lt;full_api_port&gt;/chain/info</code></pre>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -139,113 +157,222 @@
 
     <section id="quickstart" class="section">
       <div class="wrap">
-        <span class="section-eyebrow">Setup Steps</span>
-        <h2 class="section-title">Basic setup and manual builds: Docker-first onboarding, then full manual controls</h2>
+        <span class="section-eyebrow">Runbook Order</span>
+        <h2 class="section-title">Follow the join flow in rows and copy exactly what you need.</h2>
         <p class="section-copy">
-          Start with one-command Docker-assisted bootstrap for fastest onboarding, then use the manual path when you need explicit build/runtime control. Both paths share the same network/profile and API-auth requirements.
+          This page is arranged in order: fastest start, shell baseline, manual build path, key setup, private checks,
+          then runtime verification and common fixes.
         </p>
-        <div class="feature-grid">
-          <article class="card card-pad feature-card" data-reveal>
-            <h3>One-click minimum-hassle (Docker-first, recommended)</h3>
-            <p>Start here first. Docker provides reproducible bootstrap/build artifacts, while runtime execution still runs natively on your host.</p>
-            <pre class="join-code"><code># macOS / Linux
-git clone &lt;repo-url&gt;
+        <div class="join-runbook-stack">
+          <article class="card card-pad join-runbook-row" data-reveal>
+            <div class="join-row-head">
+              <span class="feature-tag">Step 1</span>
+              <h3>Fastest start</h3>
+              <p class="panel-copy">
+                Use the Docker-assisted path first if you want the shortest path to a working local setup. It handles bootstrap/build work while leaving runtime execution on your host.
+              </p>
+            </div>
+            <div class="join-row-grid">
+              <div class="join-note-grid">
+                <article class="join-note-card">
+                  <strong>Best for</strong>
+                  <span>First-time operators who want a clean path with the fewest moving parts.</span>
+                </article>
+                <article class="join-note-card">
+                  <strong>What it does</strong>
+                  <span>Builds runtime artifacts, validates manifests, and moves straight into the normal Atho startup flow.</span>
+                </article>
+                <article class="join-note-card">
+                  <strong>What you still need</strong>
+                  <span>Git, Python 3.9+, Docker Desktop or Docker Engine, and API auth after bootstrap.</span>
+                </article>
+              </div>
+              <div class="join-copy-grid">
+                <div class="join-copy-shell">
+                  <div class="join-copy-head">
+                    <span class="join-copy-label">macOS / Linux</span>
+                    <button class="join-copy-btn" type="button" data-copy-target="join-fast-mac" aria-label="Copy quickstart for macOS or Linux">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                      <span>Copy</span>
+                    </button>
+                  </div>
+                  <pre class="join-code" id="join-fast-mac"><code>git clone &lt;repo-url&gt;
 cd &lt;repo-dir&gt;
-python3 run.py mainnet
+python3 run.py mainnet</code></pre>
+                </div>
 
-# Windows PowerShell
-git clone &lt;repo-url&gt;
+                <div class="join-copy-shell">
+                  <div class="join-copy-head">
+                    <span class="join-copy-label">Windows PowerShell</span>
+                    <button class="join-copy-btn" type="button" data-copy-target="join-fast-win" aria-label="Copy quickstart for Windows PowerShell">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                      <span>Copy</span>
+                    </button>
+                  </div>
+                  <pre class="join-code" id="join-fast-win"><code>git clone &lt;repo-url&gt;
 cd &lt;repo-dir&gt;
 py -3 run.py mainnet</code></pre>
-            <ul class="key-list">
-              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>What it does</strong><span>Bootstraps runtime artifacts, validates manifests, and launches GUI-first onboarding.</span></span></li>
-              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>One-command path</strong><span>Use <code>python run.py &lt;network&gt;</code> for the fastest clean setup.</span></span></li>
-            </ul>
-            <span class="feature-tag">Recommended</span>
+                </div>
+              </div>
+            </div>
           </article>
 
-          <article class="card card-pad feature-card" data-reveal>
-            <h3>Basic setup checklist (required for Docker and manual paths)</h3>
-            <ul class="key-list">
-              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Install prerequisites</strong><span>Git + Python 3.9+ + Docker Desktop/Engine before first bootstrap.</span></span></li>
-              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Set network explicitly</strong><span>Use <code>mainnet</code>, <code>testnet</code>, or <code>regnet</code> consistently across launcher and CLI.</span></span></li>
-              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Run API auth once</strong><span>Create credentials before normal wallet/node operations.</span></span></li>
-            </ul>
-            <pre class="join-code"><code># set network profile for shell-based commands
-export ATHO_NETWORK=mainnet
+          <article class="card card-pad join-runbook-row" data-reveal>
+            <div class="join-row-head">
+              <span class="feature-tag">Step 2</span>
+              <h3>Baseline shell setup</h3>
+              <p class="panel-copy">
+                Set your network, create the virtual environment if needed, then create API auth before normal wallet or node operations.
+              </p>
+            </div>
+            <div class="join-row-grid">
+              <div class="join-note-grid">
+                <article class="join-note-card">
+                  <strong>Networks</strong>
+                  <span>Use <code>mainnet</code>, <code>testnet</code>, or <code>regnet</code> consistently in launcher, CLI, and scripts.</span>
+                </article>
+                <article class="join-note-card">
+                  <strong>venv rule</strong>
+                  <span>Keep Atho inside one isolated environment so auth, wallet, and node tools all use the same packages.</span>
+                </article>
+                <article class="join-note-card">
+                  <strong>Auth rule</strong>
+                  <span>401 and 403 errors usually mean the auth step was skipped or stale headers are being reused.</span>
+                </article>
+              </div>
+              <div class="join-copy-grid">
+                <div class="join-copy-shell">
+                  <div class="join-copy-head">
+                    <span class="join-copy-label">Set network</span>
+                    <button class="join-copy-btn" type="button" data-copy-target="join-network-shell" aria-label="Copy shell network setup">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                      <span>Copy</span>
+                    </button>
+                  </div>
+                  <pre class="join-code" id="join-network-shell"><code>export ATHO_NETWORK=mainnet
+$env:ATHO_NETWORK="mainnet"</code></pre>
+                </div>
 
-# Windows PowerShell
-$env:ATHO_NETWORK="mainnet"
-
-# create API credentials
-./.venv/bin/python Src/Api/auth.py</code></pre>
-            <span class="feature-tag">Required</span>
-          </article>
-
-          <article class="card card-pad feature-card" data-reveal>
-            <h3>Manual build path (advanced / full control)</h3>
-            <p>Use this when you want explicit control of bootstrap/build stages and non-GUI backend startup.</p>
-            <pre class="join-code"><code>git clone &lt;repo-url&gt;
-cd &lt;repo-dir&gt;
-python3 -m venv .venv
-
-# macOS / Linux
+                <div class="join-copy-shell">
+                  <div class="join-copy-head">
+                    <span class="join-copy-label">Create venv</span>
+                    <button class="join-copy-btn" type="button" data-copy-target="join-venv-setup" aria-label="Copy virtual environment setup">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                      <span>Copy</span>
+                    </button>
+                  </div>
+                  <pre class="join-code" id="join-venv-setup"><code>python3 -m venv .venv
 source .venv/bin/activate
+python -m pip install --upgrade pip setuptools wheel</code></pre>
+                </div>
 
-# Windows PowerShell alternative
-# .venv\Scripts\Activate.ps1
+                <div class="join-copy-shell">
+                  <div class="join-copy-head">
+                    <span class="join-copy-label">Create API auth</span>
+                    <button class="join-copy-btn" type="button" data-copy-target="join-api-auth" aria-label="Copy API auth setup">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                      <span>Copy</span>
+                    </button>
+                  </div>
+                  <pre class="join-code" id="join-api-auth"><code>./.venv/bin/python Src/Api/auth.py</code></pre>
+                </div>
 
-python -m pip install --upgrade pip setuptools wheel
-python -m pip install -r requirements.txt
-
-# bootstrap artifacts via build pipeline
-python build.py --network mainnet
-
-# optional: start backend without GUI
-python run.py mainnet --no-gui</code></pre>
-            <span class="feature-tag">Manual Build</span>
-          </article>
-
-          <article class="card card-pad feature-card" data-reveal>
-            <h3>Basic errors you will hit first</h3>
-            <p>These are the most common onboarding failures in both Docker-first and manual paths.</p>
-            <ul class="key-list">
-              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong><code>docker</code> command not found</strong><span>Install Docker Desktop/Engine, restart terminal, re-run <code>python run.py mainnet</code>.</span></span></li>
-              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Docker daemon unavailable</strong><span>Start Docker service/app, wait until healthy, then re-run bootstrap.</span></span></li>
-              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Python/venv mismatch</strong><span>Recreate <code>.venv</code> and reinstall <code>requirements.txt</code>.</span></span></li>
-              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Native toolchain missing (manual path)</strong><span>Install host build prerequisites from <code>build-prereqs.md</code> and rerun <code>python build.py --network &lt;network&gt;</code>.</span></span></li>
-              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>401/403 API responses</strong><span>Recreate API credentials with <code>Src/Api/auth.py</code> and retry with valid headers.</span></span></li>
-            </ul>
-            <span class="feature-tag">Common Errors</span>
-          </article>
-
-          <article class="card card-pad feature-card" data-reveal>
-            <h3>API Auth + Validation</h3>
-            <p>Create credentials once, then verify API chain status before routine operation.</p>
-            <pre class="join-code"><code>curl -H "X-API-Key:&lt;KEY&gt;" \
+                <div class="join-copy-shell">
+                  <div class="join-copy-head">
+                    <span class="join-copy-label">Check chain info</span>
+                    <button class="join-copy-btn" type="button" data-copy-target="join-chain-check" aria-label="Copy chain info check">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                      <span>Copy</span>
+                    </button>
+                  </div>
+                  <pre class="join-code" id="join-chain-check"><code>curl -H "X-API-Key:&lt;KEY&gt;" \
   -H "X-User:&lt;USER&gt;" \
   -H "X-Pass:&lt;PASS&gt;" \
   http://127.0.0.1:&lt;full_api_port&gt;/chain/info</code></pre>
-            <span class="feature-tag">Validation</span>
+                </div>
+              </div>
+            </div>
           </article>
 
-          <article class="card card-pad feature-card" data-reveal>
-            <h3>Falcon + Kyber References</h3>
-            <p>Official references for Atho’s signature and KEM hardening stack.</p>
+          <article class="card card-pad join-runbook-row" data-reveal>
+            <div class="join-row-head">
+              <span class="feature-tag">Step 3</span>
+              <h3>Manual build path</h3>
+              <p class="panel-copy">
+                Use this path when you want full control over bootstrap, dependency installation, and backend startup without relying on the fastest Docker-first flow.
+              </p>
+            </div>
+            <div class="join-row-grid">
+              <div class="join-note-grid">
+                <article class="join-note-card">
+                  <strong>Use this when</strong>
+                  <span>You want to control each build stage directly or you are working on a host where Docker is not the preferred path.</span>
+                </article>
+                <article class="join-note-card">
+                  <strong>Critical step</strong>
+                  <span>Do not skip the dependency install and build pipeline before trying backend-only launch.</span>
+                </article>
+                <article class="join-note-card">
+                  <strong>Common failure</strong>
+                  <span>Missing toolchain or stale `.venv` state causes more manual-path failures than anything else.</span>
+                </article>
+              </div>
+              <div class="join-copy-grid">
+                <div class="join-copy-shell">
+                  <div class="join-copy-head">
+                    <span class="join-copy-label">Clone + install</span>
+                    <button class="join-copy-btn" type="button" data-copy-target="join-manual-install" aria-label="Copy manual install path">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                      <span>Copy</span>
+                    </button>
+                  </div>
+                  <pre class="join-code" id="join-manual-install"><code>git clone &lt;repo-url&gt;
+cd &lt;repo-dir&gt;
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip setuptools wheel
+python -m pip install -r requirements.txt</code></pre>
+                </div>
+
+                <div class="join-copy-shell">
+                  <div class="join-copy-head">
+                    <span class="join-copy-label">Build pipeline</span>
+                    <button class="join-copy-btn" type="button" data-copy-target="join-manual-build" aria-label="Copy manual build pipeline">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                      <span>Copy</span>
+                    </button>
+                  </div>
+                  <pre class="join-code" id="join-manual-build"><code>python build.py --network mainnet
+./.venv/bin/python Src/Falcon/Falcon/install_platform_binary.py</code></pre>
+                </div>
+
+                <div class="join-copy-shell">
+                  <div class="join-copy-head">
+                    <span class="join-copy-label">Backend without GUI</span>
+                    <button class="join-copy-btn" type="button" data-copy-target="join-manual-runtime" aria-label="Copy backend launch without GUI">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                      <span>Copy</span>
+                    </button>
+                  </div>
+                  <pre class="join-code" id="join-manual-runtime"><code>python run.py mainnet --no-gui</code></pre>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card card-pad join-runbook-row" data-reveal>
+            <div class="join-row-head">
+              <span class="feature-tag">References</span>
+              <h3>Keep the source docs close</h3>
+              <p class="panel-copy">
+                Use the docs hub for troubleshooting, and use the official Falcon and Kyber references when you want the upstream cryptography context.
+              </p>
+            </div>
             <div class="hero-actions">
+              <a class="btn btn-primary btn-inline" href="./docs.html#docs-index">Search Documentation</a>
               <a class="btn btn-primary btn-inline" href="https://falcon-sign.info/" target="_blank" rel="noopener noreferrer">Falcon Reference</a>
               <a class="btn btn-primary btn-inline" href="https://pq-crystals.org/kyber/" target="_blank" rel="noopener noreferrer">Kyber Reference</a>
             </div>
-            <span class="feature-tag">References</span>
-          </article>
-
-          <article class="card card-pad feature-card" data-reveal>
-            <h3>Troubleshooting First Path</h3>
-            <p>Use troubleshooting docs for startup/auth/sync issues before deeper recovery actions.</p>
-            <div class="hero-actions">
-              <a class="btn btn-primary btn-inline" href="./docs.html#docs-index">Open Troubleshooting Docs</a>
-            </div>
-            <span class="feature-tag">Recovery</span>
           </article>
         </div>
       </div>
@@ -254,64 +381,96 @@ python run.py mainnet --no-gui</code></pre>
     <section id="key-manager" class="section">
       <div class="wrap">
         <span class="section-eyebrow">Key Management</span>
-        <h2 class="section-title">After bootstrap (Docker-first or manual), run key manager before normal wallet/miner use.</h2>
+        <h2 class="section-title">Run key manager before normal wallet or miner use.</h2>
         <p class="section-copy">
-          This is the required step between dependency setup and ongoing node operation. Create or import keys first, then confirm defaults and wallet security policy so send/mining flows have valid signing material.
+          Create or import signing material first, then confirm the default key and wallet security policy before you
+          try normal send, receive, or miner flows.
         </p>
-        <div class="feature-grid">
-          <article class="card card-pad feature-card" data-reveal>
-            <h3>Recommended order (fast path)</h3>
-            <ol class="join-step-list">
-              <li>Finish <code>venv</code>, dependencies, native binary build/register, and API key setup.</li>
-              <li>Open CLI wallet/key manager and generate a mnemonic-backed key (default 24 words).</li>
-              <li>Confirm addresses/default key, then start nodes and verify API health.</li>
-            </ol>
-            <pre class="join-code"><code>source .venv/bin/activate
+        <div class="join-runbook-stack">
+          <article class="card card-pad join-runbook-row" data-reveal>
+            <div class="join-row-head">
+              <span class="feature-tag">Step 4</span>
+              <h3>Create your first wallet record</h3>
+              <p class="panel-copy">
+                The safest first run is a mnemonic-backed key, then an address check, then a balance check after the node and API are healthy.
+              </p>
+            </div>
+            <div class="join-row-grid">
+              <div class="join-note-grid">
+                <article class="join-note-card">
+                  <strong>Recommended order</strong>
+                  <span>Finish bootstrap, enter the CLI wallet tool, create a mnemonic key, confirm addresses, then start normal operations.</span>
+                </article>
+                <article class="join-note-card">
+                  <strong>Why first</strong>
+                  <span>Wallet and miner flows are blocked until a valid default signing identity exists for the active network.</span>
+                </article>
+                <article class="join-note-card">
+                  <strong>Lockbox option</strong>
+                  <span>After creation, you can switch the wallet into password + AES lockbox mode with the Kyber-backed recovery path.</span>
+                </article>
+              </div>
+              <div class="join-copy-grid">
+                <div class="join-copy-shell">
+                  <div class="join-copy-head">
+                    <span class="join-copy-label">CLI wallet bootstrap</span>
+                    <button class="join-copy-btn" type="button" data-copy-target="join-wallet-bootstrap" aria-label="Copy wallet bootstrap commands">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                      <span>Copy</span>
+                    </button>
+                  </div>
+                  <pre class="join-code" id="join-wallet-bootstrap"><code>source .venv/bin/activate
 ./.venv/bin/python Src/GUI/cliui.py
-# in CLI:
+
+# inside the Atho CLI
 wallet new 24
 wallet addresses
 wallet balance</code></pre>
-            <span class="feature-tag">Run Order</span>
+                </div>
+              </div>
+            </div>
           </article>
 
-          <article class="card card-pad feature-card" data-reveal>
-            <h3>Manage keys in GUI or CLI</h3>
-            <p>Use GUI Wallet tab for visual control, or CLI tools for operator scripting and precision changes.</p>
-            <pre class="join-code"><code>./.venv/bin/python Src/Accounts/change_default_key.py list
+          <article class="card card-pad join-runbook-row" data-reveal>
+            <div class="join-row-head">
+              <span class="feature-tag">Step 5</span>
+              <h3>Manage default keys and imported identities</h3>
+              <p class="panel-copy">
+                Use the GUI when you want the visual workflow. Use the CLI helpers when you need repeatable operator control over defaults, renames, imports, and deletes.
+              </p>
+            </div>
+            <div class="join-row-grid">
+              <div class="join-note-grid">
+                <article class="join-note-card">
+                  <strong>Supported actions</strong>
+                  <span>Create, recover, import, export, rename, set default, and remove stale records per network.</span>
+                </article>
+                <article class="join-note-card">
+                  <strong>Safety rule</strong>
+                  <span>Keep the correct default key on the correct network so wallet sends and mining flows do not sign under the wrong identity.</span>
+                </article>
+                <article class="join-note-card">
+                  <strong>Security stack</strong>
+                  <span>Wallet lockbox mode uses Argon2id, AES 256 GCM, and the Kyber-backed DEK recovery path already described on the wallet and Kyber pages.</span>
+                </article>
+              </div>
+              <div class="join-copy-grid">
+                <div class="join-copy-shell">
+                  <div class="join-copy-head">
+                    <span class="join-copy-label">Key management CLI</span>
+                    <button class="join-copy-btn" type="button" data-copy-target="join-key-cli" aria-label="Copy key management CLI commands">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                      <span>Copy</span>
+                    </button>
+                  </div>
+                  <pre class="join-code" id="join-key-cli"><code>./.venv/bin/python Src/Accounts/change_default_key.py list
 ./.venv/bin/python Src/Accounts/change_default_key.py set-default --network &lt;mainnet|testnet|regnet&gt; --id miner_1
 ./.venv/bin/python Src/Accounts/change_default_key.py rename --network &lt;network&gt; --old miner_1 --new validator_main
 ./.venv/bin/python Src/Accounts/change_default_key.py import --network &lt;network&gt; --id import_1 --file /path/to/key.txt
 ./.venv/bin/python Src/Accounts/change_default_key.py delete --network &lt;network&gt; --key import_1</code></pre>
-            <span class="feature-tag">GUI + CLI</span>
-          </article>
-
-          <article class="card card-pad feature-card" data-reveal>
-            <h3>Key manager / wallet features</h3>
-            <ul class="key-list">
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Create, recover, import, export</strong>
-                  <span>Mnemonic-backed keys (12/24/48 words), deterministic recovery, and wallet import/export support.</span>
-                </span>
-              </li>
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Rename, delete, set default</strong>
-                  <span>Manage active wallet identities per network (`mainnet`, `testnet`, `regnet`) with safe default handling.</span>
-                </span>
-              </li>
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Wallet lockbox security</strong>
-                  <span>Password + AES-256-GCM with Kyber-backed unlock workflow, lock/unlock, password change, and encrypted backup/export controls.</span>
-                </span>
-              </li>
-            </ul>
-            <span class="feature-tag">Security + Control</span>
+                </div>
+              </div>
+            </div>
           </article>
         </div>
       </div>
@@ -325,37 +484,47 @@ wallet balance</code></pre>
           This runbook focuses on Platinum Shield behavior in testnet: prove all three send directions, confirm replay resistance,
           and verify note/nullifier state transitions across mempool, block inclusion, and post-apply reconciliation.
         </p>
-        <div class="feature-grid">
-          <article class="card card-pad feature-card" data-reveal>
-            <h3>Flow Matrix to Execute</h3>
-            <ul class="key-list">
-              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Public -> Private</strong><span>Fund private notes from public UTXOs and verify commitment/payload creation.</span></span></li>
-              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Private -> Private</strong><span>Spend by nullifier and confirm pending_spend -> spent transitions after block confirmation.</span></span></li>
-              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Private -> Public</strong><span>Return value to public UTXO outputs and verify accounting parity.</span></span></li>
-            </ul>
-            <span class="feature-tag">Required</span>
-          </article>
-
-          <article class="card card-pad feature-card" data-reveal>
-            <h3>Security Assertions</h3>
-            <ul class="key-list">
-              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Replay protection</strong><span>Network-domain separated materials reject cross-network replay attempts.</span></span></li>
-              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Nullifier uniqueness</strong><span>Duplicate nullifiers fail in mempool and block validation paths.</span></span></li>
-              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Bundle integrity</strong><span>X-address hash checks match bundle metadata on receive/validation.</span></span></li>
-            </ul>
-            <span class="feature-tag">Fail-Closed</span>
-          </article>
-
-          <article class="card card-pad feature-card" data-reveal>
-            <h3>Operator Log Domains</h3>
-            <ul class="key-list">
-              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Private mempool events</strong><span>Track admit/reject reasons for private and hybrid transactions.</span></span></li>
-              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Block private-tx outcomes</strong><span>Record inclusion/failure reasons during block assembly and validation.</span></span></li>
-              <li class="key-item"><span class="key-bullet" aria-hidden="true"></span><span><strong>Reconciliation trail</strong><span>Audit private note state transitions and nullifier index updates post-apply.</span></span></li>
-            </ul>
-            <div class="hero-actions">
-              <a class="btn btn-primary btn-inline" href="./platinum-shield.html#security-controls">Privacy Controls</a>
-              <a class="btn btn-primary btn-inline" href="./docs.html#privacy-docs">Privacy Docs</a>
+        <div class="join-runbook-stack">
+          <article class="card card-pad join-runbook-row" data-reveal>
+            <div class="join-row-head">
+              <span class="feature-tag">Step 6</span>
+              <h3>Private testnet checklist</h3>
+              <p class="panel-copy">
+                Run the three value-flow directions, confirm the safety assertions, then read the logs that prove the state transitions happened where they should.
+              </p>
+            </div>
+            <div class="join-row-grid">
+              <div class="join-note-grid">
+                <article class="join-note-card">
+                  <strong>Public -> Private</strong>
+                  <span>Fund private notes from public UTXOs and confirm commitment and encrypted payload creation.</span>
+                </article>
+                <article class="join-note-card">
+                  <strong>Private -> Private</strong>
+                  <span>Spend by nullifier and confirm pending-spend to spent transitions after a block lands.</span>
+                </article>
+                <article class="join-note-card">
+                  <strong>Private -> Public</strong>
+                  <span>Release value back into public outputs and check the accounting path for parity.</span>
+                </article>
+                <article class="join-note-card">
+                  <strong>Replay protection</strong>
+                  <span>Cross-network replay attempts and duplicate nullifiers must fail in mempool and block validation.</span>
+                </article>
+                <article class="join-note-card">
+                  <strong>Bundle integrity</strong>
+                  <span>X-address and bundle-hash checks must remain aligned on the receive and validation paths.</span>
+                </article>
+                <article class="join-note-card">
+                  <strong>Operator logs</strong>
+                  <span>Watch private mempool admits, block private-tx outcomes, and post-apply reconciliation state changes.</span>
+                </article>
+              </div>
+              <div class="hero-actions join-inline-actions">
+                <a class="btn btn-primary btn-inline" href="./platinum-shield.html#security-controls">Privacy Controls</a>
+                <a class="btn btn-primary btn-inline" href="./docs.html#privacy-docs">Privacy Docs</a>
+                <a class="btn btn-primary btn-inline" href="./kyber.html">Kyber Page</a>
+              </div>
             </div>
           </article>
         </div>
@@ -364,156 +533,168 @@ wallet balance</code></pre>
 
     <section id="verify" class="section">
       <div class="wrap">
-        <div class="split-grid">
-          <article class="card card-pad" data-reveal>
-            <h3 class="panel-title">Runtime signals to watch</h3>
-            <ul class="key-list">
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
+        <span class="section-eyebrow">Runtime Checks</span>
+        <h2 class="section-title">Verify node health fast and keep the most common fixes close.</h2>
+        <p class="section-copy">
+          Check runtime health first, then use the copied one-line fixes for auth, venv, binaries, and stale processes before you dig deeper.
+        </p>
+        <div class="join-runbook-stack">
+          <article class="card card-pad join-runbook-row" data-reveal>
+            <div class="join-row-head">
+              <span class="feature-tag">Step 7</span>
+              <h3>Runtime signals to watch</h3>
+              <p class="panel-copy">
+                Peer handshakes, sync height movement, and clean process state are the fastest proof that the environment is usable.
+              </p>
+            </div>
+            <div class="join-row-grid">
+              <div class="join-note-grid">
+                <article class="join-note-card">
                   <strong>Peer handshake</strong>
-                  <span>Look for `handshake_ok` and connected peers in network logs.</span>
-                </span>
-              </li>
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
+                  <span>Look for <code>handshake_ok</code> and active peers in the network logs.</span>
+                </article>
+                <article class="join-note-card">
                   <strong>Sync progression</strong>
-                  <span>Tip height should move toward network best known chain.</span>
-                </span>
-              </li>
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Node process health</strong>
-                  <span>Use `stop.py --active` to verify running node PIDs and detect stale starts.</span>
-                </span>
-              </li>
-            </ul>
+                  <span>Tip height should keep moving toward the best known chain instead of stalling immediately.</span>
+                </article>
+                <article class="join-note-card">
+                  <strong>Process health</strong>
+                  <span>Use the node stop helper to catch stale background processes and port conflicts before deeper debugging.</span>
+                </article>
+              </div>
+              <div class="join-copy-grid">
+                <div class="join-copy-shell">
+                  <div class="join-copy-head">
+                    <span class="join-copy-label">List active nodes</span>
+                    <button class="join-copy-btn" type="button" data-copy-target="join-verify-active" aria-label="Copy list active nodes command">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                      <span>Copy</span>
+                    </button>
+                  </div>
+                  <pre class="join-code" id="join-verify-active"><code>./.venv/bin/python Src/Main/stop.py --active</code></pre>
+                </div>
+
+                <div class="join-copy-shell">
+                  <div class="join-copy-head">
+                    <span class="join-copy-label">Stop stale nodes</span>
+                    <button class="join-copy-btn" type="button" data-copy-target="join-verify-stop" aria-label="Copy stop stale nodes command">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                      <span>Copy</span>
+                    </button>
+                  </div>
+                  <pre class="join-code" id="join-verify-stop"><code>./.venv/bin/python Src/Main/stop.py --all</code></pre>
+                </div>
+
+                <div class="join-copy-shell">
+                  <div class="join-copy-head">
+                    <span class="join-copy-label">Watch network log</span>
+                    <button class="join-copy-btn" type="button" data-copy-target="join-verify-log" aria-label="Copy network log watch command">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                      <span>Copy</span>
+                    </button>
+                  </div>
+                  <pre class="join-code" id="join-verify-log"><code>tail -f logs/mainnet/network/network.log</code></pre>
+                </div>
+
+                <div class="join-copy-shell">
+                  <div class="join-copy-head">
+                    <span class="join-copy-label">Search docs</span>
+                    <button class="join-copy-btn" type="button" data-copy-text="https://atho.io/docs.html#docs-index" aria-label="Copy docs index link">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                      <span>Copy</span>
+                    </button>
+                  </div>
+                  <div class="hero-actions join-inline-actions">
+                    <a class="btn btn-primary btn-inline" href="./docs.html#docs-index">Open Full Docs</a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </article>
 
-          <article id="troubleshoot" class="card card-pad" data-reveal>
-            <h3 class="panel-title">Fast troubleshooting shortcuts</h3>
-            <ul class="key-list">
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>List active nodes</strong>
-                  <span><code>./.venv/bin/python Src/Main/stop.py --active</code></span>
-                </span>
-              </li>
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Stop stale background nodes</strong>
-                  <span><code>./.venv/bin/python Src/Main/stop.py --all</code></span>
-                </span>
-              </li>
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Deep fixes</strong>
-                  <span>Use the full troubleshooting runbook for API, sync, storage, and miner-specific recovery paths.</span>
-                </span>
-              </li>
-            </ul>
-            <div class="hero-actions">
-              <a class="btn btn-primary btn-inline" href="./docs.html#docs-index">Search Full Documentation</a>
+          <article id="troubleshoot" class="card card-pad join-runbook-row" data-reveal>
+            <div class="join-row-head">
+              <span class="feature-tag">Step 8</span>
+              <h3>Most common first fixes</h3>
+              <p class="panel-copy">
+                These are the failures most people hit on the first join attempt. Copy the matching fix, then jump to the exact doc if you need the full runbook.
+              </p>
+            </div>
+            <div class="join-note-grid join-error-grid">
+              <article class="join-note-card">
+                <strong>API auth missing</strong>
+                <span>Symptoms: 401 or 403 responses, wallet/API actions denied.</span>
+                <div class="join-copy-shell">
+                  <div class="join-copy-head">
+                    <span class="join-copy-label">Fix</span>
+                    <button class="join-copy-btn" type="button" data-copy-target="join-fix-auth" aria-label="Copy API auth fix">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                      <span>Copy</span>
+                    </button>
+                  </div>
+                  <pre class="join-code" id="join-fix-auth"><code>./.venv/bin/python Src/Api/auth.py</code></pre>
+                </div>
+                <div class="hero-actions">
+                  <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/apiauth.pdf" download>API Auth Doc</a>
+                </div>
+              </article>
+
+              <article class="join-note-card">
+                <strong>venv mismatch</strong>
+                <span>Symptoms: import errors, wrong interpreter, package drift across runs.</span>
+                <div class="join-copy-shell">
+                  <div class="join-copy-head">
+                    <span class="join-copy-label">Fix</span>
+                    <button class="join-copy-btn" type="button" data-copy-target="join-fix-venv" aria-label="Copy venv fix">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                      <span>Copy</span>
+                    </button>
+                  </div>
+                  <pre class="join-code" id="join-fix-venv"><code>python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt</code></pre>
+                </div>
+              </article>
+
+              <article class="join-note-card">
+                <strong>Falcon binary missing</strong>
+                <span>Symptoms: signing or startup checks fail because the expected binary was never installed or is stale.</span>
+                <div class="join-copy-shell">
+                  <div class="join-copy-head">
+                    <span class="join-copy-label">Fix</span>
+                    <button class="join-copy-btn" type="button" data-copy-target="join-fix-falcon" aria-label="Copy Falcon install fix">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                      <span>Copy</span>
+                    </button>
+                  </div>
+                  <pre class="join-code" id="join-fix-falcon"><code>./.venv/bin/python Src/Falcon/Falcon/install_platform_binary.py</code></pre>
+                </div>
+                <div class="hero-actions">
+                  <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/binaries.pdf" download>Binaries Doc</a>
+                </div>
+              </article>
+
+              <article class="join-note-card">
+                <strong>Stale processes or port conflicts</strong>
+                <span>Symptoms: nodes refuse to start because old processes still hold ports or state.</span>
+                <div class="join-copy-shell">
+                  <div class="join-copy-head">
+                    <span class="join-copy-label">Fix</span>
+                    <button class="join-copy-btn" type="button" data-copy-target="join-fix-stop" aria-label="Copy stale process fix">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h7.5A2.25 2.25 0 0 1 21 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5A2.25 2.25 0 0 1 9 17.25v-7.5Zm-6 0A2.25 2.25 0 0 1 5.25 7.5h.75v1.5h-.75a.75.75 0 0 0-.75.75v9a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75V18h1.5v.75A2.25 2.25 0 0 1 14.25 21h-9A2.25 2.25 0 0 1 3 18.75v-9Z" fill="currentColor"/></svg>
+                      <span>Copy</span>
+                    </button>
+                  </div>
+                  <pre class="join-code" id="join-fix-stop"><code>./.venv/bin/python Src/Main/stop.py --active
+./.venv/bin/python Src/Main/stop.py --all</code></pre>
+                </div>
+                <div class="hero-actions">
+                  <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/node-stop.pdf" download>Node Stop Doc</a>
+                </div>
+              </article>
             </div>
           </article>
         </div>
-
-        <article class="card card-pad join-troubleshoot-deep" data-reveal>
-          <h3 class="panel-title">Most common errors and direct doc buttons</h3>
-          <p class="panel-copy">
-            These are the high-frequency setup failures. Each one includes a direct documentation button so users can jump straight to the exact fix path.
-          </p>
-          <div class="feature-grid">
-            <article class="card card-pad feature-card join-error-card">
-              <h3>API key not set / auth headers missing</h3>
-              <p>Symptoms: 401/403 responses or GUI wallet calls failing auth.</p>
-              <pre class="join-code"><code>./.venv/bin/python Src/Api/auth.py</code></pre>
-              <div class="hero-actions">
-                <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/apiauth.pdf" download>API Auth Doc</a>
-                <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/troubleshooting.pdf" download>Troubleshooting</a>
-              </div>
-            </article>
-
-            <article class="card card-pad feature-card join-error-card">
-              <h3>Virtual environment not set/activated</h3>
-              <p>Symptoms: import errors, wrong python path, package mismatch across runs.</p>
-              <pre class="join-code"><code>python3 -m venv .venv
-source .venv/bin/activate</code></pre>
-              <div class="hero-actions">
-                <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/quickstart.pdf" download>Quickstart Doc</a>
-                <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/troubleshooting.pdf" download>Dependency Fixes</a>
-              </div>
-            </article>
-
-            <article class="card card-pad feature-card join-error-card">
-              <h3>Requirements not fully installed</h3>
-              <p>Symptoms: missing modules after install (`lmdb`, `cryptography`, GUI/runtime deps).</p>
-              <pre class="join-code"><code>python -m pip install --upgrade pip setuptools wheel
-python -m pip install -r requirements.txt</code></pre>
-              <div class="hero-actions">
-                <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/quickstart.pdf" download>Install Sequence</a>
-                <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/troubleshooting.pdf" download>Install Errors</a>
-              </div>
-            </article>
-
-            <article class="card card-pad feature-card join-error-card">
-              <h3>Outdated pip / installer toolchain</h3>
-              <p>Symptoms: wheel build failures or package resolver issues during setup.</p>
-              <pre class="join-code"><code>python -m pip install --upgrade pip setuptools wheel</code></pre>
-              <div class="hero-actions">
-                <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/quickstart.pdf" download>Quickstart Install</a>
-              </div>
-            </article>
-
-            <article class="card card-pad feature-card join-error-card">
-              <h3>Falcon binary not installed/registered</h3>
-              <p>Symptoms: runtime signing checks fail because expected binary is missing or stale.</p>
-              <pre class="join-code"><code>./.venv/bin/python Src/Falcon/Falcon/install_platform_binary.py</code></pre>
-              <div class="hero-actions">
-                <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/binaries.pdf" download>Binaries Doc</a>
-                <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/falcon-docs.pdf" download>Falcon Reference</a>
-              </div>
-            </article>
-
-            <article class="card card-pad feature-card join-error-card">
-              <h3>Binary hash pin mismatch (manual update)</h3>
-              <p>Symptoms: startup blocks with pinning/runtime-guard digest mismatch messages.</p>
-              <pre class="join-code"><code># update expected Falcon digest pins in:
-Src/Utility/const.py</code></pre>
-              <div class="hero-actions">
-                <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/troubleshooting.pdf" download>Pinning Guide</a>
-                <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/binaries.pdf" download>Binary Workflow</a>
-              </div>
-            </article>
-
-            <article class="card card-pad feature-card join-error-card">
-              <h3>Wrong network mode / mixed network processes</h3>
-              <p>Symptoms: no headers, peers on another chain, wallet balances appearing on the wrong network profile.</p>
-              <pre class="join-code"><code>export ATHO_NETWORK=mainnet   # or testnet / regnet
-./.venv/bin/python Src/Main/runnode.py</code></pre>
-              <div class="hero-actions">
-                <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/quickstart.pdf" download>Network Setup</a>
-                <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/troubleshooting.pdf" download>Sync Issues</a>
-              </div>
-            </article>
-
-            <article class="card card-pad feature-card join-error-card">
-              <h3>Stale node processes / port conflicts</h3>
-              <p>Symptoms: nodes fail to start or report that ports are already in use.</p>
-              <pre class="join-code"><code>./.venv/bin/python Src/Main/stop.py --active
-./.venv/bin/python Src/Main/stop.py --all</code></pre>
-              <div class="hero-actions">
-                <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/node-stop.pdf" download>Node Stop Doc</a>
-                <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/troubleshooting.pdf" download>Port Fixes</a>
-              </div>
-            </article>
-          </div>
-        </article>
       </div>
     </section>
   </main>

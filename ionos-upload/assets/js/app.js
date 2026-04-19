@@ -55,9 +55,20 @@ const FALLBACK_SOCIAL_LINKS = [
 ];
 
 let fallbackSocialTemplate = null;
+const PAGE_WARP_DURATION_MS = 210;
+const HOME_INTRO_SEEN_KEY = "atho_home_intro_seen_v2";
+const HOME_INTRO_DURATION_MS = 1700;
 
 function getPerformanceProfile() {
-  return { liteEffects: true };
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const saveData = Boolean(connection && connection.saveData);
+  const lowConcurrency = typeof navigator.hardwareConcurrency === "number" && navigator.hardwareConcurrency <= 2;
+  const lowMemory = typeof navigator.deviceMemory === "number" && navigator.deviceMemory <= 2;
+
+  return {
+    liteEffects: prefersReducedMotion || saveData || lowConcurrency || lowMemory
+  };
 }
 
 function deferVisualWork(task, liteEffects) {
@@ -268,22 +279,258 @@ async function initInteractionLayer({ liteEffects, enableClickFx }) {
   }
 }
 
-async function initHomeVisualLayer() {
-  return;
+function hasSeenHomeIntro() {
+  try {
+    return window.localStorage.getItem(HOME_INTRO_SEEN_KEY) === "1";
+  } catch {
+    try {
+      return window.sessionStorage.getItem(HOME_INTRO_SEEN_KEY) === "1";
+    } catch {
+      return false;
+    }
+  }
+}
+
+function markHomeIntroSeen() {
+  try {
+    window.localStorage.setItem(HOME_INTRO_SEEN_KEY, "1");
+    return;
+  } catch {
+    try {
+      window.sessionStorage.setItem(HOME_INTRO_SEEN_KEY, "1");
+    } catch {
+      // ignore storage failures
+    }
+  }
+}
+
+async function initHomeVisualLayer({ runHomeIntro }) {
+  if (!runHomeIntro) {
+    document.body.classList.remove("home-intro-enabled");
+    return;
+  }
+
+  const shell = document.querySelector(".home-intro-shell");
+  if (!(shell instanceof HTMLElement)) {
+    document.body.classList.remove("home-intro-enabled");
+    return;
+  }
+
+  let cleanedUp = false;
+  const cleanup = () => {
+    if (cleanedUp) {
+      return;
+    }
+    cleanedUp = true;
+    document.body.classList.remove("home-intro-enabled");
+  };
+
+  shell.addEventListener(
+    "animationend",
+    (event) => {
+      if (event.target !== shell) {
+        return;
+      }
+      cleanup();
+    },
+    { once: true }
+  );
+
+  window.setTimeout(cleanup, HOME_INTRO_DURATION_MS);
+}
+
+async function copyText(text) {
+  const normalized = String(text ?? "").replace(/^\n+|\n+$/g, "");
+  if (!normalized) {
+    return false;
+  }
+
+  if (navigator.clipboard && window.isSecureContext) {
+    try {
+      await navigator.clipboard.writeText(normalized);
+      return true;
+    } catch {
+      // fall through to legacy copy path
+    }
+  }
+
+  try {
+    const textarea = document.createElement("textarea");
+    textarea.value = normalized;
+    textarea.setAttribute("readonly", "true");
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+    textarea.style.left = "-9999px";
+    document.body.appendChild(textarea);
+    textarea.select();
+    textarea.setSelectionRange(0, textarea.value.length);
+    const didCopy = document.execCommand("copy");
+    textarea.remove();
+    return didCopy;
+  } catch {
+    return false;
+  }
+}
+
+function initCopyButtons() {
+  const buttons = Array.from(document.querySelectorAll("[data-copy-target], [data-copy-text]"));
+  if (!buttons.length) {
+    return;
+  }
+
+  buttons.forEach((button) => {
+    if (!(button instanceof HTMLElement)) {
+      return;
+    }
+
+    const label = button.querySelector("span");
+    const defaultLabel = (label?.textContent || "Copy").trim();
+
+    button.addEventListener("click", async () => {
+      const targetId = button.getAttribute("data-copy-target") || "";
+      const directText = button.getAttribute("data-copy-text") || "";
+      let text = directText;
+
+      if (!text && targetId) {
+        const target = document.getElementById(targetId);
+        if (target instanceof HTMLElement) {
+          text = target.innerText || target.textContent || "";
+        }
+      }
+
+      const didCopy = await copyText(text);
+      button.classList.toggle("is-copied", didCopy);
+      if (label) {
+        label.textContent = didCopy ? "Copied" : "Retry";
+      }
+
+      if (button.__copyResetTimer) {
+        window.clearTimeout(button.__copyResetTimer);
+      }
+
+      button.__copyResetTimer = window.setTimeout(() => {
+        button.classList.remove("is-copied");
+        if (label) {
+          label.textContent = defaultLabel;
+        }
+      }, didCopy ? 1600 : 1200);
+    });
+  });
+}
+
+function shouldRunHomeIntro({ isHomePage, liteEffects }) {
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!isHomePage || liteEffects || prefersReducedMotion) {
+    return false;
+  }
+
+  return !hasSeenHomeIntro();
+}
+
+function initPageTransitions({ liteEffects }) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return;
+  }
+
+  let shell = document.querySelector(".page-warp-shell");
+  if (!(shell instanceof HTMLElement)) {
+    shell = document.createElement("div");
+    shell.className = "page-warp-shell";
+    shell.setAttribute("aria-hidden", "true");
+
+    const stars = document.createElement("span");
+    stars.className = "page-warp-stars";
+    const ring = document.createElement("span");
+    ring.className = "page-warp-ring";
+    const core = document.createElement("span");
+    core.className = "page-warp-core";
+
+    shell.append(stars, ring, core);
+    document.body.appendChild(shell);
+  }
+
+  let transitionLocked = false;
+  const duration = liteEffects ? 220 : PAGE_WARP_DURATION_MS;
+
+  const clearTransition = () => {
+    transitionLocked = false;
+    document.body.classList.remove("is-page-transitioning");
+  };
+
+  window.addEventListener("pageshow", clearTransition);
+
+  document.addEventListener("click", (event) => {
+    if (transitionLocked || event.defaultPrevented || event.button !== 0) {
+      return;
+    }
+
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+      return;
+    }
+
+    const target = event.target instanceof Element ? event.target : null;
+    const link = target?.closest("a[href]");
+    if (!(link instanceof HTMLAnchorElement)) {
+      return;
+    }
+
+    const rawHref = link.getAttribute("href") || "";
+    if (!rawHref || rawHref.startsWith("#") || link.hasAttribute("download")) {
+      return;
+    }
+
+    const targetAttr = (link.getAttribute("target") || "").trim();
+    if (targetAttr && targetAttr !== "_self") {
+      return;
+    }
+
+    let nextUrl;
+    try {
+      nextUrl = new URL(link.href, window.location.href);
+    } catch {
+      return;
+    }
+
+    if (!/^https?:$/.test(nextUrl.protocol) || nextUrl.origin !== window.location.origin) {
+      return;
+    }
+
+    const currentUrl = new URL(window.location.href);
+    const sameDocument = nextUrl.pathname === currentUrl.pathname && nextUrl.search === currentUrl.search;
+    if (sameDocument) {
+      return;
+    }
+
+    event.preventDefault();
+    transitionLocked = true;
+    document.body.classList.add("is-page-transitioning");
+
+    window.setTimeout(() => {
+      window.location.assign(nextUrl.href);
+    }, duration);
+  });
 }
 
 function boot() {
   const isHomePage = document.body.classList.contains("home-page");
   const { liteEffects } = getPerformanceProfile();
-  document.documentElement.classList.add("perf-lite");
+  const runHomeIntro = shouldRunHomeIntro({ isHomePage, liteEffects });
+  document.documentElement.classList.toggle("perf-lite", liteEffects);
+  document.body.classList.toggle("home-intro-enabled", runHomeIntro);
+
+  if (runHomeIntro) {
+    markHomeIntroSeen();
+  }
 
   initNavigation();
   initYear();
+  initCopyButtons();
+  initPageTransitions({ liteEffects });
 
   Promise.all([initRenderedSections(), initDocsCatalogIfNeeded()])
     .catch(() => {})
     .finally(() => {
-      initReveal({ immediate: true });
+      initReveal({ immediate: liteEffects });
     });
 
   deferVisualWork(() => {
@@ -298,7 +545,7 @@ function boot() {
 
   if (isHomePage) {
     deferVisualWork(() => {
-      initHomeVisualLayer(liteEffects).catch(() => {});
+      initHomeVisualLayer({ runHomeIntro }).catch(() => {});
     }, liteEffects);
   }
 }

@@ -5,6 +5,7 @@
 html {
   scroll-behavior: auto;
   background-color: var(--bg);
+  scroll-padding-top: calc(var(--site-header-height, 84px) + var(--site-quick-nav-height, 0px) + 40px);
 }
 
 html.perf-lite {
@@ -127,7 +128,11 @@ main {
 
 .section {
   padding: clamp(64px, 7.5vw, 108px) 0;
-  scroll-margin-top: 108px;
+  scroll-margin-top: calc(var(--site-header-height, 84px) + var(--site-quick-nav-height, 0px) + 40px);
+}
+
+main [id] {
+  scroll-margin-top: calc(var(--site-header-height, 84px) + var(--site-quick-nav-height, 0px) + 40px);
 }
 
 .section + .section {

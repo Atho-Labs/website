@@ -60,14 +60,14 @@
 
       <div class="global-nav-drawer" data-global-drawer>
         <div class="global-nav-card">
-          <span class="global-nav-title">All Pages</span>
           <div class="global-nav-grid">
             <a class="global-nav-link" href="./home.html">Home</a>
             <a class="global-nav-link" href="./docs.html">Docs</a>
             <a class="global-nav-link" href="./wallet.html">Wallet</a>
             <a class="global-nav-link" href="./wallet-hierarchy.html">Wallet Hierarchy</a>
             <a class="global-nav-link" href="./platinum-shield.html">Platinum Shield</a>
-            <a class="global-nav-link" href="./falcon-512.html">Falcon-512</a>
+            <a class="global-nav-link" href="./kyber.html">Kyber</a>
+            <a class="global-nav-link" href="./falcon-512.html">Falcon 512</a>
             <a class="global-nav-link" href="./join.html">Join</a>
             <a class="global-nav-link" href="./changelog.html">Changelog</a>
             <a class="global-nav-link" href="./roadmap.html">Roadmap</a>
@@ -93,9 +93,9 @@
             funds across the public and private lanes.
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/keymanager.pdf" download>Download Key Manager Spec</a>
+            <a class="btn btn-primary btn-inline" href="./docs.html">Open Docs Hub</a>
             <a class="btn btn-primary btn-inline" href="./wallet-hierarchy.html">Wallet Hierarchy Guide</a>
-            <a class="btn btn-primary btn-inline" href="./docs.html#privacy-docs">Privacy Docs</a>
+            <a class="btn btn-primary btn-inline" href="./kyber.html">Kyber Page</a>
             <a class="btn btn-primary btn-inline" href="#wallet-private">Private Send Flow</a>
             <a class="btn btn-primary btn-inline" href="./join.html#key-manager">Join Guide</a>
           </div>
@@ -177,7 +177,7 @@
           <article class="card card-pad feature-card wallet-address-card" data-reveal>
             <h3>Private Receive Bundle + X-Address</h3>
             <p class="panel-copy">
-              Private receive identity is derived from the bundle hash, not from a separate bond or stake role.
+              Private receive identity is derived from the bundle hash and isolated private key material.
             </p>
             <div class="wallet-base56-shell" aria-hidden="true">
               <span class="wallet-base56-label">Private receive identity</span>
@@ -224,8 +224,8 @@
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
-                <strong>Payment-only public ownership</strong>
-                <span>Consensus recognizes regular payment addresses only; legacy bond/stake address roles are not active.</span>
+                <strong>Single public address class</strong>
+                <span>Consensus recognizes one active public payment address class, keeping ownership rules easier to reason about.</span>
               </span>
             </li>
             <li class="key-item">
@@ -420,9 +420,9 @@
             <span class="wallet-recovery-step">Restore Spendable Funds</span>
             <span class="wallet-recovery-pulse"></span>
           </div>
-          <div class="hero-actions wallet-stake-actions">
+          <div class="hero-actions wallet-resource-actions">
             <a class="btn btn-primary btn-inline" href="./wallet-hierarchy.html">Open Recovery Guide</a>
-            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/keymanager.pdf" download>Key Manager PDF</a>
+            <a class="btn btn-primary btn-inline" href="./docs.html#policy-baseline">Open Current Baseline</a>
           </div>
         </article>
       </div>

@@ -4,7 +4,8 @@ const SITE_PAGE_ORDER = [
   { href: "./wallet.html", label: "Wallet" },
   { href: "./wallet-hierarchy.html", label: "Wallet Hierarchy" },
   { href: "./platinum-shield.html", label: "Platinum Shield" },
-  { href: "./falcon-512.html", label: "Falcon-512" },
+  { href: "./kyber.html", label: "Kyber" },
+  { href: "./falcon-512.html", label: "Falcon 512" },
   { href: "./join.html", label: "Join" },
   { href: "./changelog.html", label: "Changelog" },
   { href: "./roadmap.html", label: "Roadmap" },
@@ -137,13 +138,18 @@ export function initNavigation() {
   const links = Array.from(document.querySelectorAll(".nav-link"));
   const globalLinks = Array.from(document.querySelectorAll(".global-nav-link"));
   const header = document.querySelector(".site-header");
+  const syncStickyOffsets = () => {
+    if (header instanceof HTMLElement) {
+      document.documentElement.style.setProperty("--site-header-height", `${Math.round(header.offsetHeight)}px`);
+    }
 
-  const syncHeaderHeight = () => {
-    if (!(header instanceof HTMLElement)) return;
-    document.documentElement.style.setProperty("--site-header-height", `${Math.round(header.offsetHeight)}px`);
+    const activeQuickNav = document.querySelector(".site-quick-nav");
+    const quickNavHeight = activeQuickNav instanceof HTMLElement ? Math.round(activeQuickNav.offsetHeight) : 0;
+    document.documentElement.style.setProperty("--site-quick-nav-height", `${quickNavHeight}px`);
   };
-  syncHeaderHeight();
-  window.addEventListener("resize", syncHeaderHeight);
+
+  syncStickyOffsets();
+  window.addEventListener("resize", syncStickyOffsets);
 
   if (toggle && drawer) {
     const closeDrawer = () => {
@@ -208,6 +214,7 @@ export function initNavigation() {
   const enableQuickNav = window.matchMedia("(min-width: 981px)").matches;
   const quickNav = enableQuickNav ? buildQuickNav(currentPath) : null;
   if (quickNav) quickNav.setCurrentPath(currentPath);
+  syncStickyOffsets();
 
   const syncFromHash = () => {
     updateActiveByLocation(links);

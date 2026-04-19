@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How Atho uses Kyber for private transaction routing, recipient bundle identity, receive scanning, and wallet encryption at rest.">
+  <title>Atho Kyber</title>
+  <link rel="canonical" href="https://atho.io/kyber.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Atho">
+  <meta property="og:url" content="https://atho.io/kyber.html">
+  <meta property="og:title" content="Atho Kyber">
+  <meta property="og:description" content="How Atho uses Kyber for private transaction routing, recipient bundle identity, receive scanning, and wallet encryption at rest.">
+  <meta property="og:image" content="https://atho.io/assets/media/og-home-preview-real.jpg">
+  <meta property="og:image:secure_url" content="https://atho.io/assets/media/og-home-preview-real.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Actual screenshot of the Atho homepage with the current dark cosmic theme and hero section.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@AthoHQ">
+  <meta name="twitter:title" content="Atho Kyber">
+  <meta name="twitter:description" content="How Atho uses Kyber for private transaction routing, recipient bundle identity, receive scanning, and wallet encryption at rest.">
+  <meta name="twitter:image" content="https://atho.io/assets/media/og-home-preview-real.jpg">
+  <meta name="twitter:image:alt" content="Actual screenshot of the Atho homepage with the current dark cosmic theme and hero section.">
+  <link rel="icon" type="image/png" href="./assets/media/logo2website.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/variables.css">
+  <link rel="stylesheet" href="./assets/css/base.css">
+  <link rel="stylesheet" href="./assets/css/layout.css">
+  <link rel="stylesheet" href="./assets/css/components.css">
+  <link rel="stylesheet" href="./assets/css/motion.css">
+  <link rel="stylesheet" href="./assets/css/responsive.css">
+</head>
+<body class="kyber-page">
+  <header class="site-header">
+    <div class="wrap nav-shell">
+      <a class="brand" href="./home.html#overview" aria-label="Atho home">
+        <img class="brand-mark" src="./assets/media/logo2website.png" alt="Atho logo" width="72" height="72" decoding="async">
+      </a>
+
+      <div class="header-right">
+        <nav id="main-nav" class="nav-links" data-nav-links>
+          <a class="nav-link" href="#kyber-overview">Overview</a>
+          <a class="nav-link" href="#private-tx">Private Tx</a>
+          <a class="nav-link" href="#receive-scan">Receive Scan</a>
+          <a class="nav-link" href="#lockbox">Lockbox</a>
+          <a class="nav-link" href="#restore">Restore</a>
+          <a class="nav-link" href="#specs">Specs</a>
+        </nav>
+      </div>
+
+      <button class="menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="main-nav" aria-label="Toggle menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <div class="global-nav-drawer" data-global-drawer>
+        <div class="global-nav-card">
+          <div class="global-nav-grid">
+            <a class="global-nav-link" href="./home.html">Home</a>
+            <a class="global-nav-link" href="./docs.html">Docs</a>
+            <a class="global-nav-link" href="./wallet.html">Wallet</a>
+            <a class="global-nav-link" href="./wallet-hierarchy.html">Wallet Hierarchy</a>
+            <a class="global-nav-link" href="./platinum-shield.html">Platinum Shield</a>
+            <a class="global-nav-link" href="./kyber.html">Kyber</a>
+            <a class="global-nav-link" href="./falcon-512.html">Falcon 512</a>
+            <a class="global-nav-link" href="./join.html">Join</a>
+            <a class="global-nav-link" href="./changelog.html">Changelog</a>
+            <a class="global-nav-link" href="./roadmap.html">Roadmap</a>
+            <a class="global-nav-link" href="./contact.html">Contact</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="kyber-overview" class="section">
+      <div class="wrap hero-grid">
+        <div class="hero-copy" data-reveal>
+          <div class="eyebrow-row">
+            <span class="section-eyebrow section-eyebrow-hot">Kyber Implementation</span>
+            <span class="section-eyebrow">Private Flow + Wallet Lockbox</span>
+          </div>
+          <h1>How Atho uses Kyber on chain and at rest.</h1>
+          <p>
+            Atho uses Kyber in two separate lanes on purpose. The private payment path uses Kyber 512 to derive a
+            per-output shared secret for note delivery, while wallet lockbox mode uses Kyber 1024 to wrap the AES
+            data-encryption key that protects wallet secrets at rest.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-inline" href="#private-tx">Private Flow</a>
+            <a class="btn btn-primary btn-inline" href="#receive-scan">Receive Scan</a>
+            <a class="btn btn-primary btn-inline" href="#lockbox">Wallet Lockbox</a>
+            <a class="btn btn-primary btn-inline" href="./docs.html">Docs Hub</a>
+          </div>
+        </div>
+
+        <div class="hero-panel" data-reveal>
+          <div class="card card-pad">
+            <h2 class="panel-title">Current Code Profile</h2>
+            <ul class="key-list">
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Private layer lane</strong>
+                  <span><code>PRIVATE_KYBER_LEVEL = 512</code>, ciphertext size <code>768 bytes</code>, optional view tag <code>4 bytes</code>.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Recipient identity</strong>
+                  <span>Private bundle bytes are <code>version || falcon_public_key || kyber_public_key</code>, then <code>sha3_384</code> derives the bundle hash and X-address.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Wallet lockbox lane</strong>
+                  <span>Lockbox mode uses <code>kyber1024_ref</code> by default while AES 256 GCM performs the actual wallet payload encryption.</span>
+                </span>
+              </li>
+              <li class="key-item">
+                <span class="key-bullet" aria-hidden="true"></span>
+                <span>
+                  <strong>Restore boundary</strong>
+                  <span>Current deterministic bundle identity can be recreated from the same mnemonic path, but legacy random bundles still require the old Kyber secret backup.</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="private-tx" class="section">
+      <div class="wrap split-grid">
+        <article class="card card-pad" data-reveal>
+          <span class="section-eyebrow">Private Output Build Path</span>
+          <h2 class="section-title">Kyber is the recipient side secret agreement layer for private sends.</h2>
+          <ol class="join-step-list">
+            <li>Sender parses the recipient bundle and rejects the output if the X-address does not match the bundle hash.</li>
+            <li>The bundle exposes the recipient Falcon public key and the recipient Kyber public key together.</li>
+            <li>Sender encapsulates to the recipient Kyber public key and gets a fresh shared secret plus Kyber ciphertext.</li>
+            <li>That shared secret derives the recipient id, optional 4-byte view tag, and the AES key used for note payload encryption.</li>
+            <li>The output stores the Kyber ciphertext, AES nonce, clear amount field for v5 rules, and encrypted note seed payload.</li>
+            <li>Receiver later decapsulates with the matching Kyber secret key and only then recovers the note seed and message.</li>
+          </ol>
+        </article>
+
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Current v5 Payload Layout</h3>
+          <p class="panel-copy">
+            The active private payload format is:
+            <code>view_tag(4) + kyber_ciphertext(768) + aes_nonce(12) + amount_plain(8) + ciphertext_seed(...)</code>.
+          </p>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Kyber ciphertext</strong>
+                <span>Needed so the receiver can decapsulate and reproduce the shared secret that unlocks the note payload.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Amount field</strong>
+                <span>Kept in the product-v1 payload layout so sender, mempool, and block logic stay aligned on current private output rules.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>ciphertext_seed</strong>
+                <span>AES GCM encrypts the note seed and optional memo, with the note commitment used as authenticated data.</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="receive-scan" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Wallet Receive Path</span>
+        <h2 class="section-title">Scanner logic uses Kyber for deep recovery, not just labeling.</h2>
+        <p class="section-copy">
+          Atho does not guess private note keys blindly. Wallet scan prefilters candidate outputs, decapsulates the
+          Kyber ciphertext, and only accepts a note after the recovered seed regenerates the expected Falcon note key
+          and commitment.
+        </p>
+
+        <div class="feature-grid" data-stagger>
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Fast reject layer</h3>
+            <p class="panel-copy">
+              Bundle hash prefixes and optional view tags let the wallet skip most unrelated private outputs before full decapsulation work begins.
+            </p>
+            <span class="feature-tag">Performance Filter</span>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Kyber decapsulation</h3>
+            <p class="panel-copy">
+              The scanner tries local Kyber secret keys against the stored ciphertext. If decapsulation fails, the output is not for that wallet.
+            </p>
+            <span class="feature-tag">Recipient Check</span>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Ownership confirmation</h3>
+            <p class="panel-copy">
+              After decapsulation, the wallet checks recipient id, verifies the view tag when present, decrypts the note seed, regenerates the Falcon child key, and recomputes the commitment.
+            </p>
+            <span class="feature-tag">Fail Closed</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="lockbox" class="section">
+      <div class="wrap split-grid">
+        <article class="card card-pad" data-reveal>
+          <span class="section-eyebrow">At Rest Encryption</span>
+          <h2 class="section-title">Kyber protects the DEK recovery lane while AES protects the wallet payload.</h2>
+          <ol class="join-step-list">
+            <li>Argon2id derives the password key from the wallet password and KDF metadata.</li>
+            <li>A random 32-byte DEK encrypts the wallet secret payload with AES 256 GCM.</li>
+            <li>The same DEK is wrapped once by the password-derived key with AES 256 GCM.</li>
+            <li>Kyber 1024 encapsulation creates a shared secret, HKDF turns that into a wrap key, and that wrap key protects the same DEK again.</li>
+            <li>The Kyber secret key itself is AES wrapped under the password key so the wallet can recreate the Kyber unwrap path on unlock.</li>
+          </ol>
+        </article>
+
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">What the Lockbox Enforces</h3>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Kyber is mandatory</strong>
+                <span>Lockbox mode fails closed if Kyber is disabled. The wallet expects the PQ wrap path to exist.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Two DEK recovery paths</strong>
+                <span>Password unwrap and Kyber unwrap must reproduce the same DEK before the wallet accepts the decrypted payload.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Schema discipline</strong>
+                <span>Wallet lockbox metadata uses <code>athokey-lockbox-v1</code>, and advanced unlock exports use <code>athokey-kyber-unlock-v1</code>.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Role separation</strong>
+                <span>Kyber does not replace AES. Kyber wraps the DEK; AES encrypts the actual wallet secret payload.</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="restore" class="section">
+      <div class="wrap split-grid">
+        <article class="card card-pad" data-reveal>
+          <span class="section-eyebrow">Deterministic Restore</span>
+          <h2 class="section-title">Current bundle identity can be rebuilt from the same mnemonic context.</h2>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Kyber seed domain</strong>
+                <span>The deterministic branch uses context <code>ATHO-HD-KYBER-V1</code> and mixes network, account, role, index, and Kyber level into the info string.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Bundle recreation</strong>
+                <span>Same mnemonic, passphrase, and path recreate the same Kyber keypair, bundle hash, X-address, and bundle view tag for the current deterministic model.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Fallback path</strong>
+                <span>If mnemonic metadata is unavailable, the code still supports a deterministic fallback derived from Falcon-root material for bundle creation.</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="card card-pad" data-reveal>
+          <h3 class="panel-title">Restore Limits That Matter</h3>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Legacy random bundles</strong>
+                <span>If an old wallet used random private bundle generation, mnemonic alone cannot recreate the original Kyber secret for historical private receives.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Historical note recovery</strong>
+                <span>Without the old Kyber secret or preserved bundle artifacts, public funds can restore while old private outputs targeted to that legacy bundle remain undecryptable.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Advanced lockbox mode</strong>
+                <span>If the wallet exported an external Kyber unlock file, that file still belongs in the recovery set alongside the password and normal wallet backup.</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="specs" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Kyber Size Map</span>
+        <h2 class="section-title">The wrapper supports three levels, but Atho uses them for different jobs.</h2>
+
+        <div class="feature-grid" data-stagger>
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Kyber 512</h3>
+            <p class="panel-copy">
+              Current private transaction lane. Public key <code>800 bytes</code>, secret key <code>1632 bytes</code>, ciphertext <code>768 bytes</code>, shared secret <code>32 bytes</code>.
+            </p>
+            <span class="feature-tag">Private Layer</span>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Kyber 768</h3>
+            <p class="panel-copy">
+              Supported by the wrapper for size-checked keypair, encapsulate, and decapsulate operations. Public key <code>1184 bytes</code>, ciphertext <code>1088 bytes</code>.
+            </p>
+            <span class="feature-tag">Supported Variant</span>
+          </article>
+
+          <article class="card card-pad feature-card" data-reveal>
+            <h3>Kyber 1024</h3>
+            <p class="panel-copy">
+              Default wallet lockbox lane. Public key <code>1568 bytes</code>, secret key <code>3168 bytes</code>, ciphertext <code>1568 bytes</code>, shared secret <code>32 bytes</code>.
+            </p>
+            <span class="feature-tag">Lockbox Default</span>
+          </article>
+        </div>
+
+        <div class="hero-actions" data-reveal>
+          <a class="btn btn-primary btn-inline" href="./wallet-hierarchy.html">Wallet Hierarchy</a>
+          <a class="btn btn-primary btn-inline" href="./platinum-shield.html">Platinum Shield</a>
+          <a class="btn btn-primary btn-inline" href="./wallet.html">Wallet</a>
+          <a class="btn btn-primary btn-inline" href="./docs.html">Docs</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <span>Atho Labs</span>
+      <span class="footer-contact">
+        <span class="footer-slogan">Atho. Public or private payments. The Platinum Standard for the Quantum Age.</span>
+        <span class="footer-updated">Last updated: April 18, 2026</span>
+        <span>
+          To report bugs, security issues, or general inquiries:
+          <a href="./contact.html">Contact</a>
+          or
+          <a href="mailto:labs@atho.io">labs@atho.io</a>
+        </span>
+      </span>
+      <span>&copy; <span data-year></span> Atho Labs. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>

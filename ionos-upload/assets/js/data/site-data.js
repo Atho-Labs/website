@@ -1,32 +1,32 @@
 export const featureCards = [
   {
-    title: "Payments-Only Core",
-    body: "Atho keeps the product surface narrow: proof-of-work payments with public settlement and privacy when it is actually needed.",
+    title: "Direct Digital Money",
+    body: "Atho is built to move value cleanly between people, services, and merchants.",
     tag: "Mission"
   },
   {
-    title: "Falcon-512 Security",
-    body: "Transaction signatures are post-quantum by default, giving the chain a long-horizon security posture instead of a classical-only fallback.",
+    title: "Post-Quantum Base Layer",
+    body: "Falcon signatures protect ownership with a security story aimed at the next era, not the last one.",
     tag: "Security"
   },
   {
-    title: "Public + Private Payments",
-    body: "Standard UTXO transfers and Platinum Shield private flows live on the same chain, so users do not have to switch networks to switch privacy modes.",
+    title: "Public + Private on One Chain",
+    body: "Standard transfers and Platinum Shield private flow live on the same network and in the same wallet model.",
     tag: "Payments"
   },
   {
-    title: "Deterministic Emissions",
-    body: "Issuance starts at 100 ATHO, decays once per day across 720 blocks, and stays easy to audit from docs to runtime constants.",
+    title: "Readable Monetary Policy",
+    body: "Rewards start at 100 ATHO and step down once per day across 720 blocks.",
     tag: "Policy"
   },
   {
-    title: "Finite Max Supply",
-    body: "The active model points to a single one-billion ATHO cap, replacing older mixed messaging with a cleaner long-run monetary story.",
+    title: "Finite Supply Ceiling",
+    body: "The network resolves to a single hard cap of 1B ATHO.",
     tag: "Supply"
   },
   {
-    title: "Wallet Recovery Discipline",
-    body: "Wallet custody keeps payment addresses, private receive material, encryption, and deterministic recovery in one readable model.",
+    title: "Recoverable Wallet Design",
+    body: "Custody, private receive material, and recovery stay inside one deterministic model.",
     tag: "Wallet"
   }
 ];
@@ -59,30 +59,30 @@ export const metricCards = [
     label: "Block Time",
     value: 120,
     display: "120 sec",
-    foot: "Steady two-minute block cadence"
+    foot: "Two-minute block cadence"
   },
   {
     label: "Confirmations",
     value: 6,
     display: "6",
-    foot: "Standard and private confirmation target"
+    foot: "Shared confirmation target"
   },
   {
     label: "Starting Reward",
     value: 100,
     display: "100 ATHO",
-    foot: "Initial block subsidy at genesis"
+    foot: "Genesis block subsidy"
   },
   {
     label: "Daily Decay",
     value: 720,
     display: "720 blocks",
-    foot: "Reward steps down once per day"
+    foot: "Reward steps down daily"
   },
   {
     label: "Max Supply",
     value: 1000000000,
     display: "1B ATHO",
-    foot: "Single hard-cap supply model"
+    foot: "Single hard cap"
   }
 ];

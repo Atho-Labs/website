@@ -36,7 +36,7 @@
   <text class="t" x="95" y="640">Falcon public key: 897 bytes (long by design)</text>
   <text class="t" x="95" y="670">Role hash = SHA3-384(role||network||falcon_pubkey)</text>
   <text class="t" x="95" y="700">Address = Base56(role_hash) + 6-char checksum</text>
-  <text class="small" x="95" y="735">Regular/Bond/Stake addresses all come from role-domain separation.</text>
+  <text class="small" x="95" y="735">Regular payment addresses come from deterministic role-domain separation.</text>
 
   <rect class="box2" x="830" y="460" width="700" height="420"/>
   <text class="h" x="855" y="505">3B) Kyber branch (private bundle identity)</text>

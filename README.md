@@ -11,14 +11,14 @@ This folder is a modular static website starter for the Atho public domain.
 
 ## Pages
 
-- `home.html`: Main marketing home page (highlights + technology + security + privacy layer + tokenomics + launch narrative).
+- `home.html`: Main marketing home page (mission + technology + security + privacy layer + policy + launch narrative).
 - `index.html`: Redirect-compatible mirror of `home.html` for root entry compatibility.
 - `platinum-shield.html`: Platinum Shield privacy layer deep dive (public/private coexistence, workflow engine, controls).
-- `wallet.html`: Wallet architecture, lockbox security, private-send flow guidance, staking, and recovery.
+- `wallet.html`: Wallet architecture, lockbox security, private-send flow guidance, and recovery.
 - `join.html`: Guided node setup and private-layer testnet validation runbook.
 - `docs.html`: PDF-first searchable documentation hub with privacy/protocol/economics coverage.
-- `rewards.html`: BPoW and staking reward distribution references and visuals.
-- `bpow-docs.html`: Consensus-level BPoW architecture and constants deep dive.
+- `rewards.html`: Retired rewards landing page that points visitors to the live economics baseline.
+- `bpow-docs.html`: Retired legacy-consensus landing page that points visitors to current docs.
 - `falcon-512.html`: Post-quantum Falcon documentation and efficiency references.
 - `inflation-deflation.html`: Monetary policy and supply-control references.
 - `changelog.html`: Release thread for version releases and security releases.

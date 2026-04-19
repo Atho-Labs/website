@@ -24,8 +24,22 @@ rsync -a \
   --exclude="runweb.py" \
   --exclude="scripts/" \
   --exclude="ionos-upload/" \
+  --exclude="assets/docs/pdf/" \
   --exclude="assets/docs/source/" \
   "${SITE_ROOT}/" "${OUT_DIR}/"
+
+mkdir -p "${OUT_DIR}/assets/docs/pdf"
+for pdf in \
+  apiauth.pdf \
+  binaries.pdf \
+  falcon-docs.pdf \
+  falcon512.pdf \
+  node-stop.pdf \
+  sigwit.pdf \
+  troubleshooting.pdf
+do
+  cp "${SITE_ROOT}/assets/docs/pdf/${pdf}" "${OUT_DIR}/assets/docs/pdf/${pdf}"
+done
 
 echo "[ionos] Bundle ready at: ${OUT_DIR}"
 echo "[ionos] Upload the contents of this folder to your IONOS web root."

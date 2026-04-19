@@ -62,7 +62,7 @@
 
   --max-wrap: 1260px;
 
-  --font-display: "Oxanium", "Space Grotesk", "Trebuchet MS", sans-serif;
-  --font-body: "Space Grotesk", "Avenir Next", "Segoe UI", sans-serif;
-  --font-mono: "IBM Plex Mono", "JetBrains Mono", "Courier New", monospace;
+  --font-display: "Azeret Mono", "Space Mono", "IBM Plex Mono", monospace;
+  --font-body: "Space Mono", "Azeret Mono", "IBM Plex Mono", monospace;
+  --font-mono: "Share Tech Mono", "Space Mono", "IBM Plex Mono", monospace;
 }

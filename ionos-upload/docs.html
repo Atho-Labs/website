@@ -45,7 +45,7 @@
         <nav id="main-nav" class="nav-links" data-nav-links>
           <a class="nav-link" href="#docs-overview">Overview</a>
           <a class="nav-link" href="#policy-baseline">Baseline</a>
-          <a class="nav-link" href="#docs-index">Index</a>
+          <a class="nav-link" href="#docs-index">Guides</a>
           <a class="nav-link" href="#protocol">Protocol</a>
           <a class="nav-link" href="#privacy-docs">Privacy</a>
           <a class="nav-link" href="#economics-docs">Economics</a>
@@ -60,14 +60,14 @@
 
       <div class="global-nav-drawer" data-global-drawer>
         <div class="global-nav-card">
-          <span class="global-nav-title">All Pages</span>
           <div class="global-nav-grid">
             <a class="global-nav-link" href="./home.html">Home</a>
             <a class="global-nav-link" href="./docs.html">Docs</a>
             <a class="global-nav-link" href="./wallet.html">Wallet</a>
             <a class="global-nav-link" href="./wallet-hierarchy.html">Wallet Hierarchy</a>
             <a class="global-nav-link" href="./platinum-shield.html">Platinum Shield</a>
-            <a class="global-nav-link" href="./falcon-512.html">Falcon-512</a>
+            <a class="global-nav-link" href="./kyber.html">Kyber</a>
+            <a class="global-nav-link" href="./falcon-512.html">Falcon 512</a>
             <a class="global-nav-link" href="./join.html">Join</a>
             <a class="global-nav-link" href="./changelog.html">Changelog</a>
             <a class="global-nav-link" href="./roadmap.html">Roadmap</a>
@@ -88,15 +88,16 @@
           </div>
           <h1>The active Atho policy set, in one place.</h1>
           <p>
-            This hub mirrors the current Atho documentation baseline: payment-only public/private UTXO, proof of work,
-            six confirmations, a one-billion ATHO max supply, and the simplified no-bond / no-stake economic model.
+            This hub mirrors the current Atho documentation baseline: proof of work, public and private transactions,
+            six confirmations, a one-billion ATHO max supply, and the active wallet and privacy model.
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary btn-inline" href="#docs-index">Search Docs</a>
-            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/index.pdf" download>Download Docs Index</a>
-            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/atho-final-specs.pdf" download>Download Final Specs</a>
-            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/emissions.pdf" download>Download Emissions Policy</a>
+            <a class="btn btn-primary btn-inline" href="#docs-index">Explore Guides</a>
+            <a class="btn btn-primary btn-inline" href="./wallet.html">Wallet</a>
             <a class="btn btn-primary btn-inline" href="./wallet-hierarchy.html">Wallet Hierarchy Guide</a>
+            <a class="btn btn-primary btn-inline" href="./platinum-shield.html">Platinum Shield</a>
+            <a class="btn btn-primary btn-inline" href="./kyber.html">Kyber</a>
+            <a class="btn btn-primary btn-inline" href="./falcon-512.html">Falcon 512</a>
           </div>
         </div>
 
@@ -128,8 +129,8 @@
               <li class="key-item">
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
-                  <strong>4. Wallet + PrivateTx docs</strong>
-                  <span>Best path for understanding public/private payment flows and wallet recovery behavior.</span>
+                  <strong>4. Wallet, Kyber, and PrivateTx docs</strong>
+                  <span>Best path for understanding wallet recovery, private payment flows, and how Kyber is used.</span>
                 </span>
               </li>
             </ul>
@@ -147,7 +148,7 @@
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
                 <strong>Chain model</strong>
-                <span>Payment-focused public/private UTXO with proof of work and no bond/stake gating.</span>
+                <span>Payment-focused public/private UTXO with proof of work and one active public address class.</span>
               </span>
             </li>
             <li class="key-item">
@@ -175,14 +176,15 @@
         </article>
 
         <article class="card card-pad" data-reveal>
-          <h3 class="panel-title">Core Downloads</h3>
+          <h3 class="panel-title">Core Web Guides</h3>
           <div class="hero-actions docs-download-actions">
-            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/consensus.pdf" download>Download Consensus</a>
-            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/emissions.pdf" download>Download Emissions</a>
-            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/atho-final-specs.pdf" download>Download Final Specs</a>
-            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/whitepaper-condensed-v3.pdf" download>Download Whitepaper Condensed</a>
-            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/privatetx-v3.pdf" download>Download PrivateTx v3</a>
-            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/wallet-hierarchy-visual-guide.pdf" download>Download Wallet Hierarchy Guide</a>
+            <a class="btn btn-primary btn-inline" href="./wallet.html">Wallet</a>
+            <a class="btn btn-primary btn-inline" href="./wallet-hierarchy.html">Wallet Hierarchy</a>
+            <a class="btn btn-primary btn-inline" href="./platinum-shield.html">Platinum Shield</a>
+            <a class="btn btn-primary btn-inline" href="./kyber.html">Kyber</a>
+            <a class="btn btn-primary btn-inline" href="./falcon-512.html">Falcon 512</a>
+            <a class="btn btn-primary btn-inline" href="./join.html">Join Guide</a>
+            <a class="btn btn-primary btn-inline" href="./changelog.html">Changelog</a>
           </div>
         </article>
       </div>
@@ -190,33 +192,97 @@
 
     <section id="docs-index" class="section">
       <div class="wrap">
-        <span class="section-eyebrow">Docs Index</span>
-        <h2 class="section-title">Search and filter every indexed Atho document.</h2>
+        <span class="section-eyebrow">Core Guides</span>
+        <h2 class="section-title">Use the live web guides.</h2>
         <p class="section-copy">
-          The public catalog below is generated from the current documentation set so operators, builders, and partners
-          can search the active policy surface instead of relying on stale marketing copy.
+          The public docs hub now points to active HTML references so visitors stay on the current Atho baseline
+          instead of archived document sets.
         </p>
 
-        <div class="card card-pad docs-tools" data-reveal>
-          <label class="docs-search-label" for="docs-search-input">Search docs</label>
-          <div class="docs-search-row">
-            <input
-              id="docs-search-input"
-              class="docs-search-input"
-              type="search"
-              placeholder="Search consensus, emissions, wallet, private tx, API, packaging, troubleshooting..."
-              data-docs-search
-            >
-            <button class="btn btn-primary btn-inline docs-search-btn" type="button" data-docs-search-btn>Search</button>
-          </div>
-          <div class="docs-filter-row" data-docs-filters></div>
-          <div class="docs-count" data-docs-count>Loading documentation index...</div>
-        </div>
+        <div class="docs-catalog-grid" data-stagger>
+          <article class="card card-pad doc-catalog-card" data-reveal>
+            <h3 class="doc-catalog-title">Wallet</h3>
+            <p class="doc-catalog-summary">Custody model, payment addresses, private receive identity, fee policy, and recovery-safe wallet behavior.</p>
+            <div class="doc-meta">
+              <span class="feature-tag">Wallet</span>
+              <span class="doc-meta-type">HTML</span>
+            </div>
+            <div class="doc-actions">
+              <a class="btn btn-primary btn-inline" href="./wallet.html">Open Guide</a>
+            </div>
+          </article>
 
-        <div class="docs-catalog-grid" data-docs-catalog data-stagger></div>
-        <div class="card card-pad docs-empty" data-docs-empty hidden>
-          <h3 class="panel-title">No matches found</h3>
-          <p class="panel-copy">Try broader keywords like <code>consensus</code>, <code>wallet</code>, <code>private</code>, <code>emissions</code>, or <code>API</code>.</p>
+          <article class="card card-pad doc-catalog-card" data-reveal>
+            <h3 class="doc-catalog-title">Wallet Hierarchy</h3>
+            <p class="doc-catalog-summary">Mnemonic math, deterministic Falcon and Kyber branches, bundle structure, and recovery rules.</p>
+            <div class="doc-meta">
+              <span class="feature-tag">Recovery</span>
+              <span class="doc-meta-type">HTML</span>
+            </div>
+            <div class="doc-actions">
+              <a class="btn btn-primary btn-inline" href="./wallet-hierarchy.html">Open Guide</a>
+            </div>
+          </article>
+
+          <article class="card card-pad doc-catalog-card" data-reveal>
+            <h3 class="doc-catalog-title">Platinum Shield</h3>
+            <p class="doc-catalog-summary">Private payment flow, bundle and X-address handling, nullifier protections, and operational guardrails.</p>
+            <div class="doc-meta">
+              <span class="feature-tag">Privacy</span>
+              <span class="doc-meta-type">HTML</span>
+            </div>
+            <div class="doc-actions">
+              <a class="btn btn-primary btn-inline" href="./platinum-shield.html">Open Guide</a>
+            </div>
+          </article>
+
+          <article class="card card-pad doc-catalog-card" data-reveal>
+            <h3 class="doc-catalog-title">Kyber</h3>
+            <p class="doc-catalog-summary">How Atho uses Kyber for private recipient routing, view tags, bundle identity, and wallet lockbox encryption at rest.</p>
+            <div class="doc-meta">
+              <span class="feature-tag">Cryptography</span>
+              <span class="doc-meta-type">HTML</span>
+            </div>
+            <div class="doc-actions">
+              <a class="btn btn-primary btn-inline" href="./kyber.html">Open Guide</a>
+            </div>
+          </article>
+
+          <article class="card card-pad doc-catalog-card" data-reveal>
+            <h3 class="doc-catalog-title">Falcon 512</h3>
+            <p class="doc-catalog-summary">Why Atho chose Falcon-512, how signatures stay practical, and where transaction sizing fits in.</p>
+            <div class="doc-meta">
+              <span class="feature-tag">Security</span>
+              <span class="doc-meta-type">HTML</span>
+            </div>
+            <div class="doc-actions">
+              <a class="btn btn-primary btn-inline" href="./falcon-512.html">Open Guide</a>
+            </div>
+          </article>
+
+          <article class="card card-pad doc-catalog-card" data-reveal>
+            <h3 class="doc-catalog-title">Join Guide</h3>
+            <p class="doc-catalog-summary">Node setup flow, operational checks, private testnet validation, and troubleshooting entry points.</p>
+            <div class="doc-meta">
+              <span class="feature-tag">Operations</span>
+              <span class="doc-meta-type">HTML</span>
+            </div>
+            <div class="doc-actions">
+              <a class="btn btn-primary btn-inline" href="./join.html">Open Guide</a>
+            </div>
+          </article>
+
+          <article class="card card-pad doc-catalog-card" data-reveal>
+            <h3 class="doc-catalog-title">Release Thread</h3>
+            <p class="doc-catalog-summary">Track the public site baseline, release updates, and the currently exposed network constants.</p>
+            <div class="doc-meta">
+              <span class="feature-tag">Release</span>
+              <span class="doc-meta-type">HTML</span>
+            </div>
+            <div class="doc-actions">
+              <a class="btn btn-primary btn-inline" href="./changelog.html">Open Guide</a>
+            </div>
+          </article>
         </div>
       </div>
     </section>
@@ -256,8 +322,8 @@
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
-                <strong>Post-quantum signing</strong>
-                <span>Falcon-512 integration notes, witness verification, and binary hardening controls.</span>
+                  <strong>Post-quantum signing and encapsulation</strong>
+                  <span>Falcon and Kyber integration notes, witness verification, private-note routing, and binary hardening controls.</span>
               </span>
             </li>
             <li class="key-item">
@@ -320,7 +386,8 @@
           <div class="hero-actions">
             <a class="btn btn-primary btn-inline" href="./platinum-shield.html">Platinum Shield Page</a>
             <a class="btn btn-primary btn-inline" href="./wallet.html#wallet-private">Wallet Private Flow</a>
-            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/privatetx-v3-condensed.pdf" download>Download PrivateTx Condensed</a>
+            <a class="btn btn-primary btn-inline" href="./kyber.html">Kyber</a>
+            <a class="btn btn-primary btn-inline" href="./falcon-512.html">Falcon 512</a>
           </div>
         </article>
 
@@ -350,8 +417,10 @@
             </li>
           </ul>
           <div class="hero-actions">
+            <a class="btn btn-primary btn-inline" href="./wallet.html">Open Wallet</a>
             <a class="btn btn-primary btn-inline" href="./wallet-hierarchy.html">Open Web Guide</a>
-            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/wallet-hierarchy-visual-guide.pdf" download>Download PDF Guide</a>
+            <a class="btn btn-primary btn-inline" href="./kyber.html">Kyber</a>
+            <a class="btn btn-primary btn-inline" href="./wallet.html#wallet-recovery">Recovery Section</a>
           </div>
         </article>
       </div>

@@ -163,14 +163,14 @@
 
       <div class="global-nav-drawer" data-global-drawer>
         <div class="global-nav-card">
-          <span class="global-nav-title">All Pages</span>
           <div class="global-nav-grid">
             <a class="global-nav-link" href="./home.html">Home</a>
             <a class="global-nav-link" href="./docs.html">Docs</a>
             <a class="global-nav-link" href="./wallet.html">Wallet</a>
             <a class="global-nav-link" href="./wallet-hierarchy.html">Wallet Hierarchy</a>
             <a class="global-nav-link" href="./platinum-shield.html">Platinum Shield</a>
-            <a class="global-nav-link" href="./falcon-512.html">Falcon-512</a>
+            <a class="global-nav-link" href="./kyber.html">Kyber</a>
+            <a class="global-nav-link" href="./falcon-512.html">Falcon 512</a>
             <a class="global-nav-link" href="./join.html">Join</a>
             <a class="global-nav-link" href="./changelog.html">Changelog</a>
             <a class="global-nav-link" href="./roadmap.html">Roadmap</a>
@@ -192,15 +192,15 @@
           <h1>Deterministic wallet architecture from mnemonic to private notes.</h1>
           <p>
             One mnemonic root now maps to the active Atho wallet model: a regular payment address for public transfers
-            plus private bundle / X-address material for Platinum Shield receives. Older bond and stake references are
-            historical background only.
+            plus private bundle / X-address material for Platinum Shield receives. This guide stays focused on the
+            address and recovery paths users actually use.
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/wallet-hierarchy-visual-guide.pdf" download>Download PDF Version</a>
+            <a class="btn btn-primary btn-inline" href="./docs.html">Open Docs Hub</a>
             <a class="btn btn-primary btn-inline" href="#mnemonic-seed">Open Mnemonic Math</a>
             <a class="btn btn-primary btn-inline" href="#private-flow">Open Private Flow</a>
             <a class="btn btn-primary btn-inline" href="#recovery">Open Recovery Rules</a>
-            <a class="btn btn-primary btn-inline" href="./wallet.html">Open Wallet Page</a>
+            <a class="btn btn-primary btn-inline" href="./kyber.html">Open Kyber Page</a>
           </div>
         </div>
 
@@ -356,7 +356,7 @@ address = body + checksum_b56</code></pre>
             <div class="pill-grid">
               <span class="badge">Active public role = regular only</span>
               <span class="badge">Base56 typo-resistant alphabet</span>
-              <span class="badge">Older bond/stake roles are historical only</span>
+              <span class="badge">Checksum fixed to 6 chars</span>
             </div>
           </article>
 
@@ -548,8 +548,8 @@ note_seed = SHA3-256(
 
         <div class="source-note" data-reveal>
           <strong>Source alignment note:</strong> This page is synchronized to the wallet hierarchy guide updated on
-          <code>2026-04-18</code>. It reflects the active payment-only redesign and intentionally leaves retired bond and
-          stake mechanics out of the live web guidance.
+          <code>2026-04-18</code>. It reflects the live wallet documentation baseline and keeps the public guide focused
+          on active payment and privacy flows.
         </div>
       </div>
     </section>
