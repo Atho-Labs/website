@@ -1,0 +1,2130 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 18 /Kids [4 0 R 6 0 R 8 0 R 10 0 R 12 0 R 14 0 R 16 0 R 18 0 R 20 0 R 22 0 R 24 0 R 26 0 R 28 0 R 30 0 R 32 0 R 34 0 R 36 0 R 38 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 3205 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Atho Performance, Architecture, and Language Migration Audit) Tj
+T*
+() Tj
+T*
+(Date: 2026-04-15) Tj
+T*
+() Tj
+T*
+(Scope: current repository evaluation for architecture, execution flow, hot-path behavior,) Tj
+T*
+(bottlenecks, and selective language migration planning.) Tj
+T*
+() Tj
+T*
+(Evidence base:) Tj
+T*
+(- repo source inspection across Src/, Docs/, tests/, launcher/build scripts, and native backends) Tj
+T*
+(- current monetary-policy update in Src/Utility/const.py) Tj
+T*
+(- current runtime entrypoints in run.py and Src/Main/runnode.py) Tj
+T*
+(- consensus and block admission path in Src/Main/consensus.py) Tj
+T*
+(- transaction verification paths in Src/Main/txveri.py and Src/Transactions/txvalidation.py) Tj
+T*
+(- chain commit and reorg recovery logic in Src/Blockchain/blockchain.py and) Tj
+T*
+(Src/Blockchain/orphreorgs.py) Tj
+T*
+(- private pipeline paths in Src/Transactions/private_layer.py and) Tj
+T*
+(Src/Storage/private_notes_store.py) Tj
+T*
+(- miner and proof-of-work paths in Src/Miner/miner.py and Src/Miner/pow.py) Tj
+T*
+(- networking surface in Src/Network/p2pserver.py and Src/Network/peers.py) Tj
+T*
+(- current spec docs including Docs/Consensus.md, Docs/Transaction_Flow_Doc.md,) Tj
+T*
+(Docs/PrivateTx_v3.md, Docs/Network_Stack.md, Docs/Packaging.md) Tj
+T*
+(- test snapshot run on 2026-04-15:) Tj
+T*
+(- tests.test_monetary_hard_cap: pass) Tj
+T*
+(- tests.test_txmanager_private_accounting: pass) Tj
+T*
+(- tests.test_private_notes_preview: pass) Tj
+T*
+(- tests.test_state_tracker_recovery: pass) Tj
+T*
+(- tests.test_private_layer_pipeline: 4 failures) Tj
+T*
+() Tj
+T*
+(A. Executive Summary) Tj
+T*
+() Tj
+T*
+(Atho is a Python-led blockchain runtime with targeted native acceleration already present in the) Tj
+T*
+(places that most obviously need it: Falcon verification, UTXO batch checking, CPU PoW search, a) Tj
+T*
+(GPU miner path, and a Rust-backed STARK/private-proof backend. The repo is not a ?pure Python?) Tj
+T*
+(system in the performance sense. It is better described as a Python orchestration and policy) Tj
+T*
+(engine wrapped around several native performance islands.) Tj
+T*
+() Tj
+T*
+(That split is mostly correct. Python is carrying the right kinds of responsibilities in many) Tj
+T*
+(areas: runtime assembly, control-plane behavior, wallet orchestration, API surfaces, storage) Tj
+T*
+(repositories, and most consensus state-machine logic. The main problems are not ?Python exists?) Tj
+T*
+(problems. The main problems are:) Tj
+T*
+(- duplicate validation surfaces) Tj
+T*
+(- repeated canonicalization and dict/object churn) Tj
+T*
+(- JSON-heavy internal hot paths) Tj
+T*
+(- subprocess boundaries in the private proof path) Tj
+T*
+(- miner block sizing based on repeated JSON serialization) Tj
+T*
+(- Python loops still sitting in validation-heavy paths that already have native candidates) Tj
+T*
+(nearby) Tj
+T*
+(- too many places where the same semantic transaction or block is re-decoded, re-standardized,) Tj
+T*
+(or re-sized) Tj
+T*
+() Tj
+T*
+(The true immediate migration opportunities are selective, not broad. The best-value targets are:) Tj
+T*
+(- unify transaction verification onto one canonical path and collapse duplicate Python logic) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 3650 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- move canonical transaction/block codec work into one native or Rust-backed codec boundary) Tj
+T*
+(- replace subprocess-based private proof bridging with an in-process FFI boundary where feasible) Tj
+T*
+(- move block assembly sizing / candidate selection math away from repeated JSON serialization) Tj
+T*
+(- keep mining search in native code and tighten the Python/native boundary around work) Tj
+T*
+(preparation and result return) Tj
+T*
+() Tj
+T*
+(The top bottlenecks are not all CPU math. Several are architecture-induced:) Tj
+T*
+(- Python as a data pump between codecs, validators, and storage) Tj
+T*
+(- repeated conversion between compact wire, standardized dicts, transaction objects, and JSON) Tj
+T*
+(- duplicated signature/UTXO checking logic in two verification modules) Tj
+T*
+(- out-of-process proof generation/verification overhead) Tj
+T*
+(- miner sizing loops that repeatedly serialize candidate objects just to estimate capacity) Tj
+T*
+() Tj
+T*
+(What should be left alone for now:) Tj
+T*
+(- consensus policy/state-machine orchestration in Python, as long as semantics are centralized) Tj
+T*
+(and golden-tested) Tj
+T*
+(- LMDB itself; the repo?s real storage issue is access pattern complexity, not evidence that) Tj
+T*
+(LMDB is intrinsically too slow) Tj
+T*
+(- API/GUI/control-plane logic as native migration targets; these need structural cleanup, not) Tj
+T*
+(C++/Rust rewrites) Tj
+T*
+(- bond/stake policy logic as a native target; current risk is clarity and replay correctness,) Tj
+T*
+(not raw arithmetic speed) Tj
+T*
+() Tj
+T*
+(The correct production path is:) Tj
+T*
+(- centralize semantics first) Tj
+T*
+(- add profiling and golden vectors) Tj
+T*
+(- native-migrate only the narrow repeated kernels) Tj
+T*
+(- keep orchestration and policy in Python unless a specific path proves too slow or too fragile) Tj
+T*
+() Tj
+T*
+(B. Language Inventory Table) Tj
+T*
+() Tj
+T*
+(| Language | Where Used | Purpose | Appropriate or Not | Notes |) Tj
+T*
+(|---|---|---|---|---|) Tj
+T*
+(| Python | Src/Main, Src/Transactions, Src/Blockchain, Src/Storage, Src/Network, Src/Wallet,) Tj
+T*
+(Src/Api, Src/GUI, tests, scripts | Runtime orchestration, consensus policy, storage) Tj
+T*
+(coordination, networking, API, wallet logic, mining assembly, tests | Mostly appropriate |) Tj
+T*
+(Python is the dominant authored language. It is suitable for orchestration and policy. It is) Tj
+T*
+(overstretched in repeated codec/validation loops. |) Tj
+T*
+(| C | Src/Falcon/Falcon/*.c, Src/Falcon/falcon_verify_bridge.c,) Tj
+T*
+(Src/Transactions/utxo_batch_check.c, Src/Utility/tx_signing_body_bridge.c,) Tj
+T*
+(Src/Miner/pow_cpu_bridge.c, vendored Kyber C trees | Cryptography kernels, validation helpers,) Tj
+T*
+(binary hashing/preimage helpers, CPU mining kernels | Appropriate | This is where the repo) Tj
+T*
+(already takes the right approach: tight kernels and FFI-ready bridges. |) Tj
+T*
+(| C++ | Src/Miner/GPU/gpu_miner.cpp | GPU miner runtime / host-side GPU coordination |) Tj
+T*
+(Appropriate | Narrow use. Good candidate to remain isolated behind a stable miner interface. |) Tj
+T*
+(| Rust | Src/ZKSTARK/crates/..., atho_private_stark_runtime.rs, backend binaries/scripts |) Tj
+T*
+(STARK/private proof backend and runtime | Appropriate | Good fit for proof-system logic and) Tj
+T*
+(safer binary/structured processing. Current issue is subprocess integration, not the language) Tj
+T*
+(choice. |) Tj
+T*
+(| CUDA | Src/Miner/GPU/*.cu | NVIDIA mining kernels | Appropriate | Performance-specific) Tj
+T*
+(backend. Keep isolated. |) Tj
+T*
+(| OpenCL | Src/Miner/GPU/*.cl | Cross-vendor GPU mining kernels | Appropriate | Useful for) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 3712 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(optional acceleration. Not consensus-sensitive. |) Tj
+T*
+(| Shell | build scripts, release scripts, native bridge build helpers | Build and packaging) Tj
+T*
+(automation | Appropriate | Acceptable for build-time and release-time workflows. Not acceptable) Tj
+T*
+(as a hot-path runtime dependency. |) Tj
+T*
+(| JSON | config files, manifests, wire payloads, logs, some persistence payloads |) Tj
+T*
+(Configuration, wire framing, diagnostic output, storage payloads | Mixed | Good for config/logs.) Tj
+T*
+(Overused in hot internal paths, especially miner sizing, wire encode/decode, and some) Tj
+T*
+(persistence surfaces. |) Tj
+T*
+(| TOML | Rust crate manifests and related config | Rust package/build metadata | Appropriate |) Tj
+T*
+(Standard for Rust. |) Tj
+T*
+(| Markdown | Docs/*.md | Specs, audits, policies, design docs | Appropriate | Current weakness) Tj
+T*
+(is source-of-truth drift across docs. |) Tj
+T*
+(| C headers | native bridge headers, vendored crypto | FFI contracts and native declarations |) Tj
+T*
+(Appropriate | Keep narrow and stable. |) Tj
+T*
+() Tj
+T*
+(Language inventory interpretation) Tj
+T*
+() Tj
+T*
+(The repo already reflects a sensible hybrid strategy:) Tj
+T*
+(- Python for control and composition) Tj
+T*
+(- C for cryptographic and validation kernels) Tj
+T*
+(- Rust for proof-heavy backends) Tj
+T*
+(- C++/CUDA/OpenCL for mining acceleration) Tj
+T*
+() Tj
+T*
+(The problem is not the language mix. The problem is uneven boundary quality. Several hot paths) Tj
+T*
+(still cross language, serialization, or subprocess boundaries too often or too loosely.) Tj
+T*
+() Tj
+T*
+(C. System Inventory Table) Tj
+T*
+() Tj
+T*
+(| Subsystem | Main Files | Language | What It Does | Criticality | Performance Sensitivity |) Tj
+T*
+(Consensus Sensitivity |) Tj
+T*
+(|---|---|---|---|---|---|---|) Tj
+T*
+(| Runtime launcher | run.py, build.py, Src/Main/runnode.py, Src/Main/stop.py | Python | Starts) Tj
+T*
+(roles, validates binaries, coordinates local services | High | Medium | Medium |) Tj
+T*
+(| Consensus gateway | Src/Main/consensus.py | Python | Canonical tx/block admission, state write) Tj
+T*
+(coordination, emission and BPoW hooks | Very high | High | Very high |) Tj
+T*
+(| Block verification / chainstate commit | Src/Main/blockveri.py, Src/Blockchain/blockchain.py,) Tj
+T*
+(Src/Blockchain/orphreorgs.py | Python | Verifies blocks, commits block+UTXO, handles) Tj
+T*
+(orphans/reorgs/journals | Very high | High | Very high |) Tj
+T*
+(| Transaction model / codec | Src/Transactions/tx.py, txin.py, txout.py, txbinary.py,) Tj
+T*
+(Src/Utility/txdhash.py, wirecodec.py | Python + C helper | Canonical tx representation,) Tj
+T*
+(txid/signing hash, binary/wire translation | Very high | High | Very high |) Tj
+T*
+(| Transaction verification | Src/Main/txveri.py, Src/Transactions/txvalidation.py | Python + C) Tj
+T*
+(FFI + Falcon native | UTXO checks, signature checks, block tx verification, caches | Very high |) Tj
+T*
+(Very high | Very high |) Tj
+T*
+(| Private transaction layer | Src/Transactions/private_layer.py, Src/Wallet/private_spend.py,) Tj
+T*
+(Src/Wallet/private_receive.py, Src/Storage/private_notes_store.py | Python + Rust backend via) Tj
+T*
+(subprocess | Private note model, proof statement building, proof verification/generation,) Tj
+T*
+(note/nullifier/anchor state | Very high | Very high | Very high |) Tj
+T*
+(| Wallet / key management | Src/Accounts/key_manager.py, mnemonic.py, falconcli.py, kybercli.py) Tj
+T*
+(| Python + C/native wrappers | Deterministic keys, signing, bundle generation, wallet-facing) Tj
+T*
+(cryptography | High | High | High |) Tj
+T*
+(| Mining assembly | Src/Miner/miner.py | Python | Candidate building, tx selection, coinbase) Tj
+T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 2865 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(creation, block assembly | High | High | High |) Tj
+T*
+(| Proof-of-work engine | Src/Miner/pow.py, native CPU bridge, GPU sources | Python + C +) Tj
+T*
+(C++/CUDA/OpenCL | Nonce search, difficulty comparison, hash loops | High | Very high | High |) Tj
+T*
+(| Networking / P2P | Src/Network/p2pserver.py, peers.py, sync.py, connection.py | Python |) Tj
+T*
+(Framed wire messaging, inv/getdata/getheaders, peer state, sync | High | High | High |) Tj
+T*
+(| Storage repositories | Src/Storage/utxostorage.py, blockstorage.py, mempool.py, bondstake.py,) Tj
+T*
+(peerstore.py, lmdbutils.py | Python + LMDB | Persistent state, write guards, map-size) Tj
+T*
+(management, cached indexes | Very high | High | Very high |) Tj
+T*
+(| Emission / monetary enforcement | Src/Main/emission.py, Src/Transactions/coinbase.py,) Tj
+T*
+(Src/Utility/const.py | Python | Reward schedule, supply closure, fee routing, overpay protection) Tj
+T*
+(| Very high | Medium | Very high |) Tj
+T*
+(| BPoW / bond / stake state | Src/Storage/bondstake.py, Src/Main/consensus.py,) Tj
+T*
+(Src/Blockchain/orphreorgs.py | Python + LMDB | Bond/stake state tracking, payout eligibility,) Tj
+T*
+(slash/rebuild hooks | Very high | Medium | Very high |) Tj
+T*
+(| API surface | Src/Api/apis.py, Src/Api/auth.py | Python | Node RPC/query surface, command) Tj
+T*
+(handling, integration helpers | High | Medium | Low direct, high indirect |) Tj
+T*
+(| GUI | Src/GUI/gui.py | Python | Desktop client, node/wallet control, display layer | Medium |) Tj
+T*
+(Medium | Low direct |) Tj
+T*
+(| Audit / diagnostics / tracing | Src/Utility/auditlog.py, bpowaudit.py, trace/log helpers |) Tj
+T*
+(Python | Logs, records, diagnostics, incident visibility | High | Low | Medium |) Tj
+T*
+(| Tests / harnesses | tests/* | Python | Regression, invariants, pipeline checks | Very high |) Tj
+T*
+(Low runtime, high strategic | Very high strategic |) Tj
+T*
+() Tj
+T*
+(Inventory interpretation) Tj
+T*
+() Tj
+T*
+(The repo?s critical path lives in a relatively small set of modules:) Tj
+T*
+(- Src/Main/consensus.py) Tj
+T*
+(- Src/Main/txveri.py) Tj
+T*
+(- Src/Transactions/tx.py) Tj
+T*
+(- Src/Transactions/private_layer.py) Tj
+T*
+(- Src/Blockchain/blockchain.py) Tj
+T*
+(- Src/Blockchain/orphreorgs.py) Tj
+T*
+(- Src/Miner/miner.py) Tj
+T*
+(- Src/Miner/pow.py) Tj
+T*
+(- Src/Storage/utxostorage.py) Tj
+T*
+(- Src/Network/p2pserver.py) Tj
+T*
+() Tj
+T*
+(These are the modules that determine whether a native migration is worth the risk. Many other) Tj
+T*
+(files are important, but they are not first-wave performance levers.) Tj
+T*
+() Tj
+T*
+(D. End-to-End Flow Maps) Tj
+T*
+(- Node startup flow) Tj
+T*
+() Tj
+T*
+(Entry points:) Tj
+T*
+(- run.py) Tj
+T*
+(- Src/Main/runnode.py) Tj
+T*
+() Tj
+T*
+(Major files and classes:) Tj
+T*
+(- run.py) Tj
+T*
+(- Src/Main/runnode.py) Tj
+T*
+(- Src/Main/consensus.py) Tj
+T*
+(- Src/Storage/*) Tj
+T*
+ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 2168 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Src/Api/apis.py) Tj
+T*
+(- Src/Network/p2pserver.py) Tj
+T*
+(- Src/Miner/miner.py) Tj
+T*
+() Tj
+T*
+(Ordered flow:) Tj
+T*
+(- run.py assembles environment, role, and process-launch intent.) Tj
+T*
+(- Src/Main/runnode.py loads constants/config and checks required native/runtime binaries.) Tj
+T*
+(- Storage layers are opened: block store, UTXO store, mempool, bond/stake store, private notes) Tj
+T*
+(store, peer store.) Tj
+T*
+(- Consensus manager is constructed and rebuild hooks may run:) Tj
+T*
+(- interrupted block-commit recovery) Tj
+T*
+(- interrupted reorg recovery) Tj
+T*
+(- bond/stake rebuild from chain) Tj
+T*
+(- private-state rebuild from chain) Tj
+T*
+(- Networking, API, miner, and supporting threads are started according to node role.) Tj
+T*
+(- Readiness depends on more than process liveness; some stores and backends must be available) Tj
+T*
+(before safe admission starts.) Tj
+T*
+() Tj
+T*
+(Expensive parts:) Tj
+T*
+(- LMDB open/recovery sequences) Tj
+T*
+(- chain replay/rebuild if journals indicate interrupted state) Tj
+T*
+(- binary/backend readiness checks) Tj
+T*
+() Tj
+T*
+(Consensus-sensitive parts:) Tj
+T*
+(- recovery of interrupted block commit) Tj
+T*
+(- reorg journal recovery) Tj
+T*
+(- rebuilding private and bond/stake state against canonical block storage) Tj
+T*
+() Tj
+T*
+(Orchestration vs heavy computation:) Tj
+T*
+(- Mostly orchestration) Tj
+T*
+(- Heavy work only appears during rebuild/recovery and large store initialization) Tj
+T*
+() Tj
+T*
+(Migration view:) Tj
+T*
+(- Keep in Python) Tj
+T*
+(- Improve readiness modeling and reduce recovery ambiguity before considering any language) Tj
+T*
+(change) Tj
+T*
+(- Transaction creation flow) Tj
+T*
+() Tj
+T*
+(Entry points:) Tj
+T*
+(- API send endpoints in Src/Api/apis.py) Tj
+T*
+(- wallet send path in Src/Main/send.py) Tj
+T*
+(- transaction manager in Src/Transactions/txmanager.py) Tj
+T*
+() Tj
+T*
+(Major files:) Tj
+T*
+(- Src/Transactions/txmanager.py) Tj
+T*
+(- Src/Transactions/tx.py) Tj
+T*
+(- Src/Accounts/key_manager.py) Tj
+T*
+(- Src/Accounts/falconcli.py) Tj
+T*
+(- Src/Wallet/private_spend.py) Tj
+T*
+() Tj
+T*
+(Ordered flow:) Tj
+T*
+(- User/API provides send intent.) Tj
+T*
+ET
+endstream
+endobj
+14 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 15 0 R >>
+endobj
+15 0 obj
+<< /Length 2185 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Wallet / transaction manager selects source UTXOs or private notes.) Tj
+T*
+(- Transaction object is created in Src/Transactions/tx.py.) Tj
+T*
+(- Canonical fields are frozen; txid and signing hash are derived.) Tj
+T*
+(- Signature material is produced through Falcon path.) Tj
+T*
+(- For private sends, note/bundle/private vectors are prepared and possibly transformed for) Tj
+T*
+(block-mode semantics later.) Tj
+T*
+(- Resulting standardized tx moves to mempool admission via consensus or API path.) Tj
+T*
+() Tj
+T*
+(Expensive parts:) Tj
+T*
+(- repeated canonical field normalization) Tj
+T*
+(- signing-hash generation) Tj
+T*
+(- private bundle/note construction) Tj
+T*
+() Tj
+T*
+(Consensus-sensitive parts:) Tj
+T*
+(- canonical signing preimage generation) Tj
+T*
+(- txid / no-witness identity logic) Tj
+T*
+(- deterministic private vector semantics) Tj
+T*
+() Tj
+T*
+(Orchestration vs heavy computation:) Tj
+T*
+(- Mostly orchestration until signature generation and canonical serialization) Tj
+T*
+() Tj
+T*
+(Migration view:) Tj
+T*
+(- Keep wallet orchestration in Python) Tj
+T*
+(- Consider moving canonical serialization/signing-body generation into a single native codec) Tj
+T*
+(boundary) Tj
+T*
+(- Transaction signing flow) Tj
+T*
+() Tj
+T*
+(Entry points:) Tj
+T*
+(- Transaction.calculate_hash\(\)) Tj
+T*
+(- Falcon signing paths via key manager / Falcon CLI bridge) Tj
+T*
+() Tj
+T*
+(Major files:) Tj
+T*
+(- Src/Transactions/tx.py) Tj
+T*
+(- Src/Utility/txdhash.py) Tj
+T*
+(- Src/Accounts/falconcli.py) Tj
+T*
+(- Src/Utility/tx_signing_body_bridge.c) Tj
+T*
+() Tj
+T*
+(Ordered flow:) Tj
+T*
+(- Transaction is converted to base/no-witness form.) Tj
+T*
+(- Canonical signing message is created.) Tj
+T*
+(- Falcon signing key signs the message.) Tj
+T*
+(- Verification path later replays the same canonicalization and verifies signature.) Tj
+T*
+() Tj
+T*
+(Expensive parts:) Tj
+T*
+(- canonical dict normalization) Tj
+T*
+(- repeated serialization and hex/b64 conversions) Tj
+T*
+(- Falcon sign/verify cost) Tj
+T*
+() Tj
+T*
+(Consensus-sensitive parts:) Tj
+T*
+(- signing preimage must be identical across builders and verifiers) Tj
+T*
+() Tj
+T*
+(Orchestration vs heavy computation:) Tj
+T*
+ET
+endstream
+endobj
+16 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 17 0 R >>
+endobj
+17 0 obj
+<< /Length 2020 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Preimage building is a codec problem.) Tj
+T*
+(- Falcon signing/verification is heavy computation.) Tj
+T*
+() Tj
+T*
+(Migration view:) Tj
+T*
+(- Preimage generation is a strong native candidate.) Tj
+T*
+(- Signing itself already belongs in native code.) Tj
+T*
+(- Transaction validation and mempool admission flow) Tj
+T*
+() Tj
+T*
+(Entry points:) Tj
+T*
+(- ConsensusManager.accept_tx\(\) in Src/Main/consensus.py) Tj
+T*
+(- P2P tx handler in Src/Network/p2pserver.py) Tj
+T*
+() Tj
+T*
+(Major files:) Tj
+T*
+(- Src/Main/consensus.py) Tj
+T*
+(- Src/Main/txveri.py) Tj
+T*
+(- Src/Transactions/txvalidation.py) Tj
+T*
+(- Src/Storage/mempool.py) Tj
+T*
+(- Src/Storage/utxostorage.py) Tj
+T*
+() Tj
+T*
+(Ordered flow:) Tj
+T*
+(- Incoming tx may arrive as compact wire payload or standardized dict.) Tj
+T*
+(- Consensus path rehydrates/standardizes it.) Tj
+T*
+(- Transaction.from_dict\(\) or equivalent object build occurs.) Tj
+T*
+(- Signature checks, UTXO checks, maturity checks, fee checks, duplicate/conflict checks run.) Tj
+T*
+(- Private-note/nullifier/anchor checks run if needed.) Tj
+T*
+(- On success, mempool write occurs under consensus_write_context.) Tj
+T*
+() Tj
+T*
+(Expensive parts:) Tj
+T*
+(- wire decode + standardize + object build) Tj
+T*
+(- repeated UTXO reads) Tj
+T*
+(- signature verification) Tj
+T*
+(- private-layer note/nullifier checks) Tj
+T*
+() Tj
+T*
+(Consensus-sensitive parts:) Tj
+T*
+(- almost the entire flow) Tj
+T*
+() Tj
+T*
+(Architectural smell:) Tj
+T*
+(- there are two major verification surfaces:) Tj
+T*
+(- Src/Main/txveri.py) Tj
+T*
+(- Src/Transactions/txvalidation.py) Tj
+T*
+(- both have native UTXO batch checker loading and signature-cache behavior) Tj
+T*
+(- this is both a performance and auditability problem) Tj
+T*
+() Tj
+T*
+(Migration view:) Tj
+T*
+(- first unify semantics) Tj
+T*
+(- then move tight repeated kernels, not the whole validator) Tj
+T*
+(- Block assembly flow) Tj
+T*
+() Tj
+T*
+(Entry points:) Tj
+T*
+(- miner loop in Src/Miner/miner.py) Tj
+T*
+() Tj
+T*
+(Major files:) Tj
+T*
+ET
+endstream
+endobj
+18 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 19 0 R >>
+endobj
+19 0 obj
+<< /Length 1980 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Src/Miner/miner.py) Tj
+T*
+(- Src/Transactions/coinbase.py) Tj
+T*
+(- Src/Storage/mempool.py) Tj
+T*
+(- Src/Transactions/private_layer.py) Tj
+T*
+(- Src/Storage/bondstake.py) Tj
+T*
+() Tj
+T*
+(Ordered flow:) Tj
+T*
+(- Miner snapshots mempool/tip context.) Tj
+T*
+(- Candidate transaction set is selected.) Tj
+T*
+(- Block size is estimated repeatedly using compact JSON length.) Tj
+T*
+(- Fee totals and payout distribution are computed.) Tj
+T*
+(- Coinbase is created and validated.) Tj
+T*
+(- Private transactions are transformed to block-mode representation.) Tj
+T*
+(- If needed, private aggregate proof is generated.) Tj
+T*
+(- Final block payload is handed to PoW manager.) Tj
+T*
+() Tj
+T*
+(Expensive parts:) Tj
+T*
+(- repeated JSON serialization for candidate sizing) Tj
+T*
+(- transaction list rescoring / re-estimation) Tj
+T*
+(- private block-mode transforms) Tj
+T*
+(- proof generation handoff) Tj
+T*
+() Tj
+T*
+(Consensus-sensitive parts:) Tj
+T*
+(- coinbase value closure) Tj
+T*
+(- fee routing) Tj
+T*
+(- private block-mode transform) Tj
+T*
+(- miner eligibility / bond/stake coupling) Tj
+T*
+() Tj
+T*
+(Migration view:) Tj
+T*
+(- block assembly is partially native-amenable, but not as a giant rewrite) Tj
+T*
+(- best target is a native sizing/selection kernel or a Rust block-template helper library) Tj
+T*
+(- Mining / proof-of-work flow) Tj
+T*
+() Tj
+T*
+(Entry points:) Tj
+T*
+(- PowManager.perform_pow\(\) in Src/Miner/pow.py) Tj
+T*
+() Tj
+T*
+(Major files:) Tj
+T*
+(- Src/Miner/pow.py) Tj
+T*
+(- Src/Miner/pow_cpu_bridge.c) Tj
+T*
+(- GPU miner backend sources) Tj
+T*
+() Tj
+T*
+(Ordered flow:) Tj
+T*
+(- Python prepares work header/prefix/suffix/target.) Tj
+T*
+(- CPU or GPU backend is selected.) Tj
+T*
+(- Native search loop scans nonce ranges.) Tj
+T*
+(- Candidate digest/nonce is returned.) Tj
+T*
+(- Python verifies result and finalizes mined block.) Tj
+T*
+() Tj
+T*
+(Expensive parts:) Tj
+T*
+(- nonce search itself) Tj
+T*
+(- repeated hash comparison) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+20 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 21 0 R >>
+endobj
+21 0 obj
+<< /Length 1993 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Consensus-sensitive parts:) Tj
+T*
+(- target calculation and proof verification logic) Tj
+T*
+() Tj
+T*
+(Migration view:) Tj
+T*
+(- search loop already belongs native) Tj
+T*
+(- Python should only prepare work and verify result) Tj
+T*
+(- do not move more logic than needed across this boundary) Tj
+T*
+(- Block verification, commit, and reorg flow) Tj
+T*
+() Tj
+T*
+(Entry points:) Tj
+T*
+(- ConsensusManager.accept_block\(\)) Tj
+T*
+(- P2P block handlers in Src/Network/p2pserver.py) Tj
+T*
+() Tj
+T*
+(Major files:) Tj
+T*
+(- Src/Main/consensus.py) Tj
+T*
+(- Src/Main/blockveri.py) Tj
+T*
+(- Src/Main/txveri.py) Tj
+T*
+(- Src/Main/emission.py) Tj
+T*
+(- Src/Blockchain/blockchain.py) Tj
+T*
+(- Src/Blockchain/orphreorgs.py) Tj
+T*
+() Tj
+T*
+(Ordered flow:) Tj
+T*
+(- Block arrives from network, miner, or local source.) Tj
+T*
+(- Basic structural and version checks run.) Tj
+T*
+(- Stateless/block-header checks run.) Tj
+T*
+(- Transactions are verified in block context.) Tj
+T*
+(- Emission/coinbase overpay guard runs.) Tj
+T*
+(- Payout/fund routing validation runs.) Tj
+T*
+(- If extending tip:) Tj
+T*
+(- block is persisted) Tj
+T*
+(- UTXO changes apply) Tj
+T*
+(- state hook applies bond/stake/private-state effects) Tj
+T*
+(- commit journal is updated/cleared) Tj
+T*
+(- If side-chain or competing branch:) Tj
+T*
+(- orphan/reorg manager evaluates branch) Tj
+T*
+(- reorg journal manages rollback/apply) Tj
+T*
+(- private state and bond/stake state may rebuild from chain) Tj
+T*
+(- post-commit invariants are checked) Tj
+T*
+() Tj
+T*
+(Expensive parts:) Tj
+T*
+(- transaction verification over full block) Tj
+T*
+(- UTXO application) Tj
+T*
+(- reorg rollback/replay) Tj
+T*
+(- private-state rebuilds) Tj
+T*
+() Tj
+T*
+(Consensus-sensitive parts:) Tj
+T*
+(- entire flow) Tj
+T*
+() Tj
+T*
+(Migration view:) Tj
+T*
+(- do not rewrite this whole subsystem in native code) Tj
+T*
+(- first centralize semantics and then optimize the repeated internal kernels) Tj
+T*
+(- Private transaction / proof flow) Tj
+T*
+ET
+endstream
+endobj
+22 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 23 0 R >>
+endobj
+23 0 obj
+<< /Length 2013 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(Entry points:) Tj
+T*
+(- wallet private spend builder) Tj
+T*
+(- miner block-mode private proof generation) Tj
+T*
+(- validator private proof verification) Tj
+T*
+() Tj
+T*
+(Major files:) Tj
+T*
+(- Src/Transactions/private_layer.py) Tj
+T*
+(- Src/Wallet/private_spend.py) Tj
+T*
+(- Src/Storage/private_notes_store.py) Tj
+T*
+(- Rust STARK runtime/backend scripts) Tj
+T*
+() Tj
+T*
+(Ordered flow:) Tj
+T*
+(- Wallet builds private input/output vectors and encrypted payloads.) Tj
+T*
+(- Mempool path validates note/nullifier/anchor structure and note amount knowledge where) Tj
+T*
+(required.) Tj
+T*
+(- Miner transforms v5/private outputs into block representation.) Tj
+T*
+(- Statement for proof is derived from block canonical data.) Tj
+T*
+(- Python calls external STARK tool/backend via subprocess.) Tj
+T*
+(- Proof is attached to block.) Tj
+T*
+(- Verifier re-derives statement and verifies proof.) Tj
+T*
+(- On commit, note/nullifier/anchor state advances atomically with block acceptance or is rebuilt) Tj
+T*
+(on reorg/restart.) Tj
+T*
+() Tj
+T*
+(Expensive parts:) Tj
+T*
+(- proof generation/verification) Tj
+T*
+(- statement building) Tj
+T*
+(- subprocess startup and serialization overhead) Tj
+T*
+(- note/nullifier scans and anchor proofs) Tj
+T*
+() Tj
+T*
+(Consensus-sensitive parts:) Tj
+T*
+(- proof validity) Tj
+T*
+(- statement determinism) Tj
+T*
+(- note/nullifier/anchor transitions) Tj
+T*
+(- apply/revert symmetry) Tj
+T*
+() Tj
+T*
+(Migration view:) Tj
+T*
+(- keep high-level policy in Python only if statement construction remains centralized) Tj
+T*
+(- move proof bridge from subprocess IPC toward in-process FFI or a longer-lived worker boundary) Tj
+T*
+(- Bonding, staking, and fee-routing flow) Tj
+T*
+() Tj
+T*
+(Entry points:) Tj
+T*
+(- block acceptance) Tj
+T*
+(- payout generation) Tj
+T*
+(- reorg rebuild) Tj
+T*
+() Tj
+T*
+(Major files:) Tj
+T*
+(- Src/Storage/bondstake.py) Tj
+T*
+(- Src/Main/consensus.py) Tj
+T*
+(- Src/Blockchain/orphreorgs.py) Tj
+T*
+(- Src/Utility/const.py) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+24 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 25 0 R >>
+endobj
+25 0 obj
+<< /Length 2203 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Ordered flow:) Tj
+T*
+(- Consensus checks whether BPoW is active for height.) Tj
+T*
+(- Accepted block triggers bond/stake state processing.) Tj
+T*
+(- Payout txs for miner/stake/idle-bonded pool are computed from canonical policy.) Tj
+T*
+(- Invalid bonded mining can trigger slash path.) Tj
+T*
+(- Reorg/restart can trigger full state rebuild from canonical chain.) Tj
+T*
+() Tj
+T*
+(Expensive parts:) Tj
+T*
+(- not raw arithmetic; mostly state replay and rebuild) Tj
+T*
+() Tj
+T*
+(Consensus-sensitive parts:) Tj
+T*
+(- yes, but not obviously native-bound) Tj
+T*
+() Tj
+T*
+(Migration view:) Tj
+T*
+(- keep in Python) Tj
+T*
+(- focus on authority clarity, replay determinism, and test coverage) Tj
+T*
+(- Storage read/write flow) Tj
+T*
+() Tj
+T*
+(Entry points:) Tj
+T*
+(- every consensus admission and query path) Tj
+T*
+() Tj
+T*
+(Major files:) Tj
+T*
+(- Src/Storage/utxostorage.py) Tj
+T*
+(- Src/Storage/blockstorage.py) Tj
+T*
+(- Src/Storage/mempool.py) Tj
+T*
+(- Src/Storage/private_notes_store.py) Tj
+T*
+(- Src/Storage/bondstake.py) Tj
+T*
+(- Src/Storage/lmdbutils.py) Tj
+T*
+() Tj
+T*
+(Ordered flow:) Tj
+T*
+(- Standardized dicts / transaction objects are converted to storage payloads.) Tj
+T*
+(- JSON-like blobs are written to LMDB under prefixed keys.) Tj
+T*
+(- Consensus write guards control mutation authority.) Tj
+T*
+(- Commit or reorg journals track incomplete state transitions.) Tj
+T*
+(- Recovery logic replays or rolls back after interruption.) Tj
+T*
+() Tj
+T*
+(Expensive parts:) Tj
+T*
+(- repeated encoding/decoding) Tj
+T*
+(- large numbers of fine-grained UTXO lookups) Tj
+T*
+(- rebuild/reorg replay) Tj
+T*
+() Tj
+T*
+(Migration view:) Tj
+T*
+(- access pattern and encoding cleanup first) Tj
+T*
+(- LMDB bindings themselves are not the first thing to replace) Tj
+T*
+() Tj
+T*
+(E. Performance Bottleneck Table) Tj
+T*
+() Tj
+T*
+(| Component | File/Function | Type of Bottleneck | Why It Is Expensive | Suggested Fix |) Tj
+T*
+(Migration Priority |) Tj
+T*
+(|---|---|---|---|---|---|) Tj
+T*
+(| Duplicate tx verification | Src/Main/txveri.py, Src/Transactions/txvalidation.py | CPU +) Tj
+T*
+(architecture | Same categories of work exist in two Python validators, multiplying maintenance) Tj
+T*
+ET
+endstream
+endobj
+26 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 27 0 R >>
+endobj
+27 0 obj
+<< /Length 4467 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(and some repeated processing | Unify to one canonical verification pipeline before deeper) Tj
+T*
+(optimization | Critical |) Tj
+T*
+(| Canonical tx serialization / txid / signing-hash | Src/Transactions/tx.py,) Tj
+T*
+(Src/Utility/txdhash.py, txbinary.py | CPU + serialization | Repeated dict normalization, witness) Tj
+T*
+(stripping, canonicalization, and encode/decode loops | Central native or Rust codec/preimage) Tj
+T*
+(library with Python bindings | Critical |) Tj
+T*
+(| Falcon verification loop | Src/Accounts/falconcli.py, Src/Main/txveri.py | CPU-bound crypto |) Tj
+T*
+(Signature verification is repeatedly invoked and sits directly in tx/block validation | Keep) Tj
+T*
+(native verification, improve batching, reduce conversion overhead around it | High |) Tj
+T*
+(| UTXO existence/unspent checks | Src/Main/txveri.py, Src/Transactions/utxo_batch_check.c,) Tj
+T*
+(Src/Storage/utxostorage.py | DB-bound + CPU | Many per-input lookups; Python path still exists) Tj
+T*
+(beside batch checker path | Standardize on batch checker where safe, reduce fallback duplication) Tj
+T*
+(| High |) Tj
+T*
+(| Miner candidate sizing | Src/Miner/miner.py _compact_json_len, _select_transactions_for_block) Tj
+T*
+(| CPU + serialization | Repeated JSON dumps used as sizing estimator inside loops | Replace with) Tj
+T*
+(canonical binary size/vsize calculator shared with validator/codec | High |) Tj
+T*
+(| Private proof bridge | Src/Transactions/private_layer.py _run_stark_tool | Subprocess-bound |) Tj
+T*
+(External tool calls add startup, serialization, error-parsing, and fragility overhead | Replace) Tj
+T*
+(with FFI or persistent long-lived worker protocol | Critical |) Tj
+T*
+(| P2P wire encode/decode | Src/Network/p2pserver.py _wire_encode_tx, _wire_decode_tx,) Tj
+T*
+(_wire_decode_block | CPU + serialization | Transactions and blocks are compacted, JSON encoded,) Tj
+T*
+(zlib-compressed, decoded, standardized repeatedly | Centralize codec and reduce JSON dependency) Tj
+T*
+(in hot path | High |) Tj
+T*
+(| Block tx verification loops | Src/Main/txveri.py verify_transactions_in_block | CPU-bound |) Tj
+T*
+(Full-block repetition of signature, UTXO, and object normalization work | Better batch) Tj
+T*
+(interfaces, shared canonical parse, native kernels for repeated checks | High |) Tj
+T*
+(| Private note/nullifier/anchor verification | Src/Storage/private_notes_store.py) Tj
+T*
+(_apply_block_txn, anchor/nullifier helpers | CPU + DB | Per-private-input checks include anchor) Tj
+T*
+(recency, merkle path, nullifier freshness, note state | Keep logic centralized; consider native) Tj
+T*
+(merkle/path kernel only after proving it is a bottleneck | Medium |) Tj
+T*
+(| Reorg rebuild of side state | Src/Blockchain/orphreorgs.py rebuild helpers | IO + CPU |) Tj
+T*
+(Rebuilds canonical side state by replaying chain data; expensive on deep reorg or recovery |) Tj
+T*
+(Improve incremental checkpoints and authoritative rebuild interfaces | Medium |) Tj
+T*
+(| PoW Python fallback | Src/Miner/pow.py pure Python branches | CPU-bound | Python loops in) Tj
+T*
+(nonce scanning are noncompetitive | Keep only as fallback; production should prefer native) Tj
+T*
+(CPU/GPU | Medium |) Tj
+T*
+(| JSON-backed storage payloads | Src/Storage/utxostorage.py, mempool.py, private_notes_store.py) Tj
+T*
+(| CPU + memory | Frequent JSON dumps/loads of structured state create conversion cost | Move) Tj
+T*
+(hottest persisted records to compact binary encoding gradually | Medium |) Tj
+T*
+(| Object churn in transaction creation | Src/Transactions/tx.py | CPU + memory | Multiple) Tj
+T*
+(object/dict transformations before final tx freeze | Use a stricter internal canonical) Tj
+T*
+(representation and reduce mid-flight conversions | Medium |) Tj
+T*
+(| Proof statement building | Src/Transactions/private_layer.py _statement_for_proof | CPU +) Tj
+T*
+(architecture | Statement is reconstructed from Python dicts, then serialized for) Tj
+T*
+(subprocess/backend | Centralize statement builder with stricter typed boundary | Medium |) Tj
+T*
+(| Peer payload framing/compression | Src/Network/p2pserver.py _read_json, _send_json | CPU +) Tj
+T*
+(network | JSON + compression on high message volume can be costly | Benchmark before rewrite;) Tj
+T*
+(likely secondary after codec/validator cleanup | Low/Medium |) Tj
+T*
+() Tj
+T*
+(F. Migration Recommendation Table) Tj
+T*
+() Tj
+T*
+(| Component | Current Language | Recommended Language | Why | Priority | Risk | Estimated) Tj
+T*
+ET
+endstream
+endobj
+28 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 29 0 R >>
+endobj
+29 0 obj
+<< /Length 3855 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Benefit |) Tj
+T*
+(|---|---|---|---|---|---|---|) Tj
+T*
+(| Canonical transaction/block codec | Python | Rust or C | Single typed codec can remove) Tj
+T*
+(repeated standardize/compact/JSON churn and stabilize txid/signing preimages | Critical | High) Tj
+T*
+(because consensus-touched | High |) Tj
+T*
+(| Transaction verification kernel surface | Python + C helpers | Keep orchestration in Python;) Tj
+T*
+(expand C/Rust kernels | UTXO batch and signature kernels already exist; unify pipeline and push) Tj
+T*
+(only repeated kernels native | Critical | High | High |) Tj
+T*
+(| Private proof bridge | Python subprocess + Rust backend | Rust backend via FFI or persistent) Tj
+T*
+(worker protocol | Subprocess overhead is too costly and too fragile in a production) Tj
+T*
+(consensus-adjacent path | Critical | High | High |) Tj
+T*
+(| Miner sizing / block-template packing | Python | Rust or C helper library | Current JSON-based) Tj
+T*
+(sizing is wasteful and couples template economics to serialization overhead | High | Medium |) Tj
+T*
+(High |) Tj
+T*
+(| Signing-preimage builder | Python + C helper | Rust or C shared library | Deterministic) Tj
+T*
+(preimage generation should be centralized and fast | High | High | High |) Tj
+T*
+(| P2P compact codec | Python | Rust or C helper, or remain Python with shared native codec |) Tj
+T*
+(Biggest win is shared codec semantics, not necessarily rewriting the whole server | High |) Tj
+T*
+(Medium | Medium/High |) Tj
+T*
+(| Private merkle/path verification kernel | Python | Rust | If profiling proves path) Tj
+T*
+(verification hot, Rust is a safer native choice than C | Medium | High | Medium |) Tj
+T*
+(| LMDB repository layer | Python | Remain Python | Problems are access pattern and payload) Tj
+T*
+(shape, not evidence that Python LMDB wrapper is the first barrier | Do not migrate | Medium if) Tj
+T*
+(touched | Low |) Tj
+T*
+(| Consensus state machine | Python | Remain Python | High semantic complexity, moderate) Tj
+T*
+(arithmetic load, huge consensus risk if rewritten | Do not migrate now | Very high |) Tj
+T*
+(Low/negative near term |) Tj
+T*
+(| Bond/stake policy engine | Python | Remain Python | Replay correctness and clarity matter more) Tj
+T*
+(than micro-optimization | Low | High if touched | Low |) Tj
+T*
+(| API layer | Python | Remain Python | Not performance-hot compared to consensus and proof paths) Tj
+T*
+(| Do not migrate | Low | Low |) Tj
+T*
+(| GUI | Python | Remain Python for now | Main issue is architecture and state ownership, not) Tj
+T*
+(language speed | Do not migrate | Medium | Low |) Tj
+T*
+(| PoW search loop | Python + C/GPU | Keep native; reduce Python fallback reliance | Already on) Tj
+T*
+(correct side of the boundary | Low | Low | Medium |) Tj
+T*
+(| Falcon verify bridge | C + Python ctypes | Keep native; tighten interface | Already) Tj
+T*
+(appropriate; optimize batching and conversion overhead | Low | Medium | Medium |) Tj
+T*
+(| UTXO batch checker | C + Python ctypes | Keep native; make canonical | Already valuable;) Tj
+T*
+(bigger win is making it the singular path | High | Medium | Medium/High |) Tj
+T*
+() Tj
+T*
+(Migration interpretation) Tj
+T*
+() Tj
+T*
+(The most important conclusion is negative: do not rewrite consensus wholesale in Rust or C++) Tj
+T*
+(right now. Atho?s biggest production risk is not ?Python exists.? It is ?too many semantic) Tj
+T*
+(boundaries are duplicated or weakly typed.? Rewriting the wrong layer in a lower-level language) Tj
+T*
+(before semantics are centralized would likely increase consensus risk instead of lowering it.) Tj
+T*
+() Tj
+T*
+(G. Python Keep vs Reduce Section) Tj
+T*
+() Tj
+T*
+(Python should keep doing) Tj
+T*
+(- Runtime orchestration and role assembly in run.py and Src/Main/runnode.py) Tj
+T*
+(- Consensus state-machine control in Src/Main/consensus.py, provided authority stays centralized) Tj
+T*
+ET
+endstream
+endobj
+30 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 31 0 R >>
+endobj
+31 0 obj
+<< /Length 2304 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Storage repository coordination and recovery workflows in Src/Storage/* and Src/Blockchain/*) Tj
+T*
+(- Wallet/business logic in Src/Transactions/txmanager.py, Src/Main/send.py,) Tj
+T*
+(Src/Accounts/key_manager.py) Tj
+T*
+(- API and integration surfaces in Src/Api/*) Tj
+T*
+(- GUI control and presentation logic in Src/GUI/gui.py) Tj
+T*
+(- Logging, tracing, diagnostics, and audit capture) Tj
+T*
+(- Tests, simulation harnesses, release tooling, and documentation generation) Tj
+T*
+(- High-level miner orchestration and policy decisions) Tj
+T*
+() Tj
+T*
+(Python should do less of) Tj
+T*
+(- Repeated canonical binary/JSON serialization in hot paths) Tj
+T*
+(- Repeated txid / signing-hash construction from dynamic dict structures) Tj
+T*
+(- Tight signature-verification preparation loops where a native batchable structure could be) Tj
+T*
+(reused) Tj
+T*
+(- UTXO scan/check loops that fall back to Python too readily) Tj
+T*
+(- Subprocess-mediated proof generation/verification in the private path) Tj
+T*
+(- Miner block sizing based on repeated json.dumps\(...\)) Tj
+T*
+(- P2P payload encoding/decoding that repeatedly transforms among compact dict, standardized) Tj
+T*
+(dict, JSON bytes, and Python objects) Tj
+T*
+(- Any repeated merkle/path or commitment-check kernel if profiling confirms it as hot) Tj
+T*
+() Tj
+T*
+(Practical rule) Tj
+T*
+() Tj
+T*
+(Python should own:) Tj
+T*
+(- state machines) Tj
+T*
+(- policies) Tj
+T*
+(- service orchestration) Tj
+T*
+(- recoverability logic) Tj
+T*
+(- operator surfaces) Tj
+T*
+() Tj
+T*
+(Native code should own:) Tj
+T*
+(- cryptographic kernels) Tj
+T*
+(- canonical codecs) Tj
+T*
+(- repeated binary parsing/validation kernels) Tj
+T*
+(- proof engines) Tj
+T*
+(- mining search loops) Tj
+T*
+() Tj
+T*
+(H. Top 5 Immediate Native Targets) Tj
+T*
+(- Canonical transaction/block codec and signing-preimage kernel) Tj
+T*
+() Tj
+T*
+(Exact files/modules:) Tj
+T*
+(- Src/Transactions/tx.py) Tj
+T*
+(- Src/Transactions/txbinary.py) Tj
+T*
+(- Src/Utility/txdhash.py) Tj
+T*
+(- Src/Utility/wirecodec.py) Tj
+T*
+(- Src/Utility/tx_signing_body_bridge.c) Tj
+T*
+() Tj
+T*
+(What it currently does:) Tj
+T*
+(- canonicalizes transaction data) Tj
+T*
+(- strips witness where required) Tj
+T*
+(- computes txid and signing hashes) Tj
+T*
+(- transforms wire/base64/hex payloads) Tj
+T*
+ET
+endstream
+endobj
+32 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 33 0 R >>
+endobj
+33 0 obj
+<< /Length 2129 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(Why this is high-value:) Tj
+T*
+(- touched everywhere) Tj
+T*
+(- consensus-critical) Tj
+T*
+(- currently scattered across Python structures and helpers) Tj
+T*
+(- removing duplicate serialization logic would improve speed and reduce semantic drift) Tj
+T*
+() Tj
+T*
+(Recommended destination language:) Tj
+T*
+(- Rust preferred) Tj
+T*
+(- C acceptable if kept narrowly scoped) Tj
+T*
+() Tj
+T*
+(Suggested migration strategy:) Tj
+T*
+(- write golden vectors for txid, signing hash, wire decode, witness stripping) Tj
+T*
+(- implement native codec as compatibility library) Tj
+T*
+(- run shadow mode against current Python output) Tj
+T*
+(- cut over only when vectors and live shadow parity are clean) Tj
+T*
+(- Private proof bridge replacement) Tj
+T*
+() Tj
+T*
+(Exact files/modules:) Tj
+T*
+(- Src/Transactions/private_layer.py) Tj
+T*
+(- Src/ZKSTARK/scripts/private_layer_stark_bridge.py) Tj
+T*
+(- Src/ZKSTARK/scripts/private_layer_stark_backend.py) Tj
+T*
+(- Rust proof backend crates) Tj
+T*
+() Tj
+T*
+(What it currently does:) Tj
+T*
+(- builds proof statements in Python) Tj
+T*
+(- shells out to backend tools) Tj
+T*
+(- parses stdout/stderr to recover proof results) Tj
+T*
+() Tj
+T*
+(Why this is high-value:) Tj
+T*
+(- subprocess overhead and failure modes are expensive) Tj
+T*
+(- this path is operationally fragile) Tj
+T*
+(- proof generation and verification are already native-worthy work) Tj
+T*
+() Tj
+T*
+(Recommended destination language:) Tj
+T*
+(- Rust backend retained) Tj
+T*
+(- switch transport to FFI or persistent daemon/IPC protocol) Tj
+T*
+() Tj
+T*
+(Suggested migration strategy:) Tj
+T*
+(- freeze statement schema) Tj
+T*
+(- define typed request/response contract) Tj
+T*
+(- add long-lived proof worker or FFI boundary) Tj
+T*
+(- shadow compare proof decisions against subprocess path before cutover) Tj
+T*
+(- Block-template sizing and packing helper) Tj
+T*
+() Tj
+T*
+(Exact files/modules:) Tj
+T*
+(- Src/Miner/miner.py) Tj
+T*
+() Tj
+T*
+(What it currently does:) Tj
+T*
+(- repeatedly estimates tx/block payload sizes by JSON serialization) Tj
+T*
+(- selects transactions against block capacity) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+34 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 35 0 R >>
+endobj
+35 0 obj
+<< /Length 1943 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Why this is high-value:) Tj
+T*
+(- hot mining path) Tj
+T*
+(- obvious wasted CPU) Tj
+T*
+(- ties block economics to ad hoc serialization cost) Tj
+T*
+() Tj
+T*
+(Recommended destination language:) Tj
+T*
+(- Rust preferred) Tj
+T*
+(- C acceptable) Tj
+T*
+() Tj
+T*
+(Suggested migration strategy:) Tj
+T*
+(- centralize canonical size/vsize function) Tj
+T*
+(- replace JSON-length estimation with codec-backed size calculation) Tj
+T*
+(- optionally move full template packing into helper library later) Tj
+T*
+(- Unified validation kernel interface) Tj
+T*
+() Tj
+T*
+(Exact files/modules:) Tj
+T*
+(- Src/Main/txveri.py) Tj
+T*
+(- Src/Transactions/txvalidation.py) Tj
+T*
+(- Src/Transactions/utxo_batch_check.c) Tj
+T*
+(- Src/Accounts/falconcli.py) Tj
+T*
+() Tj
+T*
+(What it currently does:) Tj
+T*
+(- runs overlapping UTXO and signature checks in two places) Tj
+T*
+() Tj
+T*
+(Why this is high-value:) Tj
+T*
+(- current duplication is an audit and performance liability) Tj
+T*
+(- native helpers are already present but not wrapped cleanly around one authority) Tj
+T*
+() Tj
+T*
+(Recommended destination language:) Tj
+T*
+(- Keep outer authority in Python) Tj
+T*
+(- use C or Rust kernels beneath a unified interface) Tj
+T*
+() Tj
+T*
+(Suggested migration strategy:) Tj
+T*
+(- collapse semantic duplication first) Tj
+T*
+(- expose one ?prepared transaction batch? interface) Tj
+T*
+(- batch signatures and UTXO checks through that path) Tj
+T*
+(- P2P compact codec helper) Tj
+T*
+() Tj
+T*
+(Exact files/modules:) Tj
+T*
+(- Src/Network/p2pserver.py) Tj
+T*
+(- Src/Utility/dict.py) Tj
+T*
+(- Src/Utility/wirecodec.py) Tj
+T*
+() Tj
+T*
+(What it currently does:) Tj
+T*
+(- compacts/decompacts blocks and txs) Tj
+T*
+(- frames JSON+compressed payloads) Tj
+T*
+() Tj
+T*
+(Why this is high-value:) Tj
+T*
+(- frequently used) Tj
+T*
+(- overlaps with transaction/block canonicalization) Tj
+T*
+(- a shared codec helper could simplify both P2P and validation) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+36 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 37 0 R >>
+endobj
+37 0 obj
+<< /Length 2650 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Recommended destination language:) Tj
+T*
+(- Rust preferred if sharing codec with tx/block layer) Tj
+T*
+() Tj
+T*
+(Suggested migration strategy:) Tj
+T*
+(- keep network server in Python) Tj
+T*
+(- move only compact wire encode/decode and canonical parse helpers native) Tj
+T*
+() Tj
+T*
+(I. Top 10 Overall Refactor Targets) Tj
+T*
+(- Unify transaction verification authority around one path.) Tj
+T*
+(- Centralize canonical tx/block codec and signing-preimage generation.) Tj
+T*
+(- Replace private proof subprocess boundary with FFI or persistent worker.) Tj
+T*
+(- Replace miner JSON-length sizing with canonical size accounting.) Tj
+T*
+(- Make native UTXO batch checking the canonical fast path instead of one of multiple paths.) Tj
+T*
+(- Tighten Falcon verify batching and reduce input conversion overhead.) Tj
+T*
+(- Reduce P2P repeated standardize/compact/decompact churn through shared codec helpers.) Tj
+T*
+(- Introduce typed internal transaction/block representations to cut dict/object churn.) Tj
+T*
+(- Improve private-note/anchor/nullifier apply/rebuild observability before optimizing kernels.) Tj
+T*
+(- Reduce JSON payload usage inside LMDB hot records where profiling proves benefit.) Tj
+T*
+() Tj
+T*
+(These are ?refactor targets? rather than all ?native rewrite targets? because some wins come) Tj
+T*
+(from centralization, not language change.) Tj
+T*
+() Tj
+T*
+(J. Final Refactor Roadmap) Tj
+T*
+() Tj
+T*
+(Phase 1: Semantics, profiling, and shadow baselines) Tj
+T*
+() Tj
+T*
+(Goals:) Tj
+T*
+(- eliminate ambiguity before optimization) Tj
+T*
+(- measure current hot paths) Tj
+T*
+(- create golden vectors for consensus-sensitive codecs and proof statements) Tj
+T*
+() Tj
+T*
+(Work:) Tj
+T*
+(- unify tx verification entry semantics) Tj
+T*
+(- add profiling around tx verification, block verification, miner packing, P2P decode, private) Tj
+T*
+(proof bridge) Tj
+T*
+(- produce vector suites for txid/signing hash/wire decode/private proof statements) Tj
+T*
+(- formalize one internal canonical tx/block representation) Tj
+T*
+() Tj
+T*
+(Why first:) Tj
+T*
+(- native migration without semantic consolidation is high-regret work) Tj
+T*
+() Tj
+T*
+(Phase 2: Narrow native migrations with highest return) Tj
+T*
+() Tj
+T*
+(Goals:) Tj
+T*
+(- remove repeated serialization and subprocess waste) Tj
+T*
+(- keep consensus behavior identical) Tj
+T*
+() Tj
+T*
+(Work:) Tj
+T*
+(- native/Rust codec library for tx/block canonicalization) Tj
+T*
+(- signing-preimage kernel cutover behind compatibility layer) Tj
+T*
+(- replace miner JSON sizing with codec-backed size calculations) Tj
+T*
+(- replace or persistentize private proof subprocess boundary) Tj
+T*
+ET
+endstream
+endobj
+38 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 39 0 R >>
+endobj
+39 0 obj
+<< /Length 1767 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(Guardrails:) Tj
+T*
+(- shadow compare before cutover) Tj
+T*
+(- do not change wire or consensus semantics in the same patch that changes implementation) Tj
+T*
+(language) Tj
+T*
+() Tj
+T*
+(Phase 3: Secondary optimization and cleanup) Tj
+T*
+() Tj
+T*
+(Goals:) Tj
+T*
+(- improve throughput and maintainability after the highest-value bottlenecks are fixed) Tj
+T*
+() Tj
+T*
+(Work:) Tj
+T*
+(- deeper P2P codec integration) Tj
+T*
+(- optional binary storage payload improvements for hottest LMDB records) Tj
+T*
+(- optional native merkle/path helpers if profiling proves value) Tj
+T*
+(- remove legacy/fallback duplicate code once parity is proven) Tj
+T*
+() Tj
+T*
+(What not to do) Tj
+T*
+(- do not rewrite the entire consensus engine in a lower-level language first) Tj
+T*
+(- do not move API/GUI/business logic native for speed) Tj
+T*
+(- do not replace LMDB just because state access is complex) Tj
+T*
+(- do not optimize PoW Python fallback beyond what is necessary; production should prefer native) Tj
+T*
+(search paths) Tj
+T*
+() Tj
+T*
+(Final Recommendation) Tj
+T*
+() Tj
+T*
+(The best Atho performance strategy is not ?escape Python everywhere.? It is:) Tj
+T*
+(- keep Python as the authoritative control and policy layer) Tj
+T*
+(- centralize semantics where they are currently duplicated) Tj
+T*
+(- native-migrate only the repeated kernels that are currently paying large serialization,) Tj
+T*
+(cryptographic, or subprocess costs) Tj
+T*
+(- prove semantic parity with vectors and shadow runs before every consensus-adjacent cutover) Tj
+T*
+() Tj
+T*
+(If that discipline is followed, Atho can gain substantial speed and better auditability without) Tj
+T*
+(turning a live consensus system into a rewrite project with uncontrolled blast radius.) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 40
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000239 00000 n 
+0000000307 00000 n 
+0000000433 00000 n 
+0000003690 00000 n 
+0000003816 00000 n 
+0000007518 00000 n 
+0000007644 00000 n 
+0000011408 00000 n 
+0000011536 00000 n 
+0000014454 00000 n 
+0000014582 00000 n 
+0000016803 00000 n 
+0000016931 00000 n 
+0000019169 00000 n 
+0000019297 00000 n 
+0000021370 00000 n 
+0000021498 00000 n 
+0000023531 00000 n 
+0000023659 00000 n 
+0000025705 00000 n 
+0000025833 00000 n 
+0000027899 00000 n 
+0000028027 00000 n 
+0000030283 00000 n 
+0000030411 00000 n 
+0000034931 00000 n 
+0000035059 00000 n 
+0000038967 00000 n 
+0000039095 00000 n 
+0000041452 00000 n 
+0000041580 00000 n 
+0000043762 00000 n 
+0000043890 00000 n 
+0000045886 00000 n 
+0000046014 00000 n 
+0000048717 00000 n 
+0000048845 00000 n 
+trailer
+<< /Size 40 /Root 1 0 R >>
+startxref
+50665
+%%EOF

@@ -1,0 +1,5299 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 45 /Kids [4 0 R 6 0 R 8 0 R 10 0 R 12 0 R 14 0 R 16 0 R 18 0 R 20 0 R 22 0 R 24 0 R 26 0 R 28 0 R 30 0 R 32 0 R 34 0 R 36 0 R 38 0 R 40 0 R 42 0 R 44 0 R 46 0 R 48 0 R 50 0 R 52 0 R 54 0 R 56 0 R 58 0 R 60 0 R 62 0 R 64 0 R 66 0 R 68 0 R 70 0 R 72 0 R 74 0 R 76 0 R 78 0 R 80 0 R 82 0 R 84 0 R 86 0 R 88 0 R 90 0 R 92 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 3069 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Verification-Grade Architecture Audit) Tj
+T*
+() Tj
+T*
+(2026-04-18 Redesign Note) Tj
+T*
+() Tj
+T*
+(This audit predates the payment-only redesign and should be read as historical architecture) Tj
+T*
+(analysis.) Tj
+T*
+() Tj
+T*
+(Before applying conclusions from this document, substitute the active protocol model:) Tj
+T*
+(- payment-only public/private UTXO) Tj
+T*
+(- no staking) Tj
+T*
+(- no bonding) Tj
+T*
+(- no BPoW eligibility gating) Tj
+T*
+(- no fee burn or fee-pool routing) Tj
+T*
+(- current policy values from Docs/Consensus.md, Docs/Emissions.md, and Docs/Tx.md) Tj
+T*
+() Tj
+T*
+(This document is a verification-focused audit of what the earlier architecture review still did) Tj
+T*
+(not prove cleanly enough. It is intentionally critical. It does not try to restate the entire) Tj
+T*
+(system design. It isolates where authority is duplicated, where boundaries are blurred, where) Tj
+T*
+(consistency guarantees are weak, and where the current repository does not yet justify strong) Tj
+T*
+(architectural claims.) Tj
+T*
+() Tj
+T*
+(Evidence for this audit was taken directly from the current repository, primarily from) Tj
+T*
+(Src/Api/auth.py, Src/Api/apis.py, Src/GUI/gui.py, Src/Main/consensus.py,) Tj
+T*
+(Src/Blockchain/blockchain.py, Src/Blockchain/orphreorgs.py, Src/Storage/mempool.py,) Tj
+T*
+(Src/Storage/utxostorage.py, Src/Storage/blockstorage.py, Src/Storage/peerstore.py,) Tj
+T*
+(Src/Node/fullnode.py, Src/Node/minernode.py, Src/Node/walletnode.py, Src/Main/runnode.py,) Tj
+T*
+(Src/Main/stop.py, switchnet.py, Src/Accounts/key_manager.py, and the current tests/ tree.) Tj
+T*
+() Tj
+T*
+(The central conclusion is not that Atho lacks architecture. The central conclusion is that **the) Tj
+T*
+(current implementation appears to contain multiple overlapping runtime graphs that can each) Tj
+T*
+(believe they are authoritative over parts of the same system state**. That overlap is most) Tj
+T*
+(visible at the API/runtime boundary, the GUI/runtime boundary, the wallet/full/miner role) Tj
+T*
+(boundary, and the shared-storage boundary.) Tj
+T*
+() Tj
+T*
+(Authority Map) Tj
+T*
+() Tj
+T*
+(Chain Tip Truth) Tj
+T*
+(**Intended authority:** Blockchain plus BlockStore under consensus control.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Ambiguous. Consensus.accept_block\(\) and Blockchain.add_block\(\) are) Tj
+T*
+(the intended commit path, but fullnode.py, minernode.py, and the API singleton in apis.py each) Tj
+T*
+(instantiate their own BlockStore, UTXOStore, MempoolStore, TransactionManager, and Blockchain) Tj
+T*
+(objects against the same storage root. walletnode.py can also bootstrap the API singleton and,) Tj
+T*
+(when wallet relay chain sync is enabled, can start a PeerManager with blockchain and) Tj
+T*
+(consensus-adjacent components.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** fullnode.py, minernode.py, API singleton initialized by) Tj
+T*
+(auth.py lifespan, wallet relay path in walletnode.py, and GUI chain-anchor fallback state in) Tj
+T*
+(gui.py.) Tj
+T*
+() Tj
+T*
+(**Classification:** Conflicting.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 3372 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**Audit note:** The repo shows multiple runtime entrypoints building separate core graphs. There) Tj
+T*
+(is no evidence that the API thread inside fullnode.py or minernode.py reuses the already-created) Tj
+T*
+(node objects. Instead, auth.py calls get_api\(auto_init=True\) and apis.py.initialize_components\(\)) Tj
+T*
+(creates a fresh block store, UTXO store, mempool, miner, blockchain, and send layer. That means) Tj
+T*
+(canonical tip truth is not proven to be governed by a single runtime authority even inside one) Tj
+T*
+(process, much less across full, miner, wallet, and API wrapper processes.) Tj
+T*
+() Tj
+T*
+(Block Acceptance) Tj
+T*
+(**Intended authority:** Consensus.accept_block\(\) validating and committing through) Tj
+T*
+(Blockchain.add_block\(\).) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Mostly Consensus.accept_block\(\), but practical authority is) Tj
+T*
+(widened by the fact that multiple role processes appear capable of hosting a Consensus instance) Tj
+T*
+(backed by the same stores.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** Full node runtime, miner runtime, API-created transaction) Tj
+T*
+(manager/consensus graph, wallet relay chain-sync path if enabled, orphan/reorg manager.) Tj
+T*
+() Tj
+T*
+(**Classification:** Shared with conflict risk.) Tj
+T*
+() Tj
+T*
+(**Audit note:** The code path is reasonably disciplined inside a single graph:) Tj
+T*
+(Consensus.accept_block\(\) wraps block, mempool, and UTXO writes in consensus write contexts and) Tj
+T*
+(delegates to Blockchain.add_block\(\). The problem is not local function design. The problem is) Tj
+T*
+(that multiple process roles can construct the same acceptance stack against the same persistent) Tj
+T*
+(state. That makes ?who may call block acceptance? a runtime-topology question, not only a) Tj
+T*
+(code-path question.) Tj
+T*
+() Tj
+T*
+(Transaction Admission) Tj
+T*
+(**Intended authority:** Consensus.accept_tx\(\) via Send._route_to_mempool\(\) and P2P ingress.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Shared between send flow, P2P flow, and any role process that has) Tj
+T*
+(a live Consensus plus MempoolStore.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** GUI send recovery logic, API send lifecycle, full node P2P) Tj
+T*
+(server, miner P2P server, wallet relay peer manager, potentially wallet API singleton.) Tj
+T*
+() Tj
+T*
+(**Classification:** Ambiguous.) Tj
+T*
+() Tj
+T*
+(**Audit note:** The consensus path for transaction admission exists and is explicit. The) Tj
+T*
+(ambiguity comes from how many role processes can host it and from the fact that GUI and API both) Tj
+T*
+(still participate in transaction lifecycle interpretation. The current system has a consensus) Tj
+T*
+(admission boundary, but not a clean control-plane boundary around who is allowed to reach it and) Tj
+T*
+(how many component graphs are trying to do so.) Tj
+T*
+() Tj
+T*
+(Mempool Truth) Tj
+T*
+(**Intended authority:** MempoolStore mutated only through consensus write paths.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** MempoolStore is the data structure of record, but multiple role) Tj
+T*
+(processes can instantiate it over the same LMDB location, and walletnode.py can also use) Tj
+T*
+(API-created mempool state plus outbound relay.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** Full node, miner node, API singleton, wallet node API) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 3307 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(singleton, wallet relay peer manager, GUI mempool interpretation, network sampling code in API.) Tj
+T*
+() Tj
+T*
+(**Classification:** Shared with probable conflict risk.) Tj
+T*
+() Tj
+T*
+(**Audit note:** Constants.ENFORCE_CONSENSUS_WRITE is currently set True, which is materially) Tj
+T*
+(better than a disabled guard. However, the guard only constrains writes inside one Python) Tj
+T*
+(runtime graph. It does not prove that only one runtime graph exists. MempoolStore itself also) Tj
+T*
+(maintains RAM indices, a revision counter, listener pool, and cross-process refresh logic, which) Tj
+T*
+(indicates the implementation expects multiple live views of the same mempool state.) Tj
+T*
+() Tj
+T*
+(UTXO Truth) Tj
+T*
+(**Intended authority:** UTXOStore committed through consensus and block application.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Likely UTXOStore, but again exposed through multiple runtime) Tj
+T*
+(graphs. Additional mutation surfaces exist for locking and unlocking UTXOs during send flows and) Tj
+T*
+(recovery.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** Full node, miner node, API singleton, wallet API singleton) Tj
+T*
+(if initialized, send flow lock/unlock operations, crash recovery, reorg rollback, state tracker) Tj
+T*
+(reconciliation.) Tj
+T*
+() Tj
+T*
+(**Classification:** Shared with conflict risk.) Tj
+T*
+() Tj
+T*
+(**Audit note:** Consensus write guards exist here too, but the store also contains operational) Tj
+T*
+(mutations unrelated to canonical chain application, including transient lock flags, stale lock) Tj
+T*
+(cleanup, and fallback read modes. That is not inherently wrong, but it means ?UTXO truth? is) Tj
+T*
+(already overloaded between canonical spend state and local operation state. The audit cannot yet) Tj
+T*
+(prove that these layers remain coherent across restart, reorg, and multi-process access.) Tj
+T*
+() Tj
+T*
+(Private State Truth) Tj
+T*
+(**Intended authority:** Unclear split between canonical chain-anchored private state and) Tj
+T*
+(wallet-local private note state.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Ambiguous between chain-facing private validation paths,) Tj
+T*
+(wallet-local KeyManager note records, private note audit files, and GUI fallback summaries.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** KeyManager, private notes audit file, GUI local fallback) Tj
+T*
+(logic, private transaction pipeline, reorg rebuild logic in orphan/reorg handling, possible API) Tj
+T*
+(wallet endpoints.) Tj
+T*
+() Tj
+T*
+(**Classification:** Ambiguous.) Tj
+T*
+() Tj
+T*
+(**Audit note:** The repository clearly contains serious private-layer machinery, but authority) Tj
+T*
+(is not yet cleanly separated between public-chain anchored truth and wallet-local note) Tj
+T*
+(bookkeeping. GUI code explicitly falls back to local key manager or audit-file summaries and) Tj
+T*
+(even labels some summary sources as authoritative in context. That is enough to block any strong) Tj
+T*
+(claim that private state truth is currently centralized behind one backend-owned interface.) Tj
+T*
+() Tj
+T*
+(Fork Choice) Tj
+T*
+(**Intended authority:** Consensus plus orphan/reorg manager using longest/heaviest-chain logic.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Mostly orphan/reorg manager plus consensus, but practical) Tj
+T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 3087 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(fork-choice execution may still happen from multiple role runtimes sharing storage.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** Consensus.accept_block\(\), OrphanReorgManager, state tracker) Tj
+T*
+(rebuilds, emission/burn monitors, full node runtime, miner runtime.) Tj
+T*
+() Tj
+T*
+(**Classification:** Shared.) Tj
+T*
+() Tj
+T*
+(**Audit note:** The local algorithmic boundary is relatively clear. The runtime authority) Tj
+T*
+(boundary is not. The reorg manager journals recovery and rollback, which is good, but there is) Tj
+T*
+(still no proof that exactly one process is making fork-choice commits per network state root.) Tj
+T*
+() Tj
+T*
+(Peer Truth / Peer Scoring) Tj
+T*
+(**Intended authority:** PeerManager backed by PeerStore.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Shared across full, miner, and wallet relay processes. PeerStore) Tj
+T*
+(explicitly says it is shared by node processes on the same machine. The API also reads from peer) Tj
+T*
+(book material and derives health summaries.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** Full node peer manager, miner peer manager, wallet relay) Tj
+T*
+(peer manager, API network info aggregation, GUI peer views.) Tj
+T*
+() Tj
+T*
+(**Classification:** Shared by design, with weak single-writer discipline.) Tj
+T*
+() Tj
+T*
+(**Audit note:** This is one of the clearest cases where the system openly allows multi-process) Tj
+T*
+(mutation. PeerStore supports LMDB lock fallback to unlocked mode under some conditions. For a) Tj
+T*
+(non-consensus store that may be an acceptable tradeoff, but it also means peer truth and peer) Tj
+T*
+(scoring are intentionally not single-writer. Any architecture blueprint must treat peer metadata) Tj
+T*
+(as cooperative local state, not as a cleanly owned authority domain.) Tj
+T*
+() Tj
+T*
+(Wallet Balance Truth) Tj
+T*
+(**Intended authority:** Backend wallet/read model built from UTXO plus mempool overlays.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** API get_balance\(\) plus GUI local interpretation and cached) Tj
+T*
+(displays.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** API balance cache, GUI sender-balance workers, GUI local) Tj
+T*
+(address filtering, GUI chain anchors, private note fallbacks.) Tj
+T*
+() Tj
+T*
+(**Classification:** Ambiguous.) Tj
+T*
+() Tj
+T*
+(**Audit note:** API.get_balance\(\) mixes UTXO snapshots with mempool-derived overlays and caches) Tj
+T*
+(results for short TTLs. The GUI also performs its own retries, unlock gating, sender validation,) Tj
+T*
+(and local key lookups. Balance truth therefore exists as a backend calculation, but displayed) Tj
+T*
+(balance truth is still partly a frontend composition problem.) Tj
+T*
+() Tj
+T*
+(Wallet History Truth) Tj
+T*
+(**Intended authority:** Backend query layer over chain and wallet state.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** API history methods plus GUI composition and refresh logic.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** API recent/history caches, GUI transaction lists, GUI local) Tj
+T*
+(persistence, send watcher refresh triggers.) Tj
+T*
+ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 2848 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(**Classification:** Ambiguous.) Tj
+T*
+() Tj
+T*
+(**Audit note:** There is no evidence that history and balance are returned under a shared) Tj
+T*
+(revision contract. GUI transaction views can therefore show a different logical state revision) Tj
+T*
+(than the current balance or tip summary.) Tj
+T*
+() Tj
+T*
+(Send Intent Truth) Tj
+T*
+(**Intended authority:** Backend send-intent store.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** SendIntentStore in apis.py is the persistent backend record, but) Tj
+T*
+(the GUI still imposes its own intent wait loop, retry gating, ambiguous-error recovery,) Tj
+T*
+(duplicate suppression, and stale rebroadcast decisions.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** Backend SQLite intent store, backend self-heal loop, GUI) Tj
+T*
+(pending watchers, GUI cooldown registry, GUI rebroadcast logic.) Tj
+T*
+() Tj
+T*
+(**Classification:** Shared and behaviorally conflicting.) Tj
+T*
+() Tj
+T*
+(**Audit note:** This is one of the clearest control-plane leaks. The backend owns a persistent) Tj
+T*
+(intent table and self-heal loop, but the GUI still acts like a partial orchestrator for send) Tj
+T*
+(completion and retry behavior. That means send intent truth is not yet a pure backend-owned) Tj
+T*
+(lifecycle.) Tj
+T*
+() Tj
+T*
+(Transaction Lifecycle Truth) Tj
+T*
+(**Intended authority:** Backend send pipeline plus consensus/mempool/block observation.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Backend holds coarse states \(pending, broadcast, confirmed,) Tj
+T*
+(failed\) and returns transitional fields like accepted_local_mempool and propagation_pending; GUI) Tj
+T*
+(then polls and infers additional meaning.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** API send flow, intent self-heal loop, GUI polling) Tj
+T*
+(_wait_for_intent\(\), GUI pending tx watchers, GUI auto-rebroadcast.) Tj
+T*
+() Tj
+T*
+(**Classification:** Ambiguous.) Tj
+T*
+() Tj
+T*
+(**Audit note:** There is not yet one authoritative monotonic transaction lifecycle. The backend) Tj
+T*
+(tracks one lifecycle model; the GUI overlays another. That makes ordering, recovery, and) Tj
+T*
+(operator explanation harder than necessary.) Tj
+T*
+() Tj
+T*
+(Node Lifecycle Truth) Tj
+T*
+(**Intended authority:** A single supervisor or launcher.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Conflicting. runnode.py launches roles, stop.py discovers and) Tj
+T*
+(stops roles by process inspection, auth.py embeds NodeController that spawns and kills roles,) Tj
+T*
+(and gui.py can fall back to local start/stop when API paths fail.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** Launcher, API NodeController, GUI local fallbacks, stop.py.) Tj
+T*
+() Tj
+T*
+(**Classification:** Conflicting.) Tj
+T*
+() Tj
+T*
+(**Audit note:** This is a major architecture problem. The system does not currently have one) Tj
+T*
+ET
+endstream
+endobj
+14 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 15 0 R >>
+endobj
+15 0 obj
+<< /Length 2840 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(lifecycle authority. It has a set of cooperating and competing lifecycle actors that infer state) Tj
+T*
+(from process lists, ports, and retries.) Tj
+T*
+() Tj
+T*
+(Network Selection Truth) Tj
+T*
+(**Intended authority:** A backend/supervisor-controlled configuration change with coordinated) Tj
+T*
+(restart.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Split between switchnet.py, API switch_network\(\), GUI) Tj
+T*
+(switch_network_lifecycle\(\), and run.py startup selection.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** GUI, API, launcher, switchnet.py, NodePorts.json,) Tj
+T*
+(storage_paths.json, environment variables.) Tj
+T*
+() Tj
+T*
+(**Classification:** Conflicting.) Tj
+T*
+() Tj
+T*
+(**Audit note:** API.switch_network\(\) only writes NodePorts.json and sets environment state,) Tj
+T*
+(explicitly returning restart_required. GUI then performs stop/switch/restart choreography itself) Tj
+T*
+(and also updates its own base URL and saved settings. Network switch is therefore not a single) Tj
+T*
+(backend transaction. It is a distributed procedure across GUI, API, script, config files, and) Tj
+T*
+(process restarts.) Tj
+T*
+() Tj
+T*
+(API Readiness Truth) Tj
+T*
+(**Intended authority:** The API layer after all required dependencies are initialized and role) Tj
+T*
+(ownership is clear.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Weak liveness-based probes.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** /health, /chain/info, launcher probes, GUI local probing,) Tj
+T*
+(node start verification.) Tj
+T*
+() Tj
+T*
+(**Classification:** Ambiguous.) Tj
+T*
+() Tj
+T*
+(**Audit note:** /health returns {"ok": True} and is therefore liveness-only. runnode.py) Tj
+T*
+(compensates by probing /health and then /chain/info. GUI also performs readiness probing and) Tj
+T*
+(fallback retries. There is no single, strong readiness contract that says ?this API instance is) Tj
+T*
+(attached to a fully initialized and role-correct runtime.?) Tj
+T*
+() Tj
+T*
+(GUI Displayed Truth) Tj
+T*
+(**Intended authority:** A backend-owned read model reflected by a frontend state store.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** GUI-composed truth assembled from multiple API calls, retries,) Tj
+T*
+(cached files, local key manager fallbacks, and local chain anchors.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** GUI view state, GUI local JSON caches, backend query) Tj
+T*
+(endpoints, wallet local files.) Tj
+T*
+() Tj
+T*
+(**Classification:** Conflicting at the presentation boundary.) Tj
+T*
+() Tj
+T*
+(**Audit note:** The GUI does not behave as a pure client. It performs interpretation, local) Tj
+T*
+(persistence, retry choreography, local authority fallback, and lifecycle decisions. Displayed) Tj
+T*
+(truth is therefore a frontend synthesis, not a direct projection of a stable backend view.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+16 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 17 0 R >>
+endobj
+17 0 obj
+<< /Length 2998 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Economic Policy Truth) Tj
+T*
+(**Intended authority:** Consensus/block verification rules and constants.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Largely centralized in const.py, blockveri.py, consensus.py, and) Tj
+T*
+(mining payout builders, but not yet fully proven end-to-end across restart and reorg.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** Miner payout construction, block verification, emission) Tj
+T*
+(monitor, burn monitor, consensus payout builders, reorg rebuild paths.) Tj
+T*
+() Tj
+T*
+(**Classification:** Mostly shared but not fully audited.) Tj
+T*
+() Tj
+T*
+(**Audit note:** The codebase contains substantial emission, burn, coinbase, payout, and) Tj
+T*
+(supply-accounting logic. The unresolved question is not whether economic rules exist. The) Tj
+T*
+(unresolved question is whether every runtime and recovery path enforces the same rules,) Tj
+T*
+(including reorg replay, payout batching, and cross-process visibility. That remains) Tj
+T*
+(under-proven.) Tj
+T*
+() Tj
+T*
+(Signature Verification Truth) Tj
+T*
+(**Intended authority:** Transaction validation and consensus verification path using Falcon) Tj
+T*
+(wrappers.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Likely txvalidation.py and txveri.py via FalconCLI, but key) Tj
+T*
+(manager and other utilities also expose verification methods.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** TransactionManager, txvalidation.py, txveri.py, KeyManager,) Tj
+T*
+(FalconCLI.) Tj
+T*
+() Tj
+T*
+(**Classification:** Shared with moderate ambiguity.) Tj
+T*
+() Tj
+T*
+(**Audit note:** There is strong evidence of serious signature verification work and pinning) Tj
+T*
+(discipline. The audit gap is exact ownership: which layer is consensus-critical, which layers) Tj
+T*
+(are convenience wrappers, and whether every caller normalizes and verifies the exact same bytes) Tj
+T*
+(under the exact same failure policy.) Tj
+T*
+() Tj
+T*
+(Proof Verification Truth) Tj
+T*
+(**Intended authority:** Private-layer verification boundary, presumably consensus-facing.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Not yet proven cleanly from this audit pass. There are Rust) Tj
+T*
+(verifier/runtime assets and bridge scripts, but the precise ownership boundary between) Tj
+T*
+(protocol-critical proof verification and supporting tooling still needs a deeper trace.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** Private-layer bridge scripts, runtime binaries, Python) Tj
+T*
+(integration paths, block/private state reconciliation.) Tj
+T*
+() Tj
+T*
+(**Classification:** Ambiguous.) Tj
+T*
+() Tj
+T*
+(**Audit note:** The repository clearly includes proof systems, but the final authoritative) Tj
+T*
+(verifier path still needs a direct end-to-end trace from mempool admission, to block) Tj
+T*
+(verification, to reorg replay, to restart recovery.) Tj
+T*
+() Tj
+T*
+(Schema / Version Compatibility Truth) Tj
+T*
+(**Intended authority:** Versioned constants, runtime guards, schema validators, and release) Tj
+T*
+ET
+endstream
+endobj
+18 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 19 0 R >>
+endobj
+19 0 obj
+<< /Length 3015 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(discipline.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Distributed across const.py, runtime guard utilities, schema) Tj
+T*
+(validators in key and storage code, and configuration files.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** Runtime guard, API version string, storage schema) Tj
+T*
+(validators, peer ruleset checks, config files, GUI assumptions.) Tj
+T*
+() Tj
+T*
+(**Classification:** Shared and under-specified.) Tj
+T*
+() Tj
+T*
+(**Audit note:** Compatibility controls exist, but there is not yet one explicit compatibility) Tj
+T*
+(contract spanning node, API, GUI, and storage schemas. API_VERSION appears to be metadata more) Tj
+T*
+(than a versioned contract boundary. Strong claims about upgrade safety remain premature.) Tj
+T*
+() Tj
+T*
+(Backup / Restore Truth) Tj
+T*
+(**Intended authority:** Wallet backup and storage restore procedures.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Wallet encryption/export/import paths exist, but system-level) Tj
+T*
+(backup and mixed-state restore authority are not cleanly defined.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** Key manager export/import, manual filesystem state, storage) Tj
+T*
+(path switching, GUI fallback caches.) Tj
+T*
+() Tj
+T*
+(**Classification:** Ambiguous.) Tj
+T*
+() Tj
+T*
+(**Audit note:** Wallet backup surfaces exist. Full-system restore semantics do not yet appear to) Tj
+T*
+(be modeled as a supervised, version-aware architecture boundary.) Tj
+T*
+() Tj
+T*
+(API Contract Truth) Tj
+T*
+(**Intended authority:** A versioned API contract owned by the backend control plane.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Diffuse. The API surface is defined directly in auth.py, the) Tj
+T*
+(implementation semantics live in apis.py, and the GUI appears to rely on both documented and) Tj
+T*
+(undocumented field behavior.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** Route definitions, implementation internals, GUI error) Tj
+T*
+(parsing, GUI fallback heuristics, optional role-local APIs.) Tj
+T*
+() Tj
+T*
+(**Classification:** Ambiguous.) Tj
+T*
+() Tj
+T*
+(**Audit note:** The API exposes many useful fields, but the audit did not find a strong contract) Tj
+T*
+(layer separating public semantics from internal implementation drift. API_VERSION is used as) Tj
+T*
+(application metadata, not as evidence of route versioning or compatibility negotiation. The GUI) Tj
+T*
+(also inspects ad hoc fields like requires_unlock, requires_sync, propagation_pending,) Tj
+T*
+(intent_status, and parses raw error text when structured errors are insufficient. That means API) Tj
+T*
+(truth is not just ?what the backend returns.? In practice it is ?what the GUI has learned to) Tj
+T*
+(expect,? which is weaker and more brittle than a real contract.) Tj
+T*
+() Tj
+T*
+(Error Taxonomy Truth) Tj
+T*
+(**Intended authority:** Backend-defined error classes with stable codes and retry semantics.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Shared between backend partial error shaping and GUI string-level) Tj
+T*
+ET
+endstream
+endobj
+20 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 21 0 R >>
+endobj
+21 0 obj
+<< /Length 3342 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(interpretation.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** API responses, GUI _build_send_failure_message\(\), GUI) Tj
+T*
+(unlock/sync detection, lifecycle fallbacks, manual error-text parsing.) Tj
+T*
+() Tj
+T*
+(**Classification:** Conflicting.) Tj
+T*
+() Tj
+T*
+(**Audit note:** Error handling is one of the most under-modeled authority surfaces in the repo.) Tj
+T*
+(The GUI should not have to infer meaning from phrases like no key found with hashed public key) Tj
+T*
+(or InvalidOperation, yet it does. This matters because error taxonomy is a control-plane) Tj
+T*
+(boundary: it determines whether the GUI retries, prompts unlock, blocks duplicate actions, or) Tj
+T*
+(initiates fallback lifecycle behavior. Right now that authority is shared. The backend emits) Tj
+T*
+(partial structure, but the frontend still completes the semantics. That is precisely the pattern) Tj
+T*
+(that causes accidental duplicate actions or incorrect user guidance under edge cases.) Tj
+T*
+() Tj
+T*
+(Time / Clock Truth) Tj
+T*
+(**Intended authority:** Backend consensus/runtime policy with one interpretation of) Tj
+T*
+(time-sensitive behavior.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Partially miner-owned, partially implicit in other components.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** Miner clock drift checks, transaction validation timestamps,) Tj
+T*
+(sync timing, GUI ordering assumptions, request timeout behavior.) Tj
+T*
+() Tj
+T*
+(**Classification:** Ambiguous.) Tj
+T*
+() Tj
+T*
+(**Audit note:** minernode.py contains explicit clock-health logic and can pause mining on drift.) Tj
+T*
+(That is useful, but it also highlights a gap: there is not yet one explicit architecture-wide) Tj
+T*
+(time authority model. It is not clear from this audit whether tx acceptance, sync deadlines,) Tj
+T*
+(wallet ordering, and GUI time displays all rely on the same assumptions or whether time) Tj
+T*
+(sensitivity is handled piecemeal. In a verification-grade architecture blueprint, time is not a) Tj
+T*
+(mere utility concern. It is an authority concern because different processes making different) Tj
+T*
+(time assumptions can disagree about ordering, expiration, or readiness.) Tj
+T*
+() Tj
+T*
+(Idempotency Truth) Tj
+T*
+(**Intended authority:** Backend command model.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Strongest for send intents, weaker or unclear for lifecycle and) Tj
+T*
+(network commands.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** API send-intent store, GUI duplicate-send suppression, GUI) Tj
+T*
+(cooldown windows, node start/stop/restart endpoints, network switch flow.) Tj
+T*
+() Tj
+T*
+(**Classification:** Shared and incomplete.) Tj
+T*
+() Tj
+T*
+(**Audit note:** The repository clearly treats idempotency as important for sends. There is a) Tj
+T*
+(persistent send-intent store, and the GUI adds its own duplicate suppression. The problem is) Tj
+T*
+(that this discipline does not yet appear to generalize across the control plane. There is no) Tj
+T*
+(comparable explicit idempotency model for start node, stop node, restart node, switch network,) Tj
+T*
+(unlock wallet, or rebroadcast style behavior. That means command truth is asymmetric: one class) Tj
+T*
+(of action has a persistent identity, while others rely on best-effort process checks or GUI) Tj
+T*
+(cooldown heuristics.) Tj
+T*
+ET
+endstream
+endobj
+22 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 23 0 R >>
+endobj
+23 0 obj
+<< /Length 3002 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(Event Ordering Truth) Tj
+T*
+(**Intended authority:** Backend event stream or monotonic state machine.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Largely absent as a formal contract; ordering is reconstructed) Tj
+T*
+(through polling.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** API polled queries, GUI request IDs, GUI pending watcher) Tj
+T*
+(threads, backend intent self-heal, mempool listeners.) Tj
+T*
+() Tj
+T*
+(**Classification:** Ambiguous.) Tj
+T*
+() Tj
+T*
+(**Audit note:** The system currently has several pieces that look like local event mechanisms:) Tj
+T*
+(mempool listeners, watcher threads, periodic recovery loops, GUI scheduled callbacks, and) Tj
+T*
+(operational journals. What it does not yet have is one canonical event ordering model that) Tj
+T*
+(states which of these matters for frontend truth or control-plane automation. Without that, the) Tj
+T*
+(system cannot strongly claim that accepted_local_mempool, relay_started, relay_observed,) Tj
+T*
+(balance_changed, history_changed, in_block, and confirmed will be interpreted in the same order) Tj
+T*
+(by all consumers.) Tj
+T*
+() Tj
+T*
+(Secret Lifetime Truth) Tj
+T*
+(**Intended authority:** KeyManager.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Mostly KeyManager for local process memory, but with unresolved) Tj
+T*
+(multi-process scope and GUI-password handling implications.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** Multiple KeyManager instances, GUI password prompts, API) Tj
+T*
+(wallet endpoints, backup/export flows.) Tj
+T*
+() Tj
+T*
+(**Classification:** Ambiguous.) Tj
+T*
+() Tj
+T*
+(**Audit note:** The KeyManager implementation has real controls: unlock state, unlock deadline,) Tj
+T*
+(timer-driven relock, secret clearing into bytearrays, and encrypted-at-rest support. The) Tj
+T*
+(unresolved authority question is scope. If multiple runtime processes each host a KeyManager,) Tj
+T*
+(the system may not actually have one unlock authority. It may have several process-local unlock) Tj
+T*
+(sessions against the same wallet material. That matters not only for security but also for UX) Tj
+T*
+(correctness, because the GUI may believe ?the wallet? is unlocked when only one process-local) Tj
+T*
+(KeyManager is unlocked.) Tj
+T*
+() Tj
+T*
+(Public vs Private Reconciliation Truth) Tj
+T*
+(**Intended authority:** Backend reconciliation logic anchored to canonical chainstate.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Split between canonical-chain-facing validators, key-manager-side) Tj
+T*
+(note bookkeeping, and GUI fallback visibility.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** Private note scans, private note reconciliation, private) Tj
+T*
+(audit files, reorg rebuild paths, GUI note summaries.) Tj
+T*
+() Tj
+T*
+(**Classification:** Ambiguous.) Tj
+T*
+() Tj
+T*
+(**Audit note:** The repository contains mechanisms for private note scanning, note) Tj
+T*
+(reconciliation, pending-spend tracking, and reorg rebuild. That is encouraging. The gap is) Tj
+T*
+ET
+endstream
+endobj
+24 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 25 0 R >>
+endobj
+25 0 obj
+<< /Length 3038 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(architectural ownership. A trustworthy privacy architecture needs a crisp answer to a simple) Tj
+T*
+(question: when public chainstate and local private-note state disagree temporarily, which) Tj
+T*
+(component detects that, which component repairs it, and which component is allowed to surface) Tj
+T*
+(the disagreement to the user? The current repo suggests several participants, not one clear) Tj
+T*
+(owner.) Tj
+T*
+() Tj
+T*
+(Deployment / Config Truth) Tj
+T*
+(**Intended authority:** One deployment/supervisor layer.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Split between config files, environment variables, launcher) Tj
+T*
+(behavior, API mutations, and GUI settings.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** NodePorts.json, network-scoped config files,) Tj
+T*
+(storage_paths.json, environment overrides, GUI-saved settings, runtime guard allowances.) Tj
+T*
+() Tj
+T*
+(**Classification:** Conflicting.) Tj
+T*
+() Tj
+T*
+(**Audit note:** Configuration truth is part of architecture truth. In this repo, effective) Tj
+T*
+(runtime behavior depends on config files, env vars, role defaults, GUI preferences,) Tj
+T*
+(network-switch scripts, and runtime-guard knobs. There is nothing inherently wrong with) Tj
+T*
+(environment-driven behavior, but the current layering makes it difficult to answer: ?what is the) Tj
+T*
+(source of truth for this node?s runtime identity and deployment mode right now?? That is a) Tj
+T*
+(control-plane weakness, not just an operations nuisance.) Tj
+T*
+() Tj
+T*
+(Performance / Resource Ownership Truth) Tj
+T*
+(**Intended authority:** Backend role separation and scheduler/resource policy.) Tj
+T*
+() Tj
+T*
+(**Actual current authority:** Largely implicit in whichever processes are running and how they) Tj
+T*
+(contend.) Tj
+T*
+() Tj
+T*
+(**Duplicate or overriding actors:** Full node, miner, wallet relay, API singleton graphs, GUI) Tj
+T*
+(polling, explorer bridge.) Tj
+T*
+() Tj
+T*
+(**Classification:** Ambiguous.) Tj
+T*
+() Tj
+T*
+(**Audit note:** The code strongly suggests resource contention scenarios, but the architecture) Tj
+T*
+(does not yet surface a clear resource ownership model. If full node, miner, wallet API, GUI,) Tj
+T*
+(explorer bridge, and optional wrapper API all coexist, CPU, RAM, file descriptors, and LMDB) Tj
+T*
+(reader slots become architectural concerns. This is especially relevant because many runtime) Tj
+T*
+(roles appear to instantiate similar stores and managers. The audit cannot yet claim that) Tj
+T*
+(performance boundaries are designed as boundaries rather than as incidental side effects of) Tj
+T*
+(whichever processes happen to be enabled.) Tj
+T*
+() Tj
+T*
+(State Transition Ownership) Tj
+T*
+() Tj
+T*
+(Node Startup) Tj
+T*
+(**Initiator:** run.py, runnode.py, API NodeController, or GUI local fallback.) Tj
+T*
+() Tj
+T*
+(**Validator:** Partial validation through runtime guard, process/port checks, and launcher/API) Tj
+T*
+(polling.) Tj
+T*
+() Tj
+T*
+(**Committer:** The process-spawning actor that wins first, usually launcher or API) Tj
+T*
+ET
+endstream
+endobj
+26 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 27 0 R >>
+endobj
+27 0 obj
+<< /Length 2498 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(NodeController.) Tj
+T*
+() Tj
+T*
+(**Observers:** GUI active-node polling, stop.py snapshots, launcher health probes.) Tj
+T*
+() Tj
+T*
+(**API/GUI exposure:** /nodes/start, GUI node_start\(\), launcher status messages.) Tj
+T*
+() Tj
+T*
+(**Rollback or recovery:** Only partial. Failed starts trigger retries, local fallback starts,) Tj
+T*
+(and watchdog recovery, but there is no single startup transaction record spanning all involved) Tj
+T*
+(components.) Tj
+T*
+() Tj
+T*
+(**Audit finding:** Startup ownership is not centralized. There are multiple legal ways to start) Tj
+T*
+(the same role, and readiness is inferred rather than committed by a single supervisor.) Tj
+T*
+() Tj
+T*
+(Node Shutdown) Tj
+T*
+(**Initiator:** GUI, API NodeController, stop.py, KeyboardInterrupt in role process, runtime) Tj
+T*
+(guard violation.) Tj
+T*
+() Tj
+T*
+(**Validator:** Mostly best-effort process inspection and role classification.) Tj
+T*
+() Tj
+T*
+(**Committer:** OS signal delivery plus whatever cleanup each process performs.) Tj
+T*
+() Tj
+T*
+(**Observers:** GUI polls active nodes; launcher and API retry stop checks.) Tj
+T*
+() Tj
+T*
+(**API/GUI exposure:** /nodes/stop, GUI stop handlers, CLI stop.py.) Tj
+T*
+() Tj
+T*
+(**Rollback or recovery:** None in a transactional sense. There is only post-fact verification of) Tj
+T*
+(whether processes disappeared.) Tj
+T*
+() Tj
+T*
+(**Audit finding:** Shutdown is operationally practical but architecturally weak. There is no) Tj
+T*
+(durable lifecycle journal or authoritative supervisor state machine.) Tj
+T*
+() Tj
+T*
+(Node Restart) Tj
+T*
+(**Initiator:** GUI or API node restart flows, sometimes watchdog logic.) Tj
+T*
+() Tj
+T*
+(**Validator:** Process list and port readiness.) Tj
+T*
+() Tj
+T*
+(**Committer:** Stop followed by start, often with independent fallbacks.) Tj
+T*
+() Tj
+T*
+(**Observers:** GUI state refresh and API active-node snapshot.) Tj
+T*
+() Tj
+T*
+(**API/GUI exposure:** /nodes/restart, GUI node_restart\(\).) Tj
+T*
+() Tj
+T*
+(**Rollback or recovery:** Weak. If restart partially fails, the system mostly returns error) Tj
+T*
+(payloads and leaves follow-up recovery to retries.) Tj
+T*
+() Tj
+T*
+(**Audit finding:** Restart is not a first-class state machine transition. It is a composed pair) Tj
+T*
+(of stop/start actions with incomplete atomicity.) Tj
+T*
+() Tj
+T*
+(Network Switch) Tj
+T*
+(**Initiator:** GUI switch_network_lifecycle\(\), API switch_network\(\), direct switchnet.py, or) Tj
+T*
+(launcher-time selection.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+28 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 29 0 R >>
+endobj
+29 0 obj
+<< /Length 2886 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**Validator:** API checks whether critical nodes are stopped if require_nodes_stopped=True. GUI) Tj
+T*
+(also waits until nodes are stopped.) Tj
+T*
+() Tj
+T*
+(**Committer:** API writes NodePorts.json; switchnet.py can also write network-scoped config and) Tj
+T*
+(storage path material; GUI updates its own saved settings and base URL.) Tj
+T*
+() Tj
+T*
+(**Observers:** GUI network label, launcher, future process starts.) Tj
+T*
+() Tj
+T*
+(**API/GUI exposure:** /network/switch, GUI lifecycle method.) Tj
+T*
+() Tj
+T*
+(**Rollback or recovery:** Very limited. If part of the choreography fails, the repo offers) Tj
+T*
+(partial error payloads but not a complete rollback of all touched files and in-memory settings.) Tj
+T*
+() Tj
+T*
+(**Audit finding:** Network switch is a distributed procedure, not a single committed backend) Tj
+T*
+(transition. Mixed-network intermediate state is therefore a real risk.) Tj
+T*
+() Tj
+T*
+(Wallet Unlock / Lock) Tj
+T*
+(**Initiator:** API wallet endpoints, GUI unlock modal, potentially CLI/key-manager flows.) Tj
+T*
+() Tj
+T*
+(**Validator:** KeyManager validates password and optional Kyber unlock file.) Tj
+T*
+() Tj
+T*
+(**Committer:** KeyManager updates in-memory unlock state and timer metadata.) Tj
+T*
+() Tj
+T*
+(**Observers:** API wallet_unlock_status\(\), GUI cached last-lock-status state.) Tj
+T*
+() Tj
+T*
+(**API/GUI exposure:** /wallet/unlock, /wallet/lock, GUI unlock modal and send gating.) Tj
+T*
+() Tj
+T*
+(**Rollback or recovery:** Timeout-based auto-lock exists. Secret clearing exists. No) Tj
+T*
+(cross-process unlock session coherence proof exists.) Tj
+T*
+() Tj
+T*
+(**Audit finding:** Unlock ownership is better than many other areas because KeyManager is the) Tj
+T*
+(clear local implementation owner. The open problem is process scope: which process?s KeyManager) Tj
+T*
+(instance defines real unlock state when multiple role processes and API instances exist.) Tj
+T*
+() Tj
+T*
+(Transaction Creation) Tj
+T*
+(**Initiator:** GUI send action or API client request.) Tj
+T*
+() Tj
+T*
+(**Validator:** API wallet lock checks, send-layer assembly, sender normalization, backend) Tj
+T*
+(idempotency store, transaction manager.) Tj
+T*
+() Tj
+T*
+(**Committer:** Backend send flow writes an intent record and creates/submits the transaction to) Tj
+T*
+(consensus/mempool.) Tj
+T*
+() Tj
+T*
+(**Observers:** GUI send worker, intent polling, mempool and tx queries.) Tj
+T*
+() Tj
+T*
+(**API/GUI exposure:** /tx/send, /tx/send-private, GUI send modal.) Tj
+T*
+() Tj
+T*
+(**Rollback or recovery:** Partial. Intent journaling, intent self-heal, ambiguous-error probing,) Tj
+T*
+(GUI retry suppression, and backend operation journal all exist, but there is no single) Tj
+T*
+(authoritative recovery semantics document or event stream.) Tj
+T*
+() Tj
+T*
+(**Audit finding:** Transaction creation is already split between command path and lifecycle) Tj
+T*
+ET
+endstream
+endobj
+30 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 31 0 R >>
+endobj
+31 0 obj
+<< /Length 2583 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(observation path. It is not yet a clean backend-owned state machine.) Tj
+T*
+() Tj
+T*
+(Transaction Validation) Tj
+T*
+(**Initiator:** Send flow, P2P ingress, block validation path.) Tj
+T*
+() Tj
+T*
+(**Validator:** Consensus.accept_tx\(\) and validation stack below TransactionManager.) Tj
+T*
+() Tj
+T*
+(**Committer:** MempoolStore on successful admission.) Tj
+T*
+() Tj
+T*
+(**Observers:** P2P relay, API send response, GUI intent watchers.) Tj
+T*
+() Tj
+T*
+(**API/GUI exposure:** /tx/validate, send endpoints, mempool info, tx lookup.) Tj
+T*
+() Tj
+T*
+(**Rollback or recovery:** Rejection paths exist. Strong replay/compensation semantics for) Tj
+T*
+(duplicate or delayed admission are not yet fully externalized.) Tj
+T*
+() Tj
+T*
+(**Audit finding:** Validator ownership is better defined than lifecycle ownership, but runtime) Tj
+T*
+(multiplicity still makes final authority less clean than the function graph suggests.) Tj
+T*
+() Tj
+T*
+(Mempool Insert) Tj
+T*
+(**Initiator:** Consensus after transaction validation.) Tj
+T*
+() Tj
+T*
+(**Validator:** Consensus.accept_tx\(\) plus mempool rules and UTXO checks.) Tj
+T*
+() Tj
+T*
+(**Committer:** MempoolStore.add_transaction\(\).) Tj
+T*
+() Tj
+T*
+(**Observers:** Miner template logic, listeners, GUI/API mempool queries, relay logic.) Tj
+T*
+() Tj
+T*
+(**API/GUI exposure:** Send response, /mempool/info, tx lookup.) Tj
+T*
+() Tj
+T*
+(**Rollback or recovery:** Eviction, confirmed removal, and stale cleanup exist. There is no) Tj
+T*
+(global event contract proving insert ordering relative to send lifecycle and GUI refresh.) Tj
+T*
+() Tj
+T*
+(**Audit finding:** Single-function ownership exists, but multi-runtime mutation risk still) Tj
+T*
+(applies.) Tj
+T*
+() Tj
+T*
+(Transaction Relay) Tj
+T*
+(**Initiator:** Full node P2P, miner P2P, or wallet relay depending on local runtime topology.) Tj
+T*
+() Tj
+T*
+(**Validator:** Peer manager / network relay rules.) Tj
+T*
+() Tj
+T*
+(**Committer:** Network side effects, peer acknowledgements, peerstore telemetry.) Tj
+T*
+() Tj
+T*
+(**Observers:** API network info, GUI send watcher, backend intent self-heal.) Tj
+T*
+() Tj
+T*
+(**API/GUI exposure:** Indirectly through intent status and network views.) Tj
+T*
+() Tj
+T*
+(**Rollback or recovery:** Only best-effort rebroadcast behaviors.) Tj
+T*
+() Tj
+T*
+(**Audit finding:** Relay ownership is explicitly movable at runtime. walletnode.py chooses owner) Tj
+T*
+(mode based on whether full or miner roles are locally running. That means transaction relay) Tj
+T*
+(authority is not fixed by architecture; it is selected operationally.) Tj
+T*
+ET
+endstream
+endobj
+32 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 33 0 R >>
+endobj
+33 0 obj
+<< /Length 2500 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(Block Candidate Creation) Tj
+T*
+(**Initiator:** Miner loop.) Tj
+T*
+() Tj
+T*
+(**Validator:** Miner-side selection, fee and payout logic, block assembly rules.) Tj
+T*
+() Tj
+T*
+(**Committer:** Candidate stays local until mined and accepted.) Tj
+T*
+() Tj
+T*
+(**Observers:** Miner status and eventual block acceptance path.) Tj
+T*
+() Tj
+T*
+(**API/GUI exposure:** Mining status endpoints, not a rich candidate lifecycle interface.) Tj
+T*
+() Tj
+T*
+(**Rollback or recovery:** Candidate rebuild happens naturally on new state; no durable candidate) Tj
+T*
+(journal was confirmed in this pass.) Tj
+T*
+() Tj
+T*
+(**Audit finding:** Candidate creation is miner-owned, but it depends on the same shared mempool) Tj
+T*
+(and chainstate resources that other runtimes may also be mutating.) Tj
+T*
+() Tj
+T*
+(Block Acceptance) Tj
+T*
+(**Initiator:** P2P ingress, sync worker, or local mined block path.) Tj
+T*
+() Tj
+T*
+(**Validator:** Consensus plus block verification plus optional state hook paths.) Tj
+T*
+() Tj
+T*
+(**Committer:** Blockchain.add_block\(\) plus UTXO apply, mempool cleanup, metadata updates, and) Tj
+T*
+(commit journal.) Tj
+T*
+() Tj
+T*
+(**Observers:** State tracker, emission/burn monitors, API chain queries, GUI refresh.) Tj
+T*
+() Tj
+T*
+(**API/GUI exposure:** /chain/info, /block/..., consensus status, GUI chain views.) Tj
+T*
+() Tj
+T*
+(**Rollback or recovery:** Better than many areas. There is a block commit journal and recovery) Tj
+T*
+(logic when interrupted. However, post-commit monitors and side systems still widen the real) Tj
+T*
+(recovery surface.) Tj
+T*
+() Tj
+T*
+(**Audit finding:** Acceptance internals are comparatively robust. The main unresolved risk is) Tj
+T*
+(whether too many runtimes can initiate the same acceptance machinery over shared state.) Tj
+T*
+() Tj
+T*
+(Reorg) Tj
+T*
+(**Initiator:** Orphan/reorg manager when competing branch wins.) Tj
+T*
+() Tj
+T*
+(**Validator:** Reorg policy and ancestor search logic.) Tj
+T*
+() Tj
+T*
+(**Committer:** Revert old branch UTXO state, apply new branch, rebuild/reconcile state, update) Tj
+T*
+(tip metadata, journal recovery.) Tj
+T*
+() Tj
+T*
+(**Observers:** State tracker, mempool reconciliation, emission/burn monitors, API and GUI.) Tj
+T*
+() Tj
+T*
+(**API/GUI exposure:** Only indirectly through changed tip, history, balances, and logs.) Tj
+T*
+() Tj
+T*
+(**Rollback or recovery:** Explicit reorg journal and rollback attempt paths exist, including) Tj
+T*
+(incomplete rollback statuses.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+34 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 35 0 R >>
+endobj
+35 0 obj
+<< /Length 2535 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**Audit finding:** Reorg handling is architecturally meaningful and not hand-waved. The missing) Tj
+T*
+(proof is cross-domain completeness: public chainstate, private state, payout state, mempool, and) Tj
+T*
+(GUI caches must all converge under one ordered recovery model, and that is not yet fully) Tj
+T*
+(demonstrated.) Tj
+T*
+() Tj
+T*
+(Mempool Eviction After Block) Tj
+T*
+(**Initiator:** Consensus/post-commit cleanup after block acceptance.) Tj
+T*
+() Tj
+T*
+(**Validator:** Confirmed-tx extraction and mempool removal logic.) Tj
+T*
+() Tj
+T*
+(**Committer:** MempoolStore.remove_confirmed\(\) and related cleanup.) Tj
+T*
+() Tj
+T*
+(**Observers:** Miner template refresh, GUI mempool info, tx watchers.) Tj
+T*
+() Tj
+T*
+(**API/GUI exposure:** Indirect via mempool and tx endpoints.) Tj
+T*
+() Tj
+T*
+(**Rollback or recovery:** Depends on reorg logic to restore needed txs; not yet fully traced) Tj
+T*
+(end-to-end in this audit.) Tj
+T*
+() Tj
+T*
+(**Audit finding:** Functional ownership is backend-side, but event ordering to GUI is not) Tj
+T*
+(explicit.) Tj
+T*
+() Tj
+T*
+(Crash Recovery Replay) Tj
+T*
+(**Initiator:** Role startup and API initialization call run_startup_crash_recovery\(\); blockchain) Tj
+T*
+(and reorg managers also recover journals.) Tj
+T*
+() Tj
+T*
+(**Validator:** Recovery code checks journals, store state, and metadata.) Tj
+T*
+() Tj
+T*
+(**Committer:** Recovery routines mutate UTXO, mempool, block store, or operation journals as) Tj
+T*
+(needed.) Tj
+T*
+() Tj
+T*
+(**Observers:** Mostly logs; very little structured recovery telemetry is exposed to GUI.) Tj
+T*
+() Tj
+T*
+(**API/GUI exposure:** Minimal and indirect.) Tj
+T*
+() Tj
+T*
+(**Rollback or recovery:** Recovery itself is the rollback layer, but the coverage is fragmented) Tj
+T*
+(across block commits, reorgs, send intents, operation journal, stale locks, and state tracker) Tj
+T*
+(rebuilds.) Tj
+T*
+() Tj
+T*
+(**Audit finding:** Recovery logic exists in many places, but there is no unified recovery) Tj
+T*
+(semantics boundary. That fragmentation makes it hard to prove total correctness.) Tj
+T*
+() Tj
+T*
+(GUI Refresh After Backend Change) Tj
+T*
+(**Initiator:** Timers, send completions, explicit refreshes, watcher callbacks, and screen) Tj
+T*
+(navigation.) Tj
+T*
+() Tj
+T*
+(**Validator:** The GUI validates freshness mostly through ad hoc request IDs, polling, and some) Tj
+T*
+(stale-result suppression.) Tj
+T*
+() Tj
+T*
+(**Committer:** GUI local state assignments and cached files.) Tj
+T*
+() Tj
+T*
+(**Observers:** End user only.) Tj
+T*
+ET
+endstream
+endobj
+36 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 37 0 R >>
+endobj
+37 0 obj
+<< /Length 2484 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(**API/GUI exposure:** Entire GUI.) Tj
+T*
+() Tj
+T*
+(**Rollback or recovery:** Limited to ignoring outdated request IDs or forcing another refresh.) Tj
+T*
+() Tj
+T*
+(**Audit finding:** GUI refresh is not event-driven from a backend revision stream. It is a) Tj
+T*
+(multi-request polling model with local heuristics. That is the root of many display-consistency) Tj
+T*
+(problems.) Tj
+T*
+() Tj
+T*
+(Single Writer vs Multiple Writer Risks) Tj
+T*
+() Tj
+T*
+(Canonical Block Storage) Tj
+T*
+(**Current writers:** Full node blockchain graph, miner blockchain graph, API singleton) Tj
+T*
+(blockchain graph, potentially wallet chain-sync path when bootstrapped.) Tj
+T*
+() Tj
+T*
+(**Classification:** Probable multi-writer risk.) Tj
+T*
+() Tj
+T*
+(**Why:** The same storage classes are instantiated from multiple role entrypoints and from the) Tj
+T*
+(API singleton. Consensus write guards do not by themselves prevent multiple processes from each) Tj
+T*
+(legitimately entering a write context.) Tj
+T*
+() Tj
+T*
+(Chain Tip Metadata) Tj
+T*
+(**Current writers:** BlockStore commit paths, reorg manager, block commit recovery.) Tj
+T*
+() Tj
+T*
+(**Classification:** Probable multi-writer risk.) Tj
+T*
+() Tj
+T*
+(**Why:** Tip metadata is a function of blockstore writes. If blockstore is multi-writer in) Tj
+T*
+(practice, tip metadata is also multi-writer.) Tj
+T*
+() Tj
+T*
+(UTXO Canonical Spend State) Tj
+T*
+(**Current writers:** Consensus block application, reorg revert/apply, crash recovery, stale lock) Tj
+T*
+(cleanup, lock/unlock helpers.) Tj
+T*
+() Tj
+T*
+(**Classification:** Probable multi-writer risk.) Tj
+T*
+() Tj
+T*
+(**Why:** Canonical spend state and operational lock state coexist in the same store. Multiple) Tj
+T*
+(role/API runtimes can instantiate the store.) Tj
+T*
+() Tj
+T*
+(Mempool Canonical Membership) Tj
+T*
+(**Current writers:** Consensus tx admission, block-confirmed removal, cleanup paths, recovery) Tj
+T*
+(paths.) Tj
+T*
+() Tj
+T*
+(**Classification:** Probable multi-writer risk.) Tj
+T*
+() Tj
+T*
+(**Why:** MempoolStore is protected by consensus write context, but full/miner/API/wallet role) Tj
+T*
+(combinations can each host a mempool instance. Cross-process refresh code further implies) Tj
+T*
+(concurrent multi-view access is expected.) Tj
+T*
+() Tj
+T*
+(Peer Store Mutation) Tj
+T*
+(**Current writers:** Full node peer manager, miner peer manager, wallet relay peer manager.) Tj
+T*
+() Tj
+T*
+(**Classification:** Confirmed multi-writer risk.) Tj
+T*
+ET
+endstream
+endobj
+38 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 39 0 R >>
+endobj
+39 0 obj
+<< /Length 2514 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(**Why:** PeerStore explicitly states it is shared by node processes on the same machine. It is) Tj
+T*
+(intentionally a multi-process mutable store and can even fallback to unlocked LMDB mode.) Tj
+T*
+() Tj
+T*
+(Send Intent Updates) Tj
+T*
+(**Current writers:** API send flow, API intent self-heal loop, API crash recovery loop.) Tj
+T*
+() Tj
+T*
+(**Classification:** Likely single-writer but needs proof.) Tj
+T*
+() Tj
+T*
+(**Why:** The SQLite store appears to be owned by the API singleton in one process, but because) Tj
+T*
+(the API singleton can exist in multiple role processes or wrapper processes, the real deployment) Tj
+T*
+(discipline still needs proof.) Tj
+T*
+() Tj
+T*
+(Operation Journal) Tj
+T*
+(**Current writers:** API send and network-switch operations.) Tj
+T*
+() Tj
+T*
+(**Classification:** Likely single-writer but needs proof.) Tj
+T*
+() Tj
+T*
+(**Why:** Same concern as send intents. The code suggests one API-local journal, but the runtime) Tj
+T*
+(topology may permit more than one API-local writer per machine/network.) Tj
+T*
+() Tj
+T*
+(Wallet Unlock State) Tj
+T*
+(**Current writers:** KeyManager instances in whichever process currently hosts wallet) Tj
+T*
+(operations.) Tj
+T*
+() Tj
+T*
+(**Classification:** Probable multi-writer risk.) Tj
+T*
+() Tj
+T*
+(**Why:** Unlock state is in-memory process-local state. If more than one process hosts a) Tj
+T*
+(KeyManager, there is no shared authoritative unlock session. That is not a storage corruption) Tj
+T*
+(issue; it is an authority coherence issue.) Tj
+T*
+() Tj
+T*
+(Key Material on Disk) Tj
+T*
+(**Current writers:** KeyManager save, import/export, encryption changes, backup import.) Tj
+T*
+() Tj
+T*
+(**Classification:** Likely single-writer but needs proof.) Tj
+T*
+() Tj
+T*
+(**Why:** File locking and schema validation exist, which is positive. The unresolved issue is) Tj
+T*
+(whether multiple live KeyManager instances can race on the same file set under normal multi-role) Tj
+T*
+(runtime.) Tj
+T*
+() Tj
+T*
+(Private Note State) Tj
+T*
+(**Current writers:** KeyManager note mutation methods, private note reconciliation, audit-file) Tj
+T*
+(writes, import/export.) Tj
+T*
+() Tj
+T*
+(**Classification:** Probable multi-writer risk.) Tj
+T*
+() Tj
+T*
+(**Why:** Note state appears to span key JSON, audit JSON, and runtime reconciliation logic. The) Tj
+T*
+(single-writer discipline is not yet proven.) Tj
+T*
+() Tj
+T*
+(Balance / History Caches) Tj
+T*
+(**Current writers:** API in-memory caches and GUI local state.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+40 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 41 0 R >>
+endobj
+41 0 obj
+<< /Length 2360 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**Classification:** Confirmed multi-writer risk.) Tj
+T*
+() Tj
+T*
+(**Why:** These are not canonical stores, but they are multiple mutable caches representing the) Tj
+T*
+(same user-facing truth.) Tj
+T*
+() Tj
+T*
+(Node Status / Readiness State) Tj
+T*
+(**Current writers:** Process list inference, API readiness endpoints, GUI local status, launcher) Tj
+T*
+(probes.) Tj
+T*
+() Tj
+T*
+(**Classification:** Confirmed multi-writer risk.) Tj
+T*
+() Tj
+T*
+(**Why:** There is no single authoritative lifecycle/status source. Readiness and running-state) Tj
+T*
+(are inferred independently by several layers.) Tj
+T*
+() Tj
+T*
+(Network Selection State) Tj
+T*
+(**Current writers:** switchnet.py, API switch_network\(\), GUI lifecycle logic, launcher env) Tj
+T*
+(selection.) Tj
+T*
+() Tj
+T*
+(**Classification:** Confirmed multi-writer risk.) Tj
+T*
+() Tj
+T*
+(**Why:** Multiple components write or assume network state via config files, environment) Tj
+T*
+(variables, and GUI settings.) Tj
+T*
+() Tj
+T*
+(Crash-Recovery State) Tj
+T*
+(**Current writers:** Block commit journal, reorg journal, operation journal, send intent store,) Tj
+T*
+(stale lock cleanup, state tracker.) Tj
+T*
+() Tj
+T*
+(**Classification:** Probable multi-writer risk.) Tj
+T*
+() Tj
+T*
+(**Why:** Recovery artifacts are fragmented. Each subsystem appears to own its own journal or) Tj
+T*
+(recovery strategy rather than participating in one recovery coordinator.) Tj
+T*
+() Tj
+T*
+(Reorg State) Tj
+T*
+(**Current writers:** Orphan/reorg manager, UTXO/blockstore revert/apply logic, extension) Tj
+T*
+(rebuilds.) Tj
+T*
+() Tj
+T*
+(**Classification:** Likely single-writer but needs proof.) Tj
+T*
+() Tj
+T*
+(**Why:** The code path is fairly centralized, but if multiple runtimes can initiate chain) Tj
+T*
+(commits, the single-writer property remains unproven.) Tj
+T*
+() Tj
+T*
+(GUI-Side Persistence) Tj
+T*
+(**Current writers:** GUI transaction history, GUI chain anchor cache, notification stores,) Tj
+T*
+(preferences, possibly local explorer state.) Tj
+T*
+() Tj
+T*
+(**Classification:** Safe single-writer for the GUI process itself, but architecturally) Tj
+T*
+(dangerous.) Tj
+T*
+() Tj
+T*
+(**Why:** There may only be one GUI process, but these stores can still conflict semantically) Tj
+T*
+(with backend truth and encourage frontend authority creep.) Tj
+T*
+() Tj
+T*
+(Storage Root Selection) Tj
+T*
+ET
+endstream
+endobj
+42 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 43 0 R >>
+endobj
+43 0 obj
+<< /Length 2760 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**Current writers:** storage_paths.json, launcher/runtime env resolution, API storage-root) Tj
+T*
+(configuration helpers.) Tj
+T*
+() Tj
+T*
+(**Classification:** Probable multi-writer risk.) Tj
+T*
+() Tj
+T*
+(**Why:** Storage-root choice is control-plane state with direct data-plane consequences. More) Tj
+T*
+(than one component can influence it, and the audit has not yet proven transactional protection) Tj
+T*
+(against mixed old/new storage roots during switch or restart flows.) Tj
+T*
+() Tj
+T*
+(Node Port / Network Config) Tj
+T*
+(**Current writers:** switchnet.py, API switch_network\(\), GUI switch lifecycle, launcher) Tj
+T*
+(defaults.) Tj
+T*
+() Tj
+T*
+(**Classification:** Confirmed multi-writer risk.) Tj
+T*
+() Tj
+T*
+(**Why:** This is directly confirmed by repository structure. Several components can mutate or) Tj
+T*
+(depend on NodePorts.json and related network-scoped files.) Tj
+T*
+() Tj
+T*
+(Payout Journal / Bond-Stake State) Tj
+T*
+(**Current writers:** Consensus payout planning and settlement logic, reorg rebuild paths,) Tj
+T*
+(possible API query or rebuild operations.) Tj
+T*
+() Tj
+T*
+(**Classification:** Likely single-writer but needs proof.) Tj
+T*
+() Tj
+T*
+(**Why:** The economics code looks serious, but the audit has not yet completed a full ownership) Tj
+T*
+(trace for payout journal mutation across normal commit, reorg, replay, and rebuild flows.) Tj
+T*
+() Tj
+T*
+(Emission / Burn Monitor State) Tj
+T*
+(**Current writers:** Monitors running after commit or rebuild, plus recovery logic.) Tj
+T*
+() Tj
+T*
+(**Classification:** Likely single-writer but needs proof.) Tj
+T*
+() Tj
+T*
+(**Why:** The monitor outputs are observational, but if they are later used as health or) Tj
+T*
+(accounting truth, their writer discipline matters. Current evidence shows they are recomputable) Tj
+T*
+(monitors, not canonical stores, but that distinction should be explicit.) Tj
+T*
+() Tj
+T*
+(API Security Material / API Keys) Tj
+T*
+(**Current writers:** Launcher/runtime setup, GUI client key reset helpers, auth/config code.) Tj
+T*
+() Tj
+T*
+(**Classification:** Likely single-writer but needs proof.) Tj
+T*
+() Tj
+T*
+(**Why:** The GUI can create or reset local API keys through auth helpers. That is operationally) Tj
+T*
+(convenient but further blurs whether GUI is a client or a control-plane participant.) Tj
+T*
+() Tj
+T*
+(Read Consistency Model) Tj
+T*
+() Tj
+T*
+(What the current model appears to be) Tj
+T*
+(The current model appears to be **point-in-time inconsistent, eventually coherent,) Tj
+T*
+(poll-and-cache based reads** rather than a formal snapshot model.) Tj
+T*
+() Tj
+T*
+(The strongest evidence is structural:) Tj
+T*
+(- API.get_balance\(\) mixes UTXO snapshot data with mempool overlays and then caches the result.) Tj
+T*
+ET
+endstream
+endobj
+44 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 45 0 R >>
+endobj
+45 0 obj
+<< /Length 3220 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- History and recent-transaction endpoints use separate caches and independent scans.) Tj
+T*
+(- Chain tip, peer status, mempool summary, and wallet data are exposed from different endpoints) Tj
+T*
+(with no shared revision token.) Tj
+T*
+(- MempoolStore has an internal revision and even a \(revision, ranked_txs\) read helper, but that) Tj
+T*
+(revision is not elevated into an API-wide consistency contract.) Tj
+T*
+(- GUI screens compose state from multiple separate requests and also fall back to local caches) Tj
+T*
+(and local files.) Tj
+T*
+(- GUI request-ID suppression prevents stale worker responses from clobbering newer UI state, but) Tj
+T*
+(it does not make multiple endpoint responses belong to one backend snapshot.) Tj
+T*
+() Tj
+T*
+(Are GUI/API reads snapshot-consistent?) Tj
+T*
+(No strong evidence of snapshot consistency was found.) Tj
+T*
+() Tj
+T*
+(The repository does not expose a unified read transaction boundary like:) Tj
+T*
+(- state_revision) Tj
+T*
+(- chain_revision) Tj
+T*
+(- wallet_revision) Tj
+T*
+(- mempool_revision) Tj
+T*
+(- tip-bound read token) Tj
+T*
+(- as_of_tip_height/hash contract on all related endpoints) Tj
+T*
+() Tj
+T*
+(Some endpoints do include tip_height or tip_hash, but those fields are descriptive, not) Tj
+T*
+(contractual. The GUI cannot safely assume that a balance response, a history response, and a) Tj
+T*
+(mempool response with matching tip height were derived from one atomic backend state snapshot.) Tj
+T*
+() Tj
+T*
+(Can related reads come from different revisions?) Tj
+T*
+(Yes, very likely.) Tj
+T*
+() Tj
+T*
+(Balance, history, mempool summary, chain info, peer info, and transaction lookup can all be) Tj
+T*
+(fetched independently. They may hit different caches, different store reads, or even different) Tj
+T*
+(local role APIs depending on GUI failover behavior. The GUI client explicitly supports alternate) Tj
+T*
+(local API probing for observability reads. That means one screen can be composed from more than) Tj
+T*
+(one backend runtime, not just more than one backend revision.) Tj
+T*
+() Tj
+T*
+(Does the backend expose revision markers?) Tj
+T*
+(Only partially and not in the way the GUI needs.) Tj
+T*
+() Tj
+T*
+(MempoolStore exposes an internal revision and LMDB revision token. That is useful internally.) Tj
+T*
+(The broader API surface does not appear to expose a backend-wide revision envelope. /health does) Tj
+T*
+(not report readiness stage or snapshot revision. /chain/info, balance, history, and mempool) Tj
+T*
+(endpoints do not share a standardized response envelope containing request correlation,) Tj
+T*
+(revision, tip contract, or node role identity robust enough for frontend reconciliation.) Tj
+T*
+() Tj
+T*
+(Does the GUI compose screens from multiple unsynchronized reads?) Tj
+T*
+(Yes.) Tj
+T*
+() Tj
+T*
+(The GUI repeatedly calls separate endpoints for chain info, balances, mempool, peer state, send) Tj
+T*
+(intents, pending txs, and node state. It also maintains local cached chain anchors, recent) Tj
+T*
+(payload cooldowns, local sender address filtering, and local fallback summaries. This is the) Tj
+T*
+(definition of a composed eventually-consistent view rather than a backend-streamed coherent) Tj
+T*
+(view.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+46 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 47 0 R >>
+endobj
+47 0 obj
+<< /Length 3316 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Do caches create stale-read hazards?) Tj
+T*
+(Yes.) Tj
+T*
+() Tj
+T*
+(There are at least four classes of cache hazard:) Tj
+T*
+(- API in-memory TTL caches for balance/history/recent data.) Tj
+T*
+(- Store-local RAM views with background refresh behavior, especially the mempool.) Tj
+T*
+(- GUI worker results that may land after the underlying backend state changed.) Tj
+T*
+(- GUI local persistence and chain-anchor files that can survive restarts and be used for) Tj
+T*
+(interpretation.) Tj
+T*
+() Tj
+T*
+(Do cross-role API reads risk mutually inconsistent views?) Tj
+T*
+(Yes, and this is one of the most serious unproven properties in the repo.) Tj
+T*
+() Tj
+T*
+(Because the GUI can align to one local API role, fail over to another, or probe alternates for) Tj
+T*
+(observability reads, and because each role may host its own API singleton with its own component) Tj
+T*
+(graph, the GUI may receive valid-but-different answers from different role APIs. Even if they) Tj
+T*
+(share the same storage root, they may not have the same readiness, cache freshness, sync state,) Tj
+T*
+(or mempool view.) Tj
+T*
+() Tj
+T*
+(What consistency model should the system have?) Tj
+T*
+(The target should be **backend-owned, revision-aware, tip-bound snapshot reads** with these) Tj
+T*
+(properties:) Tj
+T*
+(- Every GUI-facing query response includes request_id, state_revision, tip_height, tip_hash,) Tj
+T*
+(node_role, network, and status metadata.) Tj
+T*
+(- Related read models are produced from one backend query coordinator, not stitched in the GUI.) Tj
+T*
+(- The backend exposes a stable event stream with monotonic revisions.) Tj
+T*
+(- The GUI reads state as ?apply snapshot, then apply ordered deltas,? not ?poll several) Tj
+T*
+(endpoints and guess what changed.?) Tj
+T*
+() Tj
+T*
+(Exact changes needed to get there) Tj
+T*
+(**First:** Introduce a backend-wide state_revision contract. At minimum this should include) Tj
+T*
+(chain tip revision, mempool revision, wallet view revision, and network epoch or configuration) Tj
+T*
+(revision. It may be one composite opaque token if exposing the internals is undesirable.) Tj
+T*
+() Tj
+T*
+(**Second:** Add a read-model endpoint or service that returns a coherent dashboard snapshot.) Tj
+T*
+(Balance, history summary, chain info, sync state, mempool counts, wallet unlock status, and node) Tj
+T*
+(role should come from one query path under one revision.) Tj
+T*
+() Tj
+T*
+(**Third:** Stop allowing the GUI to mix role APIs for stateful screens. If a failover role is) Tj
+T*
+(used, the GUI should treat that as a backend-identity switch and reset local state accordingly.) Tj
+T*
+() Tj
+T*
+(**Fourth:** Expose backend event ordering. New block, reorg, mempool delta, wallet balance) Tj
+T*
+(change, wallet history change, tx lifecycle update, node lifecycle change, and network switch) Tj
+T*
+(should all carry a revision and causal identity.) Tj
+T*
+() Tj
+T*
+(**Fifth:** Remove GUI authority fallbacks for protocol and wallet truth. Local files may be) Tj
+T*
+(useful for diagnostics, but not as silent substitutes for missing backend data.) Tj
+T*
+() Tj
+T*
+(Specific inconsistent views the current design likely permits) Tj
+T*
+() Tj
+T*
+(Balance vs History Drift) Tj
+T*
+(The GUI can display a balance response derived from one cache window and a history list derived) Tj
+T*
+ET
+endstream
+endobj
+48 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 49 0 R >>
+endobj
+49 0 obj
+<< /Length 3457 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(from another. If a block lands or a mempool delta arrives between those requests, the balance) Tj
+T*
+(can already reflect the new state while the history panel still reflects the previous state.) Tj
+T*
+(Because there is no revision handshake, the GUI has no principled way to detect that mismatch.) Tj
+T*
+() Tj
+T*
+(Tip vs Sync Status Drift) Tj
+T*
+(/chain/info, /network/info, and other sync-related reads are independent. A GUI can therefore) Tj
+T*
+(show a newer tip height with an older sync percentage or peer sample. That is especially likely) Tj
+T*
+(when different role APIs or fallback paths are involved.) Tj
+T*
+() Tj
+T*
+(Mempool vs Send Lifecycle Drift) Tj
+T*
+(After a send, the backend may say accepted_local_mempool while the GUI simultaneously reads a) Tj
+T*
+(mempool summary from a different role API or a stale refresh window and concludes that the tx is) Tj
+T*
+(missing. The GUI already compensates for this by polling intents and, in some cases,) Tj
+T*
+(auto-rebroadcasting. That compensation is itself evidence that the consistency model is too) Tj
+T*
+(weak.) Tj
+T*
+() Tj
+T*
+(Wallet Unlock vs Send Availability Drift) Tj
+T*
+(The GUI probes wallet unlock state, stores a recent authorization flag, and then issues send) Tj
+T*
+(commands. If unlock state changes in the backend between those steps, the GUI performs) Tj
+T*
+(additional retries and prompts. This is not only a UX detail. It shows that command) Tj
+T*
+(preconditions and command execution are not tightly coupled under one backend-owned transition.) Tj
+T*
+() Tj
+T*
+(Network Identity Drift) Tj
+T*
+(During or after network switching, GUI base URL, saved network setting, API role identity, and) Tj
+T*
+(backend storage selection can move at different times. The frontend may briefly or repeatedly) Tj
+T*
+(talk to a role endpoint that is no longer aligned with the intended network context.) Tj
+T*
+() Tj
+T*
+(Why this matters operationally) Tj
+T*
+(The cost of a weak read model is not only confusing dashboards. It directly increases the chance) Tj
+T*
+(of incorrect decisions:) Tj
+T*
+(- users resend a transaction that was already accepted) Tj
+T*
+(- users believe they are on the wrong network when the GUI is simply stale) Tj
+T*
+(- support/debugging effort goes into ?ghost state? that was really a cross-revision composition) Tj
+T*
+(artifact) Tj
+T*
+(- control-plane automation adds retries or restarts that were unnecessary) Tj
+T*
+(- private/public reconciliation bugs become much harder to detect because the UI can already) Tj
+T*
+(display mixed-source state in normal operation) Tj
+T*
+() Tj
+T*
+(What exact consistency contract should replace the current model) Tj
+T*
+(The backend should define one contract with four layers:) Tj
+T*
+() Tj
+T*
+(**Layer 1: Backend identity.** Every response must say which runtime instance produced it, which) Tj
+T*
+(role it represents, and which network it serves.) Tj
+T*
+() Tj
+T*
+(**Layer 2: Snapshot identity.** Every response must carry a state_revision and, where relevant,) Tj
+T*
+(component revisions such as chain_revision, mempool_revision, wallet_revision, and) Tj
+T*
+(config_revision.) Tj
+T*
+() Tj
+T*
+(**Layer 3: Tip contract.** Every user-facing wallet and explorer response must include) Tj
+T*
+(tip_height and tip_hash and state whether the payload is guaranteed to correspond to that tip.) Tj
+T*
+() Tj
+T*
+(**Layer 4: Event continuity.** The GUI must be able to say ?I have applied snapshot revision N) Tj
+T*
+ET
+endstream
+endobj
+50 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 51 0 R >>
+endobj
+51 0 obj
+<< /Length 2130 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(and all events through revision M.? Without that, it cannot know whether it is caught up.) Tj
+T*
+() Tj
+T*
+(What should remain eventually consistent) Tj
+T*
+(Not everything needs to be fully transactional:) Tj
+T*
+(- peer health summaries) Tj
+T*
+(- rolling hashrate samples) Tj
+T*
+(- log tails) Tj
+T*
+(- non-critical explorer metrics) Tj
+T*
+() Tj
+T*
+(Those can stay eventually consistent as long as they are clearly labeled as telemetry and not) Tj
+T*
+(mixed into wallet- or control-plane-critical decisions.) Tj
+T*
+() Tj
+T*
+(Control Plane vs Data Plane Separation) Tj
+T*
+() Tj
+T*
+(Current data plane) Tj
+T*
+(The current data plane is the set of components that handle protocol truth and direct state) Tj
+T*
+(mutation:) Tj
+T*
+(- Consensus) Tj
+T*
+(- Blockchain) Tj
+T*
+(- BlockStore) Tj
+T*
+(- UTXOStore) Tj
+T*
+(- MempoolStore) Tj
+T*
+(- OrphanReorgManager) Tj
+T*
+(- miner candidate building and acceptance path) Tj
+T*
+(- P2P ingress/egress when it can cause tx or block state changes) Tj
+T*
+() Tj
+T*
+(Current control plane) Tj
+T*
+(The current control plane should be the set of components that decide which processes run, which) Tj
+T*
+(network is active, whether services are ready, and how GUI commands are routed. In practice,) Tj
+T*
+(this is currently spread across:) Tj
+T*
+(- run.py) Tj
+T*
+(- runnode.py) Tj
+T*
+(- stop.py) Tj
+T*
+(- API NodeController) Tj
+T*
+(- GUI local fallback start/stop logic) Tj
+T*
+(- GUI network-switch choreography) Tj
+T*
+(- API readiness and health probes) Tj
+T*
+() Tj
+T*
+(Mixed / blurred components) Tj
+T*
+(Several components are currently both control plane and data plane:) Tj
+T*
+(- auth.py and apis.py) Tj
+T*
+(- walletnode.py) Tj
+T*
+(- minernode.py) Tj
+T*
+(- fullnode.py when it also hosts an API singleton not clearly attached to the existing runtime) Tj
+T*
+(graph) Tj
+T*
+(- GUI client logic that decides when to unlock, retry, restart, switch role endpoints, or) Tj
+T*
+(rebroadcast) Tj
+T*
+() Tj
+T*
+(Launcher) Tj
+T*
+(**Current role:** Control plane.) Tj
+T*
+() Tj
+T*
+(**Problem:** It is not the sole control-plane authority. It competes with API and GUI lifecycle) Tj
+T*
+ET
+endstream
+endobj
+52 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 53 0 R >>
+endobj
+53 0 obj
+<< /Length 2254 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(logic.) Tj
+T*
+() Tj
+T*
+(**Risk:** Startup and shutdown semantics are inferred differently depending on which path was) Tj
+T*
+(used.) Tj
+T*
+() Tj
+T*
+(runnode.py) Tj
+T*
+(**Current role:** Control plane orchestrator.) Tj
+T*
+() Tj
+T*
+(**Problem:** It launches roles and performs readiness checks, but the API and GUI can also) Tj
+T*
+(independently launch or stop roles.) Tj
+T*
+() Tj
+T*
+(**Risk:** The runtime has no single supervisor boundary.) Tj
+T*
+() Tj
+T*
+(API Layer) Tj
+T*
+(**Current role:** Both control plane and data plane.) Tj
+T*
+() Tj
+T*
+(**Problem:** It is not only routing commands. It bootstraps its own runtime graph, owns) Tj
+T*
+(lifecycle commands, exposes storage reads, and hosts business logic directly.) Tj
+T*
+() Tj
+T*
+(**Risk:** The API is not a thin gateway. It is another runtime authority.) Tj
+T*
+() Tj
+T*
+(Full Node) Tj
+T*
+(**Current role:** Data plane, plus optional embedded API control surface.) Tj
+T*
+() Tj
+T*
+(**Problem:** When API is enabled, it may host an additional API-owned runtime graph beside the) Tj
+T*
+(native node graph.) Tj
+T*
+() Tj
+T*
+(**Risk:** Intra-process duplication of stateful services against shared storage.) Tj
+T*
+() Tj
+T*
+(Wallet Node) Tj
+T*
+(**Current role:** Mixed.) Tj
+T*
+() Tj
+T*
+(**Problem:** It is presented like a wallet/API process, but it can bootstrap backend components) Tj
+T*
+(and start outbound relay and optional chain sync. That is operational control and partial) Tj
+T*
+(data-plane participation, not pure wallet service behavior.) Tj
+T*
+() Tj
+T*
+(**Risk:** A wallet-only role may accidentally become a partial chainstate/mempool actor.) Tj
+T*
+() Tj
+T*
+(Miner Node) Tj
+T*
+(**Current role:** Data plane, plus optional embedded API.) Tj
+T*
+() Tj
+T*
+(**Problem:** Like full node, it can host an API runtime graph separate from its own native) Tj
+T*
+(runtime graph.) Tj
+T*
+() Tj
+T*
+(**Risk:** Duplicated access to shared stores and ambiguous authority over chainstate-related) Tj
+T*
+(reads.) Tj
+T*
+() Tj
+T*
+(GUI) Tj
+T*
+(**Current role:** Mixed.) Tj
+T*
+() Tj
+T*
+(**Problem:** It is supposed to be a client, but it currently performs lifecycle control, retry) Tj
+T*
+(orchestration, unlock gating, send ambiguity recovery, pending rebroadcast, local truth) Tj
+T*
+ET
+endstream
+endobj
+54 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 55 0 R >>
+endobj
+55 0 obj
+<< /Length 2644 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(fallback, and network switch choreography.) Tj
+T*
+() Tj
+T*
+(**Risk:** The GUI is acting like a supervisor and partial state interpreter instead of a pure) Tj
+T*
+(client of backend authority.) Tj
+T*
+() Tj
+T*
+(Explorer Bridge) Tj
+T*
+(**Current role:** Mixed/unclear.) Tj
+T*
+() Tj
+T*
+(**Problem:** It appears to expose or mirror backend-facing state while living close to GUI) Tj
+T*
+(concerns.) Tj
+T*
+() Tj
+T*
+(**Risk:** External interface boundaries and trust assumptions are harder to reason about.) Tj
+T*
+() Tj
+T*
+(Supervisor / Restart Logic) Tj
+T*
+(**Current role:** Not centralized.) Tj
+T*
+() Tj
+T*
+(**Problem:** Lifecycle authority is distributed between launcher, API controller, GUI fallback) Tj
+T*
+(paths, and watchdog logic in role processes.) Tj
+T*
+() Tj
+T*
+(**Risk:** Partial failures can create divergent beliefs about which processes should be running.) Tj
+T*
+() Tj
+T*
+(Network Switch Logic) Tj
+T*
+(**Current role:** Mixed control plane split between script, GUI, API, and launcher.) Tj
+T*
+() Tj
+T*
+(**Problem:** No single owner, no transaction boundary, no robust rollback.) Tj
+T*
+() Tj
+T*
+(**Risk:** Mixed-network state in config, storage selection, GUI state, and live processes.) Tj
+T*
+() Tj
+T*
+(Why the current mixing is dangerous) Tj
+T*
+(The dangerous pattern is not simply ?too many modules.? The dangerous pattern is **operational) Tj
+T*
+(control being mixed into layers that also host protocol state or user-facing truth**. When the) Tj
+T*
+(same process can both mutate chain-adjacent data and decide lifecycle or failover behavior,) Tj
+T*
+(failures are harder to contain. When the GUI also participates in these decisions, debugging) Tj
+T*
+(turns into a distributed coordination exercise across frontend, API, launcher, role process, and) Tj
+T*
+(storage instead of staying inside one backend authority boundary.) Tj
+T*
+() Tj
+T*
+(Runtime Topology) Tj
+T*
+() Tj
+T*
+(What processes likely exist at runtime) Tj
+T*
+(A representative local runtime can include:) Tj
+T*
+(- GUI process from run.py) Tj
+T*
+(- full node process from Src/Node/fullnode.py) Tj
+T*
+(- miner node process from Src/Node/minernode.py) Tj
+T*
+(- wallet node process from Src/Node/walletnode.py) Tj
+T*
+(- optional standalone API wrapper process from Src/Api/server.py) Tj
+T*
+(- optional explorer/web bridge serving local browser content) Tj
+T*
+() Tj
+T*
+(Which ports they bind) Tj
+T*
+(Based on current config and role defaults:) Tj
+T*
+(- Full node P2P: 56000 mainnet, 9100 testnet, 9200 regnet) Tj
+T*
+(- Miner P2P: 56001 mainnet, 9101 testnet, 9201 regnet) Tj
+T*
+(- Full node API: 10100 mainnet, 11100 testnet, 12100 regnet) Tj
+T*
+ET
+endstream
+endobj
+56 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 57 0 R >>
+endobj
+57 0 obj
+<< /Length 2708 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Miner API: 10200 mainnet, 11200 testnet, 12200 regnet) Tj
+T*
+(- Wallet API: 10000 mainnet, 11000 testnet, 12000 regnet) Tj
+T*
+(- Explorer bridge defaults around 18080 for local web explorer hosting) Tj
+T*
+() Tj
+T*
+(Auto-port fallback logic also exists, so actual binds can drift upward if a preferred port is) Tj
+T*
+(busy.) Tj
+T*
+() Tj
+T*
+(Which ones talk over localhost) Tj
+T*
+(- GUI to role-local API endpoints) Tj
+T*
+(- GUI to optional standalone API wrapper) Tj
+T*
+(- API lifecycle commands to local process-management flows) Tj
+T*
+(- GUI network-switch, start/stop, and send flows all depend on localhost APIs) Tj
+T*
+(- Explorer/web bridge appears local-facing by default, though bind host defaults need review in) Tj
+T*
+(security hardening) Tj
+T*
+() Tj
+T*
+(Which ones talk over P2P) Tj
+T*
+(- Full node P2PServer and PeerManager) Tj
+T*
+(- Miner node P2PServer and PeerManager) Tj
+T*
+(- Wallet relay PeerManager, optionally with chain sync) Tj
+T*
+() Tj
+T*
+(Which ones share persistent storage) Tj
+T*
+(- Full node, miner node, and API singleton all appear to use the same network-scoped block,) Tj
+T*
+(UTXO, mempool, and peer storage roots.) Tj
+T*
+(- Wallet API singleton can also initialize block/UTXO/mempool state through) Tj
+T*
+(get_api\(auto_init=True\).) Tj
+T*
+(- Peer store is explicitly shared across node processes.) Tj
+T*
+(- Send intent store and API journals are stored under logs and may be duplicated if more than) Tj
+T*
+(one API singleton is active.) Tj
+T*
+() Tj
+T*
+(Which ones depend on health checks) Tj
+T*
+(- runnode.py probes /health then /chain/info) Tj
+T*
+(- GUI probes /health and other endpoints) Tj
+T*
+(- role processes use watchdog threads for P2P worker health) Tj
+T*
+(- wallet relay uses watchdog and coordination checks to decide whether wallet or full/miner owns) Tj
+T*
+(propagation) Tj
+T*
+() Tj
+T*
+(Which ones may be restarted independently) Tj
+T*
+(- Full node, miner node, and wallet node can each be started/stopped independently) Tj
+T*
+(- standalone API wrapper can be started independently) Tj
+T*
+(- GUI can trigger selective restarts) Tj
+T*
+(- role-internal watchdogs can restart worker threads without a full process restart) Tj
+T*
+() Tj
+T*
+(Which ones the GUI depends on directly) Tj
+T*
+(- At least one local API endpoint, usually full node API by default) Tj
+T*
+(- fallback to alternate local role APIs for some observability reads) Tj
+T*
+(- local process management when API control fails) Tj
+T*
+(- local config files and caches for some continuity and fallback behavior) Tj
+T*
+() Tj
+T*
+(Is the current topology stable or fragile?) Tj
+T*
+(It is functional, but architecturally fragile.) Tj
+T*
+() Tj
+T*
+(It is fragile because:) Tj
+T*
+ET
+endstream
+endobj
+58 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 59 0 R >>
+endobj
+59 0 obj
+<< /Length 3981 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- more than one role can host protocol-adjacent components against shared storage) Tj
+T*
+(- more than one layer can manage process lifecycle) Tj
+T*
+(- readiness is inferred via lightweight probes rather than a single supervisor state) Tj
+T*
+(- the GUI can switch API identities or fall back to local orchestration) Tj
+T*
+(- network switching is choreographed across several layers rather than committed once) Tj
+T*
+() Tj
+T*
+(Specific Topology Hazards The Current Design Creates) Tj
+T*
+() Tj
+T*
+(Role-local API plus role-local runtime graph) Tj
+T*
+(fullnode.py and minernode.py both construct their own local block, UTXO, mempool, transaction) Tj
+T*
+(manager, blockchain, peer manager, and P2P server graph. When their optional embedded API is) Tj
+T*
+(enabled, the API app is started as another thread that appears to bootstrap its own API) Tj
+T*
+(singleton and component set. Unless there is hidden injection not found in this audit pass, that) Tj
+T*
+(means one OS process can contain two different component graphs touching the same storage root:) Tj
+T*
+(the native role graph and the API singleton graph. That is not a cosmetic duplication. It means) Tj
+T*
+(even ?single process? does not automatically mean ?single authority.?) Tj
+T*
+() Tj
+T*
+(Optional standalone API wrapper) Tj
+T*
+(The repository also contains Src/Api/server.py and GUI logic that may start or recover through a) Tj
+T*
+(standalone API wrapper process. That introduces another way to obtain an API singleton over the) Tj
+T*
+(same local state. If the role-local API and the standalone API wrapper can both exist in one) Tj
+T*
+(environment, operator intuition about ?the API? becomes unreliable. There may be several APIs,) Tj
+T*
+(attached to several different runtime graphs, each claiming to represent local truth.) Tj
+T*
+() Tj
+T*
+(Wallet node as protocol-adjacent runtime) Tj
+T*
+(walletnode.py is especially important because it undermines a common simplifying assumption.) Tj
+T*
+(Many readers would assume ?wallet node? means a service that does not participate in) Tj
+T*
+(public-chain mutation. The code suggests otherwise. It can start auth.app, which triggers) Tj
+T*
+(get_api\(auto_init=True\), and it can also start a PeerManager with mempool and optionally chain) Tj
+T*
+(sync components. In other words, wallet runtime is not obviously isolated from public data-plane) Tj
+T*
+(behaviors.) Tj
+T*
+() Tj
+T*
+(Full and miner both as canonical-state participants) Tj
+T*
+(Full node and miner node each construct canonical-state components over the same storage. That) Tj
+T*
+(may be an intentional architecture choice, but if it is, it needs to be described explicitly as) Tj
+T*
+(a multi-process cooperative state model with strong ownership rules. Right now the repo reads) Tj
+T*
+(more like several independently bootstrapped role graphs that happen to point at the same) Tj
+T*
+(database roots and rely on storage semantics to stay coherent.) Tj
+T*
+() Tj
+T*
+(Process discovery as a control-plane primitive) Tj
+T*
+(stop.py uses OS process discovery and token matching to decide what is running. GUI and API both) Tj
+T*
+(rely on the resulting snapshot model. That is practical, but it also means that control-plane) Tj
+T*
+(truth is derived from process names and commands rather than from one supervisor-owned registry.) Tj
+T*
+(If naming, startup mode, or wrapper behavior changes, control-plane truth can drift without any) Tj
+T*
+(protocol bug being present.) Tj
+T*
+() Tj
+T*
+(Port probes as identity checks) Tj
+T*
+(The current system frequently uses ?can I bind this port,? ?is something listening,? /health,) Tj
+T*
+(and /chain/info as identity signals. Those are useful operational probes, but they are not the) Tj
+T*
+(same thing as a signed identity statement from a supervisor saying: this process has role X,) Tj
+T*
+(network Y, storage root Z, revision N, and readiness stage R. Without that stronger identity) Tj
+T*
+(model, failover and recovery remain probabilistic.) Tj
+T*
+ET
+endstream
+endobj
+60 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 61 0 R >>
+endobj
+61 0 obj
+<< /Length 2773 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(Shared storage as implicit integration mechanism) Tj
+T*
+(A recurring pattern in the repository is that different processes achieve integration by opening) Tj
+T*
+(the same LMDB roots or JSON config paths. Shared storage is therefore doing more architectural) Tj
+T*
+(work than it should. Instead of a clean service interface saying ?NodeService owns chainstate) Tj
+T*
+(and exposes it here,? the system often says, in effect, ?these runtimes all know where the files) Tj
+T*
+(are.? That creates implicit coupling and makes future refactor boundaries harder to enforce.) Tj
+T*
+() Tj
+T*
+(Cross-role API reads are topology-dependent, not semantically guaranteed) Tj
+T*
+(The GUI can probe alternate local role APIs for observability reads. Whether that works is) Tj
+T*
+(therefore a topology question. A user can get a different visible system depending on which) Tj
+T*
+(local role is up, which API responded first, whether a wrapper API was spawned, and which store) Tj
+T*
+(view was freshest. That is a sign that backend identity is not stable enough at the API layer.) Tj
+T*
+() Tj
+T*
+(Topology fragility is amplified during the exact moments that matter most) Tj
+T*
+(The system?s topology is least trustworthy during startup, restart, network switch, reorg, and) Tj
+T*
+(crash recovery, which are also the exact moments when clean authority boundaries matter most.) Tj
+T*
+(This is why the topology issue is not secondary. It is upstream of many later consistency and) Tj
+T*
+(lifecycle problems.) Tj
+T*
+() Tj
+T*
+(Current Runtime Topology Diagram) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Ideal Runtime Topology Diagram) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Failure Containment Analysis) Tj
+T*
+() Tj
+T*
+(API Process Crash) Tj
+T*
+(**Where it starts:** Embedded API thread in a role process or standalone Src/Api/server.py.) Tj
+T*
+() Tj
+T*
+(**What it can spread to:** GUI command/query failure, lifecycle control loss, send lifecycle) Tj
+T*
+(ambiguity, false recovery attempts, duplicate API bootstraps.) Tj
+T*
+() Tj
+T*
+(**Contained well or not:** Not well enough.) Tj
+T*
+() Tj
+T*
+(**What boundary should stop it:** The API should be a replaceable control/query surface over an) Tj
+T*
+(already-running backend authority. Today it may also be the component that bootstraps its own) Tj
+T*
+(runtime graph, so an API crash can collapse more than the control surface.) Tj
+T*
+() Tj
+T*
+(GUI Process Crash) Tj
+T*
+(**Where it starts:** gui.py.) Tj
+T*
+() Tj
+T*
+(**What it can spread to:** User experience loss, missed updates, abandoned local cooldown and) Tj
+T*
+(pending-send watcher state, but protocol processes can continue.) Tj
+T*
+() Tj
+T*
+(**Contained well or not:** Better contained than backend failures, but not cleanly.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+62 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 63 0 R >>
+endobj
+63 0 obj
+<< /Length 2749 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**What boundary should stop it:** GUI should be a pure client. The risk is that some send retry,) Tj
+T*
+(rebroadcast, unlock, and lifecycle heuristics currently live in GUI state. A GUI crash can) Tj
+T*
+(therefore interrupt behavior that should have been backend-owned.) Tj
+T*
+() Tj
+T*
+(Full Node Crash) Tj
+T*
+(**Where it starts:** fullnode.py process or its worker threads.) Tj
+T*
+() Tj
+T*
+(**What it can spread to:** P2P ingress loss, consensus acceptance loss, API loss if embedded,) Tj
+T*
+(stale peer views, launch/restart churn, wallet relay owner-mode shift.) Tj
+T*
+() Tj
+T*
+(**Contained well or not:** Partially.) Tj
+T*
+() Tj
+T*
+(**What boundary should stop it:** A supervisor should contain it and preserve one source of) Tj
+T*
+(lifecycle truth. Today watchdog threads, GUI fallbacks, and API node control all try to) Tj
+T*
+(compensate differently.) Tj
+T*
+() Tj
+T*
+(Miner Crash) Tj
+T*
+(**Where it starts:** minernode.py.) Tj
+T*
+() Tj
+T*
+(**What it can spread to:** Mining loss, optional API loss, peer/mempool side effects if it was) Tj
+T*
+(also participating in network and storage state, duplicate role restart attempts.) Tj
+T*
+() Tj
+T*
+(**Contained well or not:** Partially.) Tj
+T*
+() Tj
+T*
+(**What boundary should stop it:** Miner should be a consumer of canonical node state, not a peer) Tj
+T*
+(authority over the same stores. Right now miner bootstraps the full chainstate stack, so) Tj
+T*
+(containment is weaker than it should be.) Tj
+T*
+() Tj
+T*
+(Wallet Service Crash) Tj
+T*
+(**Where it starts:** walletnode.py or KeyManager-related flows.) Tj
+T*
+() Tj
+T*
+(**What it can spread to:** Wallet API loss, unlock-state loss, private-note handling) Tj
+T*
+(interruption, relay ownership shifts.) Tj
+T*
+() Tj
+T*
+(**Contained well or not:** Poorly defined.) Tj
+T*
+() Tj
+T*
+(**What boundary should stop it:** Wallet failure should not threaten public-chain data-plane) Tj
+T*
+(authority. The problem is that wallet node can also initialize protocol-adjacent components and) Tj
+T*
+(relay/sync behavior.) Tj
+T*
+() Tj
+T*
+(LMDB Lock / Contention Issue) Tj
+T*
+(**Where it starts:** Shared storage open/begin failures, reader-table instability, lockfile) Tj
+T*
+(corruption, or fallback-open behavior.) Tj
+T*
+() Tj
+T*
+(**What it can spread to:** Blockstore, UTXO, mempool, peerstore, crash recovery, startup,) Tj
+T*
+(stale-read divergence.) Tj
+T*
+() Tj
+T*
+(**Contained well or not:** Unevenly.) Tj
+T*
+() Tj
+T*
+(**What boundary should stop it:** Consensus-critical stores should fail closed under conflicting) Tj
+T*
+(writer conditions, while non-consensus stores may degrade more gracefully. Peer store explicitly) Tj
+T*
+(allows unlocked fallback, which may be acceptable for peer metadata. Consensus stores have) Tj
+T*
+ET
+endstream
+endobj
+64 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 65 0 R >>
+endobj
+65 0 obj
+<< /Length 2558 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(stronger production-safety defaults, but multi-process topology still makes contention a serious) Tj
+T*
+(architectural concern.) Tj
+T*
+() Tj
+T*
+(Stale Cache Issue) Tj
+T*
+(**Where it starts:** API balance/history caches, GUI cached state, mempool RAM views, local JSON) Tj
+T*
+(files.) Tj
+T*
+() Tj
+T*
+(**What it can spread to:** Wrong balances, wrong history, incorrect send availability, wrong) Tj
+T*
+(sync display, misleading user decisions.) Tj
+T*
+() Tj
+T*
+(**Contained well or not:** No.) Tj
+T*
+() Tj
+T*
+(**What boundary should stop it:** Revision-aware query contracts plus event-driven invalidation.) Tj
+T*
+(The current system uses retries and forced refreshes instead.) Tj
+T*
+() Tj
+T*
+(Node Restart During Send) Tj
+T*
+(**Where it starts:** GUI/user action, watchdog behavior, runtime guard shutdown, or crash.) Tj
+T*
+() Tj
+T*
+(**What it can spread to:** Ambiguous send state, duplicate retries, lost unlock session, stale) Tj
+T*
+(UTXO lock flags, missing relay observation, split intent state.) Tj
+T*
+() Tj
+T*
+(**Contained well or not:** Partially.) Tj
+T*
+() Tj
+T*
+(**What boundary should stop it:** Backend-owned send lifecycle plus durable operation journal) Tj
+T*
+(with resume/abort semantics. Right now backend and GUI both try to cover the gap.) Tj
+T*
+() Tj
+T*
+(Restart During Sync) Tj
+T*
+(**Where it starts:** Full, miner, or wallet relay runtime.) Tj
+T*
+() Tj
+T*
+(**What it can spread to:** Partial chainstate catch-up, watchdog restarts, inconsistent peer) Tj
+T*
+(views, stale GUI sync progress.) Tj
+T*
+() Tj
+T*
+(**Contained well or not:** Partially.) Tj
+T*
+() Tj
+T*
+(**What boundary should stop it:** One node service should own sync state and restart semantics.) Tj
+T*
+(Today wallet relay can optionally sync too, which complicates containment.) Tj
+T*
+() Tj
+T*
+(Reorg During GUI Refresh) Tj
+T*
+(**Where it starts:** Backend chain event during frontend polling or refresh composition.) Tj
+T*
+() Tj
+T*
+(**What it can spread to:** Inconsistent balance/history/tip/mempool screens, phantom pending) Tj
+T*
+(transactions, stale anchors, wrong confirmations.) Tj
+T*
+() Tj
+T*
+(**Contained well or not:** No strong containment.) Tj
+T*
+() Tj
+T*
+(**What boundary should stop it:** Revisioned backend snapshots and ordered event delivery.) Tj
+T*
+(Current polling does not guarantee this.) Tj
+T*
+() Tj
+T*
+(Network Switch During Active Wallet Use) Tj
+T*
+(**Where it starts:** GUI lifecycle flow or API switch.) Tj
+T*
+() Tj
+T*
+(**What it can spread to:** Wrong-network address validation, stale base URL, mixed config,) Tj
+T*
+ET
+endstream
+endobj
+66 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 67 0 R >>
+endobj
+67 0 obj
+<< /Length 3050 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(reopened old-role APIs, user confusion about funds or history.) Tj
+T*
+() Tj
+T*
+(**Contained well or not:** No.) Tj
+T*
+() Tj
+T*
+(**What boundary should stop it:** A supervisor-managed stop/switch/restart transaction with) Tj
+T*
+(explicit frontend session reset.) Tj
+T*
+() Tj
+T*
+(Failed Health Check Causing Process Flip) Tj
+T*
+(**Where it starts:** Launcher, GUI, or internal watchdog misclassifies liveness/readiness.) Tj
+T*
+() Tj
+T*
+(**What it can spread to:** Duplicate starts, unnecessary stop/start churn, role endpoint) Tj
+T*
+(switching, user-visible instability.) Tj
+T*
+() Tj
+T*
+(**Contained well or not:** Weakly.) Tj
+T*
+() Tj
+T*
+(**What boundary should stop it:** Strong readiness semantics plus single lifecycle authority.) Tj
+T*
+(Today health is too shallow and lifecycle ownership is too distributed.) Tj
+T*
+() Tj
+T*
+(Backend Partially Initialized but API Responding) Tj
+T*
+(**Where it starts:** auth.py lifespan starts API app and /health returns static ok.) Tj
+T*
+() Tj
+T*
+(**What it can spread to:** GUI believes backend is ready, launcher believes node is healthy,) Tj
+T*
+(commands hit partially initialized components, inconsistent failures.) Tj
+T*
+() Tj
+T*
+(**Contained well or not:** Not well.) Tj
+T*
+() Tj
+T*
+(**What boundary should stop it:** A readiness endpoint that confirms component initialization,) Tj
+T*
+(attached role identity, network, sync stage, and storage availability. /health should not imply) Tj
+T*
+(usability.) Tj
+T*
+() Tj
+T*
+(Cross-Failure Patterns That Make the Current System Fragile) Tj
+T*
+() Tj
+T*
+(Failure propagation through shared storage) Tj
+T*
+(When several role processes or API graphs all touch the same storage root, a failure is rarely) Tj
+T*
+(isolated to one service. Even if the original failure is ?only? an API initialization problem or) Tj
+T*
+(a miner restart, it can still change lock timing, reader-slot pressure, refresh timing, or stale) Tj
+T*
+(cache behavior for other participants. That means the blast radius of a local failure is wider) Tj
+T*
+(than the role/process names suggest.) Tj
+T*
+() Tj
+T*
+(Failure propagation through inferred readiness) Tj
+T*
+(Several components react to liveness-like evidence rather than authoritative readiness. GUI,) Tj
+T*
+(launcher, and lifecycle control paths all probe endpoints and process lists, then make decisions) Tj
+T*
+(such as restart, failover, or user prompting. If the underlying check is too shallow, the system) Tj
+T*
+(can create new failures while attempting to recover from the first one.) Tj
+T*
+() Tj
+T*
+(Failure propagation through duplicated orchestration) Tj
+T*
+(Because GUI, API, launcher, and internal watchdogs all participate in orchestration, one failure) Tj
+T*
+(can cause several recovery systems to act at once. This is how benign faults become instability) Tj
+T*
+(loops: the GUI retries, the API node controller restarts, a watchdog restarts workers, and the) Tj
+T*
+(launcher also believes the service is unhealthy.) Tj
+T*
+() Tj
+T*
+(Failure propagation through missing revision semantics) Tj
+T*
+ET
+endstream
+endobj
+68 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 69 0 R >>
+endobj
+69 0 obj
+<< /Length 3772 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Even when protocol state survives, the visible system can still look broken because consumers) Tj
+T*
+(cannot tell whether they are looking at a coherent revision. That means some failures are) Tj
+T*
+(actually ?observability and consistency failures? more than storage failures, but they still) Tj
+T*
+(degrade operator trust just as badly.) Tj
+T*
+() Tj
+T*
+(Failure propagation through process-local wallet authority) Tj
+T*
+(Wallet unlock and send authorization behavior are sensitive to which process currently hosts the) Tj
+T*
+(authoritative KeyManager instance. If one process restarts or loses unlock state while another) Tj
+T*
+(remains up, the system can produce contradictory user experiences without any direct key) Tj
+T*
+(corruption.) Tj
+T*
+() Tj
+T*
+(Ambiguous Responsibilities) Tj
+T*
+(- This component should not own node lifecycle control: gui.py.) Tj
+T*
+(- This component should not own runtime bootstrap and business authority at the same time:) Tj
+T*
+(Src/Api/auth.py and Src/Api/apis.py.) Tj
+T*
+(- This responsibility appears duplicated between launcher and API: role process start, stop,) Tj
+T*
+(restart, and health verification.) Tj
+T*
+(- This responsibility appears duplicated between API and GUI: send lifecycle recovery, duplicate) Tj
+T*
+(suppression, ambiguous failure interpretation, and pending rebroadcast behavior.) Tj
+T*
+(- This responsibility appears duplicated between full node, miner node, and API singleton:) Tj
+T*
+(construction of BlockStore, UTXOStore, MempoolStore, TransactionManager, and Blockchain.) Tj
+T*
+(- This responsibility appears duplicated between wallet node and full/miner roles: transaction) Tj
+T*
+(relay ownership and potentially chain sync participation.) Tj
+T*
+(- This boundary is ambiguous: whether wallet node is read-only wallet infrastructure or a) Tj
+T*
+(partial node/data-plane participant.) Tj
+T*
+(- This boundary is ambiguous: whether the API is a gateway into an existing runtime or a runtime) Tj
+T*
+(in its own right.) Tj
+T*
+(- This layer appears to infer state it should receive from another layer: the GUI infers send) Tj
+T*
+(lifecycle outcomes, sync readiness, and sometimes authoritative fallback wallet summaries.) Tj
+T*
+(- This component is acting like an orchestrator when it should be a client: AthoAPIClient in) Tj
+T*
+(gui.py.) Tj
+T*
+(- This component is acting like a source of truth when it should be read-only: GUI local chain) Tj
+T*
+(anchors and GUI wallet fallback summaries.) Tj
+T*
+(- This component is acting like a supervisor when it should be a command surface: API) Tj
+T*
+(NodeController.) Tj
+T*
+(- This component is acting like a status source when it should only be liveness: /health.) Tj
+T*
+(- This component should not infer wallet truth from local key files while backend authority) Tj
+T*
+(exists: GUI dashboard/address and private-note fallback paths.) Tj
+T*
+(- This responsibility appears duplicated between switchnet.py, API switch_network\(\), GUI network) Tj
+T*
+(lifecycle code, and launcher startup: network selection.) Tj
+T*
+(- This boundary is ambiguous: whether ?node active? means OS process exists, API answers) Tj
+T*
+(/health, API answers /chain/info, or role-specific workers are genuinely healthy.) Tj
+T*
+(- This layer appears to infer retryability by parsing error strings it should receive as) Tj
+T*
+(structured error classes: GUI send and private-send error handling.) Tj
+T*
+(- This component is acting like a source of truth when it should be read-only: API cache-driven) Tj
+T*
+(balance/history responses without shared revision semantics.) Tj
+T*
+() Tj
+T*
+(Missing Observability) Tj
+T*
+() Tj
+T*
+(Lifecycle Event Logs) Tj
+T*
+(**What it would prove:** Exactly which component started, stopped, or restarted which role and) Tj
+T*
+(why.) Tj
+T*
+ET
+endstream
+endobj
+70 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 71 0 R >>
+endobj
+71 0 obj
+<< /Length 2217 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(**Where it should be added:** Supervisor layer, API lifecycle endpoints, launcher, and role) Tj
+T*
+(process entry/exit.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** Launch-critical.) Tj
+T*
+() Tj
+T*
+(State Transition Logs) Tj
+T*
+(**What it would prove:** Ordered progression for startup, sync, send, reorg, network switch,) Tj
+T*
+(unlock, and recovery events.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** One shared backend event schema used by all control-plane) Tj
+T*
+(services.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** Launch-critical.) Tj
+T*
+() Tj
+T*
+(Revision Markers) Tj
+T*
+(**What it would prove:** That multiple reads and events refer to the same backend state.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** Every GUI-facing response and event payload.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** Launch-critical.) Tj
+T*
+() Tj
+T*
+(Transaction Lifecycle Tracing) Tj
+T*
+(**What it would prove:** Whether an intent was created, built, locally admitted, relayed,) Tj
+T*
+(observed, mined, confirmed, reorged, or failed, with one causal trail.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** Backend send service, consensus admission, relay subsystem, tx) Tj
+T*
+(query endpoints.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** Launch-critical.) Tj
+T*
+() Tj
+T*
+(Process-to-Process Request Tracing) Tj
+T*
+(**What it would prove:** Whether GUI, API, launcher, and role processes are all talking about) Tj
+T*
+(the same runtime instance or stepping on each other.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** Localhost request middleware, lifecycle control paths,) Tj
+T*
+(launcher/API interactions.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** High priority.) Tj
+T*
+() Tj
+T*
+(Correlation IDs) Tj
+T*
+(**What it would prove:** Causal linkage across one user action, multiple backend calls, and) Tj
+T*
+(resulting events.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** API responses, event stream, GUI command initiations, operation) Tj
+T*
+(journals.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** High priority.) Tj
+T*
+() Tj
+T*
+(Startup Dependency Tracing) Tj
+T*
+(**What it would prove:** Which components were actually initialized before readiness was) Tj
+T*
+(declared.) Tj
+T*
+ET
+endstream
+endobj
+72 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 73 0 R >>
+endobj
+73 0 obj
+<< /Length 2266 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(**Where it should be added:** API startup, role process startup, launcher probes.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** Launch-critical.) Tj
+T*
+() Tj
+T*
+(Storage Commit Tracing) Tj
+T*
+(**What it would prove:** Which process committed canonical block, UTXO, mempool, and reorg) Tj
+T*
+(changes.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** Consensus commit path, block commit journal, reorg journal,) Tj
+T*
+(mempool mutation path.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** Launch-critical.) Tj
+T*
+() Tj
+T*
+(Reorg Tracing) Tj
+T*
+(**What it would prove:** Old branch, new branch, reverted heights, re-applied heights,) Tj
+T*
+(post-reorg mempool repair, private-state rebuild, payout-state rebuild.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** Orphan/reorg manager plus downstream event bus.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** Launch-critical.) Tj
+T*
+() Tj
+T*
+(GUI Event Consumption Tracing) Tj
+T*
+(**What it would prove:** Whether the GUI missed, reordered, duplicated, or superseded backend) Tj
+T*
+(updates.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** GUI state store, not just individual views.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** High priority.) Tj
+T*
+() Tj
+T*
+(Health-Check Traceability) Tj
+T*
+(**What it would prove:** Why a process was considered healthy or unhealthy, and whether the) Tj
+T*
+(check was liveness or readiness.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** /health, /readiness, launcher, GUI connection logic.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** Launch-critical.) Tj
+T*
+() Tj
+T*
+(Cache Invalidation Tracing) Tj
+T*
+(**What it would prove:** When balance/history/mempool caches were invalidated, by what event,) Tj
+T*
+(and under what revision.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** API caching layer and GUI store.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** High priority.) Tj
+T*
+() Tj
+T*
+(Economics Enforcement Tracing) Tj
+T*
+(**What it would prove:** Correct fee routing, coinbase payout math, burn accounting, supply) Tj
+T*
+(deltas, payout-set correctness, and reorg replay of economic state.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** Consensus acceptance, miner block assembly, emission and burn) Tj
+T*
+(monitor outputs, payout journal.) Tj
+T*
+ET
+endstream
+endobj
+74 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 75 0 R >>
+endobj
+75 0 obj
+<< /Length 2405 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(**Launch-critical or not:** High priority.) Tj
+T*
+() Tj
+T*
+(Cryptographic Boundary Tracing) Tj
+T*
+(**What it would prove:** Which verifier checked what, with which version/pin, over which) Tj
+T*
+(serialized bytes, and with what failure class.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** Signature verification boundary, proof verification boundary,) Tj
+T*
+(binary pin/runtime guard audit.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** High priority.) Tj
+T*
+() Tj
+T*
+(Upgrade / Migration Tracing) Tj
+T*
+(**What it would prove:** Which schema or ruleset version a node/API/GUI believed it was on and) Tj
+T*
+(which migrations ran.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** Runtime guard, storage open paths, config migrations, API) Tj
+T*
+(version/compat endpoints.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** Medium to high priority.) Tj
+T*
+() Tj
+T*
+(Localhost Trust / Admin Action Tracing) Tj
+T*
+(**What it would prove:** Which local client triggered sensitive actions and whether auth scope) Tj
+T*
+(and unlock state were correctly enforced.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** Sensitive API middleware, lifecycle commands, wallet send/unlock) Tj
+T*
+(endpoints.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** High priority.) Tj
+T*
+() Tj
+T*
+(Backup / Restore Traceability) Tj
+T*
+(**What it would prove:** Which artifacts were backed up, which were restored, which were) Tj
+T*
+(rebuilt, and whether the resulting runtime is operating on mixed-version or mixed-network state.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** Wallet backup/import flows, startup migration checks, storage-root) Tj
+T*
+(selection and restore tooling.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** Medium to high priority.) Tj
+T*
+() Tj
+T*
+(Upgrade / Schema Migration Traceability) Tj
+T*
+(**What it would prove:** Which version/schema/ruleset each process believed it was using and) Tj
+T*
+(which migrations actually ran before readiness.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** Runtime guard, store open/init code, API compatibility surface,) Tj
+T*
+(GUI startup handshake.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** High priority.) Tj
+T*
+() Tj
+T*
+(Command Idempotency Traceability) Tj
+T*
+(**What it would prove:** Whether retried start, stop, restart, switch network, unlock,) Tj
+T*
+(rebroadcast, or rescan operations were deduplicated or re-executed.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+76 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 77 0 R >>
+endobj
+77 0 obj
+<< /Length 2385 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**Where it should be added:** Supervisor command handling, API command endpoints, operation) Tj
+T*
+(journal.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** High priority.) Tj
+T*
+() Tj
+T*
+(Clock / Time Drift Traceability) Tj
+T*
+(**What it would prove:** Whether incorrect local time contributed to mining pauses, tx) Tj
+T*
+(rejection, sync churn, or GUI mis-ordering.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** Miner clock-health logs, tx validation time checks, sync) Tj
+T*
+(diagnostics, API telemetry.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** Medium to high priority.) Tj
+T*
+() Tj
+T*
+(Backpressure / Overload Traceability) Tj
+T*
+(**What it would prove:** Whether the system degrades gracefully under mempool growth, heavy GUI) Tj
+T*
+(polling, sync, mining, and query load.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** API middleware, mempool admission path, sync loop, miner loop, GUI) Tj
+T*
+(request scheduler.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** Medium to high priority.) Tj
+T*
+() Tj
+T*
+(Resource Contention Traceability) Tj
+T*
+(**What it would prove:** Which process or role consumed CPU, memory, file handles, reader slots,) Tj
+T*
+(or threads during unstable periods.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** Supervisor metrics, role process diagnostics, LMDB contention) Tj
+T*
+(logs.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** Medium priority.) Tj
+T*
+() Tj
+T*
+(Public / Private Reconciliation Traceability) Tj
+T*
+(**What it would prove:** Exactly when private note state diverged from public chainstate, what) Tj
+T*
+(caused it, and how/when reconciliation repaired it.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** Private-note scan/reconcile paths, reorg rebuild, wallet status) Tj
+T*
+(endpoints.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** High priority.) Tj
+T*
+() Tj
+T*
+(API Contract Drift Traceability) Tj
+T*
+(**What it would prove:** When GUI and backend are relying on different response semantics or) Tj
+T*
+(fields.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** Contract tests, version negotiation endpoint, structured) Tj
+T*
+(deprecation warnings, GUI startup compatibility check.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** High priority.) Tj
+T*
+() Tj
+T*
+(Explorer / Public Interface Traceability) Tj
+T*
+(**What it would prove:** Which endpoints are local-only, which are intended for public exposure,) Tj
+T*
+ET
+endstream
+endobj
+78 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 79 0 R >>
+endobj
+79 0 obj
+<< /Length 1932 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(and whether unsafe operational endpoints are ever reachable from browser-oriented surfaces.) Tj
+T*
+() Tj
+T*
+(**Where it should be added:** API route metadata, explorer bridge middleware, deployment docs) Tj
+T*
+(and runtime logs.) Tj
+T*
+() Tj
+T*
+(**Launch-critical or not:** Medium to high priority.) Tj
+T*
+() Tj
+T*
+(Required Architectural Invariants) Tj
+T*
+() Tj
+T*
+(Invariant 1) Tj
+T*
+(Only one authority may commit canonical chainstate for a given network and storage root.) Tj
+T*
+() Tj
+T*
+(**Status:** At risk.) Tj
+T*
+() Tj
+T*
+(Invariant 2) Tj
+T*
+(Only one authority may admit or evict mempool state for a given network and storage root.) Tj
+T*
+() Tj
+T*
+(**Status:** At risk.) Tj
+T*
+() Tj
+T*
+(Invariant 3) Tj
+T*
+(GUI must never mutate protocol truth directly.) Tj
+T*
+() Tj
+T*
+(**Status:** Probably upheld for direct store writes, but violated in spirit by lifecycle and) Tj
+T*
+(send-lifecycle orchestration.) Tj
+T*
+() Tj
+T*
+(Invariant 4) Tj
+T*
+(API gateway must not bootstrap an independent protocol runtime when attached to a role that) Tj
+T*
+(already owns one.) Tj
+T*
+() Tj
+T*
+(**Status:** Appears violated or at least strongly at risk.) Tj
+T*
+() Tj
+T*
+(Invariant 5) Tj
+T*
+(Wallet unlock state must be owned by one backend wallet authority, not by whichever process) Tj
+T*
+(happens to host a KeyManager.) Tj
+T*
+() Tj
+T*
+(**Status:** Uncertain and likely at risk.) Tj
+T*
+() Tj
+T*
+(Invariant 6) Tj
+T*
+(Balance and history shown together must correspond to the same chain and mempool revision.) Tj
+T*
+() Tj
+T*
+(**Status:** At risk.) Tj
+T*
+() Tj
+T*
+(Invariant 7) Tj
+T*
+(Node lifecycle commands must pass through one supervisor authority.) Tj
+T*
+() Tj
+T*
+(**Status:** Appears violated.) Tj
+T*
+() Tj
+T*
+(Invariant 8) Tj
+T*
+(Network switching must be a transactional stop/switch/restart flow with no mixed-network) Tj
+T*
+(intermediate state exposed to GUI.) Tj
+T*
+() Tj
+T*
+(**Status:** At risk.) Tj
+T*
+ET
+endstream
+endobj
+80 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 81 0 R >>
+endobj
+81 0 obj
+<< /Length 1795 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(Invariant 9) Tj
+T*
+(Transaction lifecycle must be backend-owned, monotonic, and durable across restart.) Tj
+T*
+() Tj
+T*
+(**Status:** At risk.) Tj
+T*
+() Tj
+T*
+(Invariant 10) Tj
+T*
+(Retrying a send command with the same intent must not create duplicate value transfer.) Tj
+T*
+() Tj
+T*
+(**Status:** Partially protected, but not yet fully proven across GUI retries, backend retries,) Tj
+T*
+(and restart.) Tj
+T*
+() Tj
+T*
+(Invariant 11) Tj
+T*
+(Reorg handling must reconcile blockstore, UTXO, mempool, private state, payout state, and read) Tj
+T*
+(models under one ordered recovery model.) Tj
+T*
+() Tj
+T*
+(**Status:** Uncertain.) Tj
+T*
+() Tj
+T*
+(Invariant 12) Tj
+T*
+(Readiness must mean more than process liveness.) Tj
+T*
+() Tj
+T*
+(**Status:** Appears violated by current /health.) Tj
+T*
+() Tj
+T*
+(Invariant 13) Tj
+T*
+(Wallet-only runtime must not become an unplanned chainstate authority.) Tj
+T*
+() Tj
+T*
+(**Status:** At risk.) Tj
+T*
+() Tj
+T*
+(Invariant 14) Tj
+T*
+(All consensus-critical signature verification must happen on the same canonical serialized) Tj
+T*
+(bytes.) Tj
+T*
+() Tj
+T*
+(**Status:** Uncertain pending deeper verification-boundary trace.) Tj
+T*
+() Tj
+T*
+(Invariant 15) Tj
+T*
+(All proof verification that affects acceptance must be owned by one canonical verifier boundary.) Tj
+T*
+() Tj
+T*
+(**Status:** Uncertain.) Tj
+T*
+() Tj
+T*
+(Invariant 16) Tj
+T*
+(Economic state transitions must remain consistent across block acceptance, reorg, restart, and) Tj
+T*
+(payout replay.) Tj
+T*
+() Tj
+T*
+(**Status:** Uncertain but important.) Tj
+T*
+() Tj
+T*
+(Invariant 17) Tj
+T*
+(Private and public state reconciliation must detect and repair divergence after reorg or) Tj
+T*
+(restart.) Tj
+T*
+() Tj
+T*
+(**Status:** Uncertain.) Tj
+T*
+() Tj
+T*
+(Invariant 18) Tj
+T*
+ET
+endstream
+endobj
+82 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 83 0 R >>
+endobj
+83 0 obj
+<< /Length 1908 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Error responses must be structured enough that the GUI never has to infer actionability from) Tj
+T*
+(message strings.) Tj
+T*
+() Tj
+T*
+(**Status:** Appears violated.) Tj
+T*
+() Tj
+T*
+(Invariant 19) Tj
+T*
+(Commands with side effects must have explicit idempotency semantics.) Tj
+T*
+() Tj
+T*
+(**Status:** Only partially upheld for send intents.) Tj
+T*
+() Tj
+T*
+(Invariant 20) Tj
+T*
+(Cache invalidation must be revision-aware and event-driven for user-facing views.) Tj
+T*
+() Tj
+T*
+(**Status:** At risk.) Tj
+T*
+() Tj
+T*
+(Invariant 21) Tj
+T*
+(API contracts must be versioned and stable enough that GUI and backend cannot silently drift.) Tj
+T*
+() Tj
+T*
+(**Status:** Uncertain and likely weak.) Tj
+T*
+() Tj
+T*
+(Invariant 22) Tj
+T*
+(Localhost trust boundaries must not allow any local process with an API key to perform actions) Tj
+T*
+(outside intended scope or wallet state.) Tj
+T*
+() Tj
+T*
+(**Status:** Uncertain.) Tj
+T*
+() Tj
+T*
+(Invariant 23) Tj
+T*
+(Backup and restore must not leave mixed old/new state that the runtime interprets as canonical.) Tj
+T*
+() Tj
+T*
+(**Status:** Uncertain.) Tj
+T*
+() Tj
+T*
+(Invariant 24) Tj
+T*
+(Read-heavy query workloads must not interfere with consensus-critical write workloads.) Tj
+T*
+() Tj
+T*
+(**Status:** Uncertain.) Tj
+T*
+() Tj
+T*
+(Invariant 25) Tj
+T*
+(Economic enforcement must have one canonical acceptance boundary for fee routing, burn) Tj
+T*
+(accounting, payout batching, and subsidy correctness.) Tj
+T*
+() Tj
+T*
+(**Status:** Uncertain.) Tj
+T*
+() Tj
+T*
+(Invariant 26) Tj
+T*
+(Coinbase maturity and spendability checks must be enforced identically in wallet queries,) Tj
+T*
+(transaction validation, and restart recovery.) Tj
+T*
+() Tj
+T*
+(**Status:** Uncertain.) Tj
+T*
+() Tj
+T*
+(Invariant 27) Tj
+T*
+(Supply accounting across reorgs must never transiently mint, burn, or hide value beyond) Tj
+T*
+(explicitly modeled semantics.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+84 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 85 0 R >>
+endobj
+85 0 obj
+<< /Length 1906 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**Status:** Uncertain.) Tj
+T*
+() Tj
+T*
+(Invariant 28) Tj
+T*
+(Signature verification must be owned by one canonical boundary with one canonical serialization) Tj
+T*
+(contract.) Tj
+T*
+() Tj
+T*
+(**Status:** Uncertain.) Tj
+T*
+() Tj
+T*
+(Invariant 29) Tj
+T*
+(Proof verification must be owned by one canonical boundary with one canonical version and) Tj
+T*
+(failure policy.) Tj
+T*
+() Tj
+T*
+(**Status:** Uncertain.) Tj
+T*
+() Tj
+T*
+(Invariant 30) Tj
+T*
+(Malformed proofs, signatures, and serialized payloads must fail closed identically across all) Tj
+T*
+(ingress paths.) Tj
+T*
+() Tj
+T*
+(**Status:** Uncertain.) Tj
+T*
+() Tj
+T*
+(Invariant 31) Tj
+T*
+(Upgrade and schema migration must never produce a runtime where old and new semantic) Tj
+T*
+(interpretations coexist silently.) Tj
+T*
+() Tj
+T*
+(**Status:** At risk.) Tj
+T*
+() Tj
+T*
+(Invariant 32) Tj
+T*
+(Backup and restore must preserve enough state to rebuild safely, and must clearly distinguish) Tj
+T*
+(rebuildable from non-rebuildable domains.) Tj
+T*
+() Tj
+T*
+(**Status:** Uncertain.) Tj
+T*
+() Tj
+T*
+(Invariant 33) Tj
+T*
+(Control-plane commands must be auditable with actor, target, outcome, and correlation identity.) Tj
+T*
+() Tj
+T*
+(**Status:** At risk.) Tj
+T*
+() Tj
+T*
+(Invariant 34) Tj
+T*
+(Event delivery to the GUI must be monotonic enough that out-of-order updates cannot produce) Tj
+T*
+(impossible UI states.) Tj
+T*
+() Tj
+T*
+(**Status:** At risk.) Tj
+T*
+() Tj
+T*
+(Invariant 35) Tj
+T*
+(One runtime component must be able to state, without inference, ?I am the supervisor of this) Tj
+T*
+(node set.?) Tj
+T*
+() Tj
+T*
+(**Status:** Appears violated.) Tj
+T*
+() Tj
+T*
+(What should be enforced in code, not just documented) Tj
+T*
+(Several of the invariants above are likely represented today only as an architectural intent) Tj
+T*
+(rather than an explicit runtime contract. Verification-grade design requires moving them into) Tj
+T*
+ET
+endstream
+endobj
+86 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 87 0 R >>
+endobj
+87 0 obj
+<< /Length 3924 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(executable enforcement:) Tj
+T*
+(- one active canonical writer per network root) Tj
+T*
+(- one lifecycle supervisor) Tj
+T*
+(- explicit readiness stages) Tj
+T*
+(- revision-bearing API responses) Tj
+T*
+(- durable command IDs for side-effecting operations) Tj
+T*
+(- version and schema compatibility checks before readiness) Tj
+T*
+(- strict event ordering guarantees or explicit ordering disclaimers) Tj
+T*
+(- invariant violation logs that are machine-readable, not just terminal output) Tj
+T*
+() Tj
+T*
+(Until those invariants are executable, some of the current architecture remains ?comment-driven) Tj
+T*
+(correctness.? That is not enough for a system with multi-process storage sharing, wallet) Tj
+T*
+(authority, and chain-consensus responsibilities.) Tj
+T*
+() Tj
+T*
+(Verification Matrix) Tj
+T*
+() Tj
+T*
+(| Topic | Current Confidence | Source of Evidence | Missing Evidence | Risk If Wrong | Launch) Tj
+T*
+(Blocker |) Tj
+T*
+(|---|---|---|---|---|---|) Tj
+T*
+(| Process model | Medium | run.py, runnode.py, stop.py, role entrypoints | Runtime process tree) Tj
+T*
+(traces under real launches | Conflicting lifecycle authority | Yes |) Tj
+T*
+(| Storage model | Medium | storage classes, config files, lock/fallback code | Live) Tj
+T*
+(multi-process access traces, lock contention traces | Hidden multi-writer corruption or) Tj
+T*
+(divergence | Yes |) Tj
+T*
+(| Consensus authority | Medium | consensus.py, blockchain.py | Proof that only one runtime graph) Tj
+T*
+(invokes it per network root | Split canonical state authority | Yes |) Tj
+T*
+(| Mempool authority | Medium | consensus.py, mempool.py, wallet relay paths | Live traces of all) Tj
+T*
+(mempool writers by role/process | Duplicate or conflicting tx admission | Yes |) Tj
+T*
+(| Send lifecycle | Medium | API intent store, GUI send flows | Ordered lifecycle traces across) Tj
+T*
+(restart/reorg | Ambiguous or duplicated sends | Yes |) Tj
+T*
+(| GUI/backend boundary | High that it is blurred | gui.py, API client logic | Formal) Tj
+T*
+(state-store/event model proving cleanup | Stale or wrong user-facing truth | Yes |) Tj
+T*
+(| API authority | High that it is overgrown | auth.py, apis.py | Evidence of intentional) Tj
+T*
+(injection/reuse of existing node objects | Duplicate runtime graph inside API | Yes |) Tj
+T*
+(| Network switching | Medium | API switch, GUI lifecycle, switchnet.py | Real switch trace) Tj
+T*
+(including failure and rollback | Mixed-network state, wrong funds view | Yes |) Tj
+T*
+(| Restart recovery | Medium | crash recovery calls, block commit journal, reorg journal |) Tj
+T*
+(End-to-end restart traces for send/sync/reorg | Ambiguous operations after crash | Yes |) Tj
+T*
+(| Private tx pipeline | Medium | private-layer files, key manager, tests | End-to-end) Tj
+T*
+(authoritative verifier trace | Privacy/state divergence risk | Yes |) Tj
+T*
+(| Reorg handling | Medium | orphreorgs.py, monitors, consensus | Full-system reorg replay traces) Tj
+T*
+(across all state domains | Wrong balances/history/private state | Yes |) Tj
+T*
+(| Read consistency | High that it is weak | API caches, GUI polling, lack of revision envelope |) Tj
+T*
+(Snapshot proof or event-stream contract | User sees impossible mixed states | Yes |) Tj
+T*
+(| Economic enforcement | Medium | const.py, blockveri.py, miner.py, consensus.py |) Tj
+T*
+(Reorg/restart/e2e accounting traces | Wrong payouts or supply accounting | Yes |) Tj
+T*
+(| Cryptographic boundaries | Low to medium | Falcon and proof code presence | Exact) Tj
+T*
+(authoritative verification boundary trace | Acceptance semantics could drift | Yes |) Tj
+T*
+(| Testing completeness | High that it is incomplete for runtime topology | current tests/ tree |) Tj
+T*
+(Multi-process, GUI/backend, failure-path integration tests | False confidence from narrow tests) Tj
+T*
+(| Yes |) Tj
+T*
+(| Upgrade / schema migration | Low | scattered schema validators and runtime guard | Storage) Tj
+T*
+ET
+endstream
+endobj
+88 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 89 0 R >>
+endobj
+89 0 obj
+<< /Length 4274 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(migration matrix, compatibility policy, rollback tests | Upgrade could silently corrupt or) Tj
+T*
+(diverge state | Yes |) Tj
+T*
+(| Localhost trust boundary | Medium | auth middleware, localhost/HMAC config | Threat-model) Tj
+T*
+(validation under real deployment configs | Unsafe local admin surface | Medium |) Tj
+T*
+(| Secret lifetime | Medium | KeyManager unlock timer and secret clearing | Cross-process unlock) Tj
+T*
+(behavior, memory audit, log audit | Sensitive material may outlive intended window | Medium |) Tj
+T*
+(| Event ordering | Low | no canonical event stream found | Ordered backend event bus and) Tj
+T*
+(consumer traces | GUI cannot reconcile concurrent updates safely | Yes |) Tj
+T*
+(| Backup / restore semantics | Low | wallet export/import paths | Full-system restore model and) Tj
+T*
+(version tests | Mixed-state recovery hazards | Medium |) Tj
+T*
+(| Performance isolation | Low | code hints only | Load tests with sync/mining/query contention |) Tj
+T*
+(Runtime instability under real load | Medium |) Tj
+T*
+(| Command idempotency | Low to medium | send intent store and GUI cooldowns | Command identity) Tj
+T*
+(model for lifecycle and admin actions | Double execution of sensitive actions | Yes |) Tj
+T*
+(| Time / clock assumptions | Low to medium | miner clock-drift code | System-wide time) Tj
+T*
+(dependency audit and tests | Non-deterministic behavior under clock skew | Medium |) Tj
+T*
+(| Backpressure behavior | Low | no dedicated overload model found | Saturation/load traces) Tj
+T*
+(across roles and APIs | Instability under realistic load | Medium |) Tj
+T*
+(| Public/private reconciliation | Low to medium | key manager note reconciliation code, private) Tj
+T*
+(tests | End-to-end reorg/restart reconciliation traces | Hidden wallet-state divergence | Yes |) Tj
+T*
+(| Error taxonomy stability | Medium that it is weak | GUI string parsing, partial structured) Tj
+T*
+(errors | Canonical error code map and contract tests | Wrong retries, wrong UX, unsafe) Tj
+T*
+(automation | Yes |) Tj
+T*
+(| API contract stability | Low to medium | route list and implicit GUI assumptions | Versioned) Tj
+T*
+(contract tests and compatibility handshake | GUI/backend drift | Yes |) Tj
+T*
+(| External interface hardening | Low to medium | auth middleware, explorer/web bridge hints |) Tj
+T*
+(Public exposure review and deployment tests | Unsafe endpoint exposure | Medium |) Tj
+T*
+(| Deployment / config authority | Medium that it is split | config files, env-driven behavior,) Tj
+T*
+(switch flows | End-to-end deployment authority model | Non-reproducible runtime state | Yes |) Tj
+T*
+(| Testing topology realism | High that it is lacking | unit-heavy current tests tree |) Tj
+T*
+(Multi-process integration and failure-path suites | False confidence in production behavior |) Tj
+T*
+(Yes |) Tj
+T*
+() Tj
+T*
+(What Still Cannot Be Claimed) Tj
+T*
+(- Cannot yet confirm that only one process graph commits canonical chainstate per network.) Tj
+T*
+(- Cannot yet confirm that only one process graph admits or evicts mempool state.) Tj
+T*
+(- Cannot yet confirm that the API embedded in full or miner roles reuses the already-created) Tj
+T*
+(node objects rather than creating a second runtime graph.) Tj
+T*
+(- Cannot yet confirm that wallet node is operationally read-only with respect to public) Tj
+T*
+(chainstate.) Tj
+T*
+(- Cannot yet confirm that GUI never becomes the effective owner of send retry, rebroadcast, or) Tj
+T*
+(lifecycle behavior.) Tj
+T*
+(- Cannot yet confirm that balance, history, mempool summary, and tip shown together in GUI) Tj
+T*
+(correspond to one backend revision.) Tj
+T*
+(- Cannot yet confirm that send lifecycle ordering is canonical and monotonic across restart,) Tj
+T*
+(relay failure, or reorg.) Tj
+T*
+(- Cannot yet confirm that /health distinguishes true readiness from process liveness.) Tj
+T*
+(- Cannot yet confirm that network switching cannot leave mixed-network config, storage, or GUI) Tj
+T*
+(state.) Tj
+T*
+(- Cannot yet confirm that wallet unlock state has one authoritative process owner.) Tj
+T*
+(- Cannot yet confirm that API, GUI, and node versions have a hardened compatibility contract.) Tj
+T*
+(- Cannot yet confirm that LMDB access patterns are safe under the real supported multi-process) Tj
+T*
+ET
+endstream
+endobj
+90 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 91 0 R >>
+endobj
+91 0 obj
+<< /Length 4009 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(topology.) Tj
+T*
+(- Cannot yet confirm that peer scoring and peer truth remain coherent when multiple local role) Tj
+T*
+(processes mutate the shared peer store.) Tj
+T*
+(- Cannot yet confirm that economic accounting remains correct across all reorg and) Tj
+T*
+(crash-recovery paths, even though the codebase clearly contains substantial accounting checks.) Tj
+T*
+(- Cannot yet confirm exact fee routing and payout correctness across all runtime paths without) Tj
+T*
+(end-to-end mined-block and reorg traces.) Tj
+T*
+(- Cannot yet confirm that coinbase maturity and spendability are enforced uniformly in every) Tj
+T*
+(acceptance, wallet, query, and recovery path.) Tj
+T*
+(- Cannot yet confirm that supply accounting and burn accounting remain perfectly aligned through) Tj
+T*
+(rollback and replay.) Tj
+T*
+(- Cannot yet confirm that the signature verification boundary is singular, canonical, and) Tj
+T*
+(identical across all code paths that matter for consensus.) Tj
+T*
+(- Cannot yet confirm that proof verification ownership is singular and stable across mempool) Tj
+T*
+(admission, block verification, and reorg replay.) Tj
+T*
+(- Cannot yet confirm that malformed signature or proof inputs fail identically in every runtime) Tj
+T*
+(path.) Tj
+T*
+(- Cannot yet confirm that secret material never leaks via logs, exceptions, or cross-process) Tj
+T*
+(lifetime drift.) Tj
+T*
+(- Cannot yet confirm that command idempotency is defined beyond send intents for start, stop,) Tj
+T*
+(restart, switch network, unlock, rebroadcast, and rescan flows.) Tj
+T*
+(- Cannot yet confirm that the system behaves safely when local clocks drift, even though miner) Tj
+T*
+(code contains clock-drift awareness.) Tj
+T*
+(- Cannot yet confirm graceful backpressure behavior under large mempool, aggressive GUI polling,) Tj
+T*
+(or concurrent sync/mining/query load.) Tj
+T*
+(- Cannot yet confirm determinism across wallet tx building, mempool admission, block) Tj
+T*
+(verification, miner selection, and restart replay from a single formal test matrix.) Tj
+T*
+(- Cannot yet confirm that the GUI can distinguish retryable, fatal, stale-state, auth, and) Tj
+T*
+(conflict errors without brittle string matching.) Tj
+T*
+(- Cannot yet confirm that localhost-exposed APIs are safe under all supported deployment and) Tj
+T*
+(bridge configurations.) Tj
+T*
+(- Cannot yet confirm canonical event ordering for tx accepted, relayed, mined, confirmed,) Tj
+T*
+(balance changed, history changed, block accepted, and reorg notifications, because there is no) Tj
+T*
+(canonical event stream yet.) Tj
+T*
+(- Cannot yet confirm that backup, snapshot, and restore semantics are version-safe and) Tj
+T*
+(mixed-state safe beyond wallet export/import surfaces.) Tj
+T*
+(- Cannot yet confirm that read-heavy query paths cannot starve or distort write-critical) Tj
+T*
+(consensus and mempool paths.) Tj
+T*
+(- Cannot yet confirm that one component is truly the supervisor of lifecycle, because current) Tj
+T*
+(evidence shows launcher, API, GUI, and process watchdogs all participate.) Tj
+T*
+(- Cannot yet confirm that admin and operational endpoints are safely segmented between) Tj
+T*
+(local-only and remotely safe exposure profiles.) Tj
+T*
+(- Cannot yet confirm that explorer-oriented or browser-adjacent surfaces cannot trigger or) Tj
+T*
+(amplify privileged backend behavior.) Tj
+T*
+(- Cannot yet confirm that configuration drift across files, environment, and GUI settings is) Tj
+T*
+(detected before the runtime acts on it.) Tj
+T*
+(- Cannot yet confirm that schema evolution across blockstore, UTXO, mempool, peerstore, wallet) Tj
+T*
+(data, and journals has one rollback-safe migration discipline.) Tj
+T*
+(- Cannot yet confirm that tests reflect the actual deployed topology, because current evidence) Tj
+T*
+(points to mostly unit or narrow integration coverage rather than full multi-process) Tj
+T*
+(orchestration coverage.) Tj
+T*
+(- Cannot yet confirm that the system degrades gracefully when sync, mining, wallet queries, and) Tj
+T*
+ET
+endstream
+endobj
+92 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 93 0 R >>
+endobj
+93 0 obj
+<< /Length 1018 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(GUI polling all occur at once.) Tj
+T*
+(- Cannot yet confirm that one query-heavy component cannot force timing behaviors that look like) Tj
+T*
+(consensus or relay instability elsewhere.) Tj
+T*
+(- Cannot yet confirm that local API key management and localhost trust assumptions match the) Tj
+T*
+(real threat model for desktop deployments.) Tj
+T*
+(- Cannot yet confirm that a user-facing ?wallet unlocked? state means the same thing in every) Tj
+T*
+(active backend process that may need wallet authority.) Tj
+T*
+(- Cannot yet confirm that restore from an older wallet backup combined with newer chainstate and) Tj
+T*
+(newer GUI caches cannot create semantic drift the user will not notice.) Tj
+T*
+(- Cannot yet confirm that deterministic behavior across wallet tx building, API validation,) Tj
+T*
+(mempool admission, miner template selection, and restart replay has been exhaustively tested.) Tj
+T*
+() Tj
+T*
+(These limits are architectural blockers, not merely documentation gaps.) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 94
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000428 00000 n 
+0000000496 00000 n 
+0000000622 00000 n 
+0000003743 00000 n 
+0000003869 00000 n 
+0000007293 00000 n 
+0000007419 00000 n 
+0000010778 00000 n 
+0000010906 00000 n 
+0000014046 00000 n 
+0000014174 00000 n 
+0000017075 00000 n 
+0000017203 00000 n 
+0000020096 00000 n 
+0000020224 00000 n 
+0000023275 00000 n 
+0000023403 00000 n 
+0000026471 00000 n 
+0000026599 00000 n 
+0000029994 00000 n 
+0000030122 00000 n 
+0000033177 00000 n 
+0000033305 00000 n 
+0000036396 00000 n 
+0000036524 00000 n 
+0000039075 00000 n 
+0000039203 00000 n 
+0000042142 00000 n 
+0000042270 00000 n 
+0000044906 00000 n 
+0000045034 00000 n 
+0000047587 00000 n 
+0000047715 00000 n 
+0000050303 00000 n 
+0000050431 00000 n 
+0000052968 00000 n 
+0000053096 00000 n 
+0000055663 00000 n 
+0000055791 00000 n 
+0000058204 00000 n 
+0000058332 00000 n 
+0000061145 00000 n 
+0000061273 00000 n 
+0000064546 00000 n 
+0000064674 00000 n 
+0000068043 00000 n 
+0000068171 00000 n 
+0000071681 00000 n 
+0000071809 00000 n 
+0000073992 00000 n 
+0000074120 00000 n 
+0000076427 00000 n 
+0000076555 00000 n 
+0000079252 00000 n 
+0000079380 00000 n 
+0000082141 00000 n 
+0000082269 00000 n 
+0000086303 00000 n 
+0000086431 00000 n 
+0000089257 00000 n 
+0000089385 00000 n 
+0000092187 00000 n 
+0000092315 00000 n 
+0000094926 00000 n 
+0000095054 00000 n 
+0000098157 00000 n 
+0000098285 00000 n 
+0000102110 00000 n 
+0000102238 00000 n 
+0000104508 00000 n 
+0000104636 00000 n 
+0000106955 00000 n 
+0000107083 00000 n 
+0000109541 00000 n 
+0000109669 00000 n 
+0000112107 00000 n 
+0000112235 00000 n 
+0000114220 00000 n 
+0000114348 00000 n 
+0000116196 00000 n 
+0000116324 00000 n 
+0000118285 00000 n 
+0000118413 00000 n 
+0000120372 00000 n 
+0000120500 00000 n 
+0000124477 00000 n 
+0000124605 00000 n 
+0000128932 00000 n 
+0000129060 00000 n 
+0000133122 00000 n 
+0000133250 00000 n 
+trailer
+<< /Size 94 /Root 1 0 R >>
+startxref
+134321
+%%EOF

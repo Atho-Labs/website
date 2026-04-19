@@ -100,59 +100,61 @@
     <section id="overview" class="section">
       <div class="wrap hero-grid">
         <div class="hero-copy home-hero-copy" data-reveal>
-          <h1>Atho is built for money in the quantum age.</h1>
+          <h1>Atho is a readable money network for the quantum age.</h1>
           <p>
-            Atho exists to make value transfer clear again: proof-of-work settlement, optional Platinum Shield
-            privacy, post-quantum signatures, and a supply model people can actually read.
+            Atho combines proof-of-work settlement, optional Platinum Shield privacy, Falcon signatures, and a supply
+            model that can be checked from the same public baseline.
           </p>
           <div class="badge-row home-hero-badges">
-            <span class="badge">Proof of Work</span>
-            <span class="badge">Public + Private Tx</span>
+            <span class="badge">120s Blocks</span>
             <span class="badge">6 Confirmations</span>
+            <span class="badge">150 Maturity</span>
+            <span class="badge">1 atom/vB Floor</span>
             <span class="badge">100 ATHO Start</span>
-            <span class="badge">720 Block Decay</span>
-            <span class="badge">1B Max Supply</span>
+            <span class="badge">1B Cap</span>
           </div>
           <div class="hero-actions">
-            <a class="btn btn-primary btn-inline" href="./docs.html">Docs</a>
-            <a class="btn btn-ghost btn-inline" href="./wallet.html">Get Wallet</a>
-            <a class="btn btn-primary btn-inline" href="./join.html">Join Network</a>
+            <a class="btn btn-primary btn-inline" href="./docs.html">Open Docs</a>
+            <a class="btn btn-ghost btn-inline" href="./join.html">Join Network</a>
           </div>
         </div>
 
         <div class="hero-panel" data-reveal>
           <div class="card card-pad">
-            <h2 class="panel-title">Why Atho matters</h2>
+            <h2 class="panel-title">What you can verify immediately</h2>
             <ul class="key-list">
               <li class="key-item">
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
-                  <strong>Money should move directly</strong>
-                  <span>Two-minute blocks and six confirmations keep settlement practical for real transfers.</span>
+                  <strong>Current baseline</strong>
+                  <span>The docs hub and final specs publish the active constants, fee floor, confirmations, and supply policy.</span>
                 </span>
               </li>
               <li class="key-item">
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
-                  <strong>Privacy should stay native</strong>
-                  <span>Public and private payments live in one wallet and one chain instead of splitting users across systems.</span>
+                  <strong>Wallet recovery model</strong>
+                  <span>The hierarchy guide shows how seed, path, network, and bundle identity rebuild the same custody tree.</span>
                 </span>
               </li>
               <li class="key-item">
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
-                  <strong>Security should face the next era</strong>
-                  <span>Falcon signatures and Kyber-backed private flow design are built for a post-quantum future.</span>
+                  <strong>Private flow guardrails</strong>
+                  <span>Platinum Shield docs map public and private movement through bundle checks, nullifiers, and fail-closed validation.</span>
                 </span>
               </li>
               <li class="key-item">
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
-                  <strong>Scarcity should stay readable</strong>
-                  <span><code>100 ATHO</code> starts issuance, reward decay steps every <code>720</code> blocks, and supply stays capped at <code>1B ATHO</code>.</span>
+                  <strong>Public project trail</strong>
+                  <span>Roadmap, changelog, and GitHub activity give reviewers a public path through what Atho exposes today.</span>
                 </span>
               </li>
             </ul>
+            <div class="doc-actions">
+              <a class="btn btn-ghost btn-inline" href="./docs.html#policy-baseline">Review Baseline</a>
+            </div>
           </div>
         </div>
       </div>
@@ -160,17 +162,100 @@
 
     <section class="section">
       <div class="wrap">
+        <span class="section-eyebrow">Live Baseline</span>
+        <h2 class="section-title">The network rules fit on one screen.</h2>
+        <p class="section-copy">
+          These are the constants repeated across the current docs, wallet model, and operator runbook.
+        </p>
         <div class="metric-grid" id="metric-grid" data-stagger></div>
+      </div>
+    </section>
+
+    <section id="verification" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Verification Paths</span>
+        <h2 class="section-title">The trust story lives in public artifacts, not slogans.</h2>
+        <p class="section-copy">
+          Start with the current baseline, then use the whitepaper, final specs, security references, operator runbook,
+          and public release trail to confirm the active Atho model.
+        </p>
+
+        <div class="docs-catalog-grid" data-stagger>
+          <article class="card card-pad doc-catalog-card" data-reveal>
+            <h3 class="doc-catalog-title">Whitepaper Set</h3>
+            <p class="doc-catalog-summary">Read the condensed overview first, then the full whitepaper draft if you want the broader protocol and security narrative.</p>
+            <div class="doc-meta">
+              <span class="feature-tag">Whitepaper</span>
+              <span class="doc-meta-type">PDF</span>
+            </div>
+            <div class="doc-actions">
+              <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/atho-whitepaper-v3.pdf" download>Full Whitepaper</a>
+              <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/atho-whitepaper-condensed-v3.pdf" download>Condensed Overview</a>
+            </div>
+          </article>
+
+          <article class="card card-pad doc-catalog-card" data-reveal>
+            <h3 class="doc-catalog-title">Current Baseline</h3>
+            <p class="doc-catalog-summary">Use the live docs hub for the HTML baseline and the final specs PDF for a compact parameter snapshot.</p>
+            <div class="doc-meta">
+              <span class="feature-tag">Baseline</span>
+              <span class="doc-meta-type">HTML + PDF</span>
+            </div>
+            <div class="doc-actions">
+              <a class="btn btn-primary btn-inline" href="./docs.html#policy-baseline">Open Baseline</a>
+              <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/atho-final-specs.pdf" download>Final Specs PDF</a>
+            </div>
+          </article>
+
+          <article class="card card-pad doc-catalog-card" data-reveal>
+            <h3 class="doc-catalog-title">Security + Architecture</h3>
+            <p class="doc-catalog-summary">Network stack and security FAQ references provide a faster proof path than trying to infer trust from visual presentation alone.</p>
+            <div class="doc-meta">
+              <span class="feature-tag">Security</span>
+              <span class="doc-meta-type">PDF</span>
+            </div>
+            <div class="doc-actions">
+              <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/network-stack.pdf" download>Network Stack</a>
+              <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/transaction-security-audit-faq.pdf" download>Security FAQ</a>
+            </div>
+          </article>
+
+          <article class="card card-pad doc-catalog-card" data-reveal>
+            <h3 class="doc-catalog-title">Operator Runbook</h3>
+            <p class="doc-catalog-summary">The join guide and troubleshooting reference show the real setup, verification, and recovery path for node operators.</p>
+            <div class="doc-meta">
+              <span class="feature-tag">Operations</span>
+              <span class="doc-meta-type">HTML + PDF</span>
+            </div>
+            <div class="doc-actions">
+              <a class="btn btn-primary btn-inline" href="./join.html">Open Runbook</a>
+              <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/troubleshooting.pdf" download>Troubleshooting PDF</a>
+            </div>
+          </article>
+
+          <article class="card card-pad doc-catalog-card" data-reveal>
+            <h3 class="doc-catalog-title">Public Project Trail</h3>
+            <p class="doc-catalog-summary">Changelog, roadmap, and GitHub make it easier to review what Atho is exposing right now and what is still planned.</p>
+            <div class="doc-meta">
+              <span class="feature-tag">Public Trail</span>
+              <span class="doc-meta-type">HTML + External</span>
+            </div>
+            <div class="doc-actions">
+              <a class="btn btn-primary btn-inline" href="./changelog.html">Open Changelog</a>
+              <a class="btn btn-ghost btn-inline" href="https://github.com/Atho-Labs" target="_blank" rel="noopener noreferrer">Open GitHub</a>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
 
     <section id="technology" class="section">
       <div class="wrap">
         <span class="section-eyebrow">Core Network</span>
-        <h2 class="section-title">Atho keeps the money layer readable.</h2>
+        <h2 class="section-title">Atho breaks into auditable modules.</h2>
         <p class="section-copy">
-          Settlement, privacy, signatures, and supply policy stay understandable so users, operators, and partners can
-          evaluate the network without decoding jargon.
+          Start with the six live modules below. Each one maps to a current page or runbook instead of a generic
+          marketing claim.
         </p>
         <div id="feature-grid" class="feature-grid" data-stagger></div>
       </div>
@@ -240,11 +325,11 @@
           <h2 class="cta-title">Platinum Shield keeps privacy in the payment flow.</h2>
           <p class="cta-copy">
             Public transfers stay available, private transfers stay native, and the wallet moves between both without
-            pushing users onto a second network.
+            pushing users onto a second network or separate custody model.
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary btn-inline" href="./platinum-shield.html">Platinum Shield</a>
-            <a class="btn btn-ghost btn-inline" href="./wallet.html#wallet-private">Private Flow</a>
+            <a class="btn btn-primary btn-inline" href="./platinum-shield.html">Open Platinum Shield</a>
+            <a class="btn btn-ghost btn-inline" href="./wallet.html#wallet-private">Wallet Private Flow</a>
           </div>
         </article>
 
@@ -280,15 +365,14 @@
     <section id="launch" class="section">
       <div class="wrap cta-shell" data-reveal>
         <article class="cta-box">
-          <h2 class="cta-title">Start with the pages that explain Atho.</h2>
+          <h2 class="cta-title">Start with one path, not twelve tabs.</h2>
           <p class="cta-copy">
-            Docs define the rules, the wallet page shows custody and recovery, and the hierarchy guide shows how Atho
-            keys and privacy flow fit together.
+            If you are new, confirm the baseline first, inspect the wallet and privacy model second, then open the
+            runbook when you are ready to operate.
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary btn-inline" href="./docs.html">Docs</a>
-            <a class="btn btn-ghost btn-inline" href="./wallet.html">Wallet</a>
-            <a class="btn btn-ghost btn-inline" href="./wallet-hierarchy.html">Hierarchy</a>
+            <a class="btn btn-primary btn-inline" href="./docs.html">Open Docs</a>
+            <a class="btn btn-ghost btn-inline" href="./join.html">Join Network</a>
           </div>
         </article>
 
@@ -298,22 +382,22 @@
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
-                  <strong>Operators</strong>
-                  <span>Use the docs hub for constants, packaging, and troubleshooting.</span>
+                  <strong>1. Baseline first</strong>
+                  <span>Use the docs hub and final specs to lock in the current constants, fees, confirmations, and cap.</span>
                 </span>
               </li>
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
-                  <strong>Wallet users</strong>
-                  <span>Start with wallet security, private send flow, and the hierarchy guide.</span>
+                  <strong>2. Wallet and privacy second</strong>
+                  <span>Use the wallet, hierarchy, and Platinum Shield pages to understand custody, recovery, and private flow rules.</span>
                 </span>
               </li>
             <li class="key-item">
               <span class="key-bullet" aria-hidden="true"></span>
               <span>
-                  <strong>Partners and builders</strong>
-                  <span>Check final specs, privacy docs, and active protocol downloads.</span>
+                  <strong>3. Operator path third</strong>
+                  <span>Use the join guide and troubleshooting docs when you want setup commands, verification checks, and runtime expectations.</span>
                 </span>
               </li>
           </ul>
@@ -327,7 +411,7 @@
       <span>Atho Labs</span>
       <span class="footer-contact">
         <span class="footer-slogan">Atho. Public or private payments. The Platinum Standard for the Quantum Age.</span>
-        <span class="footer-updated">Last updated: April 18, 2026</span>
+        <span class="footer-updated">Last updated: April 19, 2026</span>
         <span>
           To report bugs, security issues, or general inquiries:
           <a href="./contact.html">Contact</a>

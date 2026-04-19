@@ -7023,11 +7023,43 @@ body:not(.home-page) .site-header,
 .site-header::before {
   background: linear-gradient(90deg, transparent 10%, rgba(120, 224, 179, 0.26) 50%, transparent 90%);
   opacity: 0.1;
+  animation: none;
 }
 
 .site-header::after {
   opacity: 0.16;
   background: linear-gradient(90deg, rgba(49, 141, 97, 0), rgba(49, 141, 97, 0.28), rgba(49, 141, 97, 0));
+}
+
+.metric-grid,
+.docs-catalog-grid {
+  margin-top: var(--space-6);
+}
+
+.doc-actions {
+  flex-wrap: wrap;
+}
+
+.feature-card,
+.doc-catalog-card {
+  min-height: 100%;
+  display: grid;
+  align-content: start;
+  gap: 0.78rem;
+}
+
+.feature-card p,
+.doc-catalog-card p {
+  margin: 0;
+}
+
+.feature-actions {
+  margin-top: 0.1rem;
+}
+
+.feature-card .feature-tag,
+.doc-catalog-card .doc-actions {
+  margin-top: auto;
 }
 
 .nav-link {

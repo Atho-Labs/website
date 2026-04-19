@@ -1,0 +1,373 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 1963 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Atho Consensus \(Current\)) Tj
+T*
+() Tj
+T*
+(Date: 2026-04-18) Tj
+T*
+() Tj
+T*
+(This document defines the active consensus rules for the current Atho payment-only redesign.) Tj
+T*
+(- Active Protocol Profile) Tj
+T*
+() Tj
+T*
+(The active chain is:) Tj
+T*
+(- payment-focused public/private UTXO) Tj
+T*
+(- 5 decimal precision) Tj
+T*
+(- deterministic fixed-point emissions) Tj
+T*
+(- no staking) Tj
+T*
+(- no bonding) Tj
+T*
+(- no BPoW role gating) Tj
+T*
+(- no premine) Tj
+T*
+(- no fee burn) Tj
+T*
+(- no consensus fee-pool routing) Tj
+T*
+() Tj
+T*
+(Anything in older docs that describes stake/bond/BPoW validation, lockup state machines,) Tj
+T*
+(slashing, payout-set routing, or tail-burn economics is historical and not active consensus.) Tj
+T*
+(- Core Constants) Tj
+T*
+() Tj
+T*
+(From const.py:) Tj
+T*
+(- Block target time: 120 seconds) Tj
+T*
+(- Difficulty retarget interval: 180 blocks) Tj
+T*
+(- Standard transaction confirmations required: 6) Tj
+T*
+(- Private transaction confirmations required: 6) Tj
+T*
+(- Coinbase maturity: 150) Tj
+T*
+(- Max block base bytes: 3,500,000) Tj
+T*
+(- Max block weight: 14,000,000) Tj
+T*
+(- Max tx policy size \(vsize\): 250,000) Tj
+T*
+(- Display precision: 5 decimals) Tj
+T*
+(- 1 ATHO = 100,000 atoms) Tj
+T*
+(- Fee floor: 1 atom/vB) Tj
+T*
+(- Minimum transaction fee: 500 atoms) Tj
+T*
+(- Dust limit: 1 atom) Tj
+T*
+(- Max supply: 1,000,000,000.00000 ATHO) Tj
+T*
+(- Premine: 0) Tj
+T*
+(- Supply floor: 0) Tj
+T*
+(- Address and Ownership Rules) Tj
+T*
+() Tj
+T*
+(Active public address role derivation is regular-only:) Tj
+T*
+(- regular: SHA3-384\("ATHO_ADDR_V1" || network || pubkey\)) Tj
+T*
+() Tj
+T*
+(Consensus no longer recognizes bond or stake address roles as active ownership classes. Public) Tj
+T*
+(UTXO ownership and wallet derivation are payment-only.) Tj
+T*
+(- Transaction Consensus Path) Tj
+T*
+() Tj
+T*
+(Primary code:) Tj
+T*
+(- Src/Main/txveri.py) Tj
+T*
+(- Src/Transactions/txvalidation.py) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2066 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Consensus checks include:) Tj
+T*
+(- canonical serialization and hash consistency) Tj
+T*
+(- Falcon signature validity) Tj
+T*
+(- UTXO existence and unspent state) Tj
+T*
+(- no in-block or mempool double spend) Tj
+T*
+(- strict integer conservation in atoms) Tj
+T*
+(- fee floor enforcement by canonical vsize) Tj
+T*
+(- minimum transaction fee enforcement) Tj
+T*
+(- payment-owner derivation consistency) Tj
+T*
+() Tj
+T*
+(Removed from the active path:) Tj
+T*
+(- bond deposits and withdrawals) Tj
+T*
+(- stake deposits and withdrawals) Tj
+T*
+(- bonded miner eligibility checks) Tj
+T*
+(- slash-trigger evaluation) Tj
+T*
+(- bond/stake-specific output role checks) Tj
+T*
+(- Private Layer Rules) Tj
+T*
+() Tj
+T*
+(Private-layer checks remain consensus-critical:) Tj
+T*
+(- private nullifier uniqueness and replay protection) Tj
+T*
+(- anchor age and Merkle path validation) Tj
+T*
+(- note ownership and signature checks) Tj
+T*
+(- block proof-gate validation) Tj
+T*
+() Tj
+T*
+(PrivateTx now inherits the same active monetary and fee profile as public sends:) Tj
+T*
+(- 6 practical confirmations) Tj
+T*
+(- 1 atom/vB fee floor) Tj
+T*
+(- 500 atom minimum transaction fee) Tj
+T*
+(- no special fee-pool or stake-routing behavior) Tj
+T*
+(- Block Consensus Path) Tj
+T*
+() Tj
+T*
+(Primary code:) Tj
+T*
+(- Src/Main/blockveri.py) Tj
+T*
+(- Src/Main/consensus.py) Tj
+T*
+() Tj
+T*
+(Block acceptance enforces:) Tj
+T*
+(- parent linkage and index continuity) Tj
+T*
+(- PoW target validation) Tj
+T*
+(- merkle and witness-commitment checks) Tj
+T*
+(- byte and weight limits) Tj
+T*
+(- coinbase payout invariants) Tj
+T*
+(- transaction list validity under active tx rules) Tj
+T*
+() Tj
+T*
+(Removed from the active block path:) Tj
+T*
+(- BPoW miner metadata enforcement) Tj
+T*
+(- bonded miner role-tag enforcement) Tj
+T*
+(- active-bond eligibility checks) Tj
+T*
+(- stake/bond payout accounting) Tj
+T*
+() Tj
+T*
+(The miner signature payload still exists as canonical block metadata, but it is no longer tied) Tj
+T*
+(to bonded-role activation logic.) Tj
+T*
+(- Monetary Invariants) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 2126 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(The active monetary schedule is implemented in monetary_policy.py.) Tj
+T*
+() Tj
+T*
+(Current schedule:) Tj
+T*
+(- kind: daily_fixed_point_decay_v1) Tj
+T*
+(- initial reward: 100.00000 ATHO/block) Tj
+T*
+(- initial daily issuance: 72,000.00000 ATHO/day) Tj
+T*
+(- total scheduled days: 109,575) Tj
+T*
+(- total scheduled blocks: 78,894,000) Tj
+T*
+(- max supply: 1,000,000,000.00000 ATHO) Tj
+T*
+(- corrected daily multiplier: 999_928_027_050_395_505 / 10^18) Tj
+T*
+(- last positive-subsidy height: 78,893,999) Tj
+T*
+(- first zero-subsidy height: 78,894,000) Tj
+T*
+(- tail reward: 0) Tj
+T*
+() Tj
+T*
+(Consensus invariants:) Tj
+T*
+(- all value math is integer atoms) Tj
+T*
+(- total_emitted_atoms\(height\) <= 100,000,000,000,000) Tj
+T*
+(- block_subsidy_atoms\(78,894,000\) == 0) Tj
+T*
+(- supply stays pinned once the cap is reached) Tj
+T*
+(- coinbase payout must equal block subsidy + miner fee share) Tj
+T*
+() Tj
+T*
+(Because fee burn and fee-pool routing are disabled, block-fee accounting is simple:) Tj
+T*
+(- fees_miner_atoms = total fees) Tj
+T*
+(- fees_burned_atoms = 0) Tj
+T*
+(- fees_pool_atoms = 0) Tj
+T*
+(- Reorg and State Safety) Tj
+T*
+() Tj
+T*
+(Current replay and recovery focus is:) Tj
+T*
+(- public/private UTXO correctness) Tj
+T*
+(- private state apply/revert symmetry) Tj
+T*
+(- atomic tip advancement) Tj
+T*
+(- orphan/reorg recovery without legacy bond/stake state rebuilds) Tj
+T*
+() Tj
+T*
+(MAX_REORG_DEPTH_BLOCKS remains active. The legacy consensus finalization buffer is not part of) Tj
+T*
+(active BPoW policy anymore.) Tj
+T*
+(- Throughput Framing) Tj
+T*
+() Tj
+T*
+(Measured tx-size behavior is still workload-dependent and documented separately in Tx.md. The) Tj
+T*
+(payment-only redesign did not change the principle that:) Tj
+T*
+(- public-heavy blocks are much denser than private-heavy blocks) Tj
+T*
+(- fee policy is vsize-based) Tj
+T*
+(- throughput estimates must be workload-specific, not one-number marketing claims) Tj
+T*
+(- Related Docs) Tj
+T*
+(- Emissions.md) Tj
+T*
+(- Inflation_Deflationary.md) Tj
+T*
+(- Atho_Final_Specs.md) Tj
+T*
+(- Tx.md) Tj
+T*
+(- WhitePaper.md) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000002342 00000 n 
+0000002468 00000 n 
+0000004586 00000 n 
+0000004712 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+6890
+%%EOF

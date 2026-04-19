@@ -1,33 +1,45 @@
 export const featureCards = [
   {
-    title: "Direct Digital Money",
-    body: "Atho is built to move value cleanly between people, services, and merchants.",
-    tag: "Mission"
+    title: "Consensus Baseline Snapshot",
+    body: "Two-minute blocks, six confirmations, 150-block maturity, and payment-first UTXO rules define the live network.",
+    tag: "Protocol",
+    href: "./docs.html#policy-baseline",
+    cta: "Review Baseline"
   },
   {
-    title: "Post-Quantum Base Layer",
-    body: "Falcon signatures protect ownership with a security story aimed at the next era, not the last one.",
-    tag: "Security"
+    title: "Platinum Shield Flow",
+    body: "Public to private, private to private, and private to public transfers stay on one chain with explicit bundle and nullifier checks.",
+    tag: "Privacy",
+    href: "./platinum-shield.html#flow-engine",
+    cta: "Inspect Flow"
   },
   {
-    title: "Public + Private on One Chain",
-    body: "Standard transfers and Platinum Shield private flow live on the same network and in the same wallet model.",
-    tag: "Payments"
+    title: "Wallet Recovery Model",
+    body: "Seed, path, network, and private bundle identity rebuild the same custody tree without splitting public and private state.",
+    tag: "Wallet",
+    href: "./wallet-hierarchy.html#recovery",
+    cta: "See Recovery"
   },
   {
-    title: "Readable Monetary Policy",
-    body: "Rewards start at 100 ATHO and step down once per day across 720 blocks.",
-    tag: "Policy"
+    title: "Falcon Signing Layer",
+    body: "Falcon-512 replaces elliptic-curve assumptions while keeping transaction handling practical through SegWit-style sizing.",
+    tag: "Falcon",
+    href: "./falcon-512.html",
+    cta: "Read Falcon"
   },
   {
-    title: "Finite Supply Ceiling",
-    body: "The network resolves to a single hard cap of 1B ATHO.",
-    tag: "Supply"
+    title: "Kyber Routing Path",
+    body: "Kyber-backed recipient handling and lockbox usage document how private receive identity is carried safely.",
+    tag: "Kyber",
+    href: "./kyber.html",
+    cta: "Read Kyber"
   },
   {
-    title: "Recoverable Wallet Design",
-    body: "Custody, private receive material, and recovery stay inside one deterministic model.",
-    tag: "Wallet"
+    title: "Operator Runbook",
+    body: "The join guide documents environment setup, node verification, private test checks, and the current troubleshooting path.",
+    tag: "Operations",
+    href: "./join.html",
+    cta: "Open Runbook"
   }
 ];
 
@@ -56,33 +68,51 @@ export const roadmapItems = [
 
 export const metricCards = [
   {
-    label: "Block Time",
+    label: "Block Cadence",
     value: 120,
     display: "120 sec",
-    foot: "Two-minute block cadence"
+    foot: "Shared settlement interval"
   },
   {
-    label: "Confirmations",
+    label: "Confirmation Rule",
     value: 6,
-    display: "6",
-    foot: "Shared confirmation target"
+    display: "6 blocks",
+    foot: "Public and private target"
   },
   {
-    label: "Starting Reward",
-    value: 100,
-    display: "100 ATHO",
-    foot: "Genesis block subsidy"
+    label: "Coinbase Maturity",
+    value: 150,
+    display: "150 blocks",
+    foot: "Spend delay for miner outputs"
   },
   {
-    label: "Daily Decay",
+    label: "Throughput",
+    value: 60,
+    display: "60 TPS",
+    foot: "Estimated network throughput"
+  },
+  {
+    label: "Reward Step",
     value: 720,
     display: "720 blocks",
-    foot: "Reward steps down daily"
+    foot: "Daily emission interval"
   },
   {
-    label: "Max Supply",
+    label: "Genesis Reward",
+    value: 100,
+    display: "100 ATHO",
+    foot: "Opening block subsidy"
+  },
+  {
+    label: "Supply Cap",
     value: 1000000000,
     display: "1B ATHO",
     foot: "Single hard cap"
+  },
+  {
+    label: "Max Supply Horizon",
+    value: 300,
+    display: "300 years",
+    foot: "Approximate time to full issuance"
   }
 ];

@@ -1,0 +1,198 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 2 /Kids [4 0 R 6 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2005 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Docker Guide \(Atho\)) Tj
+T*
+() Tj
+T*
+(Last refresh: 2026-04-14.) Tj
+T*
+() Tj
+T*
+(Docker in Atho is now build/bootstrap only.) Tj
+T*
+(Runtime is native on host.) Tj
+T*
+() Tj
+T*
+(Model) Tj
+T*
+(- Docker builds pinned binaries and bootstrap metadata in a reproducible Linux toolchain.) Tj
+T*
+(- Launcher exports those artifacts to local folders.) Tj
+T*
+(- Node/miner/wallet/gui processes are launched natively \(not in containers\).) Tj
+T*
+() Tj
+T*
+(Prereqs) Tj
+T*
+(- Docker Desktop \(macOS/Windows\) or Docker Engine \(Linux\).) Tj
+T*
+(- Host Python environment for runtime \(.venv is managed by launcher unless --skip-pip\).) Tj
+T*
+(- Full OS package matrix \(including host-native fallback tools\): build-prereqs.md) Tj
+T*
+() Tj
+T*
+(One-Command Usage) Tj
+T*
+(From repo root:) Tj
+T*
+() Tj
+T*
+(Option 1 \(recommended\):) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Windows PowerShell equivalent:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Option 2 \(power users\):) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(What happens:) Tj
+T*
+(- run.py launches GUI natively.) Tj
+T*
+(- If GUI dependencies are missing on the current interpreter, run.py runs build.py once and) Tj
+T*
+(relaunches GUI from .venv.) Tj
+T*
+(- GUI checks runtime readiness \(runtime/build_manifest_<network>.json + required binaries/libs\).) Tj
+T*
+(- If missing, GUI invokes build.py.) Tj
+T*
+(- build.py runs Docker preflight checks \(binary + daemon\), then calls Docker builder flow) Tj
+T*
+(\(docker/run.py --mode builder\), exports artifacts, validates output, writes) Tj
+T*
+(runtime/build_manifest_<network>.json.) Tj
+T*
+(- If selected network binaries are already present, build.py skips Docker rebuild and only) Tj
+T*
+(finalizes runtime metadata.) Tj
+T*
+(- GUI continues with native runtime controls and opens first-run Setup Assistant \(wallet +) Tj
+T*
+(encryption + node profile\).) Tj
+T*
+() Tj
+T*
+(Useful Flags) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Artifacts and Paths) Tj
+T*
+(- Docker export root: runtime/docker_bootstrap/) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 1367 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Export manifest: runtime/docker_bootstrap/bootstrap_manifest.json) Tj
+T*
+(- In-image metadata: runtime/docker_bootstrap/image/docker_bootstrap/build_manifest.json) Tj
+T*
+(- Binary destination \(network-scoped\): Binaries/<network>/) Tj
+T*
+(- Runtime-ready marker: runtime/build_manifest_<network>.json \(legacy) Tj
+T*
+(runtime/build_manifest.json kept for compatibility\)) Tj
+T*
+() Tj
+T*
+(Runtime Notes) Tj
+T*
+(- Storage/key/log directories are managed by native runtime logic.) Tj
+T*
+(- Docker no longer starts/stops node containers and no longer manages compose stacks.) Tj
+T*
+(- Closing GUI stops native nodes by default \(ATHO_STOP_ON_GUI_EXIT=0 to keep running\).) Tj
+T*
+() Tj
+T*
+(Troubleshooting) Tj
+T*
+(- docker not found: install Docker Desktop/Engine and restart terminal.) Tj
+T*
+(- docker daemon unavailable: open Docker Desktop \(or start Docker Engine service\) and wait until) Tj
+T*
+(engine status is healthy.) Tj
+T*
+(- no cached Docker builder image with --no-build: rerun without --no-build once.) Tj
+T*
+(- GUI bootstrap popup failed: run python build.py --network <mainnet|testnet|regnet> in terminal) Tj
+T*
+(to inspect direct output.) Tj
+T*
+(- If native runtime fails after bootstrap, inspect local logs and run:) Tj
+T*
+(- python Src/Main/runnode.py) Tj
+T*
+(- python Src/Main/stop.py --all --include-launcher) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000127 00000 n 
+0000000195 00000 n 
+0000000321 00000 n 
+0000002378 00000 n 
+0000002504 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R >>
+startxref
+3923
+%%EOF

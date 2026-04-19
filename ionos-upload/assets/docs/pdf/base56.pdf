@@ -1,0 +1,289 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2929 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Base56 Address Encoding) Tj
+T*
+() Tj
+T*
+(Last refresh: 2026-04-04.) Tj
+T*
+() Tj
+T*
+(This note explains why Atho uses Base56 for addresses instead of Base58 or other alphabets.) Tj
+T*
+() Tj
+T*
+(Why Base56) Tj
+T*
+(- **Ambiguity reduction:** Drops lookalike characters to cut down on copy/paste and) Tj
+T*
+(transcription errors.) Tj
+T*
+(- **Human-friendly:** Better readability in CLI, logs, and printed/exported materials; fewer) Tj
+T*
+(mistakes when reading aloud or over screenshares.) Tj
+T*
+(- **Consistent casing:** One unambiguous alphabet across all components \(CLI, API responses,) Tj
+T*
+(wallet UI\) so there is one canonical representation.) Tj
+T*
+() Tj
+T*
+(How it?s built) Tj
+T*
+(- HPK \(hashed public key\) is derived from the Falcon public key \(SHA3-384\).) Tj
+T*
+(- HPK bytes are encoded with the Base56 alphabet \(digits/letters chosen to avoid lookalikes\).) Tj
+T*
+(- Decoding reverses the process to recover the HPK for validation and address matching.) Tj
+T*
+() Tj
+T*
+(Characters removed \(6\) and why) Tj
+T*
+(Removed from the larger Base62 set because they are visually confusing:) Tj
+T*
+(- O \(uppercase O\) ? looks like zero) Tj
+T*
+(- 0 \(zero\) ? looks like letter O) Tj
+T*
+(- I \(uppercase i\) ? looks like l/1) Tj
+T*
+(- l \(lowercase L\) ? looks like I/1) Tj
+T*
+(- 1 \(one\) ? looks like I/l) Tj
+T*
+(- i \(lowercase i\) ? too similar to I/l) Tj
+T*
+() Tj
+T*
+(Atho Base56 alphabet \(safe set\)) Tj
+T*
+(Uppercase: A B C D E F G H J K L M N P Q R S T U V W X Y Z) Tj
+T*
+(Lowercase: a b c d e f g h j k m n p q r s t u v w x y z) Tj
+T*
+(Digits: 2 3 4 5 6 7 8 9) Tj
+T*
+() Tj
+T*
+(Benefits of removing lookalikes) Tj
+T*
+(- Avoids misreading addresses and wrong transfers) Tj
+T*
+(- Reduces fraudulent lookalike addresses) Tj
+T*
+(- Cuts typing errors on mobile and across fonts/screen sizes) Tj
+T*
+(- Mirrors the rationale of Base58 and other error-resistant encodings) Tj
+T*
+() Tj
+T*
+(Why not Base58 or Bech32?) Tj
+T*
+(- Base58 still includes ambiguous glyphs for some fonts/locales; Base56 removes more of them.) Tj
+T*
+(- Bech32 adds checksums and HRPs, but is longer; Atho prioritizes shorter, readable strings with) Tj
+T*
+(a controlled alphabet. A checksum can be layered separately if desired.) Tj
+T*
+() Tj
+T*
+(Security: encoding vs. strength) Tj
+T*
+(- Base56 is purely an encoding choice for human readability; it does not reduce cryptographic) Tj
+T*
+(strength. The underlying security comes from Falcon-512 signatures and SHA3-384 hashing of) Tj
+T*
+(public keys.) Tj
+T*
+(- SHA3-384 offers a larger digest than SHA-256, providing stronger collision resistance and) Tj
+T*
+(headroom against preimage/collision attacks; the Base56 text is just a view of those bytes.) Tj
+T*
+(- Collusion/lookalike resistance: by removing ambiguous characters and using explicit network) Tj
+T*
+(prefixes, it?s harder to trick users with visually similar addresses, while the HPK \(SHA3-384\)) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 3163 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(remains the authoritative identifier internally.) Tj
+T*
+() Tj
+T*
+(How addresses are derived internally \(HPK\)) Tj
+T*
+(- Public key ? SHA3-384 ? HPK \(hashed public key\) ? Base56 address.) Tj
+T*
+(- The Base56 address is a user-friendly wrapper; internally the node works with the HPK bytes) Tj
+T*
+(for lookups \(UTXO, mempool, wallet\).) Tj
+T*
+(- Network prefix: Mainnet addresses use A as the leading letter; Testnet uses T to avoid) Tj
+T*
+(cross-network confusion.) Tj
+T*
+() Tj
+T*
+(Examples \(address ? HPK\)) Tj
+T*
+(- Mainnet address \(prefix A\):) Tj
+T*
+(  A9PDGuRfXS2s6Mpq5NSrug4x5vHxRcfQer3PbWUxjyRTQ7h8NcTHMyvpXy4CxM6FMnySAwpYgs) Tj
+T*
+(  Corresponding HPK \(SHA3-384, human-readable tag\):) Tj
+T*
+(  ATHO685591341486bd81bbf6b705dff4e2375d17e06b04ae1f0c241b968107f17406fdedeacfa9301bc6e927118d7a) Tj
+T*
+(e86577) Tj
+T*
+(- Testnet address \(prefix T\):) Tj
+T*
+(  T84Eh9SrqHhXSffCGgTj7kRYuqJcdh2XmxPpY3Z97n42jwEU2FDNZWD8ExkYCFtaJZ8t72SaPe) Tj
+T*
+(  Corresponding HPK \(SHA3-384, human-readable tag\):) Tj
+T*
+(  ATHT5579ff037417a01d019e4edfaa7d3fb9b784bb0f4f5de63e89da1e403a727b2767df338a849869c8a2f27671ad) Tj
+T*
+(5c857b) Tj
+T*
+() Tj
+T*
+(These examples illustrate the friendly, reduced alphabet \(no lookalikes\), clear network prefix,) Tj
+T*
+(and the internal HPK \(SHA3-384\) that the node uses for validation and storage.) Tj
+T*
+() Tj
+T*
+(Why SHA3-384 \(vs. other SHA3 variants\)) Tj
+T*
+(- We chose SHA3-384 for extra collision resistance margin over SHA3-256 while keeping addresses) Tj
+T*
+(manageable; it?s a conservative ?overkill? choice aligned with using Falcon-512.) Tj
+T*
+(- Shorter digests reduce address length but also reduce collision/preimage headroom:) Tj
+T*
+(- SHA3-128 \(~28 chars in Base56\) ? not secure enough.) Tj
+T*
+(- SHA3-224 \(~44 chars\) ? tighter, but less margin.) Tj
+T*
+(- SHA3-256 \(~49 chars\) ? a good balance, but we opted for more headroom.) Tj
+T*
+(- SHA3-384 \(~71 chars\) ? our canonical choice \(current Atho addresses\).) Tj
+T*
+(- SHA3-512 \(~93 chars\) ? stronger but longer; not needed given Falcon-512 and our threat model.) Tj
+T*
+(- Encoding does not weaken the hash; Base56 just makes the bytes human-friendly. Internally, the) Tj
+T*
+(full digest is used for HPK comparisons and UTXO/mempool lookups.) Tj
+T*
+() Tj
+T*
+(Sample Base56 addresses by SHA3 variant \(for illustration\)) Tj
+T*
+(- SHA3-128 \(~28 chars, not secure enough\):) Tj
+T*
+(  APx9RkGm7TsY4WbZpQ2hNfJcD5Mv) Tj
+T*
+(- SHA3-224 \(~44 chars\):) Tj
+T*
+(  AfxT7Pw9qGmVhzp8sETwYQkCm3NsdvJxrE2PzQ4sQJtW) Tj
+T*
+(- SHA3-256 \(~49 chars, balanced\):) Tj
+T*
+(  AdwP5KxrVfTs8FGYkchLHt9RrS8zWpY7q9bZ2dkmwQ8J2VNxx) Tj
+T*
+(- SHA3-384 \(~71 chars, chosen\):) Tj
+T*
+(  Akv4QGm29xWYPjvTFeqbrncHtWs2KyMa9R7fz8bHdpPx6LGrgxJt3WcPGykGsDRfpN8J) Tj
+T*
+(- SHA3-512 \(~93 chars, longer than needed\):) Tj
+T*
+(  AhQwT7Lm9dKs3GyPVb4ZRnqSH8MtWcF2xE5JrUu9TwGmCqP7vXaLzRM8YtHfS6JpGkV3SdBtQwNnLkHcF9XsDpM) Tj
+T*
+() Tj
+T*
+(Where it?s used) Tj
+T*
+(- CLI address display, wallet exports, and transaction inputs.) Tj
+T*
+(- Node APIs that return or accept addresses.) Tj
+T*
+(- Internally, addresses map back to HPK for lookup in UTXO and mempool.) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 481 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(Runtime normalization policy \(performance\)) Tj
+T*
+(- Base56 is treated as an edge-format \(UI/API boundary\).) Tj
+T*
+(- At entry points, addresses are normalized once to canonical HPK \(normalize_hpk\).) Tj
+T*
+(- Storage and transaction internals operate HPK-only for matching and indexing.) Tj
+T*
+(- Result: less repeated string conversion in hot loops \(UTXO scans, send path, selection\), with) Tj
+T*
+(no consensus rule change.) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000003308 00000 n 
+0000003434 00000 n 
+0000006649 00000 n 
+0000006775 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+7307
+%%EOF

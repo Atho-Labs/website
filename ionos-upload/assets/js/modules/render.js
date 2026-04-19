@@ -6,6 +6,11 @@ export function renderFeatureCards(target, cards = []) {
         <article class="card card-pad feature-card" data-reveal>
           <h3>${escapeHtml(card.title)}</h3>
           <p>${escapeHtml(card.body)}</p>
+          ${
+            card.href
+              ? `<div class="doc-actions feature-actions"><a class="btn btn-ghost btn-inline" href="${escapeHtml(card.href)}">${escapeHtml(card.cta || "Open Module")}</a></div>`
+              : ""
+          }
           <span class="feature-tag">${escapeHtml(card.tag)}</span>
         </article>
       `

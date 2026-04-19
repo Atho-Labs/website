@@ -1,0 +1,5414 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 46 /Kids [4 0 R 6 0 R 8 0 R 10 0 R 12 0 R 14 0 R 16 0 R 18 0 R 20 0 R 22 0 R 24 0 R 26 0 R 28 0 R 30 0 R 32 0 R 34 0 R 36 0 R 38 0 R 40 0 R 42 0 R 44 0 R 46 0 R 48 0 R 50 0 R 52 0 R 54 0 R 56 0 R 58 0 R 60 0 R 62 0 R 64 0 R 66 0 R 68 0 R 70 0 R 72 0 R 74 0 R 76 0 R 78 0 R 80 0 R 82 0 R 84 0 R 86 0 R 88 0 R 90 0 R 92 0 R 94 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2434 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Atho Improvement Proposal: Beta to Production Hardening, Evaluation, and Implementation Strategy) Tj
+T*
+() Tj
+T*
+(Date: 2026-04-15) Tj
+T*
+() Tj
+T*
+(2026-04-18 Redesign Note) Tj
+T*
+() Tj
+T*
+(This proposal was written while the repo still described bond/stake/BPoW-era subsystems in) Tj
+T*
+(detail.) Tj
+T*
+() Tj
+T*
+(Use it as engineering history, but substitute the active redesign before treating any protocol) Tj
+T*
+(statement here as current:) Tj
+T*
+(- payment-only public/private UTXO model) Tj
+T*
+(- 5 decimal precision) Tj
+T*
+(- 1 ATHO = 100,000 atoms) Tj
+T*
+(- 1,000,000,000.00000 ATHO hard cap) Tj
+T*
+(- no premine) Tj
+T*
+(- no staking) Tj
+T*
+(- no bonding) Tj
+T*
+(- no BPoW payout or eligibility routing) Tj
+T*
+(- current emissions and fee policy from Docs/Emissions.md, Docs/Tx.md, and) Tj
+T*
+(Docs/Atho_Final_Specs.md) Tj
+T*
+() Tj
+T*
+(Prepared for: Atho developers, core contributors, protocol engineers, release maintainers, node) Tj
+T*
+(operators, infrastructure partners, and technical reviewers) Tj
+T*
+() Tj
+T*
+(Document class: master production-hardening proposal, architecture reference, implementation) Tj
+T*
+(handbook, change-log framework, checklist system, and release-gating guide) Tj
+T*
+() Tj
+T*
+(Source basis:) Tj
+T*
+(- active Atho source tree under Src/) Tj
+T*
+(- current policy constants in const.py) Tj
+T*
+(- current runtime entrypoints in run.py and runnode.py) Tj
+T*
+(- current consensus, validation, storage, mining, private-layer, API, GUI, and packaging) Tj
+T*
+(surfaces) Tj
+T*
+(- current protocol and design docs in Docs/) Tj
+T*
+(- prior audit papers already created in Docs/) Tj
+T*
+(- current verification snapshot from local tests run on 2026-04-15) Tj
+T*
+() Tj
+T*
+(Fact/conclusion labeling used in this document:) Tj
+T*
+(- **Fact**: supported directly by active code or a current repo artifact) Tj
+T*
+(- **Inference**: high-confidence interpretation derived from active code/doc relationships) Tj
+T*
+(- **Recommendation**: proposed production-facing change) Tj
+T*
+(- **Open question**: unresolved point needing code proof, runtime trace, or test evidence) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Title Page) Tj
+T*
+() Tj
+T*
+(**Title**) Tj
+T*
+(Atho Improvement Proposal: Beta to Production Hardening, Evaluation, and Implementation Strategy) Tj
+T*
+() Tj
+T*
+(**Purpose**) Tj
+T*
+(Create one unified, top-to-bottom technical guide for moving Atho from beta/pre-release status) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2479 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(to a production-grade version 1 by reconciling architecture findings, consensus audits,) Tj
+T*
+(performance reviews, refactor plans, packaging strategy, external interface planning, and) Tj
+T*
+(implementation sequencing.) Tj
+T*
+() Tj
+T*
+(**Audience**) Tj
+T*
+(This document is written for developers and architects who will directly change, review, harden,) Tj
+T*
+(operate, package, or integrate with the Atho system. It assumes readers care about:) Tj
+T*
+(- deterministic consensus behavior) Tj
+T*
+(- production-safe storage and replay semantics) Tj
+T*
+(- performance and scalability) Tj
+T*
+(- cryptographic boundary correctness) Tj
+T*
+(- long-term maintainability) Tj
+T*
+(- packaging and operator safety) Tj
+T*
+(- explicit implementation order and release gates) Tj
+T*
+() Tj
+T*
+(**Document intent**) Tj
+T*
+(This is not a marketing whitepaper and not a summary of prior papers. It is a consolidated) Tj
+T*
+(engineering proposal. It is meant to answer:) Tj
+T*
+(- what Atho currently is) Tj
+T*
+(- what parts are already strong) Tj
+T*
+(- what parts are still risky) Tj
+T*
+(- what exactly must change) Tj
+T*
+(- what should remain in place) Tj
+T*
+(- how all key subsystems should evolve) Tj
+T*
+(- what evidence is required before launch) Tj
+T*
+() Tj
+T*
+(**Operating assumptions**) Tj
+T*
+(- Atho is already beyond the toy/prototype stage.) Tj
+T*
+(- The codebase contains real consensus, replay, mining, private-state, and storage machinery.) Tj
+T*
+(- Some documents and some code paths are more current than others.) Tj
+T*
+(- Production readiness will come from focused hardening, not from rewriting everything.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Document Purpose and Scope) Tj
+T*
+() Tj
+T*
+(2.1 Why this document exists) Tj
+T*
+() Tj
+T*
+(Atho already has multiple substantial technical artifacts:) Tj
+T*
+(- architecture audits) Tj
+T*
+(- consensus audits) Tj
+T*
+(- private/public coexistence analysis) Tj
+T*
+(- refactor blueprints) Tj
+T*
+(- packaging and external interface plans) Tj
+T*
+(- monetary and emissions docs) Tj
+T*
+(- transaction and network stack docs) Tj
+T*
+(- protocol whitepaper material) Tj
+T*
+() Tj
+T*
+(That is a strength, but it also creates a governance problem. Once a repo accumulates many deep) Tj
+T*
+(documents, there is a real risk that:) Tj
+T*
+(- different contributors read different sources) Tj
+T*
+(- older docs remain in circulation after policy changes) Tj
+T*
+(- the same issue gets described differently in multiple places) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 2777 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- ?current truth? becomes implicit rather than explicit) Tj
+T*
+() Tj
+T*
+(This document exists to solve that problem. It establishes one production-oriented) Tj
+T*
+(interpretation of Atho grounded in active code and the most current supporting docs, while) Tj
+T*
+(explicitly calling out where older sources drift or remain incomplete.) Tj
+T*
+() Tj
+T*
+(2.2 What ?beta / pre-release? means for Atho) Tj
+T*
+() Tj
+T*
+(In Atho?s context, beta/pre-release does not mean the system is mostly missing. It means the) Tj
+T*
+(system is functionally broad but not yet sufficiently proven, simplified, or hardened for an) Tj
+T*
+(irreversible production launch.) Tj
+T*
+() Tj
+T*
+(More concretely, beta means:) Tj
+T*
+(- many production-shaped subsystems already exist) Tj
+T*
+(- some consensus and replay invariants are partially proven rather than fully proven) Tj
+T*
+(- some hot paths are correct enough to run but not clean enough to trust at production scale) Tj
+T*
+(- the private path and proof bridge are materially implemented but not yet release-safe) Tj
+T*
+(- packaging, operator safety, desktop polish, and external integration surfaces are not yet at) Tj
+T*
+(the level a v1 public ecosystem should rely on) Tj
+T*
+() Tj
+T*
+(2.3 What ?production-ready version 1? means here) Tj
+T*
+() Tj
+T*
+(Production-ready v1 for Atho means:) Tj
+T*
+(- no unresolved consensus-critical failing tests remain) Tj
+T*
+(- one authoritative tx/block validity path exists) Tj
+T*
+(- monetary enforcement, fee routing, and coinbase closure are deterministic and documented) Tj
+T*
+(- public and private state replay safely across restart and reorg) Tj
+T*
+(- bond/stake/miner-eligibility logic is deterministic and rebuildable) Tj
+T*
+(- native performance boundaries are chosen deliberately and audited) Tj
+T*
+(- packaging, runtime layout, and network separation protect users and operators) Tj
+T*
+(- public interfaces are stable enough for explorers, exchanges, wallets, and node operators) Tj
+T*
+(- every consensus-sensitive change is backed by vectors, tests, and documented rationale) Tj
+T*
+() Tj
+T*
+(2.4 Scope included) Tj
+T*
+() Tj
+T*
+(Included in this proposal:) Tj
+T*
+(- consensus architecture) Tj
+T*
+(- public tx path) Tj
+T*
+(- private tx path) Tj
+T*
+(- mixed public/private chainstate model) Tj
+T*
+(- fee routing, burn, and emission policy) Tj
+T*
+(- BPoW / bond / stake model) Tj
+T*
+(- mining/runtime boundaries) Tj
+T*
+(- storage, replay, reorg, and crash recovery) Tj
+T*
+(- language migration strategy) Tj
+T*
+(- runtime control plane) Tj
+T*
+(- API, GUI, packaging, and external interface readiness) Tj
+T*
+(- testing, observability, governance, and release gating) Tj
+T*
+() Tj
+T*
+(2.5 Scope not treated as first-class goals) Tj
+T*
+() Tj
+T*
+(Not primary goals here:) Tj
+T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 2100 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- marketing language) Tj
+T*
+(- token narrative positioning) Tj
+T*
+(- aspirational post-v1 features with no present code footprint) Tj
+T*
+(- generic blockchain advice disconnected from Atho?s repo) Tj
+T*
+(- cosmetic frontend polish not tied to stability or usability) Tj
+T*
+() Tj
+T*
+(2.6 Working methodology) Tj
+T*
+() Tj
+T*
+(This document synthesizes:) Tj
+T*
+(- direct source review) Tj
+T*
+(- current active constants) Tj
+T*
+(- existing repo docs) Tj
+T*
+(- prior audit findings) Tj
+T*
+(- current test evidence) Tj
+T*
+() Tj
+T*
+(When those sources disagree, this document uses the following precedence:) Tj
+T*
+(- active code) Tj
+T*
+(- active policy constants and current policy docs) Tj
+T*
+(- code-grounded transaction/private/network docs) Tj
+T*
+(- prior Atho audit papers) Tj
+T*
+(- older whitepaper material, only where still code-consistent) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Executive Summary) Tj
+T*
+() Tj
+T*
+(3.1 What Atho currently is) Tj
+T*
+() Tj
+T*
+(Atho is a hybrid blockchain/payment system centered on a Python runtime with targeted native) Tj
+T*
+(performance backends. The system combines:) Tj
+T*
+(- public UTXO transactions) Tj
+T*
+(- a private transaction layer with commitments, nullifiers, anchors, encrypted payloads, and) Tj
+T*
+(aggregate proof handling) Tj
+T*
+(- a bonded mining and stake payout regime) Tj
+T*
+(- LMDB-backed storage) Tj
+T*
+(- a custom P2P stack) Tj
+T*
+(- local API and desktop GUI surfaces) Tj
+T*
+(- optional CPU/GPU mining backends) Tj
+T*
+() Tj
+T*
+(This is already a non-trivial production-shaped topology. The repo contains:) Tj
+T*
+(- block commit journals) Tj
+T*
+(- reorg journals) Tj
+T*
+(- restart recovery logic) Tj
+T*
+(- proof backend readiness checks) Tj
+T*
+(- bond/stake rebuild logic) Tj
+T*
+(- private-state rebuild logic) Tj
+T*
+(- multiple native bridges) Tj
+T*
+(- a growing set of audit and policy docs) Tj
+T*
+() Tj
+T*
+(3.2 Where Atho is strong today) Tj
+T*
+() Tj
+T*
+(**Consensus-adjacent storage discipline exists.**) Tj
+T*
+(The repo already uses explicit consensus write contexts for critical stores. That is materially) Tj
+T*
+ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 3030 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(better than informal ?just don?t write there? discipline.) Tj
+T*
+() Tj
+T*
+(**Block commit and reorg recovery are not an afterthought.**) Tj
+T*
+(The presence of commit journals, reorg journals, rollback logic, and side-state rebuilds means) Tj
+T*
+(Atho has already crossed the threshold from ?basic chain toy? into ?real state-machine) Tj
+T*
+(implementation.?) Tj
+T*
+() Tj
+T*
+(**The codebase already embraces hybrid-native design where justified.**) Tj
+T*
+(Falcon verification, UTXO batch checks, PoW kernels, and STARK backends are already offloaded) Tj
+T*
+(where the workload is clearly better suited to native code.) Tj
+T*
+() Tj
+T*
+(**The private path is treated as consensus-relevant.**) Tj
+T*
+(Atho is not pretending privacy is just a wallet or explorer concern. The private layer is) Tj
+T*
+(modeled as a validation and state-transition concern inside the canonical chain.) Tj
+T*
+() Tj
+T*
+(**Monetary policy is now more explicit in code.**) Tj
+T*
+(The current constants module exposes a deterministic monetary policy snapshot, and updated) Tj
+T*
+(emission invariants are enforced directly in current code.) Tj
+T*
+() Tj
+T*
+(3.3 Where Atho is weak today) Tj
+T*
+() Tj
+T*
+(**Validation authority is still not clean enough.**) Tj
+T*
+(Transaction verification is spread across Src/Main/txveri.py and) Tj
+T*
+(Src/Transactions/txvalidation.py. That is both a correctness risk and a performance risk.) Tj
+T*
+() Tj
+T*
+(**The private proof boundary is still operationally weak.**) Tj
+T*
+(The private path depends on subprocess orchestration between Python and Rust backend tooling.) Tj
+T*
+(That is functional for development, but it is not the best possible production boundary for a) Tj
+T*
+(consensus-adjacent proof system.) Tj
+T*
+() Tj
+T*
+(**Internal data-shape churn is too high.**) Tj
+T*
+(The repo repeatedly converts among compact payloads, standardized dicts, transaction objects,) Tj
+T*
+(JSON bytes, and canonicalized forms in several hot paths.) Tj
+T*
+() Tj
+T*
+(**Documentation authority still drifts.**) Tj
+T*
+(Some active docs now reflect the updated monetary model, but older long-form whitepaper material) Tj
+T*
+(still contains the previous era-size and tail-start schedule. That can cause engineering) Tj
+T*
+(confusion if left unmanaged.) Tj
+T*
+() Tj
+T*
+(**The private path still has live test evidence gaps.**) Tj
+T*
+(The private-layer pipeline test suite still fails in multiple places. That alone prevents an) Tj
+T*
+(honest claim of production readiness.) Tj
+T*
+() Tj
+T*
+(**Control-plane ownership still needs cleanup.**) Tj
+T*
+(The runtime, API, GUI, and launcher surfaces are functional, but lifecycle authority and) Tj
+T*
+(readiness semantics are not yet clean enough for a polished production node product.) Tj
+T*
+() Tj
+T*
+(3.4 Executive risk matrix) Tj
+T*
+() Tj
+T*
+(| Domain | Current Risk | Why It Matters | Current Status | Launch Blocker |) Tj
+T*
+(|---|---|---|---|---|) Tj
+T*
+(| Consensus authority | High | duplicated or blurred validity paths can fork behavior | not yet) Tj
+T*
+ET
+endstream
+endobj
+14 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 15 0 R >>
+endobj
+15 0 obj
+<< /Length 2839 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(clean | Yes |) Tj
+T*
+(| Public tx validity | Medium/High | correctness strong enough for development, but duplication) Tj
+T*
+(remains | needs hardening | Yes |) Tj
+T*
+(| Private tx validity | High | proof path and private pipeline remain partially unresolved | not) Tj
+T*
+(release-safe | Yes |) Tj
+T*
+(| Reorg/restart recovery | Medium/High | multi-domain replay must stay coherent across) Tj
+T*
+(UTXO/private/bond state | sophisticated but not fully proven | Yes |) Tj
+T*
+(| Monetary enforcement | Medium | improved materially, but broad doc parity still incomplete |) Tj
+T*
+(better, not finished | Yes |) Tj
+T*
+(| Performance | Medium | beta-acceptable, but obvious waste remains in hot paths | needs) Tj
+T*
+(optimization | No by itself, but tied to v1 operability |) Tj
+T*
+(| Control plane/runtime | Medium/High | lifecycle ambiguity can create unstable desktop/operator) Tj
+T*
+(experience | usable, not polished | Yes for product quality |) Tj
+T*
+(| Packaging and updates | Medium | user/operator safety depends on clean layouts and upgrades |) Tj
+T*
+(incomplete | Yes for desktop v1 |) Tj
+T*
+(| External integration surface | Medium | explorers, exchanges, and wallets need stable) Tj
+T*
+(contracts | incomplete | Yes for ecosystem-ready v1 |) Tj
+T*
+() Tj
+T*
+(3.5 Executive readiness summary) Tj
+T*
+() Tj
+T*
+(**Beta-safe today**) Tj
+T*
+(- ongoing development) Tj
+T*
+(- internal testing and instrumentation) Tj
+T*
+(- continued selective audit work) Tj
+T*
+(- controlled experiments with private/public mixed flows) Tj
+T*
+(- proof-of-concept packaging and operator workflows) Tj
+T*
+() Tj
+T*
+(**Not yet production-safe**) Tj
+T*
+(- claiming full consensus-path authority clarity) Tj
+T*
+(- claiming private layer is fully proven) Tj
+T*
+(- claiming all replay/recovery semantics are proven across all state domains) Tj
+T*
+(- claiming packaging/runtime/update safety is complete) Tj
+T*
+(- claiming third-party integration stability) Tj
+T*
+() Tj
+T*
+(3.6 Executive migration summary) Tj
+T*
+() Tj
+T*
+(The correct hardening strategy is not ?rewrite Atho in Rust/C++.? It is:) Tj
+T*
+(- centralize semantics) Tj
+T*
+(- prove correctness) Tj
+T*
+(- reduce duplicated logic) Tj
+T*
+(- replace weak runtime boundaries) Tj
+T*
+(- move only clearly beneficial kernels into native form) Tj
+T*
+() Tj
+T*
+(3.7 Executive recommended order of work) Tj
+T*
+(- lock down source-of-truth policy and consensus invariants) Tj
+T*
+(- unify transaction and block validation authority) Tj
+T*
+(- fix private pipeline correctness gaps) Tj
+T*
+(- strengthen replay, reorg, and restart evidence) Tj
+T*
+(- centralize canonical codec and signing-preimage logic) Tj
+T*
+(- replace proof subprocess boundaries) Tj
+T*
+(- clean lifecycle ownership and read/write separation) Tj
+T*
+(- harden packaging, external interfaces, and release governance) Tj
+T*
+ET
+endstream
+endobj
+16 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 17 0 R >>
+endobj
+17 0 obj
+<< /Length 2038 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(3.8 Executive no-go conditions) Tj
+T*
+() Tj
+T*
+(Production launch should be blocked if any of the following remain true:) Tj
+T*
+(- unresolved private pipeline correctness failures) Tj
+T*
+(- unresolved duplicate validation authority) Tj
+T*
+(- unresolved replay/recovery ambiguity across private or bond/stake state) Tj
+T*
+(- unresolved monetary policy drift between active docs and active constants) Tj
+T*
+(- no stable external interface contract for ecosystem builders) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Current State of Atho) Tj
+T*
+() Tj
+T*
+(4.1 Current implementation posture) Tj
+T*
+() Tj
+T*
+(**Fact:** Atho today is a Python-dominant codebase with embedded native performance islands and) Tj
+T*
+(a substantial documentation surface.) Tj
+T*
+() Tj
+T*
+(**Inference:** The system has reached the point where correctness and maintainability now matter) Tj
+T*
+(more than feature breadth. Many necessary pieces exist. The challenge is aligning them cleanly.) Tj
+T*
+() Tj
+T*
+(4.2 Current runtime topology) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(4.3 Current language posture) Tj
+T*
+() Tj
+T*
+(Python currently owns:) Tj
+T*
+(- runtime assembly) Tj
+T*
+(- consensus sequencing) Tj
+T*
+(- storage repository coordination) Tj
+T*
+(- mining assembly) Tj
+T*
+(- networking orchestration) Tj
+T*
+(- wallet and API logic) Tj
+T*
+(- GUI and packaging support code) Tj
+T*
+() Tj
+T*
+(Native code currently owns:) Tj
+T*
+(- Falcon verification kernels) Tj
+T*
+(- UTXO batch checking) Tj
+T*
+(- PoW search kernels) Tj
+T*
+(- optional GPU mining backends) Tj
+T*
+(- STARK/proof backend logic) Tj
+T*
+() Tj
+T*
+(This split is fundamentally sensible. The repo is not suffering because it has the wrong) Tj
+T*
+(headline language mix. It is suffering because several boundaries between those languages are) Tj
+T*
+(still too noisy, duplicated, or operationally fragile.) Tj
+T*
+() Tj
+T*
+(4.4 Current monetary-policy state) Tj
+T*
+() Tj
+T*
+(As of 2026-04-18, the active protocol baseline is:) Tj
+T*
+(- block time target: 120 seconds) Tj
+T*
+ET
+endstream
+endobj
+18 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 19 0 R >>
+endobj
+19 0 obj
+<< /Length 2419 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- blocks per day: 720) Tj
+T*
+(- blocks per year: 262,980) Tj
+T*
+(- decimals: 5) Tj
+T*
+(- atoms per coin: 100,000) Tj
+T*
+(- initial reward: 100.00000 ATHO/block) Tj
+T*
+(- emission schedule: deterministic daily fixed-point decay for 300 years) Tj
+T*
+(- first zero-subsidy height: 78,894,000) Tj
+T*
+(- hard cap: 1,000,000,000.00000 ATHO) Tj
+T*
+(- premine: 0) Tj
+T*
+(- fee floor: 1 atom/vB) Tj
+T*
+(- minimum tx fee: 500 atoms) Tj
+T*
+(- standard confirmations: 6) Tj
+T*
+(- private confirmations: 6) Tj
+T*
+(- protocol burn: disabled) Tj
+T*
+(- fee-pool routing: disabled) Tj
+T*
+(- staking, bonding, and BPoW miner-eligibility routing: removed from the active chain model) Tj
+T*
+() Tj
+T*
+(**Important current-state caveat:** a number of long-form audits and planning documents in this) Tj
+T*
+(repo remain historical snapshots of the earlier bond/stake/BPoW-era architecture. Treat the) Tj
+T*
+(current monetary-policy truth as Emissions.md, Consensus.md, and Atho_Final_Specs.md.) Tj
+T*
+() Tj
+T*
+(4.5 Current verification snapshot) Tj
+T*
+() Tj
+T*
+(Tests run locally on 2026-04-15:) Tj
+T*
+() Tj
+T*
+(| Test | Result | Interpretation |) Tj
+T*
+(|---|---|---|) Tj
+T*
+(| tests.test_monetary_hard_cap | pass | updated emissions model and hard-cap invariants are) Tj
+T*
+(internally consistent |) Tj
+T*
+(| tests.test_txmanager_private_accounting | pass | current private/public accounting checks are) Tj
+T*
+(holding for exercised cases |) Tj
+T*
+(| tests.test_private_notes_preview | pass | some note preview/recovery behaviors are stable |) Tj
+T*
+(| tests.test_state_tracker_recovery | pass | some recovery paths are working |) Tj
+T*
+(| tests.test_private_layer_pipeline | fail \(4 tests\) | private path still has) Tj
+T*
+(correctness/proof-gate gaps and cannot be considered production-ready |) Tj
+T*
+() Tj
+T*
+(4.6 Current operational interpretation) Tj
+T*
+() Tj
+T*
+(**Beta-safe interpretation**) Tj
+T*
+(- Atho is strong enough for aggressive engineering iteration.) Tj
+T*
+(- Atho is not strong enough for an unqualified v1 release.) Tj
+T*
+() Tj
+T*
+(**Core reason**) Tj
+T*
+(- the remaining work is not about adding missing categories of code) Tj
+T*
+(- the remaining work is about proving, consolidating, simplifying, and hardening what already) Tj
+T*
+(exists) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Reconciled Understanding of All Source Materials) Tj
+T*
+() Tj
+T*
+(5.1 Source clusters that matter) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+20 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 21 0 R >>
+endobj
+21 0 obj
+<< /Length 3193 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(| Source Cluster | Main Files | What It Contributes | Authority Level | Main Limitation |) Tj
+T*
+(|---|---|---|---|---|) Tj
+T*
+(| Active implementation | Src/ | actual behavior, real constants, control flow | Highest | hard) Tj
+T*
+(to read without synthesis |) Tj
+T*
+(| Current consensus docs | Docs/Consensus.md, Docs/Transaction_Flow_Doc.md,) Tj
+T*
+(Docs/Network_Stack.md | code-grounded protocol narrative | High | not exhaustive by themselves |) Tj
+T*
+(| Monetary policy docs | Docs/Emissions.md, Docs/Inflation_Deflationary.md,) Tj
+T*
+(Docs/Atho_Final_Specs.md | supply schedule, fee routing, milestone timing | High after) Tj
+T*
+(2026-04-15 sync | older docs elsewhere still drift |) Tj
+T*
+(| Private transaction docs | Docs/PrivateTx_v3.md and related docs | formal private-path) Tj
+T*
+(interpretation | High with caution | operational proof gap still exists in code/tests |) Tj
+T*
+(| Prior audit papers | the five recent audit/blueprint docs | gap analysis, authority map,) Tj
+T*
+(refactor order, packaging and ecosystem planning | Medium/High | must be kept grounded in) Tj
+T*
+(current repo state |) Tj
+T*
+(| Older whitepaper docs | Docs/WhitePaper.md, condensed variants | broad design history and) Tj
+T*
+(narrative | Medium/Low | monetary references and some lifecycle descriptions are stale |) Tj
+T*
+(| User-provided updated emission PDF | external PDF reviewed locally | revised 150-year emission) Tj
+T*
+(framing | Medium | outside repo; now incorporated into code and policy docs |) Tj
+T*
+() Tj
+T*
+(5.2 How these sources overlap) Tj
+T*
+() Tj
+T*
+(The prior audit papers and current code largely agree on the following:) Tj
+T*
+(- consensus is intended to be centered in Src/Main/consensus.py) Tj
+T*
+(- the private layer is consensus-critical) Tj
+T*
+(- replay/reorg safety is a central risk area) Tj
+T*
+(- block commit and recovery machinery exist but need stronger proof) Tj
+T*
+(- Python/native boundaries should be narrowed, not exploded) Tj
+T*
+() Tj
+T*
+(The current docs and code also now align on the updated monetary schedule in the active policy) Tj
+T*
+(docs, but not in every older whitepaper.) Tj
+T*
+() Tj
+T*
+(5.3 Where contradictions still exist) Tj
+T*
+() Tj
+T*
+(**Monetary policy contradictions**) Tj
+T*
+(- Some whitepaper materials still describe the old emission schedule.) Tj
+T*
+() Tj
+T*
+(**Authority contradictions**) Tj
+T*
+(- Some docs imply a cleaner separation of services than the code currently exhibits.) Tj
+T*
+() Tj
+T*
+(**Validation-path ambiguity**) Tj
+T*
+(- The existence of both txveri.py and txvalidation.py means the code still carries ambiguity) Tj
+T*
+(that many narrative docs naturally flatten away.) Tj
+T*
+() Tj
+T*
+(**Private-path maturity**) Tj
+T*
+(- Some high-level private docs read like a fully hardened production design. The current failing) Tj
+T*
+(private pipeline tests mean that the implementation has not fully reached that ideal.) Tj
+T*
+() Tj
+T*
+(5.4 Final source authority map for production work) Tj
+T*
+() Tj
+T*
+(| Priority | Source Type | Use It For | Do Not Use It For |) Tj
+T*
+(|---|---|---|---|) Tj
+T*
+(| 1 | active code and current constants | current truth | rhetorical or historical context |) Tj
+T*
+ET
+endstream
+endobj
+22 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 23 0 R >>
+endobj
+23 0 obj
+<< /Length 3423 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(| 2 | current policy docs updated to current constants | current architectural interpretation |) Tj
+T*
+(proving runtime behavior without code |) Tj
+T*
+(| 3 | transaction/private/network code-grounded docs | lifecycle explanation and invariants |) Tj
+T*
+(overruling active code |) Tj
+T*
+(| 4 | prior audit papers | risk framing and work sequencing | substitute for current code) Tj
+T*
+(inspection |) Tj
+T*
+(| 5 | older whitepapers | historical design intent | active source of protocol truth where) Tj
+T*
+(contradicted |) Tj
+T*
+() Tj
+T*
+(5.5 Production interpretation synthesized from all sources) Tj
+T*
+() Tj
+T*
+(The strongest unified reading of Atho today is:) Tj
+T*
+(- the system is already broad and serious) Tj
+T*
+(- the next stage is consolidation, not invention) Tj
+T*
+(- the private path and replay safety remain the most important correctness risks) Tj
+T*
+(- validation and codec centralization are the most important architecture cleanups) Tj
+T*
+(- packaging, external interfaces, and runtime ownership must mature in parallel once) Tj
+T*
+(consensus-critical cleanup is underway) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Full System Inventory) Tj
+T*
+() Tj
+T*
+(6.1 Language inventory table) Tj
+T*
+() Tj
+T*
+(| Language | Where Used | Current Role | Appropriate or Not | Production Interpretation |) Tj
+T*
+(|---|---|---|---|---|) Tj
+T*
+(| Python | almost all authored runtime and tooling | orchestration, consensus sequencing,) Tj
+T*
+(storage repos, API, GUI, tests | Mostly appropriate | Should remain the control/state-machine) Tj
+T*
+(language, but do less codec and subprocess-heavy work |) Tj
+T*
+(| C | Falcon verify, UTXO batch check, PoW bridge, signing-body helper | cryptographic and) Tj
+T*
+(validation kernels | Appropriate | Keep and tighten interfaces |) Tj
+T*
+(| C++ | GPU miner host/runtime | GPU mining management | Appropriate | Keep isolated |) Tj
+T*
+(| Rust | STARK/private-proof backend crates and binaries | proof backend and typed systems work) Tj
+T*
+(| Appropriate | Good fit; needs a better runtime boundary |) Tj
+T*
+(| CUDA/OpenCL | GPU mining kernels | nonce-search acceleration | Appropriate | Optional) Tj
+T*
+(performance path |) Tj
+T*
+(| Shell | build scripts, release helpers, native build helpers | build and packaging automation) Tj
+T*
+(| Appropriate | Fine for build-time, not for consensus-critical runtime |) Tj
+T*
+(| JSON | config, APIs, logs, wire framing, some storage payloads | external-facing and) Tj
+T*
+(convenience encoding | Mixed | Fine for config/logs; overused in hot internal paths |) Tj
+T*
+(| TOML | Rust manifests | build metadata | Appropriate | Standard |) Tj
+T*
+(| Markdown | docs and policies | written guidance | Appropriate | Needs authority control |) Tj
+T*
+() Tj
+T*
+(6.2 Subsystem inventory table) Tj
+T*
+() Tj
+T*
+(| Subsystem | Purpose | Primary Files | Language | Inputs | Outputs | Dependencies | Criticality) Tj
+T*
+(| Key Strength | Key Weakness | Production Readiness |) Tj
+T*
+(|---|---|---|---|---|---|---|---|---|---|---|) Tj
+T*
+(| Runtime launcher | start node roles and supporting services | run.py, Src/Main/runnode.py,) Tj
+T*
+(Src/Main/stop.py | Python | env, config, CLI | local processes, service graph | storage, API,) Tj
+T*
+(P2P, miner | High | flexible and featureful | lifecycle ownership still blurred | Medium |) Tj
+T*
+(| Consensus coordinator | canonical tx/block admission | Src/Main/consensus.py | Python | txs,) Tj
+T*
+ET
+endstream
+endobj
+24 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 25 0 R >>
+endobj
+25 0 obj
+<< /Length 4476 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(blocks, stores, state | accept/reject decisions, state writes | verifier, storage, emission,) Tj
+T*
+(bondstake | Very high | explicit admission gate | adjacent logic still duplicated elsewhere |) Tj
+T*
+(Medium |) Tj
+T*
+(| Transaction model | canonical transaction representation | Src/Transactions/tx.py, txin.py,) Tj
+T*
+(txout.py | Python | transaction fields | objects, dicts, txid/signing-hash material | hashing,) Tj
+T*
+(codecs, fee logic | Very high | strong conceptual model | too much repeated normalization |) Tj
+T*
+(Medium |) Tj
+T*
+(| Canonical codec/wire helpers | compact and canonical encoding | Src/Transactions/txbinary.py,) Tj
+T*
+(Src/Utility/wirecodec.py, Src/Utility/txdhash.py | Python + C helper | dicts, bytes, hex/b64 |) Tj
+T*
+(canonical bytes, txids, hashes | transaction model | Very high | visible codec boundaries exist) Tj
+T*
+(| not centralized enough | Medium/Low |) Tj
+T*
+(| Tx verification | input spendability, signatures, fee checks | Src/Main/txveri.py,) Tj
+T*
+(Src/Transactions/txvalidation.py | Python + C/native | txs, UTXO state, signatures | validity) Tj
+T*
+(verdicts | UTXO store, Falcon, batch checker | Very high | native helpers already exist |) Tj
+T*
+(duplicated authority | Medium/Low |) Tj
+T*
+(| Block verification and commit | block validity and canonical commit | Src/Main/blockveri.py,) Tj
+T*
+(Src/Blockchain/blockchain.py | Python | blocks, txs, stores | committed state or rejection |) Tj
+T*
+(verifier, stores, emission | Very high | journaled commit recovery | complexity is high | Medium) Tj
+T*
+(|) Tj
+T*
+(| Orphan/reorg manager | branch handling and replay | Src/Blockchain/orphreorgs.py | Python |) Tj
+T*
+(side branches, canonical state | winning branch, rollback/replay | block store, UTXO, private,) Tj
+T*
+(bondstake | Very high | serious reorg machinery exists | needs stronger proof | Medium |) Tj
+T*
+(| Mempool | pending tx storage and indexes | Src/Storage/mempool.py | Python + LMDB | admitted) Tj
+T*
+(txs | candidate tx lists, relay state | consensus, miner, P2P | High | persistence + RAM indices) Tj
+T*
+(| shared-state complexity | Medium |) Tj
+T*
+(| UTXO store | canonical spendable public state | Src/Storage/utxostorage.py | Python + LMDB |) Tj
+T*
+(blocks, txs, reverts | UTXO lookups, spend/unspend updates | blockchain, verifier | Very high |) Tj
+T*
+(explicit write guard and recovery handling | rich recovery options add complexity | Medium/High) Tj
+T*
+(|) Tj
+T*
+(| Private state manager | notes, nullifiers, anchors, rebuild |) Tj
+T*
+(Src/Storage/private_notes_store.py | Python + LMDB | private tx data, blocks |) Tj
+T*
+(note/nullifier/anchor state | private layer, reorg manager | Very high | explicit state domain) Tj
+T*
+(exists | correctness still not fully proven | Low/Medium |) Tj
+T*
+(| Private proof path | build/verify aggregate proof | Src/Transactions/private_layer.py, Rust) Tj
+T*
+(backend scripts/crates | Python + Rust backend | block-mode private statements | proof verdicts,) Tj
+T*
+(proof payloads | STARK runtime, private state | Very high | design intent is strong | subprocess) Tj
+T*
+(boundary is weak | Low |) Tj
+T*
+(| Wallet/key management | deterministic keys and signing | Src/Accounts/*, Src/Wallet/* | Python) Tj
+T*
+(+ native wrappers | mnemonic, key material, tx intents | signed txs, bundles, note data |) Tj
+T*
+(Falcon, Kyber, private layer | High | deterministic hierarchy work is strong | still complex,) Tj
+T*
+(many modes | Medium |) Tj
+T*
+(| Mining assembly | candidate selection and coinbase | Src/Miner/miner.py | Python | mempool,) Tj
+T*
+(tip, payout state | block candidates | mempool, PoW, bondstake, private layer | High |) Tj
+T*
+(comprehensive miner logic | expensive JSON-based sizing loops | Medium |) Tj
+T*
+(| PoW execution | nonce search and hash loops | Src/Miner/pow.py, native CPU bridge, GPU backend) Tj
+T*
+(files | Python + C/C++/CUDA/OpenCL | work header, target | valid nonce/proof | miner, block) Tj
+T*
+(storage | High | correct use of native compute | Python fallback still exists | Medium/High |) Tj
+T*
+(| P2P/networking | peer communication and sync | Src/Network/p2pserver.py, peers.py, sync.py |) Tj
+T*
+(Python | peer sockets, network data | tx/block relay, sync, peer state | consensus, mempool,) Tj
+T*
+(block store | High | custom full-stack implementation exists | heavy internal conversion churn |) Tj
+T*
+(Medium |) Tj
+T*
+(| Bond/stake state | miner eligibility and payout state | Src/Storage/bondstake.py,) Tj
+T*
+ET
+endstream
+endobj
+26 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 27 0 R >>
+endobj
+27 0 obj
+<< /Length 3516 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(consensus/reorg hooks | Python + LMDB | block state, bond/stake ops | eligibility, rebuild) Tj
+T*
+(state, payout context | consensus, miner, API | Very high | explicit state domain and rebuild) Tj
+T*
+(hooks | replay proof still needed | Medium |) Tj
+T*
+(| Emission and fee routing | subsidy, burn, pool routing, coinbase closure |) Tj
+T*
+(Src/Main/emission.py, Src/Transactions/coinbase.py, Src/Utility/const.py | Python | height,) Tj
+T*
+(block fees, block txs | reward and accounting verdicts | consensus, miner | Very high | explicit) Tj
+T*
+(policy now centralized better | some docs were stale and broader sync remains | Medium/High |) Tj
+T*
+(| API layer | local and integration interface | Src/Api/apis.py, Src/Api/auth.py | Python | HTTP) Tj
+T*
+(requests, node state | query and command responses | consensus, stores, wallet, runtime | High |) Tj
+T*
+(broad surface already exists | ownership is too broad and mixed | Medium |) Tj
+T*
+(| GUI layer | desktop user experience | Src/GUI/gui.py | Python | user actions, backend) Tj
+T*
+(responses | node control, wallet interaction, display | API/runtime | Medium | feature-rich |) Tj
+T*
+(monolithic structure | Low/Medium |) Tj
+T*
+(| Packaging/runtime docs | deployment and OS/runtime behavior | Docs/Packaging.md, later) Tj
+T*
+(blueprint docs | Markdown | current repo state | packaging guidance | runtime structure | Medium) Tj
+T*
+(strategic | planning work exists | implementation not complete | Low/Medium |) Tj
+T*
+(| External interface planning | explorer/exchange/public API strategy | later blueprint docs |) Tj
+T*
+(Markdown | current API/runtime | interface recommendations | API/query layer | Medium strategic) Tj
+T*
+(| good blueprint exists | implementation not complete | Low/Medium |) Tj
+T*
+(| Tests and audit harnesses | assurance and regression | tests/*, audit helpers | Python |) Tj
+T*
+(vectors, fixtures, runtime data | verdicts, regressions | entire system | Very high strategic |) Tj
+T*
+(multiple focused tests already exist | coverage still incomplete in key areas | Medium |) Tj
+T*
+() Tj
+T*
+(6.3 Subsystem categorization by concern) Tj
+T*
+() Tj
+T*
+(| Subsystem | Consensus-Critical | Performance-Critical | Security-Critical |) Tj
+T*
+(Orchestration-Heavy |) Tj
+T*
+(|---|---|---|---|---|) Tj
+T*
+(| consensus coordinator | Yes | High | Yes | Yes |) Tj
+T*
+(| tx verification | Yes | Very high | Yes | Medium |) Tj
+T*
+(| codec/txid/sighash | Yes | High | Yes | Medium |) Tj
+T*
+(| block commit/reorg | Yes | High | Yes | High |) Tj
+T*
+(| private state/proof path | Yes | Very high | Yes | High |) Tj
+T*
+(| mining assembly | Yes | High | Medium | High |) Tj
+T*
+(| PoW backend | Yes | Very high | Medium | Low |) Tj
+T*
+(| P2P stack | Yes | High | High | High |) Tj
+T*
+(| API/GUI | No direct consensus authority should exist | Medium | Medium | Very high |) Tj
+T*
+(| packaging/update/deployment | No direct consensus authority | Low/Medium | High | High |) Tj
+T*
+() Tj
+T*
+(6.4 Inventory conclusions) Tj
+T*
+() Tj
+T*
+(The repo does not need more major subsystems. It needs:) Tj
+T*
+(- clearer authority) Tj
+T*
+(- fewer duplicated semantics) Tj
+T*
+(- better internal contracts) Tj
+T*
+(- stronger proof that side-state domains remain coherent across replay and recovery) Tj
+T*
+(- better packaging and public interface discipline around the existing runtime) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- End-to-End Flow Analysis) Tj
+T*
+() Tj
+T*
+(This section maps the operational flows Atho actually needs to get right for a production) Tj
+T*
+ET
+endstream
+endobj
+28 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 29 0 R >>
+endobj
+29 0 obj
+<< /Length 1837 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(launch.) Tj
+T*
+() Tj
+T*
+(7.1 Node startup flow) Tj
+T*
+() Tj
+T*
+(**Entry points**) Tj
+T*
+(- run.py) Tj
+T*
+(- runnode.py) Tj
+T*
+() Tj
+T*
+(**Main systems involved**) Tj
+T*
+(- launcher/runtime) Tj
+T*
+(- storage repositories) Tj
+T*
+(- consensus manager) Tj
+T*
+(- API) Tj
+T*
+(- P2P) Tj
+T*
+(- miner) Tj
+T*
+(- native readiness checks) Tj
+T*
+() Tj
+T*
+(**Step-by-step**) Tj
+T*
+(- Launcher resolves runtime mode, environment, and role.) Tj
+T*
+(- runnode.py loads constants and network-specific settings.) Tj
+T*
+(- Native binaries and shared objects are checked for availability or policy compliance.) Tj
+T*
+(- LMDB-backed stores are opened.) Tj
+T*
+(- Block commit journal recovery runs if needed.) Tj
+T*
+(- Reorg journal recovery runs if needed.) Tj
+T*
+(- Bond/stake and private-state rebuild hooks may execute.) Tj
+T*
+(- Consensus runtime is assembled.) Tj
+T*
+(- API, P2P, miner, and supporting workers start according to role.) Tj
+T*
+(- Node transitions to a state that may be alive before it is fully ready.) Tj
+T*
+() Tj
+T*
+(**Trust boundaries**) Tj
+T*
+(- launcher vs runtime) Tj
+T*
+(- runtime vs storage) Tj
+T*
+(- runtime vs native binary dependencies) Tj
+T*
+(- runtime readiness vs mere process liveness) Tj
+T*
+() Tj
+T*
+(**Bottlenecks**) Tj
+T*
+(- store open/recovery under large state) Tj
+T*
+(- full rebuilds after interrupted or inconsistent state) Tj
+T*
+(- binary readiness and fallback handling) Tj
+T*
+() Tj
+T*
+(**Consensus-sensitive steps**) Tj
+T*
+(- commit journal recovery) Tj
+T*
+(- reorg journal recovery) Tj
+T*
+(- side-state rebuild from chain) Tj
+T*
+() Tj
+T*
+(**Failure points**) Tj
+T*
+(- partial recovery) Tj
+T*
+(- store initialization mismatch) Tj
+T*
+(- native backend missing or mismatched) Tj
+T*
+(- API/process alive before consensus-safe readiness) Tj
+T*
+() Tj
+T*
+(**Current language fit**) Tj
+T*
+ET
+endstream
+endobj
+30 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 31 0 R >>
+endobj
+31 0 obj
+<< /Length 1797 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- keep in Python) Tj
+T*
+() Tj
+T*
+(**Likely migration candidates**) Tj
+T*
+(- none as a language target) Tj
+T*
+(- this flow needs better lifecycle and readiness semantics, not a native rewrite) Tj
+T*
+() Tj
+T*
+(7.2 Wallet send flow) Tj
+T*
+() Tj
+T*
+(**Entry points**) Tj
+T*
+(- API send endpoints) Tj
+T*
+(- wallet send logic) Tj
+T*
+(- GUI-triggered send requests) Tj
+T*
+() Tj
+T*
+(**Main systems involved**) Tj
+T*
+(- API layer) Tj
+T*
+(- transaction manager) Tj
+T*
+(- wallet/key manager) Tj
+T*
+(- private spend builder when relevant) Tj
+T*
+(- consensus admission) Tj
+T*
+() Tj
+T*
+(**Step-by-step**) Tj
+T*
+(- User or caller creates a send intent.) Tj
+T*
+(- API or wallet layer parses amount, destination, network, and optional private parameters.) Tj
+T*
+(- UTXO or note selection occurs.) Tj
+T*
+(- Transaction model is built.) Tj
+T*
+(- Canonical fields are frozen.) Tj
+T*
+(- Signing occurs through Falcon path.) Tj
+T*
+(- Private vectors and note payloads are attached if private path is used.) Tj
+T*
+(- Final standardized tx is submitted to consensus for admission.) Tj
+T*
+() Tj
+T*
+(**Trust boundaries**) Tj
+T*
+(- GUI/API input boundary) Tj
+T*
+(- wallet state vs canonical chain state) Tj
+T*
+(- signing boundary) Tj
+T*
+(- public/private build boundary) Tj
+T*
+() Tj
+T*
+(**Bottlenecks**) Tj
+T*
+(- repeated canonicalization) Tj
+T*
+(- UTXO selection / note selection under large wallet state) Tj
+T*
+(- proof-related setup for private sends) Tj
+T*
+() Tj
+T*
+(**Consensus-sensitive steps**) Tj
+T*
+(- canonical tx body) Tj
+T*
+(- signatures) Tj
+T*
+(- fee correctness) Tj
+T*
+(- private-vector semantics) Tj
+T*
+() Tj
+T*
+(**Failure points**) Tj
+T*
+(- stale local wallet view) Tj
+T*
+(- double-submission/idempotency confusion) Tj
+T*
+(- private/public accounting mismatch) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+32 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 33 0 R >>
+endobj
+33 0 obj
+<< /Length 1516 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**Current language fit**) Tj
+T*
+(- wallet orchestration should stay in Python) Tj
+T*
+() Tj
+T*
+(**Likely migration candidates**) Tj
+T*
+(- canonical codec/preimage builder) Tj
+T*
+() Tj
+T*
+(7.3 Transaction construction flow) Tj
+T*
+() Tj
+T*
+(**Entry points**) Tj
+T*
+(- txmanager) Tj
+T*
+(- Transaction\(...\)) Tj
+T*
+(- private spend helpers) Tj
+T*
+() Tj
+T*
+(**Main systems involved**) Tj
+T*
+(- transaction model) Tj
+T*
+(- fee logic) Tj
+T*
+(- key manager) Tj
+T*
+(- private note construction) Tj
+T*
+() Tj
+T*
+(**Step-by-step**) Tj
+T*
+(- Inputs and outputs are normalized.) Tj
+T*
+(- Metadata, version, and network fields are assigned.) Tj
+T*
+(- Canonical transaction data is frozen.) Tj
+T*
+(- txid is derived from no-witness form.) Tj
+T*
+(- signing hash is derived.) Tj
+T*
+(- size/vsize/fee information is computed or updated.) Tj
+T*
+() Tj
+T*
+(**Bottlenecks**) Tj
+T*
+(- object/dict churn) Tj
+T*
+(- signing preimage generation) Tj
+T*
+(- repeated size estimation) Tj
+T*
+() Tj
+T*
+(**Consensus-sensitive steps**) Tj
+T*
+(- txid) Tj
+T*
+(- signing hash) Tj
+T*
+(- canonical field order) Tj
+T*
+() Tj
+T*
+(**Likely migration candidates**) Tj
+T*
+(- canonical codec and preimage builder) Tj
+T*
+() Tj
+T*
+(7.4 Signing flow) Tj
+T*
+() Tj
+T*
+(**Entry points**) Tj
+T*
+(- wallet signing) Tj
+T*
+(- transaction model hash calculation) Tj
+T*
+() Tj
+T*
+(**Main systems involved**) Tj
+T*
+(- canonical tx helper) Tj
+T*
+(- Falcon signing path) Tj
+T*
+(- Falcon verification bridge) Tj
+T*
+() Tj
+T*
+(**Step-by-step**) Tj
+T*
+ET
+endstream
+endobj
+34 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 35 0 R >>
+endobj
+35 0 obj
+<< /Length 1689 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Transaction is converted to signing preimage form.) Tj
+T*
+(- Signing message is encoded deterministically.) Tj
+T*
+(- Falcon signing key signs.) Tj
+T*
+(- Verification later recreates the same message.) Tj
+T*
+() Tj
+T*
+(**Trust boundaries**) Tj
+T*
+(- Python transaction model -> native Falcon operations) Tj
+T*
+() Tj
+T*
+(**Bottlenecks**) Tj
+T*
+(- preimage construction) Tj
+T*
+(- signature cost) Tj
+T*
+(- conversion overhead into native FFI-friendly format) Tj
+T*
+() Tj
+T*
+(**Consensus-sensitive steps**) Tj
+T*
+(- exact preimage contents) Tj
+T*
+(- network-domain separation) Tj
+T*
+() Tj
+T*
+(**Likely migration candidates**) Tj
+T*
+(- signing-preimage builder) Tj
+T*
+() Tj
+T*
+(7.5 Transaction validation flow) Tj
+T*
+() Tj
+T*
+(**Entry points**) Tj
+T*
+(- consensus accept_tx) Tj
+T*
+(- block tx verification) Tj
+T*
+(- P2P tx ingress) Tj
+T*
+() Tj
+T*
+(**Main systems involved**) Tj
+T*
+(- consensus.py) Tj
+T*
+(- txveri.py) Tj
+T*
+(- txvalidation.py) Tj
+T*
+(- UTXO store) Tj
+T*
+(- Falcon verify bridge) Tj
+T*
+() Tj
+T*
+(**Step-by-step**) Tj
+T*
+(- Incoming tx is decoded and standardized.) Tj
+T*
+(- Transaction object or equivalent canonical form is built.) Tj
+T*
+(- Basic structural checks run.) Tj
+T*
+(- UTXO references are checked.) Tj
+T*
+(- signature checks run) Tj
+T*
+(- maturity and fee checks run) Tj
+T*
+(- private checks run if present) Tj
+T*
+(- tx is admitted or rejected) Tj
+T*
+() Tj
+T*
+(**Trust boundaries**) Tj
+T*
+(- wire decode -> canonical form) Tj
+T*
+(- public validity -> private validity) Tj
+T*
+(- Python verifier -> native helper calls) Tj
+T*
+() Tj
+T*
+(**Bottlenecks**) Tj
+T*
+(- duplicate verification code paths) Tj
+T*
+(- repeated normalization) Tj
+T*
+ET
+endstream
+endobj
+36 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 37 0 R >>
+endobj
+37 0 obj
+<< /Length 1995 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- UTXO read patterns) Tj
+T*
+(- signature verification) Tj
+T*
+() Tj
+T*
+(**Consensus-sensitive steps**) Tj
+T*
+(- the entire flow) Tj
+T*
+() Tj
+T*
+(**Failure points**) Tj
+T*
+(- semantic drift between two validators) Tj
+T*
+(- fallback behavior under missing native helper) Tj
+T*
+(- repeated parse/convert logic causing inconsistencies) Tj
+T*
+() Tj
+T*
+(**Likely migration candidates**) Tj
+T*
+(- narrow validation kernels beneath one unified authority) Tj
+T*
+() Tj
+T*
+(7.6 Mempool admission flow) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(**Observations**) Tj
+T*
+(- The mempool is not just a cache. It is part of the runtime?s performance and correctness) Tj
+T*
+(envelope.) Tj
+T*
+(- Mempool admission must remain clearly separated from broader policy conveniences.) Tj
+T*
+(- The mempool store already has persistence and indexing features; the main current risk is) Tj
+T*
+(semantic duplication and stale-read patterns rather than lack of sophistication.) Tj
+T*
+() Tj
+T*
+(7.7 Private transaction flow) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(**Step-by-step**) Tj
+T*
+(- Wallet/private builder creates private inputs and outputs.) Tj
+T*
+(- Nullifiers, anchors, and payload bounds are validated for mempool semantics.) Tj
+T*
+(- Mempool stores pending semantics.) Tj
+T*
+(- Miner converts private outputs into block-mode form.) Tj
+T*
+(- Proof statement is derived from block canonical data.) Tj
+T*
+(- Python calls external proof backend tooling.) Tj
+T*
+(- Proof is attached to the block.) Tj
+T*
+(- Validators re-derive the statement and verify the proof.) Tj
+T*
+(- On commit, note/nullifier/anchor state advances.) Tj
+T*
+() Tj
+T*
+(**Trust boundaries**) Tj
+T*
+(- wallet builder -> canonical private tx form) Tj
+T*
+(- Python private layer -> proof backend) Tj
+T*
+(- proof verification -> private notes store) Tj
+T*
+() Tj
+T*
+(**Bottlenecks**) Tj
+T*
+(- subprocess overhead) Tj
+T*
+(- statement serialization/parsing) Tj
+T*
+(- note/nullifier/anchor verification) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+38 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 39 0 R >>
+endobj
+39 0 obj
+<< /Length 1620 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**Failure points**) Tj
+T*
+(- proof backend unavailable or misconfigured) Tj
+T*
+(- statement mismatch) Tj
+T*
+(- note-amount knowledge mismatch) Tj
+T*
+(- apply/revert asymmetry) Tj
+T*
+() Tj
+T*
+(**Consensus-sensitive steps**) Tj
+T*
+(- all of them) Tj
+T*
+() Tj
+T*
+(**Likely migration candidates**) Tj
+T*
+(- proof transport boundary) Tj
+T*
+(- statement-building support library) Tj
+T*
+() Tj
+T*
+(7.8 Staking flow) Tj
+T*
+() Tj
+T*
+(**Entry points**) Tj
+T*
+(- stake-related transaction intents) Tj
+T*
+(- consensus-accepted stake ops) Tj
+T*
+() Tj
+T*
+(**Main systems involved**) Tj
+T*
+(- bond/stake store) Tj
+T*
+(- consensus manager) Tj
+T*
+(- payout logic) Tj
+T*
+(- API/query surfaces) Tj
+T*
+() Tj
+T*
+(**Step-by-step**) Tj
+T*
+(- Stake operation is encoded in transaction metadata or domain-specific fields.) Tj
+T*
+(- Consensus admits the operation if valid.) Tj
+T*
+(- bond/stake store updates active state.) Tj
+T*
+(- Eligibility and reward participation change over time and confirmations.) Tj
+T*
+(- Unstake or withdrawal begins a delayed release flow.) Tj
+T*
+() Tj
+T*
+(**Key risk**) Tj
+T*
+(- the arithmetic is not the hard part) Tj
+T*
+(- replay, rebuild, and deterministic interpretation are the hard parts) Tj
+T*
+() Tj
+T*
+(7.9 Bond lifecycle flow) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(**Key risk**) Tj
+T*
+(- bond state must remain deterministic across reorg and restart) Tj
+T*
+(- miner eligibility must not depend on stale local caches) Tj
+T*
+() Tj
+T*
+(7.10 Block assembly flow) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(**Bottlenecks**) Tj
+T*
+(- repeated JSON-based size estimation) Tj
+T*
+ET
+endstream
+endobj
+40 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 41 0 R >>
+endobj
+41 0 obj
+<< /Length 1554 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- tx selection loops) Tj
+T*
+(- private transformation/proof work) Tj
+T*
+() Tj
+T*
+(**Consensus-sensitive steps**) Tj
+T*
+(- coinbase construction) Tj
+T*
+(- fee routing) Tj
+T*
+(- private output transform) Tj
+T*
+(- miner eligibility/payout state) Tj
+T*
+() Tj
+T*
+(7.11 Block verification flow) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(**Key current-state observation**) Tj
+T*
+(- block verification is already a broad orchestration stage rather than a single helper call) Tj
+T*
+(- do not rewrite this wholesale before centralizing supporting semantics) Tj
+T*
+() Tj
+T*
+(7.12 Mining flow) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(**Current strength**) Tj
+T*
+(- native search loops are already used where it matters) Tj
+T*
+() Tj
+T*
+(**Current weakness**) Tj
+T*
+(- work preparation and candidate packing still pay too much Python/serialization overhead) Tj
+T*
+() Tj
+T*
+(7.13 Reward routing flow) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(**Key current-state observation**) Tj
+T*
+(- monetary policy is no longer just a whitepaper matter; it is codified in constants and) Tj
+T*
+(monitors) Tj
+T*
+(- the remaining risk is keeping all active sources aligned and ensuring every block-path check) Tj
+T*
+(uses the same rules) Tj
+T*
+() Tj
+T*
+(7.14 Emissions path flow) Tj
+T*
+() Tj
+T*
+(**Entry points**) Tj
+T*
+(- block acceptance) Tj
+T*
+(- emission monitor) Tj
+T*
+(- coinbase validation) Tj
+T*
+() Tj
+T*
+(**Main systems involved**) Tj
+T*
+(- constants) Tj
+T*
+(- emission monitor) Tj
+T*
+(- consensus) Tj
+T*
+(- miner/coinbase builder) Tj
+T*
+ET
+endstream
+endobj
+42 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 43 0 R >>
+endobj
+43 0 obj
+<< /Length 1902 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(**Key steps**) Tj
+T*
+(- height determines current subsidy) Tj
+T*
+(- all block fees are routed directly to the miner coinbase path) Tj
+T*
+(- coinbase outputs are checked against subsidy + total collected fees) Tj
+T*
+(- no burn or fee-pool split is applied) Tj
+T*
+(- hard-cap and zero-tail invariants constrain subsidy behavior) Tj
+T*
+() Tj
+T*
+(7.15 Current fee and subsidy closure) Tj
+T*
+() Tj
+T*
+(**Key current interpretation**) Tj
+T*
+(- reward starts at 100 ATHO/block and decays once per 720-block day) Tj
+T*
+(- subsidy reaches zero at height 78,894,000) Tj
+T*
+(- all collected fees route to the miner) Tj
+T*
+(- post-cap protocol supply is flat because there is no tail reward and no protocol burn) Tj
+T*
+() Tj
+T*
+(7.16 Canonical serialization / txid / sighash flow) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(**Key current weakness**) Tj
+T*
+(- canonicalization logic is too distributed) Tj
+T*
+() Tj
+T*
+(7.17 LMDB read / write flow) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(**Key current strength**) Tj
+T*
+(- explicit write-guard semantics exist) Tj
+T*
+() Tj
+T*
+(**Key current weakness**) Tj
+T*
+(- there are many stores and many context boundaries; the problem is not lack of discipline but) Tj
+T*
+(complexity of proving it) Tj
+T*
+() Tj
+T*
+(7.18 Audit and validation flow) Tj
+T*
+() Tj
+T*
+(**Current behavior**) Tj
+T*
+(- runtime logs and audit artifacts exist) Tj
+T*
+(- prior audit docs exist) Tj
+T*
+(- tests cover several important areas) Tj
+T*
+() Tj
+T*
+(**Needed production interpretation**) Tj
+T*
+(- audit/validation must become continuous release gating, not periodic documentation) Tj
+T*
+() Tj
+T*
+(7.19 Deployment / initialization flow) Tj
+T*
+() Tj
+T*
+(**Current state**) Tj
+T*
+(- packaging and runtime layout planning exist in docs) Tj
+T*
+(- installer/updater/runtime topology is not yet fully implemented as a polished product surface) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+44 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 45 0 R >>
+endobj
+45 0 obj
+<< /Length 2436 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**Production implication**) Tj
+T*
+(- packaging and runtime isolation are now part of correctness and user safety, not just polish) Tj
+T*
+() Tj
+T*
+(7.20 Flow-analysis conclusions) Tj
+T*
+() Tj
+T*
+(Across all major flows, the same structural themes recur:) Tj
+T*
+(- semantics are broad enough to support production, but still too duplicated in places) Tj
+T*
+(- canonical encoding and validation are the most important centralization targets) Tj
+T*
+(- the private proof boundary is the weakest runtime boundary in the system) Tj
+T*
+(- recovery/replay correctness is the most important state-machine proof requirement after basic) Tj
+T*
+(validity) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Audit Consolidation) Tj
+T*
+() Tj
+T*
+(8.1 Audits and source reviews consolidated) Tj
+T*
+() Tj
+T*
+(This proposal consolidates findings from:) Tj
+T*
+(- verification-grade architecture audit) Tj
+T*
+(- verification-grade consensus audit) Tj
+T*
+(- production-grade refactoring blueprint) Tj
+T*
+(- production desktop and external-interface blueprint) Tj
+T*
+(- master prioritized checklist) Tj
+T*
+(- current repo performance/language migration audit) Tj
+T*
+(- current repo source inspection) Tj
+T*
+(- current test evidence) Tj
+T*
+() Tj
+T*
+(8.2 What has passed) Tj
+T*
+() Tj
+T*
+(| Category | Current Evidence | Strength |) Tj
+T*
+(|---|---|---|) Tj
+T*
+(| monetary schedule invariants | current hard-cap tests pass | solid local signal |) Tj
+T*
+(| some private/public accounting logic | txmanager private accounting tests pass | moderate) Tj
+T*
+(local signal |) Tj
+T*
+(| some wallet/private-note preview behavior | note preview test passes | moderate local signal |) Tj
+T*
+(| some recovery behavior | state tracker recovery test passes | moderate local signal |) Tj
+T*
+(| existence of reorg and commit recovery machinery | code inspection confirms this | strong) Tj
+T*
+(architecture signal |) Tj
+T*
+() Tj
+T*
+(8.3 What has failed) Tj
+T*
+() Tj
+T*
+(| Category | Evidence | Severity |) Tj
+T*
+(|---|---|---|) Tj
+T*
+(| private-layer pipeline | 4 failing tests in tests.test_private_layer_pipeline | Critical |) Tj
+T*
+() Tj
+T*
+(8.4 What is inconclusive) Tj
+T*
+() Tj
+T*
+(| Area | Why It Is Inconclusive |) Tj
+T*
+(|---|---|) Tj
+T*
+(| full single-authority validation discipline | because duplicated validator surfaces still) Tj
+T*
+(exist |) Tj
+T*
+(| complete private replay/reorg safety | because current tests and current proof boundary do not) Tj
+T*
+ET
+endstream
+endobj
+46 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 47 0 R >>
+endobj
+47 0 obj
+<< /Length 3536 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(fully prove it |) Tj
+T*
+(| full production packaging safety | because planning docs exist but product-hardening) Tj
+T*
+(implementation is incomplete |) Tj
+T*
+(| ecosystem integration stability | because public-safe contracts are not yet fully formalized |) Tj
+T*
+() Tj
+T*
+(8.5 Audit issue table by category) Tj
+T*
+() Tj
+T*
+(| Issue Title | Category | Why It Matters | Affected Subsystem | Severity | Nature of Risk |) Tj
+T*
+(Recommended Remediation | Validation After Remediation |) Tj
+T*
+(|---|---|---|---|---|---|---|---|) Tj
+T*
+(| Duplicate tx validation authority | Consensus correctness | semantic drift can fork or hide) Tj
+T*
+(bugs | validator path | Critical | consensus + maintainability | centralize one canonical) Tj
+T*
+(validator | vector parity + code review + regression suite |) Tj
+T*
+(| Private proof subprocess boundary | Private tx / operational | fragile runtime boundary in) Tj
+T*
+(consensus-adjacent path | private layer | Critical | correctness + operability | move to FFI or) Tj
+T*
+(persistent worker | pipeline + chaos + timeout tests |) Tj
+T*
+(| Private pipeline failures | Private tx correctness | direct evidence of unresolved logic |) Tj
+T*
+(private layer | Critical | consensus correctness | fix semantics before release | full suite) Tj
+T*
+(passes |) Tj
+T*
+(| Codec and txid/sighash distribution | Serialization | drift across builders/verifiers/miners) Tj
+T*
+(can cause inconsistent interpretation | tx model and codec | High | consensus + maintainability) Tj
+T*
+(| central codec authority | golden vectors |) Tj
+T*
+(| Reorg/replay side-state complexity | Replay / recovery | private and bond/stake state must) Tj
+T*
+(stay coherent | blockchain/reorg/private/bondstake | High | consensus safety | strengthen) Tj
+T*
+(invariants and replay tests | deep reorg/restart suites |) Tj
+T*
+(| JSON-heavy internal hot paths | Performance | wastes CPU and obscures canonical boundaries |) Tj
+T*
+(miner, P2P, stores | High | performance + maintainability | central codec, reduce JSON usage in) Tj
+T*
+(hot paths | benchmarks |) Tj
+T*
+(| Documentation authority drift | Governance | contributors can implement against stale rules |) Tj
+T*
+(docs/policy | High | maintainability + correctness | source authority map and stale-doc) Tj
+T*
+(quarantine | documentation review gate |) Tj
+T*
+(| Broad API ownership | Architecture | transport, runtime assembly, and business logic are too) Tj
+T*
+(mixed | API | Medium/High | maintainability + operability | gateway/facade separation | API) Tj
+T*
+(contract and integration tests |) Tj
+T*
+(| GUI/backend state inference | Product/control plane | GUI may infer truth from scattered reads) Tj
+T*
+(| GUI/API | Medium | usability + consistency | event/read-model cleanup | GUI/store tests |) Tj
+T*
+(| Packaging/runtime separation gap | Deployment | user/operator safety depends on clean) Tj
+T*
+(per-network data separation | packaging/runtime | Medium | operational safety | implement) Tj
+T*
+(packaging blueprint | installer/update tests |) Tj
+T*
+() Tj
+T*
+(8.6 Consensus correctness risk summary) Tj
+T*
+() Tj
+T*
+(Open consensus-adjacent risks are concentrated in:) Tj
+T*
+(- validator authority duplication) Tj
+T*
+(- private proof boundary) Tj
+T*
+(- replay/reorg side-state proof) Tj
+T*
+(- canonical codec distribution) Tj
+T*
+() Tj
+T*
+(8.7 Cryptographic integration risk summary) Tj
+T*
+() Tj
+T*
+(Current cryptographic boundary risks are less about ?wrong algorithm choice? and more about:) Tj
+T*
+(- preimage and canonical encoding centralization) Tj
+T*
+ET
+endstream
+endobj
+48 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 49 0 R >>
+endobj
+49 0 obj
+<< /Length 2317 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- consistent FFI/backend invocation) Tj
+T*
+(- avoiding subprocess and file/stdio fragility in proof operations) Tj
+T*
+() Tj
+T*
+(8.8 Performance/scaling risk summary) Tj
+T*
+() Tj
+T*
+(The strongest performance risks are architectural:) Tj
+T*
+(- repeated canonicalization) Tj
+T*
+(- repeated JSON conversion) Tj
+T*
+(- repeated object churn) Tj
+T*
+(- noisy boundary crossings) Tj
+T*
+() Tj
+T*
+(8.9 Operational/deployment risk summary) Tj
+T*
+() Tj
+T*
+(The major operational risks are:) Tj
+T*
+(- blurred lifecycle ownership) Tj
+T*
+(- partial-ready runtime states) Tj
+T*
+(- incomplete packaging/update/network-separation implementation) Tj
+T*
+() Tj
+T*
+(8.10 Audit consolidation conclusion) Tj
+T*
+() Tj
+T*
+(The overall audit picture is favorable in one sense: Atho?s problems are identifiable and) Tj
+T*
+(structured. There is no evidence here of a fundamentally incoherent system. The risks are real,) Tj
+T*
+(but they are concentrated and actionable.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Performance and Bottleneck Evaluation) Tj
+T*
+() Tj
+T*
+(9.1 Performance standard for Atho) Tj
+T*
+() Tj
+T*
+(Performance should be judged by the ability of the system to:) Tj
+T*
+(- validate mixed public/private traffic deterministically) Tj
+T*
+(- build and mine blocks without wasteful bottlenecks) Tj
+T*
+(- recover safely after interruption) Tj
+T*
+(- serve operator and external reads without destabilizing writes) Tj
+T*
+() Tj
+T*
+(That means performance is not only throughput. It includes:) Tj
+T*
+(- latency) Tj
+T*
+(- CPU efficiency) Tj
+T*
+(- boundary efficiency) Tj
+T*
+(- graceful degradation) Tj
+T*
+(- replay and recovery cost) Tj
+T*
+() Tj
+T*
+(9.2 Bottleneck table) Tj
+T*
+() Tj
+T*
+(| Bottleneck | Location | Type | Why Expensive | Beta-Acceptable? | Production-Acceptable? |) Tj
+T*
+(Best Fix |) Tj
+T*
+(|---|---|---|---|---|---|---|) Tj
+T*
+(| duplicated validation logic | txveri.py, txvalidation.py | CPU + architecture | repeated) Tj
+T*
+(semantics, repeated helper handling | barely | no | unify authority |) Tj
+T*
+(| txid/signing hash canonicalization | tx.py, txbinary.py, txdhash.py | CPU + serialization |) Tj
+T*
+(repeated dynamic normalization and encoding | yes | weak | central typed codec |) Tj
+T*
+(| Falcon verify preparation | tx verification paths | CPU + conversion | crypto cost plus Python) Tj
+T*
+ET
+endstream
+endobj
+50 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 51 0 R >>
+endobj
+51 0 obj
+<< /Length 2623 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(prep cost | yes | yes after cleanup | better batching/common prep path |) Tj
+T*
+(| UTXO lookups/checks | verifier + utxostorage.py | DB-bound + CPU | many small reads and) Tj
+T*
+(fallback logic | yes | needs improvement | canonical batch checker path |) Tj
+T*
+(| miner JSON size loops | miner.py | CPU + serialization | repeated json.dumps for size) Tj
+T*
+(estimation | yes | no | codec-backed size calculator |) Tj
+T*
+(| private proof subprocess calls | private_layer.py | subprocess-bound | process startup and) Tj
+T*
+(text parsing overhead | barely | no | FFI or persistent worker |) Tj
+T*
+(| P2P encode/decode churn | p2pserver.py | CPU + serialization | repeated) Tj
+T*
+(compact/decompact/standardize/JSON work | yes | weak | shared codec layer |) Tj
+T*
+(| private-state path validation | private notes store | CPU + DB | note/nullifier/anchor checks) Tj
+T*
+(and merkle verification | yes | maybe | profile, then optimize selectively |) Tj
+T*
+(| reorg side-state rebuilds | orphreorgs.py | CPU + IO | replay over multiple domains | yes |) Tj
+T*
+(only with stronger proof | invariants + better checkpoints |) Tj
+T*
+(| JSON-backed persisted payloads | multiple stores | CPU + memory | encode/decode overhead and) Tj
+T*
+(larger payload shape | yes | mixed | selective binary compaction later |) Tj
+T*
+() Tj
+T*
+(9.3 Repeated hashing and preimage work) Tj
+T*
+() Tj
+T*
+(Current likely hot hashing/preimage zones:) Tj
+T*
+(- txid generation) Tj
+T*
+(- signing-hash generation) Tj
+T*
+(- block proof preparation) Tj
+T*
+(- proof statement building) Tj
+T*
+() Tj
+T*
+(**Recommendation**) Tj
+T*
+(- centralize all canonical preimage work behind one shared library and one vector suite) Tj
+T*
+() Tj
+T*
+(9.4 Falcon sign/verify) Tj
+T*
+() Tj
+T*
+(**Current state**) Tj
+T*
+(- Falcon verify already uses native code) Tj
+T*
+(- the heavy remaining waste is often the data preparation around the native call rather than the) Tj
+T*
+(native verification itself) Tj
+T*
+() Tj
+T*
+(**Recommendation**) Tj
+T*
+(- keep Falcon crypto native) Tj
+T*
+(- reduce Python-side message-shaping churn) Tj
+T*
+(- improve batch verification use wherever semantically safe) Tj
+T*
+() Tj
+T*
+(9.5 Subprocess overhead) Tj
+T*
+() Tj
+T*
+(**Current state**) Tj
+T*
+(- proof path still shells out) Tj
+T*
+(- some build/admin flows legitimately use subprocess) Tj
+T*
+() Tj
+T*
+(**Production interpretation**) Tj
+T*
+(- subprocess is fine for build and deployment tooling) Tj
+T*
+(- subprocess is weak for hot, repeated, correctness-sensitive proof operations) Tj
+T*
+() Tj
+T*
+(9.6 JSON-heavy consensus paths) Tj
+T*
+() Tj
+T*
+(JSON is useful for:) Tj
+T*
+ET
+endstream
+endobj
+52 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 53 0 R >>
+endobj
+53 0 obj
+<< /Length 2063 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- configs) Tj
+T*
+(- API responses) Tj
+T*
+(- logs) Tj
+T*
+(- docs and examples) Tj
+T*
+() Tj
+T*
+(JSON is a weak fit for:) Tj
+T*
+(- repeated block-template sizing) Tj
+T*
+(- repeated internal canonical state representation) Tj
+T*
+(- high-frequency wire/validation conversions) Tj
+T*
+() Tj
+T*
+(9.7 LMDB access patterns) Tj
+T*
+() Tj
+T*
+(The main storage performance question is not ?is LMDB too slow?? The code suggests a different) Tj
+T*
+(story:) Tj
+T*
+(- LMDB is already being used correctly enough for serious state domains) Tj
+T*
+(- the bigger issue is how often payloads are transformed before and after LMDB access) Tj
+T*
+(- rebuild and replay patterns are more important than raw DB engine replacement) Tj
+T*
+() Tj
+T*
+(9.8 Miner candidate rebuild loops) Tj
+T*
+() Tj
+T*
+(This is one of the clearest optimization targets:) Tj
+T*
+(- current block packing repeatedly serializes objects for size estimation) Tj
+T*
+(- this is a case where a shared canonical size/vsize calculator would immediately remove waste) Tj
+T*
+(without changing protocol semantics) Tj
+T*
+() Tj
+T*
+(9.9 Performance conclusions) Tj
+T*
+() Tj
+T*
+(The performance plan should prioritize:) Tj
+T*
+(- semantic centralization) Tj
+T*
+(- codec centralization) Tj
+T*
+(- proof-boundary cleanup) Tj
+T*
+(- mining template efficiency) Tj
+T*
+(- only then secondary optimizations in storage payload shape and network internals) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Language and Refactor Strategy) Tj
+T*
+() Tj
+T*
+(10.1 Guiding principle) Tj
+T*
+() Tj
+T*
+(Do not migrate components just because they are in Python. Migrate only when there is a clear) Tj
+T*
+(benefit in one or more of:) Tj
+T*
+(- performance) Tj
+T*
+(- determinism) Tj
+T*
+(- boundary reliability) Tj
+T*
+(- auditability through typed interfaces) Tj
+T*
+() Tj
+T*
+(10.2 Python should continue doing) Tj
+T*
+(- consensus sequencing and high-level state-machine orchestration) Tj
+T*
+(- storage repository coordination) Tj
+T*
+(- runtime startup/shutdown logic) Tj
+T*
+(- API and GUI orchestration) Tj
+T*
+(- wallet/business logic) Tj
+T*
+ET
+endstream
+endobj
+54 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 55 0 R >>
+endobj
+55 0 obj
+<< /Length 2647 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- diagnostics and audit logging) Tj
+T*
+(- tests and tooling) Tj
+T*
+() Tj
+T*
+(10.3 Python should do less of) Tj
+T*
+(- repeated canonical serialization) Tj
+T*
+(- signing-preimage construction from loose dicts) Tj
+T*
+(- repeated JSON-heavy size and encoding calculations) Tj
+T*
+(- subprocess-driven proof orchestration) Tj
+T*
+(- duplicate low-level validation kernels) Tj
+T*
+() Tj
+T*
+(10.4 Best candidates for C/C++) Tj
+T*
+() Tj
+T*
+(| Component | Current Language | Proposed Language | Priority | Why | Notes |) Tj
+T*
+(|---|---|---|---|---|---|) Tj
+T*
+(| Falcon verify | already C | stay C | keep | already correct boundary | improve batching/use |) Tj
+T*
+(| UTXO batch checker | already C | stay C | high | good kernel, should become canonical fast) Tj
+T*
+(path | unify integration |) Tj
+T*
+(| CPU PoW search | already C | stay C | keep | right workload | reduce fallback reliance |) Tj
+T*
+(| GPU miner runtime | already C++ | stay C++ | keep | correct boundary | maintain isolation |) Tj
+T*
+() Tj
+T*
+(10.5 Best candidates for Rust) Tj
+T*
+() Tj
+T*
+(| Component | Current Language | Proposed Language | Priority | Why |) Tj
+T*
+(|---|---|---|---|---|) Tj
+T*
+(| canonical tx/block codec | Python | Rust | Critical | central typed codec and deterministic) Tj
+T*
+(boundary |) Tj
+T*
+(| signing-preimage builder | Python/C helper mix | Rust | Critical | same reason as codec) Tj
+T*
+(centralization |) Tj
+T*
+(| proof backend transport boundary | Python subprocess + Rust | Rust/FFI | Critical | remove) Tj
+T*
+(subprocess fragility |) Tj
+T*
+(| private proof statement helper | Python | Rust | High | typed statement generation and parity) Tj
+T*
+(|) Tj
+T*
+(| optional private merkle/path kernel | Python | Rust | Medium | only if profiling proves worth) Tj
+T*
+(|) Tj
+T*
+() Tj
+T*
+(10.6 Best candidates for CUDA/OpenCL) Tj
+T*
+() Tj
+T*
+(These remain optional mining-only acceleration paths. They should not become part of consensus) Tj
+T*
+(semantics. Their continued role is appropriate:) Tj
+T*
+(- optional performance backends) Tj
+T*
+(- isolated from canonical validity logic) Tj
+T*
+(- kept behind a narrow work/result interface) Tj
+T*
+() Tj
+T*
+(10.7 Components that should remain exactly where they are) Tj
+T*
+() Tj
+T*
+(| Component | Keep in Current Language? | Why |) Tj
+T*
+(|---|---|---|) Tj
+T*
+(| consensus coordinator | Yes, Python | complexity is semantic and orchestration-heavy |) Tj
+T*
+(| reorg manager | Yes, Python initially | replay correctness matters more than) Tj
+T*
+(micro-optimization |) Tj
+T*
+(| bond/stake policy engine | Yes, Python | determinism and rebuild proof matter more than raw) Tj
+T*
+(speed |) Tj
+T*
+ET
+endstream
+endobj
+56 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 57 0 R >>
+endobj
+57 0 obj
+<< /Length 2725 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(| API layer | Yes, Python | boundary cleanup matters more than native speed |) Tj
+T*
+(| GUI layer | Yes, Python | architecture and maintainability are the issue |) Tj
+T*
+(| storage repositories | Yes, Python | LMDB access pattern cleanup matters more than replacing) Tj
+T*
+(the layer |) Tj
+T*
+() Tj
+T*
+(10.8 Components that should be wrapped via FFI rather than rewritten) Tj
+T*
+(- codec and preimage helpers) Tj
+T*
+(- private proof backend) Tj
+T*
+(- merkle/path helper if needed) Tj
+T*
+(- validation kernels) Tj
+T*
+() Tj
+T*
+(The preferred model is:) Tj
+T*
+(- keep outer control in Python) Tj
+T*
+(- expose typed native functions with stable input/output contracts) Tj
+T*
+() Tj
+T*
+(10.9 Components that should be centralized before any migration) Tj
+T*
+(- transaction verification authority) Tj
+T*
+(- canonical tx/block representation) Tj
+T*
+(- signing-preimage logic) Tj
+T*
+(- block-template size/vsize calculation) Tj
+T*
+(- proof statement generation) Tj
+T*
+() Tj
+T*
+(10.10 Migration recommendation table) Tj
+T*
+() Tj
+T*
+(| Component | Current Language | Proposed Language | Migration Priority | Expected Benefit |) Tj
+T*
+(Consensus Risk | Complexity | Deployment Impact | Maintainability Impact |) Tj
+T*
+(|---|---|---|---|---|---|---|---|---|) Tj
+T*
+(| canonical codec | Python | Rust | Critical | high | high | high | medium | positive if) Tj
+T*
+(well-scoped |) Tj
+T*
+(| proof bridge transport | Python subprocess + Rust backend | Rust FFI/persistent worker |) Tj
+T*
+(Critical | high | high | high | medium/high | positive |) Tj
+T*
+(| miner size/vsize kernel | Python | Rust/C | High | medium/high | medium | medium | low |) Tj
+T*
+(positive |) Tj
+T*
+(| prepared validation kernel interface | Python + C helpers | Python outer + native inner | High) Tj
+T*
+(| medium/high | high | medium | low/medium | positive |) Tj
+T*
+(| P2P compact codec helper | Python | Rust/C | High | medium | medium | medium | medium |) Tj
+T*
+(positive |) Tj
+T*
+(| private merkle/path helper | Python | Rust | Medium | medium | high | high | medium | unknown) Tj
+T*
+(until profiled |) Tj
+T*
+(| full consensus rewrite | Python | native | Do not migrate | unclear | very high | very high |) Tj
+T*
+(high | negative near term |) Tj
+T*
+() Tj
+T*
+(10.11 Top 5 immediate native migration candidates) Tj
+T*
+(- canonical transaction/block codec and signing-preimage builder) Tj
+T*
+(- private proof bridge replacement) Tj
+T*
+(- miner size/vsize and block-template packing helper) Tj
+T*
+(- unified validation-kernel interface beneath one validator authority) Tj
+T*
+(- shared P2P compact codec helpers) Tj
+T*
+() Tj
+T*
+(10.12 Top 10 overall migration candidates) Tj
+T*
+(- canonical codec) Tj
+T*
+(- signing-preimage builder) Tj
+T*
+ET
+endstream
+endobj
+58 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 59 0 R >>
+endobj
+59 0 obj
+<< /Length 1868 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- proof transport boundary) Tj
+T*
+(- proof statement helper) Tj
+T*
+(- miner size/vsize kernel) Tj
+T*
+(- unified validation kernel interface) Tj
+T*
+(- shared P2P compact codec helper) Tj
+T*
+(- private merkle/path helper if profiling justifies it) Tj
+T*
+(- targeted binary storage payload codecs later) Tj
+T*
+(- optional query/indexer acceleration later) Tj
+T*
+() Tj
+T*
+(10.13 Components tempting to migrate but not yet justified) Tj
+T*
+(- full consensus engine) Tj
+T*
+(- reorg manager) Tj
+T*
+(- storage repositories wholesale) Tj
+T*
+(- GUI) Tj
+T*
+(- API) Tj
+T*
+() Tj
+T*
+(These are tempting because they are visibly large and complex. They should not be first-wave) Tj
+T*
+(migration targets because they combine high semantic risk with unclear performance return.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Target Production Architecture) Tj
+T*
+() Tj
+T*
+(11.1 Production architecture goals) Tj
+T*
+() Tj
+T*
+(The target production architecture should deliver:) Tj
+T*
+(- explicit authority boundaries) Tj
+T*
+(- explicit read/write separation) Tj
+T*
+(- typed and audited Python/native boundaries) Tj
+T*
+(- cleaner lifecycle control) Tj
+T*
+(- a smaller number of canonical representations) Tj
+T*
+() Tj
+T*
+(11.2 Target production topology) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(11.3 Boundary definitions) Tj
+T*
+() Tj
+T*
+(**Consensus Engine**) Tj
+T*
+(- owns canonical admission sequencing) Tj
+T*
+(- does not own desktop/UI concerns) Tj
+T*
+(- should not expose broad mutable state surfaces directly) Tj
+T*
+() Tj
+T*
+(**Native Codec Library**) Tj
+T*
+(- owns canonical encode/decode) Tj
+T*
+(- owns txid and signing-preimage generation) Tj
+T*
+(- owns shared size/vsize calculations) Tj
+T*
+() Tj
+T*
+(**Prepared Validation Kernel**) Tj
+T*
+(- owns repeated low-level validation kernels) Tj
+T*
+(- does not own final consensus verdict sequencing) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+60 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 61 0 R >>
+endobj
+61 0 obj
+<< /Length 1241 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(**Chainstate Manager**) Tj
+T*
+(- owns canonical block/UTXO commit and journal recovery) Tj
+T*
+() Tj
+T*
+(**Private State Manager**) Tj
+T*
+(- owns notes/nullifiers/anchors and rebuild logic under chainstate authority) Tj
+T*
+() Tj
+T*
+(**Bond/Stake Manager**) Tj
+T*
+(- owns miner eligibility and payout state under chainstate authority) Tj
+T*
+() Tj
+T*
+(**Query/Read Model**) Tj
+T*
+(- owns high-volume read access and explorer-style surfaces) Tj
+T*
+(- must remain downstream of canonical writes) Tj
+T*
+() Tj
+T*
+(**Supervisor**) Tj
+T*
+(- owns lifecycle and readiness) Tj
+T*
+(- GUI and API should not act as hidden supervisors) Tj
+T*
+() Tj
+T*
+(11.4 Trust boundary diagram) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(11.5 Transaction lifecycle diagram \(target\)) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(11.6 Private transaction lifecycle diagram \(target\)) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(11.7 Validation-path diagram) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(11.8 Block lifecycle diagram) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(11.9 Reward and fee routing diagram) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(11.10 Refactored language-boundary diagram) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+62 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 63 0 R >>
+endobj
+63 0 obj
+<< /Length 3058 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(11.11 Deployment topology diagram) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(11.12 Production architecture conclusion) Tj
+T*
+() Tj
+T*
+(The target architecture is not ?microservices everywhere.? It is:) Tj
+T*
+(- fewer authorities) Tj
+T*
+(- clearer data ownership) Tj
+T*
+(- a stronger codec and proof boundary) Tj
+T*
+(- cleaner separation of control plane, data plane, and read model) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Proposed Changes and Rationale Ledger) Tj
+T*
+() Tj
+T*
+(12.1 Change ledger table) Tj
+T*
+() Tj
+T*
+(| Change | Current Behavior | Proposed Behavior | Why Needed | Consensus Impact | Storage Impact) Tj
+T*
+(| Wire Impact | Wallet/API Impact | When |) Tj
+T*
+(|---|---|---|---|---|---|---|---|---|) Tj
+T*
+(| unify tx validation authority | two overlapping validator surfaces | one canonical validator) Tj
+T*
+(path | reduce drift and repeated work | high | low | none initially | medium | now |) Tj
+T*
+(| centralize codec and signing preimage | scattered helpers and repeated canonicalization | one) Tj
+T*
+(shared codec layer | determinism + performance | high | possible later | internal first | medium) Tj
+T*
+(| now |) Tj
+T*
+(| replace proof subprocess boundary | Python shells out to backend tools | FFI or persistent) Tj
+T*
+(proof worker | reduce fragility and latency | high | none | none | low | now |) Tj
+T*
+(| formalize prepared validation kernel | native helpers exist but integration is duplicated |) Tj
+T*
+(one low-level validation interface | simplify performance path | high | none | none | low | soon) Tj
+T*
+(|) Tj
+T*
+(| replace miner JSON size estimation | repeated json.dumps\(\) in selection loops | canonical) Tj
+T*
+(size/vsize kernel | remove wasted CPU | medium | none | none | none | soon |) Tj
+T*
+(| strengthen replay/recovery invariants | journals exist, evidence incomplete | explicit) Tj
+T*
+(invariant bundles and replay suites | prove state-machine safety | high | medium | none | low |) Tj
+T*
+(now |) Tj
+T*
+(| introduce query/read model separation | reads and writes share too much hot state access |) Tj
+T*
+(dedicated read surfaces | protect hot path and clarify authority | low direct | additive |) Tj
+T*
+(API-level | high | soon |) Tj
+T*
+(| centralize supervisor authority | lifecycle ownership is mixed | one lifecycle owner | cleaner) Tj
+T*
+(startup/shutdown/readiness | low direct | low | none | high | soon |) Tj
+T*
+(| stabilize external interface contracts | broad API, mixed concerns | public-safe query API +) Tj
+T*
+(local/admin split | ecosystem readiness | low direct | low | API versioning | high | soon |) Tj
+T*
+(| package runtime with network isolation | current repo layout is dev-friendly | OS-native) Tj
+T*
+(runtime dirs and installer behavior | user/operator safety | none | operational | none | high |) Tj
+T*
+(later in v1 path |) Tj
+T*
+() Tj
+T*
+(12.2 Rationale notes by change) Tj
+T*
+() Tj
+T*
+(**Validation unification**) Tj
+T*
+(This is the highest-leverage architecture cleanup because it improves correctness, performance,) Tj
+T*
+(and auditability simultaneously.) Tj
+T*
+ET
+endstream
+endobj
+64 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 65 0 R >>
+endobj
+65 0 obj
+<< /Length 2567 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(**Codec centralization**) Tj
+T*
+(This is the highest-leverage native migration because it removes distributed canonicalization) Tj
+T*
+(without requiring a full runtime rewrite.) Tj
+T*
+() Tj
+T*
+(**Proof boundary replacement**) Tj
+T*
+(This is the most important operational and correctness improvement for the private path.) Tj
+T*
+() Tj
+T*
+(**Supervisor and query separation**) Tj
+T*
+(These are not consensus changes, but they are necessary for production behavior, operator trust,) Tj
+T*
+(and a stable desktop/API experience.) Tj
+T*
+() Tj
+T*
+(12.3 Change-governance rule) Tj
+T*
+() Tj
+T*
+(Every item above should be implemented with:) Tj
+T*
+(- a change record) Tj
+T*
+(- explicit compatibility and rollback notes) Tj
+T*
+(- test evidence) Tj
+T*
+(- benchmark evidence where performance is the stated rationale) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Implementation Strategy) Tj
+T*
+() Tj
+T*
+(13.1 Phase table) Tj
+T*
+() Tj
+T*
+(| Phase | Goal | Main Deliverables | Main Risks | Release Meaning |) Tj
+T*
+(|---|---|---|---|---|) Tj
+T*
+(| Phase 0 | validation and baselining | vectors, authority map, current benchmark baselines, doc) Tj
+T*
+(sync | low/medium | know current truth |) Tj
+T*
+(| Phase 1 | correctness and consensus hardening | validation unification, private pipeline) Tj
+T*
+(fixes, replay evidence | high | eliminate launch-blocking correctness gaps |) Tj
+T*
+(| Phase 2 | critical performance refactors | codec centralization, proof-boundary cleanup, miner) Tj
+T*
+(size kernel | high | remove highest-cost waste safely |) Tj
+T*
+(| Phase 3 | private-layer production hardening | proof reliability, replay/reorg proof,) Tj
+T*
+(wallet/private evidence | high | private path becomes production-grade |) Tj
+T*
+(| Phase 4 | operational and deployment hardening | supervisor cleanup, packaging, updates,) Tj
+T*
+(operator diagnostics | medium | product becomes operable and deployable |) Tj
+T*
+(| Phase 5 | final release gating | sign-off, checklists, benchmarks, no-go/go decision |) Tj
+T*
+(medium/high | production launch decision |) Tj
+T*
+() Tj
+T*
+(13.2 Phase 0: validation and baselining) Tj
+T*
+() Tj
+T*
+(**Goals**) Tj
+T*
+(- know exactly what current behavior is) Tj
+T*
+(- stop working from stale or contradictory assumptions) Tj
+T*
+() Tj
+T*
+(**Work items**) Tj
+T*
+(- finalize source authority map) Tj
+T*
+(- generate txid/signing-hash vectors) Tj
+T*
+(- generate private proof statement vectors) Tj
+T*
+(- baseline miner, validator, P2P, and proof latency/throughput) Tj
+T*
+(- classify current docs into active, stale, historical) Tj
+T*
+ET
+endstream
+endobj
+66 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 67 0 R >>
+endobj
+67 0 obj
+<< /Length 1956 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(**Success criteria**) Tj
+T*
+(- contributors can point to one active source-of-truth hierarchy) Tj
+T*
+(- consensus-sensitive helpers have vector coverage) Tj
+T*
+() Tj
+T*
+(13.3 Phase 1: correctness and consensus hardening) Tj
+T*
+() Tj
+T*
+(**Goals**) Tj
+T*
+(- eliminate the biggest correctness and authority gaps) Tj
+T*
+() Tj
+T*
+(**Work items**) Tj
+T*
+(- choose and centralize one tx validator authority) Tj
+T*
+(- repair failing private-layer pipeline tests) Tj
+T*
+(- expand reorg/restart replay tests across public/private/bond-stake domains) Tj
+T*
+(- enforce active monetary policy consistently across current policy docs) Tj
+T*
+(- document invariants for private state and bond/stake state) Tj
+T*
+() Tj
+T*
+(**Must not be changed simultaneously**) Tj
+T*
+(- validator semantics and codec semantics in one huge patch) Tj
+T*
+(- proof semantics and storage schema in one huge patch) Tj
+T*
+() Tj
+T*
+(**Success criteria**) Tj
+T*
+(- no unresolved launch-blocking correctness failures) Tj
+T*
+(- validation-path ownership is explicit) Tj
+T*
+() Tj
+T*
+(13.4 Phase 2: critical performance refactors) Tj
+T*
+() Tj
+T*
+(**Goals**) Tj
+T*
+(- remove the highest-value architectural waste without changing semantics) Tj
+T*
+() Tj
+T*
+(**Work items**) Tj
+T*
+(- introduce shared codec layer) Tj
+T*
+(- introduce shared signing-preimage path) Tj
+T*
+(- replace miner JSON sizing with canonical size calculator) Tj
+T*
+(- tighten prepared validation kernel beneath unified validator) Tj
+T*
+(- replace proof subprocess boundary) Tj
+T*
+() Tj
+T*
+(**Shadow testing needed**) Tj
+T*
+(- codec parity) Tj
+T*
+(- signing-hash parity) Tj
+T*
+(- proof statement parity) Tj
+T*
+() Tj
+T*
+(**Success criteria**) Tj
+T*
+(- performance improves measurably) Tj
+T*
+(- parity remains exact) Tj
+T*
+() Tj
+T*
+(13.5 Phase 3: private-layer production hardening) Tj
+T*
+() Tj
+T*
+(**Goals**) Tj
+T*
+(- make the private path release-grade) Tj
+T*
+() Tj
+T*
+(**Work items**) Tj
+T*
+ET
+endstream
+endobj
+68 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 69 0 R >>
+endobj
+69 0 obj
+<< /Length 1785 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- full private pipeline repair) Tj
+T*
+(- reorg-safe nullifier/anchor replay proof) Tj
+T*
+(- proof service timeout/fail-closed hardening) Tj
+T*
+(- wallet private restore/recovery validation) Tj
+T*
+(- private-path operational diagnostics) Tj
+T*
+() Tj
+T*
+(**Success criteria**) Tj
+T*
+(- private layer no longer has unresolved test failures) Tj
+T*
+(- fail-closed behavior is proven) Tj
+T*
+() Tj
+T*
+(13.6 Phase 4: operational and deployment hardening) Tj
+T*
+() Tj
+T*
+(**Goals**) Tj
+T*
+(- make Atho safe and understandable for operators and desktop users) Tj
+T*
+() Tj
+T*
+(**Work items**) Tj
+T*
+(- supervisor ownership) Tj
+T*
+(- readiness/liveness distinction) Tj
+T*
+(- mainnet/testnet/regnet runtime separation) Tj
+T*
+(- installer and update strategy) Tj
+T*
+(- crash/recovery diagnostics) Tj
+T*
+(- API/public-safe vs local-admin boundary cleanup) Tj
+T*
+() Tj
+T*
+(**Success criteria**) Tj
+T*
+(- clean lifecycle and packaging behavior) Tj
+T*
+(- predictable runtime topology) Tj
+T*
+() Tj
+T*
+(13.7 Phase 5: final release gating) Tj
+T*
+() Tj
+T*
+(**Goals**) Tj
+T*
+(- convert the technical state into a launch decision) Tj
+T*
+() Tj
+T*
+(**Work items**) Tj
+T*
+(- final checklist completion) Tj
+T*
+(- benchmark sign-off) Tj
+T*
+(- operator docs sign-off) Tj
+T*
+(- public interface sign-off) Tj
+T*
+(- release/no-go review) Tj
+T*
+() Tj
+T*
+(**Success criteria**) Tj
+T*
+(- launch-go conditions satisfied) Tj
+T*
+(- residual risks explicitly documented and accepted) Tj
+T*
+() Tj
+T*
+(13.8 What can be parallelized) Tj
+T*
+(- documentation authority cleanup) Tj
+T*
+(- packaging layout work) Tj
+T*
+(- public interface contract drafting) Tj
+T*
+(- benchmark harnesses) Tj
+T*
+(- GUI modular cleanup) Tj
+T*
+() Tj
+T*
+(13.9 What requires golden vectors) Tj
+T*
+(- txid generation) Tj
+T*
+ET
+endstream
+endobj
+70 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 71 0 R >>
+endobj
+71 0 obj
+<< /Length 2888 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- signing-hash generation) Tj
+T*
+(- canonical codec encode/decode) Tj
+T*
+(- private proof statements) Tj
+T*
+(- coinbase closure/accounting cases) Tj
+T*
+() Tj
+T*
+(13.10 What requires compatibility harnesses) Tj
+T*
+(- codec cutover) Tj
+T*
+(- proof boundary cutover) Tj
+T*
+(- validation-kernel integration cutover) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Master Checklist System) Tj
+T*
+() Tj
+T*
+(14.1 Beta-to-production readiness checklist) Tj
+T*
+() Tj
+T*
+(| Item | Reason | How to Verify | Owner Role | Status | Dependencies | Notes |) Tj
+T*
+(|---|---|---|---|---|---|---|) Tj
+T*
+(| source authority map finalized | avoid stale-doc engineering decisions | doc review gate |) Tj
+T*
+(core maintainer | TODO | none | mandatory |) Tj
+T*
+(| updated monetary model reflected in active docs | policy consistency | doc parity review |) Tj
+T*
+(protocol maintainer | In progress | constants snapshot | mandatory |) Tj
+T*
+(| validator authority unified | eliminate semantic duplication | code review + tests | consensus) Tj
+T*
+(lead | TODO | vectors | launch blocker |) Tj
+T*
+(| private pipeline fully green | private path correctness | CI suite | private-layer lead | TODO) Tj
+T*
+(| proof fixes | launch blocker |) Tj
+T*
+(| replay/recovery invariants proven | canonical truth safety | reorg/restart tests | consensus) Tj
+T*
+(lead | TODO | recovery harnesses | launch blocker |) Tj
+T*
+() Tj
+T*
+(14.2 Consensus-hardening checklist) Tj
+T*
+() Tj
+T*
+(| Item | Reason | How to Verify | Owner Role | Status | Dependencies | Notes |) Tj
+T*
+(|---|---|---|---|---|---|---|) Tj
+T*
+(| txid vector suite complete | deterministic identity | vector tests | protocol lead | TODO |) Tj
+T*
+(none | mandatory |) Tj
+T*
+(| signing-preimage vector suite complete | deterministic signatures | vector tests | protocol) Tj
+T*
+(lead | TODO | none | mandatory |) Tj
+T*
+(| coinbase overclaim rejection tested | supply safety | negative block tests | protocol lead |) Tj
+T*
+(TODO | monetary constants | mandatory |) Tj
+T*
+(| fee routing closure tested | reward correctness | block accounting tests | protocol lead |) Tj
+T*
+(TODO | emission logic | mandatory |) Tj
+T*
+(| side-state reorg replay tested | replay safety | reorg suites | consensus engineer | TODO |) Tj
+T*
+(side-state rebuild hooks | mandatory |) Tj
+T*
+() Tj
+T*
+(14.3 Transaction validation checklist) Tj
+T*
+() Tj
+T*
+(| Item | Reason | How to Verify | Owner Role | Status | Dependencies | Notes |) Tj
+T*
+(|---|---|---|---|---|---|---|) Tj
+T*
+(| one validator authority only | avoid drift | architecture review | consensus lead | TODO |) Tj
+T*
+(unification work | mandatory |) Tj
+T*
+(| native UTXO batch path integrated cleanly | speed and consistency | benchmark + regression |) Tj
+T*
+(perf lead | TODO | validator unification | high |) Tj
+T*
+(| signature cache behavior consistent | correctness and speed | regression tests | consensus) Tj
+T*
+ET
+endstream
+endobj
+72 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 73 0 R >>
+endobj
+73 0 obj
+<< /Length 3149 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(engineer | TODO | validator unification | high |) Tj
+T*
+(| mempool/block validation semantics aligned | avoid split behavior | cross-path tests |) Tj
+T*
+(protocol lead | TODO | validator unification | mandatory |) Tj
+T*
+() Tj
+T*
+(14.4 Private transaction checklist) Tj
+T*
+() Tj
+T*
+(| Item | Reason | How to Verify | Owner Role | Status | Dependencies | Notes |) Tj
+T*
+(|---|---|---|---|---|---|---|) Tj
+T*
+(| proof gate fails closed | safety | negative pipeline tests | private-layer lead | TODO | proof) Tj
+T*
+(boundary cleanup | mandatory |) Tj
+T*
+(| anchor recency semantics tested | replay safety | targeted tests | private-layer lead | TODO |) Tj
+T*
+(private notes store harness | mandatory |) Tj
+T*
+(| nullifier replay safety tested | double-spend resistance | reorg/restart tests | private-layer) Tj
+T*
+(lead | TODO | replay harnesses | mandatory |) Tj
+T*
+(| block-mode transform parity proven | no hidden tx drift | parity tests | private-layer lead |) Tj
+T*
+(TODO | codec/proof work | mandatory |) Tj
+T*
+(| wallet private recovery validated | user safety | restore simulation tests | wallet lead |) Tj
+T*
+(TODO | private builder/receiver harness | high |) Tj
+T*
+() Tj
+T*
+(14.5 Mining/backend checklist) Tj
+T*
+() Tj
+T*
+(| Item | Reason | How to Verify | Owner Role | Status | Dependencies | Notes |) Tj
+T*
+(|---|---|---|---|---|---|---|) Tj
+T*
+(| candidate packing no longer JSON-dump driven | efficiency | miner benchmarks | perf lead |) Tj
+T*
+(TODO | size kernel | high |) Tj
+T*
+(| PoW backends return verified results only | correctness | mining regression tests | miner lead) Tj
+T*
+(| TODO | none | mandatory |) Tj
+T*
+(| tip-drift handling after PoW is tested | avoid stale mining output | miner integration tests |) Tj
+T*
+(miner lead | TODO | runtime harness | high |) Tj
+T*
+(| payout construction matches consensus policy | reward correctness | block accounting tests |) Tj
+T*
+(miner/protocol leads | TODO | emission policy | mandatory |) Tj
+T*
+() Tj
+T*
+(14.6 Language migration checklist) Tj
+T*
+() Tj
+T*
+(| Item | Reason | How to Verify | Owner Role | Status | Dependencies | Notes |) Tj
+T*
+(|---|---|---|---|---|---|---|) Tj
+T*
+(| profile before migrating | avoid blind rewrites | benchmark record | perf lead | TODO | none |) Tj
+T*
+(mandatory |) Tj
+T*
+(| vector coverage before codec cutover | semantic parity | vector report | protocol lead | TODO) Tj
+T*
+(| phase 0 | mandatory |) Tj
+T*
+(| shadow mode before native cutover | reduce migration risk | parity dashboard | perf lead |) Tj
+T*
+(TODO | implementation | mandatory |) Tj
+T*
+(| rollback plan documented | operational safety | change record | release lead | TODO | change) Tj
+T*
+(framework | mandatory |) Tj
+T*
+() Tj
+T*
+(14.7 Storage and serialization checklist) Tj
+T*
+() Tj
+T*
+(| Item | Reason | How to Verify | Owner Role | Status | Dependencies | Notes |) Tj
+T*
+(|---|---|---|---|---|---|---|) Tj
+T*
+(| canonical serialization authority explicit | avoid drift | code review | protocol lead | TODO) Tj
+T*
+(| codec work | mandatory |) Tj
+T*
+(| commit journal recovery tested | crash safety | kill/restart tests | storage lead | TODO |) Tj
+T*
+ET
+endstream
+endobj
+74 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 75 0 R >>
+endobj
+75 0 obj
+<< /Length 2822 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(runtime harness | mandatory |) Tj
+T*
+(| reorg journal recovery tested | replay safety | reorg fault tests | storage lead | TODO |) Tj
+T*
+(runtime harness | mandatory |) Tj
+T*
+(| hot records evaluated for compaction | performance | profiling report | perf/storage leads |) Tj
+T*
+(TODO | benchmarks | later |) Tj
+T*
+() Tj
+T*
+(14.8 Audit completion checklist) Tj
+T*
+() Tj
+T*
+(| Item | Reason | How to Verify | Owner Role | Status |) Tj
+T*
+(|---|---|---|---|---|) Tj
+T*
+(| architecture gaps reconciled | clear authority map | review sign-off | core architect | TODO |) Tj
+T*
+(| consensus risks reconciled | known correctness posture | review sign-off | protocol lead |) Tj
+T*
+(TODO |) Tj
+T*
+(| performance migration plan reconciled | no random rewrites | review sign-off | performance) Tj
+T*
+(lead | TODO |) Tj
+T*
+(| packaging/external integration reconciled | v1 product readiness | review sign-off | release) Tj
+T*
+(lead | TODO |) Tj
+T*
+() Tj
+T*
+(14.9 Test-vector checklist) Tj
+T*
+() Tj
+T*
+(| Item | Reason | How to Verify | Owner Role | Status |) Tj
+T*
+(|---|---|---|---|---|) Tj
+T*
+(| txid vectors | deterministic identity | CI | protocol lead | TODO |) Tj
+T*
+(| signing-hash vectors | deterministic signatures | CI | protocol lead | TODO |) Tj
+T*
+(| coinbase/reward vectors | monetary safety | CI | protocol lead | TODO |) Tj
+T*
+(| private statement vectors | proof determinism | CI | private-layer lead | TODO |) Tj
+T*
+(| replay/reorg vectors | state-machine safety | CI | consensus lead | TODO |) Tj
+T*
+() Tj
+T*
+(14.10 Deployment readiness checklist) Tj
+T*
+() Tj
+T*
+(| Item | Reason | How to Verify | Owner Role | Status |) Tj
+T*
+(|---|---|---|---|---|) Tj
+T*
+(| network data separation enforced | avoid cross-network contamination | runtime tests | release) Tj
+T*
+(lead | TODO |) Tj
+T*
+(| updater/installer path defined | safe product rollout | packaging review | release lead | TODO) Tj
+T*
+(|) Tj
+T*
+(| startup readiness semantics defined | avoid partial-ready confusion | startup tests |) Tj
+T*
+(control-plane lead | TODO |) Tj
+T*
+(| crash artifacts and diagnostics available | operator safety | failure drills | SRE | TODO |) Tj
+T*
+() Tj
+T*
+(14.11 Operational safety checklist) Tj
+T*
+() Tj
+T*
+(| Item | Reason | How to Verify | Owner Role | Status |) Tj
+T*
+(|---|---|---|---|---|) Tj
+T*
+(| one lifecycle authority | stable process control | runtime review | control-plane lead | TODO) Tj
+T*
+(|) Tj
+T*
+(| health vs readiness separated | correct service behavior | operator tests | SRE | TODO |) Tj
+T*
+(| lock/journal failure handling documented | faster incident response | docs review | storage) Tj
+T*
+(lead | TODO |) Tj
+T*
+(| no mixed-network runtime state | protect operators | test matrix | release lead | TODO |) Tj
+T*
+() Tj
+T*
+(14.12 Documentation completeness checklist) Tj
+T*
+ET
+endstream
+endobj
+76 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 77 0 R >>
+endobj
+77 0 obj
+<< /Length 2503 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(| Item | Reason | How to Verify | Owner Role | Status |) Tj
+T*
+(|---|---|---|---|---|) Tj
+T*
+(| active docs aligned with constants | source-of-truth clarity | doc parity review | tech) Tj
+T*
+(writer/core lead | TODO |) Tj
+T*
+(| stale docs labeled or updated | avoid drift | docs audit | tech writer/core lead | TODO |) Tj
+T*
+(| public integration docs stable | ecosystem readiness | partner review | API lead | TODO |) Tj
+T*
+(| packaging/operator docs complete | production usability | operator dry run | release lead |) Tj
+T*
+(TODO |) Tj
+T*
+() Tj
+T*
+(14.13 Release gating checklist) Tj
+T*
+() Tj
+T*
+(| Item | Reason | How to Verify | Owner Role | Status |) Tj
+T*
+(|---|---|---|---|---|) Tj
+T*
+(| no critical failing tests | launch safety | CI | release lead | TODO |) Tj
+T*
+(| no unresolved consensus-blocking risks | launch safety | release review | protocol lead | TODO) Tj
+T*
+(|) Tj
+T*
+(| benchmarks accepted | performance floor | perf review | performance lead | TODO |) Tj
+T*
+(| docs and change records complete | auditability | release review | core maintainer | TODO |) Tj
+T*
+() Tj
+T*
+(14.14 Must be true before version 1 launch) Tj
+T*
+() Tj
+T*
+(| Item | Reason | Verification |) Tj
+T*
+(|---|---|---|) Tj
+T*
+(| one canonical validator authority exists | correctness | architecture and code review |) Tj
+T*
+(| private path is fail-closed and fully green in core suites | correctness | CI + negative tests) Tj
+T*
+(|) Tj
+T*
+(| replay/recovery proven across all state domains | safety | chaos/reorg/restart tests |) Tj
+T*
+(| monetary policy docs and code are aligned | governance and correctness | doc parity review |) Tj
+T*
+(| packaging/runtime/network separation are safe | product and operator safety |) Tj
+T*
+(install/update/runtime test matrix |) Tj
+T*
+(| public interface contracts are stable and documented | ecosystem readiness | API/spec sign-off) Tj
+T*
+(|) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Code Change Recording Framework) Tj
+T*
+() Tj
+T*
+(15.1 Why change recording matters) Tj
+T*
+() Tj
+T*
+(Hardening a blockchain system is not only about writing code. It is about leaving behind a) Tj
+T*
+(defensible record of:) Tj
+T*
+(- what changed) Tj
+T*
+(- why it changed) Tj
+T*
+(- how risky it was) Tj
+T*
+(- how it was validated) Tj
+T*
+(- what remains uncertain) Tj
+T*
+() Tj
+T*
+(Without that, the repo accumulates silent architecture drift and loses auditability.) Tj
+T*
+() Tj
+T*
+(15.2 Every change record should contain) Tj
+T*
+(- change id) Tj
+T*
+(- title) Tj
+T*
+ET
+endstream
+endobj
+78 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 79 0 R >>
+endobj
+79 0 obj
+<< /Length 1637 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- date) Tj
+T*
+(- author and reviewers) Tj
+T*
+(- subsystem\(s\)) Tj
+T*
+(- current behavior) Tj
+T*
+(- proposed behavior) Tj
+T*
+(- rationale) Tj
+T*
+(- consensus impact) Tj
+T*
+(- storage impact) Tj
+T*
+(- wire compatibility impact) Tj
+T*
+(- mining/wallet/API/GUI impact) Tj
+T*
+(- migration or rollback plan) Tj
+T*
+(- tests added or updated) Tj
+T*
+(- benchmark results if performance-related) Tj
+T*
+(- residual risks) Tj
+T*
+() Tj
+T*
+(15.3 Distinguishing consensus-affecting changes) Tj
+T*
+() Tj
+T*
+(**Consensus-affecting changes** include:) Tj
+T*
+(- tx/block validity logic) Tj
+T*
+(- canonical encoding) Tj
+T*
+(- txid/signing-preimage logic) Tj
+T*
+(- reward/coinbase rules) Tj
+T*
+(- replay/reorg semantics) Tj
+T*
+(- private proof statement semantics) Tj
+T*
+(- bond/stake/miner-eligibility logic) Tj
+T*
+() Tj
+T*
+(These changes require:) Tj
+T*
+(- explicit change record flag) Tj
+T*
+(- vector coverage) Tj
+T*
+(- compatibility analysis) Tj
+T*
+(- no-go review if rollout risk is high) Tj
+T*
+() Tj
+T*
+(15.4 Recording migration work) Tj
+T*
+() Tj
+T*
+(Migration records should explicitly note:) Tj
+T*
+(- old language/boundary) Tj
+T*
+(- new language/boundary) Tj
+T*
+(- semantic parity strategy) Tj
+T*
+(- shadow testing plan) Tj
+T*
+(- rollback condition) Tj
+T*
+() Tj
+T*
+(15.5 Recording performance changes) Tj
+T*
+() Tj
+T*
+(Performance change records should always include:) Tj
+T*
+(- benchmark harness) Tj
+T*
+(- before/after numbers) Tj
+T*
+(- hardware/runtime context) Tj
+T*
+(- workload shape) Tj
+T*
+(- whether semantics changed or only implementation changed) Tj
+T*
+() Tj
+T*
+(15.6 Recording security fixes) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+80 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 81 0 R >>
+endobj
+81 0 obj
+<< /Length 1180 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Security fix records should include:) Tj
+T*
+(- exploit or failure mode addressed) Tj
+T*
+(- affected attack surface) Tj
+T*
+(- whether the fix is consensus-sensitive) Tj
+T*
+(- whether additional monitoring or docs are required) Tj
+T*
+() Tj
+T*
+(15.7 Recording topology/storage changes) Tj
+T*
+() Tj
+T*
+(Topology and storage changes should include:) Tj
+T*
+(- old component topology) Tj
+T*
+(- new topology) Tj
+T*
+(- migration tooling required or not) Tj
+T*
+(- storage compatibility and rollback implications) Tj
+T*
+() Tj
+T*
+(15.8 Suggested templates) Tj
+T*
+() Tj
+T*
+(Proposal entry) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Implementation record) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Validation record) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Benchmark record) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Audit follow-up entry) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Rollout record) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Developer FAQ) Tj
+T*
+() Tj
+T*
+(Why is Python still acceptable for so much of Atho?) Tj
+T*
+() Tj
+T*
+(Because the hardest parts of Atho are not all compute kernels. Many of the hardest parts are) Tj
+T*
+ET
+endstream
+endobj
+82 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 83 0 R >>
+endobj
+83 0 obj
+<< /Length 2240 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(state-machine sequencing, replay correctness, lifecycle coordination, and domain-specific) Tj
+T*
+(business rules. Python remains appropriate for these orchestration-heavy domains as long as the) Tj
+T*
+(repeated binary/cryptographic kernels are pushed into narrower, better-typed boundaries.) Tj
+T*
+() Tj
+T*
+(Why not rewrite the whole node in Rust?) Tj
+T*
+() Tj
+T*
+(Because a whole-node rewrite would mix semantic consolidation, performance work, storage) Tj
+T*
+(compatibility, and deployment change into one enormous blast radius. Atho?s current) Tj
+T*
+(highest-value work is not a wholesale rewrite. It is making the current semantics singular,) Tj
+T*
+(provable, and well-bounded.) Tj
+T*
+() Tj
+T*
+(What is consensus-critical in practice?) Tj
+T*
+() Tj
+T*
+(At minimum:) Tj
+T*
+(- tx validity) Tj
+T*
+(- block validity) Tj
+T*
+(- txid/signing-preimage logic) Tj
+T*
+(- monetary and coinbase rules) Tj
+T*
+(- public/private state transitions) Tj
+T*
+(- bond/stake/miner eligibility) Tj
+T*
+(- replay/reorg/restart behavior that affects canonical truth) Tj
+T*
+() Tj
+T*
+(What can be optimized safely?) Tj
+T*
+() Tj
+T*
+(Usually:) Tj
+T*
+(- hot inner loops beneath a stable semantic boundary) Tj
+T*
+(- codec implementations, if vectors exist) Tj
+T*
+(- miner size calculations) Tj
+T*
+(- proof transport boundaries) Tj
+T*
+() Tj
+T*
+(Not safely, unless proven carefully:) Tj
+T*
+(- multiple correctness-sensitive domains at once) Tj
+T*
+(- storage and validity semantics in the same patch) Tj
+T*
+(- proof statement semantics and runtime transport in one large cutover without parity testing) Tj
+T*
+() Tj
+T*
+(Why is the private path harder than the public path?) Tj
+T*
+() Tj
+T*
+(Because it must preserve:) Tj
+T*
+(- hidden-value correctness) Tj
+T*
+(- note/nullifier/anchor state) Tj
+T*
+(- proof generation and verification) Tj
+T*
+(- deterministic replay across reorg and restart) Tj
+T*
+(- wallet-side recovery and scanning behavior) Tj
+T*
+() Tj
+T*
+(The public UTXO path is simpler because most of its state is directly visible and easier to) Tj
+T*
+(recompute.) Tj
+T*
+() Tj
+T*
+(Why is subprocess crypto/proof handling a problem?) Tj
+T*
+() Tj
+T*
+(Because it adds:) Tj
+T*
+(- startup cost) Tj
+T*
+(- text/stdout parsing fragility) Tj
+T*
+ET
+endstream
+endobj
+84 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 85 0 R >>
+endobj
+85 0 obj
+<< /Length 2364 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- looser failure contracts) Tj
+T*
+(- harder observability) Tj
+T*
+(- more operational edge cases) Tj
+T*
+() Tj
+T*
+(That is tolerable in build tooling. It is weaker in a correctness-sensitive proof path.) Tj
+T*
+() Tj
+T*
+(Why must canonical encoding be centralized?) Tj
+T*
+() Tj
+T*
+(Because txid, signing hash, wire payload, size/vsize, and proof statement content must be) Tj
+T*
+(identical wherever they are used. Distributed canonicalization logic is one of the easiest ways) Tj
+T*
+(to introduce subtle divergence.) Tj
+T*
+() Tj
+T*
+(What tests are mandatory before merging consensus-adjacent changes?) Tj
+T*
+(- golden vectors) Tj
+T*
+(- targeted negative tests) Tj
+T*
+(- replay/reorg/restart tests) Tj
+T*
+(- shadow/parity tests when using compatibility layers) Tj
+T*
+() Tj
+T*
+(How do we avoid changing semantics during refactor?) Tj
+T*
+(- change one semantic boundary at a time) Tj
+T*
+(- use vectors) Tj
+T*
+(- use shadow parity where possible) Tj
+T*
+(- separate ?implementation moved? from ?rules changed?) Tj
+T*
+(- document each change with explicit rationale and risk) Tj
+T*
+() Tj
+T*
+(How do we decide when a subsystem is production-ready?) Tj
+T*
+() Tj
+T*
+(A subsystem is production-ready when:) Tj
+T*
+(- its authority is explicit) Tj
+T*
+(- its failure modes are understood) Tj
+T*
+(- its invariants are documented) Tj
+T*
+(- its tests cover positive and negative cases) Tj
+T*
+(- its operational behavior is observable) Tj
+T*
+(- its residual risks are known and acceptable) Tj
+T*
+() Tj
+T*
+(How should speed be prioritized versus correctness?) Tj
+T*
+() Tj
+T*
+(Correctness first, but that does not mean tolerate obviously wasteful structure forever. The) Tj
+T*
+(best path is to remove duplication and waste in ways that improve both performance and) Tj
+T*
+(correctness, not to trade one against the other blindly.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Production Version 1 Foundation Requirements) Tj
+T*
+() Tj
+T*
+(17.1 Mandatory for v1) Tj
+T*
+(- singular validator authority) Tj
+T*
+(- deterministic canonical codec and signing-preimage path) Tj
+T*
+(- repaired and fully green private core suites) Tj
+T*
+(- proven replay/reorg/recovery behavior across UTXO/private/bond-stake domains) Tj
+T*
+(- aligned monetary policy docs and code) Tj
+T*
+(- safe runtime lifecycle and network/data separation) Tj
+T*
+(- stable core public/query interfaces) Tj
+T*
+ET
+endstream
+endobj
+86 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 87 0 R >>
+endobj
+87 0 obj
+<< /Length 2300 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(17.2 Strongly recommended for v1) Tj
+T*
+(- proof bridge replacement or equivalent hardening) Tj
+T*
+(- query/read-model separation) Tj
+T*
+(- clean supervisor ownership) Tj
+T*
+(- installer and updater design implemented for supported desktop targets) Tj
+T*
+(- structured change-record governance) Tj
+T*
+() Tj
+T*
+(17.3 Acceptable after v1) Tj
+T*
+(- deeper storage payload compaction) Tj
+T*
+(- secondary P2P/internal performance tuning) Tj
+T*
+(- broader SDK and ecosystem tooling) Tj
+T*
+(- larger GUI modular refactor beyond stability needs) Tj
+T*
+() Tj
+T*
+(17.4 What should not be allowed to slip) Tj
+T*
+(- unresolved private correctness failures) Tj
+T*
+(- unresolved validator duplication) Tj
+T*
+(- unresolved replay ambiguity) Tj
+T*
+(- stale policy docs still being mistaken for current truth) Tj
+T*
+() Tj
+T*
+(17.5 What defines ?secure and stable enough?) Tj
+T*
+() Tj
+T*
+(Atho is secure and stable enough for v1 only if:) Tj
+T*
+(- deterministic validity is singular and proven) Tj
+T*
+(- no unresolved critical correctness failures remain) Tj
+T*
+(- operator/runtime packaging is safe) Tj
+T*
+(- replay and recovery do not rely on hope or undocumented manual steps) Tj
+T*
+() Tj
+T*
+(17.6 What defines ?auditable enough?) Tj
+T*
+(- current truth has a documented authority hierarchy) Tj
+T*
+(- every major change is recorded) Tj
+T*
+(- vector suites exist for consensus-sensitive helpers) Tj
+T*
+(- production docs do not contradict active code) Tj
+T*
+() Tj
+T*
+(17.7 What defines ?performant enough?) Tj
+T*
+(- mixed public/private validation is stable under intended workloads) Tj
+T*
+(- miner template creation is no longer dominated by avoidable serialization loops) Tj
+T*
+(- proof-path latency and reliability are operationally acceptable) Tj
+T*
+(- runtime remains stable under normal sync/mining/query overlap) Tj
+T*
+() Tj
+T*
+(17.8 What defines ?maintainable enough?) Tj
+T*
+(- duplicated core semantics are removed) Tj
+T*
+(- key subsystem boundaries are explicit) Tj
+T*
+(- native boundaries are narrow and typed) Tj
+T*
+(- docs and change records remain current) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Final Master Roadmap) Tj
+T*
+() Tj
+T*
+(18.1 Strategic order of work) Tj
+T*
+(- prove current behavior and authority) Tj
+T*
+(- eliminate launch-blocking correctness gaps) Tj
+T*
+ET
+endstream
+endobj
+88 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 89 0 R >>
+endobj
+89 0 obj
+<< /Length 2634 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- centralize canonical semantics) Tj
+T*
+(- replace weak runtime boundaries) Tj
+T*
+(- harden replay, control plane, packaging, and interfaces) Tj
+T*
+(- gate launch on evidence) Tj
+T*
+() Tj
+T*
+(18.2 Critical path) Tj
+T*
+() Tj
+T*
+(| Step | Why It Is Critical | Blocks What |) Tj
+T*
+(|---|---|---|) Tj
+T*
+(| source authority cleanup | prevents stale engineering assumptions | almost everything |) Tj
+T*
+(| validator unification | central correctness issue | codec cutover, final consensus sign-off |) Tj
+T*
+(| private pipeline repair | current launch blocker | private production claim |) Tj
+T*
+(| replay/recovery proof | canonical safety issue | release gating |) Tj
+T*
+(| codec centralization | performance + determinism foundation | miner/P2P cleanup |) Tj
+T*
+(| control-plane cleanup | runtime/product safety | packaging and polished desktop release |) Tj
+T*
+() Tj
+T*
+(18.3 Dependency matrix) Tj
+T*
+() Tj
+T*
+(| Work Item | Depends On | Unlocks |) Tj
+T*
+(|---|---|---|) Tj
+T*
+(| doc and policy sync | current constants | trustworthy active docs |) Tj
+T*
+(| validator unification | vectors and code review | prepared validation kernels |) Tj
+T*
+(| proof boundary replacement | proof statement stabilization | private production hardening |) Tj
+T*
+(| codec centralization | validator unification | miner sizing and P2P cleanup |) Tj
+T*
+(| supervisor cleanup | runtime authority map | packaging and launch UX |) Tj
+T*
+(| external interface stabilization | query/read separation | explorers, exchanges, wallets |) Tj
+T*
+() Tj
+T*
+(18.4 Checkpoints) Tj
+T*
+(- Checkpoint A: active docs and constants aligned) Tj
+T*
+(- Checkpoint B: validator authority singular) Tj
+T*
+(- Checkpoint C: private pipeline green) Tj
+T*
+(- Checkpoint D: replay/recovery evidence accepted) Tj
+T*
+(- Checkpoint E: codec/proof boundary refactors verified) Tj
+T*
+(- Checkpoint F: packaging/runtime/external surfaces ready) Tj
+T*
+() Tj
+T*
+(18.5 Review gates) Tj
+T*
+(- Gate 1: semantic baselines complete) Tj
+T*
+(- Gate 2: consensus correctness gaps closed) Tj
+T*
+(- Gate 3: private path acceptable) Tj
+T*
+(- Gate 4: performance-critical refactors proven) Tj
+T*
+(- Gate 5: operational and packaging sign-off) Tj
+T*
+(- Gate 6: final launch-go review) Tj
+T*
+() Tj
+T*
+(18.6 No-go conditions) Tj
+T*
+(- critical failing private or consensus-path tests) Tj
+T*
+(- unresolved duplicated validator logic) Tj
+T*
+(- unresolved recovery ambiguity) Tj
+T*
+(- unresolved unsafe packaging/runtime separation) Tj
+T*
+(- undocumented or contradictory active policy) Tj
+T*
+() Tj
+T*
+(18.7 Launch-go conditions) Tj
+T*
+(- all mandatory v1 items complete) Tj
+T*
+ET
+endstream
+endobj
+90 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 91 0 R >>
+endobj
+91 0 obj
+<< /Length 2337 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- no critical unresolved consensus or private-path failures) Tj
+T*
+(- replay/recovery evidence accepted) Tj
+T*
+(- current docs and change records accepted) Tj
+T*
+(- runtime, packaging, and external interface reviews accepted) Tj
+T*
+() Tj
+T*
+(18.8 Final roadmap conclusion) Tj
+T*
+() Tj
+T*
+(The path from beta to production is not mysterious. It is:) Tj
+T*
+(- authority cleanup) Tj
+T*
+(- correctness proof) Tj
+T*
+(- boundary cleanup) Tj
+T*
+(- selective native tightening) Tj
+T*
+(- operational hardening) Tj
+T*
+(- evidence-based release gating) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Appendices) Tj
+T*
+() Tj
+T*
+(Appendix A: Glossary) Tj
+T*
+(- **Anchor**: historical root reference used by a private spend to prove membership context) Tj
+T*
+(- **BPoW**: bonded proof-of-work regime controlling miner eligibility and related payout state) Tj
+T*
+(- **Canonical codec**: singular encode/decode and hashing/preimage authority) Tj
+T*
+(- **Commit journal**: record of interrupted block-commit progress) Tj
+T*
+(- **Nullifier**: one-time private spend marker) Tj
+T*
+(- **Prepared validation kernel**: lower-level batched helper interface beneath the canonical) Tj
+T*
+(validator) Tj
+T*
+() Tj
+T*
+(Appendix B: Abbreviations) Tj
+T*
+() Tj
+T*
+(| Abbreviation | Meaning |) Tj
+T*
+(|---|---|) Tj
+T*
+(| API | application programming interface |) Tj
+T*
+(| FFI | foreign function interface |) Tj
+T*
+(| GUI | graphical user interface |) Tj
+T*
+(| LMDB | Lightning Memory-Mapped Database |) Tj
+T*
+(| PoW | proof of work |) Tj
+T*
+(| STARK | scalable transparent argument of knowledge |) Tj
+T*
+(| UTXO | unspent transaction output |) Tj
+T*
+() Tj
+T*
+(Appendix C: Assumed invariants) Tj
+T*
+(- only one canonical chain tip may be committed at a time) Tj
+T*
+(- txid and signing-preimage rules must be deterministic and singular) Tj
+T*
+(- private state must advance and replay consistently with canonical chain truth) Tj
+T*
+(- bond/stake/miner-eligibility state must be replayable from canonical history) Tj
+T*
+(- coinbase overclaim must invalidate the block) Tj
+T*
+(- GUI/API must not define consensus truth) Tj
+T*
+() Tj
+T*
+(Appendix D: Source authority map) Tj
+T*
+() Tj
+T*
+(| Source | Use For | Treat Carefully / Do Not Use For |) Tj
+T*
+(|---|---|---|) Tj
+T*
+(| Src/Utility/const.py | active protocol constants | historical explanations |) Tj
+T*
+ET
+endstream
+endobj
+92 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 93 0 R >>
+endobj
+93 0 obj
+<< /Length 2239 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(| Src/Main/consensus.py and current runtime code | actual consensus/control behavior |) Tj
+T*
+(architectural simplification by itself |) Tj
+T*
+(| Docs/Consensus.md | current consensus narrative | full implementation proof |) Tj
+T*
+(| Docs/Emissions.md, Docs/Atho_Final_Specs.md, Docs/Inflation_Deflationary.md | current monetary) Tj
+T*
+(policy narrative | historical schedule references |) Tj
+T*
+(| Docs/WhitePaper*.md | historical architecture context | active monetary source of truth when) Tj
+T*
+(stale |) Tj
+T*
+(| prior audit papers | risk framing, gap analysis, sequencing | substitute for current code) Tj
+T*
+(inspection |) Tj
+T*
+() Tj
+T*
+(Appendix E: Test vector requirements) Tj
+T*
+(- txid vectors) Tj
+T*
+(- signing-preimage vectors) Tj
+T*
+(- canonical wire encode/decode vectors) Tj
+T*
+(- coinbase/reward closure vectors) Tj
+T*
+(- private proof statement vectors) Tj
+T*
+(- anchor/nullifier replay vectors) Tj
+T*
+(- reorg/restart vectors) Tj
+T*
+() Tj
+T*
+(Appendix F: Benchmark template) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Appendix G: Change record template) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Appendix H: Release sign-off template) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+(- Open Questions and Follow-Up Needs) Tj
+T*
+(- Which validator surface should survive as the single canonical authority: txveri.py,) Tj
+T*
+(txvalidation.py, or a newly consolidated layer?) Tj
+T*
+(- Can the private proof backend move to a better runtime boundary without unacceptable) Tj
+T*
+(deployment complexity?) Tj
+T*
+(- Which storage payloads, if any, justify binary compaction before v1 rather than after?) Tj
+T*
+(- What exact benchmark thresholds define ?production-fast enough? for mixed public/private) Tj
+T*
+(traffic?) Tj
+T*
+(- How will versioning, schema migration, and rollback policy be formalized once packaging and) Tj
+T*
+(updater work becomes real?) Tj
+T*
+(- Which older whitepaper materials should be updated, labeled historical, or archived out of the) Tj
+T*
+(active engineering path?) Tj
+T*
+(- What explicit release committee or sign-off model will govern consensus-sensitive changes) Tj
+T*
+(during the hardening period?) Tj
+T*
+() Tj
+T*
+(Final closing statement) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+94 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 95 0 R >>
+endobj
+95 0 obj
+<< /Length 613 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(The best path to a production-grade Atho v1 is not a grand rewrite and not a cosmetic cleanup.) Tj
+T*
+(It is a disciplined hardening program that:) Tj
+T*
+(- makes authority explicit) Tj
+T*
+(- removes duplicated semantics) Tj
+T*
+(- proves replay and recovery) Tj
+T*
+(- narrows Python/native boundaries) Tj
+T*
+(- strengthens packaging and external interfaces) Tj
+T*
+(- records every meaningful change with evidence) Tj
+T*
+() Tj
+T*
+(Atho already has enough real machinery to justify that discipline. The remaining work is to) Tj
+T*
+(apply it rigorously and in the right order.) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 96
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000435 00000 n 
+0000000503 00000 n 
+0000000629 00000 n 
+0000003115 00000 n 
+0000003241 00000 n 
+0000005772 00000 n 
+0000005898 00000 n 
+0000008727 00000 n 
+0000008855 00000 n 
+0000011008 00000 n 
+0000011136 00000 n 
+0000014219 00000 n 
+0000014347 00000 n 
+0000017239 00000 n 
+0000017367 00000 n 
+0000019458 00000 n 
+0000019586 00000 n 
+0000022058 00000 n 
+0000022186 00000 n 
+0000025432 00000 n 
+0000025560 00000 n 
+0000029036 00000 n 
+0000029164 00000 n 
+0000033693 00000 n 
+0000033821 00000 n 
+0000037390 00000 n 
+0000037518 00000 n 
+0000039408 00000 n 
+0000039536 00000 n 
+0000041386 00000 n 
+0000041514 00000 n 
+0000043083 00000 n 
+0000043211 00000 n 
+0000044953 00000 n 
+0000045081 00000 n 
+0000047129 00000 n 
+0000047257 00000 n 
+0000048930 00000 n 
+0000049058 00000 n 
+0000050665 00000 n 
+0000050793 00000 n 
+0000052748 00000 n 
+0000052876 00000 n 
+0000055365 00000 n 
+0000055493 00000 n 
+0000059082 00000 n 
+0000059210 00000 n 
+0000061580 00000 n 
+0000061708 00000 n 
+0000064384 00000 n 
+0000064512 00000 n 
+0000066628 00000 n 
+0000066756 00000 n 
+0000069456 00000 n 
+0000069584 00000 n 
+0000072362 00000 n 
+0000072490 00000 n 
+0000074411 00000 n 
+0000074539 00000 n 
+0000075833 00000 n 
+0000075961 00000 n 
+0000079072 00000 n 
+0000079200 00000 n 
+0000081820 00000 n 
+0000081948 00000 n 
+0000083957 00000 n 
+0000084085 00000 n 
+0000085923 00000 n 
+0000086051 00000 n 
+0000088992 00000 n 
+0000089120 00000 n 
+0000092322 00000 n 
+0000092450 00000 n 
+0000095325 00000 n 
+0000095453 00000 n 
+0000098009 00000 n 
+0000098137 00000 n 
+0000099827 00000 n 
+0000099955 00000 n 
+0000101188 00000 n 
+0000101316 00000 n 
+0000103609 00000 n 
+0000103737 00000 n 
+0000106154 00000 n 
+0000106282 00000 n 
+0000108635 00000 n 
+0000108763 00000 n 
+0000111450 00000 n 
+0000111578 00000 n 
+0000113968 00000 n 
+0000114096 00000 n 
+0000116388 00000 n 
+0000116516 00000 n 
+trailer
+<< /Size 96 /Root 1 0 R >>
+startxref
+117181
+%%EOF

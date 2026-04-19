@@ -1,0 +1,339 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2444 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Platinum Shield Privacy Layer \(Atho\)) Tj
+T*
+() Tj
+T*
+(Last refresh: 2026-04-04) Tj
+T*
+() Tj
+T*
+(This document is the canonical markdown reference for Atho private-layer behavior in the current) Tj
+T*
+(repository.) Tj
+T*
+() Tj
+T*
+(Product naming:) Tj
+T*
+(- Product release line: Platinum Shield v1 \(PRIVATE_LAYER_PRODUCT_VERSION=1.00\)) Tj
+T*
+(- Active production transaction version at genesis: private tx v1 \(1.00\)) Tj
+T*
+(- Legacy internal labels such as v5 remain as compatibility aliases only where older tooling) Tj
+T*
+(expects them) Tj
+T*
+(- Design Goals) Tj
+T*
+(- keep public UTXO behavior intact,) Tj
+T*
+(- add private notes and nullifier-based spend controls,) Tj
+T*
+(- hide private amounts on-chain while preserving consensus correctness,) Tj
+T*
+(- fail closed whenever proof/runtime requirements are missing.) Tj
+T*
+(- Public and Private Coexistence) Tj
+T*
+(Atho supports mixed blocks containing both:) Tj
+T*
+(- public UTXO transactions,) Tj
+T*
+(- private transactions with private inputs/outputs.) Tj
+T*
+() Tj
+T*
+(Consensus enforces both planes in a single block acceptance path. Private-state transitions are) Tj
+T*
+(applied/reverted with block connect/disconnect so reorg behavior remains deterministic.) Tj
+T*
+(- Private Transaction Model) Tj
+T*
+(Private tx vectors are carried in tx structures:) Tj
+T*
+(- private_inputs) Tj
+T*
+(- private_outputs) Tj
+T*
+() Tj
+T*
+(Core fields include:) Tj
+T*
+(- commit) Tj
+T*
+(- nullifier) Tj
+T*
+(- anchor) Tj
+T*
+(- merkle_path) Tj
+T*
+(- note_pk) Tj
+T*
+(- signature) Tj
+T*
+(- amount_plain \(mempool\)) Tj
+T*
+(- amount_commit \(block\)) Tj
+T*
+(- enc_payload) Tj
+T*
+() Tj
+T*
+(Mempool validates plaintext amount arithmetic; miners convert outputs to commitment form for) Tj
+T*
+(on-chain privacy.) Tj
+T*
+(- Cryptography Stack) Tj
+T*
+(- Falcon-512: ownership/signature proofs for note spends.) Tj
+T*
+(- Kyber: recipient payload encapsulation for note recovery.) Tj
+T*
+(- SHA3 domains: network-separated commit/nullifier/leaf/signing/seed hashes.) Tj
+T*
+(- STARK \(block-level\): proves private amount consistency for block private activity.) Tj
+T*
+(- Private Note Lifecycle) Tj
+T*
+(- Sender obtains recipient bundle \(Falcon pk + Kyber pk\).) Tj
+T*
+(- Sender creates private output with encrypted payload.) Tj
+T*
+(- Tx enters mempool \(private amount still explicit for policy validation\).) Tj
+T*
+(- Miner assembles block and computes private commitments.) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2772 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Miner generates block-level private STARK proof.) Tj
+T*
+(- Node verifies proof during block validation.) Tj
+T*
+(- Recipient scans chain, decapsulates payload, and stores recovered note material.) Tj
+T*
+(- Nullifiers and Anti-Double-Spend) Tj
+T*
+(- confirmed nullifier set blocks replay of spent notes,) Tj
+T*
+(- mempool pending-nullifier tracking blocks competing pending spends,) Tj
+T*
+(- conflicts fail admission before block inclusion.) Tj
+T*
+(- Merkle Root and Anchors) Tj
+T*
+(Private notes are tracked under a deterministic private Merkle tree \(depth=20\).) Tj
+T*
+(Anchors are validated against recent/allowed roots \(MAX_ANCHOR_AGE policy\).) Tj
+T*
+(- Block-Level STARK Pipeline) Tj
+T*
+(Current production path:) Tj
+T*
+(- bridge script: Src/ZKSTARK/scripts/private_layer_stark_bridge.py) Tj
+T*
+(- backend launcher: Src/ZKSTARK/scripts/private_layer_stark_backend.py) Tj
+T*
+(- Rust backend binary: Binaries/<platform>/private_layer_backend) Tj
+T*
+(- Rust runtime binary: Binaries/<platform>/atho_private_stark_runtime) Tj
+T*
+() Tj
+T*
+(Behavior:) Tj
+T*
+(- prove mode required for private-activity block assembly,) Tj
+T*
+(- verify mode required for block acceptance,) Tj
+T*
+(- runtime/proof failures are fail-closed.) Tj
+T*
+(- Binary Pinning and Runtime Integrity) Tj
+T*
+(Private STARK binaries are hash-pinned in:) Tj
+T*
+(- Binaries/pin_registry.json) Tj
+T*
+(- Binaries/<platform>/binary_meta.json) Tj
+T*
+() Tj
+T*
+(Pin policy is enforced on production networks by default. Unpinned command execution is denied) Tj
+T*
+(unless explicitly allowed via env overrides.) Tj
+T*
+(- Signature Length and Robustness) Tj
+T*
+(Private input Falcon signatures are accepted within bounded consensus limits \(not a single fixed) Tj
+T*
+(byte value hard-coded in all paths\), while still enforcing strict validation bounds.) Tj
+T*
+(- X-Address and Bundle Binding) Tj
+T*
+(Bundle helper paths provide:) Tj
+T*
+(- bundle-hash derivation,) Tj
+T*
+(- x-address derivation from bundle hash,) Tj
+T*
+(- receive-path bundle/x-address consistency validation.) Tj
+T*
+() Tj
+T*
+(Canonical helpers:) Tj
+T*
+(- Src/Utility/private_bundle.py) Tj
+T*
+(- Hidden Supply Accumulator) Tj
+T*
+(Private flow updates a hidden-supply accumulator using deterministic domain-separated events) Tj
+T*
+(from private amount commitments. This is part of the proof statement pipeline and block-level) Tj
+T*
+(validation checks.) Tj
+T*
+(- Storage and Logs) Tj
+T*
+(Storage) Tj
+T*
+(Private state is persisted in private note storage paths under chain data roots) Tj
+T*
+(\(network-separated\).) Tj
+T*
+() Tj
+T*
+(Logs) Tj
+T*
+(Private event logs are written under:) Tj
+T*
+(- logs/<network>/private/mempool/private_tx_mempool.log) Tj
+T*
+(- logs/<network>/private/blocks/private_tx_blocks.log) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1441 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- logs/<network>/private/errors/private_tx_errors.log) Tj
+T*
+(- Replay Protection) Tj
+T*
+(Consensus hashes for private commitments/nullifiers/signing include network identity domains,) Tj
+T*
+(preventing valid private material from one network being replayed on another network.) Tj
+T*
+(- Operational Controls) Tj
+T*
+(Relevant env controls \(examples\):) Tj
+T*
+(- ATHO_PRIVATE_STARK_BIN_PIN_REQUIRED) Tj
+T*
+(- ATHO_PRIVATE_STARK_RUNTIME_AUTOBUILD) Tj
+T*
+(- ATHO_PRIVATE_STARK_RUST_BACKEND_AUTOBUILD) Tj
+T*
+(- ATHO_PRIVATE_STARK_BACKEND_TIMEOUT_MS) Tj
+T*
+(- ATHO_PRIVATE_STARK_PROOF_MAX_BYTES) Tj
+T*
+(- Current Status) Tj
+T*
+(Implemented in repo:) Tj
+T*
+(- private tx parsing/validation,) Tj
+T*
+(- private mempool/block/error logging,) Tj
+T*
+(- block-level STARK proof bridge/backend/runtime wiring,) Tj
+T*
+(- pinned binary workflow for STARK binaries,) Tj
+T*
+(- fail-closed verification gates,) Tj
+T*
+(- deterministic private-bundle restore audit + safe migration helpers in key manager.) Tj
+T*
+() Tj
+T*
+(Remaining hardening work:) Tj
+T*
+(- broader adversarial/fuzz/regression automation,) Tj
+T*
+(- stronger p2p proof-flood/rate-limit stress policies,) Tj
+T*
+(- extended long-run mixed-network burn-in suites.) Tj
+T*
+(- Related Docs) Tj
+T*
+(- Consensus.md) Tj
+T*
+(- Tx.md) Tj
+T*
+(- Binaries.md) Tj
+T*
+(- LMDB.md) Tj
+T*
+(- Troubleshooting.md) Tj
+T*
+(- PrivateTx_v3.md) Tj
+T*
+(- PrivateTx_v3_Condensed.md) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000002823 00000 n 
+0000002949 00000 n 
+0000005773 00000 n 
+0000005899 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+7392
+%%EOF

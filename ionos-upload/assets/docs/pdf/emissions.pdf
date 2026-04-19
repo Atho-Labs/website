@@ -1,0 +1,365 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 1792 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Atho Emissions Policy) Tj
+T*
+() Tj
+T*
+(Date: 2026-04-18) Tj
+T*
+() Tj
+T*
+(This document is the canonical monetary-policy reference for the current Atho redesign.) Tj
+T*
+(- Summary) Tj
+T*
+() Tj
+T*
+(Active monetary policy:) Tj
+T*
+(- 5 decimal precision) Tj
+T*
+(- 1 ATHO = 100,000 atoms) Tj
+T*
+(- max supply: 1,000,000,000.00000 ATHO) Tj
+T*
+(- no premine) Tj
+T*
+(- no tail extension) Tj
+T*
+(- no protocol fee burn) Tj
+T*
+(- no fee-pool routing) Tj
+T*
+(- initial reward: 100.00000 ATHO/block) Tj
+T*
+(- block time: 120s) Tj
+T*
+(- blocks per day: 720) Tj
+T*
+(- emission duration: 300 years) Tj
+T*
+() Tj
+T*
+(The schedule is a deterministic fixed-point daily decay model implemented in monetary_policy.py.) Tj
+T*
+(- Canonical Constants) Tj
+T*
+() Tj
+T*
+(Unit Model) Tj
+T*
+(- DECIMALS = 5) Tj
+T*
+(- ATOMS_PER_COIN = 100,000) Tj
+T*
+(- 1 atom = 0.00001 ATHO) Tj
+T*
+() Tj
+T*
+(Time Model) Tj
+T*
+(- BLOCK_TIME_SECONDS = 120) Tj
+T*
+(- BLOCKS_PER_DAY = 720) Tj
+T*
+(- BLOCKS_PER_YEAR = 262,980) Tj
+T*
+(- DAYS_TOTAL = 109,575) Tj
+T*
+(- TOTAL_BLOCKS = 78,894,000) Tj
+T*
+() Tj
+T*
+(Supply Model) Tj
+T*
+(- INITIAL_BLOCK_REWARD_ATOMS = 10,000,000) Tj
+T*
+(- INITIAL_BLOCK_REWARD = 100.00000 ATHO) Tj
+T*
+(- INITIAL_DAILY_ISSUANCE = 72,000.00000 ATHO) Tj
+T*
+(- MAX_SUPPLY_ATOMS = 100,000,000,000,000) Tj
+T*
+(- MAX_SUPPLY = 1,000,000,000.00000 ATHO) Tj
+T*
+(- PREMINE_ATOMS = 0) Tj
+T*
+(- TAIL_REWARD = 0) Tj
+T*
+() Tj
+T*
+(Fixed-Point Decay) Tj
+T*
+(- MULTIPLIER_NUM = 999_928_027_050_395_505) Tj
+T*
+(- MULTIPLIER_DEN = 1_000_000_000_000_000_000) Tj
+T*
+(- daily multiplier = 0.999928027050395505) Tj
+T*
+() Tj
+T*
+(This is the corrected multiplier currently enforced in code. Older drafts that used) Tj
+T*
+(999_928_031_682_865_577 / 10^18 are not canonical.) Tj
+T*
+(- Schedule Definition) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2481 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+() Tj
+T*
+(The active schedule is daily_fixed_point_decay_v1.) Tj
+T*
+() Tj
+T*
+(Conceptually:) Tj
+T*
+(- Start day 0 with 100.00000 ATHO/block.) Tj
+T*
+(- Hold the same reward for all 720 blocks in that day.) Tj
+T*
+(- Apply the fixed-point multiplier once per day.) Tj
+T*
+(- Preserve remainder carry in integer math so cumulative supply reaches the cap exactly.) Tj
+T*
+(- After the final scheduled block, block subsidy becomes 0.) Tj
+T*
+() Tj
+T*
+(Implementation shape:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(This is consensus-critical integer arithmetic. There is no floating-point issuance math in block) Tj
+T*
+(validation.) Tj
+T*
+(- Emission Milestones) Tj
+T*
+(- Genesis reward: 100.00000 ATHO/block) Tj
+T*
+(- Final scheduled positive-subsidy height: 78,893,999) Tj
+T*
+(- First zero-subsidy height: 78,894,000) Tj
+T*
+(- Emission end day: 109,575) Tj
+T*
+(- Emission end time from genesis: 300.0 years) Tj
+T*
+(- Supply at end of final scheduled day: 1,000,000,000.00000 ATHO) Tj
+T*
+() Tj
+T*
+(Because there is no premine and no tail reward:) Tj
+T*
+(- base supply = max supply) Tj
+T*
+(- subsidy is positive only during the scheduled decay window) Tj
+T*
+(- after the cap is reached, supply stays flat) Tj
+T*
+(- Sample Checkpoints) Tj
+T*
+() Tj
+T*
+(The table below is code-backed from the active schedule. Circulating Supply is shown at the end) Tj
+T*
+(of the checkpoint day.) Tj
+T*
+() Tj
+T*
+(| Years | Day | Start-of-Day Reward | Daily Issuance | Circulating Supply |) Tj
+T*
+(| ---: | ---: | ---: | ---: | ---: |) Tj
+T*
+(| 0 | 0 | 100.00000 | 72,000.00000 | 0.00000 |) Tj
+T*
+(| 5 | 1,826 | 87.68430 | 63,132.69514 | 123,266,432.11046 |) Tj
+T*
+(| 10 | 3,652 | 76.88536 | 55,357.46105 | 231,288,606.07414 |) Tj
+T*
+(| 25 | 9,131 | 51.82961 | 37,317.31639 | 481,922,300.51803 |) Tj
+T*
+(| 50 | 18,262 | 26.86308 | 19,341.41809 | 731,663,413.24721 |) Tj
+T*
+(| 100 | 36,525 | 7.21573 | 5,195.32679 | 928,196,600.16474 |) Tj
+T*
+(| 150 | 54,788 | 1.93823 | 1,395.52438 | 980,987,668.92754 |) Tj
+T*
+(| 200 | 73,050 | 0.52066 | 374.88084 | 995,167,580.79691 |) Tj
+T*
+(| 250 | 91,312 | 0.13986 | 100.70454 | 998,976,741.96277 |) Tj
+T*
+(| 295 | 107,749 | 0.04284 | 30.84976 | 999,947,242.06941 |) Tj
+T*
+(| 300 | 109,575 | 0.03758 | 27.05235 | 1,000,000,000.00000 |) Tj
+T*
+(- Fee Policy Under the New Model) Tj
+T*
+() Tj
+T*
+(The current fee model is independent of the emissions curve:) Tj
+T*
+(- FEE_PER_BYTE_ATOMS = 1) Tj
+T*
+(- MIN_TRANSACTION_FEE_ATOMS = 500) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1533 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- DUST_LIMIT_ATOMS = 1) Tj
+T*
+(- FEE_BURN_PERCENT = 0) Tj
+T*
+(- FEE_POOL_ENABLE = False) Tj
+T*
+() Tj
+T*
+(That means:) Tj
+T*
+(- all transaction fees go directly to the block miner) Tj
+T*
+(- fees do not mint new supply) Tj
+T*
+(- fees do not destroy supply) Tj
+T*
+(- fees do not route into a consensus pool) Tj
+T*
+(- What Changed from the Older Model) Tj
+T*
+() Tj
+T*
+(Removed from active monetary policy:) Tj
+T*
+(- 9-decimal atom model) Tj
+T*
+(- higher legacy fee floor) Tj
+T*
+(- larger legacy minimum tx fee) Tj
+T*
+(- larger legacy dust threshold) Tj
+T*
+(- premine/bootstrap allocation) Tj
+T*
+(- tail reward) Tj
+T*
+(- supply floor clipping) Tj
+T*
+(- burn-based deflation logic) Tj
+T*
+(- consensus fee-pool routing) Tj
+T*
+(- bond/stake-linked monetary side channels) Tj
+T*
+() Tj
+T*
+(The new model is simpler:) Tj
+T*
+(- one unit model) Tj
+T*
+(- one reward schedule) Tj
+T*
+(- one hard cap) Tj
+T*
+(- one payment-only fee path) Tj
+T*
+(- Consensus-Breaking Changes) Tj
+T*
+() Tj
+T*
+(The following remain consensus-breaking if changed:) Tj
+T*
+(- decimals / atom conversion) Tj
+T*
+(- max supply) Tj
+T*
+(- initial reward) Tj
+T*
+(- multiplier numerator or denominator) Tj
+T*
+(- total scheduled days / blocks) Tj
+T*
+(- fee floor) Tj
+T*
+(- minimum tx fee) Tj
+T*
+(- dust limit) Tj
+T*
+(- confirmation policy when embedded in wallet/node assumptions) Tj
+T*
+(- Code References) Tj
+T*
+(- Src/Utility/monetary_policy.py) Tj
+T*
+(- Src/Utility/const.py) Tj
+T*
+(- Src/Main/consensus.py) Tj
+T*
+(- Src/Main/blockveri.py) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000002171 00000 n 
+0000002297 00000 n 
+0000004830 00000 n 
+0000004956 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+6541
+%%EOF

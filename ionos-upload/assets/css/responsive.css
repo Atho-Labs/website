@@ -27,6 +27,7 @@
     grid-template-columns: 1fr;
   }
 
+  .metric-grid,
   .feature-grid,
   .roadmap-grid,
   .docs-grid,

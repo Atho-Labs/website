@@ -1,0 +1,303 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2159 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Atho LMDB Storage Overview) Tj
+T*
+() Tj
+T*
+(Date: 2026-04-18) Tj
+T*
+() Tj
+T*
+(This document describes the active LMDB layout for the payment-only Atho runtime.) Tj
+T*
+(- Database Root) Tj
+T*
+() Tj
+T*
+(Root path:) Tj
+T*
+(- blockchain_storage/<network>/) Tj
+T*
+() Tj
+T*
+(Configured in:) Tj
+T*
+(- Src/Utility/const.py via Constants.DATABASES) Tj
+T*
+(- Active Store Classification) Tj
+T*
+() Tj
+T*
+(Consensus-Critical Stores) Tj
+T*
+() Tj
+T*
+(These stores are replayed or validated from canonical blocks and directly affect block or) Tj
+T*
+(transaction validity.) Tj
+T*
+(- full_block_chain*.lmdb) Tj
+T*
+(- Code: Src/Storage/blockstorage.py) Tj
+T*
+(- Role: canonical block bodies, tx-location index, tip metadata.) Tj
+T*
+(- utxo*.lmdb) Tj
+T*
+(- Code: Src/Storage/utxostorage.py) Tj
+T*
+(- Role: public spendable output set plus apply/unspend markers.) Tj
+T*
+(- private_notes*.lmdb) Tj
+T*
+(- Code: Src/Storage/private_notes_store.py) Tj
+T*
+(- Role: private note set, nullifiers, Merkle tree nodes, anchor roots.) Tj
+T*
+() Tj
+T*
+(Runtime / Propagation Stores) Tj
+T*
+() Tj
+T*
+(These stores matter operationally, but accepted blocks remain the canonical source of truth.) Tj
+T*
+(- mempool*.lmdb) Tj
+T*
+(- Code: Src/Storage/mempool.py) Tj
+T*
+(- Role: pending tx propagation, local fee/ranking indexes, tombstones.) Tj
+T*
+(- orphan_blocks*.lmdb) Tj
+T*
+(- Code: Src/Blockchain/orphreorgs.py) Tj
+T*
+(- Role: orphan and side-branch staging for bounded reorg handling.) Tj
+T*
+() Tj
+T*
+(Compatibility-Reserved Path) Tj
+T*
+(- payout_journal*.lmdb) Tj
+T*
+(- The path is still present in Constants.DATABASES for compatibility with older tooling and) Tj
+T*
+(historical data layout.) Tj
+T*
+(- It is not part of the current payment-only bond/stake model, because staking, bonding, and) Tj
+T*
+(BPoW payout routing were removed.) Tj
+T*
+(- Fresh payment-only networks should not depend on this store for active consensus behavior.) Tj
+T*
+(- Removed Legacy Stores) Tj
+T*
+() Tj
+T*
+(The active design no longer uses separate bond or stake LMDB domains.) Tj
+T*
+() Tj
+T*
+(Removed from the live protocol model:) Tj
+T*
+(- bond*.lmdb) Tj
+T*
+(- stake*.lmdb) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2341 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- bond/stake lock-state machines) Tj
+T*
+(- bonded miner eligibility state) Tj
+T*
+() Tj
+T*
+(If old documents mention those stores, treat that as historical context from the removed) Tj
+T*
+(bond/stake era.) Tj
+T*
+(- Runtime Deletion and Recovery Expectations) Tj
+T*
+(- Deleting a consensus store while the node is running is unsafe.) Tj
+T*
+(- Store open paths attempt recovery or reopen when practical.) Tj
+T*
+(- Missing or corrupt required state should fail closed rather than letting the node continue on) Tj
+T*
+(uncertain state.) Tj
+T*
+(- Operationally, stop the node before manual LMDB deletion unless you are intentionally testing) Tj
+T*
+(recovery behavior.) Tj
+T*
+(- Map Growth and Rollover) Tj
+T*
+() Tj
+T*
+(Atho uses bounded LMDB map growth:) Tj
+T*
+(- on MapFullError, stores may grow map size when enabled,) Tj
+T*
+(- growth is capped by store limits,) Tj
+T*
+(- near-limit pressure is logged.) Tj
+T*
+() Tj
+T*
+(Important:) Tj
+T*
+(- LMDB page reuse does not shrink map size automatically,) Tj
+T*
+(- pruning or cleanup frees pages for reuse but does not compact file size.) Tj
+T*
+(- Operational Checks) Tj
+T*
+() Tj
+T*
+(Inspect store health:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Recommended operator checks:) Tj
+T*
+(- watch logs for map-pressure and recovery events,) Tj
+T*
+(- increase map-size limits before sustained high-write load when near thresholds,) Tj
+T*
+(- snapshot the storage root before planned maintenance,) Tj
+T*
+(- keep store ownership and permissions explicit per deployment user.) Tj
+T*
+(- Migration and Backup Guidance) Tj
+T*
+() Tj
+T*
+(When moving a node between hosts, copy the active store set together:) Tj
+T*
+(- full_block_chain) Tj
+T*
+(- utxo) Tj
+T*
+(- private_notes) Tj
+T*
+(- mempool when you want local pending-state continuity) Tj
+T*
+(- orphan_blocks when you want local side-branch continuity) Tj
+T*
+() Tj
+T*
+(If a compatibility payout_journal file exists in an older data directory, copy it only for) Tj
+T*
+(historical completeness. It is not part of the new payment-only consensus surface.) Tj
+T*
+(- Policy Snapshot Context) Tj
+T*
+() Tj
+T*
+(Storage behavior supports active policy constants but does not define them. Current runtime) Tj
+T*
+(policy values are:) Tj
+T*
+(- standard confirmations: 6) Tj
+T*
+(- private confirmations: 6) Tj
+T*
+(- coinbase maturity: 150) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 536 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- display precision: 5 decimals) Tj
+T*
+(- unit conversion: 1 ATHO = 100,000 atoms) Tj
+T*
+(- fee floor: 1 atom/vB) Tj
+T*
+(- minimum tx fee: 500 atoms) Tj
+T*
+(- dust limit: 1 atom) Tj
+T*
+(- max supply: 1,000,000,000.00000 ATHO) Tj
+T*
+(- premine: 0) Tj
+T*
+(- Related Files) Tj
+T*
+(- Src/Storage/lmdbutils.py) Tj
+T*
+(- Src/Storage/blockstorage.py) Tj
+T*
+(- Src/Storage/utxostorage.py) Tj
+T*
+(- Src/Storage/private_notes_store.py) Tj
+T*
+(- Src/Storage/mempool.py) Tj
+T*
+(- Src/Blockchain/orphreorgs.py) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000002538 00000 n 
+0000002664 00000 n 
+0000005057 00000 n 
+0000005183 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+5770
+%%EOF

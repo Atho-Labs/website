@@ -26,7 +26,7 @@
   <link rel="icon" type="image/png" href="./assets/media/logo2website.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@500;600;700;800&family=Share+Tech+Mono&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/css/variables.css">
   <link rel="stylesheet" href="./assets/css/base.css">
   <link rel="stylesheet" href="./assets/css/layout.css">
@@ -88,49 +88,38 @@
           </div>
           <h1>The active Atho policy set, in one place.</h1>
           <p>
-            This hub mirrors the current Atho documentation baseline: proof of work, public and private transactions,
-            six confirmations, a one-billion ATHO max supply, and the active wallet and privacy model.
+            This hub is the canonical entry point for the live Atho baseline. Use it to confirm constants, inspect
+            wallet and privacy flow, and follow the current operator path without guessing which docs are still active.
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary btn-inline" href="#docs-index">Explore Guides</a>
-            <a class="btn btn-primary btn-inline" href="./wallet.html">Wallet</a>
-            <a class="btn btn-primary btn-inline" href="./wallet-hierarchy.html">Wallet Hierarchy Guide</a>
-            <a class="btn btn-primary btn-inline" href="./platinum-shield.html">Platinum Shield</a>
-            <a class="btn btn-primary btn-inline" href="./kyber.html">Kyber</a>
-            <a class="btn btn-primary btn-inline" href="./falcon-512.html">Falcon 512</a>
+            <a class="btn btn-ghost btn-inline" href="./join.html">Join Network</a>
           </div>
         </div>
 
         <div class="hero-panel" data-reveal>
           <div class="card card-pad">
-            <h2 class="panel-title">Recommended Read Order</h2>
+            <h2 class="panel-title">Start here in three reads</h2>
             <ul class="key-list">
               <li class="key-item">
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
-                  <strong>1. INDEX.md</strong>
-                  <span>High-level entry point for the active protocol profile and canonical source list.</span>
+                  <strong>1. Baseline snapshot</strong>
+                  <span>Confirm chain model, fee floor, confirmations, supply cap, and other constants first.</span>
                 </span>
               </li>
               <li class="key-item">
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
-                  <strong>2. Consensus + Emissions</strong>
-                  <span>The active runtime constants, fee rules, confirmations, and issuance schedule live here.</span>
+                  <strong>2. Wallet + private flow</strong>
+                  <span>Use the wallet, hierarchy, Platinum Shield, Kyber, and Falcon pages to understand custody and validation boundaries.</span>
                 </span>
               </li>
               <li class="key-item">
                 <span class="key-bullet" aria-hidden="true"></span>
                 <span>
-                  <strong>3. Final Specs</strong>
-                  <span>Parameter snapshot for integrators, partners, and anyone checking current policy quickly.</span>
-                </span>
-              </li>
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>4. Wallet, Kyber, and PrivateTx docs</strong>
-                  <span>Best path for understanding wallet recovery, private payment flows, and how Kyber is used.</span>
+                  <strong>3. Operations + release trail</strong>
+                  <span>The join guide, troubleshooting path, roadmap, changelog, and GitHub trail show what is current versus planned.</span>
                 </span>
               </li>
             </ul>
@@ -176,17 +165,117 @@
         </article>
 
         <article class="card card-pad" data-reveal>
-          <h3 class="panel-title">Core Web Guides</h3>
-          <div class="hero-actions docs-download-actions">
-            <a class="btn btn-primary btn-inline" href="./wallet.html">Wallet</a>
-            <a class="btn btn-primary btn-inline" href="./wallet-hierarchy.html">Wallet Hierarchy</a>
-            <a class="btn btn-primary btn-inline" href="./platinum-shield.html">Platinum Shield</a>
-            <a class="btn btn-primary btn-inline" href="./kyber.html">Kyber</a>
-            <a class="btn btn-primary btn-inline" href="./falcon-512.html">Falcon 512</a>
-            <a class="btn btn-primary btn-inline" href="./join.html">Join Guide</a>
-            <a class="btn btn-primary btn-inline" href="./changelog.html">Changelog</a>
+          <h3 class="panel-title">Verification Anchors</h3>
+          <p class="panel-copy">
+            Three sources should agree when you evaluate Atho: the live HTML baseline, the downloadable specs and
+            whitepapers, and the public release trail.
+          </p>
+          <ul class="key-list">
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>HTML baseline</strong>
+                <span>Use this docs hub for the current chain model, wallet model, and operations path.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Spec PDFs</strong>
+                <span>Use final specs, whitepapers, network stack, and security FAQ references for offline review.</span>
+              </span>
+            </li>
+            <li class="key-item">
+              <span class="key-bullet" aria-hidden="true"></span>
+              <span>
+                <strong>Public trail</strong>
+                <span>Use changelog, roadmap, and GitHub to confirm what is live, changing, or still in planning.</span>
+              </span>
+            </li>
+          </ul>
+          <div class="doc-actions">
+            <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/atho-final-specs.pdf" download>Final Specs PDF</a>
+            <a class="btn btn-ghost btn-inline" href="./changelog.html">Open Changelog</a>
           </div>
         </article>
+      </div>
+    </section>
+
+    <section id="verification-docs" class="section">
+      <div class="wrap">
+        <span class="section-eyebrow">Verification</span>
+        <h2 class="section-title">Read the evidence closest to the protocol.</h2>
+        <p class="section-copy">
+          These references are the fastest way to move from marketing claims to concrete artifacts: whitepapers, specs,
+          security references, operator runbooks, and the public release trail.
+        </p>
+
+        <div class="docs-catalog-grid" data-stagger>
+          <article class="card card-pad doc-catalog-card" data-reveal>
+            <h3 class="doc-catalog-title">Whitepaper Set</h3>
+            <p class="doc-catalog-summary">Read the condensed overview first, then the full whitepaper draft if you want the longer protocol and security narrative.</p>
+            <div class="doc-meta">
+              <span class="feature-tag">Whitepaper</span>
+              <span class="doc-meta-type">PDF</span>
+            </div>
+            <div class="doc-actions">
+              <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/atho-whitepaper-v3.pdf" download>Full Whitepaper</a>
+              <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/atho-whitepaper-condensed-v3.pdf" download>Condensed Overview</a>
+            </div>
+          </article>
+
+          <article class="card card-pad doc-catalog-card" data-reveal>
+            <h3 class="doc-catalog-title">Final Specs + Baseline</h3>
+            <p class="doc-catalog-summary">Use the HTML baseline for the live surface and the final specs PDF for a compact parameter snapshot.</p>
+            <div class="doc-meta">
+              <span class="feature-tag">Baseline</span>
+              <span class="doc-meta-type">HTML + PDF</span>
+            </div>
+            <div class="doc-actions">
+              <a class="btn btn-primary btn-inline" href="#policy-baseline">Open Baseline</a>
+              <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/atho-final-specs.pdf" download>Final Specs PDF</a>
+            </div>
+          </article>
+
+          <article class="card card-pad doc-catalog-card" data-reveal>
+            <h3 class="doc-catalog-title">Security References</h3>
+            <p class="doc-catalog-summary">The network stack and transaction security FAQ are the quickest technical references for architecture and review posture.</p>
+            <div class="doc-meta">
+              <span class="feature-tag">Security</span>
+              <span class="doc-meta-type">PDF</span>
+            </div>
+            <div class="doc-actions">
+              <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/network-stack.pdf" download>Network Stack</a>
+              <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/transaction-security-audit-faq.pdf" download>Security FAQ</a>
+            </div>
+          </article>
+
+          <article class="card card-pad doc-catalog-card" data-reveal>
+            <h3 class="doc-catalog-title">Operations Path</h3>
+            <p class="doc-catalog-summary">The join guide and troubleshooting reference show the real setup, verification, and recovery path for operators.</p>
+            <div class="doc-meta">
+              <span class="feature-tag">Operations</span>
+              <span class="doc-meta-type">HTML + PDF</span>
+            </div>
+            <div class="doc-actions">
+              <a class="btn btn-primary btn-inline" href="./join.html">Open Runbook</a>
+              <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/troubleshooting.pdf" download>Troubleshooting PDF</a>
+            </div>
+          </article>
+
+          <article class="card card-pad doc-catalog-card" data-reveal>
+            <h3 class="doc-catalog-title">Public Project Trail</h3>
+            <p class="doc-catalog-summary">Use the changelog, roadmap, and GitHub trail to separate exposed functionality from planned future work.</p>
+            <div class="doc-meta">
+              <span class="feature-tag">Public Trail</span>
+              <span class="doc-meta-type">HTML + External</span>
+            </div>
+            <div class="doc-actions">
+              <a class="btn btn-primary btn-inline" href="./roadmap.html">Open Roadmap</a>
+              <a class="btn btn-ghost btn-inline" href="https://github.com/Atho-Labs" target="_blank" rel="noopener noreferrer">Open GitHub</a>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -384,10 +473,8 @@
             </li>
           </ul>
           <div class="hero-actions">
-            <a class="btn btn-primary btn-inline" href="./platinum-shield.html">Platinum Shield Page</a>
-            <a class="btn btn-primary btn-inline" href="./wallet.html#wallet-private">Wallet Private Flow</a>
-            <a class="btn btn-primary btn-inline" href="./kyber.html">Kyber</a>
-            <a class="btn btn-primary btn-inline" href="./falcon-512.html">Falcon 512</a>
+            <a class="btn btn-primary btn-inline" href="./platinum-shield.html">Open Platinum Shield</a>
+            <a class="btn btn-ghost btn-inline" href="./wallet.html#wallet-private">Wallet Private Flow</a>
           </div>
         </article>
 
@@ -417,10 +504,8 @@
             </li>
           </ul>
           <div class="hero-actions">
-            <a class="btn btn-primary btn-inline" href="./wallet.html">Open Wallet</a>
-            <a class="btn btn-primary btn-inline" href="./wallet-hierarchy.html">Open Web Guide</a>
-            <a class="btn btn-primary btn-inline" href="./kyber.html">Kyber</a>
-            <a class="btn btn-primary btn-inline" href="./wallet.html#wallet-recovery">Recovery Section</a>
+            <a class="btn btn-primary btn-inline" href="./wallet.html">Open Wallet Guide</a>
+            <a class="btn btn-ghost btn-inline" href="./wallet-hierarchy.html">Open Hierarchy Guide</a>
           </div>
         </article>
       </div>
@@ -490,7 +575,7 @@
       <span>Atho Labs</span>
       <span class="footer-contact">
         <span class="footer-slogan">Atho. Public or private payments. The Platinum Standard for the Quantum Age.</span>
-        <span class="footer-updated">Last updated: April 18, 2026</span>
+        <span class="footer-updated">Last updated: April 19, 2026</span>
         <span>
           To report bugs, security issues, or general inquiries:
           <a href="./contact.html">Contact</a>

@@ -1,0 +1,327 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 3 /Kids [4 0 R 6 0 R 8 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2221 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Atho Network ? Developer Onboarding) Tj
+T*
+() Tj
+T*
+(Last refresh: 2026-04-11.) Tj
+T*
+() Tj
+T*
+(This doc is a practical, minimal path to get a new developer productive fast.) Tj
+T*
+() Tj
+T*
+(All detailed docs live in Docs/. Use the documentation index in this folder as the central map,) Tj
+T*
+(and keep this file for the developer path.) Tj
+T*
+(- Prerequisites) Tj
+T*
+(- Python 3.9+) Tj
+T*
+(- Docker Desktop/Engine \(required for recommended first-run bootstrap path\)) Tj
+T*
+(- macOS/Linux/WSL recommended) Tj
+T*
+(- Repo layout \(high?level\)) Tj
+T*
+(- Src/ ? core code \(nodes, blockchain, storage, P2P, miner, API, CLI\)) Tj
+T*
+(- Docs/ ? protocol and component docs) Tj
+T*
+(- docker/Dockerfile ? reproducible Docker build toolchain for pinned binaries/bootstrap metadata) Tj
+T*
+(- Src/Main/runnode.py ? local launcher for full/miner/wallet nodes) Tj
+T*
+(- logs/ ? runtime logs \(ignored in onboarding\)) Tj
+T*
+(- Option 1 \(Recommended\): GUI-first bootstrap) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Behavior:) Tj
+T*
+(- GUI launches first.) Tj
+T*
+(- If runtime/binaries are missing, GUI auto-runs build.py.) Tj
+T*
+(- build.py uses Docker once for first setup \(builder/export only\), then runtime stays native.) Tj
+T*
+(- If binaries already exist for the selected network/platform, bootstrap skips Docker rebuild.) Tj
+T*
+(- GUI opens Setup Assistant \(wallet, encryption, node profile\).) Tj
+T*
+(- Option 2 \(Power users\): manual build + run) Tj
+T*
+(- Local run \(single machine\)) Tj
+T*
+(Launcher:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Pick:) Tj
+T*
+(1 = Full node, 2 = Miner, 3 = Wallet/API, 4 = All.) Tj
+T*
+(- Docker bootstrap build \(native runtime\)) Tj
+T*
+(Use Docker only for deterministic build/bootstrap:) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Then launch GUI \(which also auto-checks runtime readiness\):) Tj
+T*
+(- Logs to watch) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Key signals:) Tj
+T*
+(- handshake_ok ? peers connected) Tj
+T*
+(- sync_verified_blocks ? blocks downloaded and verified) Tj
+T*
+(- block_parent_missing / ORPHAN ? parent not yet available) Tj
+T*
+(- Mining tip height=... ? miner following chain tip) Tj
+T*
+(- Common env knobs) Tj
+T*
+(Set per shell:) Tj
+T*
+(- ATHO_P2P_PORT ? P2P TCP port) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2507 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- ATHO_DB_ROOT ? storage root) Tj
+T*
+(- ATHO_LOG_ROOT ? logs root) Tj
+T*
+(- ATHO_MINER_SYNC_WAIT ? delay before mining) Tj
+T*
+(- ATHO_MNEMONIC_PBKDF2_ITERS ? optional override for mnemonic PBKDF2-HMAC-SHA3-512 iterations) Tj
+T*
+(\(default is secure baseline in code\)) Tj
+T*
+() Tj
+T*
+(7.1\) Wallet/key model \(current\)) Tj
+T*
+(- Key generation is mnemonic-first \(atho-mnemonic-v1\) with default **24 words**.) Tj
+T*
+(- Supported phrase lengths: **12 / 24 / 48**.) Tj
+T*
+(- Mnemonic restore is deterministic by phrase + passphrase + path \(network/account/role/index\).) Tj
+T*
+(- Wallet APIs now include:) Tj
+T*
+(- POST /wallet/create) Tj
+T*
+(- POST /wallet/recover_mnemonic) Tj
+T*
+(- POST /wallet/export) Tj
+T*
+(- POST /wallet/import) Tj
+T*
+(- CLI commands include:) Tj
+T*
+(- wallet new [12|24|48]) Tj
+T*
+(- wallet recover) Tj
+T*
+(- wallet export) Tj
+T*
+(- wallet import) Tj
+T*
+(- Where to start in code) Tj
+T*
+(- Src/Main/runnode.py ? launcher) Tj
+T*
+(- Src/Node/fullnode.py / minernode.py ? node entrypoints) Tj
+T*
+(- Src/Network/* ? P2P, peers, sync) Tj
+T*
+(- Src/Storage/* ? LMDB stores) Tj
+T*
+(- Src/Miner/* ? mining loop + PoW) Tj
+T*
+(- Src/Blockchain/* ? block/chain validation) Tj
+T*
+(- Src/ module map \(one?by?one\)) Tj
+T*
+(This project is modular by domain. Below is a quick map of every top?level module under Src/ and) Tj
+T*
+(its role.) Tj
+T*
+(- Src/Accounts/) Tj
+T*
+(- Key management \(Falcon keys, export/import, format enforcement\).) Tj
+T*
+(- Src/Api/) Tj
+T*
+(- FastAPI app, auth, API routes \(wallet, chain, tx, mining, peers\).) Tj
+T*
+(- Src/Blockchain/) Tj
+T*
+(- Core blockchain logic \(block model, chain validation, genesis, reorg/orphan handling\).) Tj
+T*
+(- Src/Config/) Tj
+T*
+(- Config files \(API keys, port mappings, bootstrap seeds, etc.\).) Tj
+T*
+(- Src/Falcon/) Tj
+T*
+(- Falcon signature integration and CLI/binaries.) Tj
+T*
+(- Src/Kyber/) Tj
+T*
+(- Vendored Kyber KEM implementation and wrappers used by wallet lockbox workflows.) Tj
+T*
+(- Src/GUI/) Tj
+T*
+(- Desktop GUI, CLI UI, Web Explorer \(web_explorer.html\), and local explorer bridge server.) Tj
+T*
+(- Src/Main/) Tj
+T*
+(- Launchers and main entrypoints \(runnode.py, emission bootstrap, etc.\).) Tj
+T*
+(- Src/Miner/) Tj
+T*
+(- Mining loop, PoW manager, candidate block building.) Tj
+T*
+(- Src/Network/) Tj
+T*
+(- P2P server, peer manager, sync logic, bootstrap/seed handling, network logs.) Tj
+T*
+(- Src/SigWit/) Tj
+T*
+(- Witness model, commitments, wtxid logic, pruning helpers.) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1475 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Src/Storage/) Tj
+T*
+(- LMDB stores for blocks, UTXO, mempool, and orphan branches.) Tj
+T*
+(- Src/Transactions/) Tj
+T*
+(- Transaction model, inputs/outputs, signing, verification, coinbase.) Tj
+T*
+(- Src/Utility/) Tj
+T*
+(- Shared helpers \(constants, hashing, logging, serialization, trace/debug\).) Tj
+T*
+() Tj
+T*
+(Modular flow \(high?level\)) Tj
+T*
+(- Node/* starts services ? initializes Storage/*, Blockchain/*, Transactions/*.) Tj
+T*
+(- Network/* handles P2P, peers, sync ? feeds blocks/tx into Blockchain/* + Transactions/*.) Tj
+T*
+(- Miner/* builds candidates ? validates via Blockchain/* + Transactions/*.) Tj
+T*
+(- Api/* exposes chain/tx/miner data ? uses Storage/*, Transactions/*, and Accounts/*) Tj
+T*
+(key/material services.) Tj
+T*
+(- Full per?file / per?class map \(auto?generated\)) Tj
+T*
+(For extreme detail \(every Src/ file, class, method, and top?level function with signatures +) Tj
+T*
+(docstrings\), see:) Tj
+T*
+(- SRC_FILE_MAP.md) Tj
+T*
+(- If something fails) Tj
+T*
+(- Verify Docker Desktop is running.) Tj
+T*
+(- Make sure DB paths exist \(blockchain_storage/...\).) Tj
+T*
+(- Check logs/terminal/terminal_events.log.) Tj
+T*
+(- Confirm peers are active \(handshake events\).) Tj
+T*
+(- Next steps \(recommended\)) Tj
+T*
+(- Read: Consensus.md, Tx.md, Sigwit.md) Tj
+T*
+(- Run: local full + miner, then Docker bootstrap + native launch, compare tip heights.) Tj
+T*
+(- Keep the documentation index open while you work.) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000133 00000 n 
+0000000201 00000 n 
+0000000327 00000 n 
+0000002600 00000 n 
+0000002726 00000 n 
+0000005285 00000 n 
+0000005411 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+6938
+%%EOF

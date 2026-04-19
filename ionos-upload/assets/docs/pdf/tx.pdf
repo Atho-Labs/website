@@ -1,0 +1,402 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 4 /Kids [4 0 R 6 0 R 8 0 R 10 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 1900 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Atho Transaction Reference \(Current\)) Tj
+T*
+() Tj
+T*
+(Date: 2026-04-18) Tj
+T*
+() Tj
+T*
+(This is the authoritative transaction behavior reference for current development builds.) Tj
+T*
+(- Canonical Policy Metric) Tj
+T*
+(Atho uses SegWit-style policy metrics:) Tj
+T*
+(- weight = base_bytes * 3 + total_bytes) Tj
+T*
+(- vsize = ceil\(weight / 4\)) Tj
+T*
+() Tj
+T*
+(vsize is used for:) Tj
+T*
+(- fee floor checks,) Tj
+T*
+(- mempool admission,) Tj
+T*
+(- miner packing,) Tj
+T*
+(- transaction size policy limits.) Tj
+T*
+() Tj
+T*
+(Active policy constants:) Tj
+T*
+(- fee floor: 1 atom/vB) Tj
+T*
+(- minimum tx fee: 500 atoms) Tj
+T*
+(- tx confirmations required for regular spend visibility: 6) Tj
+T*
+(- Binary Transport Codec) Tj
+T*
+(Current serializer emits compact binary payload magic:) Tj
+T*
+(- ATX2 \(current\)) Tj
+T*
+() Tj
+T*
+(Decoder accepts:) Tj
+T*
+(- ATX2) Tj
+T*
+(- ATX1 \(legacy decode compatibility\)) Tj
+T*
+() Tj
+T*
+(Code:) Tj
+T*
+(- Src/Transactions/txbinary.py) Tj
+T*
+(- Src/SigWit/sigwit.py) Tj
+T*
+(- Field Strategy \(Compact\)) Tj
+T*
+(Inputs:) Tj
+T*
+(- spend reference: tx_out_id \(<96-hex-txid>:<vout>\)) Tj
+T*
+(- optional non-zero sequence via bitmap + varint in binary codec) Tj
+T*
+(- no full signature embedded per-input) Tj
+T*
+() Tj
+T*
+(Outputs:) Tj
+T*
+(- amount encoded from integer atoms) Tj
+T*
+(- destination binding encoded as 48-byte raw HPK digest) Tj
+T*
+(- lock flags compacted with bitmap) Tj
+T*
+() Tj
+T*
+(Witness:) Tj
+T*
+(- signature and public key are raw bytes in binary payload) Tj
+T*
+(- API/UI wire display remains canonicalized for compatibility/human tooling) Tj
+T*
+(- Signature Reference Token) Tj
+T*
+(Input script_sig is a compact reference token, not a full signature blob.) Tj
+T*
+() Tj
+T*
+(Current canonical prefix:) Tj
+T*
+(- SR:<16-hex>) Tj
+T*
+() Tj
+T*
+(Legacy SIG_REF:* acceptance is policy-gated and disabled in current defaults.) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2590 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- Integer Accounting) Tj
+T*
+(Consensus-critical tx value logic uses integer atoms. Display conversion to decimal strings is) Tj
+T*
+(presentation-only.) Tj
+T*
+() Tj
+T*
+(Examples:) Tj
+T*
+(- amount_atoms) Tj
+T*
+(- fee_atoms) Tj
+T*
+(- exact conservation checks in verifier paths) Tj
+T*
+(- Witness Size Policy) Tj
+T*
+(Current Falcon witness policy bounds:) Tj
+T*
+(- signature target ~666 bytes \(compressed range accepted by policy\)) Tj
+T*
+(- canonical public key length 897 bytes) Tj
+T*
+(- legacy public key length acceptance is migration-policy controlled) Tj
+T*
+(- Measured Size Profile \(Hard Data\)) Tj
+T*
+(There is no single fixed tx size. Size varies with:) Tj
+T*
+(- input count) Tj
+T*
+(- output count) Tj
+T*
+(- private vectors) Tj
+T*
+(- metadata) Tj
+T*
+(- witness payload length) Tj
+T*
+() Tj
+T*
+(The table below is measured from the live serializer + policy path:) Tj
+T*
+(- Transaction.to_dict\(\)) Tj
+T*
+(- serialize_tx_v1\(...\)) Tj
+T*
+(- Constants.tx_policy_metrics\(...\)) Tj
+T*
+() Tj
+T*
+(Snapshot date: 2026-04-05) Tj
+T*
+() Tj
+T*
+(| Flow Shape | Base Bytes | Total Bytes | Weight | vsize | Binary Bytes |) Tj
+T*
+(| --- | ---: | ---: | ---: | ---: | ---: |) Tj
+T*
+(| coinbase \(1 out\) | 290 | 290 | 1160 | 290 | 290 |) Tj
+T*
+(| public 1 in / 1 out | 121 | 1634 | 1997 | 500 | 1634 |) Tj
+T*
+(| public 1 in / 2 out | 174 | 1687 | 2209 | 553 | 1687 |) Tj
+T*
+(| public 2 in / 2 out | 223 | 1736 | 2405 | 602 | 1736 |) Tj
+T*
+(| public 3 in / 2 out | 272 | 1785 | 2601 | 651 | 1785 |) Tj
+T*
+(| public -> private 1 in / 1 private out | 2092 | 3605 | 9881 | 2471 | 3605 |) Tj
+T*
+(| private -> public 1 private in / 1 public out | 2329 | 3842 | 10829 | 2708 | 3842 |) Tj
+T*
+(| private -> private 1 private in / 1 private out | 4294 | 5807 | 18689 | 4673 | 5807 |) Tj
+T*
+(| private -> public + private change 1 private in / 1 private out + 1 public out | 4301 | 5814 |) Tj
+T*
+(18717 | 4680 | 5814 |) Tj
+T*
+(- Private Multipliers vs Standard Public Send) Tj
+T*
+(Using public 1 in / 2 out \(553 vB\) as baseline:) Tj
+T*
+(- public -> private: 2471 / 553 = 4.47x) Tj
+T*
+(- private -> public: 2708 / 553 = 4.90x) Tj
+T*
+(- private -> private: 4673 / 553 = 8.45x) Tj
+T*
+(- private -> public with private change: 4680 / 553 = 8.46x) Tj
+T*
+() Tj
+T*
+(This confirms current private flows are not ~21x for representative) Tj
+T*
+(single-input/single-recipient shapes. They are currently ~4.5x to ~8.5x, with larger multipliers) Tj
+T*
+(when private input/output counts increase.) Tj
+T*
+(- Private Size Sensitivity \(Measured\)) Tj
+T*
+(From the same measurement run:) Tj
+T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 2421 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(- private -> private without view-tag note message: 4675 vB) Tj
+T*
+(- private -> private with view-tag: 4679 vB \(+4 vB\)) Tj
+T*
+(- private -> private with 32-byte note message: 4702 vB \(+27 vB\)) Tj
+T*
+(- private -> private with 2 private outputs: 6644 vB \(+1969 vB\)) Tj
+T*
+(- private -> private with 2 private inputs: 6931 vB \(+2256 vB\)) Tj
+T*
+() Tj
+T*
+(Interpretation:) Tj
+T*
+(- each additional private vector has a clear linear-ish cost,) Tj
+T*
+(- the private path overhead is dominated by encrypted payload and private proof material,) Tj
+T*
+(- witness still matters, but private vectors are the primary driver.) Tj
+T*
+(- Hashing Model) Tj
+T*
+(- txid: no-witness hash) Tj
+T*
+(- wtxid: full-transaction hash \(with witness\)) Tj
+T*
+(- signing digest: deterministic no-witness signing body hash) Tj
+T*
+() Tj
+T*
+(Hashing and signing internals:) Tj
+T*
+(- Src/Utility/txdhash.py) Tj
+T*
+(- Src/Transactions/tx.py) Tj
+T*
+(- Src/Transactions/txvalidation.py) Tj
+T*
+(- Validation Invariants) Tj
+T*
+(Transaction acceptance requires:) Tj
+T*
+(- valid structure and network identity,) Tj
+T*
+(- valid signature over no-witness digest,) Tj
+T*
+(- existing/unspent inputs,) Tj
+T*
+(- no double spend,) Tj
+T*
+(- atom-exact value conservation,) Tj
+T*
+(- fee >= required fee from canonical vsize.) Tj
+T*
+() Tj
+T*
+(11.1\) Payment-Only Ownership Model) Tj
+T*
+(The active chain no longer supports bond or stake transaction roles.) Tj
+T*
+() Tj
+T*
+(Current public ownership model:) Tj
+T*
+(- payment outputs bind to the regular owner digest,) Tj
+T*
+(- spend authorization is checked against the payment owner,) Tj
+T*
+(- no lockup-role exit/withdraw transaction class is active.) Tj
+T*
+() Tj
+T*
+(Any older mention of bond/stake transaction flows is historical and not part of the current) Tj
+T*
+(transaction-validity path.) Tj
+T*
+(- Throughput Mapping \(Measured\)) Tj
+T*
+(At 3,500,000 vB per block and 120s block time:) Tj
+T*
+() Tj
+T*
+(Formula:) Tj
+T*
+(- TPS_ideal = 3,500,000 / \(120 * avg_vsize\)) Tj
+T*
+(- TPS_95 = TPS_ideal * 0.95 \(practical packing headroom\)) Tj
+T*
+() Tj
+T*
+(| Flow Shape | vsize | TPS \(ideal\) | TPS \(95% pack\) |) Tj
+T*
+(| --- | ---: | ---: | ---: |) Tj
+T*
+(| public 1 in / 2 out | 553 | 52.74 | 50.11 |) Tj
+T*
+(| public -> private | 2471 | 11.80 | 11.21 |) Tj
+T*
+(| private -> public | 2708 | 10.77 | 10.23 |) Tj
+T*
+(| private -> private | 4673 | 6.24 | 5.93 |) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 274 >>
+stream
+BT
+/F1 10 Tf
+50 760 Td
+13 TL
+(Conclusion:) Tj
+T*
+(- public throughput envelope remains high for standard payments,) Tj
+T*
+(- private throughput is intentionally lower due stronger privacy payloads,) Tj
+T*
+(- real chain TPS depends on the live tx mix in each block.) Tj
+T*
+ET
+endstream
+endobj
+xref
+0 12
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000140 00000 n 
+0000000208 00000 n 
+0000000334 00000 n 
+0000002286 00000 n 
+0000002412 00000 n 
+0000005054 00000 n 
+0000005180 00000 n 
+0000007653 00000 n 
+0000007781 00000 n 
+trailer
+<< /Size 12 /Root 1 0 R >>
+startxref
+8107
+%%EOF
