@@ -6094,8 +6094,8 @@ body:not(.home-page) .site-header::before {
 }
 
 .hero-grid {
-  grid-template-columns: minmax(0, 1.14fr) minmax(320px, 0.86fr);
-  gap: clamp(1.4rem, 2.8vw, 2.35rem);
+  grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+  gap: clamp(1.25rem, 2.4vw, 2rem);
   align-items: start;
 }
 
@@ -6105,7 +6105,7 @@ body:not(.home-page) .site-header::before {
 }
 
 .hero-panel {
-  max-width: 500px;
+  max-width: 480px;
 }
 
 .split-grid,
@@ -6477,20 +6477,24 @@ body.home-page::before {
 }
 
 .hero-copy h1 {
-  max-width: 11.25ch;
-  font-size: clamp(2.2rem, 4vw, 3.85rem);
-  line-height: 0.98;
+  max-width: min(100%, 14.5ch);
+  font-size: clamp(2.05rem, 3.6vw, 3.45rem);
+  line-height: 1.01;
+  text-wrap: pretty;
 }
 
 .section-title {
-  max-width: 17ch;
-  font-size: clamp(1.8rem, 2.8vw, 2.9rem);
-  line-height: 1.04;
+  max-width: min(100%, clamp(34rem, 74vw, 64rem));
+  font-size: clamp(1.68rem, 2.35vw, 2.45rem);
+  line-height: 1.06;
+  text-wrap: pretty;
 }
 
 .cta-title {
-  font-size: clamp(1.65rem, 2.75vw, 2.55rem);
-  line-height: 1.06;
+  max-width: min(100%, 20ch);
+  font-size: clamp(1.55rem, 2.45vw, 2.3rem);
+  line-height: 1.07;
+  text-wrap: pretty;
 }
 
 .hero-copy p,
@@ -6509,8 +6513,12 @@ body.home-page::before {
   line-height: 1.56;
 }
 
+.section-copy {
+  max-width: min(100%, clamp(28rem, 58vw, 56rem));
+}
+
 .hero-panel {
-  max-width: 470px;
+  max-width: 480px;
 }
 
 .home-hero-copy {
@@ -6928,8 +6936,25 @@ body.home-page::before {
 .roadmap-story-copy h1,
 .section-title,
 .cta-title {
-  line-height: 1.04;
   padding-top: 0.04em;
+}
+
+.wallet-page .hero-grid,
+.wallet-hierarchy-page .hero-grid {
+  grid-template-columns: minmax(0, 1.32fr) minmax(280px, 0.68fr);
+  gap: clamp(1.25rem, 2.4vw, 2rem);
+}
+
+.wallet-page .hero-copy h1,
+.wallet-hierarchy-page .hero-copy h1 {
+  max-width: min(100%, 16.5ch);
+  font-size: clamp(2rem, 3.15vw, 3.25rem);
+  line-height: 1.02;
+}
+
+.wallet-page .section-title,
+.wallet-hierarchy-page .section-title {
+  max-width: min(100%, clamp(36rem, 78vw, 68rem));
 }
 
 .panel-title,
