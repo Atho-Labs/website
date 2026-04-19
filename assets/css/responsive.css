@@ -280,3 +280,354 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 900px) {
+  .eyebrow-row,
+  .badge-row,
+  .pill-grid,
+  .doc-meta,
+  .doc-actions,
+  .feature-actions,
+  .artifact-actions {
+    flex-wrap: wrap;
+  }
+
+  .eyebrow-row {
+    gap: 0.45rem;
+  }
+
+  .section-eyebrow,
+  .hero-copy .section-eyebrow,
+  .roadmap-story-copy .section-eyebrow,
+  .badge,
+  .feature-tag,
+  .doc-meta-type,
+  .doc-chip {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .join-code {
+    overflow-x: auto;
+  }
+
+  .panel-title,
+  .doc-catalog-title,
+  .roadmap-phase,
+  .artifact-value {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 780px) {
+  .section-intro-stack {
+    gap: 0.55rem;
+  }
+
+  .section-intro-stack + .artifact-grid,
+  .section-intro-stack + .docs-catalog-grid,
+  .section-intro-stack + .feature-grid,
+  .section-intro-stack + .roadmap-grid,
+  .section-intro-stack + .roadmap-highway-shell,
+  .section-intro-stack + .split-grid {
+    margin-top: var(--space-5);
+  }
+
+  .card-pad {
+    padding: 0.98rem;
+  }
+
+  .join-code {
+    padding: 0.8rem 0.88rem;
+    font-size: 0.72rem;
+    line-height: 1.5;
+  }
+
+  .panel-title,
+  .doc-catalog-title,
+  .roadmap-phase {
+    font-size: 1.02rem;
+    line-height: 1.18;
+  }
+
+  .artifact-value {
+    font-size: clamp(1.12rem, 5vw, 1.48rem);
+    line-height: 1.08;
+  }
+
+  .wallet-page .hero-actions,
+  .wallet-hierarchy-page .hero-actions,
+  .wallet-resource-actions,
+  .consensus-release-actions,
+  .doc-actions {
+    gap: 0.5rem;
+  }
+
+  .wallet-address-flow {
+    min-height: 272px;
+    padding: 0.88rem 0.62rem;
+  }
+
+  .wallet-address-node {
+    min-width: 68%;
+    max-width: 82%;
+    padding: 0.32rem 0.42rem;
+    font-size: 0.56rem;
+    line-height: 1.24;
+  }
+
+  .wallet-base56-row {
+    font-size: 0.62rem;
+  }
+
+  .wallet-fee-row {
+    gap: 0.3rem;
+  }
+
+  .wallet-lockbox-shell {
+    min-height: 292px;
+    padding: 0.88rem 0.62rem;
+  }
+
+  .wallet-lockbox-node {
+    min-width: 68%;
+    max-width: 82%;
+    padding: 0.34rem 0.42rem;
+    font-size: 0.56rem;
+    line-height: 1.24;
+  }
+
+  .wallet-signal-radar {
+    min-height: 246px;
+  }
+
+  .wallet-radar-ring-a {
+    width: 96px;
+    height: 96px;
+  }
+
+  .wallet-radar-ring-b {
+    width: 152px;
+    height: 152px;
+  }
+
+  .wallet-radar-core {
+    max-width: calc(100% - 2rem);
+    text-align: center;
+    white-space: normal;
+  }
+
+  .wallet-radar-orbit {
+    max-width: 38%;
+    padding: 0.24rem 0.36rem;
+    font-size: 0.54rem;
+  }
+
+  .wallet-orbit-a {
+    left: 5%;
+    top: 14%;
+  }
+
+  .wallet-orbit-b {
+    right: 4%;
+    top: 42%;
+  }
+
+  .wallet-orbit-c {
+    bottom: 8%;
+    max-width: 54%;
+  }
+
+  .wallet-state-strip {
+    padding-top: 0.9rem;
+  }
+
+  .wallet-state-strip span,
+  .wallet-recovery-step {
+    padding-left: 0.95rem;
+  }
+
+  .wallet-mnemonic-strip {
+    gap: 0.35rem;
+  }
+
+  .wallet-store-badge {
+    min-height: 0;
+    padding: 0.7rem;
+    grid-template-columns: 42px 1fr;
+    gap: 0.65rem;
+    align-items: center;
+  }
+
+  .wallet-store-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .wallet-store-copy strong {
+    font-size: 0.88rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .section {
+    padding: 48px 0;
+  }
+
+  .hero-copy h1,
+  .wallet-page .hero-copy h1,
+  .wallet-hierarchy-page .hero-copy h1 {
+    font-size: clamp(1.75rem, 8.6vw, 2.15rem);
+    line-height: 1.03;
+    max-width: 100%;
+  }
+
+  .section-title,
+  .wallet-page .section-title,
+  .wallet-hierarchy-page .section-title {
+    font-size: clamp(1.34rem, 7vw, 1.82rem);
+    line-height: 1.1;
+    max-width: 100%;
+  }
+
+  .cta-title {
+    font-size: clamp(1.26rem, 6.4vw, 1.68rem);
+  }
+
+  .hero-copy p,
+  .section-copy,
+  .cta-copy,
+  .panel-copy,
+  .doc-catalog-summary,
+  .artifact-note,
+  .key-item span {
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .card-pad,
+  .cta-box {
+    padding: 0.92rem;
+  }
+
+  .join-code {
+    padding: 0.74rem 0.78rem;
+    font-size: 0.68rem;
+    line-height: 1.45;
+  }
+
+  .wallet-address-flow {
+    min-height: 304px;
+  }
+
+  .wallet-address-node {
+    min-width: 84%;
+    max-width: 84%;
+    font-size: 0.53rem;
+  }
+
+  .node-pub {
+    top: 8%;
+  }
+
+  .node-hpk {
+    top: 29%;
+  }
+
+  .node-role {
+    top: 50%;
+  }
+
+  .node-b56 {
+    top: 71%;
+  }
+
+  .wallet-fee-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .wallet-lockbox-shell {
+    min-height: 320px;
+  }
+
+  .wallet-lockbox-node {
+    min-width: 84%;
+    max-width: 84%;
+    font-size: 0.53rem;
+  }
+
+  .wallet-node-kdf {
+    top: 8%;
+  }
+
+  .wallet-node-aes {
+    top: 28%;
+  }
+
+  .wallet-node-wrap {
+    top: 51%;
+  }
+
+  .wallet-node-store {
+    top: 74%;
+  }
+
+  .wallet-signal-radar {
+    min-height: 230px;
+  }
+
+  .wallet-radar-ring-a {
+    width: 82px;
+    height: 82px;
+  }
+
+  .wallet-radar-ring-b {
+    width: 132px;
+    height: 132px;
+  }
+
+  .wallet-radar-core {
+    width: min(68%, 180px);
+    font-size: 0.6rem;
+  }
+
+  .wallet-radar-orbit {
+    max-width: 42%;
+    font-size: 0.5rem;
+  }
+
+  .wallet-orbit-a {
+    left: 4%;
+    top: 15%;
+  }
+
+  .wallet-orbit-b {
+    right: 3%;
+    top: 44%;
+  }
+
+  .wallet-orbit-c {
+    bottom: 7%;
+    max-width: 58%;
+  }
+
+  .wallet-base56-prefixes span,
+  .wallet-visibility-card span,
+  .wallet-store-copy small {
+    font-size: 0.74rem;
+  }
+
+  .wallet-fee-row strong,
+  .wallet-visibility-card strong,
+  .wallet-store-copy strong {
+    font-size: 0.76rem;
+  }
+
+  .wallet-page .hero-actions .btn,
+  .wallet-hierarchy-page .hero-actions .btn,
+  .wallet-resource-actions .btn,
+  .doc-actions .btn {
+    width: 100%;
+  }
+}

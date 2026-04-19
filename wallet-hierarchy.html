@@ -134,6 +134,50 @@
         grid-template-columns: 1fr;
       }
     }
+
+    @media (max-width: 780px) {
+      .wallet-hierarchy-page .diagram-note,
+      .wallet-hierarchy-page .source-note {
+        padding: 1rem;
+      }
+
+      .wallet-hierarchy-page .pill-grid {
+        gap: 0.4rem;
+      }
+
+      .wallet-hierarchy-page .constant-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.26rem;
+      }
+
+      .wallet-hierarchy-page .constant-row strong {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .wallet-hierarchy-page .diagram-grid,
+      .wallet-hierarchy-page .formula-grid,
+      .wallet-hierarchy-page .constants-grid {
+        gap: 0.85rem;
+      }
+
+      .wallet-hierarchy-page .diagram-note,
+      .wallet-hierarchy-page .source-note {
+        padding: 0.9rem;
+        font-size: 0.88rem;
+      }
+
+      .wallet-hierarchy-page .diagram-note strong,
+      .wallet-hierarchy-page .source-note strong {
+        font-size: 0.72rem;
+      }
+
+      .wallet-hierarchy-page .constant-row {
+        font-size: 0.74rem;
+      }
+    }
   </style>
 </head>
 <body class="wallet-hierarchy-page">
@@ -560,7 +604,7 @@ note_seed = SHA3-256(
       <span>Atho Labs</span>
       <span class="footer-contact">
         <span class="footer-slogan">Atho. Public or private payments. The Platinum Standard for the Quantum Age.</span>
-        <span class="footer-updated">Last updated: April 18, 2026</span>
+        <span class="footer-updated">Last updated: April 19, 2026</span>
         <span>
           To report bugs, security issues, or general inquiries:
           <a href="./contact.html">Contact</a>
