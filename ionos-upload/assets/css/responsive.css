@@ -942,3 +942,48 @@
     display: none;
   }
 }
+
+/* Consolidated mobile action layout. Earlier rules forced most CTA groups into
+   full-width single-column stacks, which made multi-action sections oversized
+   and inconsistent across pages. */
+@media (max-width: 780px) {
+  .hero-actions,
+  .doc-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 0.56rem;
+  }
+
+  .hero-actions .btn,
+  .doc-actions .btn {
+    flex: 0 1 11rem;
+    min-width: 0;
+    width: auto;
+    max-width: 100%;
+    justify-content: center;
+    text-align: center;
+    white-space: normal;
+    padding: 0.72rem 0.9rem;
+  }
+
+  .wallet-page .hero-actions,
+  .wallet-hierarchy-page .hero-actions {
+    flex-direction: row !important;
+    align-items: stretch;
+  }
+
+  .wallet-page .hero-actions .btn,
+  .wallet-hierarchy-page .hero-actions .btn {
+    flex: 0 1 11rem !important;
+    min-width: 0;
+    width: auto;
+    max-width: 100%;
+    padding: 0.72rem 0.9rem;
+  }
+
+  .home-page .home-hero-copy .hero-actions .btn {
+    min-width: 0;
+    width: 100%;
+  }
+}
