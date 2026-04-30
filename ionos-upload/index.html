@@ -3,426 +3,333 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Atho is a post-quantum money network built for direct payments, optional privacy, readable supply, and durable proof-of-work settlement.">
+  <meta name="description" content="Atho is a payment-first UTXO blockchain and store of value built for simplicity, security, proof-of-work settlement, and long-term trust.">
   <title>Atho | The Platinum Standard for the Quantum Age</title>
   <link rel="canonical" href="https://atho.io/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Atho">
   <meta property="og:url" content="https://atho.io/">
   <meta property="og:title" content="Atho | The Platinum Standard for the Quantum Age">
-  <meta property="og:description" content="Direct payments, optional privacy, post-quantum signatures, and a readable monetary policy on one network.">
-  <meta property="og:image" content="https://atho.io/assets/media/og-home-preview-real.jpg">
-  <meta property="og:image:secure_url" content="https://atho.io/assets/media/og-home-preview-real.jpg">
-  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:description" content="A payment-first UTXO blockchain and store of value built for simplicity, security, proof-of-work settlement, and long-term trust.">
+  <meta property="og:image" content="https://atho.io/assets/media/og-share-card.png">
+  <meta property="og:image:secure_url" content="https://atho.io/assets/media/og-share-card.png">
+  <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Actual screenshot of the Atho homepage with the current dark cosmic theme and hero section.">
+  <meta property="og:image:alt" content="Atho homepage preview with payment-first hero copy and market-positioning value board.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@AthoHQ">
   <meta name="twitter:title" content="Atho | The Platinum Standard for the Quantum Age">
-  <meta name="twitter:description" content="Direct payments, optional privacy, post-quantum signatures, and a readable monetary policy on one network.">
-  <meta name="twitter:image" content="https://atho.io/assets/media/og-home-preview-real.jpg">
-  <meta name="twitter:image:alt" content="Actual screenshot of the Atho homepage with the current dark cosmic theme and hero section.">
-  <link rel="icon" type="image/png" href="./assets/media/logo2website.png">
+  <meta name="twitter:description" content="A payment-first UTXO blockchain and store of value built for simplicity, security, proof-of-work settlement, and long-term trust.">
+  <meta name="twitter:image" content="https://atho.io/assets/media/og-share-card.png">
+  <meta name="twitter:image:alt" content="Atho homepage preview with payment-first hero copy and market-positioning value board.">
+  <link rel="icon" type="image/png" href="./assets/media/logo%201.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@500;600;700;800&family=Share+Tech+Mono&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/css/variables.css">
-  <link rel="stylesheet" href="./assets/css/base.css">
-  <link rel="stylesheet" href="./assets/css/layout.css">
-  <link rel="stylesheet" href="./assets/css/components.css">
-  <link rel="stylesheet" href="./assets/css/roadmap.css">
-  <link rel="stylesheet" href="./assets/css/motion.css">
-  <link rel="stylesheet" href="./assets/css/responsive.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/site.css">
 </head>
-<body class="home-page">
-  <div class="home-intro-shell" aria-hidden="true">
-    <div class="home-intro-vortex">
-      <span class="home-intro-ring home-intro-ring-a"></span>
-      <span class="home-intro-ring home-intro-ring-b"></span>
-      <span class="home-intro-ring home-intro-ring-c"></span>
-      <span class="home-intro-disk"></span>
-      <span class="home-intro-jet home-intro-jet-top"></span>
-      <span class="home-intro-jet home-intro-jet-bottom"></span>
-      <span class="home-intro-core-glow"></span>
-      <span class="home-intro-singularity"></span>
-    </div>
-  </div>
+<body data-stats-endpoint="">
+  <a class="skip-link" href="#main">Skip to content</a>
+
   <header class="site-header">
-    <div class="wrap nav-shell">
-      <a class="brand" href="./index.html#overview" aria-label="Atho home">
-        <img class="brand-mark" src="./assets/media/logo2website.png" alt="Atho logo" width="72" height="72" decoding="async">
+    <div class="container nav-shell">
+      <a class="brand" href="#top" aria-label="Atho home">
+        <img class="brand-mark" src="./assets/media/logo%201.png" alt="Atho" width="172" height="115" decoding="async">
+        <span class="brand-copy">
+          <span class="brand-name">Atho</span>
+          <span class="brand-tag">The Platinum Standard for the Quantum Age</span>
+        </span>
       </a>
 
-      <div class="header-right">
-        <nav id="main-nav" class="nav-links" data-nav-links>
-          <a class="nav-link" href="#overview">Overview</a>
-          <a class="nav-link" href="#technology">Network</a>
-          <a class="nav-link" href="#payments">Payments</a>
-          <a class="nav-link" href="#privacy-layer">Privacy</a>
-          <a class="nav-link" href="#launch">Start Here</a>
-        </nav>
-      </div>
-
-      <button class="menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="main-nav" aria-label="Toggle menu">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav-panel" data-menu-toggle>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span class="sr-only">Toggle navigation</span>
       </button>
 
-      <div class="global-nav-drawer" data-global-drawer>
-        <div class="global-nav-card">
-          <div class="global-nav-grid">
-            <a class="global-nav-link" href="./index.html">Home</a>
-            <a class="global-nav-link" href="./docs.html">Docs</a>
-            <a class="global-nav-link" href="./wallet.html">Wallet</a>
-            <a class="global-nav-link" href="./wallet-hierarchy.html">Wallet Hierarchy</a>
-            <a class="global-nav-link" href="./platinum-shield.html">Platinum Shield</a>
-            <a class="global-nav-link" href="./kyber.html">Kyber</a>
-            <a class="global-nav-link" href="./falcon-512.html">Falcon 512</a>
-            <a class="global-nav-link" href="./join.html">Join</a>
-            <a class="global-nav-link" href="./changelog.html">Changelog</a>
-            <a class="global-nav-link" href="./roadmap.html">Roadmap</a>
-            <a class="global-nav-link" href="./contact.html">Contact</a>
-          </div>
+      <div class="nav-panel" id="site-nav-panel" data-nav-panel>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="#network">Network</a>
+          <a href="#technology">Technology</a>
+          <a href="#developers">Developers</a>
+          <a href="#economics">Economics</a>
+          <a href="#community">Community</a>
+        </nav>
+
+        <div class="nav-actions">
+          <a class="button button-secondary" href="./docs.html">Docs Pending</a>
+          <a class="button button-primary" href="./join.html">Join Discord</a>
         </div>
       </div>
     </div>
   </header>
 
-  <div class="home-social-strip">
-    <div class="wrap">
-      <div class="home-social-slot" data-home-social-slot aria-label="Home social media"></div>
-    </div>
-  </div>
-
-  <main>
-    <section id="overview" class="section">
-      <div class="wrap hero-grid">
-        <div class="hero-copy home-hero-copy" data-reveal>
-          <h1>Atho is a readable money network for the quantum age.</h1>
-          <p>
-            Atho combines proof-of-work settlement, optional Platinum Shield privacy, Falcon signatures, and a supply
-            model that can be checked from the same public baseline.
+  <main id="main">
+    <section class="hero-section" id="top">
+      <div class="container hero-grid">
+        <div class="hero-copy" data-reveal>
+          <span class="section-kicker">POST-QUANTUM PAYMENT NETWORK</span>
+          <div class="hero-signal-row" id="hero-signals"></div>
+          <h1>A payment system and store of value built on simple rules.</h1>
+          <p class="hero-lead">
+            Atho uses the proven public UTXO model, proof-of-work settlement, and finite monetary rules to
+            favor simplicity, security, and trust over novelty.
           </p>
-          <div class="badge-row home-hero-badges">
-            <span class="badge">120s Blocks</span>
-            <span class="badge">6 Confirmations</span>
-            <span class="badge">150 Maturity</span>
-            <span class="badge">1 atom/vB Floor</span>
-            <span class="badge">100 ATHO Start</span>
-            <span class="badge">1B Cap</span>
+
+          <div class="button-row">
+            <a class="button button-primary" href="./assets/files/atho-whitepaper.pdf" download>Read the Whitepaper</a>
+            <a class="button button-secondary" href="./roadmap.html">Explorer Pending</a>
           </div>
-          <div class="hero-actions">
-            <a class="btn btn-primary btn-inline" href="./docs.html">Open Docs</a>
-            <a class="btn btn-ghost btn-inline" href="./join.html">Join Network</a>
-          </div>
+
+          <p class="hero-note">
+            Atho does not try to be everything in crypto. It was built from the ground up as a payment-first chain,
+            taking the durable operating discipline behind Bitcoin and Litecoin and keeping security and stability first.
+          </p>
+
+          <p class="hero-compare">
+            <strong>75 second blocks</strong> put Atho at <strong>8x Bitcoin’s cadence</strong> and
+            <strong>2x Litecoin’s</strong>. <strong>168 million ATHO</strong> sets supply at
+            <strong>8x Bitcoin</strong> and <strong>2x Litecoin</strong>.
+          </p>
         </div>
 
-        <div class="hero-panel" data-reveal>
-          <div class="card card-pad">
-            <h2 class="panel-title">What you can verify immediately</h2>
-            <ul class="key-list">
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Current baseline</strong>
-                  <span>The docs hub and final specs publish the active constants, fee floor, confirmations, and supply policy.</span>
-                </span>
-              </li>
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Wallet recovery model</strong>
-                  <span>The hierarchy guide shows how seed, path, network, and bundle identity rebuild the same custody tree.</span>
-                </span>
-              </li>
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Private flow guardrails</strong>
-                  <span>Platinum Shield docs map public and private movement through bundle checks, nullifiers, and fail-closed validation.</span>
-                </span>
-              </li>
-              <li class="key-item">
-                <span class="key-bullet" aria-hidden="true"></span>
-                <span>
-                  <strong>Public project trail</strong>
-                  <span>Roadmap, changelog, and GitHub activity give reviewers a public path through what Atho exposes today.</span>
-                </span>
-              </li>
-            </ul>
-            <div class="doc-actions">
-              <a class="btn btn-ghost btn-inline" href="./docs.html#policy-baseline">Review Baseline</a>
+        <div class="hero-visual" data-reveal aria-hidden="true">
+          <div class="visual-frame value-frame">
+            <div class="value-layer value-frame-banner">
+              <span>Market Position</span>
+              <strong>Simple money infrastructure for payments and long-term holding.</strong>
+            </div>
+
+            <div class="value-layer value-frame-main">
+              <span class="value-main-label">Atho Value Proposition</span>
+              <h2>Security first. Stability first. Trust earned through readable rules.</h2>
+              <p>
+                Atho keeps the tradeoff explicit: it uses a proven UTXO model instead of trying to be an
+                everything-chain, so public settlement stays easier to audit, operate, and trust.
+              </p>
+            </div>
+
+            <div class="value-layer value-pill-set">
+              <span class="value-pill">public UTXO settlement</span>
+              <span class="value-pill">proof-of-work finality</span>
+              <span class="value-pill">finite supply</span>
+              <span class="value-pill">payment + store of value</span>
+            </div>
+
+            <div class="value-layer value-compare-grid">
+              <article class="value-compare-card">
+                <span>Bitcoin baseline</span>
+                <strong>8x faster block cadence</strong>
+                <p>75 second blocks vs 600 second blocks, with the same preference for simple public settlement.</p>
+                <div class="value-metric-row">
+                  <em>Supply</em>
+                  <b>168M vs 21M</b>
+                </div>
+              </article>
+
+              <article class="value-compare-card">
+                <span>Litecoin baseline</span>
+                <strong>2x faster block cadence</strong>
+                <p>75 second blocks vs 150 second blocks, while staying rooted in payment-chain discipline.</p>
+                <div class="value-metric-row">
+                  <em>Supply</em>
+                  <b>168M vs 84M</b>
+                </div>
+              </article>
+            </div>
+
+            <div class="value-layer value-anchor-grid">
+              <article class="value-anchor-card">
+                <span>Simplicity</span>
+                <strong>Not everything in crypto</strong>
+                <p>Atho stays narrow on purpose so the money model remains readable.</p>
+              </article>
+
+              <article class="value-anchor-card">
+                <span>Security</span>
+                <strong>UTXO + proof-of-work</strong>
+                <p>The proven settlement model comes first, not novelty for its own sake.</p>
+              </article>
+
+              <article class="value-anchor-card">
+                <span>Trust</span>
+                <strong>Bitcoin and Litecoin discipline</strong>
+                <p>Ground-up payment-chain principles shape the product posture and operator model.</p>
+              </article>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="feature-strip">
+      <div class="container">
+        <div class="numbered-grid" id="protocol-highlights"></div>
+      </div>
+    </section>
+
+    <section class="section section-panel" id="network">
+      <div class="container section-head" data-reveal>
+        <span class="section-kicker">Network</span>
+        <h2>Built for safe throughput, not shortcuts.</h2>
+        <p>
+          As a Rust payment stack, Atho’s speed work is not about skipping checks. It is about validating on the
+          canonical path, reusing exact safe results only when the context still matches, and keeping transport compact
+          enough for real payment flow.
+        </p>
+      </div>
+
+      <div class="container network-grid">
+        <article class="card story-card" data-reveal>
+          <h3>Performance without hidden consensus shortcuts.</h3>
+          <p>
+            The current strategy is straightforward: validate once on mempool admission, batch chainstate work,
+            parallelize independent Falcon checks, and move less redundant data across the network.
+          </p>
+          <ul class="story-list">
+            <li>Exact cache reuse only when bytes and rules still match</li>
+            <li>Batched UTXO reads and writes on the hot path</li>
+            <li>Parallel Falcon-512 verification for independent inputs</li>
+            <li>Compact relay and headers-first sync to cut wasted bandwidth</li>
+          </ul>
+        </article>
+
+        <div class="network-side">
+          <div class="pill-grid" id="runtime-pills"></div>
+          <div class="network-card-grid" id="network-constants"></div>
         </div>
       </div>
     </section>
 
     <section class="section">
-      <div class="wrap">
-        <span class="section-eyebrow">Live Baseline</span>
-        <h2 class="section-title">The network rules fit on one screen.</h2>
-        <p class="section-copy">
-          These are the constants repeated across the current docs, wallet model, and operator runbook.
+      <div class="container section-head" data-reveal>
+        <span class="section-kicker">Parameters</span>
+        <h2>Protocol parameters, at a glance.</h2>
+        <p>
+          The core public numbers are simple: supply, subsidy, settlement timing, and block shape are all readable in
+          one view.
         </p>
-        <div class="metric-grid" id="metric-grid" data-stagger></div>
       </div>
+      <div class="container stats-grid" id="network-stats"></div>
     </section>
 
-    <section id="verification" class="section">
-      <div class="wrap">
-        <span class="section-eyebrow">Verification Paths</span>
-        <h2 class="section-title">The trust story lives in public artifacts, not slogans.</h2>
-        <p class="section-copy">
-          Start with the current baseline, then use the whitepaper, final specs, security references, operator runbook,
-          and public release trail to confirm the active Atho model.
+    <section class="section section-panel" id="technology">
+      <div class="container section-head" data-reveal>
+        <span class="section-kicker">Technology</span>
+        <h2>Core Protocol Features</h2>
+        <p>
+          Atho combines post-quantum signatures, SHA3 hashing, a public UTXO ledger, proof-of-work settlement,
+          and a runtime shaped around deterministic validation instead of hidden shortcuts.
         </p>
+      </div>
+      <div class="container feature-grid" id="core-features"></div>
+    </section>
 
-        <div class="docs-catalog-grid" data-stagger>
-          <article class="card card-pad doc-catalog-card" data-reveal>
-            <h3 class="doc-catalog-title">Whitepaper Set</h3>
-            <p class="doc-catalog-summary">Read the condensed overview first, then the full whitepaper draft if you want the broader protocol and security narrative.</p>
-            <div class="doc-meta">
-              <span class="feature-tag">Whitepaper</span>
-              <span class="doc-meta-type">PDF</span>
-            </div>
-            <div class="doc-actions">
-              <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/atho-whitepaper-v3.pdf" download>Full Whitepaper</a>
-              <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/atho-whitepaper-condensed-v3.pdf" download>Condensed Overview</a>
-            </div>
-          </article>
+    <section class="section" id="ecosystem">
+      <div class="container section-head" data-reveal>
+        <span class="section-kicker">Ecosystem</span>
+        <h2>Everything Atho Needs to Run</h2>
+        <p>
+          The current product surface is defined by the actual Atho stack: the node, miner, wallet, client, storage,
+          RPC boundary, P2P transport, and installer path.
+        </p>
+      </div>
+      <div class="container ecosystem-groups" id="ecosystem-groups"></div>
+    </section>
 
-          <article class="card card-pad doc-catalog-card" data-reveal>
-            <h3 class="doc-catalog-title">Current Baseline</h3>
-            <p class="doc-catalog-summary">Use the live docs hub for the HTML baseline and the final specs PDF for a compact parameter snapshot.</p>
-            <div class="doc-meta">
-              <span class="feature-tag">Baseline</span>
-              <span class="doc-meta-type">HTML + PDF</span>
-            </div>
-            <div class="doc-actions">
-              <a class="btn btn-primary btn-inline" href="./docs.html#policy-baseline">Open Baseline</a>
-              <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/atho-final-specs.pdf" download>Final Specs PDF</a>
-            </div>
-          </article>
+    <section class="section section-panel" id="economics">
+      <div class="container section-head" data-reveal>
+        <span class="section-kicker">Economics</span>
+        <h2>Transparent economics. Verifiable rules.</h2>
+        <p>
+          Atho keeps monetary design visible: public proof-of-work issuance, a 50 ATHO base block reward,
+          a 168 million max supply, and reward logic that stays inspectable in consensus rather than hidden in marketing copy.
+        </p>
+      </div>
+      <div class="container economics-grid" id="economics-grid"></div>
+    </section>
 
-          <article class="card card-pad doc-catalog-card" data-reveal>
-            <h3 class="doc-catalog-title">Security + Architecture</h3>
-            <p class="doc-catalog-summary">Network stack and security FAQ references provide a faster proof path than trying to infer trust from visual presentation alone.</p>
-            <div class="doc-meta">
-              <span class="feature-tag">Security</span>
-              <span class="doc-meta-type">PDF</span>
-            </div>
-            <div class="doc-actions">
-              <a class="btn btn-primary btn-inline" href="./assets/docs/pdf/network-stack.pdf" download>Network Stack</a>
-              <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/transaction-security-audit-faq.pdf" download>Security FAQ</a>
-            </div>
-          </article>
+    <section class="section" id="developers">
+      <div class="container developer-grid">
+        <div class="developer-copy" data-reveal>
+          <span class="section-kicker">Developers</span>
+          <h2>Build and verify from day one.</h2>
+          <p>
+            Run a node, inspect blocks, operate the miner, and build around a stack with clear crate ownership and a
+            backend that stays responsible for consensus truth.
+          </p>
 
-          <article class="card card-pad doc-catalog-card" data-reveal>
-            <h3 class="doc-catalog-title">Operator Runbook</h3>
-            <p class="doc-catalog-summary">The join guide and troubleshooting reference show the real setup, verification, and recovery path for node operators.</p>
-            <div class="doc-meta">
-              <span class="feature-tag">Operations</span>
-              <span class="doc-meta-type">HTML + PDF</span>
-            </div>
-            <div class="doc-actions">
-              <a class="btn btn-primary btn-inline" href="./join.html">Open Runbook</a>
-              <a class="btn btn-ghost btn-inline" href="./assets/docs/pdf/troubleshooting.pdf" download>Troubleshooting PDF</a>
-            </div>
-          </article>
+          <div class="button-row">
+            <a class="button button-secondary" href="./docs.html">Docs Pending</a>
+            <a class="button button-tertiary" href="https://github.com/Atho-Labs/" target="_blank" rel="noopener noreferrer">View GitHub</a>
+            <a class="button button-primary" href="./join.html">Join Next Batch</a>
+          </div>
 
-          <article class="card card-pad doc-catalog-card" data-reveal>
-            <h3 class="doc-catalog-title">Public Project Trail</h3>
-            <p class="doc-catalog-summary">Changelog, roadmap, and GitHub make it easier to review what Atho is exposing right now and what is still planned.</p>
-            <div class="doc-meta">
-              <span class="feature-tag">Public Trail</span>
-              <span class="doc-meta-type">HTML + External</span>
-            </div>
-            <div class="doc-actions">
-              <a class="btn btn-primary btn-inline" href="./changelog.html">Open Changelog</a>
-              <a class="btn btn-ghost btn-inline" href="https://github.com/Atho-Labs" target="_blank" rel="noopener noreferrer">Open GitHub</a>
-            </div>
-          </article>
+          <ul class="developer-points" id="developer-points"></ul>
         </div>
-      </div>
-    </section>
 
-    <section id="technology" class="section">
-      <div class="wrap">
-        <span class="section-eyebrow">Core Network</span>
-        <h2 class="section-title">Atho breaks into auditable modules.</h2>
-        <p class="section-copy">
-          Start with the six live modules below. Each one maps to a current page or runbook instead of a generic
-          marketing claim.
-        </p>
-        <div id="feature-grid" class="feature-grid" data-stagger></div>
-      </div>
-    </section>
-
-    <section id="payments" class="section">
-      <div class="wrap split-grid">
-        <article class="card card-pad" data-reveal>
-          <h3 class="panel-title">How Atho moves value</h3>
-          <ul class="key-list">
-            <li class="key-item">
-              <span class="key-bullet" aria-hidden="true"></span>
-              <span>
-                  <strong>Public to public</strong>
-                  <span>Use Atho for direct transfers, treasury movement, and merchant-style settlement.</span>
-                </span>
-              </li>
-            <li class="key-item">
-              <span class="key-bullet" aria-hidden="true"></span>
-              <span>
-                  <strong>Public to private</strong>
-                  <span>Move into privacy when a payment needs less visible history or cleaner recipient separation.</span>
-                </span>
-              </li>
-            <li class="key-item">
-              <span class="key-bullet" aria-hidden="true"></span>
-              <span>
-                  <strong>Private to private and back out</strong>
-                  <span>Private value stays usable without leaving the network or abandoning standard settlement.</span>
-                </span>
-              </li>
-            </ul>
-        </article>
-
-        <article class="card card-pad" data-reveal>
-          <h3 class="panel-title">Why this model works</h3>
-          <ul class="key-list">
-            <li class="key-item">
-              <span class="key-bullet" aria-hidden="true"></span>
-              <span>
-                  <strong>One chain, not a maze</strong>
-                  <span>Public and private movement share the same network, wallet model, and confirmation rules.</span>
-                </span>
-              </li>
-            <li class="key-item">
-              <span class="key-bullet" aria-hidden="true"></span>
-              <span>
-                  <strong>Policy you can verify</strong>
-                  <span>Issuance, maturity, fees, and supply limits are short enough to remember and clear enough to audit.</span>
-                </span>
-              </li>
-            <li class="key-item">
-              <span class="key-bullet" aria-hidden="true"></span>
-              <span>
-                  <strong>Built for long-horizon trust</strong>
-                  <span>Post-quantum signing, deterministic recovery, and fixed supply give Atho a stronger long-term foundation.</span>
-                </span>
-              </li>
-            </ul>
-        </article>
-      </div>
-    </section>
-
-    <section id="privacy-layer" class="section">
-      <div class="wrap cta-shell" data-reveal>
-        <article class="cta-box">
-          <h2 class="cta-title">Platinum Shield keeps privacy in the payment flow.</h2>
-          <p class="cta-copy">
-            Public transfers stay available, private transfers stay native, and the wallet moves between both without
-            pushing users onto a second network or separate custody model.
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary btn-inline" href="./platinum-shield.html">Open Platinum Shield</a>
-            <a class="btn btn-ghost btn-inline" href="./wallet.html#wallet-private">Wallet Private Flow</a>
+        <article class="terminal-card" data-reveal>
+          <div class="terminal-bar">
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
-        </article>
-
-        <article class="card card-pad">
-          <h3 class="panel-title">Privacy guardrails</h3>
-          <ul class="key-list">
-            <li class="key-item">
-              <span class="key-bullet" aria-hidden="true"></span>
-              <span>
-                <strong>Bundle and X-address binding</strong>
-                <span>Private receive identity is explicit and wallet-readable.</span>
-              </span>
-            </li>
-            <li class="key-item">
-              <span class="key-bullet" aria-hidden="true"></span>
-              <span>
-                <strong>Nullifier replay protection</strong>
-                <span>Private notes cannot be spent twice without failing validation.</span>
-              </span>
-            </li>
-            <li class="key-item">
-              <span class="key-bullet" aria-hidden="true"></span>
-              <span>
-                <strong>Fail-closed validation</strong>
-                <span>Consensus rejects malformed private flows instead of trying to guess user intent.</span>
-              </span>
-            </li>
-          </ul>
+          <div class="terminal-copy" id="developer-commands"></div>
         </article>
       </div>
     </section>
 
-    <section id="launch" class="section">
-      <div class="wrap cta-shell" data-reveal>
-        <article class="cta-box">
-          <h2 class="cta-title">Start with one path, not twelve tabs.</h2>
-          <p class="cta-copy">
-            If you are new, confirm the baseline first, inspect the wallet and privacy model second, then open the
-            runbook when you are ready to operate.
+    <section class="section section-panel" id="status">
+      <div class="container status-grid">
+        <div class="status-copy" data-reveal>
+          <span class="section-kicker">Status</span>
+          <h2>Atho is being rebuilt for a stronger launch.</h2>
+          <p>
+            Atho is entering a cleaner build phase focused on public settlement, post-quantum security,
+            proof-of-work infrastructure, and a stronger user experience.
           </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary btn-inline" href="./docs.html">Open Docs</a>
-            <a class="btn btn-ghost btn-inline" href="./join.html">Join Network</a>
-          </div>
-        </article>
+          <p>
+            The project already feels beyond prototype stage, but the public-network story is still being hardened.
+            That is the right posture for a serious payment network.
+          </p>
+        </div>
 
-        <article class="card card-pad">
-          <h3 class="panel-title">Best first stops</h3>
-          <ul class="key-list">
-            <li class="key-item">
-              <span class="key-bullet" aria-hidden="true"></span>
-              <span>
-                  <strong>1. Baseline first</strong>
-                  <span>Use the docs hub and final specs to lock in the current constants, fees, confirmations, and cap.</span>
-                </span>
-              </li>
-            <li class="key-item">
-              <span class="key-bullet" aria-hidden="true"></span>
-              <span>
-                  <strong>2. Wallet and privacy second</strong>
-                  <span>Use the wallet, hierarchy, and Platinum Shield pages to understand custody, recovery, and private flow rules.</span>
-                </span>
-              </li>
-            <li class="key-item">
-              <span class="key-bullet" aria-hidden="true"></span>
-              <span>
-                  <strong>3. Operator path third</strong>
-                  <span>Use the join guide and troubleshooting docs when you want setup commands, verification checks, and runtime expectations.</span>
-                </span>
-              </li>
-          </ul>
-        </article>
+        <div class="status-cards" id="status-cards"></div>
+      </div>
+    </section>
+
+    <section class="section cta-section" id="community">
+      <div class="container cta-shell" data-reveal>
+        <div class="cta-copy">
+          <span class="section-kicker">Community</span>
+          <h2>Join the next Atho test batch before mainnet.</h2>
+          <p>
+            Join Discord if you want to help shape a payment-first post-quantum network before its public mainnet
+            posture is locked in.
+          </p>
+        </div>
+        <div class="button-row cta-actions" id="community-actions"></div>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="wrap footer-row">
-      <span>Atho Labs</span>
-      <span class="footer-contact">
-        <span class="footer-slogan">Atho. Public or private payments. The Platinum Standard for the Quantum Age.</span>
-        <span class="footer-updated">Last updated: April 19, 2026</span>
-        <span>
-          To report bugs, security issues, or general inquiries:
-          <a href="./contact.html">Contact</a>
-          or
-          <a href="mailto:labs@atho.io">labs@atho.io</a>
-        </span>
-      </span>
-      <span>&copy; <span data-year></span> Atho Labs. All rights reserved.</span>
+    <div class="container footer-top">
+      <div class="footer-brand">
+        <img src="./assets/media/logo%201.png" alt="Atho" width="172" height="115" decoding="async">
+      </div>
+
+      <div class="footer-columns" id="footer-columns"></div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>Atho is building quantum-secure payment infrastructure with simple rules, durable chain truth, and a long-term protocol posture.</p>
+      <p>&copy; <span data-year></span> Atho Labs. All rights reserved.</p>
     </div>
   </footer>
 
-  <script type="module" src="./assets/js/app.js"></script>
+  <script type="module" src="./assets/js/site.js"></script>
 </body>
 </html>

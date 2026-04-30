@@ -24,7 +24,7 @@ rsync -a \
   --exclude="runweb.py" \
   --exclude="scripts/" \
   --exclude="ionos-upload/" \
-  --exclude="assets/docs/source/" \
+  --exclude="assets/docs/" \
   "${SITE_ROOT}/" "${OUT_DIR}/"
 
 echo "[ionos] Bundle ready at: ${OUT_DIR}"
