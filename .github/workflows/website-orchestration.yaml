@@ -10,28 +10,65 @@ on:
   - push
   - workflow_dispatch
 
+permissions:
+  contents: read
+
 jobs:
   retrieve-project:
     name: check readiness
     runs-on: ubuntu-latest
     outputs:
-      deployment-enabled: ${{ fromJson(steps.project.outputs.info).deployment-enabled }}
-      branch-id: ${{ fromJson(steps.project.outputs.info).branch-id }}
+      deployment-enabled: ${{ steps.normalize.outputs.deployment-enabled }}
+      branch-id: ${{ steps.normalize.outputs.branch-id }}
     steps:
       - name: Fetch project data
-        uses: ionos-deploy-now/project-action@v1
+        uses: ionos-deploy-now/project-action@v1.2.1-beta2
         id: project
+        continue-on-error: true
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-us.ionos.space
           project-id: 79353570-e96a-4640-8783-5cf9b2c93269
           action: retrieve-info
 
+      - name: Normalize project outputs
+        id: normalize
+        if: ${{ always() }}
+        env:
+          PROJECT_INFO: ${{ steps.project.outputs.info }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+
+          info = (os.getenv("PROJECT_INFO") or "").strip()
+          data = {}
+
+          if info:
+            try:
+              data = json.loads(info)
+            except Exception:
+              data = {}
+
+          deployment_enabled = str(data.get("deployment-enabled", "false")).lower()
+          branch_id = str(data.get("branch-id", ""))
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+            fh.write(f"deployment-enabled={deployment_enabled}\n")
+            fh.write(f"branch-id={branch_id}\n")
+          PY
+
+      - name: Fail with clear IONOS error
+        if: ${{ steps.project.outcome != 'success' }}
+        run: |
+          echo "::error::IONOS Deploy Now project lookup failed. Check secrets.IONOS_API_KEY and confirm the IONOS project is still linked to the main branch in Deploy Now."
+          echo "Expected git ref: ${GITHUB_REF_NAME}"
+          exit 1
 
   build:
     name: build
     needs: retrieve-project
-    if: ${{ needs.retrieve-project.outputs.deployment-enabled == 'true' }}
+    if: ${{ needs.retrieve-project.outputs.deployment-enabled == 'true' && needs.retrieve-project.outputs.branch-id != '' }}
     uses: ./.github/workflows/website-build.yaml
     with:
       site-url: https://IONOS_DEPLOY_NOW_SITE_URL
@@ -43,10 +80,11 @@ jobs:
     needs:
       - retrieve-project
       - build
+    if: ${{ needs.retrieve-project.outputs.deployment-enabled == 'true' && needs.retrieve-project.outputs.branch-id != '' }}
     runs-on: ubuntu-latest
     steps:
       - name: Dispatch deployment(s)
-        uses: ionos-deploy-now/project-action@v1
+        uses: ionos-deploy-now/project-action@v1.2.1-beta2
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-us.ionos.space
