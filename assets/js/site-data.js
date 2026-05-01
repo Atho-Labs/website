@@ -9,39 +9,46 @@ export const siteContent = {
     {
       number: "01",
       title: "Post-Quantum Security",
-      copy: "Falcon-512 and SHA3-384 message binding are built around long-lived cryptographic assumptions."
+      copy: "Falcon-512 and SHA3-384 secure long-lived balances.",
+      hover: "Signatures and message binding stay explicit so wallets, miners, and nodes verify the same cryptographic path."
     },
     {
       number: "02",
       title: "Public UTXO Settlement",
-      copy: "Atho keeps payments on a public UTXO ledger so spendability, ownership, and chain truth stay readable."
+      copy: "Readable UTXO accounting keeps ownership and spendability public.",
+      hover: "Outputs remain the settlement layer, so balances, maturity, and spend paths stay easy to audit."
     },
     {
       number: "03",
       title: "Deterministic Validation",
-      copy: "Consensus, storage, and runtime boundaries stay explicit so independent nodes can verify the same rules."
+      copy: "Explicit validation boundaries keep every node on the same rules.",
+      hover: "Consensus, storage, and runtime responsibilities stay separated so operators can inspect the trust surface."
     }
   ],
   runtimePills: [
     {
       label: "Mempool prevalidation",
       value: "Validate once, reuse safely",
-      copy: "Transactions are checked on admission and reused only when the exact bytes and exact validation context still match."
+      copy: "Admission checks reuse safe results.",
+      hover: "The fast path stays efficient without relaxing consensus or wallet safety."
     },
     {
       label: "Batched chainstate I/O",
       value: "Less churn on the hot path",
-      copy: "UTXO reads and writes are staged in batches so the database does not thrash on per-transaction work."
+      copy: "UTXO work is grouped on the hot path.",
+      hover: "Batching reduces repeated database churn when blocks and mempool traffic are dense."
     },
     {
       label: "Parallel Falcon checks",
       value: "Multi-core signature work",
-      copy: "Independent Falcon-512 verification can fan out across cores without relaxing message binding or consensus safety."
+      copy: "Independent Falcon checks fan across cores.",
+      hover: "Parallelism raises throughput without softening message binding or consensus validation."
     },
     {
       label: "Compact network sync",
       value: "Relay less, move faster",
-      copy: "Compact relay, headers-first sync, and low-copy parsing reduce wasted bandwidth and repeated serialization."
+      copy: "Compact relay cuts wasted bandwidth.",
+      hover: "Headers-first sync and compact relay keep propagation efficient when more operators join."
     }
   ],
   networkConstants: [
@@ -69,42 +76,48 @@ export const siteContent = {
       key: "maxSupply",
       label: "Max Supply",
       value: "168M ATHO",
-      detail: "Fixed maximum supply for the network.",
+      detail: "Fixed cap.",
+      hover: "The supply cap stays public, finite, and easy to verify.",
       badge: "Published"
     },
     {
       key: "baseReward",
       label: "Base Reward",
       value: "50 ATHO",
-      detail: "Current base block reward.",
+      detail: "Base subsidy.",
+      hover: "Base issuance begins with a visible subsidy instead of hidden monetary logic.",
       badge: "Published"
     },
     {
       key: "throughput",
       label: "Throughput Target",
       value: "65-80 TPS",
-      detail: "Target range for small 1-in/1-out payments on the current block model.",
+      detail: "Payment target range.",
+      hover: "The target is based on the current block model for simple 1-in/1-out payment flow.",
       badge: "Published"
     },
     {
       key: "settlement",
       label: "Settlement Time",
       value: "75 SEC",
-      detail: "Current block time target stated in about-atho.md.",
+      detail: "Block target.",
+      hover: "The public target is 75 seconds per block in the current documented consensus shape.",
       badge: "Published"
     },
     {
       key: "blockCap",
       label: "Block Capacity",
       value: "3,000,000 VB",
-      detail: "Current block cap in the documented consensus shape.",
+      detail: "Weighted cap.",
+      hover: "Witness-aware sizing keeps block usage explicit instead of hiding weight behind vague throughput claims.",
       badge: "Published"
     },
     {
       key: "rawCap",
       label: "Raw Cap",
       value: "~12,000,000 B",
-      detail: "Approximate raw byte ceiling for the current block shape.",
+      detail: "Approximate ceiling.",
+      hover: "The current block shape yields an approximate raw byte ceiling near 12 million bytes.",
       badge: "Published"
     }
   ],
@@ -112,32 +125,38 @@ export const siteContent = {
     {
       icon: "shield",
       title: "Falcon-512 Signatures",
-      copy: "Post-quantum signing with explicit domain separation across transaction and wallet contexts."
+      copy: "Post-quantum signing across wallet and transaction flows.",
+      hover: "Domain separation keeps transaction and wallet contexts explicit instead of collapsing them into one loose signature path."
     },
     {
       icon: "hash",
       title: "SHA3 Hashing",
-      copy: "SHA3-256 and SHA3-384 are used for commitments, checksums, and signing prehashes."
+      copy: "SHA3-256 and SHA3-384 back commitments and signing prehashes.",
+      hover: "Commitments, checksums, and signing prehashes use modern hash choices that stay visible in the protocol surface."
     },
     {
       icon: "grid",
       title: "Public UTXO Model",
-      copy: "Outputs remain the authoritative accounting layer for spendability, maturity, and balance."
+      copy: "Outputs remain the public accounting layer.",
+      hover: "Spendability, maturity, and balance all resolve through the same UTXO truth model."
     },
     {
       icon: "layers",
       title: "SigWit-Style Sizing",
-      copy: "Witness-aware sizing keeps transaction weight and block usage explicit."
+      copy: "Witness-aware sizing keeps block usage explicit.",
+      hover: "Transaction weight stays visible instead of being hidden behind generic block-size marketing."
     },
     {
       icon: "pickaxe",
       title: "Proof-of-Work Mining",
-      copy: "Blocks commit to proof-of-work metadata and stay independently verifiable on every node."
+      copy: "Blocks stay independently verifiable on every node.",
+      hover: "Proof-of-work metadata and block validity remain readable to miners, node operators, and outside auditors."
     },
     {
       icon: "bolt",
       title: "Runtime Efficiency",
-      copy: "Mempool prevalidation, UTXO batching, compact relay, low-copy parsing, and Falcon parallelism keep throughput high without softening consensus."
+      copy: "Efficiency work raises throughput without softening consensus.",
+      hover: "Prevalidation, UTXO batching, compact relay, low-copy parsing, and Falcon parallelism all stay on the canonical path."
     }
   ],
   ecosystemGroups: [
@@ -148,7 +167,8 @@ export const siteContent = {
           icon: "server",
           title: "athod Full Node",
           status: "Live",
-          copy: "Owns runtime behavior, mempool admission, chainstate updates, and the canonical validation path.",
+          copy: "Canonical full node.",
+          hover: "The full node owns runtime behavior, mempool admission, chainstate updates, and the canonical validation path.",
           actionLabel: "See network",
           actionHref: "#network"
         },
@@ -156,7 +176,8 @@ export const siteContent = {
           icon: "pickaxe",
           title: "atho-mine",
           status: "Live",
-          copy: "Dedicated miner client that requests valid templates from the node instead of replacing consensus logic.",
+          copy: "Dedicated miner client.",
+          hover: "Mining stays separate from consensus ownership instead of replacing the node’s validation logic.",
           actionLabel: "See technology",
           actionHref: "#technology"
         },
@@ -164,7 +185,8 @@ export const siteContent = {
           icon: "monitor",
           title: "atho-qt",
           status: "Live",
-          copy: "Thin desktop client built to render backend truth rather than invent local chainstate.",
+          copy: "Thin desktop client.",
+          hover: "The GUI renders backend truth instead of inventing local chainstate during sync, restart, or recovery.",
           actionLabel: "See developers",
           actionHref: "#developers"
         }
@@ -177,7 +199,8 @@ export const siteContent = {
           icon: "globe",
           title: "Block Explorer",
           status: "Pending",
-          copy: "Public explorer surface is being cleaned up for the next test batch before mainnet.",
+          copy: "Public explorer in rollout.",
+          hover: "The public explorer is part of the rollout path, but it is being tightened before broader mainnet-facing use.",
           actionLabel: "View pending status",
           actionHref: "./roadmap.html"
         },
@@ -185,7 +208,8 @@ export const siteContent = {
           icon: "spark",
           title: "Testnet Faucet",
           status: "Pending",
-          copy: "Testnet distribution flow will open through the next coordinated community batch.",
+          copy: "Access opens through the next batch.",
+          hover: "Testnet access will route through the next community batch rather than an always-open faucet flow.",
           actionLabel: "Join the batch",
           actionHref: "./join.html"
         },
@@ -193,7 +217,8 @@ export const siteContent = {
           icon: "terminal",
           title: "Public Status Page",
           status: "Pending",
-          copy: "External status and rollout checkpoints are being prepared for the public network phase.",
+          copy: "Public status surface in rollout.",
+          hover: "A clearer public status surface will land as the broader public-network phase gets closer.",
           actionLabel: "Read status",
           actionHref: "./roadmap.html"
         }
@@ -206,7 +231,8 @@ export const siteContent = {
           icon: "code",
           title: "GitHub",
           status: "Live",
-          copy: "Public repository for the current Atho website and project surface.",
+          copy: "Public repo and code surface.",
+          hover: "The public repository is the visible developer surface while docs and broader onboarding are refined.",
           actionLabel: "Open GitHub",
           actionHref: "https://github.com/Atho-Labs/",
           external: true
@@ -215,7 +241,8 @@ export const siteContent = {
           icon: "database",
           title: "Public Docs",
           status: "Pending",
-          copy: "The public docs hub is being tightened before the next test batch and broader release.",
+          copy: "Docs are being tightened.",
+          hover: "The docs hub is being simplified so public onboarding is clearer before a broader release.",
           actionLabel: "Read docs status",
           actionHref: "./docs.html"
         },
@@ -223,7 +250,8 @@ export const siteContent = {
           icon: "package",
           title: "Mining Guide",
           status: "Pending",
-          copy: "Operator-facing mining setup notes are being refined for a cleaner public onboarding path.",
+          copy: "Setup notes are being refined.",
+          hover: "Mining guidance will land in a cleaner operator path once the public onboarding surface is ready.",
           actionLabel: "See onboarding",
           actionHref: "./join.html"
         }
@@ -235,43 +263,49 @@ export const siteContent = {
       label: "Max Supply",
       value: "168 million ATHO",
       badge: "Published",
-      note: "Supply is designed to stay public, finite, and easy to audit."
+      note: "Public, finite supply.",
+      hover: "The supply cap stays explicit so long-term holders can audit the monetary surface without interpretation."
     },
     {
       label: "Base Block Reward",
       value: "50 ATHO",
       badge: "Published",
-      note: "Base issuance begins with a clear subsidy instead of hidden monetary rules."
+      note: "Clear starting subsidy.",
+      hover: "Issuance begins with a visible base reward instead of hidden monetary logic."
     },
     {
       label: "Issuance Model",
       value: "Subsidy + halving logic",
       badge: "Published",
-      note: "about-atho.md confirms subsidy and halving logic live in the consensus core."
+      note: "Consensus-owned reward logic.",
+      hover: "The reward path lives in the consensus core rather than in off-chain narrative or discretionary policy."
     },
     {
       label: "Proof-of-Work Issuance",
       value: "Public and auditable",
       badge: "Published",
-      note: "New supply enters through proof-of-work blocks that every node can verify."
+      note: "Every node can verify new supply.",
+      hover: "New issuance enters through proof-of-work blocks that stay independently auditable."
     },
     {
       label: "Fee Accounting",
       value: "Block-level totals",
       badge: "Published",
-      note: "Blocks carry explicit fee accounting totals instead of hiding settlement math."
+      note: "Explicit fee totals per block.",
+      hover: "Blocks carry visible fee totals instead of hiding settlement math behind abstract system counters."
     },
     {
       label: "Maturity Rules",
       value: "Consensus-enforced",
       badge: "Published",
-      note: "Spendability, reward handling, and maturity checks stay visible in validation."
+      note: "Visible spendability rules.",
+      hover: "Reward handling, maturity checks, and spendability stay in the validation path where operators can inspect them."
     }
   ],
   developerPoints: [
-    "Clear crate ownership across atho-core, atho-storage, atho-node, atho-wallet, atho-p2p, atho-rpc, atho-qt, and atho-installer.",
-    "Mempool prevalidation, validation batching, compact relay, and headers-first sync keep the network fast without relaxing checks.",
-    "The GUI stays thin so backend truth remains canonical during startup, sync, restart, and recovery."
+    "Core, node, wallet, GUI, RPC, and installer layers stay clearly separated.",
+    "Fast-path work stays on the canonical validation path.",
+    "The GUI stays thin so backend truth stays canonical."
   ],
   developerCommands: [
     {
@@ -301,23 +335,27 @@ export const siteContent = {
   statusCards: [
     {
       label: "Now",
-      title: "Cleaner public posture",
-      copy: "Atho is being repositioned as a payment-first protocol with explicit rules and a tighter product voice."
+      title: "Payments-first voice",
+      copy: "The public message is being narrowed around payments and rules.",
+      hover: "Messaging is being tightened so the public surface matches the actual payment-first protocol posture."
     },
     {
       label: "Now",
-      title: "Usable local stack",
-      copy: "The local architecture is strong, the wallet and client path are usable, and the release pipeline exists."
+      title: "Working stack",
+      copy: "Node, miner, and client already run end to end.",
+      hover: "The architecture, wallet path, client path, and release flow are usable today."
     },
     {
       label: "In Progress",
-      title: "Public-network hardening",
-      copy: "Bootstrap, longer soak coverage, and a broader public operator story still need more work."
+      title: "Network hardening",
+      copy: "Bootstrap and public operator hardening are still underway.",
+      hover: "Longer soak coverage, broader bootstrap confidence, and a stronger operator story still need more work."
     },
     {
       label: "Next",
-      title: "Next test batch",
-      copy: "Community onboarding will center on Discord so early testers can join before mainnet and follow progress directly."
+      title: "Discord intake",
+      copy: "The next public batch will route through Discord.",
+      hover: "Early testers will join through the community path before broader mainnet-facing access opens."
     }
   ],
   communityActions: [

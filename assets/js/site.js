@@ -55,6 +55,35 @@ function createBadge(label) {
   return badge;
 }
 
+function appendHoverDetail(card, text) {
+  if (!(card instanceof HTMLElement) || !text) {
+    return;
+  }
+
+  card.classList.add("card-hoverable");
+  if (!card.hasAttribute("tabindex")) {
+    card.tabIndex = 0;
+  }
+
+  const detail = document.createElement("div");
+  detail.className = "card-hover-detail";
+  detail.innerHTML = `
+    <span>More</span>
+    <p>${text}</p>
+  `;
+  card.appendChild(detail);
+}
+
+function hydrateStaticHoverCards() {
+  document.querySelectorAll("[data-hover-copy]").forEach((node) => {
+    if (!(node instanceof HTMLElement)) {
+      return;
+    }
+
+    appendHoverDetail(node, node.dataset.hoverCopy || "");
+  });
+}
+
 function renderHeroSignals() {
   const target = document.querySelector("#hero-signals");
   if (!(target instanceof HTMLElement)) {
@@ -86,6 +115,7 @@ function renderProtocolHighlights() {
         <p>${item.copy}</p>
       </div>
     `;
+    appendHoverDetail(article, item.hover);
     target.appendChild(article);
   });
 }
@@ -105,6 +135,7 @@ function renderRuntimePills() {
       <strong>${item.value}</strong>
       <p>${item.copy}</p>
     `;
+    appendHoverDetail(card, item.hover);
     target.appendChild(card);
   });
 }
@@ -146,6 +177,7 @@ function renderStats() {
       <h3>${item.label}</h3>
       <p>${item.detail}</p>
     `;
+    appendHoverDetail(card, item.hover);
     target.appendChild(card);
   });
 }
@@ -168,6 +200,7 @@ function renderCoreFeatures() {
       <p>${item.copy}</p>
     `;
     card.appendChild(content);
+    appendHoverDetail(card, item.hover);
     target.appendChild(card);
   });
 }
@@ -224,6 +257,7 @@ function renderEcosystem() {
 
       card.appendChild(top);
       card.appendChild(action);
+      appendHoverDetail(card, item.hover);
       grid.appendChild(card);
     });
 
@@ -248,6 +282,7 @@ function renderEconomics() {
       <strong class="economics-value">${item.value}</strong>
       <p>${item.note}</p>
     `;
+    appendHoverDetail(card, item.hover);
     target.appendChild(card);
   });
 }
@@ -310,6 +345,7 @@ function renderStatusCards() {
       <p>${item.copy}</p>
     `;
     card.appendChild(body);
+    appendHoverDetail(card, item.hover);
     target.appendChild(card);
   });
 }
@@ -368,6 +404,74 @@ function renderFooterColumns() {
     });
 
     target.appendChild(section);
+  });
+}
+
+function initHeroEngine() {
+  const stage = document.querySelector("[data-hero-engine]");
+  if (!(stage instanceof HTMLElement)) {
+    return;
+  }
+
+  const powerValue = stage.querySelector("[data-hero-power-value]");
+  const baseLevel = 36;
+  let powerLevel = baseLevel;
+  let energyTimer;
+  let decayTimer;
+
+  const renderPower = () => {
+    const scale = Math.max(0.2, Math.min(1, powerLevel / 100));
+    stage.style.setProperty("--power-level", `${powerLevel}%`);
+    stage.style.setProperty("--power-scale", scale.toFixed(2));
+    if (powerValue instanceof HTMLElement) {
+      powerValue.textContent = `${powerLevel}%`;
+    }
+  };
+
+  const startDecay = () => {
+    window.clearInterval(decayTimer);
+    decayTimer = window.setInterval(() => {
+      if (powerLevel <= baseLevel) {
+        powerLevel = baseLevel;
+        renderPower();
+        window.clearInterval(decayTimer);
+        return;
+      }
+
+      powerLevel = Math.max(baseLevel, powerLevel - 4);
+      renderPower();
+    }, 160);
+  };
+
+  const pulseStage = () => {
+    window.clearTimeout(energyTimer);
+    window.clearInterval(decayTimer);
+    stage.classList.remove("is-energized");
+    void stage.offsetWidth;
+    stage.classList.add("is-energized");
+
+    powerLevel = Math.min(100, powerLevel + 16);
+    renderPower();
+
+    energyTimer = window.setTimeout(() => {
+      stage.classList.remove("is-energized");
+      startDecay();
+    }, 1050);
+  };
+
+  renderPower();
+
+  stage.addEventListener("click", () => {
+    pulseStage();
+  });
+
+  stage.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") {
+      return;
+    }
+
+    event.preventDefault();
+    pulseStage();
   });
 }
 
@@ -505,6 +609,8 @@ function renderPage() {
   renderStatusCards();
   renderCommunityActions();
   renderFooterColumns();
+  hydrateStaticHoverCards();
+  initHeroEngine();
   initMenu();
   initReveal();
   initYear();

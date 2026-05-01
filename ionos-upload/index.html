@@ -16,13 +16,13 @@
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Atho homepage preview with payment-first hero copy and market-positioning value board.">
+  <meta property="og:image:alt" content="Atho homepage preview with payment-first hero copy and an embedded protocol-engine CPU visual.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@AthoHQ">
   <meta name="twitter:title" content="Atho | The Platinum Standard for the Quantum Age">
   <meta name="twitter:description" content="A payment-first UTXO blockchain and store of value built for simplicity, security, proof-of-work settlement, and long-term trust.">
   <meta name="twitter:image" content="https://atho.io/assets/media/og-share-card.png">
-  <meta name="twitter:image:alt" content="Atho homepage preview with payment-first hero copy and market-positioning value board.">
+  <meta name="twitter:image:alt" content="Atho homepage preview with payment-first hero copy and an embedded protocol-engine CPU visual.">
   <link rel="icon" type="image/png" href="./assets/media/logo%201.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -72,10 +72,9 @@
         <div class="hero-copy" data-reveal>
           <span class="section-kicker">POST-QUANTUM PAYMENT NETWORK</span>
           <div class="hero-signal-row" id="hero-signals"></div>
-          <h1>A payment system and store of value built on simple rules.</h1>
+          <h1 class="hero-headline-solid">Simple rules. Secure payments. Lasting value.</h1>
           <p class="hero-lead">
-            Atho uses the proven public UTXO model, proof-of-work settlement, and finite monetary rules to
-            favor simplicity, security, and trust over novelty.
+            Atho is a payment-first UTXO chain for public settlement, proof-of-work security, and finite supply.
           </p>
 
           <div class="button-row">
@@ -84,81 +83,75 @@
           </div>
 
           <p class="hero-note">
-            Atho does not try to be everything in crypto. It was built from the ground up as a payment-first chain,
-            taking the durable operating discipline behind Bitcoin and Litecoin and keeping security and stability first.
+            Built for durable public money, not feature sprawl.
           </p>
 
           <p class="hero-compare">
-            <strong>75 second blocks</strong> put Atho at <strong>8x Bitcoin’s cadence</strong> and
-            <strong>2x Litecoin’s</strong>. <strong>168 million ATHO</strong> sets supply at
-            <strong>8x Bitcoin</strong> and <strong>2x Litecoin</strong>.
+            <strong>75 second blocks.</strong> <strong>168 million ATHO.</strong> <strong>8x Bitcoin’s cadence.</strong> <strong>2x Litecoin’s.</strong>
           </p>
         </div>
 
-        <div class="hero-visual" data-reveal aria-hidden="true">
-          <div class="visual-frame value-frame">
-            <div class="value-layer value-frame-banner">
-              <span>Market Position</span>
-              <strong>Simple money infrastructure for payments and long-term holding.</strong>
+        <div class="hero-stage" data-reveal data-hero-engine tabindex="0" aria-label="Atho protocol engine visual">
+          <div class="hero-stage-glow"></div>
+          <div class="hero-stage-title">
+            <span>Protocol Engine</span>
+            <p>Click to charge the engine as miners and nodes deepen network security.</p>
+          </div>
+
+          <div class="hero-power-meter" aria-hidden="true">
+            <span class="hero-power-label">Security load</span>
+            <div class="hero-power-shell">
+              <div class="hero-power-track">
+                <span class="hero-power-fill"></span>
+                <span class="hero-power-step hero-power-step-a"></span>
+                <span class="hero-power-step hero-power-step-b"></span>
+                <span class="hero-power-step hero-power-step-c"></span>
+                <span class="hero-power-step hero-power-step-d"></span>
+              </div>
+              <strong class="hero-power-value" data-hero-power-value>36%</strong>
+            </div>
+          </div>
+
+          <div class="hero-engine-canvas">
+            <div class="hero-engine-asset-shell">
+              <span class="hero-engine-orbit hero-engine-orbit-a" aria-hidden="true"></span>
+              <span class="hero-engine-orbit hero-engine-orbit-b" aria-hidden="true"></span>
+              <span class="hero-engine-orbit hero-engine-orbit-c" aria-hidden="true"></span>
+              <div class="hero-engine-asset-glow" aria-hidden="true"></div>
+              <img class="hero-engine-asset" src="./assets/media/cpu.png" alt="Atho protocol engine CPU">
             </div>
 
-            <div class="value-layer value-frame-main">
-              <span class="value-main-label">Atho Value Proposition</span>
-              <h2>Security first. Stability first. Trust earned through readable rules.</h2>
-              <p>
-                Atho keeps the tradeoff explicit: it uses a proven UTXO model instead of trying to be an
-                everything-chain, so public settlement stays easier to audit, operate, and trust.
-              </p>
-            </div>
+            <button class="hero-hotspot hero-hotspot-a" type="button" aria-label="Public UTXO settlement">
+              <span class="hero-hotspot-icon">+</span>
+              <span class="hero-hotspot-tip">
+                <strong>Settlement engine</strong>
+                <small>Public UTXO accounting on a readable payment model.</small>
+              </span>
+            </button>
 
-            <div class="value-layer value-pill-set">
-              <span class="value-pill">public UTXO settlement</span>
-              <span class="value-pill">proof-of-work finality</span>
-              <span class="value-pill">finite supply</span>
-              <span class="value-pill">payment + store of value</span>
-            </div>
+            <button class="hero-hotspot hero-hotspot-b" type="button" aria-label="Falcon-512 signatures">
+              <span class="hero-hotspot-icon">+</span>
+              <span class="hero-hotspot-tip">
+                <strong>Falcon-512</strong>
+                <small>Post-quantum signatures securing long-lived balances.</small>
+              </span>
+            </button>
 
-            <div class="value-layer value-compare-grid">
-              <article class="value-compare-card">
-                <span>Bitcoin baseline</span>
-                <strong>8x faster block cadence</strong>
-                <p>75 second blocks vs 600 second blocks, with the same preference for simple public settlement.</p>
-                <div class="value-metric-row">
-                  <em>Supply</em>
-                  <b>168M vs 21M</b>
-                </div>
-              </article>
+            <button class="hero-hotspot hero-hotspot-c" type="button" aria-label="Proof-of-work mining">
+              <span class="hero-hotspot-icon">+</span>
+              <span class="hero-hotspot-tip">
+                <strong>Proof-of-work</strong>
+                <small>More miners and nodes raise visible network security.</small>
+              </span>
+            </button>
 
-              <article class="value-compare-card">
-                <span>Litecoin baseline</span>
-                <strong>2x faster block cadence</strong>
-                <p>75 second blocks vs 150 second blocks, while staying rooted in payment-chain discipline.</p>
-                <div class="value-metric-row">
-                  <em>Supply</em>
-                  <b>168M vs 84M</b>
-                </div>
-              </article>
-            </div>
-
-            <div class="value-layer value-anchor-grid">
-              <article class="value-anchor-card">
-                <span>Simplicity</span>
-                <strong>Not everything in crypto</strong>
-                <p>Atho stays narrow on purpose so the money model remains readable.</p>
-              </article>
-
-              <article class="value-anchor-card">
-                <span>Security</span>
-                <strong>UTXO + proof-of-work</strong>
-                <p>The proven settlement model comes first, not novelty for its own sake.</p>
-              </article>
-
-              <article class="value-anchor-card">
-                <span>Trust</span>
-                <strong>Bitcoin and Litecoin discipline</strong>
-                <p>Ground-up payment-chain principles shape the product posture and operator model.</p>
-              </article>
-            </div>
+            <button class="hero-hotspot hero-hotspot-d" type="button" aria-label="75 second block target">
+              <span class="hero-hotspot-icon">+</span>
+              <span class="hero-hotspot-tip">
+                <strong>75 second cadence</strong>
+                <small>Fast public settlement without abandoning payment-chain discipline.</small>
+              </span>
+            </button>
           </div>
         </div>
       </div>
@@ -170,14 +163,88 @@
       </div>
     </section>
 
+    <section class="section section-panel" id="positioning">
+      <div class="container section-head" data-reveal>
+        <span class="section-kicker">Market Position</span>
+        <h2>Built for <span class="headline-accent">simplicity</span>, security, and trust.</h2>
+        <p>
+          The tradeoff is simple: readable rules and durable settlement over feature sprawl.
+        </p>
+      </div>
+
+      <div class="container positioning-grid">
+        <div class="positioning-top-grid">
+          <article class="card positioning-card positioning-banner-card" data-reveal data-hover-copy="Atho is built for payments and long-term holding without drifting into a feature-everything product posture.">
+            <span class="positioning-label">Market Position</span>
+            <strong>Payment-first public money.</strong>
+          </article>
+
+          <article class="card positioning-card positioning-main-card" data-reveal data-hover-copy="The trust model stays explicit: UTXO accounting, proof-of-work settlement, finite supply, and a backend that owns consensus truth.">
+            <span class="positioning-label">Atho Value Proposition</span>
+            <h3>Simple rules. Security first. Long-term trust.</h3>
+            <p>
+              Atho uses a proven UTXO model and proof-of-work settlement so the trust surface stays easy to audit.
+            </p>
+          </article>
+        </div>
+
+        <div class="positioning-pill-row" data-reveal>
+          <span class="value-pill">public UTXO settlement</span>
+          <span class="value-pill">proof-of-work finality</span>
+          <span class="value-pill">finite supply</span>
+          <span class="value-pill">payment + store of value</span>
+        </div>
+
+        <div class="positioning-anchor-grid">
+          <article class="card positioning-card positioning-anchor-card" data-reveal data-hover-copy="Atho stays narrow on purpose so balances, settlement, and supply remain legible to users, miners, and node operators.">
+            <span class="positioning-label">Simplicity</span>
+            <strong>Keep it narrow</strong>
+            <p>Public money first, extras second.</p>
+          </article>
+
+          <article class="card positioning-card positioning-anchor-card" data-reveal data-hover-copy="The protocol keeps the same bias as durable payment chains: public settlement, explicit validation, and no hidden shortcuts.">
+            <span class="positioning-label">Security</span>
+            <strong>UTXO + proof-of-work</strong>
+            <p>Settlement stays readable and node-verifiable.</p>
+          </article>
+
+          <article class="card positioning-card positioning-anchor-card" data-reveal data-hover-copy="Atho is shaped by the durable operating discipline behind Bitcoin and Litecoin rather than short-term crypto marketing cycles.">
+            <span class="positioning-label">Trust</span>
+            <strong>Bitcoin and Litecoin discipline</strong>
+            <p>The operating model stays boring on purpose.</p>
+          </article>
+        </div>
+
+        <div class="positioning-compare-grid">
+          <article class="card positioning-card positioning-compare-card" data-reveal data-hover-copy="Bitcoin stays the baseline for durable public settlement. Atho changes cadence and supply while keeping the same preference for simple, auditable money.">
+            <span class="positioning-label">Bitcoin Baseline</span>
+            <strong>8x faster cadence</strong>
+            <p>75 second blocks vs 600 seconds, with the same settlement-first bias.</p>
+            <div class="value-metric-row">
+              <em>Supply</em>
+              <b>168M vs 21M</b>
+            </div>
+          </article>
+
+          <article class="card positioning-card positioning-compare-card" data-reveal data-hover-copy="Litecoin remains a payment-chain reference point. Atho doubles the cadence and doubles the supply while staying grounded in simple public rules.">
+            <span class="positioning-label">Litecoin Baseline</span>
+            <strong>2x faster cadence</strong>
+            <p>75 second blocks vs 150 seconds, on the same payment-chain model.</p>
+            <div class="value-metric-row">
+              <em>Supply</em>
+              <b>168M vs 84M</b>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="section section-panel" id="network">
       <div class="container section-head" data-reveal>
         <span class="section-kicker">Network</span>
-        <h2>Built for safe throughput, not shortcuts.</h2>
+        <h2>Built for <span class="headline-accent">safe throughput</span>, not shortcuts.</h2>
         <p>
-          As a Rust payment stack, Atho’s speed work is not about skipping checks. It is about validating on the
-          canonical path, reusing exact safe results only when the context still matches, and keeping transport compact
-          enough for real payment flow.
+          Performance work stays on the canonical path: validate once, batch state work, and relay less.
         </p>
       </div>
 
@@ -185,14 +252,13 @@
         <article class="card story-card" data-reveal>
           <h3>Performance without hidden consensus shortcuts.</h3>
           <p>
-            The current strategy is straightforward: validate once on mempool admission, batch chainstate work,
-            parallelize independent Falcon checks, and move less redundant data across the network.
+            Fast paths reuse safe results, batch chainstate work, and keep propagation lean.
           </p>
           <ul class="story-list">
-            <li>Exact cache reuse only when bytes and rules still match</li>
-            <li>Batched UTXO reads and writes on the hot path</li>
-            <li>Parallel Falcon-512 verification for independent inputs</li>
-            <li>Compact relay and headers-first sync to cut wasted bandwidth</li>
+            <li>Reuse only when bytes and rules still match</li>
+            <li>Batched UTXO I/O on the hot path</li>
+            <li>Parallel Falcon checks for independent inputs</li>
+            <li>Compact relay and headers-first sync</li>
           </ul>
         </article>
 
@@ -206,10 +272,9 @@
     <section class="section">
       <div class="container section-head" data-reveal>
         <span class="section-kicker">Parameters</span>
-        <h2>Protocol parameters, at a glance.</h2>
+        <h2>Protocol parameters, <span class="headline-accent">at a glance</span>.</h2>
         <p>
-          The core public numbers are simple: supply, subsidy, settlement timing, and block shape are all readable in
-          one view.
+          The public numbers in one view.
         </p>
       </div>
       <div class="container stats-grid" id="network-stats"></div>
@@ -218,10 +283,9 @@
     <section class="section section-panel" id="technology">
       <div class="container section-head" data-reveal>
         <span class="section-kicker">Technology</span>
-        <h2>Core Protocol Features</h2>
+        <h2>Core protocol features, kept <span class="headline-accent">readable</span>.</h2>
         <p>
-          Atho combines post-quantum signatures, SHA3 hashing, a public UTXO ledger, proof-of-work settlement,
-          and a runtime shaped around deterministic validation instead of hidden shortcuts.
+          Post-quantum signing, SHA3 hashing, UTXO settlement, and proof-of-work in one readable stack.
         </p>
       </div>
       <div class="container feature-grid" id="core-features"></div>
@@ -230,10 +294,9 @@
     <section class="section" id="ecosystem">
       <div class="container section-head" data-reveal>
         <span class="section-kicker">Ecosystem</span>
-        <h2>Everything Atho Needs to Run</h2>
+        <h2>Everything Atho needs to <span class="headline-accent">run</span>.</h2>
         <p>
-          The current product surface is defined by the actual Atho stack: the node, miner, wallet, client, storage,
-          RPC boundary, P2P transport, and installer path.
+          Node, miner, client, and public access surfaces in one stack.
         </p>
       </div>
       <div class="container ecosystem-groups" id="ecosystem-groups"></div>
@@ -242,10 +305,9 @@
     <section class="section section-panel" id="economics">
       <div class="container section-head" data-reveal>
         <span class="section-kicker">Economics</span>
-        <h2>Transparent economics. Verifiable rules.</h2>
+        <h2>Transparent economics. <span class="headline-accent">Verifiable rules.</span></h2>
         <p>
-          Atho keeps monetary design visible: public proof-of-work issuance, a 50 ATHO base block reward,
-          a 168 million max supply, and reward logic that stays inspectable in consensus rather than hidden in marketing copy.
+          Supply and issuance stay visible.
         </p>
       </div>
       <div class="container economics-grid" id="economics-grid"></div>
@@ -255,10 +317,9 @@
       <div class="container developer-grid">
         <div class="developer-copy" data-reveal>
           <span class="section-kicker">Developers</span>
-          <h2>Build and verify from day one.</h2>
+          <h2>Build and verify from <span class="headline-accent">day one</span>.</h2>
           <p>
-            Run a node, inspect blocks, operate the miner, and build around a stack with clear crate ownership and a
-            backend that stays responsible for consensus truth.
+            Run a node, inspect blocks, and build on a backend-owned trust model.
           </p>
 
           <div class="button-row">
@@ -285,14 +346,9 @@
       <div class="container status-grid">
         <div class="status-copy" data-reveal>
           <span class="section-kicker">Status</span>
-          <h2>Atho is being rebuilt for a stronger launch.</h2>
+          <h2>A cleaner launch starts with <span class="headline-accent">clearer rules</span>.</h2>
           <p>
-            Atho is entering a cleaner build phase focused on public settlement, post-quantum security,
-            proof-of-work infrastructure, and a stronger user experience.
-          </p>
-          <p>
-            The project already feels beyond prototype stage, but the public-network story is still being hardened.
-            That is the right posture for a serious payment network.
+            The rollout is being tightened before wider access.
           </p>
         </div>
 
@@ -304,10 +360,9 @@
       <div class="container cta-shell" data-reveal>
         <div class="cta-copy">
           <span class="section-kicker">Community</span>
-          <h2>Join the next Atho test batch before mainnet.</h2>
+          <h2>Join the next <span class="headline-accent">Atho test batch</span>.</h2>
           <p>
-            Join Discord if you want to help shape a payment-first post-quantum network before its public mainnet
-            posture is locked in.
+            Join Discord to follow the next public batch.
           </p>
         </div>
         <div class="button-row cta-actions" id="community-actions"></div>
