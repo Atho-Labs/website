@@ -72,6 +72,9 @@
       <p>
         This is the public testnet operator path. Pull the repository, build the binaries, run the launcher, create a wallet, sync to the network, and start mining when the client is fully caught up.
       </p>
+      <p class="page-note">
+        Repository: <a href="https://github.com/Atho-Labs/Atho-Testnet" target="_blank" rel="noopener noreferrer"><code>https://github.com/Atho-Labs/Atho-Testnet</code></a>
+      </p>
       <div class="page-actions">
         <a class="button button-primary" href="https://github.com/Atho-Labs/Atho-Testnet" target="_blank" rel="noopener noreferrer">Open Testnet Repo</a>
         <a class="button button-secondary" href="./join.html">Join Testnet</a>
@@ -102,6 +105,28 @@
         <div class="page-actions">
           <a class="button button-primary" href="./assets/files/atho-whitepaper.pdf" download>Read whitepaper</a>
         </div>
+      </article>
+    </section>
+
+    <section class="container page-grid">
+      <article class="card page-card" data-reveal>
+        <h2>Exact terminal flow</h2>
+        <ul class="page-list">
+          <li><code>git clone https://github.com/Atho-Labs/Atho-Testnet.git</code></li>
+          <li><code>cd Atho-Testnet</code></li>
+          <li><code>cargo build</code></li>
+          <li><code>python testnet.py</code></li>
+        </ul>
+      </article>
+
+      <article class="card page-card" data-reveal>
+        <h2>After it opens</h2>
+        <ul class="page-list">
+          <li>Create a wallet.</li>
+          <li>Wait until the client is fully synced to the network.</li>
+          <li>Start mining only after sync completes.</li>
+          <li>Email <code>genull@proton.me</code> with a screenshot and a testnet address to receive coins.</li>
+        </ul>
       </article>
     </section>
   </main>
