@@ -1,28 +1,28 @@
 export const siteContent = {
   heroSignals: [
-    "simplicity first",
-    "security before novelty",
-    "payment + store of value",
-    "75 second settlement"
+    "public testnet live",
+    "build and run locally",
+    "wallet sync before mining",
+    "email for testnet coins"
   ],
   protocolHighlights: [
     {
       number: "01",
-      title: "Post-Quantum Security",
-      copy: "Falcon-512 and SHA3-384 secure long-lived balances.",
-      hover: "Signatures and message binding stay explicit so wallets, miners, and nodes verify the same cryptographic path."
+      title: "Public Testnet Repo",
+      copy: "Clone Atho-Testnet and run the real client stack.",
+      hover: "The public entry point is now the dedicated testnet repo, not a docs-placeholder landing flow."
     },
     {
       number: "02",
-      title: "Public UTXO Settlement",
-      copy: "Readable UTXO accounting keeps ownership and spendability public.",
-      hover: "Outputs remain the settlement layer, so balances, maturity, and spend paths stay easy to audit."
+      title: "Wallet Then Sync",
+      copy: "Create a wallet and wait until the node is fully caught up.",
+      hover: "Mining and transaction testing should start only after the client reports full network sync."
     },
     {
       number: "03",
-      title: "Deterministic Validation",
-      copy: "Explicit validation boundaries keep every node on the same rules.",
-      hover: "Consensus, storage, and runtime responsibilities stay separated so operators can inspect the trust surface."
+      title: "Email for Coins",
+      copy: "Send a screenshot and a testnet address to receive coins.",
+      hover: "Coin distribution is routed directly through email while the public testnet surface is still being tightened."
     }
   ],
   runtimePills: [
@@ -197,30 +197,30 @@ export const siteContent = {
       items: [
         {
           icon: "globe",
-          title: "Block Explorer",
+          title: "Testnet Join Flow",
           status: "Pending",
-          copy: "Public explorer in rollout.",
-          hover: "The public explorer is part of the rollout path, but it is being tightened before broader mainnet-facing use.",
-          actionLabel: "View pending status",
-          actionHref: "./roadmap.html"
+          copy: "Public onboarding is now centered on the testnet repo and client.",
+          hover: "The website now points users into the testnet build and wallet flow instead of a generic future-facing placeholder.",
+          actionLabel: "Join testnet",
+          actionHref: "./join.html"
         },
         {
           icon: "spark",
           title: "Testnet Faucet",
           status: "Pending",
-          copy: "Access opens through the next batch.",
-          hover: "Testnet access will route through the next community batch rather than an always-open faucet flow.",
-          actionLabel: "Join the batch",
-          actionHref: "./join.html"
+          copy: "Coin requests currently route through direct email.",
+          hover: "Instead of an open faucet, testers request coins by sending a screenshot and testnet address to the project email.",
+          actionLabel: "Request coins",
+          actionHref: "./contact.html"
         },
         {
           icon: "terminal",
-          title: "Public Status Page",
-          status: "Pending",
-          copy: "Public status surface in rollout.",
-          hover: "A clearer public status surface will land as the broader public-network phase gets closer.",
-          actionLabel: "Read status",
-          actionHref: "./roadmap.html"
+          title: "Quickstart",
+          status: "Live",
+          copy: "Clone, build, run, create wallet, sync, and mine.",
+          hover: "The public docs path is now a direct testnet quickstart rather than a broad placeholder documentation surface.",
+          actionLabel: "Open quickstart",
+          actionHref: "./docs.html"
         }
       ]
     },
@@ -229,31 +229,31 @@ export const siteContent = {
       items: [
         {
           icon: "code",
-          title: "GitHub",
+          title: "Atho-Testnet",
           status: "Live",
-          copy: "Public repo and code surface.",
-          hover: "The public repository is the visible developer surface while docs and broader onboarding are refined.",
-          actionLabel: "Open GitHub",
-          actionHref: "https://github.com/Atho-Labs/",
+          copy: "Public repo for the testnet launch path.",
+          hover: "The dedicated testnet repository is the public code surface for joining the current Atho network.",
+          actionLabel: "Open testnet repo",
+          actionHref: "https://github.com/Atho-Labs/Atho-Testnet",
           external: true
         },
         {
           icon: "database",
-          title: "Public Docs",
-          status: "Pending",
-          copy: "Docs are being tightened.",
-          hover: "The docs hub is being simplified so public onboarding is clearer before a broader release.",
-          actionLabel: "Read docs status",
+          title: "Quickstart Docs",
+          status: "Live",
+          copy: "Simple clone, build, and run steps.",
+          hover: "The docs surface has been reduced to a practical quickstart so users can get onto the testnet without paging through broad placeholder content.",
+          actionLabel: "Read quickstart",
           actionHref: "./docs.html"
         },
         {
           icon: "package",
-          title: "Mining Guide",
-          status: "Pending",
-          copy: "Setup notes are being refined.",
-          hover: "Mining guidance will land in a cleaner operator path once the public onboarding surface is ready.",
-          actionLabel: "See onboarding",
-          actionHref: "./join.html"
+          title: "Coin Request Path",
+          status: "Live",
+          copy: "Email a screenshot and testnet address to get coins.",
+          hover: "The current coin distribution flow is manual and explicit so early public testers can get funded without a broader faucet rollout.",
+          actionLabel: "Open contact",
+          actionHref: "./contact.html"
         }
       ]
     }
@@ -310,72 +310,78 @@ export const siteContent = {
   developerCommands: [
     {
       kind: "comment",
-      text: "public GitHub surface"
+      text: "clone the public testnet repo"
     },
     {
       kind: "comment",
-      text: "https://github.com/Atho-Labs/"
+      text: "https://github.com/Atho-Labs/Atho-Testnet"
     },
     {
       kind: "command",
       prompt: "$",
-      text: "athod"
+      text: "cargo build"
     },
     {
       kind: "command",
       prompt: "$",
-      text: "atho-mine"
+      text: "python testnet.py"
     },
     {
       kind: "command",
       prompt: "$",
-      text: "atho-qt"
+      text: "# create wallet, sync, then mine"
     }
   ],
   statusCards: [
     {
       label: "Now",
-      title: "Payments-first voice",
-      copy: "The public message is being narrowed around payments and rules.",
-      hover: "Messaging is being tightened so the public surface matches the actual payment-first protocol posture."
+      title: "Testnet repo live",
+      copy: "The public website now points to the dedicated testnet repo.",
+      hover: "The main entry path is now concrete: clone the repo, build the binaries, and run the client."
     },
     {
       label: "Now",
       title: "Working stack",
-      copy: "Node, miner, and client already run end to end.",
-      hover: "The architecture, wallet path, client path, and release flow are usable today."
+      copy: "Node, wallet, miner, and client already run end to end on testnet.",
+      hover: "The operator path is simple enough for public testers to build locally and join the network."
     },
     {
       label: "In Progress",
-      title: "Network hardening",
-      copy: "Bootstrap and public operator hardening are still underway.",
-      hover: "Longer soak coverage, broader bootstrap confidence, and a stronger operator story still need more work."
+      title: "Public network hardening",
+      copy: "Bootstrap and broader operator hardening are still underway.",
+      hover: "The public testnet is live, but longer soak coverage and broader network hardening still matter."
     },
     {
       label: "Next",
-      title: "Discord intake",
-      copy: "The next public batch will route through Discord.",
-      hover: "Early testers will join through the community path before broader mainnet-facing access opens."
+      title: "Coin distribution",
+      copy: "Email remains the current testnet coin request path.",
+      hover: "The next public improvement is a broader, lower-friction funding path for testers."
     }
   ],
   communityActions: [
     {
-      label: "Join Discord",
-      href: "https://discord.gg/W5fV4aGcUR",
+      label: "Open Testnet Repo",
+      href: "https://github.com/Atho-Labs/Atho-Testnet",
       variant: "primary",
       external: true
     },
     {
-      label: "Follow on X",
-      href: "https://x.com/AthoHQ",
+      label: "Build + Run Steps",
+      href: "./docs.html",
       variant: "secondary",
-      external: true
+      external: false
     },
     {
-      label: "Contact Labs",
-      href: "mailto:labs@atho.io",
+      label: "Email for Coins",
+      href: "mailto:genull@proton.me?subject=Atho%20Testnet%20Coins",
       variant: "tertiary",
       external: false
+    },
+    {
+      label: "Join Discord",
+      href: "https://discord.gg/W5fV4aGcUR",
+      variant: "secondary",
+      external: true
     },
     {
       label: "View Status",
@@ -388,19 +394,19 @@ export const siteContent = {
     {
       title: "Network",
       links: [
-        { label: "Explorer", href: "./roadmap.html", badge: "Pending" },
-        { label: "Faucet", href: "./join.html", badge: "Pending" },
+        { label: "Join Testnet", href: "./join.html", badge: "Live" },
+        { label: "Coin Requests", href: "./contact.html", badge: "Live" },
         { label: "Nodes", href: "./index.html#developers" },
-        { label: "Status", href: "./roadmap.html", badge: "Pending" }
+        { label: "Status", href: "./roadmap.html", badge: "Live" }
       ]
     },
     {
       title: "Developers",
       links: [
-        { label: "Docs", href: "./docs.html", badge: "Pending" },
-        { label: "GitHub", href: "https://github.com/Atho-Labs/", external: true },
-        { label: "API", href: "./docs.html", badge: "Pending" },
-        { label: "Mining Guide", href: "./join.html", badge: "Pending" }
+        { label: "Quickstart", href: "./docs.html", badge: "Live" },
+        { label: "Testnet Repo", href: "https://github.com/Atho-Labs/Atho-Testnet", external: true },
+        { label: "Run Client", href: "./docs.html", badge: "Live" },
+        { label: "Mine on Testnet", href: "./join.html", badge: "Live" }
       ]
     },
     {
@@ -408,7 +414,7 @@ export const siteContent = {
       links: [
         { label: "About", href: "./index.html#network" },
         { label: "Status", href: "./roadmap.html" },
-        { label: "Brand Kit", href: "mailto:labs@atho.io?subject=Brand%20Kit" },
+        { label: "Contact", href: "mailto:genull@proton.me?subject=Atho%20Testnet" },
         { label: "Whitepaper", href: "./assets/files/atho-whitepaper.pdf" }
       ]
     },
@@ -418,7 +424,7 @@ export const siteContent = {
         { label: "Discord", href: "https://discord.gg/W5fV4aGcUR", external: true },
         { label: "X", href: "https://x.com/AthoHQ", external: true },
         { label: "Telegram", href: "https://t.me/atho_labs", external: true },
-        { label: "Contact", href: "./contact.html" }
+        { label: "Email", href: "./contact.html" }
       ]
     }
   ]

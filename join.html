@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Join the next Atho Discord test batch before mainnet.">
-  <title>Join Atho | Next Test Batch</title>
+  <meta name="description" content="Join the public Atho testnet. Build the client, sync your wallet, start mining, and request testnet coins.">
+  <title>Join Atho Testnet</title>
   <link rel="canonical" href="https://atho.io/join.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Atho">
   <meta property="og:url" content="https://atho.io/join.html">
-  <meta property="og:title" content="Join Atho | Next Test Batch">
-  <meta property="og:description" content="Join Discord to take part in the next Atho test batch before mainnet.">
+  <meta property="og:title" content="Join Atho Testnet">
+  <meta property="og:description" content="Build the client, sync your wallet, start mining, and request testnet coins.">
   <meta property="og:image" content="https://atho.io/assets/media/og-share-card.png">
   <meta property="og:image:secure_url" content="https://atho.io/assets/media/og-share-card.png">
   <meta property="og:image:type" content="image/png">
@@ -18,8 +18,8 @@
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Atho homepage preview with payment-first hero copy and an embedded protocol-engine CPU visual.">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Join Atho | Next Test Batch">
-  <meta name="twitter:description" content="Join Discord to take part in the next Atho test batch before mainnet.">
+  <meta name="twitter:title" content="Join Atho Testnet">
+  <meta name="twitter:description" content="Build the client, sync your wallet, start mining, and request testnet coins.">
   <meta name="twitter:image" content="https://atho.io/assets/media/og-share-card.png">
   <meta name="twitter:image:alt" content="Atho homepage preview with payment-first hero copy and an embedded protocol-engine CPU visual.">
   <link rel="icon" type="image/png" href="./assets/media/logo%201.png">
@@ -58,8 +58,8 @@
         </nav>
 
         <div class="nav-actions">
-          <a class="button button-secondary" href="./docs.html">Docs Pending</a>
-          <a class="button button-primary" href="https://discord.gg/W5fV4aGcUR" target="_blank" rel="noopener noreferrer">Join Discord</a>
+          <a class="button button-secondary" href="./docs.html">Run Testnet</a>
+          <a class="button button-primary" href="https://github.com/Atho-Labs/Atho-Testnet" target="_blank" rel="noopener noreferrer">Open Testnet Repo</a>
         </div>
       </div>
     </div>
@@ -67,39 +67,40 @@
 
   <main id="main" class="page-shell">
     <section class="container page-hero" data-reveal>
-      <span class="section-kicker">Test Batch</span>
-      <h1>Join Discord for the next Atho test batch before mainnet.</h1>
+      <span class="section-kicker">Public Testnet</span>
+      <h1>Join the Atho testnet.</h1>
       <p>
-        If you want to help shape a serious payment-first protocol while the public rollout is still being tightened,
-        start in Discord. That is where Atho will gather the next focused test batch.
+        The public testnet flow is simple: pull the repo, build the binaries, run the client, create a wallet, let it sync, and start mining when the node is caught up.
       </p>
       <div class="page-actions">
-        <a class="button button-primary" href="https://discord.gg/W5fV4aGcUR" target="_blank" rel="noopener noreferrer">Join Discord</a>
-        <a class="button button-secondary" href="https://github.com/Atho-Labs/" target="_blank" rel="noopener noreferrer">View GitHub</a>
-        <a class="button button-tertiary" href="mailto:labs@atho.io?subject=Next%20Atho%20Test%20Batch">Contact Labs</a>
+        <a class="button button-primary" href="https://github.com/Atho-Labs/Atho-Testnet" target="_blank" rel="noopener noreferrer">Open Testnet Repo</a>
+        <a class="button button-secondary" href="./docs.html">Build + Run Steps</a>
+        <a class="button button-tertiary" href="mailto:genull@proton.me?subject=Atho%20Testnet%20Coins">Email for Testnet Coins</a>
       </div>
       <p class="page-note">
-        about-atho.md describes a project that already feels beyond prototype stage, but still needs a stronger public
-        network story. Early testers directly improve that gap.
+        If the client does not open on the first run, run <code>testnet.py</code> again. When the wallet is created and synced, email a screenshot and a testnet address to receive coins.
       </p>
     </section>
 
     <section class="container page-grid">
       <article class="card page-card" data-reveal>
-        <h2>Why join early</h2>
+        <h2>How to join</h2>
         <ul class="page-list">
-          <li>See Atho before the public rollout hardens into final positioning.</li>
-          <li>Test node, miner, and wallet paths while operator feedback still matters.</li>
-          <li>Help push the product toward a cleaner release standard before mainnet.</li>
+          <li>Install Rust and Python on your system.</li>
+          <li>Clone or pull <code>Atho-Testnet</code>.</li>
+          <li>Run <code>cargo build</code> or <code>cargo build --release</code>.</li>
+          <li>Run <code>python testnet.py</code>.</li>
+          <li>Create a wallet and wait for sync to complete before mining or sending transactions.</li>
         </ul>
       </article>
 
       <article class="card page-card" data-reveal>
-        <h2>What to expect</h2>
+        <h2>How to get coins</h2>
         <ul class="page-list">
-          <li>Discord-first announcements for the next test batch and public onboarding windows.</li>
-          <li>Clear communication about what is live, what is pending, and what still needs hardening.</li>
-          <li>Simple coordination for node operators, miners, early testers, and technical readers.</li>
+          <li>Create a wallet in the client and copy a testnet address.</li>
+          <li>Take a screenshot showing the synced client and the wallet.</li>
+          <li>Email the screenshot and the testnet address to <code>genull@proton.me</code>.</li>
+          <li>Testnet coins will be sent over for mining and transaction testing.</li>
         </ul>
       </article>
     </section>

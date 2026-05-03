@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Public Atho docs are pending the next test batch release.">
-  <title>Atho Docs | Pending</title>
+  <meta name="description" content="Atho testnet quickstart: clone the repo, build the binaries, run testnet.py, create a wallet, sync, and mine.">
+  <title>Atho Testnet | Quickstart</title>
   <link rel="canonical" href="https://atho.io/docs.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Atho">
   <meta property="og:url" content="https://atho.io/docs.html">
-  <meta property="og:title" content="Atho Docs | Pending">
-  <meta property="og:description" content="The public Atho docs hub is being tightened for the next test batch.">
+  <meta property="og:title" content="Atho Testnet | Quickstart">
+  <meta property="og:description" content="Clone the repo, build the binaries, run testnet.py, create a wallet, sync, and mine.">
   <meta property="og:image" content="https://atho.io/assets/media/og-share-card.png">
   <meta property="og:image:secure_url" content="https://atho.io/assets/media/og-share-card.png">
   <meta property="og:image:type" content="image/png">
@@ -18,8 +18,8 @@
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Atho homepage preview with payment-first hero copy and an embedded protocol-engine CPU visual.">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Atho Docs | Pending">
-  <meta name="twitter:description" content="The public Atho docs hub is being tightened for the next test batch.">
+  <meta name="twitter:title" content="Atho Testnet | Quickstart">
+  <meta name="twitter:description" content="Clone the repo, build the binaries, run testnet.py, create a wallet, sync, and mine.">
   <meta name="twitter:image" content="https://atho.io/assets/media/og-share-card.png">
   <meta name="twitter:image:alt" content="Atho homepage preview with payment-first hero copy and an embedded protocol-engine CPU visual.">
   <link rel="icon" type="image/png" href="./assets/media/logo%201.png">
@@ -58,8 +58,8 @@
         </nav>
 
         <div class="nav-actions">
-          <a class="button button-secondary" href="./roadmap.html">Status Pending</a>
-          <a class="button button-primary" href="./join.html">Join Discord</a>
+          <a class="button button-secondary" href="./roadmap.html">Testnet Status</a>
+          <a class="button button-primary" href="./join.html">Join Testnet</a>
         </div>
       </div>
     </div>
@@ -67,39 +67,38 @@
 
   <main id="main" class="page-shell">
     <section class="container page-hero" data-reveal>
-      <span class="section-kicker">Docs Pending</span>
-      <h1>Public documentation is pending the next cleaner release pass.</h1>
+      <span class="section-kicker">Testnet Quickstart</span>
+      <h1>Build and run the Atho testnet client.</h1>
       <p>
-        The protocol direction is already clear. The public docs surface is what is still being tightened so the first
-        broad read of Atho feels as disciplined as the stack itself.
+        This is the public testnet operator path. Pull the repository, build the binaries, run the launcher, create a wallet, sync to the network, and start mining when the client is fully caught up.
       </p>
       <div class="page-actions">
-        <a class="button button-primary" href="./join.html">Join the next batch</a>
-        <a class="button button-secondary" href="https://github.com/Atho-Labs/" target="_blank" rel="noopener noreferrer">Open GitHub</a>
-        <a class="button button-tertiary" href="mailto:labs@atho.io?subject=Atho%20Docs">Contact Labs</a>
+        <a class="button button-primary" href="https://github.com/Atho-Labs/Atho-Testnet" target="_blank" rel="noopener noreferrer">Open Testnet Repo</a>
+        <a class="button button-secondary" href="./join.html">Join Testnet</a>
+        <a class="button button-tertiary" href="mailto:genull@proton.me?subject=Atho%20Testnet%20Coins">Email for Coins</a>
       </div>
     </section>
 
     <section class="container page-card-grid">
       <article class="card page-card" data-reveal>
-        <span class="status-badge status-placeholder">Pending</span>
-        <h3>Public docs status</h3>
-        <p>Pending public release while the next onboarding pass is prepared.</p>
+        <span class="status-badge status-live">Step 1</span>
+        <h3>Install prerequisites</h3>
+        <p>Install Rust and Python on your machine before building the testnet client.</p>
       </article>
       <article class="card page-card" data-reveal>
-        <span class="status-badge status-placeholder">Pending</span>
-        <h3>API notes</h3>
-        <p>Pending public release.</p>
+        <span class="status-badge status-live">Step 2</span>
+        <h3>Build the binaries</h3>
+        <p>Open a terminal in the repository root and run <code>cargo build</code> or <code>cargo build --release</code>.</p>
       </article>
       <article class="card page-card" data-reveal>
-        <span class="status-badge status-placeholder">Pending</span>
-        <h3>Mining guide</h3>
-        <p>Pending public release.</p>
+        <span class="status-badge status-live">Step 3</span>
+        <h3>Run the launcher</h3>
+        <p>Start the client with <code>python testnet.py</code>. If it does not open on the first run, run it again.</p>
       </article>
       <article class="card page-card" data-reveal>
         <span class="status-badge status-live">Published</span>
-        <h3>Whitepaper</h3>
-        <p>The whitepaper remains available while the public docs surface is being rebuilt.</p>
+        <h3>Create wallet, sync, and mine</h3>
+        <p>Create a wallet in the client, wait until the node is synced, and then start mining or send testnet transactions.</p>
         <div class="page-actions">
           <a class="button button-primary" href="./assets/files/atho-whitepaper.pdf" download>Read whitepaper</a>
         </div>
