@@ -50,6 +50,10 @@ body.nav-open {
   overflow: hidden;
 }
 
+body.docs-sidebar-open {
+  overflow: hidden;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -2758,7 +2762,7 @@ main {
 .docs-sidebar {
   position: fixed;
   inset: var(--header-height) auto 0 0;
-  z-index: 60;
+  z-index: 74;
   width: min(88vw, 340px);
   padding: 18px;
   overflow-y: auto;
@@ -2772,6 +2776,23 @@ main {
 
 .docs-sidebar.is-open {
   transform: translateX(0);
+}
+
+.docs-sidebar-backdrop {
+  position: fixed;
+  inset: var(--header-height) 0 0 min(88vw, 340px);
+  z-index: 70;
+  border: 0;
+  background: rgba(8, 24, 17, 0.18);
+  backdrop-filter: blur(1px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+
+.docs-page.docs-sidebar-open .docs-sidebar-backdrop {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .docs-search {
@@ -2892,6 +2913,13 @@ main {
   padding: 4px 0 6px;
   background: linear-gradient(180deg, rgba(246, 250, 247, 0.98), rgba(246, 250, 247, 0.9));
   backdrop-filter: blur(8px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.docs-page.docs-sidebar-open .docs-mobile-head {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
 }
 
 .docs-mobile-head .docs-sidebar-toggle {
@@ -3378,6 +3406,10 @@ main {
     border-radius: var(--radius-md);
     box-shadow: var(--shadow);
     transform: none;
+  }
+
+  .docs-sidebar-backdrop {
+    display: none;
   }
 
   .docs-overview-grid {

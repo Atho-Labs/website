@@ -5,6 +5,7 @@ const docsToggle = document.querySelector("[data-docs-toggle]");
 const docsNav = document.querySelector("[data-docs-nav]");
 const docsViewRoot = document.querySelector("[data-docs-view-root]");
 const docsCurrentTitle = document.querySelector("[data-docs-current-title]");
+const docsBackdrop = document.querySelector("[data-docs-backdrop]");
 const searchInput = document.querySelector("[data-docs-search]");
 const resultsBox = document.querySelector("[data-docs-results]");
 const mainShell = document.querySelector("#main");
@@ -59,9 +60,18 @@ function stripHtml(html = "") {
     .trim();
 }
 
+function setSidebarOpen(open) {
+  docsSidebar?.classList.toggle("is-open", open);
+  docsToggle?.setAttribute("aria-expanded", String(open));
+  document.body.classList.toggle("docs-sidebar-open", open);
+
+  if (docsBackdrop instanceof HTMLElement) {
+    docsBackdrop.hidden = !open;
+  }
+}
+
 function closeSidebar() {
-  docsSidebar?.classList.remove("is-open");
-  docsToggle?.setAttribute("aria-expanded", "false");
+  setSidebarOpen(false);
 }
 
 function buildSidebar() {
@@ -413,8 +423,16 @@ function initSearch() {
 
 function initSidebarToggle() {
   docsToggle?.addEventListener("click", () => {
-    const open = docsSidebar?.classList.toggle("is-open");
-    docsToggle.setAttribute("aria-expanded", String(Boolean(open)));
+    const open = !docsSidebar?.classList.contains("is-open");
+    setSidebarOpen(Boolean(open));
+  });
+
+  docsBackdrop?.addEventListener("click", closeSidebar);
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth >= 1120) {
+      closeSidebar();
+    }
   });
 }
 
@@ -453,6 +471,11 @@ function initHashRouting() {
 
 function initKeyboardNav() {
   document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && docsSidebar?.classList.contains("is-open")) {
+      closeSidebar();
+      return;
+    }
+
     if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) {
       return;
     }
