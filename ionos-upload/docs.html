@@ -3,131 +3,64 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Atho testnet quickstart: clone the repo, build the binaries, run testnet.py, create a wallet, sync, and mine.">
-  <title>Atho Testnet | Quickstart</title>
+  <meta name="description" content="Technical and user documentation for Atho, including wallets, atoms, fees, mining, nodes, testnet, security, and monetary policy.">
+  <title>Atho Documentation | Post-Quantum Payment Network</title>
   <link rel="canonical" href="https://atho.io/docs.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Atho">
   <meta property="og:url" content="https://atho.io/docs.html">
-  <meta property="og:title" content="Atho Testnet | Quickstart">
-  <meta property="og:description" content="Clone the repo, build the binaries, run testnet.py, create a wallet, sync, and mine.">
+  <meta property="og:title" content="Atho Documentation | Post-Quantum Payment Network">
+  <meta property="og:description" content="Technical and user documentation for Atho, including wallets, atoms, fees, mining, nodes, testnet, security, and monetary policy.">
   <meta property="og:image" content="https://atho.io/assets/media/og-share-card.png">
   <meta property="og:image:secure_url" content="https://atho.io/assets/media/og-share-card.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Atho homepage preview with payment-first hero copy and an embedded protocol-engine CPU visual.">
+  <meta property="og:image:alt" content="Atho documentation preview.">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Atho Testnet | Quickstart">
-  <meta name="twitter:description" content="Clone the repo, build the binaries, run testnet.py, create a wallet, sync, and mine.">
+  <meta name="twitter:title" content="Atho Documentation | Post-Quantum Payment Network">
+  <meta name="twitter:description" content="Technical and user documentation for Atho, including wallets, atoms, fees, mining, nodes, testnet, security, and monetary policy.">
   <meta name="twitter:image" content="https://atho.io/assets/media/og-share-card.png">
-  <meta name="twitter:image:alt" content="Atho homepage preview with payment-first hero copy and an embedded protocol-engine CPU visual.">
   <link rel="icon" type="image/png" href="./assets/media/logo%201.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/css/site.css">
 </head>
-<body data-stats-endpoint="">
+<body class="docs-page" data-stats-endpoint="">
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <header class="site-header">
+  <header class="site-header docs-page-header">
     <div class="container nav-shell">
       <a class="brand" href="./index.html" aria-label="Atho home">
         <img class="brand-mark" src="./assets/media/logo%201.png" alt="Atho" width="172" height="115" decoding="async">
         <span class="brand-copy">
           <span class="brand-name">Atho</span>
-          <span class="brand-tag">The Platinum Standard for the Quantum Age</span>
+          <span class="brand-tag">The Platinum Standard of the Quantum Age</span>
         </span>
       </a>
-
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav-panel" data-menu-toggle>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span class="sr-only">Toggle navigation</span>
-      </button>
-
-      <div class="nav-panel" id="site-nav-panel" data-nav-panel>
-        <nav class="site-nav" aria-label="Primary">
-          <a href="./index.html#network">Network</a>
-          <a href="./index.html#technology">Technology</a>
-          <a href="./index.html#developers">Developers</a>
-          <a href="./index.html#economics">Economics</a>
-          <a href="./index.html#community">Community</a>
-        </nav>
-
-        <div class="nav-actions">
-          <a class="button button-secondary" href="./roadmap.html">Testnet Status</a>
-          <a class="button button-primary" href="./join.html">Join Testnet</a>
-        </div>
-      </div>
+      <a class="button button-secondary docs-home-link" href="./index.html">Home</a>
     </div>
   </header>
 
-  <main id="main" class="page-shell">
-    <section class="container page-hero" data-reveal>
-      <span class="section-kicker">Testnet Quickstart</span>
-      <h1>Build and run the Atho testnet client.</h1>
-      <p>
-        This is the public testnet operator path. Pull the repository, build the binaries, run the launcher, create a wallet, sync to the network, and start mining when the client is fully caught up.
-      </p>
-      <p class="page-note">
-        Repository: <a href="https://github.com/Atho-Labs/Atho-Testnet" target="_blank" rel="noopener noreferrer"><code>https://github.com/Atho-Labs/Atho-Testnet</code></a>
-      </p>
-      <div class="page-actions">
-        <a class="button button-primary" href="https://github.com/Atho-Labs/Atho-Testnet" target="_blank" rel="noopener noreferrer">Open Testnet Repo</a>
-        <a class="button button-secondary" href="./join.html">Join Testnet</a>
-        <a class="button button-tertiary" href="mailto:genull@proton.me?subject=Atho%20Testnet%20Coins">Email for Coins</a>
+  <main id="main" class="docs-shell">
+    <div class="docs-mobile-head">
+      <button class="docs-sidebar-toggle" type="button" data-docs-toggle aria-controls="docs-sidebar" aria-expanded="false">Contents</button>
+      <p class="docs-current-label" data-docs-current-title>Overview</p>
+    </div>
+
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Documentation navigation">
+      <div class="docs-search">
+        <label for="docs-search-input">Search Docs</label>
+        <input id="docs-search-input" type="search" placeholder="Search Atoms, Wallets, Mining, Replay Protection..." autocomplete="off" data-docs-search>
+        <div class="docs-search-results" data-docs-results aria-live="polite" hidden></div>
       </div>
-    </section>
 
-    <section class="container page-card-grid">
-      <article class="card page-card" data-reveal>
-        <span class="status-badge status-live">Step 1</span>
-        <h3>Install prerequisites</h3>
-        <p>Install Rust and Python on your machine before building the testnet client.</p>
-      </article>
-      <article class="card page-card" data-reveal>
-        <span class="status-badge status-live">Step 2</span>
-        <h3>Build the binaries</h3>
-        <p>Open a terminal in the repository root and run <code>cargo build</code> or <code>cargo build --release</code>.</p>
-      </article>
-      <article class="card page-card" data-reveal>
-        <span class="status-badge status-live">Step 3</span>
-        <h3>Run the launcher</h3>
-        <p>Start the client with <code>python testnet.py</code>. If it does not open on the first run, run it again.</p>
-      </article>
-      <article class="card page-card" data-reveal>
-        <span class="status-badge status-live">Published</span>
-        <h3>Create wallet, sync, and mine</h3>
-        <p>Create a wallet in the client, wait until the node is synced, and then start mining or send testnet transactions.</p>
-        <div class="page-actions">
-          <a class="button button-primary" href="./assets/files/atho-whitepaper.pdf" download>Read whitepaper</a>
-        </div>
-      </article>
-    </section>
+      <nav class="docs-nav" data-docs-nav aria-label="Documentation table of contents"></nav>
+    </aside>
 
-    <section class="container page-grid">
-      <article class="card page-card" data-reveal>
-        <h2>Exact terminal flow</h2>
-        <ul class="page-list">
-          <li><code>git clone https://github.com/Atho-Labs/Atho-Testnet.git</code></li>
-          <li><code>cd Atho-Testnet</code></li>
-          <li><code>cargo build</code></li>
-          <li><code>python testnet.py</code></li>
-        </ul>
-      </article>
-
-      <article class="card page-card" data-reveal>
-        <h2>After it opens</h2>
-        <ul class="page-list">
-          <li>Create a wallet.</li>
-          <li>Wait until the client is fully synced to the network.</li>
-          <li>Start mining only after sync completes.</li>
-          <li>Email <code>genull@proton.me</code> with a screenshot and a testnet address to receive coins.</li>
-        </ul>
-      </article>
+    <section class="docs-content" aria-label="Documentation content">
+      <article class="docs-view-root" data-docs-view-root aria-live="polite"></article>
     </section>
   </main>
 
@@ -145,5 +78,6 @@
   </footer>
 
   <script type="module" src="./assets/js/site.js"></script>
+  <script type="module" src="./assets/js/docs.js"></script>
 </body>
 </html>

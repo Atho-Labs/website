@@ -3,26 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Join the public Atho testnet. Build the client, sync a wallet, mine on testnet, and request testnet coins from Atho Labs.">
-  <title>Atho | The Platinum Standard for the Quantum Age</title>
+  <meta name="description" content="Atho is a post-quantum-focused proof-of-work payment network built for simple, secure, low-fee digital settlement.">
+  <title>Atho | The Platinum Standard of the Quantum Age</title>
   <link rel="canonical" href="https://atho.io/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Atho">
   <meta property="og:url" content="https://atho.io/">
-  <meta property="og:title" content="Atho | The Platinum Standard for the Quantum Age">
-  <meta property="og:description" content="Join the public Atho testnet. Build the client, sync a wallet, mine on testnet, and request testnet coins from Atho Labs.">
+  <meta property="og:title" content="Atho | The Platinum Standard of the Quantum Age">
+  <meta property="og:description" content="Atho is a post-quantum-focused proof-of-work payment network built for simple, secure, low-fee digital settlement.">
   <meta property="og:image" content="https://atho.io/assets/media/og-share-card.png">
   <meta property="og:image:secure_url" content="https://atho.io/assets/media/og-share-card.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Atho homepage preview with payment-first hero copy and an embedded protocol-engine CPU visual.">
+  <meta property="og:image:alt" content="Atho homepage preview.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@AthoHQ">
-  <meta name="twitter:title" content="Atho | The Platinum Standard for the Quantum Age">
-  <meta name="twitter:description" content="Join the public Atho testnet. Build the client, sync a wallet, mine on testnet, and request testnet coins from Atho Labs.">
+  <meta name="twitter:title" content="Atho | The Platinum Standard of the Quantum Age">
+  <meta name="twitter:description" content="Atho is a post-quantum-focused proof-of-work payment network built for simple, secure, low-fee digital settlement.">
   <meta name="twitter:image" content="https://atho.io/assets/media/og-share-card.png">
-  <meta name="twitter:image:alt" content="Atho homepage preview with payment-first hero copy and an embedded protocol-engine CPU visual.">
   <link rel="icon" type="image/png" href="./assets/media/logo%201.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,11 +33,11 @@
 
   <header class="site-header">
     <div class="container nav-shell">
-      <a class="brand" href="#top" aria-label="Atho home">
+      <a class="brand" href="./index.html" aria-label="Atho home">
         <img class="brand-mark" src="./assets/media/logo%201.png" alt="Atho" width="172" height="115" decoding="async">
         <span class="brand-copy">
           <span class="brand-name">Atho</span>
-          <span class="brand-tag">The Platinum Standard for the Quantum Age</span>
+          <span class="brand-tag">The Platinum Standard of the Quantum Age</span>
         </span>
       </a>
 
@@ -51,16 +50,16 @@
 
       <div class="nav-panel" id="site-nav-panel" data-nav-panel>
         <nav class="site-nav" aria-label="Primary">
+          <a href="./docs.html">Docs</a>
+          <a href="#pillars">Strengths</a>
           <a href="#network">Network</a>
-          <a href="#technology">Technology</a>
-          <a href="#developers">Developers</a>
-          <a href="#economics">Economics</a>
-          <a href="#community">Community</a>
+          <a href="#testnet">Testnet</a>
+          <a href="./contact.html">Contact</a>
         </nav>
 
         <div class="nav-actions">
-          <a class="button button-secondary" href="./docs.html">Run Testnet</a>
-          <a class="button button-primary" href="./join.html">Join Testnet</a>
+          <a class="button button-secondary" href="./assets/files/atho-whitepaper.pdf">Download Whitepaper</a>
+          <a class="button button-primary" href="./docs.html">Read the Docs</a>
         </div>
       </div>
     </div>
@@ -70,28 +69,21 @@
     <section class="hero-section" id="top">
       <div class="container hero-grid">
         <div class="hero-copy" data-reveal>
-          <span class="section-kicker">PUBLIC TESTNET NOW OPEN</span>
+          <span class="section-kicker">Payment Network</span>
           <div class="hero-signal-row" id="hero-signals"></div>
-          <h1 class="hero-headline-solid">Build it. Sync it. Mine it. Join the Atho testnet.</h1>
+          <h1 class="hero-headline-solid">Atho</h1>
           <p class="hero-lead">
-            Atho is a payment-first UTXO chain for public settlement, proof-of-work security, and finite supply. The current public entry point is the testnet client and node stack.
+            Atho is a post-quantum-focused proof-of-work payment network built for simple, secure, low-fee digital settlement.
           </p>
 
           <div class="button-row">
-            <a class="button button-primary" href="./join.html">Join Testnet</a>
-            <a class="button button-secondary" href="./docs.html">Build + Run Steps</a>
+            <a class="button button-primary" href="./docs.html">Read the Docs</a>
+            <a class="button button-secondary" href="./join.html">Join Testnet</a>
+            <a class="button button-tertiary" href="./assets/files/atho-whitepaper.pdf">Download Whitepaper</a>
           </div>
 
           <p class="hero-note">
-            Download the code, build the binaries, run <code>testnet.py</code>, create a wallet, sync to the network, and start mining.
-          </p>
-
-          <p class="hero-note">
-            Testnet repo: <a href="https://github.com/Atho-Labs/Atho-Testnet" target="_blank" rel="noopener noreferrer"><code>https://github.com/Atho-Labs/Atho-Testnet</code></a>
-          </p>
-
-          <p class="hero-compare">
-            <strong>75 second blocks.</strong> <strong>168 million ATHO.</strong> <strong>8x Bitcoin’s cadence.</strong> <strong>2x Litecoin’s.</strong>
+            UTXO payments, Falcon transaction signatures, low atom-based fees, SHA3-256 wallet transaction PoW, and permanent proof-of-work tail rewards.
           </p>
         </div>
 
@@ -99,7 +91,7 @@
           <div class="hero-stage-glow"></div>
           <div class="hero-stage-title">
             <span>Protocol Engine</span>
-            <p>Click to charge the engine as miners and nodes deepen network security.</p>
+            <p>Click to charge the engine as wallets, miners, and nodes deepen network security.</p>
           </div>
 
           <div class="hero-power-meter" aria-hidden="true">
@@ -124,249 +116,74 @@
               <div class="hero-engine-asset-glow" aria-hidden="true"></div>
               <img class="hero-engine-asset" src="./assets/media/cpu.png" alt="Atho protocol engine CPU">
             </div>
-
-            <button class="hero-hotspot hero-hotspot-a" type="button" aria-label="Public UTXO settlement">
-              <span class="hero-hotspot-icon">+</span>
-              <span class="hero-hotspot-tip">
-                <strong>Settlement engine</strong>
-                <small>Public UTXO accounting on a readable payment model.</small>
-              </span>
-            </button>
-
-            <button class="hero-hotspot hero-hotspot-b" type="button" aria-label="Falcon-512 signatures">
-              <span class="hero-hotspot-icon">+</span>
-              <span class="hero-hotspot-tip">
-                <strong>Falcon-512</strong>
-                <small>Post-quantum signatures securing long-lived balances.</small>
-              </span>
-            </button>
-
-            <button class="hero-hotspot hero-hotspot-c" type="button" aria-label="Proof-of-work mining">
-              <span class="hero-hotspot-icon">+</span>
-              <span class="hero-hotspot-tip">
-                <strong>Proof-of-work</strong>
-                <small>More miners and nodes raise visible network security.</small>
-              </span>
-            </button>
-
-            <button class="hero-hotspot hero-hotspot-d" type="button" aria-label="75 second block target">
-              <span class="hero-hotspot-icon">+</span>
-              <span class="hero-hotspot-tip">
-                <strong>75 second cadence</strong>
-                <small>Fast public settlement without abandoning payment-chain discipline.</small>
-              </span>
-            </button>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="feature-strip">
+    <section class="feature-strip" id="pillars">
       <div class="container">
         <div class="numbered-grid" id="protocol-highlights"></div>
       </div>
     </section>
 
-    <section class="section section-panel" id="positioning">
-      <div class="container section-head" data-reveal>
-        <span class="section-kicker">Market Position</span>
-        <h2>Built for <span class="headline-accent">simplicity</span>, security, and trust.</h2>
-        <p>
-          The tradeoff is simple: readable rules and durable settlement over feature sprawl.
-        </p>
-      </div>
-
-      <div class="container positioning-grid">
-        <div class="positioning-top-grid">
-          <article class="card positioning-card positioning-banner-card" data-reveal data-hover-copy="Atho is built for payments and long-term holding without drifting into a feature-everything product posture.">
-            <span class="positioning-label">Market Position</span>
-            <strong>Payment-first public money.</strong>
-          </article>
-
-          <article class="card positioning-card positioning-main-card" data-reveal data-hover-copy="The trust model stays explicit: UTXO accounting, proof-of-work settlement, finite supply, and a backend that owns consensus truth.">
-            <span class="positioning-label">Atho Value Proposition</span>
-            <h3>Simple rules. Security first. Long-term trust.</h3>
-            <p>
-              Atho uses a proven UTXO model and proof-of-work settlement so the trust surface stays easy to audit.
-            </p>
-          </article>
-        </div>
-
-        <div class="positioning-pill-row" data-reveal>
-          <span class="value-pill">public UTXO settlement</span>
-          <span class="value-pill">proof-of-work finality</span>
-          <span class="value-pill">finite supply</span>
-          <span class="value-pill">payment + store of value</span>
-        </div>
-
-        <div class="positioning-anchor-grid">
-          <article class="card positioning-card positioning-anchor-card" data-reveal data-hover-copy="Atho stays narrow on purpose so balances, settlement, and supply remain legible to users, miners, and node operators.">
-            <span class="positioning-label">Simplicity</span>
-            <strong>Keep it narrow</strong>
-            <p>Public money first, extras second.</p>
-          </article>
-
-          <article class="card positioning-card positioning-anchor-card" data-reveal data-hover-copy="The protocol keeps the same bias as durable payment chains: public settlement, explicit validation, and no hidden shortcuts.">
-            <span class="positioning-label">Security</span>
-            <strong>UTXO + proof-of-work</strong>
-            <p>Settlement stays readable and node-verifiable.</p>
-          </article>
-
-          <article class="card positioning-card positioning-anchor-card" data-reveal data-hover-copy="Atho is shaped by the durable operating discipline behind Bitcoin and Litecoin rather than short-term crypto marketing cycles.">
-            <span class="positioning-label">Trust</span>
-            <strong>Bitcoin and Litecoin discipline</strong>
-            <p>The operating model stays boring on purpose.</p>
-          </article>
-        </div>
-
-        <div class="positioning-compare-grid">
-          <article class="card positioning-card positioning-compare-card" data-reveal data-hover-copy="Bitcoin stays the baseline for durable public settlement. Atho changes cadence and supply while keeping the same preference for simple, auditable money.">
-            <span class="positioning-label">Bitcoin Baseline</span>
-            <strong>8x faster cadence</strong>
-            <p>75 second blocks vs 600 seconds, with the same settlement-first bias.</p>
-            <div class="value-metric-row">
-              <em>Supply</em>
-              <b>168M vs 21M</b>
-            </div>
-          </article>
-
-          <article class="card positioning-card positioning-compare-card" data-reveal data-hover-copy="Litecoin remains a payment-chain reference point. Atho doubles the cadence and doubles the supply while staying grounded in simple public rules.">
-            <span class="positioning-label">Litecoin Baseline</span>
-            <strong>2x faster cadence</strong>
-            <p>75 second blocks vs 150 seconds, on the same payment-chain model.</p>
-            <div class="value-metric-row">
-              <em>Supply</em>
-              <b>168M vs 84M</b>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
     <section class="section section-panel" id="network">
       <div class="container section-head" data-reveal>
-        <span class="section-kicker">Network</span>
-        <h2>Built for <span class="headline-accent">safe throughput</span>, not shortcuts.</h2>
+        <span class="section-kicker">Network Summary</span>
+        <h2>Simple Rules, Low Fees, and Sustainable Mining.</h2>
         <p>
-          Performance work stays on the canonical path: validate once, batch state work, and relay less.
-        </p>
-      </div>
-
-      <div class="container network-grid">
-        <article class="card story-card" data-reveal>
-          <h3>Performance without hidden consensus shortcuts.</h3>
-          <p>
-            Fast paths reuse safe results, batch chainstate work, and keep propagation lean.
-          </p>
-          <ul class="story-list">
-            <li>Reuse only when bytes and rules still match</li>
-            <li>Batched UTXO I/O on the hot path</li>
-            <li>Parallel Falcon checks for independent inputs</li>
-            <li>Compact relay and headers-first sync</li>
-          </ul>
-        </article>
-
-        <div class="network-side">
-          <div class="pill-grid" id="runtime-pills"></div>
-          <div class="network-card-grid" id="network-constants"></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container section-head" data-reveal>
-        <span class="section-kicker">Parameters</span>
-        <h2>Protocol parameters, <span class="headline-accent">at a glance</span>.</h2>
-        <p>
-          The public numbers in one view.
+          Atho uses 75 second proof-of-work blocks, 12-decimal atom precision, and a permanent tail reward instead of a fixed max supply cap.
         </p>
       </div>
       <div class="container stats-grid" id="network-stats"></div>
     </section>
 
-    <section class="section section-panel" id="technology">
+    <section class="section" id="technology">
       <div class="container section-head" data-reveal>
-        <span class="section-kicker">Technology</span>
-        <h2>Core protocol features, kept <span class="headline-accent">readable</span>.</h2>
+        <span class="section-kicker">Core Strengths</span>
+        <h2>Built for Long-Term Public Settlement.</h2>
         <p>
-          Post-quantum signing, SHA3 hashing, UTXO settlement, and proof-of-work in one readable stack.
+          The homepage keeps the story short. The details live in the documentation.
         </p>
       </div>
       <div class="container feature-grid" id="core-features"></div>
     </section>
 
-    <section class="section" id="ecosystem">
-      <div class="container section-head" data-reveal>
-        <span class="section-kicker">Ecosystem</span>
-        <h2>Everything Atho needs to <span class="headline-accent">run</span>.</h2>
-        <p>
-          Node, miner, client, and public access surfaces in one stack.
-        </p>
-      </div>
-      <div class="container ecosystem-groups" id="ecosystem-groups"></div>
-    </section>
-
     <section class="section section-panel" id="economics">
       <div class="container section-head" data-reveal>
-        <span class="section-kicker">Economics</span>
-        <h2>Transparent economics. <span class="headline-accent">Verifiable rules.</span></h2>
+        <span class="section-kicker">Policy</span>
+        <h2>Current Atho Policy at a Glance.</h2>
         <p>
-          Supply and issuance stay visible.
+          For full tables and explanations, read the monetary policy, units, fees, and transaction PoW docs.
         </p>
       </div>
       <div class="container economics-grid" id="economics-grid"></div>
     </section>
 
-    <section class="section" id="developers">
-      <div class="container developer-grid">
-        <div class="developer-copy" data-reveal>
-          <span class="section-kicker">Developers</span>
-          <h2>Build and verify from <span class="headline-accent">day one</span>.</h2>
-          <p>
-            Run a node, inspect blocks, and build on a backend-owned trust model.
-          </p>
-
-          <div class="button-row">
-            <a class="button button-secondary" href="./docs.html">Build + Run Steps</a>
-            <a class="button button-tertiary" href="https://github.com/Atho-Labs/Atho-Testnet" target="_blank" rel="noopener noreferrer">Open Testnet Repo</a>
-            <a class="button button-primary" href="./join.html">Get On Testnet</a>
-          </div>
-
-          <ul class="developer-points" id="developer-points"></ul>
-        </div>
-
-        <article class="terminal-card" data-reveal>
-          <div class="terminal-bar">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <div class="terminal-copy" id="developer-commands"></div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section section-panel" id="status">
-      <div class="container status-grid">
-        <div class="status-copy" data-reveal>
-          <span class="section-kicker">Status</span>
-          <h2>The public path now starts with the <span class="headline-accent">testnet client</span>.</h2>
-          <p>
-            The main public workflow is simple: clone the repo, build the binaries, run the client, sync a wallet, and join the network.
-          </p>
-        </div>
-
-        <div class="status-cards" id="status-cards"></div>
-      </div>
-    </section>
-
-    <section class="section cta-section" id="community">
+    <section class="section" id="testnet">
       <div class="container cta-shell" data-reveal>
         <div class="cta-copy">
-          <span class="section-kicker">Community</span>
-          <h2>Join the <span class="headline-accent">Atho testnet</span>.</h2>
+          <span class="section-kicker">Testnet</span>
+          <h2>Test Safely Before Mainnet.</h2>
           <p>
-            Build the client, create a wallet, let it sync, and email a screenshot plus a testnet address to receive testnet coins.
+            The Atho client does not include an automated testnet faucet. Testnet ATHO is distributed manually by the Atho founders or development team.
+          </p>
+        </div>
+        <div class="button-row cta-actions">
+          <a class="button button-primary" href="./docs.html#testnet">Read Testnet Docs</a>
+          <a class="button button-secondary" href="./join.html">Join Testnet</a>
+          <a class="button button-tertiary" href="./contact.html">Contact Atho</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-panel" id="community">
+      <div class="container cta-shell" data-reveal>
+        <div class="cta-copy">
+          <span class="section-kicker">Learn More</span>
+          <h2>Use the Docs as the Technical Entry Point.</h2>
+          <p>
+            Wallets, nodes, mining, mempool validation, storage, security, testnet behavior, and developer constants are all documented in HTML.
           </p>
         </div>
         <div class="button-row cta-actions" id="community-actions"></div>

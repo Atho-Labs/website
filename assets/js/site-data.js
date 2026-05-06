@@ -1,54 +1,54 @@
 export const siteContent = {
   heroSignals: [
-    "public testnet live",
-    "build and run locally",
-    "wallet sync before mining",
-    "email for testnet coins"
+    "UTXO Payments",
+    "Post-Quantum Signatures",
+    "Low Atom-Based Fees",
+    "Permanent Tail Reward"
   ],
   protocolHighlights: [
     {
       number: "01",
-      title: "Public Testnet Repo",
-      copy: "Clone Atho-Testnet and run the real client stack.",
-      hover: "The public entry point is now the dedicated testnet repo, not a docs-placeholder landing flow."
+      title: "Simple UTXO Payments",
+      copy: "Atho keeps value movement explicit with public UTXOs, deterministic validation, and backend-owned chain truth.",
+      hover: "UTXO accounting keeps ownership, confirmations, and spending rules easier for users, wallets, miners, and node operators to audit."
     },
     {
       number: "02",
-      title: "Wallet Then Sync",
-      copy: "Create a wallet and wait until the node is fully caught up.",
-      hover: "Mining and transaction testing should start only after the client reports full network sync."
+      title: "Low Atom-Based Fees",
+      copy: "Normal transactions use exact atom accounting, a 500-atom minimum fee, and 1 atom per vbyte fee rate.",
+      hover: "Atho combines low fees with wallet transaction PoW so spam is not free while users are not pushed into high fee pressure."
     },
     {
       number: "03",
-      title: "Email for Coins",
-      copy: "Send a screenshot and a testnet address to receive coins.",
-      hover: "Coin distribution is routed directly through email while the public testnet surface is still being tightened."
+      title: "Long-Term Miner Security",
+      copy: "Permanent 0.78125 ATHO tail rewards keep a predictable proof-of-work security budget.",
+      hover: "Atho has no fixed max supply cap. Tail emission naturally declines as a percentage of supply while keeping miners incentivized."
     }
   ],
   runtimePills: [
     {
-      label: "Mempool prevalidation",
+      label: "Mempool Prevalidation",
       value: "Validate once, reuse safely",
-      copy: "Admission checks reuse safe results.",
+      copy: "Admission checks reject invalid transactions before they reach block templates.",
       hover: "The fast path stays efficient without relaxing consensus or wallet safety."
     },
     {
-      label: "Batched chainstate I/O",
+      label: "Wallet Transaction PoW",
+      value: "SHA3-256 send proof",
+      copy: "Wallets sign first, then generate a lightweight anti-spam proof.",
+      hover: "Transaction PoW is not mining. It is a cheap-to-verify proof that helps keep fees low without making spam free."
+    },
+    {
+      label: "Batched Chainstate I/O",
       value: "Less churn on the hot path",
       copy: "UTXO work is grouped on the hot path.",
       hover: "Batching reduces repeated database churn when blocks and mempool traffic are dense."
     },
     {
-      label: "Parallel Falcon checks",
+      label: "Parallel Falcon Checks",
       value: "Multi-core signature work",
       copy: "Independent Falcon checks fan across cores.",
       hover: "Parallelism raises throughput without softening message binding or consensus validation."
-    },
-    {
-      label: "Compact network sync",
-      value: "Relay less, move faster",
-      copy: "Compact relay cuts wasted bandwidth.",
-      hover: "Headers-first sync and compact relay keep propagation efficient when more operators join."
     }
   ],
   networkConstants: [
@@ -56,68 +56,68 @@ export const siteContent = {
       name: "Mainnet",
       detail: "atho-mainnet",
       value: "<span class=\"stack-line\">P2P 56000</span><span class=\"stack-line\">RPC 9010</span>",
-      copy: "CLI tag: mainnet"
+      copy: "No faucet, no automatic storage reset, strict replay protection."
     },
     {
       name: "Testnet",
       detail: "atho-testnet",
       value: "<span class=\"stack-line\">P2P 9100</span><span class=\"stack-line\">RPC 9110</span>",
-      copy: "CLI tag: testnet"
+      copy: "Manual testnet funds, development resets, testnet-only recovery features."
     },
     {
       name: "Regnet",
       detail: "atho-regnet",
       value: "<span class=\"stack-line\">P2P 9200</span><span class=\"stack-line\">RPC 9210</span>",
-      copy: "CLI tag: regnet"
+      copy: "Local testing network for disposable development workflows."
     }
   ],
   stats: [
     {
-      key: "maxSupply",
-      label: "Max Supply",
-      value: "168M ATHO",
-      detail: "Fixed cap.",
-      hover: "The supply cap stays public, finite, and easy to verify.",
+      key: "blockTime",
+      label: "Block Time",
+      value: "75 SEC",
+      detail: "Target spacing.",
+      hover: "Atho targets 75 second proof-of-work blocks.",
       badge: "Published"
     },
     {
       key: "baseReward",
-      label: "Base Reward",
-      value: "50 ATHO",
-      detail: "Base subsidy.",
-      hover: "Base issuance begins with a visible subsidy instead of hidden monetary logic.",
+      label: "Starting Reward",
+      value: "6.25 ATHO",
+      detail: "Initial subsidy.",
+      hover: "The reward halves every 1,680,000 blocks until the permanent tail reward.",
       badge: "Published"
     },
     {
-      key: "throughput",
-      label: "Throughput Target",
-      value: "65-80 TPS",
-      detail: "Payment target range.",
-      hover: "The target is based on the current block model for simple 1-in/1-out payment flow.",
+      key: "tailReward",
+      label: "Tail Reward",
+      value: "0.78125 ATHO",
+      detail: "Permanent per block.",
+      hover: "Tail emission provides long-term miner incentives while keeping fees low.",
       badge: "Published"
     },
     {
-      key: "settlement",
-      label: "Settlement Time",
-      value: "75 SEC",
-      detail: "Block target.",
-      hover: "The public target is 75 seconds per block in the current documented consensus shape.",
+      key: "atoms",
+      label: "Atomic Precision",
+      value: "1T atoms",
+      detail: "1 ATHO.",
+      hover: "Atho is scarce at the coin level and highly divisible at the atom level.",
       badge: "Published"
     },
     {
-      key: "blockCap",
-      label: "Block Capacity",
-      value: "3,000,000 VB",
-      detail: "Weighted cap.",
-      hover: "Witness-aware sizing keeps block usage explicit instead of hiding weight behind vague throughput claims.",
+      key: "minFee",
+      label: "Minimum Fee",
+      value: "500 atoms",
+      detail: "Plus 1 atom/vbyte.",
+      hover: "Required fee is max(500 atoms, tx_vbytes * 1 atom).",
       badge: "Published"
     },
     {
-      key: "rawCap",
-      label: "Raw Cap",
-      value: "~12,000,000 B",
-      detail: "Approximate ceiling.",
-      hover: "The current block shape yields an approximate raw byte ceiling near 12 million bytes.",
+      key: "minOutput",
+      label: "Minimum Output",
+      value: "1,000 atoms",
+      detail: "1 nATHO.",
+      hover: "Normal outputs below 1,000 atoms are rejected by standard policy.",
       badge: "Published"
     }
   ],
@@ -125,14 +125,14 @@ export const siteContent = {
     {
       icon: "shield",
       title: "Falcon-512 Signatures",
-      copy: "Post-quantum signing across wallet and transaction flows.",
-      hover: "Domain separation keeps transaction and wallet contexts explicit instead of collapsing them into one loose signature path."
+      copy: "Post-quantum transaction signatures secure wallet spends.",
+      hover: "Atho uses post-quantum-focused transaction signing rather than classical elliptic-curve signatures."
     },
     {
       icon: "hash",
-      title: "SHA3 Hashing",
-      copy: "SHA3-256 and SHA3-384 back commitments and signing prehashes.",
-      hover: "Commitments, checksums, and signing prehashes use modern hash choices that stay visible in the protocol surface."
+      title: "SHA3 Transaction PoW",
+      copy: "Wallets generate a lightweight send proof before broadcast.",
+      hover: "Nodes can verify transaction PoW cheaply before expensive signature checks when possible."
     },
     {
       icon: "grid",
@@ -142,21 +142,21 @@ export const siteContent = {
     },
     {
       icon: "layers",
-      title: "SigWit-Style Sizing",
-      copy: "Witness-aware sizing keeps block usage explicit.",
-      hover: "Transaction weight stays visible instead of being hidden behind generic block-size marketing."
+      title: "Network Isolation",
+      copy: "Addresses, signatures, transaction PoW, peers, storage, and blocks are network-scoped.",
+      hover: "Testnet transactions cannot be replayed on mainnet, and mainnet coins cannot be spent on testnet."
     },
     {
       icon: "pickaxe",
       title: "Proof-of-Work Mining",
       copy: "Blocks stay independently verifiable on every node.",
-      hover: "Proof-of-work metadata and block validity remain readable to miners, node operators, and outside auditors."
+      hover: "Coinbase transactions pay the current subsidy plus valid transaction fees and must not overpay."
     },
     {
-      icon: "bolt",
-      title: "Runtime Efficiency",
-      copy: "Efficiency work raises throughput without softening consensus.",
-      hover: "Prevalidation, UTXO batching, compact relay, low-copy parsing, and Falcon parallelism all stay on the canonical path."
+      icon: "wallet",
+      title: "Multiple HD Wallets",
+      copy: "Wallet names, 12/24/48 word phrases, wallet switching, and per-wallet address books.",
+      hover: "Each wallet keeps separate addresses, UTXOs, history, address book entries, and derivation state."
     }
   ],
   ecosystemGroups: [
@@ -167,28 +167,28 @@ export const siteContent = {
           icon: "server",
           title: "athod Full Node",
           status: "Live",
-          copy: "Canonical full node.",
-          hover: "The full node owns runtime behavior, mempool admission, chainstate updates, and the canonical validation path.",
-          actionLabel: "See network",
-          actionHref: "#network"
+          copy: "Canonical node runtime for validation, storage, mempool, mining interfaces, and RPC.",
+          hover: "The full node owns chain truth and validates everything before acceptance.",
+          actionLabel: "Read the Docs",
+          actionHref: "./docs.html#nodes"
         },
         {
           icon: "pickaxe",
           title: "atho-mine",
           status: "Live",
-          copy: "Dedicated miner client.",
-          hover: "Mining stays separate from consensus ownership instead of replacing the node’s validation logic.",
-          actionLabel: "See technology",
-          actionHref: "#technology"
+          copy: "Dedicated miner client for proof-of-work block production.",
+          hover: "Mining uses block templates from the node and still relies on full block validation.",
+          actionLabel: "Mining Docs",
+          actionHref: "./docs.html#mining"
         },
         {
           icon: "monitor",
-          title: "atho-qt",
+          title: "atho-qt Desktop Client",
           status: "Live",
-          copy: "Thin desktop client.",
-          hover: "The GUI renders backend truth instead of inventing local chainstate during sync, restart, or recovery.",
-          actionLabel: "See developers",
-          actionHref: "#developers"
+          copy: "Thin desktop wallet and operator client over backend truth.",
+          hover: "The GUI renders wallet, mempool, mining, and network state without becoming a second consensus owner.",
+          actionLabel: "Wallet Docs",
+          actionHref: "./docs.html#wallets"
         }
       ]
     },
@@ -197,183 +197,150 @@ export const siteContent = {
       items: [
         {
           icon: "globe",
-          title: "Testnet Join Flow",
-          status: "Pending",
-          copy: "Public onboarding is now centered on the testnet repo and client.",
-          hover: "The website now points users into the testnet build and wallet flow instead of a generic future-facing placeholder.",
-          actionLabel: "Join testnet",
-          actionHref: "./join.html"
-        },
-        {
-          icon: "spark",
-          title: "Testnet Faucet",
-          status: "Pending",
-          copy: "Coin requests currently route through direct email.",
-          hover: "Instead of an open faucet, testers request coins by sending a screenshot and testnet address to the project email.",
-          actionLabel: "Request coins",
-          actionHref: "./contact.html"
-        },
-        {
-          icon: "terminal",
-          title: "Quickstart",
+          title: "Testnet",
           status: "Live",
-          copy: "Clone, build, run, create wallet, sync, and mine.",
-          hover: "The public docs path is now a direct testnet quickstart rather than a broad placeholder documentation surface.",
-          actionLabel: "Open quickstart",
-          actionHref: "./docs.html"
-        }
-      ]
-    },
-    {
-      title: "Developer Access",
-      items: [
-        {
-          icon: "code",
-          title: "Atho-Testnet",
-          status: "Live",
-          copy: "Public repo for the testnet launch path.",
-          hover: "The dedicated testnet repository is the public code surface for joining the current Atho network.",
-          actionLabel: "Open testnet repo",
-          actionHref: "https://github.com/Atho-Labs/Atho-Testnet",
-          external: true
+          copy: "Testing network for wallets, mining, transactions, sync, and operator feedback.",
+          hover: "The client has no software faucet. Testnet ATHO is distributed manually by the Atho founders or development team.",
+          actionLabel: "Testnet Docs",
+          actionHref: "./docs.html#testnet"
         },
         {
           icon: "database",
-          title: "Quickstart Docs",
+          title: "HTML Docs",
           status: "Live",
-          copy: "Simple clone, build, and run steps.",
-          hover: "The docs surface has been reduced to a practical quickstart so users can get onto the testnet without paging through broad placeholder content.",
-          actionLabel: "Read quickstart",
+          copy: "Readable technical documentation for users, miners, node operators, and contributors.",
+          hover: "The docs are a real website page with sidebar navigation, search, and internal links.",
+          actionLabel: "Open Docs",
           actionHref: "./docs.html"
         },
         {
           icon: "package",
-          title: "Coin Request Path",
-          status: "Live",
-          copy: "Email a screenshot and testnet address to get coins.",
-          hover: "The current coin distribution flow is manual and explicit so early public testers can get funded without a broader faucet rollout.",
-          actionLabel: "Open contact",
-          actionHref: "./contact.html"
+          title: "Whitepaper",
+          status: "Published",
+          copy: "Downloadable PDF whitepaper generated from the current source document.",
+          hover: "The website docs do not depend on the PDF, but the PDF is available as a formal reference.",
+          actionLabel: "Download PDF",
+          actionHref: "./assets/files/atho-whitepaper.pdf"
         }
       ]
     }
   ],
   economics: [
     {
-      label: "Max Supply",
-      value: "168 million ATHO",
+      label: "Atomic Precision",
+      value: "1 ATHO = 1T atoms",
       badge: "Published",
-      note: "Public, finite supply.",
-      hover: "The supply cap stays explicit so long-term holders can audit the monetary surface without interpretation."
+      note: "12 decimal places.",
+      hover: "Atho supports small payments and low fees with one trillion atoms per ATHO."
     },
     {
-      label: "Base Block Reward",
-      value: "50 ATHO",
+      label: "Starting Reward",
+      value: "6.25 ATHO",
       badge: "Published",
-      note: "Clear starting subsidy.",
-      hover: "Issuance begins with a visible base reward instead of hidden monetary logic."
+      note: "First reward era.",
+      hover: "The first era issues 10,500,000 ATHO across 1,680,000 blocks."
     },
     {
-      label: "Issuance Model",
-      value: "Subsidy + halving logic",
+      label: "Tail Reward",
+      value: "0.78125 ATHO",
       badge: "Published",
-      note: "Consensus-owned reward logic.",
-      hover: "The reward path lives in the consensus core rather than in off-chain narrative or discretionary policy."
+      note: "Permanent miner budget.",
+      hover: "Tail emission starts around block 5,040,000 and continues forever."
     },
     {
-      label: "Proof-of-Work Issuance",
-      value: "Public and auditable",
+      label: "Max Supply Cap",
+      value: "None",
       badge: "Published",
-      note: "Every node can verify new supply.",
-      hover: "New issuance enters through proof-of-work blocks that stay independently auditable."
+      note: "Permanent tail emission.",
+      hover: "Atho uses declining-percentage tail issuance rather than a fixed max supply cap."
     },
     {
-      label: "Fee Accounting",
-      value: "Block-level totals",
+      label: "Required Fee",
+      value: "max(500, vB)",
       badge: "Published",
-      note: "Explicit fee totals per block.",
-      hover: "Blocks carry visible fee totals instead of hiding settlement math behind abstract system counters."
+      note: "Atoms, no floats.",
+      hover: "A 650 vB transaction requires 650 atoms; a 250 vB transaction requires 500 atoms."
     },
     {
-      label: "Maturity Rules",
-      value: "Consensus-enforced",
+      label: "Spam Deterrent",
+      value: "Wallet Transaction PoW",
       badge: "Published",
-      note: "Visible spendability rules.",
-      hover: "Reward handling, maturity checks, and spendability stay in the validation path where operators can inspect them."
+      note: "SHA3-256 send proof.",
+      hover: "Transaction PoW helps keep fees low without leaving the mempool open to free spam."
     }
   ],
   developerPoints: [
-    "Core, node, wallet, GUI, RPC, and installer layers stay clearly separated.",
-    "Fast-path work stays on the canonical validation path.",
+    "Core, node, wallet, GUI, RPC, P2P, storage, and installer layers stay clearly separated.",
+    "Normal sends use exact atom parsing, Falcon signatures, wallet transaction PoW, mempool validation, and mining.",
     "The GUI stays thin so backend truth stays canonical."
   ],
   developerCommands: [
     {
       kind: "comment",
-      text: "clone the public testnet repo"
+      text: "Run the local testnet client"
+    },
+    {
+      kind: "command",
+      prompt: "$",
+      text: "python runtestnet.py"
+    },
+    {
+      kind: "command",
+      prompt: "$",
+      text: "cargo build --release -p atho-node -p atho-qt"
+    },
+    {
+      kind: "command",
+      prompt: "$",
+      text: "./target/release/atho-qt --network testnet --local-node"
     },
     {
       kind: "comment",
-      text: "https://github.com/Atho-Labs/Atho-Testnet"
-    },
-    {
-      kind: "command",
-      prompt: "$",
-      text: "cargo build"
-    },
-    {
-      kind: "command",
-      prompt: "$",
-      text: "python testnet.py"
-    },
-    {
-      kind: "command",
-      prompt: "$",
-      text: "# create wallet, sync, then mine"
+      text: "Create or import a wallet, sync, then mine or send"
     }
   ],
   statusCards: [
     {
       label: "Now",
-      title: "Testnet repo live",
-      copy: "The public website now points to the dedicated testnet repo.",
-      hover: "The main entry path is now concrete: clone the repo, build the binaries, and run the client."
+      title: "Docs Are HTML",
+      copy: "The website now includes a full documentation page with sidebar navigation and search.",
+      hover: "The docs are readable in-browser and do not require the PDF."
     },
     {
       label: "Now",
-      title: "Working stack",
-      copy: "Node, wallet, miner, and client already run end to end on testnet.",
-      hover: "The operator path is simple enough for public testers to build locally and join the network."
+      title: "Manual Testnet Funds",
+      copy: "Testnet ATHO is distributed manually by the founders or development team.",
+      hover: "The client and website do not advertise a software faucet."
     },
     {
-      label: "In Progress",
-      title: "Public network hardening",
-      copy: "Bootstrap and broader operator hardening are still underway.",
-      hover: "The public testnet is live, but longer soak coverage and broader network hardening still matter."
+      label: "Now",
+      title: "Tail Emission Policy",
+      copy: "Atho has no fixed max supply cap and uses a permanent miner tail reward.",
+      hover: "This replaces the old fixed-cap language on the website."
     },
     {
       label: "Next",
-      title: "Coin distribution",
-      copy: "Email remains the current testnet coin request path.",
-      hover: "The next public improvement is a broader, lower-friction funding path for testers."
+      title: "Operator Hardening",
+      copy: "Broader node, peer, storage, and wallet docs should keep tracking active software changes.",
+      hover: "Docs should be updated whenever consensus, wallet, or deployment behavior changes."
     }
   ],
   communityActions: [
     {
-      label: "Open Testnet Repo",
-      href: "https://github.com/Atho-Labs/Atho-Testnet",
+      label: "Read the Docs",
+      href: "./docs.html",
       variant: "primary",
-      external: true
+      external: false
     },
     {
-      label: "Build + Run Steps",
-      href: "./docs.html",
+      label: "Join Testnet",
+      href: "./join.html",
       variant: "secondary",
       external: false
     },
     {
-      label: "Email for Coins",
-      href: "mailto:genull@proton.me?subject=Atho%20Testnet%20Coins",
+      label: "Download Whitepaper",
+      href: "./assets/files/atho-whitepaper.pdf",
       variant: "tertiary",
       external: false
     },
@@ -382,40 +349,35 @@ export const siteContent = {
       href: "https://discord.gg/W5fV4aGcUR",
       variant: "secondary",
       external: true
-    },
-    {
-      label: "View Status",
-      href: "./roadmap.html",
-      variant: "secondary",
-      external: false
     }
   ],
   footerColumns: [
     {
-      title: "Network",
+      title: "Docs",
       links: [
-        { label: "Join Testnet", href: "./join.html", badge: "Live" },
-        { label: "Coin Requests", href: "./contact.html", badge: "Live" },
-        { label: "Nodes", href: "./index.html#developers" },
-        { label: "Status", href: "./roadmap.html", badge: "Live" }
+        { label: "Overview", href: "./docs.html#overview", badge: "Live" },
+        { label: "Falcon-512", href: "./docs.html#falcon-512-and-quantum-security" },
+        { label: "Wallets", href: "./docs.html#wallets" },
+        { label: "Mining", href: "./docs.html#mining" },
+        { label: "Developer Reference", href: "./docs.html#developer-reference" }
       ]
     },
     {
-      title: "Developers",
+      title: "Network",
       links: [
-        { label: "Quickstart", href: "./docs.html", badge: "Live" },
-        { label: "Testnet Repo", href: "https://github.com/Atho-Labs/Atho-Testnet", external: true },
-        { label: "Run Client", href: "./docs.html", badge: "Live" },
-        { label: "Mine on Testnet", href: "./join.html", badge: "Live" }
+        { label: "Join Testnet", href: "./join.html", badge: "Live" },
+        { label: "Testnet Funds", href: "./docs.html#getting-testnet-atho-manually" },
+        { label: "Nodes", href: "./docs.html#nodes" },
+        { label: "Status", href: "./roadmap.html" }
       ]
     },
     {
       title: "Atho",
       links: [
-        { label: "About", href: "./index.html#network" },
-        { label: "Status", href: "./roadmap.html" },
-        { label: "Contact", href: "mailto:genull@proton.me?subject=Atho%20Testnet" },
-        { label: "Whitepaper", href: "./assets/files/atho-whitepaper.pdf" }
+        { label: "Home", href: "./index.html" },
+        { label: "Whitepaper", href: "./assets/files/atho-whitepaper.pdf" },
+        { label: "Contact", href: "./contact.html" },
+        { label: "Security", href: "./docs.html#security" }
       ]
     },
     {

@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Join the public Atho testnet. Build the client, sync your wallet, start mining, and request testnet coins.">
+  <meta name="description" content="Join the public Atho testnet. Build the client, sync your wallet, start mining, and request manual testnet funds from the Atho team.">
   <title>Join Atho Testnet</title>
   <link rel="canonical" href="https://atho.io/join.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Atho">
   <meta property="og:url" content="https://atho.io/join.html">
   <meta property="og:title" content="Join Atho Testnet">
-  <meta property="og:description" content="Build the client, sync your wallet, start mining, and request testnet coins.">
+  <meta property="og:description" content="Build the client, sync your wallet, start mining, and request manual testnet funds from the Atho team.">
   <meta property="og:image" content="https://atho.io/assets/media/og-share-card.png">
   <meta property="og:image:secure_url" content="https://atho.io/assets/media/og-share-card.png">
   <meta property="og:image:type" content="image/png">
@@ -19,7 +19,7 @@
   <meta property="og:image:alt" content="Atho homepage preview with payment-first hero copy and an embedded protocol-engine CPU visual.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Join Atho Testnet">
-  <meta name="twitter:description" content="Build the client, sync your wallet, start mining, and request testnet coins.">
+  <meta name="twitter:description" content="Build the client, sync your wallet, start mining, and request manual testnet funds from the Atho team.">
   <meta name="twitter:image" content="https://atho.io/assets/media/og-share-card.png">
   <meta name="twitter:image:alt" content="Atho homepage preview with payment-first hero copy and an embedded protocol-engine CPU visual.">
   <link rel="icon" type="image/png" href="./assets/media/logo%201.png">
@@ -37,7 +37,7 @@
         <img class="brand-mark" src="./assets/media/logo%201.png" alt="Atho" width="172" height="115" decoding="async">
         <span class="brand-copy">
           <span class="brand-name">Atho</span>
-          <span class="brand-tag">The Platinum Standard for the Quantum Age</span>
+          <span class="brand-tag">The Platinum Standard of the Quantum Age</span>
         </span>
       </a>
 
@@ -50,16 +50,16 @@
 
       <div class="nav-panel" id="site-nav-panel" data-nav-panel>
         <nav class="site-nav" aria-label="Primary">
-          <a href="./index.html#network">Network</a>
-          <a href="./index.html#technology">Technology</a>
-          <a href="./index.html#developers">Developers</a>
-          <a href="./index.html#economics">Economics</a>
-          <a href="./index.html#community">Community</a>
+          <a href="./index.html">Home</a>
+          <a href="./docs.html">Docs</a>
+          <a href="./docs.html#wallets">Wallets</a>
+          <a href="./docs.html#testnet">Testnet</a>
+          <a href="./contact.html">Contact</a>
         </nav>
 
         <div class="nav-actions">
-          <a class="button button-secondary" href="./docs.html">Run Testnet</a>
-          <a class="button button-primary" href="https://github.com/Atho-Labs/Atho-Testnet" target="_blank" rel="noopener noreferrer">Open Testnet Repo</a>
+          <a class="button button-secondary" href="./assets/files/atho-whitepaper.pdf">Download Whitepaper</a>
+          <a class="button button-primary" href="./docs.html#testnet">Read Testnet Docs</a>
         </div>
       </div>
     </div>
@@ -68,42 +68,39 @@
   <main id="main" class="page-shell">
     <section class="container page-hero" data-reveal>
       <span class="section-kicker">Public Testnet</span>
-      <h1>Join the Atho testnet.</h1>
+      <h1>Join the Atho Testnet.</h1>
       <p>
         The public testnet flow is simple: pull the repo, build the binaries, run the client, create a wallet, let it sync, and start mining when the node is caught up.
       </p>
-      <p class="page-note">
-        Repository: <a href="https://github.com/Atho-Labs/Atho-Testnet" target="_blank" rel="noopener noreferrer"><code>https://github.com/Atho-Labs/Atho-Testnet</code></a>
-      </p>
       <div class="page-actions">
-        <a class="button button-primary" href="https://github.com/Atho-Labs/Atho-Testnet" target="_blank" rel="noopener noreferrer">Open Testnet Repo</a>
-        <a class="button button-secondary" href="./docs.html">Build + Run Steps</a>
-        <a class="button button-tertiary" href="mailto:genull@proton.me?subject=Atho%20Testnet%20Coins">Email for Testnet Coins</a>
+        <a class="button button-primary" href="./docs.html#running-a-node">Run the Testnet</a>
+        <a class="button button-secondary" href="./docs.html#getting-testnet-atho-manually">Testnet Funds</a>
+        <a class="button button-tertiary" href="./contact.html">Contact Atho</a>
       </div>
       <p class="page-note">
-        If the client does not open on the first run, run <code>testnet.py</code> again. When the wallet is created and synced, email a screenshot and a testnet address to receive coins.
+        Use <code>python runtestnet.py</code> for the current launcher. The Atho client does not include an automated testnet faucet; testnet ATHO is distributed manually by the Atho founders or development team.
       </p>
     </section>
 
     <section class="container page-grid">
       <article class="card page-card" data-reveal>
-        <h2>How to join</h2>
+        <h2>How to Join</h2>
         <ul class="page-list">
           <li>Install Rust and Python on your system.</li>
-          <li>Clone or pull <code>Atho-Testnet</code>.</li>
+          <li>Open the current Atho software repository or local checkout.</li>
           <li>Run <code>cargo build</code> or <code>cargo build --release</code>.</li>
-          <li>Run <code>python testnet.py</code>.</li>
+          <li>Run <code>python runtestnet.py</code>.</li>
           <li>Create a wallet and wait for sync to complete before mining or sending transactions.</li>
         </ul>
       </article>
 
       <article class="card page-card" data-reveal>
-        <h2>How to get coins</h2>
+        <h2>How to Get Testnet ATHO</h2>
         <ul class="page-list">
           <li>Create a wallet in the client and copy a testnet address.</li>
           <li>Take a screenshot showing the synced client and the wallet.</li>
           <li>Email the screenshot and the testnet address to <code>genull@proton.me</code>.</li>
-          <li>Testnet coins will be sent over for mining and transaction testing.</li>
+          <li>Testnet ATHO is distributed manually for mining and transaction testing.</li>
         </ul>
       </article>
     </section>

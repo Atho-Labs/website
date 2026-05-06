@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="420" viewBox="0 0 1280 420" fill="none">
+  <rect width="1280" height="420" rx="28" fill="#FCFFFD"/>
+  <rect x="20" y="20" width="1240" height="380" rx="24" fill="#FFFFFF" stroke="rgba(8,36,23,0.12)"/>
+  <text x="54" y="74" fill="#082417" font-family="JetBrains Mono, monospace" font-size="28" font-weight="700">Wallet Transaction PoW Flow</text>
+  <text x="54" y="108" fill="#47665A" font-family="JetBrains Mono, monospace" font-size="18">This is a wallet-side send proof, not block mining.</text>
+
+  <g font-family="JetBrains Mono, monospace" font-size="15" fill="#082417">
+    <rect x="54" y="166" width="170" height="136" rx="20" fill="#F7FBF9" stroke="rgba(8,36,23,0.1)"/>
+    <text x="88" y="208" font-size="20" font-weight="700">1. Select UTXOs</text>
+    <text x="88" y="238">Choose spendable</text>
+    <text x="88" y="262">inputs and outputs.</text>
+
+    <rect x="258" y="166" width="170" height="136" rx="20" fill="#F7FBF9" stroke="rgba(8,36,23,0.1)"/>
+    <text x="302" y="208" font-size="20" font-weight="700">2. Sign</text>
+    <text x="292" y="238">Authorize the send</text>
+    <text x="292" y="262">with Falcon-512.</text>
+
+    <rect x="462" y="166" width="170" height="136" rx="20" fill="#E9FFF4" stroke="rgba(6,213,141,0.24)"/>
+    <text x="486" y="208" font-size="20" font-weight="700">3. Build Proof Input</text>
+    <text x="488" y="238">Use signed tx data</text>
+    <text x="488" y="262">without PoW fields.</text>
+
+    <rect x="666" y="166" width="170" height="136" rx="20" fill="#E9FFF4" stroke="rgba(6,213,141,0.24)"/>
+    <text x="700" y="208" font-size="20" font-weight="700">4. Solve Nonce</text>
+    <text x="700" y="238">Find tx_pow_nonce</text>
+    <text x="700" y="262">for the target bits.</text>
+
+    <rect x="870" y="166" width="170" height="136" rx="20" fill="#F7FBF9" stroke="rgba(8,36,23,0.1)"/>
+    <text x="910" y="208" font-size="20" font-weight="700">5. Broadcast</text>
+    <text x="898" y="238">Send tx + proof</text>
+    <text x="898" y="262">to the node.</text>
+
+    <rect x="1074" y="166" width="152" height="136" rx="20" fill="#F7FBF9" stroke="rgba(8,36,23,0.1)"/>
+    <text x="1100" y="208" font-size="20" font-weight="700">6. Verify</text>
+    <text x="1096" y="238">Node checks proof,</text>
+    <text x="1096" y="262">then mempool rules.</text>
+  </g>
+
+  <g stroke="#0B6E48" stroke-width="4" stroke-linecap="round">
+    <line x1="224" y1="234" x2="252" y2="234"/>
+    <line x1="428" y1="234" x2="456" y2="234"/>
+    <line x1="632" y1="234" x2="660" y2="234"/>
+    <line x1="836" y1="234" x2="864" y2="234"/>
+    <line x1="1040" y1="234" x2="1068" y2="234"/>
+  </g>
+  <g fill="#0B6E48">
+    <path d="M246 226L258 234L246 242V226Z"/>
+    <path d="M450 226L462 234L450 242V226Z"/>
+    <path d="M654 226L666 234L654 242V226Z"/>
+    <path d="M858 226L870 234L858 242V226Z"/>
+    <path d="M1062 226L1074 234L1062 242V226Z"/>
+  </g>
+</svg>

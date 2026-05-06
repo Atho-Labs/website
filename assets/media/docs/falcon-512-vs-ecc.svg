@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" fill="none">
+  <rect width="1200" height="760" rx="32" fill="#FCFFFD"/>
+  <rect x="24" y="24" width="1152" height="712" rx="28" fill="#FFFFFF" stroke="rgba(8,36,23,0.12)"/>
+  <text x="64" y="92" fill="#082417" font-family="JetBrains Mono, monospace" font-size="28" font-weight="700">Falcon-512 vs Classical Elliptic Curve Signatures</text>
+  <text x="64" y="126" fill="#47665A" font-family="JetBrains Mono, monospace" font-size="18">Illustrative size and threat-model comparison for a payment network.</text>
+
+  <rect x="64" y="170" width="504" height="520" rx="24" fill="#F7FBF9" stroke="rgba(8,36,23,0.1)"/>
+  <rect x="632" y="170" width="504" height="520" rx="24" fill="#E9FFF4" stroke="rgba(6,213,141,0.24)"/>
+
+  <text x="96" y="226" fill="#082417" font-family="JetBrains Mono, monospace" font-size="24" font-weight="700">Classical Elliptic Curve</text>
+  <text x="96" y="256" fill="#47665A" font-family="JetBrains Mono, monospace" font-size="17">Example reference: compressed secp256k1-style systems.</text>
+
+  <text x="664" y="226" fill="#082417" font-family="JetBrains Mono, monospace" font-size="24" font-weight="700">Falcon-512</text>
+  <text x="664" y="256" fill="#47665A" font-family="JetBrains Mono, monospace" font-size="17">Post-quantum lattice signature scheme used by Atho.</text>
+
+  <text x="96" y="320" fill="#0B6E48" font-family="JetBrains Mono, monospace" font-size="16" font-weight="700">Typical Public Key</text>
+  <rect x="96" y="338" width="72" height="18" rx="9" fill="#98E8C6"/>
+  <text x="182" y="352" fill="#082417" font-family="JetBrains Mono, monospace" font-size="15">about 33 bytes compressed</text>
+
+  <text x="96" y="394" fill="#0B6E48" font-family="JetBrains Mono, monospace" font-size="16" font-weight="700">Typical Signature</text>
+  <rect x="96" y="412" width="118" height="18" rx="9" fill="#98E8C6"/>
+  <text x="228" y="426" fill="#082417" font-family="JetBrains Mono, monospace" font-size="15">about 64 bytes fixed-width schnorr</text>
+
+  <text x="96" y="486" fill="#082417" font-family="JetBrains Mono, monospace" font-size="16">Threat model:</text>
+  <text x="96" y="516" fill="#47665A" font-family="JetBrains Mono, monospace" font-size="15">Very compact artifacts and mature tooling,</text>
+  <text x="96" y="542" fill="#47665A" font-family="JetBrains Mono, monospace" font-size="15">but large-scale quantum attacks would threaten</text>
+  <text x="96" y="568" fill="#47665A" font-family="JetBrains Mono, monospace" font-size="15">the discrete-log assumptions they depend on.</text>
+
+  <text x="664" y="320" fill="#0B6E48" font-family="JetBrains Mono, monospace" font-size="16" font-weight="700">Public Key</text>
+  <rect x="664" y="338" width="360" height="18" rx="9" fill="#06D58D"/>
+  <text x="1038" y="352" fill="#082417" font-family="JetBrains Mono, monospace" font-size="15">897 bytes</text>
+
+  <text x="664" y="394" fill="#0B6E48" font-family="JetBrains Mono, monospace" font-size="16" font-weight="700">Signature</text>
+  <rect x="664" y="412" width="268" height="18" rx="9" fill="#06D58D"/>
+  <text x="946" y="426" fill="#082417" font-family="JetBrains Mono, monospace" font-size="15">about 666 bytes</text>
+
+  <text x="664" y="486" fill="#082417" font-family="JetBrains Mono, monospace" font-size="16">Threat model:</text>
+  <text x="664" y="516" fill="#47665A" font-family="JetBrains Mono, monospace" font-size="15">Larger artifacts, but chosen to keep transaction</text>
+  <text x="664" y="542" fill="#47665A" font-family="JetBrains Mono, monospace" font-size="15">authorization on a post-quantum-focused footing.</text>
+  <text x="664" y="568" fill="#47665A" font-family="JetBrains Mono, monospace" font-size="15">The size tradeoff buys a stronger long-range posture.</text>
+
+  <rect x="96" y="612" width="1024" height="52" rx="18" fill="#082417"/>
+  <text x="124" y="644" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="16">Why the size differs: Falcon encodes lattice-based structure instead of a small elliptic-curve point and scalar pair. The result is larger key and signature material, but a design aimed at post-quantum resilience.</text>
+</svg>
