@@ -551,6 +551,7 @@ main {
   max-width: 470px;
   margin: 0 0 14px;
   font-size: clamp(0.94rem, 1.55vw, 1.02rem);
+  word-break: break-word;
 }
 
 .hero-note {
@@ -575,13 +576,13 @@ main {
 .hero-stage {
   position: relative;
   isolation: isolate;
-  min-height: 372px;
+  min-height: 430px;
   overflow: hidden;
   border: 1px solid rgba(10, 90, 58, 0.14);
   border-radius: 34px;
-  --power-level: 6%;
-  --power-scale: 0.16;
-  --engine-scale: 0.26;
+  --power-level: 36%;
+  --power-scale: 0.36;
+  --engine-scale: 1.12;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.998), rgba(248, 255, 251, 0.996)),
     radial-gradient(circle at 70% 62%, rgba(6, 213, 141, 0.08), transparent 34%);
@@ -603,20 +604,20 @@ main {
 .hero-stage::after {
   content: "";
   position: absolute;
-  inset: auto 11% 8% 11%;
-  height: 20%;
-  background: radial-gradient(circle at center, rgba(6, 213, 141, 0.09), transparent 72%);
-  filter: blur(24px);
+  inset: auto 4% 5% 4%;
+  height: 30%;
+  background: radial-gradient(circle at center, rgba(6, 213, 141, 0.16), transparent 74%);
+  filter: blur(30px);
   pointer-events: none;
 }
 
 .hero-stage-glow {
   position: absolute;
-  left: 61%;
-  top: 61%;
+  left: 58%;
+  top: 60%;
   z-index: 0;
-  width: 360px;
-  height: 250px;
+  width: min(86%, 620px);
+  height: 360px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background: radial-gradient(circle, rgba(6, 213, 141, 0.16), transparent 74%);
@@ -746,7 +747,7 @@ main {
 
 .hero-engine-canvas {
   position: absolute;
-  inset: 84px 16px 16px 16px;
+  inset: 58px -70px -34px -70px;
   z-index: 2;
   display: flex;
   align-items: center;
@@ -755,7 +756,7 @@ main {
 
 .hero-engine-asset-shell {
   position: relative;
-  width: min(56%, 280px);
+  width: min(126%, 860px);
   aspect-ratio: 3 / 2;
   animation: engineShellFloat 7.6s ease-in-out infinite;
 }
@@ -763,10 +764,10 @@ main {
 .hero-engine-asset-shell::before {
   content: "";
   position: absolute;
-  left: 14%;
-  right: 14%;
-  bottom: 4%;
-  height: 12%;
+  left: 7%;
+  right: 7%;
+  bottom: 1%;
+  height: 16%;
   border-radius: 999px;
   background: radial-gradient(circle at center, rgba(6, 213, 141, 0.2), transparent 72%);
   filter: blur(24px);
@@ -776,7 +777,7 @@ main {
 .hero-engine-asset-shell::after {
   content: "";
   position: absolute;
-  inset: 14% 16% 18%;
+  inset: 8% 9% 12%;
   border-radius: 36px;
   background:
     radial-gradient(circle at 50% 38%, rgba(6, 213, 141, 0.14), transparent 48%),
@@ -787,7 +788,7 @@ main {
 
 .hero-engine-asset-glow {
   position: absolute;
-  inset: 9% 12% 13%;
+  inset: 5% 7% 9%;
   border-radius: 40px;
   background:
     radial-gradient(circle at 50% 46%, rgba(6, 213, 141, 0.22), transparent 38%),
@@ -807,17 +808,17 @@ main {
 }
 
 .hero-engine-orbit-a {
-  inset: 17% 19% 22%;
+  inset: 9% 10% 16%;
   transform: rotate(-12deg);
 }
 
 .hero-engine-orbit-b {
-  inset: 24% 28% 26%;
+  inset: 17% 20% 22%;
   transform: rotate(22deg);
 }
 
 .hero-engine-orbit-c {
-  inset: 20% 26% 20%;
+  inset: 14% 18% 18%;
   transform: rotate(90deg);
 }
 
@@ -2968,7 +2969,7 @@ main {
   }
 
   .hero-engine-canvas {
-    inset: 94px 18px 18px 18px;
+    inset: 70px -82px -42px -82px;
   }
 
   .numbered-grid,
@@ -3073,7 +3074,7 @@ main {
   }
 
   .hero-stage {
-    min-height: 438px;
+    min-height: clamp(520px, 48vw, 650px);
   }
 
   .hero-copy {
@@ -3751,6 +3752,13 @@ main {
     line-height: 1.04;
   }
 
+  .hero-copy,
+  .hero-lead,
+  .hero-note {
+    max-width: 100%;
+    min-width: 0;
+  }
+
   .docs-hero h1,
   .docs-view-title {
     max-width: 100%;
@@ -3780,6 +3788,11 @@ main {
   .button-row .button,
   .page-actions .button {
     width: 100%;
+    min-width: 0;
+    padding-right: 12px;
+    padding-left: 12px;
+    text-align: center;
+    white-space: normal;
   }
 
   .docs-hero,

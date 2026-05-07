@@ -487,9 +487,9 @@ function initHeroEngine() {
   }
 
   const powerValue = stage.querySelector("[data-hero-power-value]");
-  const baseLevel = 6;
-  const maxScale = 0.72;
-  const minScale = 0.16;
+  const baseLevel = 36;
+  const maxScale = 1.34;
+  const minScale = 1.12;
   let powerLevel = baseLevel;
   let growthLevel = 0;
   let energyTimer;
