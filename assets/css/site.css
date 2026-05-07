@@ -582,7 +582,7 @@ main {
   border-radius: 34px;
   --power-level: 36%;
   --power-scale: 0.36;
-  --engine-scale: 1.12;
+  --engine-scale: 1.04;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.998), rgba(248, 255, 251, 0.996)),
     radial-gradient(circle at 70% 62%, rgba(6, 213, 141, 0.08), transparent 34%);
@@ -747,7 +747,7 @@ main {
 
 .hero-engine-canvas {
   position: absolute;
-  inset: 58px -70px -34px -70px;
+  inset: 64px -44px -24px -44px;
   z-index: 2;
   display: flex;
   align-items: center;
@@ -756,7 +756,7 @@ main {
 
 .hero-engine-asset-shell {
   position: relative;
-  width: min(126%, 860px);
+  width: min(116%, 790px);
   aspect-ratio: 3 / 2;
   animation: engineShellFloat 7.6s ease-in-out infinite;
 }
@@ -2969,7 +2969,7 @@ main {
   }
 
   .hero-engine-canvas {
-    inset: 70px -82px -42px -82px;
+    inset: 76px -56px -30px -56px;
   }
 
   .numbered-grid,
