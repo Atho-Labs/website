@@ -32,6 +32,21 @@ const statusClassMap = {
   Next: "status-next"
 };
 
+const siteBase = document.body?.dataset?.siteBase?.trim() || "./";
+
+function resolveSiteHref(href) {
+  if (!href) {
+    return href;
+  }
+  if (/^(?:[a-z]+:|#|\/)/i.test(href)) {
+    return href;
+  }
+  if (href.startsWith("./")) {
+    return `${siteBase}${href.slice(2)}`;
+  }
+  return href;
+}
+
 function createIcon(name) {
   const wrap = document.createElement("span");
   wrap.className = name === "shield" || name === "hash" || name === "grid" || name === "layers" || name === "pickaxe" || name === "bolt"
@@ -53,6 +68,20 @@ function createBadge(label) {
   badge.className = `status-badge ${statusClassMap[label] || "status-planned"}`;
   badge.textContent = label;
   return badge;
+}
+
+function createCardSurface({ href = "", className = "" } = {}) {
+  const resolvedHref = resolveSiteHref(href);
+  if (resolvedHref) {
+    const link = document.createElement("a");
+    link.className = className;
+    link.href = resolvedHref;
+    return link;
+  }
+
+  const article = document.createElement("article");
+  article.className = className;
+  return article;
 }
 
 function appendHoverDetail(card, text) {
@@ -147,15 +176,19 @@ function renderNetworkConstants() {
   }
 
   siteContent.networkConstants.forEach((item) => {
-    const card = document.createElement("article");
-    card.className = "network-constant-card";
+    const card = createCardSurface({
+      href: item.href,
+      className: "network-constant-card simple-link-card"
+    });
     card.setAttribute("data-reveal", "");
     card.innerHTML = `
       <span>${item.name}</span>
       <strong class="stack-value">${item.value}</strong>
       <p><code>${item.detail}</code></p>
       <p>${item.copy}</p>
+      <em class="simple-link-meta">${item.actionLabel || "Open docs"}</em>
     `;
+    appendHoverDetail(card, item.hover);
     target.appendChild(card);
   });
 }
@@ -189,8 +222,10 @@ function renderCoreFeatures() {
   }
 
   siteContent.coreFeatures.forEach((item) => {
-    const card = document.createElement("article");
-    card.className = "card feature-card";
+    const card = createCardSurface({
+      href: item.href,
+      className: "card feature-card simple-link-card"
+    });
     card.setAttribute("data-reveal", "");
     card.appendChild(createIcon(item.icon));
 
@@ -198,8 +233,46 @@ function renderCoreFeatures() {
     content.innerHTML = `
       <h3>${item.title}</h3>
       <p>${item.copy}</p>
+      <em class="simple-link-meta">${item.actionLabel || "Open docs"}</em>
     `;
     card.appendChild(content);
+    appendHoverDetail(card, item.hover);
+    target.appendChild(card);
+  });
+}
+
+function renderHomepageAccess() {
+  const target = document.querySelector("#access-links");
+  if (!(target instanceof HTMLElement)) {
+    return;
+  }
+
+  siteContent.homepageAccess.forEach((item) => {
+    const card = createCardSurface({
+      href: item.href,
+      className: "ecosystem-card simple-link-card"
+    });
+    card.setAttribute("data-reveal", "");
+
+    const top = document.createElement("div");
+    top.className = "ecosystem-card-top";
+
+    const left = document.createElement("div");
+    left.style.display = "flex";
+    left.style.gap = "14px";
+    left.style.alignItems = "flex-start";
+    left.appendChild(createIcon(item.icon));
+
+    const text = document.createElement("div");
+    text.innerHTML = `
+      <h3>${item.title}</h3>
+      <p>${item.copy}</p>
+      <em class="simple-link-meta">${item.actionLabel}</em>
+    `;
+    left.appendChild(text);
+    top.appendChild(left);
+
+    card.appendChild(top);
     appendHoverDetail(card, item.hover);
     target.appendChild(card);
   });
@@ -248,7 +321,7 @@ function renderEcosystem() {
 
       const action = document.createElement("a");
       action.className = "ecosystem-action";
-      action.href = item.actionHref;
+      action.href = resolveSiteHref(item.actionHref);
       action.textContent = item.actionLabel;
       if (item.external) {
         action.target = "_blank";
@@ -359,7 +432,7 @@ function renderCommunityActions() {
   siteContent.communityActions.forEach((item) => {
     const link = document.createElement("a");
     link.className = `button button-${item.variant}`;
-    link.href = item.href;
+    link.href = resolveSiteHref(item.href);
     link.textContent = item.label;
     if (item.external) {
       link.target = "_blank";
@@ -386,7 +459,7 @@ function renderFooterColumns() {
 
     column.links.forEach((item) => {
       const link = document.createElement("a");
-      link.href = item.href;
+      link.href = resolveSiteHref(item.href);
       const label = document.createElement("span");
       label.textContent = item.label;
       link.appendChild(label);
@@ -414,15 +487,20 @@ function initHeroEngine() {
   }
 
   const powerValue = stage.querySelector("[data-hero-power-value]");
-  const baseLevel = 36;
+  const baseLevel = 6;
+  const maxScale = 0.72;
+  const minScale = 0.16;
   let powerLevel = baseLevel;
+  let growthLevel = 0;
   let energyTimer;
   let decayTimer;
 
   const renderPower = () => {
-    const scale = Math.max(0.2, Math.min(1, powerLevel / 100));
+    const scale = minScale + ((maxScale - minScale) * (growthLevel / 100));
+    const glowScale = Math.max(0.16, Math.min(1, powerLevel / 100));
     stage.style.setProperty("--power-level", `${powerLevel}%`);
-    stage.style.setProperty("--power-scale", scale.toFixed(2));
+    stage.style.setProperty("--power-scale", glowScale.toFixed(2));
+    stage.style.setProperty("--engine-scale", scale.toFixed(3));
     if (powerValue instanceof HTMLElement) {
       powerValue.textContent = `${powerLevel}%`;
     }
@@ -431,16 +509,17 @@ function initHeroEngine() {
   const startDecay = () => {
     window.clearInterval(decayTimer);
     decayTimer = window.setInterval(() => {
-      if (powerLevel <= baseLevel) {
-        powerLevel = baseLevel;
-        renderPower();
-        window.clearInterval(decayTimer);
-        return;
-      }
+      const nextPower = Math.max(baseLevel, powerLevel - 5);
+      const nextGrowth = Math.max(0, growthLevel - 10);
 
-      powerLevel = Math.max(baseLevel, powerLevel - 4);
+      powerLevel = nextPower;
+      growthLevel = nextGrowth;
       renderPower();
-    }, 160);
+
+      if (powerLevel <= baseLevel && growthLevel <= 0) {
+        window.clearInterval(decayTimer);
+      }
+    }, 140);
   };
 
   const pulseStage = () => {
@@ -451,12 +530,13 @@ function initHeroEngine() {
     stage.classList.add("is-energized");
 
     powerLevel = Math.min(100, powerLevel + 16);
+    growthLevel = Math.min(100, growthLevel + 20);
     renderPower();
 
     energyTimer = window.setTimeout(() => {
       stage.classList.remove("is-energized");
       startDecay();
-    }, 1050);
+    }, 860);
   };
 
   renderPower();
@@ -602,6 +682,7 @@ function renderPage() {
   renderNetworkConstants();
   renderStats();
   renderCoreFeatures();
+  renderHomepageAccess();
   renderEcosystem();
   renderEconomics();
   renderDeveloperPoints();

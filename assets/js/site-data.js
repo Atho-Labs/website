@@ -56,19 +56,28 @@ export const siteContent = {
       name: "Mainnet",
       detail: "atho-mainnet",
       value: "<span class=\"stack-line\">P2P 56000</span><span class=\"stack-line\">RPC 9010</span>",
-      copy: "No faucet, no automatic storage reset, strict replay protection."
+      copy: "Production network with replay protection and persistent storage.",
+      hover: "Mainnet is the production network and keeps its own ports, storage, and safety rules.",
+      href: "./docs.html#network-modes",
+      actionLabel: "Read network docs"
     },
     {
       name: "Testnet",
       detail: "atho-testnet",
       value: "<span class=\"stack-line\">P2P 9100</span><span class=\"stack-line\">RPC 9110</span>",
-      copy: "Manual testnet funds, development resets, testnet-only recovery features."
+      copy: "Testing network with manual funds, resets, and active development flow.",
+      hover: "Testnet is the public place to try wallets, mining, sync, explorer, and API changes safely.",
+      href: "./docs.html#testnet",
+      actionLabel: "Read testnet docs"
     },
     {
       name: "Regnet",
       detail: "atho-regnet",
       value: "<span class=\"stack-line\">P2P 9200</span><span class=\"stack-line\">RPC 9210</span>",
-      copy: "Local testing network for disposable development workflows."
+      copy: "Local development network for disposable test runs and fast resets.",
+      hover: "Regnet is for local workflows where you want to test behavior without using public testnet.",
+      href: "./docs.html#network-modes",
+      actionLabel: "Read network docs"
     }
   ],
   stats: [
@@ -124,39 +133,27 @@ export const siteContent = {
   coreFeatures: [
     {
       icon: "shield",
-      title: "Falcon-512 Signatures",
-      copy: "Post-quantum transaction signatures secure wallet spends.",
-      hover: "Atho uses post-quantum-focused transaction signing rather than classical elliptic-curve signatures."
-    },
-    {
-      icon: "hash",
-      title: "SHA3 Transaction PoW",
-      copy: "Wallets generate a lightweight send proof before broadcast.",
-      hover: "Nodes can verify transaction PoW cheaply before expensive signature checks when possible."
+      title: "Post-Quantum Signatures",
+      copy: "Falcon-512 secures wallet spends with a post-quantum signature model.",
+      hover: "Atho uses Falcon-512 instead of classical elliptic-curve signatures for transaction signing.",
+      href: "./docs.html#falcon-512-and-quantum-security",
+      actionLabel: "Read security docs"
     },
     {
       icon: "grid",
-      title: "Public UTXO Model",
-      copy: "Outputs remain the public accounting layer.",
-      hover: "Spendability, maturity, and balance all resolve through the same UTXO truth model."
-    },
-    {
-      icon: "layers",
-      title: "Network Isolation",
-      copy: "Addresses, signatures, transaction PoW, peers, storage, and blocks are network-scoped.",
-      hover: "Testnet transactions cannot be replayed on mainnet, and mainnet coins cannot be spent on testnet."
+      title: "Public UTXO Payments",
+      copy: "Outputs stay explicit, readable, and easy to verify across wallets and nodes.",
+      hover: "Balances, confirmations, and spending all resolve through the same public UTXO model.",
+      href: "./docs.html#utxo-model",
+      actionLabel: "Read transaction docs"
     },
     {
       icon: "pickaxe",
-      title: "Proof-of-Work Mining",
-      copy: "Blocks stay independently verifiable on every node.",
-      hover: "Coinbase transactions pay the current subsidy plus valid transaction fees and must not overpay."
-    },
-    {
-      icon: "wallet",
-      title: "Multiple HD Wallets",
-      copy: "Wallet names, 12/24/48 word phrases, wallet switching, and per-wallet address books.",
-      hover: "Each wallet keeps separate addresses, UTXOs, history, address book entries, and derivation state."
+      title: "Long-Term Miner Security",
+      copy: "Tail rewards keep a permanent proof-of-work budget as the network matures.",
+      hover: "Atho keeps a permanent miner incentive instead of ending issuance at a hard cap.",
+      href: "./docs.html#miner-security-budget",
+      actionLabel: "Read monetary docs"
     }
   ],
   ecosystemGroups: [
@@ -214,6 +211,15 @@ export const siteContent = {
           actionHref: "./docs.html"
         },
         {
+          icon: "globe",
+          title: "Explorer",
+          status: "Live",
+          copy: "Read-only chain explorer for live testnet blocks, transactions, addresses, fees, and network status.",
+          hover: "The explorer reads from the node API and never touches LMDB directly from the website.",
+          actionLabel: "Open Explorer",
+          actionHref: "./explore/"
+        },
+        {
           icon: "package",
           title: "Whitepaper",
           status: "Published",
@@ -223,6 +229,32 @@ export const siteContent = {
           actionHref: "./assets/files/atho-whitepaper.pdf"
         }
       ]
+    }
+  ],
+  homepageAccess: [
+    {
+      icon: "monitor",
+      title: "Read the Docs",
+      copy: "Wallet, node, mining, fee, and security details live in the docs.",
+      hover: "Use the docs when you want the full explanation behind any homepage term or network rule.",
+      href: "./docs.html#overview",
+      actionLabel: "Open docs"
+    },
+    {
+      icon: "globe",
+      title: "Open the Explorer",
+      copy: "Follow live testnet blocks, transactions, addresses, and mempool activity.",
+      hover: "The explorer is the read-only chain view for live network activity and search.",
+      href: "./explore/",
+      actionLabel: "Open explorer"
+    },
+    {
+      icon: "server",
+      title: "Join Testnet",
+      copy: "Set up the client, get testnet ATHO manually, and start testing the network.",
+      hover: "Testnet setup, storage behavior, mining notes, and manual fund flow are covered in the testnet docs.",
+      href: "./docs.html#testnet",
+      actionLabel: "Read testnet docs"
     }
   ],
   economics: [
@@ -333,22 +365,16 @@ export const siteContent = {
       external: false
     },
     {
+      label: "Open Explorer",
+      href: "./explore/",
+      variant: "secondary",
+      external: false
+    },
+    {
       label: "Join Testnet",
       href: "./join.html",
       variant: "secondary",
       external: false
-    },
-    {
-      label: "Download Whitepaper",
-      href: "./assets/files/atho-whitepaper.pdf",
-      variant: "tertiary",
-      external: false
-    },
-    {
-      label: "Join Discord",
-      href: "https://discord.gg/W5fV4aGcUR",
-      variant: "secondary",
-      external: true
     }
   ],
   footerColumns: [
@@ -366,6 +392,7 @@ export const siteContent = {
       title: "Network",
       links: [
         { label: "Join Testnet", href: "./join.html", badge: "Live" },
+        { label: "Explorer", href: "./explore/", badge: "Live" },
         { label: "Testnet Funds", href: "./docs.html#getting-testnet-atho-manually" },
         { label: "Nodes", href: "./docs.html#nodes" },
         { label: "Status", href: "./roadmap.html" }

@@ -1,5 +1,6 @@
 .DS_Store
 **/.DS_Store
-ionos-upload.zip
+__pycache__/
+*.pyc
 ionos-upload/
 assets/docs/
