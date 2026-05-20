@@ -19,6 +19,9 @@ const state = {
   homeTxPage: 0,
   homeTxPageSize: 10,
   refreshTimer: 0,
+  uptimeTimer: 0,
+  uptimeBaseSeconds: null,
+  uptimeObservedAtMs: 0,
   busyDepth: 0,
   currentJsonTitle: "",
   currentJsonPayload: null
@@ -177,6 +180,74 @@ function formatTimestamp(value) {
     return "--";
   }
   return new Date(numeric * 1000).toLocaleString();
+}
+
+function pluralize(value, unit) {
+  return `${value} ${unit}${value === 1 ? "" : "s"}`;
+}
+
+function formatUptime(seconds) {
+  const totalSeconds = Math.max(0, Math.floor(toNum(seconds, 0)));
+  const days = Math.floor(totalSeconds / 86_400);
+  const hours = Math.floor((totalSeconds % 86_400) / 3_600);
+  const minutes = Math.floor((totalSeconds % 3_600) / 60);
+  const secs = totalSeconds % 60;
+
+  if (days > 0) {
+    return `${pluralize(days, "Day")} ${pluralize(hours, "Hour")}`;
+  }
+  if (hours > 0) {
+    return `${pluralize(hours, "Hour")} ${pluralize(minutes, "Minute")}`;
+  }
+  if (minutes > 0) {
+    return `${pluralize(minutes, "Minute")} ${pluralize(secs, "Second")}`;
+  }
+  return pluralize(secs, "Second");
+}
+
+function setCanonicalUptime(seconds) {
+  const uptimeSeconds = Math.max(0, Math.floor(toNum(seconds, NaN)));
+  if (!Number.isFinite(uptimeSeconds)) {
+    return;
+  }
+  state.uptimeBaseSeconds = uptimeSeconds;
+  state.uptimeObservedAtMs = Date.now();
+}
+
+function liveUptimeSeconds() {
+  if (!Number.isFinite(state.uptimeBaseSeconds) || state.uptimeBaseSeconds == null) {
+    return null;
+  }
+  const observedAtMs = Number.isFinite(state.uptimeObservedAtMs) ? state.uptimeObservedAtMs : Date.now();
+  const elapsedSeconds = Math.max(0, Math.floor((Date.now() - observedAtMs) / 1000));
+  return state.uptimeBaseSeconds + elapsedSeconds;
+}
+
+function formatNetworkUptime(stats) {
+  const tickingSeconds = liveUptimeSeconds();
+  if (tickingSeconds != null) {
+    return formatUptime(tickingSeconds);
+  }
+  const rawSeconds = toNum(stats?.network_uptime_seconds, NaN);
+  if (Number.isFinite(rawSeconds)) {
+    return formatUptime(rawSeconds);
+  }
+  return stats?.network_uptime || "--";
+}
+
+function refreshVisibleUptime() {
+  if (!state.dashboard) {
+    return;
+  }
+  const uptime = formatNetworkUptime(state.dashboard.stats);
+  document.querySelectorAll("[data-network-uptime]").forEach((node) => {
+    node.textContent = uptime;
+  });
+}
+
+function startUptimeTicker() {
+  window.clearInterval(state.uptimeTimer);
+  state.uptimeTimer = window.setInterval(refreshVisibleUptime, 1000);
 }
 
 function formatAge(value) {
@@ -628,6 +699,9 @@ async function loadDashboard({ force = false } = {}) {
     network: networkResult.data
   };
 
+  setCanonicalUptime(
+    dashboard.stats?.network_uptime_seconds ?? dashboard.network?.uptime_seconds
+  );
   state.dashboard = dashboard;
   return dashboard;
 }
@@ -688,7 +762,8 @@ function renderStatsGrid(dashboard) {
   const cards = [
     {
       key: "Network Uptime",
-      value: stats.network_uptime || "--",
+      value: formatNetworkUptime(stats),
+      valueAttr: 'data-network-uptime=""',
       meta: `Block time ${stats.average_block_time || "--"}`
     },
     {
@@ -751,7 +826,7 @@ function renderStatsGrid(dashboard) {
           (card) => `
             <div class="metric-cell ${card.action ? "clickable" : ""}" ${card.action ? `data-action="${card.action}" data-ref="${escAttr(card.ref || "")}"` : ""}>
               <div class="metric-k">${esc(card.key)}</div>
-              <div class="metric-v">${esc(card.value)}</div>
+              <div class="metric-v" ${card.valueAttr || ""}>${esc(card.value)}</div>
               <div class="metric-m">${esc(card.meta)}</div>
             </div>
           `
@@ -878,7 +953,7 @@ async function renderHomePage(dashboard) {
             </p>
           </div>
           <div class="overview-side">
-            <span class="status-chip">Uptime ${esc(stats.network_uptime || "--")}</span>
+            <span class="status-chip">Uptime <span data-network-uptime>${esc(formatNetworkUptime(stats))}</span></span>
           </div>
         </div>
         ${renderStatsGrid(dashboard)}
@@ -1491,6 +1566,7 @@ async function renderNetworkPage() {
           { label: "Network", valueHtml: esc(network.network_name || network.network || "--") },
           { label: "Network ID", valueHtml: `<span class="mono">${esc(network.network_id || "--")}</span>`, className: "mono" },
           { label: "Genesis Hash", valueHtml: `<span class="mono">${esc(network.genesis_hash || "--")}</span>`, className: "mono" },
+          { label: "Chain Uptime", valueHtml: esc(formatNetworkUptime(stats)) },
           { label: "API Version", valueHtml: esc(network.api_version || explorerApiConfig.apiVersion) },
           { label: "Node Version", valueHtml: esc(network.node_version || "--") },
           { label: "Sync Status", valueHtml: esc(status.chain_synced ? "Synced" : "Syncing") },
@@ -1864,6 +1940,7 @@ function init() {
   });
   refs.tabs.forEach((tab) => tab.addEventListener("click", handleNetworkTabClick));
   initHistory();
+  startUptimeTicker();
 
   refs.pageRoot.innerHTML = `
     <section class="panel">

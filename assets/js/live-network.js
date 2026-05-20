@@ -14,7 +14,10 @@ const refs = {
 };
 
 const state = {
-  pollTimer: 0
+  pollTimer: 0,
+  uptimeTimer: 0,
+  uptimeBaseSeconds: null,
+  uptimeObservedAtMs: 0
 };
 
 const ATHO_DECIMALS = 12;
@@ -94,6 +97,73 @@ function shortHash(value, left = 16, right = 12) {
   return `${text.slice(0, left)}...${text.slice(-right)}`;
 }
 
+function pluralize(value, unit) {
+  return `${value} ${unit}${value === 1 ? "" : "s"}`;
+}
+
+function formatUptime(seconds) {
+  const totalSeconds = Math.max(0, Math.floor(Number.isFinite(Number(seconds)) ? Number(seconds) : 0));
+  const days = Math.floor(totalSeconds / 86_400);
+  const hours = Math.floor((totalSeconds % 86_400) / 3_600);
+  const minutes = Math.floor((totalSeconds % 3_600) / 60);
+  const secs = totalSeconds % 60;
+
+  if (days > 0) {
+    return `${pluralize(days, "Day")} ${pluralize(hours, "Hour")}`;
+  }
+  if (hours > 0) {
+    return `${pluralize(hours, "Hour")} ${pluralize(minutes, "Minute")}`;
+  }
+  if (minutes > 0) {
+    return `${pluralize(minutes, "Minute")} ${pluralize(secs, "Second")}`;
+  }
+  return pluralize(secs, "Second");
+}
+
+function setCanonicalUptime(seconds) {
+  const uptimeSeconds = Math.max(0, Math.floor(Number.isFinite(Number(seconds)) ? Number(seconds) : NaN));
+  if (!Number.isFinite(uptimeSeconds)) {
+    return;
+  }
+  state.uptimeBaseSeconds = uptimeSeconds;
+  state.uptimeObservedAtMs = Date.now();
+}
+
+function liveUptimeSeconds() {
+  if (!Number.isFinite(state.uptimeBaseSeconds) || state.uptimeBaseSeconds == null) {
+    return null;
+  }
+  const observedAtMs = Number.isFinite(state.uptimeObservedAtMs) ? state.uptimeObservedAtMs : Date.now();
+  const elapsedSeconds = Math.max(0, Math.floor((Date.now() - observedAtMs) / 1000));
+  return state.uptimeBaseSeconds + elapsedSeconds;
+}
+
+function formatNetworkUptime(stats) {
+  const tickingSeconds = liveUptimeSeconds();
+  if (tickingSeconds != null) {
+    return formatUptime(tickingSeconds);
+  }
+  if (Number.isFinite(Number(stats?.network_uptime_seconds))) {
+    return formatUptime(Number(stats.network_uptime_seconds));
+  }
+  return stats?.network_uptime || "Updating";
+}
+
+function refreshVisibleUptime() {
+  if (!(refs.stats instanceof HTMLElement)) {
+    return;
+  }
+  const value = formatNetworkUptime({});
+  refs.stats.querySelectorAll("[data-network-uptime]").forEach((node) => {
+    node.textContent = value;
+  });
+}
+
+function startUptimeTicker() {
+  window.clearInterval(state.uptimeTimer);
+  state.uptimeTimer = window.setInterval(refreshVisibleUptime, 1000);
+}
+
 function normalizeHashrate(value) {
   const text = String(value || "").trim();
   if (!text) {
@@ -163,7 +233,7 @@ function renderStats(stats) {
   }
   const cards = [
     ["Network", "Testnet"],
-    ["Uptime", stats.network_uptime || "Updating"],
+    ["Uptime", formatNetworkUptime(stats)],
     ["Height", formatNumber(stats.height)],
     ["Hashrate", normalizeHashrate(stats.estimated_hashrate)],
     ["Active Peers", formatNumber(stats.active_peers)],
@@ -176,7 +246,7 @@ function renderStats(stats) {
       ([label, value]) => `
         <article class="live-stat-card">
           <span class="live-stat-label">${escapeHtml(label)}</span>
-          <strong class="live-stat-value">${escapeHtml(value)}</strong>
+          <strong class="live-stat-value" ${label === "Uptime" ? 'data-network-uptime=""' : ""}>${escapeHtml(value)}</strong>
         </article>
       `
     )
@@ -240,6 +310,7 @@ function renderFailure(errorCode) {
 async function refreshLiveNetwork() {
   try {
     const stats = await fetchNetworkStats();
+    setCanonicalUptime(stats.network_uptime_seconds);
     renderStats(stats);
     renderLatest(stats);
     setStatus("Live testnet uptime and chain data refresh every 15 seconds.", "success");
@@ -264,6 +335,7 @@ function init() {
   if (refs.footnote instanceof HTMLElement) {
     refs.footnote.textContent = "Live testnet stats refresh every 15 seconds.";
   }
+  startUptimeTicker();
   void refreshLiveNetwork();
   startPolling();
 }
