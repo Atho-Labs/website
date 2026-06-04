@@ -21,7 +21,6 @@ const state = {
   refreshTimer: 0,
   uptimeTimer: 0,
   uptimeBaseSeconds: null,
-  uptimeObservedAtMs: 0,
   busyDepth: 0,
   currentJsonTitle: "",
   currentJsonPayload: null
@@ -211,16 +210,13 @@ function setCanonicalUptime(seconds) {
     return;
   }
   state.uptimeBaseSeconds = uptimeSeconds;
-  state.uptimeObservedAtMs = Date.now();
 }
 
 function liveUptimeSeconds() {
   if (!Number.isFinite(state.uptimeBaseSeconds) || state.uptimeBaseSeconds == null) {
     return null;
   }
-  const observedAtMs = Number.isFinite(state.uptimeObservedAtMs) ? state.uptimeObservedAtMs : Date.now();
-  const elapsedSeconds = Math.max(0, Math.floor((Date.now() - observedAtMs) / 1000));
-  return state.uptimeBaseSeconds + elapsedSeconds;
+  return state.uptimeBaseSeconds;
 }
 
 function formatNetworkUptime(stats) {
@@ -228,11 +224,11 @@ function formatNetworkUptime(stats) {
   if (tickingSeconds != null) {
     return formatUptime(tickingSeconds);
   }
-  const rawSeconds = toNum(stats?.network_uptime_seconds, NaN);
+  const rawSeconds = toNum(stats?.node_uptime_seconds ?? stats?.network_uptime_seconds, NaN);
   if (Number.isFinite(rawSeconds)) {
     return formatUptime(rawSeconds);
   }
-  return stats?.network_uptime || "--";
+  return stats?.node_uptime || stats?.network_uptime || "--";
 }
 
 function refreshVisibleUptime() {
@@ -700,7 +696,10 @@ async function loadDashboard({ force = false } = {}) {
   };
 
   setCanonicalUptime(
-    dashboard.stats?.network_uptime_seconds ?? dashboard.network?.uptime_seconds
+    dashboard.stats?.node_uptime_seconds ??
+      dashboard.stats?.network_uptime_seconds ??
+      dashboard.network?.node_uptime_seconds ??
+      dashboard.network?.uptime_seconds
   );
   state.dashboard = dashboard;
   return dashboard;

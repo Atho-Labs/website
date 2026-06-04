@@ -16,8 +16,7 @@ const refs = {
 const state = {
   pollTimer: 0,
   uptimeTimer: 0,
-  uptimeBaseSeconds: null,
-  uptimeObservedAtMs: 0
+  uptimeBaseSeconds: null
 };
 
 const ATHO_DECIMALS = 12;
@@ -126,16 +125,13 @@ function setCanonicalUptime(seconds) {
     return;
   }
   state.uptimeBaseSeconds = uptimeSeconds;
-  state.uptimeObservedAtMs = Date.now();
 }
 
 function liveUptimeSeconds() {
   if (!Number.isFinite(state.uptimeBaseSeconds) || state.uptimeBaseSeconds == null) {
     return null;
   }
-  const observedAtMs = Number.isFinite(state.uptimeObservedAtMs) ? state.uptimeObservedAtMs : Date.now();
-  const elapsedSeconds = Math.max(0, Math.floor((Date.now() - observedAtMs) / 1000));
-  return state.uptimeBaseSeconds + elapsedSeconds;
+  return state.uptimeBaseSeconds;
 }
 
 function formatNetworkUptime(stats) {
@@ -143,10 +139,11 @@ function formatNetworkUptime(stats) {
   if (tickingSeconds != null) {
     return formatUptime(tickingSeconds);
   }
-  if (Number.isFinite(Number(stats?.network_uptime_seconds))) {
-    return formatUptime(Number(stats.network_uptime_seconds));
+  const rawSeconds = stats?.node_uptime_seconds ?? stats?.network_uptime_seconds;
+  if (Number.isFinite(Number(rawSeconds))) {
+    return formatUptime(Number(rawSeconds));
   }
-  return stats?.network_uptime || "Updating";
+  return stats?.node_uptime || stats?.network_uptime || "Updating";
 }
 
 function refreshVisibleUptime() {
@@ -310,7 +307,7 @@ function renderFailure(errorCode) {
 async function refreshLiveNetwork() {
   try {
     const stats = await fetchNetworkStats();
-    setCanonicalUptime(stats.network_uptime_seconds);
+    setCanonicalUptime(stats.node_uptime_seconds ?? stats.network_uptime_seconds);
     renderStats(stats);
     renderLatest(stats);
     setStatus("Live testnet uptime and chain data refresh every 15 seconds.", "success");

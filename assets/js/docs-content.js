@@ -124,7 +124,7 @@ export const docsSections = {
               <tr><th>Starting Reward</th><td>50 ATHO</td></tr>
               <tr><th>Halving Interval</th><td>1,260,000 blocks</td></tr>
               <tr><th>Tail Reward</th><td>0.390625 ATHO forever</td></tr>
-              <tr><th>Normal Confirmations</th><td>1 confirmation at consensus; wallets choose their risk policy</td></tr>
+              <tr><th>Normal Confirmations</th><td>1 confirmation at consensus; official wallet default 3 confirmations; users and apps choose their risk policy</td></tr>
               <tr><th>Coinbase Maturity</th><td>100 confirmations</td></tr>
               <tr><th>Max Supply Cap</th><td>None. Atho uses permanent tail emission.</td></tr>
               <tr><th>Smallest Unit</th><td>1 atom</td></tr>
@@ -562,7 +562,7 @@ required_fee_atoms = max(1, tx_vbytes * 1)</code></pre>
       </section>
       <section class="docs-section" id="confirmations">
         <h2>Confirmations</h2>
-        <p>Transactions become more trustworthy as blocks build on top of them. Coinbase rewards require maturity before they are spendable. Standard wallet UX should reflect the difference between pending, confirmed, and matured funds.</p>
+        <p>Normal transactions are confirmed by consensus once they are included in a valid block. The official wallet defaults to a 3-confirmation spendable-balance filter, and users, merchants, exchanges, and applications can choose stricter thresholds for their own risk policy. Coinbase rewards require 100 confirmations before they are spendable.</p>
       </section>
     `
   },
@@ -1005,6 +1005,7 @@ INITIAL_BLOCK_REWARD_ATOMS = 5_000_000_000
 HALVING_INTERVAL_BLOCKS = 1_260_000
 TAIL_REWARD_ATOMS = 39_062_500
 NORMAL_TX_VALID_AFTER_CONFIRMATIONS = 1
+DEFAULT_WALLET_MIN_CONFIRMATIONS = 3
 COINBASE_MATURITY_BLOCKS = 100
 MIN_TX_FEE_ATOMS = 1
 MIN_RELAY_FEE_RATE_ATOMS_PER_VBYTE = 1
@@ -1038,7 +1039,7 @@ Annual tail = 0.390625 * 315,360 = 123,187.5 ATHO/year</code></pre>
       </section>
       <section class="docs-section" id="api-notes">
         <h2>API Notes</h2>
-        <p>API and RPC clients should parse amounts exactly into atoms. Do not send floats for consensus amounts. Normal send flows must validate network addresses, calculate fees, enforce the minimum output, solve transaction PoW, and submit to the mempool.</p>
+        <p>API and RPC clients should parse amounts exactly into atoms. Do not send floats for consensus amounts. Address and UTXO endpoints accept <code>min_confirmations</code> or <code>minconf</code>, defaulting to 3 for official-wallet policy while preserving the 1-confirmation consensus floor. Explorer uptime should read <code>node_uptime_seconds</code>; chain age from genesis is exposed separately as <code>chain_uptime_seconds</code>.</p>
       </section>
       <section class="docs-section" id="cli-notes">
         <h2>CLI Notes</h2>
