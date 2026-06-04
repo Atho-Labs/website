@@ -5,7 +5,7 @@ import {
 } from "./explorer-config.js";
 
 const HASH_LENGTH = 96;
-const ATHO_DECIMALS = 12;
+const ATHO_DECIMALS = 8;
 const LOCK_TIME_TIMESTAMP_THRESHOLD = 500_000_000;
 
 const state = {

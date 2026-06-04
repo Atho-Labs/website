@@ -19,7 +19,7 @@ const state = {
   uptimeBaseSeconds: null
 };
 
-const ATHO_DECIMALS = 12;
+const ATHO_DECIMALS = 8;
 
 function escapeHtml(value) {
   return String(value)
