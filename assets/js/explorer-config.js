@@ -41,7 +41,7 @@ export const explorerNetworks = Object.freeze({
     network: "testnet",
     networkId: "atho-testnet",
     genesisHash:
-      "0000e30d3344d52d92d90397461bc4227967f2eda64fbf316a275c97d7ead5cc86ab6001230fdcdeab2433338dba606b",
+      "00000e524958487f70cfe350a65093d40e70bd15e2611451995c59c0d5b126e1aea7f51c4b099ea2393e9cfff45f9eb9",
     apiBaseUrl: explorerApiConfig.testnetApiBaseUrl,
     enabled: true,
     comingSoon: false,
