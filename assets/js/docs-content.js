@@ -79,7 +79,7 @@ export const docsSections = {
         <h2>Current Network Notes</h2>
         <ul>
           <li>Atho is a post-quantum-focused proof-of-work payment network built around a public UTXO model.</li>
-          <li>The software uses 12-decimal atom precision, low atom-denominated fees, and wallet transaction PoW for anti-spam protection.</li>
+          <li>The software uses 8-decimal atom precision, 1 atom/vbyte fees, a 100-atom dust floor, and wallet transaction PoW for anti-spam protection.</li>
           <li>Testnet ATHO is distributed manually by the Atho founders or development team. There is no software faucet in the client or website.</li>
         </ul>
       </section>
@@ -120,10 +120,12 @@ export const docsSections = {
           <table>
             <tbody>
               <tr><th>Ledger Model</th><td>Public UTXO chain</td></tr>
-              <tr><th>Block Time</th><td>75 seconds</td></tr>
-              <tr><th>Starting Reward</th><td>6.25 ATHO</td></tr>
-              <tr><th>Halving Interval</th><td>1,680,000 blocks</td></tr>
-              <tr><th>Tail Reward</th><td>0.78125 ATHO forever</td></tr>
+              <tr><th>Block Time</th><td>100 seconds</td></tr>
+              <tr><th>Starting Reward</th><td>50 ATHO</td></tr>
+              <tr><th>Halving Interval</th><td>1,260,000 blocks</td></tr>
+              <tr><th>Tail Reward</th><td>0.390625 ATHO forever</td></tr>
+              <tr><th>Normal Confirmations</th><td>1 confirmation at consensus; wallets choose their risk policy</td></tr>
+              <tr><th>Coinbase Maturity</th><td>100 confirmations</td></tr>
               <tr><th>Max Supply Cap</th><td>None. Atho uses permanent tail emission.</td></tr>
               <tr><th>Smallest Unit</th><td>1 atom</td></tr>
               <tr><th>Transaction Spam Deterrent</th><td>SHA3-256 wallet transaction PoW</td></tr>
@@ -135,7 +137,7 @@ export const docsSections = {
         <h2>What Makes Atho Different?</h2>
         <ul>
           <li>Post-quantum-focused transaction signing with Falcon-512.</li>
-          <li>One ATHO contains one trillion atoms, so the system stays usable for small payments.</li>
+          <li>One ATHO contains 100,000,000 atoms, so the system keeps Bitcoin-style E-8 precision.</li>
           <li>Wallet transaction PoW makes spam computationally expensive without forcing high fees.</li>
           <li>Permanent tail emission keeps a long-term miner security budget instead of relying on a hard supply cap and fee-only security later.</li>
         </ul>
@@ -279,7 +281,7 @@ export const docsSections = {
     content: `
       <section class="docs-section" id="emissions-overview">
         <h2>Emissions Overview</h2>
-        <p>There is no fixed max supply cap. Atho starts at 6.25 ATHO per block, halves every 1,680,000 blocks, and then continues forever at a 0.78125 ATHO tail reward.</p>
+        <p>There is no fixed max supply cap. Atho starts at 50 ATHO per block, halves every 1,260,000 blocks for seven pre-tail eras, and then continues forever at a 0.390625 ATHO tail reward.</p>
         <p>The policy changed to match Atho's long-term payment-network goals. Instead of trying to force security entirely into fees later, Atho keeps a predictable miner budget in place.</p>
       </section>
       <section class="docs-section" id="reward-schedule">
@@ -288,10 +290,14 @@ export const docsSections = {
           <table>
             <thead><tr><th>Era</th><th>Reward</th><th>Blocks</th><th>Issuance</th></tr></thead>
             <tbody>
-              <tr><td>Era 1</td><td>6.25 ATHO</td><td>1,680,000</td><td>10,500,000 ATHO</td></tr>
-              <tr><td>Era 2</td><td>3.125 ATHO</td><td>1,680,000</td><td>5,250,000 ATHO</td></tr>
-              <tr><td>Era 3</td><td>1.5625 ATHO</td><td>1,680,000</td><td>2,625,000 ATHO</td></tr>
-              <tr><td>Tail</td><td>0.78125 ATHO</td><td>Forever</td><td>328,500 ATHO/year</td></tr>
+              <tr><td>Era 1</td><td>50 ATHO</td><td>1,260,000</td><td>63,000,000 ATHO</td></tr>
+              <tr><td>Era 2</td><td>25 ATHO</td><td>1,260,000</td><td>31,500,000 ATHO</td></tr>
+              <tr><td>Era 3</td><td>12.5 ATHO</td><td>1,260,000</td><td>15,750,000 ATHO</td></tr>
+              <tr><td>Era 4</td><td>6.25 ATHO</td><td>1,260,000</td><td>7,875,000 ATHO</td></tr>
+              <tr><td>Era 5</td><td>3.125 ATHO</td><td>1,260,000</td><td>3,937,500 ATHO</td></tr>
+              <tr><td>Era 6</td><td>1.5625 ATHO</td><td>1,260,000</td><td>1,968,750 ATHO</td></tr>
+              <tr><td>Era 7</td><td>0.78125 ATHO</td><td>1,260,000</td><td>984,375 ATHO</td></tr>
+              <tr><td>Tail</td><td>0.390625 ATHO</td><td>Forever</td><td>123,187.5 ATHO/year</td></tr>
             </tbody>
           </table>
         </div>
@@ -299,9 +305,9 @@ export const docsSections = {
       <section class="docs-section" id="tail-emission">
         <h2>Tail Emission</h2>
         <p>For a proof-of-work payment network, relying only on fees can make long-term security harder. Atho's tail reward keeps miners incentivized without forcing high user fees. The inflation rate declines over time as total supply grows.</p>
-        <pre><code>Blocks per year = 31,536,000 / 75 = 420,480
-Annual tail = 0.78125 * 420,480 = 328,500 ATHO/year
-Tail issuance every 10 years = 3,285,000 ATHO</code></pre>
+        <pre><code>Blocks per year = 31,536,000 / 100 = 315,360
+Annual tail = 0.390625 * 315,360 = 123,187.5 ATHO/year
+Tail issuance every 10 years = 1,231,875 ATHO</code></pre>
       </section>
       <section class="docs-section" id="miner-security-budget">
         <h2>Miner Security Budget</h2>
@@ -314,13 +320,13 @@ Tail issuance every 10 years = 3,285,000 ATHO</code></pre>
           <table>
             <thead><tr><th>Milestone</th><th>Supply</th></tr></thead>
             <tbody>
-              <tr><td>Tail Start</td><td>18,375,000 ATHO</td></tr>
-              <tr><td>Year 20</td><td>21,007,500 ATHO</td></tr>
-              <tr><td>Year 50</td><td>30,862,500 ATHO</td></tr>
+              <tr><td>Tail Start</td><td>125,015,625 ATHO</td></tr>
+              <tr><td>Year 20</td><td>about 122,073,750 ATHO</td></tr>
+              <tr><td>Year 50</td><td>about 127,728,125 ATHO</td></tr>
             </tbody>
           </table>
         </div>
-        <p>Approximate annual issuance is about 1.56% around year 20 and about 1.06% around year 50. The issuance continues, but its percentage impact declines.</p>
+        <p>Tail issuance begins around year 28. After that, issuance continues, but its percentage impact declines as total supply grows.</p>
       </section>
       <section class="docs-section" id="why-no-fixed-max-supply">
         <h2>Why No Fixed Max Supply</h2>
@@ -338,17 +344,17 @@ Tail issuance every 10 years = 3,285,000 ATHO</code></pre>
       "atoms",
       "mATHO",
       "muATHO",
-      "nATHO",
+      "atoms",
       "minimum fee",
       "minimum output",
       "max outputs"
     ],
     topics: [
       { id: "units-and-fees", title: "Units and Fees" },
-      { id: "atoms-and-display-units", title: "Atoms and Display Units", aliases: ["atoms", "display units", "mATHO", "nATHO"] },
+      { id: "atoms-and-display-units", title: "Atoms and Display Units", aliases: ["atoms", "display units", "mATHO", "microATHO"] },
       { id: "fee-model", title: "Fee Model", aliases: ["fees"] },
       { id: "minimum-transaction-fee", title: "Minimum Transaction Fee", aliases: ["minimum fee"] },
-      { id: "minimum-output", title: "Minimum Output", aliases: ["dust", "1,000 atoms"] },
+      { id: "minimum-output", title: "Minimum Output", aliases: ["dust", "100 atoms"] },
       { id: "max-outputs", title: "Max Outputs", aliases: ["64 outputs"] },
       { id: "example-fees", title: "Example Fees" }
     ],
@@ -360,34 +366,33 @@ Tail issuance every 10 years = 3,285,000 ATHO</code></pre>
     content: `
       <section class="docs-section" id="atoms-and-display-units">
         <h2>Atoms and Display Units</h2>
-        <p>Atho is scarce at the coin level and highly divisible at the atom level. One ATHO contains one trillion atoms, which makes low fees and small payments easier to express cleanly.</p>
+        <p>Atho is scarce at the coin level and divisible at the atom level. One ATHO contains 100,000,000 atoms, which keeps fees precise while using Bitcoin-style E-8 accounting.</p>
         <div class="docs-table-wrap">
           <table>
             <thead><tr><th>Unit</th><th>Symbol</th><th>Atom Value</th><th>ATHO Value</th></tr></thead>
             <tbody>
-              <tr><td>Atho</td><td>ATHO</td><td>1,000,000,000,000 atoms</td><td>1 ATHO</td></tr>
-              <tr><td>MilliAtho</td><td>mATHO</td><td>1,000,000,000 atoms</td><td>0.001 ATHO</td></tr>
-              <tr><td>MicroAtho</td><td>&mu;ATHO</td><td>1,000,000 atoms</td><td>0.000001 ATHO</td></tr>
-              <tr><td>NanoAtho</td><td>nATHO</td><td>1,000 atoms</td><td>0.000000001 ATHO</td></tr>
-              <tr><td>Atom</td><td>atom</td><td>1 atom</td><td>0.000000000001 ATHO</td></tr>
+              <tr><td>Atho</td><td>ATHO</td><td>100,000,000 atoms</td><td>1 ATHO</td></tr>
+              <tr><td>MilliAtho</td><td>mATHO</td><td>100,000 atoms</td><td>0.001 ATHO</td></tr>
+              <tr><td>MicroAtho</td><td>&mu;ATHO</td><td>100 atoms</td><td>0.000001 ATHO</td></tr>
+              <tr><td>Atom</td><td>atom</td><td>1 atom</td><td>0.00000001 ATHO</td></tr>
             </tbody>
           </table>
         </div>
       </section>
       <section class="docs-section" id="fee-model">
         <h2>Fee Model</h2>
-        <p>The fee model is simple on purpose: exact atoms, no floats, a hard minimum fee, and a linear relay rate. That keeps wallet behavior predictable across the GUI, CLI, and RPC surfaces.</p>
-        <pre><code>MIN_TX_FEE_ATOMS = 500
+        <p>The fee model is simple on purpose: exact atoms, no floats, a one-atom guard floor, and a linear relay rate. That keeps wallet behavior predictable across the GUI, CLI, and RPC surfaces.</p>
+        <pre><code>MIN_TX_FEE_ATOMS = 1
 MIN_RELAY_FEE_RATE_ATOMS_PER_VBYTE = 1
-required_fee_atoms = max(500, tx_vbytes * 1)</code></pre>
+required_fee_atoms = max(1, tx_vbytes * 1)</code></pre>
       </section>
       <section class="docs-section" id="minimum-transaction-fee">
         <h2>Minimum Transaction Fee</h2>
-        <p>The network minimum fee is 500 atoms. That floor matters most for small transactions where <code>tx_vbytes * 1</code> would otherwise land below the minimum relay threshold.</p>
+        <p>The base fee rate is 1 atom per virtual byte. A 590 vB transaction therefore pays 590 atoms, or 0.00000590 ATHO.</p>
       </section>
       <section class="docs-section" id="minimum-output">
         <h2>Minimum Output</h2>
-        <p>Every normal output must be at least 1,000 atoms, which equals 1 nATHO. Outputs below that threshold are not allowed under normal policy, and dust-like change should be rolled into the fee instead of producing a tiny output.</p>
+        <p>Every normal output must be at least 100 atoms, which equals 1 &mu;ATHO. Outputs below that threshold are not allowed under normal policy, and dust-like change should be rolled into the fee instead of producing a tiny output.</p>
       </section>
       <section class="docs-section" id="max-outputs">
         <h2>Max Outputs</h2>
@@ -399,7 +404,7 @@ required_fee_atoms = max(500, tx_vbytes * 1)</code></pre>
           <table>
             <thead><tr><th>Tx Size</th><th>Required Fee</th></tr></thead>
             <tbody>
-              <tr><td>250 vB</td><td>500 atoms</td></tr>
+              <tr><td>250 vB</td><td>250 atoms</td></tr>
               <tr><td>500 vB</td><td>500 atoms</td></tr>
               <tr><td>650 vB</td><td>650 atoms</td></tr>
               <tr><td>1,000 vB</td><td>1,000 atoms</td></tr>
@@ -636,7 +641,7 @@ Node verifies nonce before expensive checks when possible.</code></pre>
     content: `
       <section class="docs-section" id="mempool-flow">
         <h2>Mempool Flow</h2>
-        <p>The mempool stores unconfirmed transactions that already passed local policy and contextual checks. It rejects low-fee transactions, outputs below 1,000 atoms, missing or bad transaction PoW, bad signatures, duplicate inputs, and local double spends.</p>
+        <p>The mempool stores unconfirmed transactions that already passed local policy and contextual checks. It rejects low-fee transactions, outputs below 100 atoms, missing or bad transaction PoW, bad signatures, duplicate inputs, and local double spends.</p>
       </section>
       <section class="docs-section" id="block-inclusion">
         <h2>Block Inclusion</h2>
@@ -678,7 +683,7 @@ Node verifies nonce before expensive checks when possible.</code></pre>
       </section>
       <section class="docs-section" id="block-rewards">
         <h2>Block Rewards</h2>
-        <p>The initial block reward is 6.25 ATHO, then 3.125 ATHO, then 1.5625 ATHO, then a permanent 0.78125 ATHO tail reward. Valid transaction fees are added on top.</p>
+        <p>The initial block reward is 50 ATHO, then 25, 12.5, 6.25, 3.125, 1.5625, 0.78125, then a permanent 0.390625 ATHO tail reward. Valid transaction fees are added on top.</p>
       </section>
       <section class="docs-section" id="coinbase-transactions">
         <h2>Coinbase Transactions</h2>
@@ -993,28 +998,30 @@ python runtestnet.py
     content: `
       <section class="docs-section" id="constants">
         <h2>Constants</h2>
-        <pre><code>DECIMALS = 12
-ATOMS_PER_ATHO = 1_000_000_000_000
-TARGET_BLOCK_TIME_SECONDS = 75
-INITIAL_BLOCK_REWARD_ATOMS = 6_250_000_000_000
-HALVING_INTERVAL_BLOCKS = 1_680_000
-TAIL_REWARD_ATOMS = 781_250_000_000
-MIN_TX_FEE_ATOMS = 500
+        <pre><code>DECIMALS = 8
+ATOMS_PER_ATHO = 100_000_000
+TARGET_BLOCK_TIME_SECONDS = 100
+INITIAL_BLOCK_REWARD_ATOMS = 5_000_000_000
+HALVING_INTERVAL_BLOCKS = 1_260_000
+TAIL_REWARD_ATOMS = 39_062_500
+NORMAL_TX_VALID_AFTER_CONFIRMATIONS = 1
+COINBASE_MATURITY_BLOCKS = 100
+MIN_TX_FEE_ATOMS = 1
 MIN_RELAY_FEE_RATE_ATOMS_PER_VBYTE = 1
-MIN_OUTPUT_AMOUNT_ATOMS = 1_000
+MIN_OUTPUT_AMOUNT_ATOMS = 100
 MAX_STANDARD_OUTPUTS = 64
 TX_POW_HASH = SHA3-256
 TX_POW_MIN_BITS = 16
 TX_POW_MAX_BITS = 28
 TX_POW_DOMAIN = ATHO_TX_POW_V1
 TX_SIGN_DOMAIN = ATHO_TX_SIGN_V1</code></pre>
-        <pre><code>1 ATHO = 1,000,000,000,000 atoms
-Blocks per year = 31,536,000 / 75 = 420,480
-Annual tail = 0.78125 * 420,480 = 328,500 ATHO/year</code></pre>
+        <pre><code>1 ATHO = 100,000,000 atoms
+Blocks per year = 31,536,000 / 100 = 315,360
+Annual tail = 0.390625 * 315,360 = 123,187.5 ATHO/year</code></pre>
       </section>
       <section class="docs-section" id="transaction-validation">
         <h2>Transaction Validation</h2>
-        <p>Validation rejects unsupported versions, empty outputs, oversized transactions, zero-value outputs, outputs below 1,000 atoms, more than 64 outputs, duplicate inputs, missing or invalid transaction PoW, malformed witnesses, bad signatures, missing UTXOs, wrong ownership, immature spends, and fee mismatches.</p>
+        <p>Validation rejects unsupported versions, empty outputs, oversized transactions, zero-value outputs, outputs below 100 atoms, more than 64 outputs, duplicate inputs, missing or invalid transaction PoW, malformed witnesses, bad signatures, missing UTXOs, wrong ownership, immature coinbase spends, and fee mismatches.</p>
       </section>
       <section class="docs-section" id="block-validation">
         <h2>Block Validation</h2>

@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/css/site.css">
+  <link rel="stylesheet" href="./assets/css/site.css?v=20260507e">
 </head>
 <body data-stats-endpoint="">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -51,6 +51,7 @@
       <div class="nav-panel" id="site-nav-panel" data-nav-panel>
         <nav class="site-nav" aria-label="Primary">
           <a href="./docs.html">Docs</a>
+          <a href="./explore/">Explore</a>
           <a href="#pillars">Strengths</a>
           <a href="#network">Network</a>
           <a href="#testnet">Testnet</a>
@@ -70,120 +71,154 @@
       <div class="container hero-grid">
         <div class="hero-copy" data-reveal>
           <span class="section-kicker">Payment Network</span>
-          <div class="hero-signal-row" id="hero-signals"></div>
-          <h1 class="hero-headline-solid">Atho</h1>
+          <h1>Atho</h1>
           <p class="hero-lead">
-            Atho is a post-quantum-focused proof-of-work payment network built for simple, secure, low-fee digital settlement.
+            A post-quantum proof-of-work payment network for simple, secure, low-fee settlement.
           </p>
-
           <div class="button-row">
-            <a class="button button-primary" href="./docs.html">Read the Docs</a>
-            <a class="button button-secondary" href="./join.html">Join Testnet</a>
-            <a class="button button-tertiary" href="./assets/files/atho-whitepaper.pdf">Download Whitepaper</a>
+            <a class="button button-primary" href="./explore/">View Live Testnet Explorer</a>
+            <a class="button button-secondary" href="./docs.html">Read the Docs</a>
+            <a class="button button-tertiary" href="./join.html">Join Testnet</a>
           </div>
-
+          <div class="hero-signal-row" id="hero-signals"></div>
           <p class="hero-note">
-            UTXO payments, Falcon transaction signatures, low atom-based fees, SHA3-256 wallet transaction PoW, and permanent proof-of-work tail rewards.
+            Open docs for wallet, mining, node, and setup details.
           </p>
         </div>
 
-        <div class="hero-stage" data-reveal data-hero-engine tabindex="0" aria-label="Atho protocol engine visual">
-          <div class="hero-stage-glow"></div>
-          <div class="hero-stage-title">
-            <span>Protocol Engine</span>
-            <p>Click to charge the engine as wallets, miners, and nodes deepen network security.</p>
-          </div>
+        <div data-reveal>
+          <div class="hero-stage" data-hero-engine tabindex="0" aria-label="Atho protocol engine visual">
+            <div class="hero-stage-glow"></div>
+            <div class="hero-stage-title">
+              <span>Protocol Engine</span>
+              <p>Tap the engine. It settles back when idle.</p>
+            </div>
 
-          <div class="hero-power-meter" aria-hidden="true">
-            <span class="hero-power-label">Security load</span>
-            <div class="hero-power-shell">
-              <div class="hero-power-track">
-                <span class="hero-power-fill"></span>
-                <span class="hero-power-step hero-power-step-a"></span>
-                <span class="hero-power-step hero-power-step-b"></span>
-                <span class="hero-power-step hero-power-step-c"></span>
-                <span class="hero-power-step hero-power-step-d"></span>
+            <div class="hero-power-meter" aria-hidden="true">
+              <span class="hero-power-label">Network load</span>
+              <div class="hero-power-shell">
+                <div class="hero-power-track">
+                  <span class="hero-power-fill"></span>
+                  <span class="hero-power-step hero-power-step-a"></span>
+                  <span class="hero-power-step hero-power-step-b"></span>
+                  <span class="hero-power-step hero-power-step-c"></span>
+                  <span class="hero-power-step hero-power-step-d"></span>
+                </div>
+                <strong class="hero-power-value" data-hero-power-value>8%</strong>
               </div>
-              <strong class="hero-power-value" data-hero-power-value>36%</strong>
             </div>
-          </div>
 
-          <div class="hero-engine-canvas">
-            <div class="hero-engine-asset-shell">
-              <span class="hero-engine-orbit hero-engine-orbit-a" aria-hidden="true"></span>
-              <span class="hero-engine-orbit hero-engine-orbit-b" aria-hidden="true"></span>
-              <span class="hero-engine-orbit hero-engine-orbit-c" aria-hidden="true"></span>
-              <div class="hero-engine-asset-glow" aria-hidden="true"></div>
-              <img class="hero-engine-asset" src="./assets/media/cpu.png" alt="Atho protocol engine CPU">
+            <div class="hero-engine-canvas">
+              <div class="hero-engine-asset-shell">
+                <span class="hero-engine-orbit hero-engine-orbit-a" aria-hidden="true"></span>
+                <span class="hero-engine-orbit hero-engine-orbit-b" aria-hidden="true"></span>
+                <span class="hero-engine-orbit hero-engine-orbit-c" aria-hidden="true"></span>
+                <div class="hero-engine-asset-glow" aria-hidden="true"></div>
+                <img class="hero-engine-asset" src="./assets/media/cpu.png" alt="Atho protocol engine CPU">
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="feature-strip" id="pillars">
+    <section class="section" id="live-network">
+      <div class="section-head" data-reveal>
+        <span class="section-kicker">Live Network</span>
+        <h2>Current Testnet Feed</h2>
+        <p>
+          Live testnet stats, refreshed from the selected Atho API.
+        </p>
+      </div>
+
       <div class="container">
-        <div class="numbered-grid" id="protocol-highlights"></div>
-      </div>
-    </section>
+        <div class="live-network-board" data-home-live-shell data-reveal>
+          <div class="live-network-status-row">
+            <div class="live-network-status-copy">
+              <span class="live-network-badge">Testnet Feed</span>
+              <p class="live-network-status" data-home-live-status>
+                Loading live testnet stats...
+              </p>
+            </div>
+            <a class="live-network-link" href="./explore/">Open Explorer</a>
+          </div>
 
-    <section class="section section-panel" id="network">
-      <div class="container section-head" data-reveal>
-        <span class="section-kicker">Network Summary</span>
-        <h2>Simple Rules, Low Fees, and Sustainable Mining.</h2>
-        <p>
-          Atho uses 75 second proof-of-work blocks, 12-decimal atom precision, and a permanent tail reward instead of a fixed max supply cap.
-        </p>
-      </div>
-      <div class="container stats-grid" id="network-stats"></div>
-    </section>
-
-    <section class="section" id="technology">
-      <div class="container section-head" data-reveal>
-        <span class="section-kicker">Core Strengths</span>
-        <h2>Built for Long-Term Public Settlement.</h2>
-        <p>
-          The homepage keeps the story short. The details live in the documentation.
-        </p>
-      </div>
-      <div class="container feature-grid" id="core-features"></div>
-    </section>
-
-    <section class="section section-panel" id="economics">
-      <div class="container section-head" data-reveal>
-        <span class="section-kicker">Policy</span>
-        <h2>Current Atho Policy at a Glance.</h2>
-        <p>
-          For full tables and explanations, read the monetary policy, units, fees, and transaction PoW docs.
-        </p>
-      </div>
-      <div class="container economics-grid" id="economics-grid"></div>
-    </section>
-
-    <section class="section" id="testnet">
-      <div class="container cta-shell" data-reveal>
-        <div class="cta-copy">
-          <span class="section-kicker">Testnet</span>
-          <h2>Test Safely Before Mainnet.</h2>
-          <p>
-            The Atho client does not include an automated testnet faucet. Testnet ATHO is distributed manually by the Atho founders or development team.
-          </p>
-        </div>
-        <div class="button-row cta-actions">
-          <a class="button button-primary" href="./docs.html#testnet">Read Testnet Docs</a>
-          <a class="button button-secondary" href="./join.html">Join Testnet</a>
-          <a class="button button-tertiary" href="./contact.html">Contact Atho</a>
+          <div class="live-network-stats" data-home-live-stats></div>
+          <div class="live-network-latest" data-home-live-latest></div>
+          <p class="live-network-footnote" data-home-live-footnote></p>
         </div>
       </div>
     </section>
 
-    <section class="section section-panel" id="community">
+    <section class="section section-panel" id="pillars">
+      <div class="section-head" data-reveal>
+        <span class="section-kicker">Strengths</span>
+        <h2>Core Network Design</h2>
+        <p>
+          Three things matter most at a glance. The fuller explanation stays in the docs.
+        </p>
+      </div>
+
+      <div class="container">
+        <div class="simple-board" data-reveal>
+          <div class="simple-board-head">
+            <div class="simple-board-copy">
+              <span class="live-network-badge">Core Summary</span>
+              <p class="live-network-status">Open the docs when you want the deeper network model.</p>
+            </div>
+            <a class="live-network-link" href="./docs.html#core-network-summary">Open Docs</a>
+          </div>
+          <div class="feature-grid compact-feature-grid" id="core-features"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="network">
+      <div class="section-head" data-reveal>
+        <span class="section-kicker">Network</span>
+        <h2>Choose the Right Network</h2>
+        <p>
+          Mainnet, testnet, and regnet stay separate by design. Pick the mode that matches the work you need to do.
+        </p>
+      </div>
+
+      <div class="container">
+        <div class="simple-board" data-reveal>
+          <div class="simple-board-head">
+            <div class="simple-board-copy">
+              <span class="live-network-badge">Network Modes</span>
+              <p class="live-network-status">Ports, replay isolation, storage behavior, and testing flow are documented in one place.</p>
+            </div>
+            <a class="live-network-link" href="./docs.html#network-modes">Read Network Docs</a>
+          </div>
+          <div class="network-card-grid compact-network-grid" id="network-constants"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-panel" id="testnet">
+      <div class="section-head" data-reveal>
+        <span class="section-kicker">Start Here</span>
+        <h2>Read, Explore, or Join Testnet</h2>
+        <p>
+          Keep the homepage simple. Open the page that matches what you want to do next.
+        </p>
+      </div>
+
+      <div class="container">
+        <div class="simple-board" data-reveal>
+          <div class="simple-link-grid" id="access-links"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
       <div class="container cta-shell" data-reveal>
         <div class="cta-copy">
-          <span class="section-kicker">Learn More</span>
-          <h2>Use the Docs as the Technical Entry Point.</h2>
+          <span class="section-kicker">Next Step</span>
+          <h2>Go straight to live chain data, then open docs for setup and reference.</h2>
           <p>
-            Wallets, nodes, mining, mempool validation, storage, security, testnet behavior, and developer constants are all documented in HTML.
+            Use the explorer for activity, then use docs for wallets, mining, nodes, and testnet setup.
           </p>
         </div>
         <div class="button-row cta-actions" id="community-actions"></div>
@@ -206,6 +241,12 @@
     </div>
   </footer>
 
-  <script type="module" src="./assets/js/site.js"></script>
+  <script>
+    window.ATHO_EXPLORER_CONFIG = {
+      testnetApiBaseUrl: "https://testnet-node1.atho.io/api/v1"
+    };
+  </script>
+  <script type="module" src="./assets/js/site.js?v=20260507e"></script>
+  <script type="module" src="./assets/js/live-network.js?v=20260507e"></script>
 </body>
 </html>

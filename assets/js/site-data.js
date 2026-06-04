@@ -15,13 +15,13 @@ export const siteContent = {
     {
       number: "02",
       title: "Low Atom-Based Fees",
-      copy: "Normal transactions use exact atom accounting, a 500-atom minimum fee, and 1 atom per vbyte fee rate.",
+      copy: "Normal transactions use exact atom accounting, a 1 atom/vbyte fee rate, and a one-atom guard floor.",
       hover: "Atho combines low fees with wallet transaction PoW so spam is not free while users are not pushed into high fee pressure."
     },
     {
       number: "03",
       title: "Long-Term Miner Security",
-      copy: "Permanent 0.78125 ATHO tail rewards keep a predictable proof-of-work security budget.",
+      copy: "Permanent 0.390625 ATHO tail rewards keep a predictable proof-of-work security budget.",
       hover: "Atho has no fixed max supply cap. Tail emission naturally declines as a percentage of supply while keeping miners incentivized."
     }
   ],
@@ -84,23 +84,23 @@ export const siteContent = {
     {
       key: "blockTime",
       label: "Block Time",
-      value: "75 SEC",
+      value: "100 SEC",
       detail: "Target spacing.",
-      hover: "Atho targets 75 second proof-of-work blocks.",
+      hover: "Atho targets 100 second proof-of-work blocks.",
       badge: "Published"
     },
     {
       key: "baseReward",
       label: "Starting Reward",
-      value: "6.25 ATHO",
+      value: "50 ATHO",
       detail: "Initial subsidy.",
-      hover: "The reward halves every 1,680,000 blocks until the permanent tail reward.",
+      hover: "The reward halves every 1,260,000 blocks until the permanent tail reward.",
       badge: "Published"
     },
     {
       key: "tailReward",
       label: "Tail Reward",
-      value: "0.78125 ATHO",
+      value: "0.390625 ATHO",
       detail: "Permanent per block.",
       hover: "Tail emission provides long-term miner incentives while keeping fees low.",
       badge: "Published"
@@ -108,7 +108,7 @@ export const siteContent = {
     {
       key: "atoms",
       label: "Atomic Precision",
-      value: "1T atoms",
+      value: "100M atoms",
       detail: "1 ATHO.",
       hover: "Atho is scarce at the coin level and highly divisible at the atom level.",
       badge: "Published"
@@ -116,17 +116,17 @@ export const siteContent = {
     {
       key: "minFee",
       label: "Minimum Fee",
-      value: "500 atoms",
-      detail: "Plus 1 atom/vbyte.",
-      hover: "Required fee is max(500 atoms, tx_vbytes * 1 atom).",
+      value: "1 atom/vB",
+      detail: "Base fee rate.",
+      hover: "Required fee is max(1 atom, tx_vbytes * 1 atom).",
       badge: "Published"
     },
     {
       key: "minOutput",
       label: "Minimum Output",
-      value: "1,000 atoms",
-      detail: "1 nATHO.",
-      hover: "Normal outputs below 1,000 atoms are rejected by standard policy.",
+      value: "100 atoms",
+      detail: "Dust floor.",
+      hover: "Normal outputs below 100 atoms are rejected by standard policy.",
       badge: "Published"
     }
   ],
@@ -260,24 +260,24 @@ export const siteContent = {
   economics: [
     {
       label: "Atomic Precision",
-      value: "1 ATHO = 1T atoms",
+      value: "1 ATHO = 100M atoms",
       badge: "Published",
-      note: "12 decimal places.",
-      hover: "Atho supports small payments and low fees with one trillion atoms per ATHO."
+      note: "8 decimal places.",
+      hover: "Atho supports precise low fees with 100,000,000 atoms per ATHO."
     },
     {
       label: "Starting Reward",
-      value: "6.25 ATHO",
+      value: "50 ATHO",
       badge: "Published",
       note: "First reward era.",
-      hover: "The first era issues 10,500,000 ATHO across 1,680,000 blocks."
+      hover: "The first era issues 63,000,000 ATHO across 1,260,000 blocks."
     },
     {
       label: "Tail Reward",
-      value: "0.78125 ATHO",
+      value: "0.390625 ATHO",
       badge: "Published",
       note: "Permanent miner budget.",
-      hover: "Tail emission starts around block 5,040,000 and continues forever."
+      hover: "Tail emission starts at block 8,820,000 and continues forever."
     },
     {
       label: "Max Supply Cap",
@@ -288,10 +288,10 @@ export const siteContent = {
     },
     {
       label: "Required Fee",
-      value: "max(500, vB)",
+      value: "1 atom/vB",
       badge: "Published",
       note: "Atoms, no floats.",
-      hover: "A 650 vB transaction requires 650 atoms; a 250 vB transaction requires 500 atoms."
+      hover: "A 650 vB transaction requires 650 atoms; a 250 vB transaction requires 250 atoms."
     },
     {
       label: "Spam Deterrent",
