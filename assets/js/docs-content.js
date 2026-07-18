@@ -6,14 +6,23 @@ export const docsSectionOrder = [
   "atho-vs-bitcoin",
   "monetary-policy",
   "units-and-fees",
+  "setup",
   "wallets",
+  "headless-wallet-and-cli",
+  "message-signing",
   "transactions",
   "wallet-transaction-pow",
   "mempool",
   "mining",
+  "mining-rpc-and-operator-endpoints",
   "nodes",
+  "configuration",
   "peer-network",
   "storage-and-sync",
+  "http-api",
+  "command-catalog",
+  "production-deployment",
+  "release-verification",
   "mainnet-vs-testnet",
   "security",
   "replay-protection",
@@ -25,15 +34,19 @@ export const docsSectionOrder = [
 export const docsNavGroups = [
   {
     title: "Start Here",
-    ids: ["overview", "what-is-atho", "design-philosophy", "falcon-512-and-quantum-security", "atho-vs-bitcoin", "monetary-policy", "units-and-fees"]
+    ids: ["overview", "what-is-atho", "design-philosophy", "falcon-512-and-quantum-security", "atho-vs-bitcoin", "monetary-policy", "units-and-fees", "setup"]
   },
   {
     title: "Payments and Wallets",
-    ids: ["wallets", "transactions", "wallet-transaction-pow", "mempool"]
+    ids: ["wallets", "headless-wallet-and-cli", "message-signing", "transactions", "wallet-transaction-pow", "mempool"]
   },
   {
     title: "Mining and Nodes",
-    ids: ["mining", "nodes", "peer-network", "storage-and-sync"]
+    ids: ["mining", "mining-rpc-and-operator-endpoints", "nodes", "configuration", "peer-network", "storage-and-sync"]
+  },
+  {
+    title: "APIs and Operations",
+    ids: ["http-api", "command-catalog", "production-deployment", "release-verification"]
   },
   {
     title: "Security",
@@ -66,7 +79,9 @@ export const docsSections = {
       { label: "Design Philosophy", href: "#design-philosophy" },
       { label: "Falcon-512 and Quantum Security", href: "#falcon-512-and-quantum-security" },
       { label: "Atho vs Bitcoin", href: "#atho-vs-bitcoin" },
-      { label: "Units and Fees", href: "#units-and-fees" }
+      { label: "Units and Fees", href: "#units-and-fees" },
+      { label: "Setup", href: "#setup" },
+      { label: "HTTP API", href: "#http-api" }
     ],
     content: `
       <section class="docs-section" id="overview-start">
@@ -109,7 +124,8 @@ export const docsSections = {
       { label: "Design Philosophy", href: "#design-philosophy" },
       { label: "Falcon-512 and Quantum Security", href: "#falcon-512-and-quantum-security" },
       { label: "Monetary Policy", href: "#monetary-policy" },
-      { label: "Wallets", href: "#wallets" }
+      { label: "Wallets", href: "#wallets" },
+      { label: "Setup", href: "#setup" }
     ],
     content: `
       <section class="docs-section" id="what-is-atho">
@@ -231,7 +247,7 @@ export const docsSections = {
       <section class="docs-section" id="falcon-vs-elliptic-curve">
         <h2>Falcon-512 vs Elliptic Curve Signatures</h2>
         <figure class="docs-figure docs-figure-wide">
-          <img src="./assets/media/docs/falcon-512-vs-ecc.svg?v=20260718a" alt="Comparison diagram showing Falcon-512 next to classical elliptic curve signatures, including size tradeoffs and threat-model differences.">
+          <img src="./assets/media/docs/falcon-512-vs-ecc.svg?v=20260718b" alt="Comparison diagram showing Falcon-512 next to classical elliptic curve signatures, including size tradeoffs and threat-model differences.">
           <figcaption>Falcon-512 is materially larger than a compact classical elliptic-curve signature stack, but Atho accepts that cost for a stronger long-range signature posture.</figcaption>
         </figure>
         <div class="docs-table-wrap">
@@ -479,6 +495,124 @@ required_fee_atoms = max(600, serialized_size_bytes * 1)</code></pre>
       </section>
     `
   },
+  setup: {
+    title: "Setup",
+    eyebrow: "Start Here",
+    summary: "Install the required tools, build Atho, launch the desktop client or a headless node, and verify the local API and CLI are responding.",
+    keywords: [
+      "setup",
+      "install",
+      "requirements",
+      "clone",
+      "build",
+      "launcher",
+      "headless setup",
+      "verify api",
+      "first run"
+    ],
+    topics: [
+      { id: "setup", title: "Setup" },
+      { id: "setup-requirements", title: "Requirements", aliases: ["dependencies", "install dependencies"] },
+      { id: "setup-clone-and-build", title: "Clone and Build", aliases: ["cargo build"] },
+      { id: "setup-launchers", title: "Launchers", aliases: ["runmainnet", "runtestnet", "runregnet"] },
+      { id: "setup-direct-node", title: "Run a Node Directly", aliases: ["athod", "headless node"] },
+      { id: "setup-verify", title: "Verify It Works", aliases: ["health", "status", "api smoke"] },
+      { id: "setup-headless-path", title: "Headless Wallet and Miner Path", aliases: ["headless miner", "headless wallet"] }
+    ],
+    related: [
+      { label: "Command Catalog", href: "#command-catalog" },
+      { label: "Configuration", href: "#configuration" },
+      { label: "HTTP API", href: "#http-api" },
+      { label: "Headless Wallet and CLI", href: "#headless-wallet-and-cli" }
+    ],
+    content: `
+      <section class="docs-section" id="setup-requirements">
+        <h2>Requirements</h2>
+        <p>Use testnet or regnet for evaluation. Mainnet mode exists in the software, but the current deployment guide is preparation material, not a final real-value launch runbook.</p>
+        <ul>
+          <li>Rust and Cargo from the stable toolchain.</li>
+          <li>Git and <code>curl</code> for checkout and Rust installation.</li>
+          <li>Python 3 for <code>run/runmainnet.py</code>, <code>run/runtestnet.py</code>, and <code>run/runregnet.py</code>.</li>
+          <li>A C/C++ toolchain for native builds.</li>
+          <li>Optional OpenCL headers/runtime for GPU mining builds.</li>
+        </ul>
+        <pre><code>sudo apt-get update
+sudo apt-get install -y build-essential ca-certificates curl git pkg-config python3</code></pre>
+        <pre><code>git --version
+curl --version
+rustc --version
+cargo --version
+python3 --version
+cc --version</code></pre>
+        <p>If Rust is missing, install it with <code>rustup</code> and reload the shell environment.</p>
+        <pre><code>curl https://sh.rustup.rs -sSf | sh
+source "$HOME/.cargo/env"</code></pre>
+      </section>
+      <section class="docs-section" id="setup-clone-and-build">
+        <h2>Clone and Build</h2>
+        <pre><code>git clone https://github.com/Atho-Labs/Atho-Alpha.git
+cd Atho-Alpha
+cargo build</code></pre>
+        <p>The quick build creates debug binaries under <code>target/debug/</code>. For operator use, build release binaries.</p>
+        <pre><code>cargo build --release -p atho-node -p atho-wallet</code></pre>
+        <p>For GPU-capable node/miner builds, include the native GPU feature and the desktop client when needed.</p>
+        <pre><code>cargo build --release -p atho-node -p atho-wallet -p atho-qt --features gpu-native</code></pre>
+      </section>
+      <section class="docs-section" id="setup-launchers">
+        <h2>Launchers</h2>
+        <p>The Python launchers build missing or stale release binaries, prepare runtime directories, and open <code>atho-qt</code> with a managed local node.</p>
+        <pre><code>python3 run/runmainnet.py
+python3 run/runtestnet.py
+python3 run/runregnet.py</code></pre>
+        <p>Useful launcher controls:</p>
+        <pre><code>python3 run/runtestnet.py --dry-run
+python3 run/runtestnet.py --help
+python3 run/runtestnet.py --rebuild
+python3 run/runtestnet.py --data-dir "$HOME/.local/share/Atho-testnet"</code></pre>
+        <p>Use <code>--no-build</code> to require existing current release binaries. Use <code>--network-overrides-local</code> only when intentionally discarding local chain databases before a fresh sync; wallet files are preserved.</p>
+      </section>
+      <section class="docs-section" id="setup-direct-node">
+        <h2>Run a Node Directly</h2>
+        <p><code>athod</code> is the standalone node binary. It can run without opening the desktop client.</p>
+        <pre><code>cargo run -p atho-node --bin athod -- --network testnet
+cargo run -p atho-node --bin athod -- --network regnet --data-dir /tmp/atho-regnet</code></pre>
+        <p>For a strictly headless node runtime with no embedded wallet assumptions, disable the wallet runtime.</p>
+        <pre><code>ATHO_WALLET_ENABLED=0 cargo run -p atho-node --bin athod -- --network testnet</code></pre>
+      </section>
+      <section class="docs-section" id="setup-verify">
+        <h2>Verify It Works</h2>
+        <pre><code>cargo run -p atho-node --bin athod -- status --network testnet
+curl http://127.0.0.1:8080/api/v1/health
+cargo run -p atho-node --bin atho-cli -- --network testnet getstatus
+cargo run -p atho-node --bin atho-cli -- --network testnet getinflationinfo
+curl http://127.0.0.1:8080/api/v1/inflation</code></pre>
+        <p>Mining/operator HTTP routes are disabled unless explicitly enabled.</p>
+        <pre><code>ATHO_API_MINING_ENABLED=1 cargo run -p atho-node --bin athod -- --network testnet
+curl http://127.0.0.1:8080/api/v1/mining/info
+curl http://127.0.0.1:8080/api/v1/metrics</code></pre>
+      </section>
+      <section class="docs-section" id="setup-headless-path">
+        <h2>Headless Wallet and Miner Path</h2>
+        <p>Create an encrypted wallet datafile, issue a receive address, run a walletless node, and mine from a separate terminal.</p>
+        <pre><code>read -rsp 'Wallet password: ' ATHO_WALLET_PASSWORD
+printf '\n'
+export ATHO_WALLET_PASSWORD
+export ATHO_WALLET_FILE="$HOME/atho-testnet-wallet.datafile"
+cargo run -p atho-wallet --bin atho-wallet -- \
+  create testnet --out "$ATHO_WALLET_FILE" \
+  --wallet-password-env ATHO_WALLET_PASSWORD
+cargo run -p atho-wallet --bin atho-wallet -- \
+  getnewaddress --wallet "$ATHO_WALLET_FILE" \
+  --wallet-password-env ATHO_WALLET_PASSWORD</code></pre>
+        <pre><code>ATHO_WALLET_ENABLED=0 cargo run -p atho-node --bin athod -- --network testnet</code></pre>
+        <pre><code>REWARD_ADDRESS='paste-the-issued-testnet-address-here'
+cargo run -p atho-node --bin atho-mine -- \
+  --network testnet --reward-address "$REWARD_ADDRESS" --loop</code></pre>
+        <p>When finished with wallet commands, clear the password material from the terminal.</p>
+        <pre><code>unset ATHO_WALLET_PASSWORD</code></pre>
+      </section>
+    `
+  },
   wallets: {
     title: "Wallets",
     eyebrow: "Payments and Wallets",
@@ -507,6 +641,8 @@ required_fee_atoms = max(600, serialized_size_bytes * 1)</code></pre>
     related: [
       { label: "Transactions", href: "#transactions" },
       { label: "Wallet Transaction PoW", href: "#wallet-transaction-pow" },
+      { label: "Headless Wallet and CLI", href: "#headless-wallet-and-cli" },
+      { label: "Message Signing", href: "#message-signing" },
       { label: "Security", href: "#security" }
     ],
     content: `
@@ -567,6 +703,209 @@ required_fee_atoms = max(600, serialized_size_bytes * 1)</code></pre>
       <section class="docs-section" id="available-balance">
         <h2>Available Balance</h2>
         <p>Available balance is wallet-specific. It sums spendable current-wallet UTXOs after policy filtering. The value should refresh after rescans, confirmations, wallet switching, and coinbase maturity changes.</p>
+      </section>
+    `
+  },
+  "headless-wallet-and-cli": {
+    title: "Headless Wallet and CLI",
+    eyebrow: "Payments and Wallets",
+    summary: "Atho includes standalone binaries for node, RPC, mining, wallet, and address workflows, so operators can run without the desktop client.",
+    keywords: [
+      "headless",
+      "cli",
+      "binaries",
+      "atho-wallet",
+      "atho-address",
+      "atho-cli",
+      "athod",
+      "atho-mine",
+      "wallet password",
+      "sendmany",
+      "listunspent"
+    ],
+    topics: [
+      { id: "headless-wallet-and-cli", title: "Headless Wallet and CLI" },
+      { id: "headless-binaries", title: "Headless Binaries", aliases: ["binaries", "release binaries"] },
+      { id: "headless-wallet-setup", title: "Wallet Setup", aliases: ["create wallet", "restore wallet"] },
+      { id: "headless-wallet-queries", title: "Wallet Queries", aliases: ["getwalletinfo", "getbalance", "listunspent"] },
+      { id: "headless-wallet-sends", title: "Headless Sends", aliases: ["send", "sendmany", "dry run"] },
+      { id: "address-helper", title: "Address Helper", aliases: ["atho-address"] },
+      { id: "cli-rpc-discovery", title: "CLI RPC Discovery", aliases: ["atho-cli help", "rpc commands"] }
+    ],
+    related: [
+      { label: "Setup", href: "#setup" },
+      { label: "Command Catalog", href: "#command-catalog" },
+      { label: "HTTP API", href: "#http-api" },
+      { label: "Message Signing", href: "#message-signing" }
+    ],
+    content: `
+      <section class="docs-section" id="headless-binaries">
+        <h2>Headless Binaries</h2>
+        <div class="docs-table-wrap">
+          <table>
+            <thead><tr><th>Binary</th><th>Role</th><th>Common Use</th></tr></thead>
+            <tbody>
+              <tr><td><code>athod</code></td><td>Standalone node</td><td>Sync, validate, serve local RPC/API, provide templates</td></tr>
+              <tr><td><code>atho-cli</code></td><td>Command-style RPC client</td><td>Status, fees, mining info, templates, submit block/header</td></tr>
+              <tr><td><code>atho-mine</code></td><td>Standalone miner</td><td>CPU/GPU mining against a running local node</td></tr>
+              <tr><td><code>atho-wallet</code></td><td>Standalone wallet</td><td>Create, restore, inspect, sign, query, send</td></tr>
+              <tr><td><code>atho-address</code></td><td>Address helper</td><td>Inspect addresses and derive addresses from a mnemonic</td></tr>
+              <tr><td><code>atho-qt</code></td><td>Desktop client</td><td>Native wallet UI with managed local-node mode</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <pre><code>cargo build --release -p atho-node -p atho-wallet
+cargo build --release -p atho-node -p atho-wallet -p atho-qt --features gpu-native</code></pre>
+      </section>
+      <section class="docs-section" id="headless-wallet-setup">
+        <h2>Wallet Setup</h2>
+        <p>Run wallet examples from the repository root. Operational systems should supply <code>ATHO_WALLET_PASSWORD</code> from a secret manager rather than an interactive shell.</p>
+        <pre><code>export ATHO_NETWORK=testnet
+export ATHO_WALLET_FILE="$HOME/atho-testnet-wallet.datafile"
+read -rsp 'Wallet password: ' ATHO_WALLET_PASSWORD
+printf '\n'
+export ATHO_WALLET_PASSWORD</code></pre>
+        <pre><code>cargo run -p atho-wallet --bin atho-wallet -- \
+  create "$ATHO_NETWORK" --out "$ATHO_WALLET_FILE" \
+  --wallet-password-env ATHO_WALLET_PASSWORD</code></pre>
+        <pre><code>read -rsp 'Mnemonic phrase: ' ATHO_MNEMONIC
+printf '\n'
+cargo run -p atho-wallet --bin atho-wallet -- \
+  restore "$ATHO_NETWORK" --out "$ATHO_WALLET_FILE" \
+  --phrase "$ATHO_MNEMONIC" \
+  --wallet-password-env ATHO_WALLET_PASSWORD
+unset ATHO_MNEMONIC</code></pre>
+      </section>
+      <section class="docs-section" id="headless-wallet-queries">
+        <h2>Wallet Queries</h2>
+        <pre><code>cargo run -p atho-wallet --bin atho-wallet -- \
+  getwalletinfo --wallet "$ATHO_WALLET_FILE" \
+  --wallet-password-env ATHO_WALLET_PASSWORD
+cargo run -p atho-wallet --bin atho-wallet -- \
+  getnewaddress --wallet "$ATHO_WALLET_FILE" \
+  --wallet-password-env ATHO_WALLET_PASSWORD
+cargo run -p atho-wallet --bin atho-wallet -- \
+  getrawchangeaddress --wallet "$ATHO_WALLET_FILE" \
+  --wallet-password-env ATHO_WALLET_PASSWORD</code></pre>
+        <pre><code>cargo run -p atho-wallet --bin atho-wallet -- \
+  listaddresses --wallet "$ATHO_WALLET_FILE" \
+  --generated --kind receive --count 10 \
+  --wallet-password-env ATHO_WALLET_PASSWORD
+cargo run -p atho-wallet --bin atho-wallet -- \
+  getbalance --network "$ATHO_NETWORK" --cookie-auth \
+  --wallet "$ATHO_WALLET_FILE" \
+  --wallet-password-env ATHO_WALLET_PASSWORD
+cargo run -p atho-wallet --bin atho-wallet -- \
+  listunspent --network "$ATHO_NETWORK" --cookie-auth \
+  --wallet "$ATHO_WALLET_FILE" --discovery-limit 0 \
+  --wallet-password-env ATHO_WALLET_PASSWORD</code></pre>
+      </section>
+      <section class="docs-section" id="headless-wallet-sends">
+        <h2>Headless Sends</h2>
+        <p>The wallet pays the required consensus fee floor of <code>max(600 atoms, 1 atom per serialized byte)</code>. Add <code>--tip-rate N</code> only when you want extra priority above that floor.</p>
+        <pre><code>RECIPIENT_ADDRESS='paste-a-testnet-address-here'
+cargo run -p atho-wallet --bin atho-wallet -- \
+  send --network "$ATHO_NETWORK" --cookie-auth \
+  --wallet "$ATHO_WALLET_FILE" \
+  --address "$RECIPIENT_ADDRESS" --amount 1.25000000 \
+  --wallet-password-env ATHO_WALLET_PASSWORD</code></pre>
+        <pre><code>cargo run -p atho-wallet --bin atho-wallet -- \
+  send --network "$ATHO_NETWORK" --cookie-auth \
+  --wallet "$ATHO_WALLET_FILE" \
+  --address "$RECIPIENT_ADDRESS" --amount 1.25000000 --dry-run \
+  --wallet-password-env ATHO_WALLET_PASSWORD</code></pre>
+        <pre><code>RECIPIENT_A='paste-the-first-testnet-address-here'
+RECIPIENT_B='paste-the-second-testnet-address-here'
+cargo run -p atho-wallet --bin atho-wallet -- \
+  sendmany --network "$ATHO_NETWORK" --cookie-auth \
+  --wallet "$ATHO_WALLET_FILE" \
+  --recipient "$RECIPIENT_A=1.25000000" \
+  --recipient "$RECIPIENT_B=0.50000000" \
+  --wallet-password-env ATHO_WALLET_PASSWORD</code></pre>
+      </section>
+      <section class="docs-section" id="address-helper">
+        <h2>Address Helper</h2>
+        <pre><code>ADDRESS='paste-an-atho-address-here'
+cargo run -p atho-wallet --bin atho-address -- inspect "$ADDRESS"</code></pre>
+        <pre><code>read -rsp 'Mnemonic phrase: ' ATHO_MNEMONIC
+printf '\n'
+cargo run -p atho-wallet --bin atho-address -- \
+  generate prunetest --phrase "$ATHO_MNEMONIC" --count 3
+unset ATHO_MNEMONIC</code></pre>
+      </section>
+      <section class="docs-section" id="cli-rpc-discovery">
+        <h2>CLI RPC Discovery</h2>
+        <p><code>atho-cli</code> discovers and runs the command-style RPC surface. Use cookie auth for local nodes when available, and avoid putting RPC passwords directly in shell history.</p>
+        <pre><code>cargo run -p atho-node --bin atho-cli -- --help
+cargo run -p atho-node --bin atho-cli -- help
+cargo run -p atho-node --bin atho-cli -- help getblocktemplate
+cargo run -p atho-node --bin atho-cli -- help mining
+cargo run -p atho-node --bin atho-cli -- --network testnet --cookie-auth getstatus</code></pre>
+        <pre><code>unset ATHO_WALLET_PASSWORD</code></pre>
+      </section>
+    `
+  },
+  "message-signing": {
+    title: "Message Signing",
+    eyebrow: "Payments and Wallets",
+    summary: "Atho wallets can sign and verify local address ownership proofs without creating a payment or exposing keys through HTTP.",
+    keywords: [
+      "message signing",
+      "signmessage",
+      "verifymessage",
+      "operator proof",
+      "address proof",
+      "ATHO_MESSAGE_SIGN_V1"
+    ],
+    topics: [
+      { id: "message-signing", title: "Message Signing" },
+      { id: "message-sign", title: "Sign a Message", aliases: ["signmessage"] },
+      { id: "message-proof-format", title: "Proof Format", aliases: ["signed message block"] },
+      { id: "message-verify", title: "Verify a Message", aliases: ["verifymessage"] },
+      { id: "message-signing-boundary", title: "Security Boundary" }
+    ],
+    related: [
+      { label: "Wallets", href: "#wallets" },
+      { label: "Headless Wallet and CLI", href: "#headless-wallet-and-cli" },
+      { label: "HTTP API", href: "#http-api" },
+      { label: "Security", href: "#security" }
+    ],
+    content: `
+      <section class="docs-section" id="message-sign">
+        <h2>Sign a Message</h2>
+        <p>The desktop client exposes message signing in Settings. The same workflow is available headlessly through <code>atho-wallet signmessage</code>.</p>
+        <pre><code>export ATHO_WALLET_FILE="$HOME/atho-wallet.datafile"
+export SIGNING_ADDRESS='paste-a-wallet-owned-address-here'
+read -rsp 'Wallet password: ' ATHO_WALLET_PASSWORD
+printf '\n'
+export ATHO_WALLET_PASSWORD
+cargo run -p atho-wallet --bin atho-wallet -- \
+  signmessage --wallet "$ATHO_WALLET_FILE" \
+  --address "$SIGNING_ADDRESS" --message "Atho operator proof" \
+  --out "$HOME/atho-proof.txt" \
+  --wallet-password-env ATHO_WALLET_PASSWORD
+unset ATHO_WALLET_PASSWORD</code></pre>
+      </section>
+      <section class="docs-section" id="message-proof-format">
+        <h2>Proof Format</h2>
+        <pre><code>-----BEGIN ATHO SIGNED MESSAGE-----
+Version: 1
+Network: atho-mainnet
+Address: A...
+PublicKeyHex: ...
+MessageHex: ...
+SignatureHex: ...
+-----END ATHO SIGNED MESSAGE-----</code></pre>
+        <p>The proof includes address, network, Falcon public key, exact message bytes, and Falcon signature. It proves address control; it does not authorize a payment.</p>
+      </section>
+      <section class="docs-section" id="message-verify">
+        <h2>Verify a Message</h2>
+        <pre><code>cargo run -p atho-wallet --bin atho-wallet -- verifymessage --proof-file "$HOME/atho-proof.txt"</code></pre>
+        <p>Verification checks the address checksum and network, that the public key derives to the address payment digest, that the signature uses the <code>ATHO_MESSAGE_SIGN_V1</code> domain, and that the message bytes match exactly.</p>
+      </section>
+      <section class="docs-section" id="message-signing-boundary">
+        <h2>Security Boundary</h2>
+        <p>Signing stays local to the wallet. Atho does not expose private-key message signing through the public HTTP API, and message proofs are never valid transaction signatures.</p>
       </section>
     `
   },
@@ -738,6 +1077,8 @@ Node verifies nonce before expensive checks when possible.</code></pre>
     related: [
       { label: "Monetary Policy", href: "#monetary-policy" },
       { label: "Nodes", href: "#nodes" },
+      { label: "Mining RPC and Operator Endpoints", href: "#mining-rpc-and-operator-endpoints" },
+      { label: "Command Catalog", href: "#command-catalog" },
       { label: "Mainnet vs Testnet", href: "#mainnet-vs-testnet" }
     ],
     content: `
@@ -772,6 +1113,124 @@ Node verifies nonce before expensive checks when possible.</code></pre>
       </section>
     `
   },
+  "mining-rpc-and-operator-endpoints": {
+    title: "Mining RPC and Operator Endpoints",
+    eyebrow: "Mining and Nodes",
+    summary: "Atho exposes node-side mining templates, readiness, submission, and metrics, while pool software owns worker auth, shares, payouts, and dashboards.",
+    keywords: [
+      "mining rpc",
+      "operator endpoints",
+      "getblocktemplate",
+      "getmininginfo",
+      "submitblock",
+      "submitheader",
+      "pool integration",
+      "metrics"
+    ],
+    topics: [
+      { id: "mining-rpc-and-operator-endpoints", title: "Mining RPC and Operator Endpoints" },
+      { id: "operator-boundary", title: "Operator Boundary", aliases: ["pool software"] },
+      { id: "operator-start-node", title: "Start a Node for Operator Use" },
+      { id: "operator-cli-commands", title: "RPC and CLI Commands", aliases: ["getblocktemplate", "getmininginfo", "submitblock"] },
+      { id: "operator-http-routes", title: "HTTP Routes", aliases: ["mining api"] },
+      { id: "operator-pool-loop", title: "Typical Pool Loop" },
+      { id: "operator-errors", title: "Common Operator Errors" }
+    ],
+    related: [
+      { label: "Mining", href: "#mining" },
+      { label: "HTTP API", href: "#http-api" },
+      { label: "Command Catalog", href: "#command-catalog" },
+      { label: "Production Deployment", href: "#production-deployment" }
+    ],
+    content: `
+      <section class="docs-section" id="operator-boundary">
+        <h2>Operator Boundary</h2>
+        <p><code>athod</code> provides the validated node contract: candidate block templates, mining readiness, solved-block submission, header validation, and metrics. Pool software still owns Stratum, share accounting, vardiff, payouts, worker authentication, and operator dashboards.</p>
+      </section>
+      <section class="docs-section" id="operator-start-node">
+        <h2>Start a Node for Operator Use</h2>
+        <pre><code>cargo run -p atho-node --bin athod -- --network testnet</code></pre>
+        <p>Enable mining/operator HTTP routes only for local operator tooling or a controlled pool daemon.</p>
+        <pre><code>ATHO_API_MINING_ENABLED=1 cargo run -p atho-node --bin athod -- --network testnet</code></pre>
+      </section>
+      <section class="docs-section" id="operator-cli-commands">
+        <h2>RPC and CLI Commands</h2>
+        <div class="docs-table-wrap">
+          <table>
+            <thead><tr><th>Command</th><th>Purpose</th><th>Important Fields or Result</th></tr></thead>
+            <tbody>
+              <tr><td><code>getblocktemplate</code></td><td>Full candidate block template</td><td>height, previous hash, target, transaction count, fees, header bytes, nonce offset, block</td></tr>
+              <tr><td><code>gettemplateinfo</code></td><td>Lightweight template summary</td><td>height, target, fees, header bytes, coinbase txid</td></tr>
+              <tr><td><code>getmininginfo</code></td><td>Readiness and sync status</td><td>safe_to_mine, mining_allowed, blocked reason, sync mode, reward address</td></tr>
+              <tr><td><code>getnetworkhashps</code></td><td>Recent chain-work hashrate estimate</td><td>optional nblocks and height arguments</td></tr>
+              <tr><td><code>setminingrewardaddress</code></td><td>Set payout address on a running node</td><td>rejects wrong-network addresses</td></tr>
+              <tr><td><code>submitheader</code></td><td>Header-level validation and sync-view update</td><td>does not advance UTXO state by itself</td></tr>
+              <tr><td><code>submitblock</code></td><td>Full solved-block validation and connection</td><td>accepted, stale, or rejected</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <pre><code>cargo run -p atho-node --bin atho-cli -- --network testnet getmininginfo
+cargo run -p atho-node --bin atho-cli -- --network testnet getblocktemplate
+cargo run -p atho-node --bin atho-cli -- --network testnet gettemplateinfo</code></pre>
+        <pre><code>REWARD_ADDRESS='paste-a-testnet-address-here'
+cargo run -p atho-node --bin atho-cli -- \
+  --network testnet setminingrewardaddress "$REWARD_ADDRESS"</code></pre>
+        <pre><code>RAW_HEADER_HEX='paste-canonical-header-hex-here'
+cargo run -p atho-node --bin atho-cli -- \
+  --network testnet submitheader "$RAW_HEADER_HEX"
+RAW_BLOCK_HEX='paste-canonical-block-hex-here'
+cargo run -p atho-node --bin atho-cli -- \
+  --network testnet submitblock "$RAW_BLOCK_HEX"</code></pre>
+      </section>
+      <section class="docs-section" id="operator-http-routes">
+        <h2>HTTP Routes</h2>
+        <p>The mining routes are JSON-wrapped like the rest of the Atho HTTP API and require <code>ATHO_API_MINING_ENABLED=1</code>.</p>
+        <div class="docs-table-wrap">
+          <table>
+            <thead><tr><th>Route</th><th>Purpose</th></tr></thead>
+            <tbody>
+              <tr><td><code>GET /api/v1/mining/info</code></td><td>Mining readiness and blocked reason view</td></tr>
+              <tr><td><code>GET /api/v1/mining/template</code></td><td>Full current candidate block template</td></tr>
+              <tr><td><code>GET /api/v1/mining/template/summary</code></td><td>Lightweight mining template summary</td></tr>
+              <tr><td><code>GET /api/v1/metrics</code></td><td>Read-only operator metrics snapshot</td></tr>
+              <tr><td><code>POST /api/v1/mining/submitblock</code></td><td>Submit solved raw block</td></tr>
+              <tr><td><code>POST /api/v1/submitblock</code></td><td>Compatibility alias for solved-block submit</td></tr>
+              <tr><td><code>POST /api/v1/mining/submitheader</code></td><td>Submit raw block header</td></tr>
+              <tr><td><code>POST /api/v1/submitheader</code></td><td>Compatibility alias for header submit</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <pre><code>curl http://127.0.0.1:8080/api/v1/mining/info
+curl http://127.0.0.1:8080/api/v1/mining/template/summary
+curl http://127.0.0.1:8080/api/v1/metrics</code></pre>
+        <pre><code>RAW_BLOCK_HEX='paste-canonical-block-hex-here'
+curl -X POST http://127.0.0.1:8080/api/v1/mining/submitblock \
+  -H 'Content-Type: application/json' \
+  -d "{\"raw_block_hex\":\"$RAW_BLOCK_HEX\"}"</code></pre>
+      </section>
+      <section class="docs-section" id="operator-pool-loop">
+        <h2>Typical Pool Loop</h2>
+        <ol>
+          <li>Call <code>getblocktemplate</code>.</li>
+          <li>Distribute work using pool-owned software.</li>
+          <li>Receive a winning worker result.</li>
+          <li>Rebuild the solved block locally.</li>
+          <li>Call <code>submitblock</code>.</li>
+          <li>Handle accepted, stale, or rejected outcomes.</li>
+        </ol>
+      </section>
+      <section class="docs-section" id="operator-errors">
+        <h2>Common Operator Errors</h2>
+        <ul>
+          <li><code>mining_api_disabled</code>: enable <code>ATHO_API_MINING_ENABLED=1</code>.</li>
+          <li><code>node_not_synced</code>: wait until the node is safe to mine.</li>
+          <li><code>stale_block</code>: the solved block no longer extends the active tip.</li>
+          <li><code>rejected_block</code> or <code>rejected_header</code>: validation rejected the submitted data.</li>
+          <li><code>ATHO-MINE-003</code>: configure a valid same-network mining reward address.</li>
+        </ul>
+      </section>
+    `
+  },
   nodes: {
     title: "Nodes",
     eyebrow: "Mining and Nodes",
@@ -790,6 +1249,8 @@ Node verifies nonce before expensive checks when possible.</code></pre>
     related: [
       { label: "Peer Network", href: "#peer-network" },
       { label: "Storage and Sync", href: "#storage-and-sync" },
+      { label: "Configuration", href: "#configuration" },
+      { label: "HTTP API", href: "#http-api" },
       { label: "Developer Reference", href: "#developer-reference" }
     ],
     content: `
@@ -803,6 +1264,140 @@ cargo run -p atho-node --bin athod -- --network testnet</code></pre>
       <section class="docs-section" id="node-responsibilities">
         <h2>What the Node Owns</h2>
         <p>The node owns transaction validation, mempool policy, block validation, peer sync, chain selection, and durable storage. Wallets and UIs can display that state, but they should not redefine it.</p>
+      </section>
+    `
+  },
+  configuration: {
+    title: "Configuration",
+    eyebrow: "Mining and Nodes",
+    summary: "Atho uses CLI flags, environment variables, and an optional owner-only atho.conf file for network, storage, RPC, API, P2P, mining, wallet, and TX-PoW settings.",
+    keywords: [
+      "configuration",
+      "atho.conf",
+      "environment variables",
+      "ports",
+      "data directory",
+      "p2p advertise",
+      "api flags",
+      "wallet flags",
+      "tx pow threads"
+    ],
+    topics: [
+      { id: "configuration", title: "Configuration" },
+      { id: "configuration-networks", title: "Networks and Ports", aliases: ["ports", "network ids"] },
+      { id: "configuration-data-paths", title: "Data Paths", aliases: ["ATHO_DATA_DIR", "ATHO_WALLET_DIR"] },
+      { id: "configuration-file", title: "Operator Config File", aliases: ["atho.conf"] },
+      { id: "configuration-node-flags", title: "Node Flags" },
+      { id: "configuration-p2p", title: "P2P" },
+      { id: "configuration-api", title: "API Flags" },
+      { id: "configuration-mining-wallet", title: "Mining and Headless Wallet" },
+      { id: "configuration-tx-pow-solver", title: "Transaction PoW Solver" }
+    ],
+    related: [
+      { label: "Setup", href: "#setup" },
+      { label: "Nodes", href: "#nodes" },
+      { label: "HTTP API", href: "#http-api" },
+      { label: "Production Deployment", href: "#production-deployment" }
+    ],
+    content: `
+      <section class="docs-section" id="configuration-networks">
+        <h2>Networks and Ports</h2>
+        <div class="docs-table-wrap">
+          <table>
+            <thead><tr><th>Network</th><th>CLI Value</th><th>P2P Port</th><th>RPC Port</th><th>Use</th></tr></thead>
+            <tbody>
+              <tr><td>Mainnet</td><td><code>mainnet</code></td><td>56000</td><td>9010</td><td>Reviewed deployment preparation</td></tr>
+              <tr><td>Testnet</td><td><code>testnet</code></td><td>9100</td><td>9110</td><td>Public evaluation</td></tr>
+              <tr><td>Regnet</td><td><code>regnet</code> or <code>regtest</code></td><td>9200</td><td>9210</td><td>Local deterministic testing</td></tr>
+              <tr><td>Prunetest</td><td><code>prunetest</code></td><td>9300</td><td>9310</td><td>Low-difficulty pruning/storage testing</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="docs-section" id="configuration-data-paths">
+        <h2>Data Paths</h2>
+        <p><code>ATHO_DATA_DIR</code> sets the runtime root for node databases, logs, chain exports, audit files, and quarantine data. If unset, Atho uses the platform data directory: Linux <code>$XDG_DATA_HOME/Atho</code> or <code>$HOME/.local/share/Atho</code>, macOS <code>$HOME/Library/Application Support/Atho</code>, and Windows <code>%APPDATA%\\Atho</code>.</p>
+        <p><code>ATHO_WALLET_DIR</code> can override the wallet directory. Wallet data is intentionally separate from ordinary chain wipes.</p>
+        <pre><code>export ATHO_DATA_DIR="$HOME/.local/share/Atho-testnet"
+export ATHO_WALLET_DIR="$HOME/.local/share/Atho-testnet/wallet"</code></pre>
+      </section>
+      <section class="docs-section" id="configuration-file">
+        <h2>Operator Config File</h2>
+        <p>When <code>atho.conf</code> does not exist, the node creates an owner-only file. Configuration precedence is built-in defaults, then <code>atho.conf</code>, then environment variables, then explicit CLI flags where a flag exists.</p>
+        <pre><code>network=testnet
+rpcbind=127.0.0.1
+rpcport=9110
+rpccookieauth=1
+wallet=0
+api=1
+apiwallet=0
+apimining=0</code></pre>
+        <p>Common keys include <code>network</code>, <code>rpcbind</code>, <code>rpcport</code>, <code>rpcauth</code>, <code>rpccookieauth</code>, <code>miningrewardaddress</code>, <code>wallet</code>, <code>walletrequireencryption</code>, <code>maxmempool</code>, <code>maxmempooltx</code>, <code>prune</code>, <code>dbcache</code>, <code>maxconnections</code>, <code>fastsync</code>, <code>backgroundvalidation</code>, <code>checkpointsync</code>, <code>api</code>, <code>apiwallet</code>, and <code>apimining</code>. Do not store plaintext RPC passwords in the file.</p>
+      </section>
+      <section class="docs-section" id="configuration-node-flags">
+        <h2>Node Flags</h2>
+        <pre><code>export ATHO_NETWORK=testnet
+export ATHO_DATA_DIR="$HOME/.local/share/Atho-testnet"
+export ATHO_WALLET_ENABLED=0
+export ATHO_RPC_ADDR=127.0.0.1:9110
+export ATHO_P2P_ADDR=0.0.0.0:9100
+cargo run -p atho-node --bin athod -- --network "$ATHO_NETWORK"</code></pre>
+        <p>Useful flags include <code>--network &lt;mainnet|testnet|regnet|prunetest&gt;</code>, <code>--data-dir PATH</code>, <code>--rpc-addr HOST:PORT</code>, <code>--p2p-addr HOST:PORT</code>, <code>--peer HOST:PORT</code>, <code>--public-rpc</code>, and <code>--network-overrides-local</code>. RPC binds to loopback by default; public RPC requires explicit opt-in.</p>
+      </section>
+      <section class="docs-section" id="configuration-p2p">
+        <h2>P2P</h2>
+        <p><code>ATHO_P2P_ADDR</code> overrides the local P2P bind. <code>ATHO_P2P_ADVERTISE_ADDR</code> declares the reachable address relayed to peers, which matters for NAT, port-forwarding, or translated deployments.</p>
+        <pre><code>export ATHO_P2P_ADDR=0.0.0.0:9100
+export ATHO_P2P_ADVERTISE_ADDR="203.0.113.10:9100"
+export ATHO_P2P_PEERS="127.0.0.1:9200,127.0.0.1:9201"</code></pre>
+        <p>If no explicit peers are set, testnet uses DNS seeds and built-in bootstrap peers. Sync peers must advertise both full-block and full-witness service bits.</p>
+      </section>
+      <section class="docs-section" id="configuration-api">
+        <h2>API Flags</h2>
+        <p>The HTTP API is enabled by default on <code>127.0.0.1:8080</code>, local, read-only, rate-limited, and CORS-restricted.</p>
+        <div class="docs-table-wrap">
+          <table>
+            <thead><tr><th>Variable</th><th>Purpose</th></tr></thead>
+            <tbody>
+              <tr><td><code>ATHO_API_ENABLED</code></td><td>Enable or disable HTTP API</td></tr>
+              <tr><td><code>ATHO_API_BIND</code></td><td>Bind address</td></tr>
+              <tr><td><code>ATHO_API_PORT</code></td><td>TCP port</td></tr>
+              <tr><td><code>ATHO_API_PUBLIC_READ_ONLY</code></td><td>Read-only public profile flag</td></tr>
+              <tr><td><code>ATHO_API_WALLET_ENABLED</code></td><td>Enable raw transaction broadcast routes</td></tr>
+              <tr><td><code>ATHO_API_MINING_ENABLED</code></td><td>Enable mining/operator routes</td></tr>
+              <tr><td><code>ATHO_API_ALLOWED_ORIGINS</code></td><td>Comma-separated CORS allowlist</td></tr>
+              <tr><td><code>ATHO_API_RATE_LIMIT_ENABLED</code></td><td>Enable request throttling</td></tr>
+              <tr><td><code>ATHO_API_RATE_LIMIT_RPM</code></td><td>Standard request rate</td></tr>
+              <tr><td><code>ATHO_API_HEAVY_RATE_LIMIT_RPM</code></td><td>Heavy endpoint request rate</td></tr>
+              <tr><td><code>ATHO_API_MAX_RESPONSE_BYTES</code></td><td>Response cap</td></tr>
+              <tr><td><code>ATHO_EXPLORER_INDEX_ENABLED</code></td><td>Explorer index maintenance</td></tr>
+              <tr><td><code>ATHO_EXPLORER_SNAPSHOT_ENABLED</code></td><td>Explorer snapshot persistence</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="docs-section" id="configuration-mining-wallet">
+        <h2>Mining and Headless Wallet</h2>
+        <p><code>atho-mine</code> accepts <code>--network</code>, <code>--rpc-addr</code>, <code>--reward-address</code>, <code>--cores</code>, <code>--backend &lt;cpu|gpu|auto&gt;</code>, <code>--probe-gpu</code>, <code>--loop</code>, and <code>--retry-delay SECS</code>.</p>
+        <p><code>atho-wallet</code> accepts wallet password material through <code>--wallet-password</code>, <code>--wallet-password-env VAR</code>, or <code>--wallet-password-stdin</code>. It accepts RPC access controls including <code>--network</code>, <code>--rpc-url</code>, <code>--cookie-auth</code>, <code>--cookie-file</code>, <code>--rpcuser</code>, and <code>--rpcpassword</code>.</p>
+        <p>Wallet scan controls include <code>--discovery-limit N</code>, <code>--discovery-limit 0</code> for recorded addresses only, and <code>--min-confirmations N</code> to raise local spendability above consensus minimums.</p>
+      </section>
+      <section class="docs-section" id="configuration-tx-pow-solver">
+        <h2>Transaction PoW Solver</h2>
+        <p>TX-PoW bits are consensus-derived and cannot be changed locally. These variables only control how much local CPU the wallet uses while searching for the required nonce.</p>
+        <div class="docs-table-wrap">
+          <table>
+            <thead><tr><th>Variable</th><th>Meaning</th></tr></thead>
+            <tbody>
+              <tr><td><code>ATHO_TX_POW_AUTO_THREADS</code></td><td>Automatic thread selection, default true</td></tr>
+              <tr><td><code>ATHO_TX_POW_THREAD_PERCENT</code></td><td>Logical CPU percentage, default 75</td></tr>
+              <tr><td><code>ATHO_TX_POW_MAX_THREADS</code></td><td>Optional hard worker cap</td></tr>
+              <tr><td><code>ATHO_TX_POW_MIN_THREADS</code></td><td>Minimum workers, default 1</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <pre><code>export ATHO_TX_POW_MAX_THREADS=2
+python3 run/runtestnet.py</code></pre>
       </section>
     `
   },
@@ -883,6 +1478,453 @@ cargo run -p atho-node --bin athod -- --network testnet</code></pre>
         <h2>Syncing</h2>
         <p>Nodes sync headers and blocks from peers, validate everything locally, and update the best tip only after validation succeeds. The client status bar should reflect node height, target height, mempool count, and connectivity.</p>
         <pre><code>ATHO_DATA_DIR=/path/to/runtime-root</code></pre>
+      </section>
+    `
+  },
+  "http-api": {
+    title: "HTTP API",
+    eyebrow: "APIs and Operations",
+    summary: "Atho includes a local HTTP API for health, status, explorer data, mempool, fees, supply, peer data, mining/operator reads, metrics, and gated write routes.",
+    keywords: [
+      "http api",
+      "api",
+      "endpoints",
+      "curl",
+      "health",
+      "status",
+      "fees",
+      "supply",
+      "mempool",
+      "broadcast",
+      "metrics"
+    ],
+    topics: [
+      { id: "http-api", title: "HTTP API" },
+      { id: "api-start", title: "Start the API", aliases: ["base url", "health check"] },
+      { id: "api-production-posture", title: "Production Posture", aliases: ["auth", "exposure"] },
+      { id: "api-read-endpoints", title: "Read Endpoints", aliases: ["get endpoints"] },
+      { id: "api-write-endpoints", title: "Write Endpoints", aliases: ["post endpoints", "broadcast"] },
+      { id: "api-field-semantics", title: "Field Semantics", aliases: ["confirmations", "uptime", "supply", "fees"] },
+      { id: "api-common-errors", title: "Common API Errors" }
+    ],
+    related: [
+      { label: "Configuration", href: "#configuration" },
+      { label: "Mining RPC and Operator Endpoints", href: "#mining-rpc-and-operator-endpoints" },
+      { label: "Command Catalog", href: "#command-catalog" },
+      { label: "Production Deployment", href: "#production-deployment" }
+    ],
+    content: `
+      <section class="docs-section" id="api-start">
+        <h2>Start the API</h2>
+        <p>The API starts with <code>athod</code> by default and binds to <code>127.0.0.1:8080</code>.</p>
+        <pre><code>cargo run -p atho-node --bin athod -- --network testnet</code></pre>
+        <pre><code>API_URL='http://127.0.0.1:8080'
+curl --fail --silent --show-error "$API_URL/api/v1/health"
+curl --fail --silent --show-error "$API_URL/api/v1/status"
+curl --fail --silent --show-error "$API_URL/api/v1/fees"
+curl --fail --silent --show-error "$API_URL/api/v1/supply"
+curl --fail --silent --show-error "$API_URL/api/v1/metrics"</code></pre>
+      </section>
+      <section class="docs-section" id="api-production-posture">
+        <h2>Production Posture</h2>
+        <div class="docs-table-wrap">
+          <table>
+            <tbody>
+              <tr><th>Default Bind</th><td><code>127.0.0.1</code></td></tr>
+              <tr><th>Default Mode</th><td>Read-only</td></tr>
+              <tr><th>Wallet/Admin/Mining HTTP Routes</th><td>Disabled by default</td></tr>
+              <tr><th>Default CORS Allowlist</th><td><code>https://atho.io</code>, <code>https://www.atho.io</code></td></tr>
+              <tr><th>Default Rate Limit</th><td>180 requests/minute</td></tr>
+              <tr><th>Default Heavy Rate Limit</th><td>90 requests/minute</td></tr>
+              <tr><th>Default Max Response Size</th><td>1,048,576 bytes</td></tr>
+              <tr><th>Built-in HTTP Auth</th><td>None in the current repo</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Use the API locally by default. Public read-only exposure should sit behind TLS, request limits, response caching where appropriate, and external access controls. Do not expose wallet, seed, mnemonic, private-key, or privileged mining controls directly to the internet.</p>
+      </section>
+      <section class="docs-section" id="api-read-endpoints">
+        <h2>Read Endpoints</h2>
+        <div class="docs-table-wrap">
+          <table>
+            <thead><tr><th>Endpoint</th><th>Purpose</th></tr></thead>
+            <tbody>
+              <tr><td><code>GET /api/v1/health</code></td><td>Health/readiness snapshot</td></tr>
+              <tr><td><code>GET /api/v1/status</code></td><td>Full status overview</td></tr>
+              <tr><td><code>GET /api/v1/tip</code></td><td>Canonical chain tip summary</td></tr>
+              <tr><td><code>GET /api/v1/blocks/latest?limit=10</code></td><td>Recent block summaries</td></tr>
+              <tr><td><code>GET /api/v1/block/height/&lt;height&gt;</code></td><td>Block detail by height</td></tr>
+              <tr><td><code>GET /api/v1/block/hash/&lt;hash&gt;</code></td><td>Block detail by hash</td></tr>
+              <tr><td><code>GET /api/v1/tx/&lt;txid&gt;</code></td><td>Transaction detail</td></tr>
+              <tr><td><code>GET /api/v1/address/&lt;address&gt;?limit=25&amp;offset=0&amp;min_confirmations=3</code></td><td>Address summary and activity</td></tr>
+              <tr><td><code>GET /api/v1/address/&lt;address&gt;/utxos?limit=25&amp;offset=0&amp;min_confirmations=3</code></td><td>Address UTXOs</td></tr>
+              <tr><td><code>GET /api/v1/mempool</code></td><td>Mempool listing view</td></tr>
+              <tr><td><code>GET /api/v1/mempool/summary</code></td><td>Lightweight mempool summary</td></tr>
+              <tr><td><code>GET /api/v1/mempool/fee-estimate?tx_vsize=590</code></td><td>Required floor plus priority-fee guidance</td></tr>
+              <tr><td><code>GET /api/v1/mempool/tx/&lt;txid&gt;</code></td><td>Single mempool transaction if present</td></tr>
+              <tr><td><code>GET /api/v1/metrics</code></td><td>Operator metrics snapshot</td></tr>
+              <tr><td><code>GET /api/v1/fees</code></td><td>Fee, dust, tip, and TX-PoW policy summary</td></tr>
+              <tr><td><code>GET /api/v1/network/fees</code></td><td>Compatibility alias of <code>/api/v1/fees</code></td></tr>
+              <tr><td><code>GET /api/v1/inflation</code></td><td>Focused annualized inflation snapshot</td></tr>
+              <tr><td><code>GET /api/v1/supply</code></td><td>Supply, emission, and adaptive block-limit view</td></tr>
+              <tr><td><code>GET /api/v1/mining/info</code></td><td>Mining readiness, gated by <code>ATHO_API_MINING_ENABLED=1</code></td></tr>
+              <tr><td><code>GET /api/v1/mining/template</code></td><td>Full block template, gated by mining API flag</td></tr>
+              <tr><td><code>GET /api/v1/mining/template/summary</code></td><td>Light block template summary, gated by mining API flag</td></tr>
+              <tr><td><code>GET /api/v1/peers/summary</code></td><td>Peer counts and health summary</td></tr>
+              <tr><td><code>GET /api/v1/network</code></td><td>Network overview</td></tr>
+              <tr><td><code>GET /api/v1/network/inflation</code></td><td>Inflation alias route</td></tr>
+              <tr><td><code>GET /api/v1/network/stats</code></td><td>Aggregated network stats</td></tr>
+              <tr><td><code>GET /api/v1/network/hashrate</code></td><td>Hashrate summary</td></tr>
+              <tr><td><code>GET /api/v1/network/uptime</code></td><td>Uptime summary</td></tr>
+              <tr><td><code>GET /api/v1/network/peers</code></td><td>Peer list view</td></tr>
+              <tr><td><code>GET /api/v1/network/supply</code></td><td>Supply alias route</td></tr>
+              <tr><td><code>GET /api/v1/network/difficulty</code></td><td>Difficulty summary</td></tr>
+              <tr><td><code>GET /api/v1/network/blocktime</code></td><td>Block interval summary</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="docs-section" id="api-write-endpoints">
+        <h2>Write Endpoints</h2>
+        <p>Transaction broadcast routes are disabled unless <code>ATHO_API_WALLET_ENABLED=1</code>. Mining submission routes are disabled unless <code>ATHO_API_MINING_ENABLED=1</code>.</p>
+        <div class="docs-table-wrap">
+          <table>
+            <thead><tr><th>Endpoint</th><th>Purpose</th><th>Recommended Exposure</th></tr></thead>
+            <tbody>
+              <tr><td><code>POST /api/v1/tx/broadcast</code></td><td>Submit raw transaction</td><td>Local only</td></tr>
+              <tr><td><code>POST /api/v1/tx/sendraw</code></td><td>Broadcast alias</td><td>Local only</td></tr>
+              <tr><td><code>POST /api/v1/sendrawtransaction</code></td><td>Broadcast alias</td><td>Local only</td></tr>
+              <tr><td><code>POST /api/v1/mining/submitblock</code></td><td>Submit solved raw block</td><td>Local only</td></tr>
+              <tr><td><code>POST /api/v1/submitblock</code></td><td>Solved-block alias</td><td>Local only</td></tr>
+              <tr><td><code>POST /api/v1/mining/submitheader</code></td><td>Submit raw block header</td><td>Local only</td></tr>
+              <tr><td><code>POST /api/v1/submitheader</code></td><td>Header-submit alias</td><td>Local only</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <pre><code>RAW_TX_HEX='paste-canonical-transaction-hex-here'
+curl -X POST http://127.0.0.1:8080/api/v1/tx/broadcast \
+  -H 'Content-Type: application/json' \
+  -d "{\"raw_tx_hex\":\"$RAW_TX_HEX\"}"</code></pre>
+      </section>
+      <section class="docs-section" id="api-field-semantics">
+        <h2>Field Semantics</h2>
+        <ul>
+          <li>Normal transactions are consensus-spendable after 1 confirmation. Address and UTXO endpoints default to the official wallet policy of 3 confirmations when <code>min_confirmations</code> or <code>minconf</code> is omitted.</li>
+          <li>Coinbase outputs remain unspendable until 100 confirmations, regardless of caller policy.</li>
+          <li><code>node_uptime_seconds</code> is process uptime. Chain age from genesis is exposed separately through <code>chain_uptime_seconds</code>.</li>
+          <li>Supply routes expose bootstrap-plus-tail fields including tail start, tail reward, annual issuance, current reward, and adaptive block-limit state.</li>
+          <li>Fee routes report <code>required_fee_atoms: 600</code>, <code>zero_tip_allowed: true</code>, 1 atom per serialized byte, and TX-PoW min/max bits.</li>
+          <li>The node HTTP API does not expose private-key wallet signing or message-signing routes. Build and sign locally, then broadcast final raw transactions only when write routes are enabled.</li>
+        </ul>
+      </section>
+      <section class="docs-section" id="api-common-errors">
+        <h2>Common API Errors</h2>
+        <p>Common JSON error codes include <code>origin_not_allowed</code>, <code>method_not_allowed</code>, <code>wallet_api_disabled</code>, <code>mining_api_disabled</code>, <code>node_not_synced</code>, <code>stale_block</code>, <code>rejected_transaction</code>, <code>rejected_block</code>, <code>rejected_header</code>, <code>request_too_large</code>, <code>rate_limited</code>, <code>response_too_large</code>, <code>explorer_index_not_ready</code>, <code>invalid_input</code>, and <code>not_found</code>.</p>
+      </section>
+    `
+  },
+  "command-catalog": {
+    title: "Command Catalog",
+    eyebrow: "APIs and Operations",
+    summary: "Copy-paste command coverage for builds, launchers, headless nodes, miners, wallets, addresses, RPC commands, tests, and safe data wipes.",
+    keywords: [
+      "commands",
+      "command catalog",
+      "copy paste",
+      "cargo",
+      "athod",
+      "atho-cli",
+      "atho-mine",
+      "atho-wallet",
+      "atho-address",
+      "wipe"
+    ],
+    topics: [
+      { id: "command-catalog", title: "Command Catalog" },
+      { id: "commands-setup-env", title: "Copy-Paste Setup" },
+      { id: "commands-build", title: "Build Commands" },
+      { id: "commands-launch", title: "Launch Commands" },
+      { id: "commands-node-miner", title: "Node and Miner Commands" },
+      { id: "commands-wallet-address", title: "Wallet and Address Commands" },
+      { id: "commands-rpc", title: "RPC Commands" },
+      { id: "commands-tests-wipe", title: "Tests and Data Wipe" }
+    ],
+    related: [
+      { label: "Setup", href: "#setup" },
+      { label: "Headless Wallet and CLI", href: "#headless-wallet-and-cli" },
+      { label: "HTTP API", href: "#http-api" },
+      { label: "Troubleshooting", href: "#troubleshooting" }
+    ],
+    content: `
+      <section class="docs-section" id="commands-setup-env">
+        <h2>Copy-Paste Setup</h2>
+        <pre><code>export ATHO_NETWORK=testnet
+export ATHO_WALLET_FILE="$HOME/atho-testnet-wallet.datafile"
+read -rsp 'Wallet password: ' ATHO_WALLET_PASSWORD
+printf '\n'
+export ATHO_WALLET_PASSWORD</code></pre>
+        <p>Clear wallet password material when done.</p>
+        <pre><code>unset ATHO_WALLET_PASSWORD</code></pre>
+      </section>
+      <section class="docs-section" id="commands-build">
+        <h2>Build Commands</h2>
+        <pre><code>rustc --version
+cargo --version
+python3 --version
+cargo build
+cargo build --release -p atho-node -p atho-wallet
+cargo build --release -p atho-node -p atho-wallet -p atho-qt --features gpu-native</code></pre>
+      </section>
+      <section class="docs-section" id="commands-launch">
+        <h2>Launch Commands</h2>
+        <pre><code>python3 run/runmainnet.py
+python3 run/runtestnet.py
+python3 run/runregnet.py
+python3 run/runtestnet.py --help
+python3 run/runtestnet.py --dry-run
+python3 run/runtestnet.py --rebuild</code></pre>
+      </section>
+      <section class="docs-section" id="commands-node-miner">
+        <h2>Node and Miner Commands</h2>
+        <pre><code>cargo run -p atho-node --bin athod -- --network testnet
+ATHO_WALLET_ENABLED=0 cargo run -p atho-node --bin athod -- --network testnet
+cargo run -p atho-node --bin athod -- status --network testnet
+cargo run -p atho-node --bin athod -- verify --network testnet</code></pre>
+        <pre><code>REWARD_ADDRESS='paste-a-testnet-address-here'
+cargo run -p atho-node --bin atho-mine -- \
+  --network testnet --reward-address "$REWARD_ADDRESS" --backend cpu --loop
+cargo run -p atho-node --features gpu-native --bin atho-mine -- --network testnet --probe-gpu</code></pre>
+      </section>
+      <section class="docs-section" id="commands-wallet-address">
+        <h2>Wallet and Address Commands</h2>
+        <pre><code>cargo run -p atho-wallet --bin atho-wallet -- --help
+cargo run -p atho-wallet --bin atho-address -- --help
+cargo run -p atho-wallet --bin atho-wallet -- \
+  create "$ATHO_NETWORK" --out "$ATHO_WALLET_FILE" \
+  --wallet-password-env ATHO_WALLET_PASSWORD
+cargo run -p atho-wallet --bin atho-wallet -- \
+  getwalletinfo --wallet "$ATHO_WALLET_FILE" \
+  --wallet-password-env ATHO_WALLET_PASSWORD
+cargo run -p atho-wallet --bin atho-wallet -- \
+  getnewaddress --wallet "$ATHO_WALLET_FILE" \
+  --wallet-password-env ATHO_WALLET_PASSWORD</code></pre>
+        <pre><code>RECIPIENT_ADDRESS='paste-a-testnet-address-here'
+cargo run -p atho-wallet --bin atho-wallet -- \
+  send --network "$ATHO_NETWORK" --cookie-auth \
+  --wallet "$ATHO_WALLET_FILE" \
+  --address "$RECIPIENT_ADDRESS" --amount 1.25000000 \
+  --wallet-password-env ATHO_WALLET_PASSWORD
+ADDRESS='paste-an-atho-address-here'
+cargo run -p atho-wallet --bin atho-address -- inspect "$ADDRESS"</code></pre>
+      </section>
+      <section class="docs-section" id="commands-rpc">
+        <h2>RPC Commands</h2>
+        <pre><code>cargo run -p atho-node --bin atho-cli -- --help
+cargo run -p atho-node --bin atho-cli -- help
+cargo run -p atho-node --bin atho-cli -- help mining
+cargo run -p atho-node --bin atho-cli -- --network testnet --cookie-auth getstatus
+cargo run -p atho-node --bin atho-cli -- --network testnet getinflationinfo
+cargo run -p atho-node --bin atho-cli -- --network testnet getmempoolfeeestimate 590
+cargo run -p atho-node --bin atho-cli -- --network testnet geterrorcodes ATHO-DB-009
+cargo run -p atho-node --bin atho-cli -- --network testnet getmininginfo
+cargo run -p atho-node --bin atho-cli -- --network testnet getblocktemplate
+cargo run -p atho-node --bin atho-cli -- --network testnet gettemplateinfo</code></pre>
+      </section>
+      <section class="docs-section" id="commands-tests-wipe">
+        <h2>Tests and Data Wipe</h2>
+        <pre><code>python3 -m unittest discover -s tests -v
+cargo test -p atho-errors -p atho-core -p atho-crypto -p atho-storage -p atho-p2p -p atho-rpc -p atho-wallet -p atho-node</code></pre>
+        <pre><code>ATHO_DATA_DIR="\${ATHO_DATA_DIR:-$HOME/.local/share/Atho}"
+cargo run -p atho-node --bin athod -- wipe --network mainnet --data-dir "$ATHO_DATA_DIR" --all</code></pre>
+        <p>Stop the node before wiping. Do not add <code>--include-wallets</code> unless you intentionally want to delete wallet files.</p>
+      </section>
+    `
+  },
+  "production-deployment": {
+    title: "Production Deployment",
+    eyebrow: "APIs and Operations",
+    summary: "Atho is deployable for local development, regnet, and extended testnet operations; mainnet-style operations require conservative deployment controls and remaining release work.",
+    keywords: [
+      "production deployment",
+      "systemd",
+      "reverse proxy",
+      "firewall",
+      "p2p advertise",
+      "operator deployment",
+      "mainnet blockers"
+    ],
+    topics: [
+      { id: "production-deployment", title: "Production Deployment" },
+      { id: "deployment-build", title: "Build" },
+      { id: "deployment-network-separation", title: "Network Separation" },
+      { id: "deployment-safe-binds", title: "Safe Bind Defaults" },
+      { id: "deployment-systemd", title: "systemd Example" },
+      { id: "deployment-health", title: "Health and Readiness" },
+      { id: "deployment-ops", title: "Operations" },
+      { id: "deployment-blockers", title: "Current Operational Blockers" }
+    ],
+    related: [
+      { label: "Configuration", href: "#configuration" },
+      { label: "HTTP API", href: "#http-api" },
+      { label: "Release Verification", href: "#release-verification" },
+      { label: "Mainnet vs Testnet", href: "#mainnet-vs-testnet" }
+    ],
+    content: `
+      <section class="docs-section" id="deployment-build">
+        <h2>Build</h2>
+        <pre><code>cargo build
+cargo build --release</code></pre>
+        <p>If you need standalone binaries for operations, prefer release builds. Full release candidates should pass audit and release checks before packaging.</p>
+      </section>
+      <section class="docs-section" id="deployment-network-separation">
+        <h2>Network Separation</h2>
+        <p>Always set the network intentionally and use one data directory per network.</p>
+        <pre><code>ATHO_DATA_DIR=/var/lib/atho/mainnet \
+cargo run -p atho-node --bin athod --release -- --network mainnet</code></pre>
+        <pre><code>/var/lib/atho/
+  mainnet/
+    db/
+    logs/
+    wallet/
+    audit/
+    quarantine/</code></pre>
+      </section>
+      <section class="docs-section" id="deployment-safe-binds">
+        <h2>Safe Bind Defaults</h2>
+        <pre><code>export ATHO_RPC_ADDR=127.0.0.1:9010
+export ATHO_API_BIND=127.0.0.1
+export ATHO_API_PORT=8080
+export ATHO_P2P_ADDR=0.0.0.0:56000
+export ATHO_P2P_ADVERTISE_ADDR=203.0.113.10:56000</code></pre>
+        <p>Keep RPC and API on loopback unless there is a deliberate access-control design. If exposing read-only API publicly, keep Atho bound to loopback and put TLS, request limits, and caching in front of it.</p>
+      </section>
+      <section class="docs-section" id="deployment-systemd">
+        <h2>systemd Example</h2>
+        <pre><code>id -u atho >/dev/null 2>&1 || \
+  sudo useradd --system --home /var/lib/atho --shell /usr/sbin/nologin atho
+sudo install -d -o root -g root -m 0755 /opt/atho/bin
+sudo install -d -o atho -g atho -m 0750 /var/lib/atho/mainnet
+sudo install -m 0755 target/release/athod /opt/atho/bin/athod</code></pre>
+        <pre><code>[Unit]
+Description=Atho Node
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=atho
+WorkingDirectory=/opt/atho
+Environment=ATHO_DATA_DIR=/var/lib/atho/mainnet
+Environment=ATHO_RPC_ADDR=127.0.0.1:9010
+Environment=ATHO_P2P_ADDR=0.0.0.0:56000
+Environment=ATHO_P2P_ADVERTISE_ADDR=203.0.113.10:56000
+Environment=ATHO_API_BIND=127.0.0.1
+Environment=ATHO_API_PORT=8080
+ExecStart=/opt/atho/bin/athod --network mainnet
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+        <pre><code>sudo systemd-analyze verify /etc/systemd/system/athod.service
+sudo systemctl daemon-reload
+sudo systemctl enable --now athod
+sudo systemctl status athod --no-pager
+sudo journalctl -u athod -f</code></pre>
+      </section>
+      <section class="docs-section" id="deployment-health">
+        <h2>Health and Readiness</h2>
+        <pre><code>curl --fail --silent --show-error http://127.0.0.1:8080/api/v1/health
+curl --fail --silent --show-error http://127.0.0.1:8080/api/v1/status</code></pre>
+        <p>Watch local height versus target height, peer count, topology health, mempool size, API responsiveness, and recent validation warnings.</p>
+      </section>
+      <section class="docs-section" id="deployment-ops">
+        <h2>Operations</h2>
+        <ul>
+          <li>Keep hosts on reliable time sync such as NTP or chrony.</li>
+          <li>Retain startup, shutdown, sync, and validation rejection logs, but never log seeds or private keys.</li>
+          <li>Back up wallet data first, then operator config/service files, then explorer/index snapshots if used.</li>
+          <li>For upgrades: build, stop cleanly, back up wallet/config, deploy binaries, start, then verify health, network, peers, and sync.</li>
+          <li>Do not blindly roll back across schema or consensus transitions without checking storage compatibility.</li>
+        </ul>
+      </section>
+      <section class="docs-section" id="deployment-blockers">
+        <h2>Current Operational Blockers</h2>
+        <ul>
+          <li>Mainnet seed/bootstrap infrastructure is not provisioned in-repo yet.</li>
+          <li>Wallet plaintext persistence is still possible when password is empty.</li>
+          <li>No built-in HTTP auth layer exists.</li>
+          <li>Independent consensus and cryptography review is not complete.</li>
+          <li>Full workspace Clippy and dependency-audit gates are not green.</li>
+          <li>Cross-OS, native OpenCL GPU, sustained fuzz, mutation, and long hostile-network evidence is incomplete.</li>
+          <li>Signed reproducible release artifacts, SBOM, provenance, incident response, and tested rollback ownership are not complete.</li>
+        </ul>
+        <p>For local development, regnet, and extended testnet operations, Atho is deployable with the current launcher and node stack. For mainnet-style production operations, treat this as preparation material rather than final launch approval.</p>
+      </section>
+    `
+  },
+  "release-verification": {
+    title: "Release Verification",
+    eyebrow: "APIs and Operations",
+    summary: "Release artifacts should ship with deterministic checksums and a detached signature so users can verify downloaded binaries before running them.",
+    keywords: [
+      "release",
+      "checksums",
+      "signature",
+      "ATHO_CHECKSUMS",
+      "release artifacts",
+      "verify download",
+      "gpg"
+    ],
+    topics: [
+      { id: "release-verification", title: "Release Verification" },
+      { id: "release-artifacts", title: "Release Artifacts" },
+      { id: "release-maintainer-flow", title: "Maintainer Flow" },
+      { id: "release-user-verification", title: "User Verification" },
+      { id: "release-upgrade-note", title: "Upgrade Notes" }
+    ],
+    related: [
+      { label: "Production Deployment", href: "#production-deployment" },
+      { label: "Command Catalog", href: "#command-catalog" },
+      { label: "Security", href: "#security" }
+    ],
+    content: `
+      <section class="docs-section" id="release-artifacts">
+        <h2>Release Artifacts</h2>
+        <p>A real release should publish binaries, <code>release_checksums.py</code>, <code>ATHO_CHECKSUMS.json</code>, and <code>ATHO_CHECKSUMS.json.asc</code> together. No current tag is approval for a real-value mainnet launch.</p>
+      </section>
+      <section class="docs-section" id="release-maintainer-flow">
+        <h2>Maintainer Flow</h2>
+        <pre><code>export RELEASE_TAG='v0.1.0-alpha-rc1'
+cargo build --release -p atho-node -p atho-wallet -p atho-qt
+mkdir -p dist
+cp target/release/athod dist/
+cp target/release/atho-cli dist/
+cp target/release/atho-mine dist/
+cp target/release/atho-wallet dist/
+cp target/release/atho-address dist/
+cp target/release/atho-qt dist/
+cp scripts/release_checksums.py dist/</code></pre>
+        <pre><code>python3 scripts/release_checksums.py create \
+  --release-tag "$RELEASE_TAG" \
+  --base-dir dist \
+  --output dist/ATHO_CHECKSUMS.json \
+  athod atho-cli atho-mine atho-wallet atho-address atho-qt release_checksums.py
+gpg --armor --detach-sign dist/ATHO_CHECKSUMS.json</code></pre>
+      </section>
+      <section class="docs-section" id="release-user-verification">
+        <h2>User Verification</h2>
+        <p>A real release must publish its signing-key fingerprint through an independent official channel. Import a release key only after the fingerprint matches.</p>
+        <pre><code>RELEASE_KEY_FILE='ATHO_RELEASE_KEY.asc'
+gpg --show-keys --with-fingerprint "$RELEASE_KEY_FILE"
+gpg --import "$RELEASE_KEY_FILE"
+gpg --verify ATHO_CHECKSUMS.json.asc ATHO_CHECKSUMS.json
+python3 release_checksums.py verify ATHO_CHECKSUMS.json</code></pre>
+      </section>
+      <section class="docs-section" id="release-upgrade-note">
+        <h2>Upgrade Notes</h2>
+        <p>The current pre-production line includes bootstrap-plus-tail policy, adaptive block-limit state, exact coinbase-height rules, and the 10-to-16-bit mandatory TX-PoW schedule. Upgrade nodes, miners, and wallets together, clear pending transactions created under older policy, and rebuild development chains when schema or consensus changes require it.</p>
       </section>
     `
   },
@@ -1057,6 +2099,8 @@ cargo run -p atho-node --bin athod -- --network testnet</code></pre>
     ],
     related: [
       { label: "Wallet Transaction PoW", href: "#wallet-transaction-pow" },
+      { label: "HTTP API", href: "#http-api" },
+      { label: "Command Catalog", href: "#command-catalog" },
       { label: "Troubleshooting", href: "#troubleshooting" },
       { label: "FAQ", href: "#faq" }
     ],
@@ -1146,6 +2190,8 @@ cargo run -p atho-node --bin atho-mine -- --network testnet</code></pre>
     related: [
       { label: "Nodes", href: "#nodes" },
       { label: "Storage and Sync", href: "#storage-and-sync" },
+      { label: "Configuration", href: "#configuration" },
+      { label: "Command Catalog", href: "#command-catalog" },
       { label: "FAQ", href: "#faq" }
     ],
     content: `

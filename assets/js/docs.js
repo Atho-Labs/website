@@ -1,4 +1,4 @@
-import { docsAliasMap, docsNavGroups, docsSectionOrder, docsSections } from "./docs-content.js?v=20260718a";
+import { docsAliasMap, docsNavGroups, docsSectionOrder, docsSections } from "./docs-content.js?v=20260718b";
 
 const docsSidebar = document.querySelector("#docs-sidebar");
 const docsToggle = document.querySelector("[data-docs-toggle]");
@@ -105,15 +105,19 @@ function renderOverviewGrid() {
   const groups = [
     {
       title: "Start Here",
-      ids: ["what-is-atho", "design-philosophy", "falcon-512-and-quantum-security", "atho-vs-bitcoin", "units-and-fees"]
+      ids: ["what-is-atho", "design-philosophy", "falcon-512-and-quantum-security", "atho-vs-bitcoin", "units-and-fees", "setup"]
     },
     {
       title: "Payments and Wallets",
-      ids: ["wallets", "transactions", "wallet-transaction-pow", "mempool"]
+      ids: ["wallets", "headless-wallet-and-cli", "message-signing", "transactions", "wallet-transaction-pow", "mempool"]
     },
     {
       title: "Mining and Nodes",
-      ids: ["mining", "nodes", "peer-network", "storage-and-sync"]
+      ids: ["mining", "mining-rpc-and-operator-endpoints", "nodes", "configuration", "peer-network", "storage-and-sync"]
+    },
+    {
+      title: "APIs and Operations",
+      ids: ["http-api", "command-catalog", "production-deployment", "release-verification"]
     },
     {
       title: "Security",

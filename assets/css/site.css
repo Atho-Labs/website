@@ -3813,6 +3813,18 @@ main {
   .docs-table-wrap td {
     padding: 10px 12px;
   }
+
+  .docs-section pre {
+    overflow-x: visible;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .docs-section pre code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
 }
 
 @media (min-width: 760px) {
