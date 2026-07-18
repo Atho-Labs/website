@@ -1,4 +1,4 @@
-import { docsAliasMap, docsNavGroups, docsSectionOrder, docsSections } from "./docs-content.js";
+import { docsAliasMap, docsNavGroups, docsSectionOrder, docsSections } from "./docs-content.js?v=20260718a";
 
 const docsSidebar = document.querySelector("#docs-sidebar");
 const docsToggle = document.querySelector("[data-docs-toggle]");
@@ -105,7 +105,7 @@ function renderOverviewGrid() {
   const groups = [
     {
       title: "Start Here",
-      ids: ["what-is-atho", "design-philosophy", "falcon-512-and-quantum-security", "units-and-fees"]
+      ids: ["what-is-atho", "design-philosophy", "falcon-512-and-quantum-security", "atho-vs-bitcoin", "units-and-fees"]
     },
     {
       title: "Payments and Wallets",

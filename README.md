@@ -24,6 +24,7 @@ Current public site for `atho.io`.
 - `assets/media/logo 1.png`: primary dark-theme logo
 - `assets/media/docs/`: docs diagrams and comparison visuals
 - `assets/files/atho-whitepaper.pdf`: downloadable whitepaper
+- `assets/files/atho-bitcoin-comparison.pdf`: downloadable Atho vs Bitcoin comparison
 
 ## Docs Architecture
 
@@ -55,6 +56,11 @@ Current docs diagrams live in `assets/media/docs/` and include:
 - Falcon-512 vs classical elliptic curve comparison
 - wallet transaction PoW flow
 - UTXO transaction lifecycle flow
+
+Current public document downloads live in `assets/files/`:
+
+- updated Atho whitepaper generated from the source repository
+- Atho vs Bitcoin comparison generated from the source repository
 
 ## Local Preview
 

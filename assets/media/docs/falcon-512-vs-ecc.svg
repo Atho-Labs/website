@@ -36,7 +36,7 @@
 
   <text x="664" y="486" fill="#082417" font-family="JetBrains Mono, monospace" font-size="16">Threat model:</text>
   <text x="664" y="516" fill="#47665A" font-family="JetBrains Mono, monospace" font-size="15">Larger artifacts, but chosen to keep transaction</text>
-  <text x="664" y="542" fill="#47665A" font-family="JetBrains Mono, monospace" font-size="15">authorization on a post-quantum-focused footing.</text>
+  <text x="664" y="542" fill="#47665A" font-family="JetBrains Mono, monospace" font-size="15">authorization on a post-quantum-aware footing.</text>
   <text x="664" y="568" fill="#47665A" font-family="JetBrains Mono, monospace" font-size="15">The size tradeoff buys a stronger long-range posture.</text>
 
   <rect x="96" y="612" width="1024" height="52" rx="18" fill="#082417"/>

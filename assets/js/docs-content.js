@@ -3,6 +3,7 @@ export const docsSectionOrder = [
   "what-is-atho",
   "design-philosophy",
   "falcon-512-and-quantum-security",
+  "atho-vs-bitcoin",
   "monetary-policy",
   "units-and-fees",
   "wallets",
@@ -24,7 +25,7 @@ export const docsSectionOrder = [
 export const docsNavGroups = [
   {
     title: "Start Here",
-    ids: ["overview", "what-is-atho", "design-philosophy", "falcon-512-and-quantum-security", "monetary-policy", "units-and-fees"]
+    ids: ["overview", "what-is-atho", "design-philosophy", "falcon-512-and-quantum-security", "atho-vs-bitcoin", "monetary-policy", "units-and-fees"]
   },
   {
     title: "Payments and Wallets",
@@ -64,6 +65,7 @@ export const docsSections = {
       { label: "What Is Atho?", href: "#what-is-atho" },
       { label: "Design Philosophy", href: "#design-philosophy" },
       { label: "Falcon-512 and Quantum Security", href: "#falcon-512-and-quantum-security" },
+      { label: "Atho vs Bitcoin", href: "#atho-vs-bitcoin" },
       { label: "Units and Fees", href: "#units-and-fees" }
     ],
     content: `
@@ -78,8 +80,9 @@ export const docsSections = {
       <section class="docs-section" id="overview-notes">
         <h2>Current Network Notes</h2>
         <ul>
-          <li>Atho is a post-quantum-focused proof-of-work payment network built around a public UTXO model.</li>
-          <li>The software uses 8-decimal atom precision, 1 atom/vbyte fees, a 100-atom dust floor, and wallet transaction PoW for anti-spam protection.</li>
+          <li>Atho is a post-quantum-aware proof-of-work payment network built around a public UTXO model.</li>
+          <li>The current software uses 100-second blocks, 8-decimal atom precision, a 100-atom dust floor, a required fee floor of <code>max(600 atoms, 1 atom per serialized byte)</code>, and 10-to-16-bit wallet transaction PoW.</li>
+          <li>Genesis is a zero-emission anchor at height <code>0</code>. Ordinary subsidy starts at height <code>1</code> with four bootstrap eras and a permanent tail reward.</li>
           <li>Testnet ATHO is distributed manually by the Atho founders or development team. There is no software faucet in the client or website.</li>
         </ul>
       </section>
@@ -88,7 +91,7 @@ export const docsSections = {
   "what-is-atho": {
     title: "What Is Atho?",
     eyebrow: "Start Here",
-    summary: "Atho is a post-quantum-focused proof-of-work payment blockchain designed for simple, secure, low-fee digital settlement.",
+    summary: "Atho is a post-quantum-aware proof-of-work payment blockchain designed for simple, secure, low-fee digital settlement.",
     keywords: [
       "what is atho",
       "payment network",
@@ -112,7 +115,7 @@ export const docsSections = {
       <section class="docs-section" id="what-is-atho">
         <h2>What Is Atho?</h2>
         <p>Atho is a payment-first blockchain. It is not trying to be a general-purpose application platform. Its job is to move value with explicit rules: wallets build and sign transactions, nodes validate them, miners include valid transactions in blocks, and every full node independently verifies the same outcome.</p>
-        <p>Atho uses a public UTXO model, exact integer atom accounting, post-quantum-focused transaction signatures, and a thin desktop client over backend-owned chain truth. That combination keeps the system legible for people who have to operate it, debug it, and trust it.</p>
+        <p>Atho uses a public UTXO model, exact integer atom accounting, post-quantum-aware transaction signatures, and a thin desktop client over backend-owned chain truth. That combination keeps the system legible for people who have to operate it, debug it, and trust it.</p>
       </section>
       <section class="docs-section" id="core-network-summary">
         <h2>Core Network Summary</h2>
@@ -120,14 +123,19 @@ export const docsSections = {
           <table>
             <tbody>
               <tr><th>Ledger Model</th><td>Public UTXO chain</td></tr>
+              <tr><th>Block Proof of Work</th><td>SHA3-384</td></tr>
+              <tr><th>Transaction Authorization</th><td>Falcon-512 signatures</td></tr>
               <tr><th>Block Time</th><td>100 seconds</td></tr>
-              <tr><th>Starting Reward</th><td>50 ATHO</td></tr>
-              <tr><th>Halving Interval</th><td>1,260,000 blocks</td></tr>
-              <tr><th>Tail Reward</th><td>0.390625 ATHO forever</td></tr>
+              <tr><th>Genesis Subsidy</th><td>0 ATHO at height <code>0</code></td></tr>
+              <tr><th>Starting Reward</th><td>8 ATHO from height <code>1</code></td></tr>
+              <tr><th>Bootstrap Eras</th><td>8, 4, 2, and 1 ATHO for 1,250,000 blocks each</td></tr>
+              <tr><th>Bootstrap Issuance</th><td>18,750,000 ATHO through height <code>5,000,000</code></td></tr>
+              <tr><th>Tail Reward</th><td>0.50 ATHO forever from height <code>5,000,001</code></td></tr>
               <tr><th>Normal Confirmations</th><td>1 confirmation at consensus; official wallet default 3 confirmations; users and apps choose their risk policy</td></tr>
               <tr><th>Coinbase Maturity</th><td>100 confirmations</td></tr>
               <tr><th>Max Supply Cap</th><td>None. Atho uses permanent tail emission.</td></tr>
               <tr><th>Smallest Unit</th><td>1 atom</td></tr>
+              <tr><th>Required Fee Floor</th><td><code>max(600 atoms, 1 atom per serialized byte)</code></td></tr>
               <tr><th>Transaction Spam Deterrent</th><td>SHA3-256 wallet transaction PoW</td></tr>
             </tbody>
           </table>
@@ -136,10 +144,10 @@ export const docsSections = {
       <section class="docs-section" id="what-makes-atho-different">
         <h2>What Makes Atho Different?</h2>
         <ul>
-          <li>Post-quantum-focused transaction signing with Falcon-512.</li>
+          <li>Post-quantum-aware transaction signing with Falcon-512.</li>
           <li>One ATHO contains 100,000,000 atoms, so the system keeps Bitcoin-style E-8 precision.</li>
-          <li>Wallet transaction PoW makes spam computationally expensive without forcing high fees.</li>
-          <li>Permanent tail emission keeps a long-term miner security budget instead of relying on a hard supply cap and fee-only security later.</li>
+          <li>Wallet transaction PoW adds sender-side spam friction without forcing high base fees.</li>
+          <li>A four-era bootstrap schedule plus permanent tail emission keeps a long-term miner security budget instead of relying on a hard supply cap and fee-only security later.</li>
         </ul>
       </section>
     `
@@ -169,7 +177,7 @@ export const docsSections = {
     content: `
       <section class="docs-section" id="why-atho">
         <h2>Why Atho?</h2>
-        <p>Atho is built around a narrow claim: payment networks are easier to secure when their rules are explicit, local, and auditable. The protocol leans into simple UTXO payments, low fees, proof-of-work mining, post-quantum-focused signatures, and a permanent miner reward budget.</p>
+        <p>Atho is built around a narrow claim: payment networks are easier to secure when their rules are explicit, local, and auditable. The protocol leans into simple UTXO payments, low fees, proof-of-work mining, post-quantum-aware signatures, and a permanent miner reward budget.</p>
         <p>This matters because complexity tends to leak into operations. Atho would rather make the boundaries obvious than try to hide them behind feature sprawl.</p>
       </section>
       <section class="docs-section" id="design-philosophy">
@@ -192,7 +200,7 @@ export const docsSections = {
   "falcon-512-and-quantum-security": {
     title: "Falcon-512 and Quantum Security",
     eyebrow: "Start Here",
-    summary: "Atho uses Falcon-512 transaction signatures to keep wallet authorization on a post-quantum-focused footing, accepting larger keys and signatures as the tradeoff.",
+    summary: "Atho uses Falcon-512 transaction signatures to keep wallet authorization on a post-quantum-aware footing, accepting larger keys and signatures as the tradeoff.",
     keywords: [
       "falcon 512",
       "quantum security",
@@ -211,18 +219,19 @@ export const docsSections = {
     related: [
       { label: "Design Philosophy", href: "#design-philosophy" },
       { label: "Wallet Transaction PoW", href: "#wallet-transaction-pow" },
+      { label: "Atho vs Bitcoin", href: "#atho-vs-bitcoin" },
       { label: "Security", href: "#security" }
     ],
     content: `
       <section class="docs-section" id="post-quantum-signatures">
         <h2>What Falcon-512 Does in Atho</h2>
-        <p>Falcon-512 is Atho's transaction authorization scheme. When a wallet spends funds, Falcon-512 is the signature system that proves the spender controls the relevant keys. Atho chose it because the project wants the authorization layer to be built around a post-quantum-focused signature design instead of a classical elliptic-curve assumption.</p>
+        <p>Falcon-512 is Atho's transaction authorization scheme. When a wallet spends funds, Falcon-512 is the signature system that proves the spender controls the relevant keys. Atho chose it because the project wants the authorization layer to be built around a post-quantum-aware signature design instead of a classical elliptic-curve assumption.</p>
         <p>This does not mean block mining changed. Falcon-512 protects transaction authorization. Proof of Work still secures block production separately.</p>
       </section>
       <section class="docs-section" id="falcon-vs-elliptic-curve">
         <h2>Falcon-512 vs Elliptic Curve Signatures</h2>
         <figure class="docs-figure docs-figure-wide">
-          <img src="./assets/media/docs/falcon-512-vs-ecc.svg" alt="Comparison diagram showing Falcon-512 next to classical elliptic curve signatures, including size tradeoffs and threat-model differences.">
+          <img src="./assets/media/docs/falcon-512-vs-ecc.svg?v=20260718a" alt="Comparison diagram showing Falcon-512 next to classical elliptic curve signatures, including size tradeoffs and threat-model differences.">
           <figcaption>Falcon-512 is materially larger than a compact classical elliptic-curve signature stack, but Atho accepts that cost for a stronger long-range signature posture.</figcaption>
         </figure>
         <div class="docs-table-wrap">
@@ -231,7 +240,7 @@ export const docsSections = {
             <tbody>
               <tr><td>Typical compressed public key</td><td>about 33 bytes</td><td>897 bytes</td></tr>
               <tr><td>Typical signature</td><td>about 64 bytes fixed-width schnorr, or slightly larger variable ECDSA</td><td>about 666 bytes</td></tr>
-              <tr><td>Threat posture</td><td>Efficient and compact, but vulnerable to large-scale quantum attacks</td><td>Larger artifacts, chosen for post-quantum-focused security</td></tr>
+              <tr><td>Threat posture</td><td>Efficient and compact, but vulnerable to sufficiently capable large-scale quantum attacks</td><td>Larger artifacts, chosen for post-quantum-aware authorization</td></tr>
             </tbody>
           </table>
         </div>
@@ -251,10 +260,65 @@ export const docsSections = {
       </section>
     `
   },
+  "atho-vs-bitcoin": {
+    title: "Atho vs Bitcoin",
+    eyebrow: "Start Here",
+    summary: "Atho is best understood as a modern, opinionated Bitcoin-style payment chain: UTXO and proof-of-work at the base layer, but different signatures, emission, block sizing, and anti-spam policy.",
+    keywords: [
+      "atho vs bitcoin",
+      "bitcoin comparison",
+      "proof of work comparison",
+      "utxo comparison",
+      "sha3 384",
+      "falcon 512",
+      "tail reward"
+    ],
+    topics: [
+      { id: "atho-vs-bitcoin", title: "Atho vs Bitcoin", aliases: ["bitcoin comparison", "like bitcoin"] },
+      { id: "comparison-summary", title: "Comparison Summary" },
+      { id: "what-atho-changes", title: "What Atho Changes" },
+      { id: "comparison-pdf", title: "Full Comparison PDF" }
+    ],
+    related: [
+      { label: "What Is Atho?", href: "#what-is-atho" },
+      { label: "Monetary Policy", href: "#monetary-policy" },
+      { label: "Wallet Transaction PoW", href: "#wallet-transaction-pow" },
+      { label: "Developer Reference", href: "#developer-reference" }
+    ],
+    content: `
+      <section class="docs-section" id="comparison-summary">
+        <h2>Comparison Summary</h2>
+        <p>Atho shares Bitcoin's payment-chain fundamentals: proof-of-work ordering, public UTXOs, local full-node validation, coinbase issuance, and wallet construction separated from consensus truth. It is not a broad smart-contract platform.</p>
+        <p>The major differences are deliberate: Atho uses SHA3-384 block proof-of-work, Falcon-512 transaction authorization, wallet TX-PoW anti-spam friction, a deterministic adaptive block limit, and bootstrap-plus-tail miner rewards instead of Bitcoin's SHA-256d mining, elliptic-curve signatures, fee-market-only spam pressure, fixed block-weight policy, and finite hard cap.</p>
+      </section>
+      <section class="docs-section" id="what-atho-changes">
+        <h2>What Atho Changes</h2>
+        <div class="docs-table-wrap">
+          <table>
+            <thead><tr><th>Area</th><th>Bitcoin</th><th>Atho</th></tr></thead>
+            <tbody>
+              <tr><td>Base Model</td><td>Proof-of-work UTXO money</td><td>Proof-of-work UTXO money</td></tr>
+              <tr><td>Block Hash</td><td>SHA-256d</td><td>SHA3-384</td></tr>
+              <tr><td>Transaction Signatures</td><td>secp256k1 ECDSA/Schnorr families</td><td>Falcon-512</td></tr>
+              <tr><td>Block Cadence</td><td>About 10 minutes</td><td>100 seconds</td></tr>
+              <tr><td>Emission</td><td>Finite 21 million BTC cap</td><td>No cap; 18,750,000 ATHO bootstrap plus 0.50 ATHO tail reward</td></tr>
+              <tr><td>Anti-Spam</td><td>Fee market and relay policy</td><td>Required fee floor plus wallet TX-PoW</td></tr>
+              <tr><td>Ownership Surface</td><td>Script ecosystem</td><td>Canonical lock-digest ownership model</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="docs-section" id="comparison-pdf">
+        <h2>Full Comparison PDF</h2>
+        <p>The full repository-grounded comparison expands the tradeoffs across mining, transaction policy, signature assumptions, network maturity, ecosystem readiness, and long-run miner economics.</p>
+        <p><a class="docs-inline-action" href="./assets/files/atho-bitcoin-comparison.pdf">Download Atho vs Bitcoin Comparison</a></p>
+      </section>
+    `
+  },
   "monetary-policy": {
     title: "Monetary Policy",
     eyebrow: "Economics",
-    summary: "Atho uses a permanent tail reward to support long-term proof-of-work security while keeping fees low for normal payments.",
+    summary: "Atho uses four bootstrap reward eras and a permanent 0.50 ATHO tail reward to support long-term proof-of-work security while keeping fees low for normal payments.",
     keywords: [
       "monetary policy",
       "tail emission",
@@ -281,8 +345,8 @@ export const docsSections = {
     content: `
       <section class="docs-section" id="emissions-overview">
         <h2>Emissions Overview</h2>
-        <p>There is no fixed max supply cap. Atho starts at 50 ATHO per block, halves every 1,260,000 blocks for seven pre-tail eras, and then continues forever at a 0.390625 ATHO tail reward.</p>
-        <p>The policy changed to match Atho's long-term payment-network goals. Instead of trying to force security entirely into fees later, Atho keeps a predictable miner budget in place.</p>
+        <p>There is no fixed max supply cap and no premine. Genesis at height <code>0</code> pays no subsidy. Ordinary miner subsidy begins at height <code>1</code>, follows four bootstrap eras of <code>8</code>, <code>4</code>, <code>2</code>, and <code>1</code> ATHO for <code>1,250,000</code> blocks each, then continues forever at a <code>0.50 ATHO</code> tail reward.</p>
+        <p>That model is designed for payment-network continuity. Instead of forcing long-term proof-of-work security entirely into fees, Atho keeps a predictable miner subsidy floor in place while optional miner tips can still reward priority inclusion.</p>
       </section>
       <section class="docs-section" id="reward-schedule">
         <h2>Reward Schedule</h2>
@@ -290,24 +354,22 @@ export const docsSections = {
           <table>
             <thead><tr><th>Era</th><th>Reward</th><th>Blocks</th><th>Issuance</th></tr></thead>
             <tbody>
-              <tr><td>Era 1</td><td>50 ATHO</td><td>1,260,000</td><td>63,000,000 ATHO</td></tr>
-              <tr><td>Era 2</td><td>25 ATHO</td><td>1,260,000</td><td>31,500,000 ATHO</td></tr>
-              <tr><td>Era 3</td><td>12.5 ATHO</td><td>1,260,000</td><td>15,750,000 ATHO</td></tr>
-              <tr><td>Era 4</td><td>6.25 ATHO</td><td>1,260,000</td><td>7,875,000 ATHO</td></tr>
-              <tr><td>Era 5</td><td>3.125 ATHO</td><td>1,260,000</td><td>3,937,500 ATHO</td></tr>
-              <tr><td>Era 6</td><td>1.5625 ATHO</td><td>1,260,000</td><td>1,968,750 ATHO</td></tr>
-              <tr><td>Era 7</td><td>0.78125 ATHO</td><td>1,260,000</td><td>984,375 ATHO</td></tr>
-              <tr><td>Tail</td><td>0.390625 ATHO</td><td>Forever</td><td>123,187.5 ATHO/year</td></tr>
+              <tr><td>Genesis</td><td>0 ATHO</td><td>Height 0</td><td>0 ATHO</td></tr>
+              <tr><td>Bootstrap Era 1</td><td>8 ATHO</td><td>1 ..= 1,250,000</td><td>10,000,000 ATHO</td></tr>
+              <tr><td>Bootstrap Era 2</td><td>4 ATHO</td><td>1,250,001 ..= 2,500,000</td><td>5,000,000 ATHO</td></tr>
+              <tr><td>Bootstrap Era 3</td><td>2 ATHO</td><td>2,500,001 ..= 3,750,000</td><td>2,500,000 ATHO</td></tr>
+              <tr><td>Bootstrap Era 4</td><td>1 ATHO</td><td>3,750,001 ..= 5,000,000</td><td>1,250,000 ATHO</td></tr>
+              <tr><td>Tail</td><td>0.50 ATHO</td><td>Height 5,000,001 onward</td><td>157,680 ATHO/year</td></tr>
             </tbody>
           </table>
         </div>
       </section>
       <section class="docs-section" id="tail-emission">
         <h2>Tail Emission</h2>
-        <p>For a proof-of-work payment network, relying only on fees can make long-term security harder. Atho's tail reward keeps miners incentivized without forcing high user fees. The inflation rate declines over time as total supply grows.</p>
+        <p>For a proof-of-work payment network, relying only on fees can make long-term security harder. Atho's tail reward keeps miners incentivized without forcing high user fees. The percentage impact of new issuance declines over time as total supply grows.</p>
         <pre><code>Blocks per year = 31,536,000 / 100 = 315,360
-Annual tail = 0.390625 * 315,360 = 123,187.5 ATHO/year
-Tail issuance every 10 years = 1,231,875 ATHO</code></pre>
+Annual tail = 0.50 * 315,360 = 157,680 ATHO/year
+Tail issuance every 10 years = 1,576,800 ATHO</code></pre>
       </section>
       <section class="docs-section" id="miner-security-budget">
         <h2>Miner Security Budget</h2>
@@ -320,13 +382,13 @@ Tail issuance every 10 years = 1,231,875 ATHO</code></pre>
           <table>
             <thead><tr><th>Milestone</th><th>Supply</th></tr></thead>
             <tbody>
-              <tr><td>Tail Start</td><td>125,015,625 ATHO</td></tr>
-              <tr><td>Year 20</td><td>about 122,073,750 ATHO</td></tr>
-              <tr><td>Year 50</td><td>about 127,728,125 ATHO</td></tr>
+              <tr><td>Tail Start</td><td>18,750,000 ATHO through height 5,000,000, then 0.50 ATHO tail blocks begin at height 5,000,001</td></tr>
+              <tr><td>Year 20</td><td>about 19,403,600 ATHO at nominal 100-second cadence</td></tr>
+              <tr><td>Year 50</td><td>about 24,134,000 ATHO at nominal 100-second cadence</td></tr>
             </tbody>
           </table>
         </div>
-        <p>Tail issuance begins around year 28. After that, issuance continues, but its percentage impact declines as total supply grows.</p>
+        <p>Tail issuance begins after 5,000,000 reward-bearing bootstrap blocks, roughly year 15.85 at the 100-second target cadence. After that, issuance continues, but its percentage impact declines as total supply grows.</p>
       </section>
       <section class="docs-section" id="why-no-fixed-max-supply">
         <h2>Why No Fixed Max Supply</h2>
@@ -381,14 +443,15 @@ Tail issuance every 10 years = 1,231,875 ATHO</code></pre>
       </section>
       <section class="docs-section" id="fee-model">
         <h2>Fee Model</h2>
-        <p>The fee model is simple on purpose: exact atoms, no floats, a one-atom guard floor, and a linear relay rate. That keeps wallet behavior predictable across the GUI, CLI, and RPC surfaces.</p>
-        <pre><code>MIN_TX_FEE_ATOMS = 1
+        <p>The fee model is simple on purpose: exact atoms, no floats, a mandatory 600-atom floor, and a serialized-byte floor. Wallets may add positive optional tips above the required floor when they want stronger inclusion priority.</p>
+        <pre><code>MIN_TX_FEE_ATOMS = 600
+MIN_TX_FEE_PER_SERIALIZED_BYTE_ATOMS = 1
 MIN_RELAY_FEE_RATE_ATOMS_PER_VBYTE = 1
-required_fee_atoms = max(1, tx_vbytes * 1)</code></pre>
+required_fee_atoms = max(600, serialized_size_bytes * 1)</code></pre>
       </section>
       <section class="docs-section" id="minimum-transaction-fee">
         <h2>Minimum Transaction Fee</h2>
-        <p>The base fee rate is 1 atom per virtual byte. A 590 vB transaction therefore pays 590 atoms, or 0.00000590 ATHO.</p>
+        <p>Every non-coinbase transaction must pay at least <code>max(600 atoms, 1 atom per serialized byte)</code>. A 590-byte transaction therefore pays 600 atoms, while a 650-byte transaction pays 650 atoms.</p>
       </section>
       <section class="docs-section" id="minimum-output">
         <h2>Minimum Output</h2>
@@ -404,14 +467,15 @@ required_fee_atoms = max(1, tx_vbytes * 1)</code></pre>
           <table>
             <thead><tr><th>Tx Size</th><th>Required Fee</th></tr></thead>
             <tbody>
-              <tr><td>250 vB</td><td>250 atoms</td></tr>
-              <tr><td>500 vB</td><td>500 atoms</td></tr>
-              <tr><td>650 vB</td><td>650 atoms</td></tr>
-              <tr><td>1,000 vB</td><td>1,000 atoms</td></tr>
-              <tr><td>2,500 vB</td><td>2,500 atoms</td></tr>
+              <tr><td>250 bytes</td><td>600 atoms</td></tr>
+              <tr><td>500 bytes</td><td>600 atoms</td></tr>
+              <tr><td>650 bytes</td><td>650 atoms</td></tr>
+              <tr><td>1,000 bytes</td><td>1,000 atoms</td></tr>
+              <tr><td>2,500 bytes</td><td>2,500 atoms</td></tr>
             </tbody>
           </table>
         </div>
+        <p>API estimate fields with <code>vbyte</code> in the name are retained for compatibility and priority guidance, but the consensus fee floor is the serialized-byte rule above.</p>
       </section>
     `
   },
@@ -597,8 +661,8 @@ required_fee_atoms = max(1, tx_vbytes * 1)</code></pre>
       <section class="docs-section" id="transaction-pow">
         <h2>How Wallet Transaction PoW Works</h2>
         <pre><code>TX_POW_HASH = SHA3-256
-TX_POW_MIN_BITS = 16
-TX_POW_MAX_BITS = 28
+TX_POW_MIN_BITS = 10
+TX_POW_MAX_BITS = 16
 TX_POW_DOMAIN = ATHO_TX_POW_V1</code></pre>
         <pre><code>Wallet signs transaction.
 Wallet builds PoW preimage from signed transaction without PoW fields.
@@ -609,10 +673,10 @@ Node verifies nonce before expensive checks when possible.</code></pre>
           <img src="./assets/media/docs/wallet-tx-pow-flow.svg" alt="Flowchart showing wallet transaction PoW from UTXO selection, signing, proof construction, nonce solving, broadcast, and node verification.">
           <figcaption>Wallet transaction PoW is part of the send lifecycle. The wallet does the work once, then the node can verify it cheaply during admission.</figcaption>
         </figure>
-        <p>The target can scale with transaction size, fee rate, and output count. That makes larger, lower-fee, or more complex transactions work a little harder without turning the send flow into full mining.</p>
+        <p>The target starts at 10 bits, adds work at transaction-vsize thresholds above 500, 1,000, and 2,000 vbytes, adds smaller increments for larger input and output counts, and clamps to 16 bits. Larger or more complex transactions work a little harder without turning the send flow into full mining.</p>
         <div class="docs-example">
           <h3>Example</h3>
-          <p>If a transaction is larger, pays only the minimum fee, or fans out into more outputs, the wallet may need to search longer for a valid nonce. That extra work is intentional: it makes bulk spam less attractive while leaving ordinary sends predictable.</p>
+          <p>The 2026-07-15 benchmark shows ordinary signed Falcon payments naturally landing at 12 bits, with low-end reference-host P95 latency under 14 ms. Maximum-output and large consolidation shapes hit the 16-bit ceiling and measured roughly 55-85 ms P95 in automatic mode on that host.</p>
         </div>
       </section>
     `
@@ -683,7 +747,7 @@ Node verifies nonce before expensive checks when possible.</code></pre>
       </section>
       <section class="docs-section" id="block-rewards">
         <h2>Block Rewards</h2>
-        <p>The initial block reward is 50 ATHO, then 25, 12.5, 6.25, 3.125, 1.5625, 0.78125, then a permanent 0.390625 ATHO tail reward. Valid transaction fees are added on top.</p>
+        <p>Genesis pays 0 ATHO at height <code>0</code>. Ordinary rewards begin at height <code>1</code>: 8 ATHO, 4 ATHO, 2 ATHO, and 1 ATHO across four 1,250,000-block bootstrap eras, then a permanent 0.50 ATHO tail reward from height <code>5,000,001</code>. Valid transaction fees and optional tips are added on top.</p>
       </section>
       <section class="docs-section" id="coinbase-transactions">
         <h2>Coinbase Transactions</h2>
@@ -731,9 +795,9 @@ Node verifies nonce before expensive checks when possible.</code></pre>
     content: `
       <section class="docs-section" id="running-a-node">
         <h2>Running a Node</h2>
-        <pre><code>python runmainnet.py
-python runtestnet.py
-./target/release/athod --network testnet</code></pre>
+        <pre><code>python3 run/runmainnet.py
+python3 run/runtestnet.py
+cargo run -p atho-node --bin athod -- --network testnet</code></pre>
         <p>The Qt client can manage a local node with <code>--local-node</code>. Public RPC should be protected and intentionally configured.</p>
       </section>
       <section class="docs-section" id="node-responsibilities">
@@ -853,12 +917,13 @@ python runtestnet.py
         <h2>Network Modes</h2>
         <div class="docs-table-wrap">
           <table>
-            <thead><tr><th>Feature</th><th>Mainnet</th><th>Testnet</th></tr></thead>
+            <thead><tr><th>Feature</th><th>Mainnet</th><th>Testnet</th><th>Regnet</th><th>Prunetest</th></tr></thead>
             <tbody>
-              <tr><td>Faucet</td><td>No</td><td>No software faucet, manual distribution</td></tr>
-              <tr><td>Storage Self-Heal</td><td>No</td><td>Testnet-only if configured</td></tr>
-              <tr><td>Difficulty Stall Reset</td><td>No</td><td>Testnet-only if configured</td></tr>
-              <tr><td>Genesis Changes</td><td>No</td><td>May happen during development</td></tr>
+              <tr><td>Network ID</td><td>atho-mainnet</td><td>atho-testnet</td><td>atho-regnet</td><td>atho-prunetest</td></tr>
+              <tr><td>Address Prefix</td><td>A</td><td>T</td><td>R</td><td>P</td></tr>
+              <tr><td>P2P / RPC</td><td>56000 / 9010</td><td>9100 / 9110</td><td>9200 / 9210</td><td>9300 / 9310</td></tr>
+              <tr><td>Faucet</td><td>No</td><td>No software faucet, manual distribution</td><td>Local only</td><td>Local only</td></tr>
+              <tr><td>Primary Use</td><td>Reviewed deployment preparation</td><td>Public evaluation</td><td>Local deterministic testing</td><td>Pruning and storage testing</td></tr>
             </tbody>
           </table>
         </div>
@@ -922,7 +987,7 @@ python runtestnet.py
       </section>
       <section class="docs-section" id="spam-protection">
         <h2>Anti-Spam Model</h2>
-        <p>Atho combines minimum fees, the 1,000-atom output rule, the 64-output policy cap, duplicate-input checks, mempool double-spend checks, and wallet transaction PoW to deter spam while keeping fees low for real users.</p>
+        <p>Atho combines the required fee floor, the 100-atom output rule, the 64-output policy cap, duplicate-input checks, mempool double-spend checks, peer rate controls, and wallet transaction PoW to deter spam while keeping fees low for real users.</p>
       </section>
     `
   },
@@ -1001,24 +1066,32 @@ python runtestnet.py
         <pre><code>DECIMALS = 8
 ATOMS_PER_ATHO = 100_000_000
 TARGET_BLOCK_TIME_SECONDS = 100
-INITIAL_BLOCK_REWARD_ATOMS = 5_000_000_000
-HALVING_INTERVAL_BLOCKS = 1_260_000
-TAIL_REWARD_ATOMS = 39_062_500
+INITIAL_BLOCK_REWARD_ATOMS = 800_000_000
+SECOND_ERA_BLOCK_REWARD_ATOMS = 400_000_000
+THIRD_ERA_BLOCK_REWARD_ATOMS = 200_000_000
+FOURTH_ERA_BLOCK_REWARD_ATOMS = 100_000_000
+HALVING_INTERVAL_BLOCKS = 1_250_000
+BOOTSTRAP_BLOCKS = 5_000_000
+BOOTSTRAP_SUPPLY_ATOMS = 1_875_000_000_000_000
+TAIL_START_HEIGHT = 5_000_001
+TAIL_REWARD_ATOMS = 50_000_000
 NORMAL_TX_VALID_AFTER_CONFIRMATIONS = 1
 DEFAULT_WALLET_MIN_CONFIRMATIONS = 3
 COINBASE_MATURITY_BLOCKS = 100
-MIN_TX_FEE_ATOMS = 1
+MIN_TX_FEE_ATOMS = 600
+MIN_TX_FEE_PER_SERIALIZED_BYTE_ATOMS = 1
 MIN_RELAY_FEE_RATE_ATOMS_PER_VBYTE = 1
 MIN_OUTPUT_AMOUNT_ATOMS = 100
 MAX_STANDARD_OUTPUTS = 64
 TX_POW_HASH = SHA3-256
-TX_POW_MIN_BITS = 16
-TX_POW_MAX_BITS = 28
+TX_POW_MIN_BITS = 10
+TX_POW_MAX_BITS = 16
 TX_POW_DOMAIN = ATHO_TX_POW_V1
 TX_SIGN_DOMAIN = ATHO_TX_SIGN_V1</code></pre>
         <pre><code>1 ATHO = 100,000,000 atoms
 Blocks per year = 31,536,000 / 100 = 315,360
-Annual tail = 0.390625 * 315,360 = 123,187.5 ATHO/year</code></pre>
+Annual first-era issuance = 8 * 315,360 = 2,522,880 ATHO/year
+Annual tail = 0.50 * 315,360 = 157,680 ATHO/year</code></pre>
       </section>
       <section class="docs-section" id="transaction-validation">
         <h2>Transaction Validation</h2>
@@ -1043,11 +1116,11 @@ Annual tail = 0.390625 * 315,360 = 123,187.5 ATHO/year</code></pre>
       </section>
       <section class="docs-section" id="cli-notes">
         <h2>CLI Notes</h2>
-        <pre><code>python runmainnet.py
-python runtestnet.py
-./target/release/athod --network testnet
-./target/release/atho-qt --network testnet --local-node
-./target/release/atho-mine --network testnet</code></pre>
+        <pre><code>python3 run/runmainnet.py
+python3 run/runtestnet.py
+cargo run -p atho-node --bin athod -- --network testnet
+cargo run -p atho-qt --bin atho-qt -- --network testnet --local-node
+cargo run -p atho-node --bin atho-mine -- --network testnet</code></pre>
       </section>
       <section class="docs-section" id="config-and-paths">
         <h2>Config and Paths</h2>

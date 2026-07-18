@@ -41,7 +41,7 @@ export const explorerNetworks = Object.freeze({
     network: "testnet",
     networkId: "atho-testnet",
     genesisHash:
-      "00000e524958487f70cfe350a65093d40e70bd15e2611451995c59c0d5b126e1aea7f51c4b099ea2393e9cfff45f9eb9",
+      "00002eb00a5fc1d177b03a8b77348c5c1faef451fa9367a337863df7af37f61734ed202e321353fd80a319843bcfef6b",
     apiBaseUrl: explorerApiConfig.testnetApiBaseUrl,
     enabled: true,
     comingSoon: false,
@@ -53,7 +53,7 @@ export const explorerNetworks = Object.freeze({
     network: "mainnet",
     networkId: "atho-mainnet",
     genesisHash:
-      "000049993ab4e8874c71e35c659756c3f13d17f5e688a1271800704009017a8d0f69d9b5d8da7d7e398f720b037fd2c8",
+      "0000f1fc7e66238f4068201c3c25b80fa9e2ce8a6df744ee4fd1e0984c7fa9ebd546028acd3d81d0c4a7e8c0d17a9b1e",
     apiBaseUrl: explorerApiConfig.mainnetApiBaseUrl,
     enabled: false,
     comingSoon: true,

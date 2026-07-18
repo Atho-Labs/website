@@ -1,28 +1,28 @@
 export const siteContent = {
   heroSignals: [
-    "UTXO Payments",
-    "Post-Quantum Signatures",
-    "Low Atom-Based Fees",
-    "Permanent Tail Reward"
+    "UTXO Settlement",
+    "Falcon-512 Signatures",
+    "SHA3-384 Mining",
+    "0.50 ATHO Tail Reward"
   ],
   protocolHighlights: [
     {
       number: "01",
-      title: "Simple UTXO Payments",
-      copy: "Atho keeps value movement explicit with public UTXOs, deterministic validation, and backend-owned chain truth.",
-      hover: "UTXO accounting keeps ownership, confirmations, and spending rules easier for users, wallets, miners, and node operators to audit."
+      title: "Payment-First UTXO Design",
+      copy: "Atho keeps settlement explicit with public UTXOs, deterministic full-node validation, and backend-owned chain truth.",
+      hover: "Wallets build transactions, miners order blocks, and full nodes independently verify the same UTXO state before accepting chain updates."
     },
     {
       number: "02",
-      title: "Low Atom-Based Fees",
-      copy: "Normal transactions use exact atom accounting, a 1 atom/vbyte fee rate, and a one-atom guard floor.",
-      hover: "Atho combines low fees with wallet transaction PoW so spam is not free while users are not pushed into high fee pressure."
+      title: "Low Fee Floor, Real Spam Friction",
+      copy: "Every non-coinbase transaction pays at least max(600 atoms, 1 atom per serialized byte) and solves wallet TX-PoW.",
+      hover: "The mandatory fee floor keeps accounting exact, while 10-to-16-bit transaction PoW makes bulk spam carry a sender-side cost."
     },
     {
       number: "03",
-      title: "Long-Term Miner Security",
-      copy: "Permanent 0.390625 ATHO tail rewards keep a predictable proof-of-work security budget.",
-      hover: "Atho has no fixed max supply cap. Tail emission naturally declines as a percentage of supply while keeping miners incentivized."
+      title: "Bootstrap Plus Tail Rewards",
+      copy: "Atho pays 8, 4, 2, and 1 ATHO across four bootstrap eras, then 0.50 ATHO per block forever.",
+      hover: "There is no premine and no maximum supply cap. Bootstrap issuance reaches 18,750,000 ATHO before the permanent tail reward starts at height 5,000,001."
     }
   ],
   runtimePills: [
@@ -34,9 +34,9 @@ export const siteContent = {
     },
     {
       label: "Wallet Transaction PoW",
-      value: "SHA3-256 send proof",
-      copy: "Wallets sign first, then generate a lightweight anti-spam proof.",
-      hover: "Transaction PoW is not mining. It is a cheap-to-verify proof that helps keep fees low without making spam free."
+      value: "SHA3-256, 10-16 bits",
+      copy: "Wallets sign first, then solve a lightweight anti-spam nonce.",
+      hover: "Transaction PoW is not block mining. The required bit target is shape-derived and clamped from 10 to 16 bits on every network."
     },
     {
       label: "Batched Chainstate I/O",
@@ -56,8 +56,8 @@ export const siteContent = {
       name: "Mainnet",
       detail: "atho-mainnet",
       value: "<span class=\"stack-line\">P2P 56000</span><span class=\"stack-line\">RPC 9010</span>",
-      copy: "Production network with replay protection and persistent storage.",
-      hover: "Mainnet is the production network and keeps its own ports, storage, and safety rules.",
+      copy: "Mainnet mode exists for reviewed deployments and keeps strict network isolation.",
+      hover: "The current deployment guide is pre-mainnet preparation, not final launch approval. Mainnet uses its own consensus ID, address prefix, ports, storage, and genesis anchor.",
       href: "./docs.html#network-modes",
       actionLabel: "Read network docs"
     },
@@ -78,6 +78,15 @@ export const siteContent = {
       hover: "Regnet is for local workflows where you want to test behavior without using public testnet.",
       href: "./docs.html#network-modes",
       actionLabel: "Read network docs"
+    },
+    {
+      name: "Prunetest",
+      detail: "atho-prunetest",
+      value: "<span class=\"stack-line\">P2P 9300</span><span class=\"stack-line\">RPC 9310</span>",
+      copy: "Low-difficulty pruning and storage test network.",
+      hover: "Prunetest is isolated from mainnet, testnet, and regnet so storage and pruning behavior can be tested without touching public network state.",
+      href: "./docs.html#network-modes",
+      actionLabel: "Read network docs"
     }
   ],
   stats: [
@@ -92,17 +101,25 @@ export const siteContent = {
     {
       key: "baseReward",
       label: "Starting Reward",
-      value: "50 ATHO",
+      value: "8 ATHO",
       detail: "Initial subsidy.",
-      hover: "The reward halves every 1,260,000 blocks until the permanent tail reward.",
+      hover: "The first ordinarily mineable block is height 1. Bootstrap rewards are 8, 4, 2, and 1 ATHO for 1,250,000 blocks each.",
       badge: "Published"
     },
     {
       key: "tailReward",
       label: "Tail Reward",
-      value: "0.390625 ATHO",
+      value: "0.50 ATHO",
       detail: "Permanent per block.",
-      hover: "Tail emission provides long-term miner incentives while keeping fees low.",
+      hover: "Tail emission starts at height 5,000,001 and annualizes to 157,680 ATHO at the 100-second target cadence.",
+      badge: "Published"
+    },
+    {
+      key: "bootstrapSupply",
+      label: "Bootstrap Issuance",
+      value: "18.75M ATHO",
+      detail: "Through height 5,000,000.",
+      hover: "Atho has no premine. The bootstrap milestone is scheduled issuance before the permanent tail reward begins.",
       badge: "Published"
     },
     {
@@ -116,9 +133,9 @@ export const siteContent = {
     {
       key: "minFee",
       label: "Minimum Fee",
-      value: "1 atom/vB",
-      detail: "Base fee rate.",
-      hover: "Required fee is max(1 atom, tx_vbytes * 1 atom).",
+      value: "max(600, 1/B)",
+      detail: "Serialized bytes.",
+      hover: "Consensus requires max(600 atoms, 1 atom per serialized byte). Any positive amount above that floor is an optional miner tip.",
       badge: "Published"
     },
     {
@@ -133,9 +150,9 @@ export const siteContent = {
   coreFeatures: [
     {
       icon: "shield",
-      title: "Post-Quantum Signatures",
-      copy: "Falcon-512 secures wallet spends with a post-quantum signature model.",
-      hover: "Atho uses Falcon-512 instead of classical elliptic-curve signatures for transaction signing.",
+      title: "Post-Quantum-Aware Signatures",
+      copy: "Falcon-512 authorizes wallet spends with a lattice-based signature model.",
+      hover: "Atho uses Falcon-512 transaction signatures instead of relying on classical elliptic-curve authorization.",
       href: "./docs.html#falcon-512-and-quantum-security",
       actionLabel: "Read security docs"
     },
@@ -150,8 +167,8 @@ export const siteContent = {
     {
       icon: "pickaxe",
       title: "Long-Term Miner Security",
-      copy: "Tail rewards keep a permanent proof-of-work budget as the network matures.",
-      hover: "Atho keeps a permanent miner incentive instead of ending issuance at a hard cap.",
+      copy: "Tail rewards keep a permanent proof-of-work subsidy floor as the network matures.",
+      hover: "Atho trades away fixed-cap branding for explicit bootstrap issuance and a permanent 0.50 ATHO miner reward floor.",
       href: "./docs.html#miner-security-budget",
       actionLabel: "Read monetary docs"
     }
@@ -227,6 +244,15 @@ export const siteContent = {
           hover: "The website docs do not depend on the PDF, but the PDF is available as a formal reference.",
           actionLabel: "Download PDF",
           actionHref: "./assets/files/atho-whitepaper.pdf"
+        },
+        {
+          icon: "hash",
+          title: "Atho vs Bitcoin",
+          status: "Published",
+          copy: "Repository-grounded comparison of Atho's UTXO, PoW, signature, fee, and emission choices against Bitcoin.",
+          hover: "The comparison frames Atho as a Bitcoin-style payment chain with SHA3-384 PoW, Falcon-512 signatures, wallet TX-PoW, adaptive blocks, and bootstrap-plus-tail issuance.",
+          actionLabel: "Download PDF",
+          actionHref: "./assets/files/atho-bitcoin-comparison.pdf"
         }
       ]
     }
@@ -267,17 +293,24 @@ export const siteContent = {
     },
     {
       label: "Starting Reward",
-      value: "50 ATHO",
+      value: "8 ATHO",
       badge: "Published",
       note: "First reward era.",
-      hover: "The first era issues 63,000,000 ATHO across 1,260,000 blocks."
+      hover: "The first era issues 10,000,000 ATHO across 1,250,000 blocks after the zero-emission genesis anchor."
     },
     {
       label: "Tail Reward",
-      value: "0.390625 ATHO",
+      value: "0.50 ATHO",
       badge: "Published",
       note: "Permanent miner budget.",
-      hover: "Tail emission starts at block 8,820,000 and continues forever."
+      hover: "Tail emission starts at height 5,000,001 and continues forever."
+    },
+    {
+      label: "Bootstrap Issuance",
+      value: "18,750,000 ATHO",
+      badge: "Published",
+      note: "Before tail activation.",
+      hover: "Four 1,250,000-block bootstrap eras pay 8, 4, 2, and 1 ATHO before the permanent tail reward begins."
     },
     {
       label: "Max Supply Cap",
@@ -288,23 +321,23 @@ export const siteContent = {
     },
     {
       label: "Required Fee",
-      value: "1 atom/vB",
+      value: "max(600 atoms, 1 atom/B)",
       badge: "Published",
       note: "Atoms, no floats.",
-      hover: "A 650 vB transaction requires 650 atoms; a 250 vB transaction requires 250 atoms."
+      hover: "A 250-byte transaction pays 600 atoms; a 650-byte transaction pays 650 atoms. Optional miner tips can be added above the floor."
     },
     {
       label: "Spam Deterrent",
       value: "Wallet Transaction PoW",
       badge: "Published",
-      note: "SHA3-256 send proof.",
+      note: "SHA3-256, 10-16 bits.",
       hover: "Transaction PoW helps keep fees low without leaving the mempool open to free spam."
     }
   ],
   developerPoints: [
-    "Core, node, wallet, GUI, RPC, P2P, storage, and installer layers stay clearly separated.",
-    "Normal sends use exact atom parsing, Falcon signatures, wallet transaction PoW, mempool validation, and mining.",
-    "The GUI stays thin so backend truth stays canonical."
+    "Core, crypto, storage, P2P, RPC, node, wallet, GUI, GPU, and installer layers stay clearly separated.",
+    "Normal sends use exact atom parsing, Falcon-512 signatures, wallet TX-PoW, mempool validation, and block inclusion.",
+    "The GUI stays thin while backend node validation owns durable chain truth."
   ],
   developerCommands: [
     {
@@ -314,12 +347,12 @@ export const siteContent = {
     {
       kind: "command",
       prompt: "$",
-      text: "python runtestnet.py"
+      text: "python3 run/runtestnet.py"
     },
     {
       kind: "command",
       prompt: "$",
-      text: "cargo build --release -p atho-node -p atho-qt"
+      text: "cargo build --release -p atho-node -p atho-wallet -p atho-qt"
     },
     {
       kind: "command",
@@ -334,9 +367,15 @@ export const siteContent = {
   statusCards: [
     {
       label: "Now",
-      title: "Docs Are HTML",
-      copy: "The website now includes a full documentation page with sidebar navigation and search.",
-      hover: "The docs are readable in-browser and do not require the PDF."
+      title: "Whitepaper Updated",
+      copy: "The downloadable whitepaper now matches the current repository revision.",
+      hover: "The source whitepaper is a pre-production technical reference grounded in the live codebase."
+    },
+    {
+      label: "Now",
+      title: "Repo-Grounded Economics",
+      copy: "Website copy now reflects the 8/4/2/1 ATHO bootstrap schedule and 0.50 ATHO tail reward.",
+      hover: "The source repo now treats the code and generated whitepaper as the authority for public monetary-policy copy."
     },
     {
       label: "Now",
@@ -345,16 +384,10 @@ export const siteContent = {
       hover: "The client and website do not advertise a software faucet."
     },
     {
-      label: "Now",
-      title: "Tail Emission Policy",
-      copy: "Atho has no fixed max supply cap and uses a permanent miner tail reward.",
-      hover: "This replaces the old fixed-cap language on the website."
-    },
-    {
       label: "Next",
-      title: "Operator Hardening",
-      copy: "Broader node, peer, storage, and wallet docs should keep tracking active software changes.",
-      hover: "Docs should be updated whenever consensus, wallet, or deployment behavior changes."
+      title: "Production Readiness",
+      copy: "Mainnet-style operations still require reviewed seed infrastructure, independent review, release gates, and public-network evidence.",
+      hover: "The current source deployment guide is a preparation document, not a final mainnet launch runbook."
     }
   ],
   communityActions: [
@@ -385,6 +418,7 @@ export const siteContent = {
         { label: "Falcon-512", href: "./docs.html#falcon-512-and-quantum-security" },
         { label: "Wallets", href: "./docs.html#wallets" },
         { label: "Mining", href: "./docs.html#mining" },
+        { label: "Atho vs Bitcoin", href: "./assets/files/atho-bitcoin-comparison.pdf" },
         { label: "Developer Reference", href: "./docs.html#developer-reference" }
       ]
     },
@@ -403,6 +437,7 @@ export const siteContent = {
       links: [
         { label: "Home", href: "./index.html" },
         { label: "Whitepaper", href: "./assets/files/atho-whitepaper.pdf" },
+        { label: "Bitcoin Comparison", href: "./assets/files/atho-bitcoin-comparison.pdf" },
         { label: "Contact", href: "./contact.html" },
         { label: "Security", href: "./docs.html#security" }
       ]
