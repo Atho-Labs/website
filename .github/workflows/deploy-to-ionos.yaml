@@ -21,7 +21,7 @@ on:
         type: string
   push:
     paths:
-      - ./.github/workflows/deploy-to-ionos.yaml
+      - .github/workflows/deploy-to-ionos.yaml
 
 concurrency: ${{ github.ref }}
 
