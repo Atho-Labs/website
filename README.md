@@ -7,7 +7,7 @@ Current public site for `atho.io`.
 - `index.html`: main protocol landing page
 - `docs.html`: section-based HTML documentation shell
 - `explore/index.html`: read-only explorer page wired to the Atho node API
-- `join.html`: test batch / Discord onboarding
+- `join.html`: testnet / Discord onboarding
 - `roadmap.html`: status page
 - `contact.html`: contact page
 

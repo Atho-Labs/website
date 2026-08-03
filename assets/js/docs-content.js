@@ -360,7 +360,7 @@ Tail issuance every 10 years = 1,576,800 ATHO</code></pre>
       </section>
       <section class="docs-section" id="monetary-supply-model">
         <h2>500-Year Monetary Supply Model</h2>
-        <p>The monetary supply model PDF breaks down the full policy in one focused reference: bootstrap rewards, tail rewards, block cadence, atom fees, optional tips, fee burns where enabled by policy, and long-range supply views.</p>
+        <p>The monetary supply model PDF breaks down the full policy in one focused reference: bootstrap rewards, tail rewards, block cadence, atom fees, optional tips, burned-supply reporting, and why transaction fees are not burned under the current policy.</p>
         <p><a class="docs-inline-action" href="./assets/files/atho-monetary-supply-model-500-years.pdf">Download 500-Year Monetary Supply Model</a></p>
       </section>
       <section class="docs-section" id="why-no-fixed-max-supply">
