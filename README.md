@@ -22,9 +22,9 @@ Current public site for `atho.io`.
 - `assets/js/docs-content.js`: docs chapter content, aliases, and section metadata
 - `assets/js/docs.js`: docs navigation, search, deep-linking, and focused section rendering
 - `assets/media/logo 1.png`: primary dark-theme logo
-- `assets/media/docs/`: docs diagrams and comparison visuals
+- `assets/media/docs/`: docs diagrams and protocol visuals
 - `assets/files/atho-whitepaper.pdf`: downloadable whitepaper
-- `assets/files/atho-bitcoin-comparison.pdf`: downloadable Atho vs Bitcoin comparison
+- `assets/files/atho-monetary-supply-model-500-years.pdf`: downloadable 500-year monetary supply model
 
 ## Docs Architecture
 
@@ -53,14 +53,14 @@ The docs are no longer one long scroll page.
 
 Current docs diagrams live in `assets/media/docs/` and include:
 
-- Falcon-512 vs classical elliptic curve comparison
+- Falcon-512 signature overview
 - wallet transaction PoW flow
 - UTXO transaction lifecycle flow
 
 Current public document downloads live in `assets/files/`:
 
 - updated Atho whitepaper generated from the source repository
-- Atho vs Bitcoin comparison generated from the source repository
+- 500-year Atho monetary supply model generated from the source repository
 
 ## Local Preview
 

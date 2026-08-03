@@ -3,7 +3,7 @@ import {
   explorerApiConfig,
   explorerNetworks,
   explorerRefresh
-} from "./explorer-config.js?v=20260718b";
+} from "./explorer-config.js?v=20260803a";
 
 const refs = {
   shell: document.querySelector("[data-home-live-shell]"),

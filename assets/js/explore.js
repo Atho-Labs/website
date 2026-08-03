@@ -2,7 +2,7 @@ import {
   defaultExplorerNetwork,
   explorerApiConfig,
   explorerNetworks
-} from "./explorer-config.js?v=20260718b";
+} from "./explorer-config.js?v=20260803a";
 
 const HASH_LENGTH = 96;
 const ATHO_DECIMALS = 8;
@@ -945,10 +945,10 @@ async function renderHomePage(dashboard) {
       <div class="panel-body">
         <div class="overview-shell">
           <div>
-            <div class="overview-kicker">Testnet Explorer</div>
+            <div class="overview-kicker">Atho Explorer</div>
             <div class="overview-title">Atho Testnet Explorer</div>
             <p class="overview-lead">
-              Live chain data with block, transaction, mempool, and supply detail.
+              Search or browse live testnet blocks, transactions, mempool activity, supply, and network status.
             </p>
           </div>
           <div class="overview-side">
@@ -1541,6 +1541,7 @@ async function renderSupplyPage() {
           { label: "Emission Epoch", valueHtml: esc(formatNumber(supply.emission_epoch || 0)) },
           { label: "Coinbase Maturity", valueHtml: `${esc(formatNumber(supply.coinbase_maturity_blocks || 0))} blocks` }
         ])}
+        <p class="detail-note">For the long-range reward, fee, and issuance breakdown, download the <a href="../assets/files/atho-monetary-supply-model-500-years.pdf">500-year monetary supply model</a>.</p>
       </div>
     </section>
   `;

@@ -3,7 +3,6 @@ export const docsSectionOrder = [
   "what-is-atho",
   "design-philosophy",
   "falcon-512-and-quantum-security",
-  "atho-vs-bitcoin",
   "monetary-policy",
   "units-and-fees",
   "setup",
@@ -34,7 +33,7 @@ export const docsSectionOrder = [
 export const docsNavGroups = [
   {
     title: "Start Here",
-    ids: ["overview", "what-is-atho", "design-philosophy", "falcon-512-and-quantum-security", "atho-vs-bitcoin", "monetary-policy", "units-and-fees", "setup"]
+    ids: ["overview", "what-is-atho", "design-philosophy", "falcon-512-and-quantum-security", "monetary-policy", "units-and-fees", "setup"]
   },
   {
     title: "Payments and Wallets",
@@ -72,13 +71,14 @@ export const docsSections = {
       "contents"
     ],
     topics: [
-      { id: "overview", title: "Docs Overview", aliases: ["docs", "start", "guide"] }
+      { id: "overview", title: "Docs Overview", aliases: ["docs", "start", "guide"] },
+      { id: "overview-downloads", title: "Primary Downloads", aliases: ["downloads", "whitepaper", "monetary supply model pdf"] }
     ],
     related: [
       { label: "What Is Atho?", href: "#what-is-atho" },
       { label: "Design Philosophy", href: "#design-philosophy" },
       { label: "Falcon-512 and Quantum Security", href: "#falcon-512-and-quantum-security" },
-      { label: "Atho vs Bitcoin", href: "#atho-vs-bitcoin" },
+      { label: "Monetary Policy", href: "#monetary-policy" },
       { label: "Units and Fees", href: "#units-and-fees" },
       { label: "Setup", href: "#setup" },
       { label: "HTTP API", href: "#http-api" }
@@ -100,6 +100,12 @@ export const docsSections = {
           <li>Genesis is a zero-emission anchor at height <code>0</code>. Ordinary subsidy starts at height <code>1</code> with four bootstrap eras and a permanent tail reward.</li>
           <li>Testnet ATHO is distributed manually by the Atho founders or development team. There is no software faucet in the client or website.</li>
         </ul>
+      </section>
+      <section class="docs-section" id="overview-downloads">
+        <h2>Primary Downloads</h2>
+        <p>Use the whitepaper for the full protocol narrative and the monetary model for rewards, fees, tail emission, and long-range supply behavior.</p>
+        <p><a class="docs-inline-action" href="./assets/files/atho-whitepaper.pdf">Download Atho Whitepaper</a></p>
+        <p><a class="docs-inline-action" href="./assets/files/atho-monetary-supply-model-500-years.pdf">Download 500-Year Monetary Supply Model</a></p>
       </section>
     `
   },
@@ -161,7 +167,7 @@ export const docsSections = {
         <h2>What Makes Atho Different?</h2>
         <ul>
           <li>Post-quantum-aware transaction signing with Falcon-512.</li>
-          <li>One ATHO contains 100,000,000 atoms, so the system keeps Bitcoin-style E-8 precision.</li>
+          <li>One ATHO contains 100,000,000 atoms, so the system keeps exact 8-decimal precision.</li>
           <li>Wallet transaction PoW adds sender-side spam friction without forcing high base fees.</li>
           <li>A four-era bootstrap schedule plus permanent tail emission keeps a long-term miner security budget instead of relying on a hard supply cap and fee-only security later.</li>
         </ul>
@@ -235,7 +241,7 @@ export const docsSections = {
     related: [
       { label: "Design Philosophy", href: "#design-philosophy" },
       { label: "Wallet Transaction PoW", href: "#wallet-transaction-pow" },
-      { label: "Atho vs Bitcoin", href: "#atho-vs-bitcoin" },
+      { label: "Monetary Policy", href: "#monetary-policy" },
       { label: "Security", href: "#security" }
     ],
     content: `
@@ -247,7 +253,7 @@ export const docsSections = {
       <section class="docs-section" id="falcon-vs-elliptic-curve">
         <h2>Falcon-512 vs Elliptic Curve Signatures</h2>
         <figure class="docs-figure docs-figure-wide">
-          <img src="./assets/media/docs/falcon-512-vs-ecc.svg?v=20260718b" alt="Comparison diagram showing Falcon-512 next to classical elliptic curve signatures, including size tradeoffs and threat-model differences.">
+          <img src="./assets/media/docs/falcon-512-vs-ecc.svg?v=20260803a" alt="Comparison diagram showing Falcon-512 next to classical elliptic curve signatures, including size tradeoffs and threat-model differences.">
           <figcaption>Falcon-512 is materially larger than a compact classical elliptic-curve signature stack, but Atho accepts that cost for a stronger long-range signature posture.</figcaption>
         </figure>
         <div class="docs-table-wrap">
@@ -276,61 +282,6 @@ export const docsSections = {
       </section>
     `
   },
-  "atho-vs-bitcoin": {
-    title: "Atho vs Bitcoin",
-    eyebrow: "Start Here",
-    summary: "Atho is best understood as a modern, opinionated Bitcoin-style payment chain: UTXO and proof-of-work at the base layer, but different signatures, emission, block sizing, and anti-spam policy.",
-    keywords: [
-      "atho vs bitcoin",
-      "bitcoin comparison",
-      "proof of work comparison",
-      "utxo comparison",
-      "sha3 384",
-      "falcon 512",
-      "tail reward"
-    ],
-    topics: [
-      { id: "atho-vs-bitcoin", title: "Atho vs Bitcoin", aliases: ["bitcoin comparison", "like bitcoin"] },
-      { id: "comparison-summary", title: "Comparison Summary" },
-      { id: "what-atho-changes", title: "What Atho Changes" },
-      { id: "comparison-pdf", title: "Full Comparison PDF" }
-    ],
-    related: [
-      { label: "What Is Atho?", href: "#what-is-atho" },
-      { label: "Monetary Policy", href: "#monetary-policy" },
-      { label: "Wallet Transaction PoW", href: "#wallet-transaction-pow" },
-      { label: "Developer Reference", href: "#developer-reference" }
-    ],
-    content: `
-      <section class="docs-section" id="comparison-summary">
-        <h2>Comparison Summary</h2>
-        <p>Atho shares Bitcoin's payment-chain fundamentals: proof-of-work ordering, public UTXOs, local full-node validation, coinbase issuance, and wallet construction separated from consensus truth. It is not a broad smart-contract platform.</p>
-        <p>The major differences are deliberate: Atho uses SHA3-384 block proof-of-work, Falcon-512 transaction authorization, wallet TX-PoW anti-spam friction, a deterministic adaptive block limit, and bootstrap-plus-tail miner rewards instead of Bitcoin's SHA-256d mining, elliptic-curve signatures, fee-market-only spam pressure, fixed block-weight policy, and finite hard cap.</p>
-      </section>
-      <section class="docs-section" id="what-atho-changes">
-        <h2>What Atho Changes</h2>
-        <div class="docs-table-wrap">
-          <table>
-            <thead><tr><th>Area</th><th>Bitcoin</th><th>Atho</th></tr></thead>
-            <tbody>
-              <tr><td>Base Model</td><td>Proof-of-work UTXO money</td><td>Proof-of-work UTXO money</td></tr>
-              <tr><td>Block Hash</td><td>SHA-256d</td><td>SHA3-384</td></tr>
-              <tr><td>Transaction Signatures</td><td>secp256k1 ECDSA/Schnorr families</td><td>Falcon-512</td></tr>
-              <tr><td>Block Cadence</td><td>About 10 minutes</td><td>100 seconds</td></tr>
-              <tr><td>Emission</td><td>Finite 21 million BTC cap</td><td>No cap; 18,750,000 ATHO bootstrap plus 0.50 ATHO tail reward</td></tr>
-              <tr><td>Anti-Spam</td><td>Fee market and relay policy</td><td>Required fee floor plus wallet TX-PoW</td></tr>
-              <tr><td>Ownership Surface</td><td>Script ecosystem</td><td>Canonical lock-digest ownership model</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-      <section class="docs-section" id="comparison-pdf">
-        <h2>Full Comparison PDF</h2>
-        <p>The full repository-grounded comparison expands the tradeoffs across mining, transaction policy, signature assumptions, network maturity, ecosystem readiness, and long-run miner economics.</p>
-        <p><a class="docs-inline-action" href="./assets/files/atho-bitcoin-comparison.pdf">Download Atho vs Bitcoin Comparison</a></p>
-      </section>
-    `
-  },
   "monetary-policy": {
     title: "Monetary Policy",
     eyebrow: "Economics",
@@ -351,6 +302,7 @@ export const docsSections = {
       { id: "tail-emission", title: "Tail Emission" },
       { id: "miner-security-budget", title: "Miner Security Budget" },
       { id: "supply-examples", title: "Year 20 and Year 50 Supply", aliases: ["year 20", "year 50", "tail start"] },
+      { id: "monetary-supply-model", title: "500-Year Monetary Supply Model", aliases: ["supply model", "500 year model", "monetary model"] },
       { id: "why-no-fixed-max-supply", title: "Why No Fixed Max Supply" }
     ],
     related: [
@@ -406,6 +358,11 @@ Tail issuance every 10 years = 1,576,800 ATHO</code></pre>
         </div>
         <p>Tail issuance begins after 5,000,000 reward-bearing bootstrap blocks, roughly year 15.85 at the 100-second target cadence. After that, issuance continues, but its percentage impact declines as total supply grows.</p>
       </section>
+      <section class="docs-section" id="monetary-supply-model">
+        <h2>500-Year Monetary Supply Model</h2>
+        <p>The monetary supply model PDF breaks down the full policy in one focused reference: bootstrap rewards, tail rewards, block cadence, atom fees, optional tips, fee burns where enabled by policy, and long-range supply views.</p>
+        <p><a class="docs-inline-action" href="./assets/files/atho-monetary-supply-model-500-years.pdf">Download 500-Year Monetary Supply Model</a></p>
+      </section>
       <section class="docs-section" id="why-no-fixed-max-supply">
         <h2>Why No Fixed Max Supply</h2>
         <p>A fixed cap can push a proof-of-work payment network toward fee-only security. Atho chooses a permanent tail reward so miners keep predictable incentives while users can still rely on low fees and small denomination support.</p>
@@ -444,7 +401,7 @@ Tail issuance every 10 years = 1,576,800 ATHO</code></pre>
     content: `
       <section class="docs-section" id="atoms-and-display-units">
         <h2>Atoms and Display Units</h2>
-        <p>Atho is scarce at the coin level and divisible at the atom level. One ATHO contains 100,000,000 atoms, which keeps fees precise while using Bitcoin-style E-8 accounting.</p>
+        <p>Atho is scarce at the coin level and divisible at the atom level. One ATHO contains 100,000,000 atoms, which keeps fees precise with exact 8-decimal accounting.</p>
         <div class="docs-table-wrap">
           <table>
             <thead><tr><th>Unit</th><th>Symbol</th><th>Atom Value</th><th>ATHO Value</th></tr></thead>

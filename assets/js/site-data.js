@@ -247,12 +247,12 @@ export const siteContent = {
         },
         {
           icon: "hash",
-          title: "Atho vs Bitcoin",
+          title: "Monetary Supply Model",
           status: "Published",
-          copy: "Repository-grounded comparison of Atho's UTXO, PoW, signature, fee, and emission choices against Bitcoin.",
-          hover: "The comparison frames Atho as a Bitcoin-style payment chain with SHA3-384 PoW, Falcon-512 signatures, wallet TX-PoW, adaptive blocks, and bootstrap-plus-tail issuance.",
+          copy: "Download the 500-year Atho monetary policy model with rewards, fees, tail emission, and long-range supply views.",
+          hover: "The model explains the 8/4/2/1 ATHO bootstrap eras, 0.50 ATHO tail reward, atom fee floor, optional tips, and long-run issuance behavior.",
           actionLabel: "Download PDF",
-          actionHref: "./assets/files/atho-bitcoin-comparison.pdf"
+          actionHref: "./assets/files/atho-monetary-supply-model-500-years.pdf"
         }
       ]
     }
@@ -281,6 +281,14 @@ export const siteContent = {
       hover: "Testnet setup, storage behavior, mining notes, and manual fund flow are covered in the testnet docs.",
       href: "./docs.html#testnet",
       actionLabel: "Read testnet docs"
+    },
+    {
+      icon: "package",
+      title: "Download the Papers",
+      copy: "Open the whitepaper or the 500-year monetary supply model.",
+      hover: "The whitepaper explains the protocol design. The monetary model focuses on rewards, fees, issuance, and long-range supply.",
+      href: "./docs.html#overview-downloads",
+      actionLabel: "Open downloads"
     }
   ],
   economics: [
@@ -379,6 +387,12 @@ export const siteContent = {
     },
     {
       label: "Now",
+      title: "500-Year Supply Model",
+      copy: "The monetary supply PDF is now available from the website for long-range reward, fee, and issuance review.",
+      hover: "The model gives readers a focused way to understand Atho's bootstrap issuance, tail reward, fee floor, and supply path."
+    },
+    {
+      label: "Now",
       title: "Manual Testnet Funds",
       copy: "Testnet ATHO is distributed manually by the founders or development team.",
       hover: "The client and website do not advertise a software faucet."
@@ -418,7 +432,7 @@ export const siteContent = {
         { label: "Falcon-512", href: "./docs.html#falcon-512-and-quantum-security" },
         { label: "Wallets", href: "./docs.html#wallets" },
         { label: "Mining", href: "./docs.html#mining" },
-        { label: "Atho vs Bitcoin", href: "./assets/files/atho-bitcoin-comparison.pdf" },
+        { label: "Monetary Policy", href: "./docs.html#monetary-policy" },
         { label: "Developer Reference", href: "./docs.html#developer-reference" }
       ]
     },
@@ -437,7 +451,7 @@ export const siteContent = {
       links: [
         { label: "Home", href: "./index.html" },
         { label: "Whitepaper", href: "./assets/files/atho-whitepaper.pdf" },
-        { label: "Bitcoin Comparison", href: "./assets/files/atho-bitcoin-comparison.pdf" },
+        { label: "Monetary Supply Model", href: "./assets/files/atho-monetary-supply-model-500-years.pdf" },
         { label: "Contact", href: "./contact.html" },
         { label: "Security", href: "./docs.html#security" }
       ]
