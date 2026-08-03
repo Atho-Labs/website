@@ -56,8 +56,8 @@ export const siteContent = {
       name: "Mainnet",
       detail: "atho-mainnet",
       value: "<span class=\"stack-line\">P2P 56000</span><span class=\"stack-line\">RPC 9010</span>",
-      copy: "Mainnet mode exists for reviewed deployments and keeps strict network isolation.",
-      hover: "The current deployment guide is pre-mainnet preparation, not final launch approval. Mainnet uses its own consensus ID, address prefix, ports, storage, and genesis anchor.",
+      copy: "Mainnet mode keeps reviewed deployments isolated from every other Atho network.",
+      hover: "Mainnet uses its own consensus ID, address prefix, ports, storage, and genesis anchor. Operators should use signed releases, backups, monitoring, and deployment controls before handling real value.",
       href: "./docs.html#network-modes",
       actionLabel: "Read network docs"
     },
@@ -240,7 +240,7 @@ export const siteContent = {
           icon: "package",
           title: "Whitepaper",
           status: "Published",
-          copy: "Downloadable PDF whitepaper generated from the current source document.",
+          copy: "Downloadable PDF whitepaper generated from the Atho source document.",
           hover: "The website docs do not depend on the PDF, but the PDF is available as a formal reference.",
           actionLabel: "Download PDF",
           actionHref: "./assets/files/atho-whitepaper.pdf"
@@ -374,34 +374,34 @@ export const siteContent = {
   ],
   statusCards: [
     {
-      label: "Now",
-      title: "Whitepaper Updated",
-      copy: "The downloadable whitepaper now matches the current repository revision.",
-      hover: "The source whitepaper is a pre-production technical reference grounded in the live codebase."
+      label: "Protocol",
+      title: "V1 Ruleset",
+      copy: "Atho V1 centers on UTXO payments, Falcon-512 authorization, SHA3-384 mining, and wallet TX-PoW.",
+      hover: "Core rules are documented in the whitepaper and searchable docs."
     },
     {
-      label: "Now",
-      title: "Repo-Grounded Economics",
-      copy: "Website copy now reflects the 8/4/2/1 ATHO bootstrap schedule and 0.50 ATHO tail reward.",
-      hover: "The source repo now treats the code and generated whitepaper as the authority for public monetary-policy copy."
+      label: "Economics",
+      title: "Published Monetary Model",
+      copy: "Rewards follow the 8/4/2/1 ATHO bootstrap schedule and 0.50 ATHO tail reward.",
+      hover: "The 500-year model explains issuance, minimum fees, optional tips, and the no-fee-burn policy."
     },
     {
-      label: "Now",
-      title: "500-Year Supply Model",
-      copy: "The monetary supply PDF is now available from the website for long-range reward, fee, and issuance review.",
-      hover: "The model gives readers a focused way to understand Atho's bootstrap issuance, tail reward, fee floor, and supply path."
+      label: "Reference",
+      title: "Whitepaper and Supply PDF",
+      copy: "The whitepaper and 500-year monetary model are available as focused downloads.",
+      hover: "These documents give readers the technical design, reward schedule, fee model, and long-range supply path."
     },
     {
-      label: "Now",
-      title: "Manual Testnet Funds",
-      copy: "Testnet ATHO is distributed manually by the founders or development team.",
-      hover: "The client and website do not advertise a software faucet."
+      label: "Network",
+      title: "Explorer and Docs",
+      copy: "The website links directly to live testnet explorer data and searchable operator docs.",
+      hover: "Explorer reads the public API; docs cover wallets, nodes, mining, API, and deployment controls."
     },
     {
-      label: "Next",
-      title: "Production Readiness",
-      copy: "Mainnet-style operations still require reviewed seed infrastructure, independent review, release gates, and public-network evidence.",
-      hover: "The current source deployment guide is a preparation document, not a final mainnet launch runbook."
+      label: "Operations",
+      title: "Mainnet Controls",
+      copy: "Mainnet operation uses isolated network identity, signed release artifacts, and conservative deployment checks.",
+      hover: "Real-value operation should follow release verification, backups, monitoring, and deployment docs."
     }
   ],
   communityActions: [
@@ -441,7 +441,7 @@ export const siteContent = {
       links: [
         { label: "Join Testnet", href: "./join.html", badge: "Live" },
         { label: "Explorer", href: "./explore/", badge: "Live" },
-        { label: "Testnet Funds", href: "./docs.html#getting-testnet-atho-manually" },
+        { label: "Testnet Funds", href: "./docs.html#getting-testnet-atho" },
         { label: "Nodes", href: "./docs.html#nodes" },
         { label: "Status", href: "./roadmap.html" }
       ]

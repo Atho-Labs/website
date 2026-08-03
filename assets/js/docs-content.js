@@ -253,7 +253,7 @@ export const docsSections = {
       <section class="docs-section" id="falcon-vs-elliptic-curve">
         <h2>Falcon-512 vs Elliptic Curve Signatures</h2>
         <figure class="docs-figure docs-figure-wide">
-          <img src="./assets/media/docs/falcon-512-vs-ecc.svg?v=20260803a" alt="Comparison diagram showing Falcon-512 next to classical elliptic curve signatures, including size tradeoffs and threat-model differences.">
+          <img src="./assets/media/docs/falcon-512-vs-ecc.svg?v=20260803b" alt="Comparison diagram showing Falcon-512 next to classical elliptic curve signatures, including size tradeoffs and threat-model differences.">
           <figcaption>Falcon-512 is materially larger than a compact classical elliptic-curve signature stack, but Atho accepts that cost for a stronger long-range signature posture.</figcaption>
         </figure>
         <div class="docs-table-wrap">
@@ -485,7 +485,7 @@ required_fee_atoms = max(600, serialized_size_bytes * 1)</code></pre>
     content: `
       <section class="docs-section" id="setup-requirements">
         <h2>Requirements</h2>
-        <p>Use testnet or regnet for evaluation. Mainnet mode exists in the software, but the current deployment guide is preparation material, not a final real-value launch runbook.</p>
+        <p>Use testnet or regnet for evaluation. Mainnet mode exists in the software; real-value operation should follow the deployment and release-verification docs.</p>
         <ul>
           <li>Rust and Cargo from the stable toolchain.</li>
           <li>Git and <code>curl</code> for checkout and Rust installation.</li>
@@ -972,7 +972,7 @@ Node verifies nonce before expensive checks when possible.</code></pre>
         <p>The target starts at 10 bits, adds work at transaction-vsize thresholds above 500, 1,000, and 2,000 vbytes, adds smaller increments for larger input and output counts, and clamps to 16 bits. Larger or more complex transactions work a little harder without turning the send flow into full mining.</p>
         <div class="docs-example">
           <h3>Example</h3>
-          <p>The 2026-07-15 benchmark shows ordinary signed Falcon payments naturally landing at 12 bits, with low-end reference-host P95 latency under 14 ms. Maximum-output and large consolidation shapes hit the 16-bit ceiling and measured roughly 55-85 ms P95 in automatic mode on that host.</p>
+          <p>Reference benchmarks show ordinary signed Falcon payments naturally landing at 12 bits, with low-end reference-host P95 latency under 14 ms. Maximum-output and large consolidation shapes hit the 16-bit ceiling and measured roughly 55-85 ms P95 in automatic mode on that host.</p>
         </div>
       </section>
     `
@@ -980,7 +980,7 @@ Node verifies nonce before expensive checks when possible.</code></pre>
   mempool: {
     title: "Mempool",
     eyebrow: "Payments and Wallets",
-    summary: "The mempool is a validated staging area for unconfirmed transactions. It is not final settlement.",
+    summary: "The mempool is a validated staging area for unconfirmed transactions before block settlement.",
     keywords: [
       "mempool",
       "mempool flow",
@@ -1700,7 +1700,7 @@ cargo run -p atho-node --bin athod -- wipe --network mainnet --data-dir "$ATHO_D
   "production-deployment": {
     title: "Production Deployment",
     eyebrow: "APIs and Operations",
-    summary: "Atho is deployable for local development, regnet, and extended testnet operations; mainnet-style operations require conservative deployment controls and remaining release work.",
+    summary: "Atho includes deployment controls for local development, regnet, testnet, and reviewed mainnet-style operations.",
     keywords: [
       "production deployment",
       "systemd",
@@ -1708,7 +1708,7 @@ cargo run -p atho-node --bin athod -- wipe --network mainnet --data-dir "$ATHO_D
       "firewall",
       "p2p advertise",
       "operator deployment",
-      "mainnet blockers"
+      "mainnet checklist"
     ],
     topics: [
       { id: "production-deployment", title: "Production Deployment" },
@@ -1718,7 +1718,7 @@ cargo run -p atho-node --bin athod -- wipe --network mainnet --data-dir "$ATHO_D
       { id: "deployment-systemd", title: "systemd Example" },
       { id: "deployment-health", title: "Health and Readiness" },
       { id: "deployment-ops", title: "Operations" },
-      { id: "deployment-blockers", title: "Current Operational Blockers" }
+      { id: "deployment-checklist", title: "Mainnet Operations Checklist" }
     ],
     related: [
       { label: "Configuration", href: "#configuration" },
@@ -1806,18 +1806,16 @@ curl --fail --silent --show-error http://127.0.0.1:8080/api/v1/status</code></pr
           <li>Do not blindly roll back across schema or consensus transitions without checking storage compatibility.</li>
         </ul>
       </section>
-      <section class="docs-section" id="deployment-blockers">
-        <h2>Current Operational Blockers</h2>
+      <section class="docs-section" id="deployment-checklist">
+        <h2>Mainnet Operations Checklist</h2>
         <ul>
-          <li>Mainnet seed/bootstrap infrastructure is not provisioned in-repo yet.</li>
-          <li>Wallet plaintext persistence is still possible when password is empty.</li>
-          <li>No built-in HTTP auth layer exists.</li>
-          <li>Independent consensus and cryptography review is not complete.</li>
-          <li>Full workspace Clippy and dependency-audit gates are not green.</li>
-          <li>Cross-OS, native OpenCL GPU, sustained fuzz, mutation, and long hostile-network evidence is incomplete.</li>
-          <li>Signed reproducible release artifacts, SBOM, provenance, incident response, and tested rollback ownership are not complete.</li>
+          <li>Provision mainnet seed and bootstrap infrastructure outside single-operator assumptions.</li>
+          <li>Use encrypted wallets, reviewed key-handling procedures, and access-controlled RPC/API boundaries.</li>
+          <li>Run independent consensus, cryptography, dependency, fuzz, scale, and hostile-network review.</li>
+          <li>Publish signed reproducible release artifacts, checksums, SBOM/provenance, release-key fingerprint, rollback plan, and incident contacts together.</li>
+          <li>Back up wallet and node state, document retention, and rehearse restore procedures before value-bearing service.</li>
         </ul>
-        <p>For local development, regnet, and extended testnet operations, Atho is deployable with the current launcher and node stack. For mainnet-style production operations, treat this as preparation material rather than final launch approval.</p>
+        <p>Local development, regnet, and extended testnet operations can run from the current launchers. Real-value operation should use reviewed release artifacts and the production deployment checklist.</p>
       </section>
     `
   },
@@ -1849,7 +1847,7 @@ curl --fail --silent --show-error http://127.0.0.1:8080/api/v1/status</code></pr
     content: `
       <section class="docs-section" id="release-artifacts">
         <h2>Release Artifacts</h2>
-        <p>A real release should publish binaries, <code>release_checksums.py</code>, <code>ATHO_CHECKSUMS.json</code>, and <code>ATHO_CHECKSUMS.json.asc</code> together. No current tag is approval for a real-value mainnet launch.</p>
+        <p>A value-bearing release should publish binaries, <code>release_checksums.py</code>, <code>ATHO_CHECKSUMS.json</code>, and <code>ATHO_CHECKSUMS.json.asc</code> together. Users should run mainnet releases only when the signed artifacts, checksums, release notes, and signing-key fingerprint are published together.</p>
       </section>
       <section class="docs-section" id="release-maintainer-flow">
         <h2>Maintainer Flow</h2>
@@ -1881,7 +1879,7 @@ python3 release_checksums.py verify ATHO_CHECKSUMS.json</code></pre>
       </section>
       <section class="docs-section" id="release-upgrade-note">
         <h2>Upgrade Notes</h2>
-        <p>The current pre-production line includes bootstrap-plus-tail policy, adaptive block-limit state, exact coinbase-height rules, and the 10-to-16-bit mandatory TX-PoW schedule. Upgrade nodes, miners, and wallets together, clear pending transactions created under older policy, and rebuild development chains when schema or consensus changes require it.</p>
+        <p>The V1 line includes bootstrap-plus-tail policy, adaptive block-limit state, exact coinbase-height rules, and the 10-to-16-bit mandatory TX-PoW schedule. Upgrade nodes, miners, and wallets together, clear pending transactions created under older policy, and rebuild development chains when schema or consensus changes require it.</p>
       </section>
     `
   },
@@ -1892,7 +1890,7 @@ python3 release_checksums.py verify ATHO_CHECKSUMS.json</code></pre>
     keywords: [
       "mainnet vs testnet",
       "testnet",
-      "manual testnet funds",
+      "testnet atho",
       "no faucet",
       "testnet resets",
       "regtest"
@@ -1901,7 +1899,7 @@ python3 release_checksums.py verify ATHO_CHECKSUMS.json</code></pre>
       { id: "mainnet-vs-testnet", title: "Mainnet vs Testnet" },
       { id: "network-modes", title: "Network Modes", aliases: ["mainnet", "testnet", "regtest", "regnet"] },
       { id: "what-testnet-is", title: "What Testnet Is" },
-      { id: "getting-testnet-atho-manually", title: "Getting Testnet ATHO Manually", aliases: ["manual testnet funds", "testnet funds"] },
+      { id: "getting-testnet-atho", title: "Getting Testnet ATHO", aliases: ["testnet atho", "testnet funds"] },
       { id: "testnet-resets", title: "Testnet Resets", aliases: ["testnet reset"] },
       { id: "reporting-bugs", title: "Reporting Bugs", aliases: ["report bugs", "bug reports"] }
     ],
@@ -1932,8 +1930,8 @@ python3 release_checksums.py verify ATHO_CHECKSUMS.json</code></pre>
         <h2>What Testnet Is</h2>
         <p>Testnet supports normal mining, wallet testing, transactions, mempool validation, syncing, and node operations. It is for testing only. Testnet coins have no mainnet value.</p>
       </section>
-      <section class="docs-section" id="getting-testnet-atho-manually">
-        <h2>Getting Testnet ATHO Manually</h2>
+      <section class="docs-section" id="getting-testnet-atho">
+        <h2>Getting Testnet ATHO</h2>
         <p>The Atho client does not include an automated faucet. Testnet ATHO is distributed manually by the Atho founders or development team. Contact the Atho team to request testnet funds.</p>
       </section>
       <section class="docs-section" id="testnet-resets">

@@ -1,6 +1,6 @@
 # Atho Website
 
-Current public site for `atho.io`.
+Public site for `atho.io`.
 
 ## Live Pages
 
@@ -8,7 +8,7 @@ Current public site for `atho.io`.
 - `docs.html`: section-based HTML documentation shell
 - `explore/index.html`: read-only explorer page wired to the Atho node API
 - `join.html`: testnet / Discord onboarding
-- `roadmap.html`: status page
+- `roadmap.html`: network guide
 - `contact.html`: contact page
 
 ## Active Assets
@@ -45,21 +45,21 @@ The docs are no longer one long scroll page.
 - testnet explorer requests are configured in `assets/js/explorer-config.js`
 - testnet explorer requests default to the public VPS DNS endpoint `https://testnet-node1.atho.io/api/v1`
 - custom deployments can override the API at runtime by setting `window.ATHO_EXPLORER_CONFIG.testnetApiBaseUrl` before `assets/js/explore.js` or `assets/js/live-network.js` loads
-- mainnet explorer stays in a `Coming Soon` state until a mainnet API base URL is configured
+- mainnet explorer stays disabled until a mainnet API base URL is configured
 - the explorer verifies `network`, `network_id`, `genesis_hash`, and `api_version` before it renders data
 - search supports block heights, 96-character block hashes or txids, mempool txids, and visible Atho addresses
 
 ## Docs Visuals
 
-Current docs diagrams live in `assets/media/docs/` and include:
+Atho docs diagrams live in `assets/media/docs/` and include:
 
 - Falcon-512 signature overview
 - wallet transaction PoW flow
 - UTXO transaction lifecycle flow
 
-Current public document downloads live in `assets/files/`:
+Public document downloads live in `assets/files/`:
 
-- updated Atho whitepaper generated from the source repository
+- Atho whitepaper generated from the source repository
 - 500-year Atho monetary supply model generated from the source repository
 
 ## Local Preview

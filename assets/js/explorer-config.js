@@ -44,7 +44,6 @@ export const explorerNetworks = Object.freeze({
       "00002eb00a5fc1d177b03a8b77348c5c1faef451fa9367a337863df7af37f61734ed202e321353fd80a319843bcfef6b",
     apiBaseUrl: explorerApiConfig.testnetApiBaseUrl,
     enabled: true,
-    comingSoon: false,
     statusLabel: "Testnet Online"
   }),
   mainnet: Object.freeze({
@@ -56,8 +55,7 @@ export const explorerNetworks = Object.freeze({
       "0000f1fc7e66238f4068201c3c25b80fa9e2ce8a6df744ee4fd1e0984c7fa9ebd546028acd3d81d0c4a7e8c0d17a9b1e",
     apiBaseUrl: explorerApiConfig.mainnetApiBaseUrl,
     enabled: false,
-    comingSoon: true,
-    statusLabel: "Mainnet Coming Soon"
+    statusLabel: "Mainnet API Not Configured"
   })
 });
 

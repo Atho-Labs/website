@@ -4460,8 +4460,8 @@ main {
   gap: 10px;
 }
 
-.explorer-beta-badge,
-.explorer-beta-badge-inline {
+.explorer-status-badge,
+.explorer-status-badge-inline {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -4545,7 +4545,7 @@ main {
   line-height: 0.95;
 }
 
-.explorer-title-beta {
+.explorer-title-accent {
   color: var(--accent-deep);
 }
 

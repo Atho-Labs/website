@@ -2,7 +2,7 @@ import {
   defaultExplorerNetwork,
   explorerApiConfig,
   explorerNetworks
-} from "./explorer-config.js?v=20260803a";
+} from "./explorer-config.js?v=20260803b";
 
 const HASH_LENGTH = 96;
 const ATHO_DECIMALS = 8;
@@ -1037,17 +1037,17 @@ function rerenderHomePage() {
 }
 
 function renderMainnetPlaceholder() {
-  setNetworkBadge("MAINNET · COMING SOON");
-  setHeaderStatus("Coming Soon");
+  setNetworkBadge("MAINNET · API NOT CONFIGURED");
+  setHeaderStatus("API Not Configured");
   showWarn("", "warn");
   refs.pageRoot.innerHTML = `
     <section class="panel">
       <div class="panel-head">
-        <span class="section-title">Mainnet Explorer Coming Soon</span>
+        <span class="section-title">Mainnet Explorer</span>
       </div>
       <div class="panel-body">
         <div class="empty">
-          Mainnet data will appear here when mainnet is enabled.
+          Configure a mainnet API endpoint to enable this view. Until then, use the live testnet explorer.
         </div>
       </div>
     </section>
