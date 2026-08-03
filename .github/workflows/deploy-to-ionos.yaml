@@ -17,7 +17,7 @@ on:
         required: true
         type: string
       deployment-ids:
-        require: true
+        required: true
         type: string
   push:
     paths:
@@ -33,7 +33,7 @@ jobs:
       actions: read
     strategy:
       matrix:
-        deployment-id: ${{ fromJson(inputs.deployment-ids) }}
+        deployment_id: ${{ fromJson(inputs.deployment-ids) }}
     steps:
       - name: Update deployment status
         uses: ionos-deploy-now/project-action@v1.2.1-beta2
@@ -42,7 +42,7 @@ jobs:
           service-host: api-us.ionos.space
           project-id: ${{ inputs.project-id }}
           branch-id: ${{ inputs.branch-id }}
-          deployment-id: ${{ matrix.deployment-id }}
+          deployment-id: ${{ matrix.deployment_id }}
           action: update-status
           status: in_progress
 
@@ -64,14 +64,14 @@ jobs:
           service-host: api-us.ionos.space
           project-id: ${{ inputs.project-id }}
           branch-id: ${{ inputs.branch-id }}
-          deployment-id: ${{ matrix.deployment-id }}
+          deployment-id: ${{ matrix.deployment_id }}
           action: retrieve-info
 
       - name: Render templates
         uses: ionos-deploy-now/template-renderer-action@v2
         id: template
         with:
-          deployment-id: ${{ matrix.deployment-id }}
+          deployment-id: ${{ matrix.deployment_id }}
           data: "[${{ steps.deployment.outputs.template-variables }}, ${{ toJson(secrets) }}]"
           input-directory: deployment
           output-directory: deployment
@@ -84,7 +84,7 @@ jobs:
           done
 
       - name: Render SSH user secret name
-        run: echo SSH_USERNAME_SECRET=IONOS_DEPLOYMENT_`echo ${{ matrix.deployment-id }} | tr '[:lower:]' '[:upper:]' | tr '-' '_'`_SSH_USERNAME >> $GITHUB_ENV
+        run: echo SSH_USERNAME_SECRET=IONOS_DEPLOYMENT_`echo ${{ matrix.deployment_id }} | tr '[:lower:]' '[:upper:]' | tr '-' '_'`_SSH_USERNAME >> $GITHUB_ENV
 
       - name: Deploy to IONOS
         uses: ionos-deploy-now/deploy-to-ionos-action@v2
@@ -93,7 +93,7 @@ jobs:
           service-host: api-us.ionos.space
           project-id: ${{ inputs.project-id }}
           branch-id: ${{ inputs.branch-id }}
-          deployment-id: ${{ matrix.deployment-id }}
+          deployment-id: ${{ matrix.deployment_id }}
           deployment-info: ${{ steps.deployment.outputs.info }}
           ssh-user: ${{ secrets[env.SSH_USERNAME_SECRET] }}
           ssh-key: ${{ secrets.IONOS_SSH_KEY }}
@@ -106,7 +106,7 @@ jobs:
           service-host: api-us.ionos.space
           project-id: ${{ inputs.project-id }}
           branch-id: ${{ inputs.branch-id }}
-          deployment-id: ${{ matrix.deployment-id }}
+          deployment-id: ${{ matrix.deployment_id }}
           action: update-status
           status: ${{ job.status }}
 
