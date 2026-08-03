@@ -6,12 +6,106 @@ on:
       version:
         required: true
         type: string
+      project-id:
+        required: false
+        type: string
+      branch-id:
+        required: false
+        type: string
+      deployment-ids:
+        required: false
+        type: string
 
 concurrency: ${{ github.ref }}
 
 jobs:
   deploy-to-ionos:
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
     steps:
-      - name: Planner check
-        run: echo "IONOS deploy workflow planner check for ${{ inputs.version }}"
+      - name: Update deployment status
+        uses: ionos-deploy-now/project-action@v1.2.1-beta2
+        with:
+          api-key: ${{ secrets.IONOS_API_KEY }}
+          service-host: api-us.ionos.space
+          project-id: 79353570-e96a-4640-8783-5cf9b2c93269
+          branch-id: 5a8ce5ff-4a83-453a-b77d-1368d9d6be52
+          deployment-id: 7c7c52a5-5adb-4d5f-bbad-5cf1a941f0e0
+          action: update-status
+          status: in_progress
+
+      - name: Retrieve stored deployment
+        uses: ionos-deploy-now/artifact-action@v1
+        with:
+          api-key: ${{ secrets.IONOS_API_KEY }}
+          service-host: api-us.ionos.space
+          project-id: 79353570-e96a-4640-8783-5cf9b2c93269
+          branch-id: 5a8ce5ff-4a83-453a-b77d-1368d9d6be52
+          version: ${{ inputs.version }}
+          action: download
+
+      - name: Fetch deployment info
+        uses: ionos-deploy-now/project-action@v1.2.1-beta2
+        id: deployment
+        with:
+          api-key: ${{ secrets.IONOS_API_KEY }}
+          service-host: api-us.ionos.space
+          project-id: 79353570-e96a-4640-8783-5cf9b2c93269
+          branch-id: 5a8ce5ff-4a83-453a-b77d-1368d9d6be52
+          deployment-id: 7c7c52a5-5adb-4d5f-bbad-5cf1a941f0e0
+          action: retrieve-info
+
+      - name: Render templates
+        uses: ionos-deploy-now/template-renderer-action@v2
+        id: template
+        with:
+          deployment-id: 7c7c52a5-5adb-4d5f-bbad-5cf1a941f0e0
+          data: "[${{ steps.deployment.outputs.template-variables }}]"
+          input-directory: deployment
+          output-directory: deployment
+          intermediate-data-file: deployment/.template-renderer-data
+
+      - name: Render real site-url to all files
+        run: |
+          grep -rl 'https://IONOS_DEPLOY_NOW_SITE_URL' deployment | while IFS= read -r file; do
+            sed -i -e 's|https://IONOS_DEPLOY_NOW_SITE_URL|${{ fromJson(steps.deployment.outputs.info).site-url }}|g' "$file"
+          done
+
+      - name: Deploy to IONOS
+        uses: ionos-deploy-now/deploy-to-ionos-action@v2
+        with:
+          api-key: ${{ secrets.IONOS_API_KEY }}
+          service-host: api-us.ionos.space
+          project-id: 79353570-e96a-4640-8783-5cf9b2c93269
+          branch-id: 5a8ce5ff-4a83-453a-b77d-1368d9d6be52
+          deployment-id: 7c7c52a5-5adb-4d5f-bbad-5cf1a941f0e0
+          deployment-info: ${{ steps.deployment.outputs.info }}
+          ssh-user: ${{ secrets.IONOS_DEPLOYMENT_7C7C52A5_5ADB_4D5F_BBAD_5CF1A941F0E0_SSH_USERNAME }}
+          ssh-key: ${{ secrets.IONOS_SSH_KEY }}
+
+      - name: Update deployment status
+        if: ${{ always() }}
+        uses: ionos-deploy-now/project-action@v1.2.1-beta2
+        with:
+          api-key: ${{ secrets.IONOS_API_KEY }}
+          service-host: api-us.ionos.space
+          project-id: 79353570-e96a-4640-8783-5cf9b2c93269
+          branch-id: 5a8ce5ff-4a83-453a-b77d-1368d9d6be52
+          deployment-id: 7c7c52a5-5adb-4d5f-bbad-5cf1a941f0e0
+          action: update-status
+          status: ${{ job.status }}
+
+  notify-deployment-finished:
+    needs: deploy-to-ionos
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify all deployments finished
+        uses: ionos-deploy-now/project-action@v1.2.1-beta2
+        with:
+          api-key: ${{ secrets.IONOS_API_KEY }}
+          service-host: api-us.ionos.space
+          project-id: 79353570-e96a-4640-8783-5cf9b2c93269
+          branch-id: 5a8ce5ff-4a83-453a-b77d-1368d9d6be52
+          action: set-deployments-finished
