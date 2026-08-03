@@ -11,7 +11,12 @@ on:
   - workflow_dispatch
 
 permissions:
+  actions: read
   contents: read
+
+env:
+  IONOS_PROJECT_ID: 79353570-e96a-4640-8783-5cf9b2c93269
+  IONOS_DEPLOYMENT_ID: 7c7c52a5-5adb-4d5f-bbad-5cf1a941f0e0
 
 jobs:
   retrieve-project:
@@ -28,7 +33,7 @@ jobs:
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-us.ionos.space
-          project-id: 79353570-e96a-4640-8783-5cf9b2c93269
+          project-id: ${{ env.IONOS_PROJECT_ID }}
           action: retrieve-info
 
       - name: Normalize project outputs
@@ -76,18 +81,95 @@ jobs:
     secrets: inherit
 
   deploy:
-    name: trigger deployment
+    name: deploy to IONOS
     needs:
       - retrieve-project
       - build
     if: ${{ needs.retrieve-project.outputs.deployment-enabled == 'true' && needs.retrieve-project.outputs.branch-id != '' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Dispatch deployment(s)
+      - name: Update deployment status
         uses: ionos-deploy-now/project-action@v1.2.1-beta2
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-us.ionos.space
-          project-id: 79353570-e96a-4640-8783-5cf9b2c93269
+          project-id: ${{ env.IONOS_PROJECT_ID }}
           branch-id: ${{ needs.retrieve-project.outputs.branch-id }}
-          action: dispatch-deployments
+          deployment-id: ${{ env.IONOS_DEPLOYMENT_ID }}
+          action: update-status
+          status: in_progress
+
+      - name: Retrieve stored deployment
+        uses: ionos-deploy-now/artifact-action@v1
+        with:
+          api-key: ${{ secrets.IONOS_API_KEY }}
+          service-host: api-us.ionos.space
+          project-id: ${{ env.IONOS_PROJECT_ID }}
+          branch-id: ${{ needs.retrieve-project.outputs.branch-id }}
+          version: ${{ github.sha }}
+          action: download
+
+      - name: Fetch deployment info
+        uses: ionos-deploy-now/project-action@v1.2.1-beta2
+        id: deployment
+        with:
+          api-key: ${{ secrets.IONOS_API_KEY }}
+          service-host: api-us.ionos.space
+          project-id: ${{ env.IONOS_PROJECT_ID }}
+          branch-id: ${{ needs.retrieve-project.outputs.branch-id }}
+          deployment-id: ${{ env.IONOS_DEPLOYMENT_ID }}
+          action: retrieve-info
+
+      - name: Render templates
+        uses: ionos-deploy-now/template-renderer-action@v2
+        with:
+          deployment-id: ${{ env.IONOS_DEPLOYMENT_ID }}
+          data: "[${{ steps.deployment.outputs['template-variables'] }}, ${{ toJSON(secrets) }}]"
+          input-directory: deployment
+          output-directory: deployment
+          intermediate-data-file: deployment/.template-renderer-data
+
+      - name: Render real site-url to all files
+        run: |
+          grep -rl 'https://IONOS_DEPLOY_NOW_SITE_URL' deployment | while IFS= read -r file; do
+            sed -i -e 's|https://IONOS_DEPLOY_NOW_SITE_URL|${{ fromJSON(steps.deployment.outputs.info)['site-url'] }}|g' "$file"
+          done
+
+      - name: Render SSH user secret name
+        run: |
+          deployment_key=$(printf '%s' "$IONOS_DEPLOYMENT_ID" | tr '[:lower:]' '[:upper:]' | tr '-' '_')
+          echo "SSH_USERNAME_SECRET=IONOS_DEPLOYMENT_${deployment_key}_SSH_USERNAME" >> "$GITHUB_ENV"
+
+      - name: Deploy to IONOS
+        uses: ionos-deploy-now/deploy-to-ionos-action@v2
+        with:
+          api-key: ${{ secrets.IONOS_API_KEY }}
+          service-host: api-us.ionos.space
+          project-id: ${{ env.IONOS_PROJECT_ID }}
+          branch-id: ${{ needs.retrieve-project.outputs.branch-id }}
+          deployment-id: ${{ env.IONOS_DEPLOYMENT_ID }}
+          deployment-info: ${{ steps.deployment.outputs.info }}
+          ssh-user: ${{ secrets[env.SSH_USERNAME_SECRET] }}
+          ssh-key: ${{ secrets.IONOS_SSH_KEY }}
+
+      - name: Update deployment status
+        if: ${{ always() }}
+        uses: ionos-deploy-now/project-action@v1.2.1-beta2
+        with:
+          api-key: ${{ secrets.IONOS_API_KEY }}
+          service-host: api-us.ionos.space
+          project-id: ${{ env.IONOS_PROJECT_ID }}
+          branch-id: ${{ needs.retrieve-project.outputs.branch-id }}
+          deployment-id: ${{ env.IONOS_DEPLOYMENT_ID }}
+          action: update-status
+          status: ${{ job.status }}
+
+      - name: Notify deployment finished
+        if: ${{ always() }}
+        uses: ionos-deploy-now/project-action@v1.2.1-beta2
+        with:
+          api-key: ${{ secrets.IONOS_API_KEY }}
+          service-host: api-us.ionos.space
+          project-id: ${{ env.IONOS_PROJECT_ID }}
+          branch-id: ${{ needs.retrieve-project.outputs.branch-id }}
+          action: set-deployments-finished
