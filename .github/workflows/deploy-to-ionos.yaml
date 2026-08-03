@@ -19,9 +19,6 @@ on:
       deployment-ids:
         required: true
         type: string
-  push:
-    paths:
-      - .github/workflows/deploy-to-ionos.yaml
 
 concurrency: ${{ github.ref }}
 
@@ -31,18 +28,15 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       actions: read
-    strategy:
-      matrix:
-        deployment_id: ${{ fromJson(inputs['deployment-ids']) }}
     steps:
       - name: Update deployment status
         uses: ionos-deploy-now/project-action@v1.2.1-beta2
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-us.ionos.space
-          project-id: ${{ inputs['project-id'] }}
-          branch-id: ${{ inputs['branch-id'] }}
-          deployment-id: ${{ matrix.deployment_id }}
+          project-id: 79353570-e96a-4640-8783-5cf9b2c93269
+          branch-id: 5a8ce5ff-4a83-453a-b77d-1368d9d6be52
+          deployment-id: 7c7c52a5-5adb-4d5f-bbad-5cf1a941f0e0
           action: update-status
           status: in_progress
 
@@ -51,8 +45,8 @@ jobs:
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-us.ionos.space
-          project-id: ${{ inputs['project-id'] }}
-          branch-id: ${{ inputs['branch-id'] }}
+          project-id: 79353570-e96a-4640-8783-5cf9b2c93269
+          branch-id: 5a8ce5ff-4a83-453a-b77d-1368d9d6be52
           version: ${{ inputs.version }}
           action: download
 
@@ -62,16 +56,16 @@ jobs:
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-us.ionos.space
-          project-id: ${{ inputs['project-id'] }}
-          branch-id: ${{ inputs['branch-id'] }}
-          deployment-id: ${{ matrix.deployment_id }}
+          project-id: 79353570-e96a-4640-8783-5cf9b2c93269
+          branch-id: 5a8ce5ff-4a83-453a-b77d-1368d9d6be52
+          deployment-id: 7c7c52a5-5adb-4d5f-bbad-5cf1a941f0e0
           action: retrieve-info
 
       - name: Render templates
         uses: ionos-deploy-now/template-renderer-action@v2
         id: template
         with:
-          deployment-id: ${{ matrix.deployment_id }}
+          deployment-id: 7c7c52a5-5adb-4d5f-bbad-5cf1a941f0e0
           data: "[${{ steps.deployment.outputs.template-variables }}, ${{ toJson(secrets) }}]"
           input-directory: deployment
           output-directory: deployment
@@ -88,9 +82,9 @@ jobs:
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-us.ionos.space
-          project-id: ${{ inputs['project-id'] }}
-          branch-id: ${{ inputs['branch-id'] }}
-          deployment-id: ${{ matrix.deployment_id }}
+          project-id: 79353570-e96a-4640-8783-5cf9b2c93269
+          branch-id: 5a8ce5ff-4a83-453a-b77d-1368d9d6be52
+          deployment-id: 7c7c52a5-5adb-4d5f-bbad-5cf1a941f0e0
           deployment-info: ${{ steps.deployment.outputs.info }}
           ssh-user: ${{ secrets.IONOS_DEPLOYMENT_7C7C52A5_5ADB_4D5F_BBAD_5CF1A941F0E0_SSH_USERNAME }}
           ssh-key: ${{ secrets.IONOS_SSH_KEY }}
@@ -101,9 +95,9 @@ jobs:
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-us.ionos.space
-          project-id: ${{ inputs['project-id'] }}
-          branch-id: ${{ inputs['branch-id'] }}
-          deployment-id: ${{ matrix.deployment_id }}
+          project-id: 79353570-e96a-4640-8783-5cf9b2c93269
+          branch-id: 5a8ce5ff-4a83-453a-b77d-1368d9d6be52
+          deployment-id: 7c7c52a5-5adb-4d5f-bbad-5cf1a941f0e0
           action: update-status
           status: ${{ job.status }}
 
@@ -117,6 +111,6 @@ jobs:
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-us.ionos.space
-          project-id: ${{ inputs['project-id'] }}
-          branch-id: ${{ inputs['branch-id'] }}
+          project-id: 79353570-e96a-4640-8783-5cf9b2c93269
+          branch-id: 5a8ce5ff-4a83-453a-b77d-1368d9d6be52
           action: set-deployments-finished
