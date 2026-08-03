@@ -1,4 +1,4 @@
-import { docsAliasMap, docsNavGroups, docsSectionOrder, docsSections } from "./docs-content.js?v=20260803b";
+import { docsAliasMap, docsNavGroups, docsSectionOrder, docsSections } from "./docs-content.js?v=20260803c";
 
 const docsSidebar = document.querySelector("#docs-sidebar");
 const docsToggle = document.querySelector("[data-docs-toggle]");

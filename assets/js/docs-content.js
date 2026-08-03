@@ -93,12 +93,12 @@ export const docsSections = {
         <div class="docs-overview-grid" data-docs-overview-grid></div>
       </section>
       <section class="docs-section" id="overview-notes">
-        <h2>Current Network Notes</h2>
+        <h2>Network Rules</h2>
         <ul>
           <li>Atho is a post-quantum-aware proof-of-work payment network built around a public UTXO model.</li>
-          <li>The current software uses 100-second blocks, 8-decimal atom precision, a 100-atom dust floor, a required fee floor of <code>max(600 atoms, 1 atom per serialized byte)</code>, and 10-to-16-bit wallet transaction PoW.</li>
+          <li>Atho V1 uses 100-second blocks, 8-decimal atom precision, a 100-atom dust floor, a required fee floor of <code>max(600 atoms, 1 atom per serialized byte)</code>, and 10-to-16-bit wallet transaction PoW.</li>
           <li>Genesis is a zero-emission anchor at height <code>0</code>. Ordinary subsidy starts at height <code>1</code> with four bootstrap eras and a permanent tail reward.</li>
-          <li>Testnet ATHO is distributed manually by the Atho founders or development team. There is no software faucet in the client or website.</li>
+          <li>Testnet ATHO is issued by the Atho team for wallet, mining, and transaction testing. There is no software faucet in the client or website.</li>
         </ul>
       </section>
       <section class="docs-section" id="overview-downloads">
@@ -253,7 +253,7 @@ export const docsSections = {
       <section class="docs-section" id="falcon-vs-elliptic-curve">
         <h2>Falcon-512 vs Elliptic Curve Signatures</h2>
         <figure class="docs-figure docs-figure-wide">
-          <img src="./assets/media/docs/falcon-512-vs-ecc.svg?v=20260803b" alt="Comparison diagram showing Falcon-512 next to classical elliptic curve signatures, including size tradeoffs and threat-model differences.">
+          <img src="./assets/media/docs/falcon-512-vs-ecc.svg?v=20260803c" alt="Comparison diagram showing Falcon-512 next to classical elliptic curve signatures, including size tradeoffs and threat-model differences.">
           <figcaption>Falcon-512 is materially larger than a compact classical elliptic-curve signature stack, but Atho accepts that cost for a stronger long-range signature posture.</figcaption>
         </figure>
         <div class="docs-table-wrap">
@@ -464,6 +464,9 @@ required_fee_atoms = max(600, serialized_size_bytes * 1)</code></pre>
       "build",
       "launcher",
       "headless setup",
+      "background node",
+      "notifications",
+      "logs",
       "verify api",
       "first run"
     ],
@@ -473,6 +476,7 @@ required_fee_atoms = max(600, serialized_size_bytes * 1)</code></pre>
       { id: "setup-clone-and-build", title: "Clone and Build", aliases: ["cargo build"] },
       { id: "setup-launchers", title: "Launchers", aliases: ["runmainnet", "runtestnet", "runregnet"] },
       { id: "setup-direct-node", title: "Run a Node Directly", aliases: ["athod", "headless node"] },
+      { id: "setup-background-node", title: "Desktop Background Node", aliases: ["background node", "gui background", "notifications", "logs"] },
       { id: "setup-verify", title: "Verify It Works", aliases: ["health", "status", "api smoke"] },
       { id: "setup-headless-path", title: "Headless Wallet and Miner Path", aliases: ["headless miner", "headless wallet"] }
     ],
@@ -517,7 +521,7 @@ cargo build</code></pre>
       </section>
       <section class="docs-section" id="setup-launchers">
         <h2>Launchers</h2>
-        <p>The Python launchers build missing or stale release binaries, prepare runtime directories, and open <code>atho-qt</code> with a managed local node.</p>
+        <p>The Python launchers build missing or out-of-date release binaries, prepare runtime directories, and open <code>atho-qt</code> with a managed local node.</p>
         <pre><code>python3 run/runmainnet.py
 python3 run/runtestnet.py
 python3 run/runregnet.py</code></pre>
@@ -526,7 +530,7 @@ python3 run/runregnet.py</code></pre>
 python3 run/runtestnet.py --help
 python3 run/runtestnet.py --rebuild
 python3 run/runtestnet.py --data-dir "$HOME/.local/share/Atho-testnet"</code></pre>
-        <p>Use <code>--no-build</code> to require existing current release binaries. Use <code>--network-overrides-local</code> only when intentionally discarding local chain databases before a fresh sync; wallet files are preserved.</p>
+        <p>Use <code>--no-build</code> to require existing release binaries. Use <code>--network-overrides-local</code> only when intentionally discarding local chain databases before a fresh sync; wallet files are preserved.</p>
       </section>
       <section class="docs-section" id="setup-direct-node">
         <h2>Run a Node Directly</h2>
@@ -535,6 +539,16 @@ python3 run/runtestnet.py --data-dir "$HOME/.local/share/Atho-testnet"</code></p
 cargo run -p atho-node --bin athod -- --network regnet --data-dir /tmp/atho-regnet</code></pre>
         <p>For a strictly headless node runtime with no embedded wallet assumptions, disable the wallet runtime.</p>
         <pre><code>ATHO_WALLET_ENABLED=0 cargo run -p atho-node --bin athod -- --network testnet</code></pre>
+      </section>
+      <section class="docs-section" id="setup-background-node">
+        <h2>Desktop Background Node</h2>
+        <p>The desktop client can keep its managed local node running after the GUI closes. Enable <strong>Settings &gt; Client &gt; Keep local node running after closing Atho</strong>, then close the window normally. Reopening the same network reconnects the GUI to the existing node.</p>
+        <p>An active <strong>Mine Loop</strong> continues in a detached miner with the selected backend, thread count, and reward address. Wallet and key access close with the GUI. Reopen the same network and use <strong>Stop Miner</strong> or clear <strong>Loop blocks</strong> to stop background mining. <strong>Mine Once</strong> does not continue after close.</p>
+        <pre><code>cargo run -p atho-node --bin athod -- status --network testnet
+cargo run -p atho-node --bin athod -- logs --network testnet --lines 250
+cargo run -p atho-node --bin athod -- logs --network testnet --component p2p --follow
+cargo run -p atho-node --bin atho-cli -- --network testnet --confirm stop</code></pre>
+        <p>The desktop <strong>Node Window &gt; Logs</strong> tab shows a lightweight 250-record view refreshed every seven seconds. <strong>Node Window &gt; Notifications</strong> keeps the newest 100 major node, sync, peer, mining, block, and transaction events, with click-through details for blocks and transactions.</p>
       </section>
       <section class="docs-section" id="setup-verify">
         <h2>Verify It Works</h2>
@@ -629,7 +643,7 @@ cargo run -p atho-node --bin atho-mine -- \
         <h2>Multiple HD Wallets</h2>
         <div class="docs-table-wrap">
           <table>
-            <thead><tr><th>Feature</th><th>Current Behavior</th></tr></thead>
+            <thead><tr><th>Feature</th><th>Atho Behavior</th></tr></thead>
             <tbody>
               <tr><td>Mnemonic Options</td><td>12 / 24 / 48 words</td></tr>
               <tr><td>Default Mnemonic</td><td>24 words</td></tr>
@@ -643,7 +657,7 @@ cargo run -p atho-node --bin atho-mine -- \
       </section>
       <section class="docs-section" id="switching-wallets">
         <h2>Switching Wallets</h2>
-        <p>Users switch wallets from the File menu through <strong>Open / Switch Wallet</strong>. Switching clears stale send state, selected UTXOs, receive-address display, transaction history, balance view, and address book context before the newly selected wallet becomes active.</p>
+        <p>Users switch wallets from the File menu through <strong>Open / Switch Wallet</strong>. Switching clears previous send state, selected UTXOs, receive-address display, transaction history, balance view, and address book context before the newly selected wallet becomes active.</p>
       </section>
       <section class="docs-section" id="address-book">
         <h2>Address Book</h2>
@@ -1012,7 +1026,7 @@ Node verifies nonce before expensive checks when possible.</code></pre>
   mining: {
     title: "Mining",
     eyebrow: "Mining and Nodes",
-    summary: "Mining produces proof-of-work blocks, collects the current block reward plus fees, and is fully separable from wallet transaction PoW.",
+    summary: "Mining produces proof-of-work blocks, collects the active block reward plus fees, and is fully separable from wallet transaction PoW.",
     keywords: [
       "mining",
       "proof of work",
@@ -1062,7 +1076,7 @@ Node verifies nonce before expensive checks when possible.</code></pre>
       </section>
       <section class="docs-section" id="mining-on-testnet">
         <h2>Mining on Testnet</h2>
-        <p>Testnet mining is for exercise and validation, not for economic value. It is useful for confirming wallet flows, mempool admission, block template selection, and node sync behavior under realistic conditions while still allowing testnet-only recovery features when development resets happen.</p>
+        <p>Testnet mining is for exercise and validation, not for economic value. It is useful for confirming wallet flows, mempool admission, block template selection, and node sync behavior under realistic conditions while keeping testnet-only recovery behavior away from mainnet rules.</p>
       </section>
       <section class="docs-section" id="testnet-difficulty-reset">
         <h2>Testnet Difficulty Reset</h2>
@@ -1263,7 +1277,7 @@ cargo run -p atho-node --bin athod -- --network testnet</code></pre>
           <table>
             <thead><tr><th>Network</th><th>CLI Value</th><th>P2P Port</th><th>RPC Port</th><th>Use</th></tr></thead>
             <tbody>
-              <tr><td>Mainnet</td><td><code>mainnet</code></td><td>56000</td><td>9010</td><td>Reviewed deployment preparation</td></tr>
+              <tr><td>Mainnet</td><td><code>mainnet</code></td><td>56000</td><td>9010</td><td>Reviewed real-value operation</td></tr>
               <tr><td>Testnet</td><td><code>testnet</code></td><td>9100</td><td>9110</td><td>Public evaluation</td></tr>
               <tr><td>Regnet</td><td><code>regnet</code> or <code>regtest</code></td><td>9200</td><td>9210</td><td>Local deterministic testing</td></tr>
               <tr><td>Prunetest</td><td><code>prunetest</code></td><td>9300</td><td>9310</td><td>Low-difficulty pruning/storage testing</td></tr>
@@ -1494,7 +1508,7 @@ curl --fail --silent --show-error "$API_URL/api/v1/metrics"</code></pre>
               <tr><th>Default Rate Limit</th><td>180 requests/minute</td></tr>
               <tr><th>Default Heavy Rate Limit</th><td>90 requests/minute</td></tr>
               <tr><th>Default Max Response Size</th><td>1,048,576 bytes</td></tr>
-              <tr><th>Built-in HTTP Auth</th><td>None in the current repo</td></tr>
+              <tr><th>Built-in HTTP Auth</th><td>Not built into the node HTTP API</td></tr>
             </tbody>
           </table>
         </div>
@@ -1594,6 +1608,8 @@ curl -X POST http://127.0.0.1:8080/api/v1/tx/broadcast \
       "atho-mine",
       "atho-wallet",
       "atho-address",
+      "background node",
+      "logs",
       "wipe"
     ],
     topics: [
@@ -1602,6 +1618,7 @@ curl -X POST http://127.0.0.1:8080/api/v1/tx/broadcast \
       { id: "commands-build", title: "Build Commands" },
       { id: "commands-launch", title: "Launch Commands" },
       { id: "commands-node-miner", title: "Node and Miner Commands" },
+      { id: "commands-background-node", title: "Background Node Commands", aliases: ["background node", "logs", "notifications"] },
       { id: "commands-wallet-address", title: "Wallet and Address Commands" },
       { id: "commands-rpc", title: "RPC Commands" },
       { id: "commands-tests-wipe", title: "Tests and Data Wipe" }
@@ -1652,6 +1669,16 @@ cargo run -p atho-node --bin atho-mine -- \
   --network testnet --reward-address "$REWARD_ADDRESS" --backend cpu --loop
 cargo run -p atho-node --features gpu-native --bin atho-mine -- --network testnet --probe-gpu</code></pre>
       </section>
+      <section class="docs-section" id="commands-background-node">
+        <h2>Background Node Commands</h2>
+        <p>Use these while the desktop window is closed and <strong>Keep local node running after closing Atho</strong> is enabled.</p>
+        <pre><code>cargo run -p atho-node --bin athod -- status --network testnet
+cargo run -p atho-node --bin atho-cli -- --network testnet getstatus
+cargo run -p atho-node --bin athod -- logs --network testnet --lines 250
+cargo run -p atho-node --bin athod -- logs --network testnet --component p2p --follow
+curl http://127.0.0.1:8080/api/v1/health
+cargo run -p atho-node --bin atho-cli -- --network testnet --confirm stop</code></pre>
+      </section>
       <section class="docs-section" id="commands-wallet-address">
         <h2>Wallet and Address Commands</h2>
         <pre><code>cargo run -p atho-wallet --bin atho-wallet -- --help
@@ -1700,7 +1727,7 @@ cargo run -p atho-node --bin athod -- wipe --network mainnet --data-dir "$ATHO_D
   "production-deployment": {
     title: "Production Deployment",
     eyebrow: "APIs and Operations",
-    summary: "Atho includes deployment controls for local development, regnet, testnet, and reviewed mainnet-style operations.",
+    summary: "Atho includes deployment controls for local development, regnet, testnet, and reviewed mainnet operations.",
     keywords: [
       "production deployment",
       "systemd",
@@ -1731,7 +1758,7 @@ cargo run -p atho-node --bin athod -- wipe --network mainnet --data-dir "$ATHO_D
         <h2>Build</h2>
         <pre><code>cargo build
 cargo build --release</code></pre>
-        <p>If you need standalone binaries for operations, prefer release builds. Full release candidates should pass audit and release checks before packaging.</p>
+        <p>If you need standalone binaries for operations, prefer release builds. Release packages should pass audit and release checks before distribution.</p>
       </section>
       <section class="docs-section" id="deployment-network-separation">
         <h2>Network Separation</h2>
@@ -1815,7 +1842,7 @@ curl --fail --silent --show-error http://127.0.0.1:8080/api/v1/status</code></pr
           <li>Publish signed reproducible release artifacts, checksums, SBOM/provenance, release-key fingerprint, rollback plan, and incident contacts together.</li>
           <li>Back up wallet and node state, document retention, and rehearse restore procedures before value-bearing service.</li>
         </ul>
-        <p>Local development, regnet, and extended testnet operations can run from the current launchers. Real-value operation should use reviewed release artifacts and the production deployment checklist.</p>
+        <p>Local development, regnet, and extended testnet operations can run from the Atho launchers. Real-value operation should use reviewed release artifacts and the production deployment checklist.</p>
       </section>
     `
   },
@@ -1851,7 +1878,7 @@ curl --fail --silent --show-error http://127.0.0.1:8080/api/v1/status</code></pr
       </section>
       <section class="docs-section" id="release-maintainer-flow">
         <h2>Maintainer Flow</h2>
-        <pre><code>export RELEASE_TAG='v0.1.0-alpha-rc1'
+        <pre><code>export RELEASE_TAG='v0.1.0'
 cargo build --release -p atho-node -p atho-wallet -p atho-qt
 mkdir -p dist
 cp target/release/athod dist/
@@ -1870,7 +1897,7 @@ gpg --armor --detach-sign dist/ATHO_CHECKSUMS.json</code></pre>
       </section>
       <section class="docs-section" id="release-user-verification">
         <h2>User Verification</h2>
-        <p>A real release must publish its signing-key fingerprint through an independent official channel. Import a release key only after the fingerprint matches.</p>
+        <p>A release should publish its signing-key fingerprint through an independent official channel. Import a release key only after the fingerprint matches.</p>
         <pre><code>RELEASE_KEY_FILE='ATHO_RELEASE_KEY.asc'
 gpg --show-keys --with-fingerprint "$RELEASE_KEY_FILE"
 gpg --import "$RELEASE_KEY_FILE"
@@ -1886,7 +1913,7 @@ python3 release_checksums.py verify ATHO_CHECKSUMS.json</code></pre>
   "mainnet-vs-testnet": {
     title: "Mainnet vs Testnet",
     eyebrow: "Security",
-    summary: "Mainnet stays strict and durable. Testnet stays flexible enough for development, resets, manual funding, and recovery features that must never spill into production.",
+    summary: "Mainnet stays strict and durable. Testnet stays flexible enough for evaluation, team-issued testing funds, and recovery behavior that must never spill into production.",
     keywords: [
       "mainnet vs testnet",
       "testnet",
@@ -1919,8 +1946,8 @@ python3 release_checksums.py verify ATHO_CHECKSUMS.json</code></pre>
               <tr><td>Network ID</td><td>atho-mainnet</td><td>atho-testnet</td><td>atho-regnet</td><td>atho-prunetest</td></tr>
               <tr><td>Address Prefix</td><td>A</td><td>T</td><td>R</td><td>P</td></tr>
               <tr><td>P2P / RPC</td><td>56000 / 9010</td><td>9100 / 9110</td><td>9200 / 9210</td><td>9300 / 9310</td></tr>
-              <tr><td>Faucet</td><td>No</td><td>No software faucet, manual distribution</td><td>Local only</td><td>Local only</td></tr>
-              <tr><td>Primary Use</td><td>Reviewed deployment preparation</td><td>Public evaluation</td><td>Local deterministic testing</td><td>Pruning and storage testing</td></tr>
+              <tr><td>Faucet</td><td>No</td><td>No software faucet, team-issued testing funds</td><td>Local only</td><td>Local only</td></tr>
+              <tr><td>Primary Use</td><td>Reviewed real-value operation</td><td>Public evaluation</td><td>Local deterministic testing</td><td>Pruning and storage testing</td></tr>
             </tbody>
           </table>
         </div>
@@ -1932,11 +1959,11 @@ python3 release_checksums.py verify ATHO_CHECKSUMS.json</code></pre>
       </section>
       <section class="docs-section" id="getting-testnet-atho">
         <h2>Getting Testnet ATHO</h2>
-        <p>The Atho client does not include an automated faucet. Testnet ATHO is distributed manually by the Atho founders or development team. Contact the Atho team to request testnet funds.</p>
+        <p>The Atho client does not include an automated faucet. Testnet ATHO is issued by the Atho team for wallet, mining, and transaction testing.</p>
       </section>
       <section class="docs-section" id="testnet-resets">
         <h2>Testnet Resets</h2>
-        <p>Testnet may reset during development, may receive new genesis data, and may use recovery features that are intentionally blocked on mainnet. These tradeoffs make development easier without weakening production rules.</p>
+        <p>Testnet may reset, may receive new genesis data, and may use recovery features that are intentionally blocked on mainnet. These tradeoffs make evaluation easier without weakening production rules.</p>
       </section>
       <section class="docs-section" id="reporting-bugs">
         <h2>Reporting Bugs</h2>
@@ -2171,7 +2198,7 @@ cargo run -p atho-node --bin atho-mine -- --network testnet</code></pre>
         <ul>
           <li>If mining appears idle, make sure the node is fully synced and the miner is pointed at the right network.</li>
           <li>If testnet seems stalled, check whether the testnet-only difficulty reset condition should have triggered.</li>
-          <li>If you need funds on testnet, request them manually from the Atho team. There is no automated faucet.</li>
+          <li>If you need funds on testnet, request testnet ATHO from the Atho team. There is no automated faucet.</li>
         </ul>
       </section>
     `
@@ -2204,7 +2231,7 @@ cargo run -p atho-node --bin atho-mine -- --network testnet</code></pre>
       </section>
       <section class="docs-section" id="faq-faucet">
         <h2>Does Atho Have a Faucet?</h2>
-        <p>No. The software has no testnet faucet. Testnet ATHO is distributed manually by the Atho founders or development team.</p>
+        <p>No. The software has no testnet faucet. Testnet ATHO is issued by the Atho team for wallet, mining, and transaction testing.</p>
       </section>
       <section class="docs-section" id="faq-tx-pow">
         <h2>Is Transaction PoW Mining?</h2>

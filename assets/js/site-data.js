@@ -65,7 +65,7 @@ export const siteContent = {
       name: "Testnet",
       detail: "atho-testnet",
       value: "<span class=\"stack-line\">P2P 9100</span><span class=\"stack-line\">RPC 9110</span>",
-      copy: "Testing network with manual funds, resets, and active development flow.",
+      copy: "Public network for wallet, mining, sync, explorer, and API evaluation.",
       hover: "Testnet is the public place to try wallets, mining, sync, explorer, and API changes safely.",
       href: "./docs.html#testnet",
       actionLabel: "Read testnet docs"
@@ -74,7 +74,7 @@ export const siteContent = {
       name: "Regnet",
       detail: "atho-regnet",
       value: "<span class=\"stack-line\">P2P 9200</span><span class=\"stack-line\">RPC 9210</span>",
-      copy: "Local development network for disposable test runs and fast resets.",
+      copy: "Local deterministic network for disposable test runs.",
       hover: "Regnet is for local workflows where you want to test behavior without using public testnet.",
       href: "./docs.html#network-modes",
       actionLabel: "Read network docs"
@@ -214,7 +214,7 @@ export const siteContent = {
           title: "Testnet",
           status: "Live",
           copy: "Testing network for wallets, mining, transactions, sync, and operator feedback.",
-          hover: "The client has no software faucet. Testnet ATHO is distributed manually by the Atho founders or development team.",
+          hover: "The client has no software faucet. Testnet ATHO is issued by the Atho team for wallet, mining, and transaction testing.",
           actionLabel: "Testnet Docs",
           actionHref: "./docs.html#testnet"
         },
@@ -277,8 +277,8 @@ export const siteContent = {
     {
       icon: "server",
       title: "Join Testnet",
-      copy: "Set up the client, get testnet ATHO manually, and start testing the network.",
-      hover: "Testnet setup, storage behavior, mining notes, and manual fund flow are covered in the testnet docs.",
+      copy: "Set up the client, request testnet ATHO, and start testing the network.",
+      hover: "Testnet setup, storage behavior, mining notes, and testnet ATHO requests are covered in the docs.",
       href: "./docs.html#testnet",
       actionLabel: "Read testnet docs"
     },
