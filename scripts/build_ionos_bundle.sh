@@ -20,6 +20,7 @@ rsync -a \
   --exclude=".github/" \
   --exclude="ionos-upload.zip" \
   --exclude=".DS_Store" \
+  --exclude=".mailmap" \
   --exclude="__pycache__/" \
   --exclude="*.pyc" \
   --exclude=".gitignore" \

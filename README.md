@@ -1,66 +1,50 @@
 # Atho Website
 
-Public site for `atho.io`.
+Static public site for `atho.io`.
 
-## Live Pages
+## Current Pages
 
-- `index.html`: main protocol landing page
-- `docs.html`: section-based HTML documentation shell
-- `explore/index.html`: read-only explorer page wired to the Atho node API
-- `join.html`: testnet / Discord onboarding
-- `roadmap.html`: network guide
-- `contact.html`: contact page
+- `index.html`: protocol homepage and current network status
+- `docs.html`: searchable, section-based implementation documentation
+- `join.html`: desktop and headless build guide
+- `roadmap.html`: project status and launch gates
+- `explore/index.html`: explorer availability status
+- `contact.html`: security, source, and community channels
 
-## Active Assets
+## Source-Grounded Content
 
-- `assets/css/site.css`: shared design system and layout
-- `assets/js/site-data.js`: editable site content and footer links
-- `assets/js/site.js`: rendering and interaction logic
-- `assets/js/explorer-config.js`: single-source explorer API and network identity config
-- `assets/js/live-network.js`: homepage live testnet stats preview
-- `assets/js/explore.js`: explorer client, search routing, and API rendering
-- `assets/js/docs-content.js`: docs chapter content, aliases, and section metadata
-- `assets/js/docs.js`: docs navigation, search, deep-linking, and focused section rendering
-- `assets/media/logo 1.png`: primary dark-theme logo
-- `assets/media/docs/`: docs diagrams and protocol visuals
-- `assets/files/atho-whitepaper.pdf`: downloadable whitepaper
-- `assets/files/atho-monetary-supply-model-500-years.pdf`: downloadable 500-year monetary supply model
+The public copy tracks the current Atho source repository:
 
-## Docs Architecture
+- 75-second target blocks
+- Falcon-512 transaction authorization
+- SHA3-384 block proof of work
+- six 1,680,000-block bootstrap reward eras
+- permanent 0.125 ATHO tail reward from height 10,080,001
+- 26,460,000 ATHO bootstrap issuance
+- mandatory X25519 + ML-KEM-768 encrypted P2P transport on public modes
+- loopback-only raw RPC and HTTP API boundaries
+- desktop and headless operator/wallet binaries
 
-The docs are no longer one long scroll page.
+The previous public testnet is retired. The site does not configure a live node
+or explorer endpoint. Regnet is the documented local development mode until a
+new compatible public testnet is announced.
 
-- `docs.html` provides the docs shell
-- the left sidebar is the primary table of contents
-- only one major docs section is rendered at a time
-- `Previous` and `Next` links move through the docs like a book
-- hash routes such as `docs.html#monetary-policy` and `docs.html#falcon-512-and-quantum-security` open the correct focused section directly
-- client-side search indexes all sections, including ones that are not currently visible
-- older docs anchors are mapped forward where possible so older links still land in the right chapter
+## Documentation Architecture
 
-## Explorer Architecture
+- `assets/js/docs-content.js`: documentation sections, aliases, and HTML content
+- `assets/js/docs.js`: navigation, search, hash routing, and previous/next flow
+- `assets/js/site-data.js`: homepage cards, network constants, links, and footer
+- `assets/js/site.js`: shared rendering, social actions, interaction, and navigation
+- `assets/css/site.css`: shared responsive design system
 
-- `explore/index.html` is the explorer shell
-- the website reads node data over HTTP only; it never touches LMDB directly
-- testnet explorer requests are configured in `assets/js/explorer-config.js`
-- testnet explorer requests default to the public VPS DNS endpoint `https://testnet-node1.atho.io/api/v1`
-- custom deployments can override the API at runtime by setting `window.ATHO_EXPLORER_CONFIG.testnetApiBaseUrl` before `assets/js/explore.js` or `assets/js/live-network.js` loads
-- mainnet explorer stays disabled until a mainnet API base URL is configured
-- the explorer verifies `network`, `network_id`, `genesis_hash`, and `api_version` before it renders data
-- search supports block heights, 96-character block hashes or txids, mempool txids, and visible Atho addresses
+Older hash routes are mapped to the closest current section where practical.
 
-## Docs Visuals
+## Public Download
 
-Atho docs diagrams live in `assets/media/docs/` and include:
-
-- Falcon-512 signature overview
-- wallet transaction PoW flow
-- UTXO transaction lifecycle flow
-
-Public document downloads live in `assets/files/`:
-
-- Atho whitepaper generated from the source repository
-- 500-year Atho monetary supply model generated from the source repository
+`assets/files/atho-whitepaper.pdf` is copied from the current source repository
+and is the only protocol PDF published in the deployment bundle. Research-only
+private-layer and channel papers are intentionally excluded from implemented
+feature claims and downloads.
 
 ## Local Preview
 
@@ -68,21 +52,17 @@ Public document downloads live in `assets/files/`:
 python3 runweb.py --open
 ```
 
-Default local URL:
+Default URL: `http://127.0.0.1:8081/`
 
-- `http://127.0.0.1:8081/`
-
-## Deployment Bundle
+## IONOS Bundle
 
 ```bash
 bash scripts/build_ionos_bundle.sh
 ```
 
-This rebuilds the upload folder and packaged archive:
+This rebuilds:
 
 - `ionos-upload/`
 - `ionos-upload.zip`
 
-The generated bundle keeps the explorer pointed at the public VPS API:
-
-- `https://testnet-node1.atho.io/api/v1`
+The generated static bundle contains no live testnet API address.

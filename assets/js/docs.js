@@ -1,4 +1,4 @@
-import { docsAliasMap, docsNavGroups, docsSectionOrder, docsSections } from "./docs-content.js?v=20260803c";
+import { docsAliasMap, docsNavGroups, docsSectionOrder, docsSections } from "./docs-content.js?v=20260825a";
 
 const docsSidebar = document.querySelector("#docs-sidebar");
 const docsToggle = document.querySelector("[data-docs-toggle]");
@@ -105,27 +105,19 @@ function renderOverviewGrid() {
   const groups = [
     {
       title: "Start Here",
-      ids: ["what-is-atho", "design-philosophy", "falcon-512-and-quantum-security", "monetary-policy", "units-and-fees", "setup"]
+      ids: ["protocol", "cryptography", "monetary-policy", "transactions-fees"]
     },
     {
-      title: "Payments and Wallets",
-      ids: ["wallets", "headless-wallet-and-cli", "message-signing", "transactions", "wallet-transaction-pow", "mempool"]
+      title: "Wallets and Tools",
+      ids: ["wallets", "headless-binaries"]
     },
     {
-      title: "Mining and Nodes",
-      ids: ["mining", "mining-rpc-and-operator-endpoints", "nodes", "configuration", "peer-network", "storage-and-sync"]
+      title: "Nodes and Network",
+      ids: ["nodes-mining", "encrypted-p2p", "rpc-api", "network-status", "storage-sync"]
     },
     {
-      title: "APIs and Operations",
-      ids: ["http-api", "command-catalog", "production-deployment", "release-verification"]
-    },
-    {
-      title: "Security",
-      ids: ["mainnet-vs-testnet", "security", "replay-protection"]
-    },
-    {
-      title: "Developers",
-      ids: ["developer-reference", "troubleshooting", "faq"]
+      title: "Build and Review",
+      ids: ["security", "operations", "developer-reference", "faq"]
     }
   ];
 
@@ -190,7 +182,7 @@ function renderPrevNext(sectionId) {
   if (sectionId === "overview") {
     return `
       <nav class="docs-prev-next">
-        ${linkMarkup("what-is-atho", "next")}
+        ${linkMarkup("protocol", "next")}
       </nav>
     `;
   }
@@ -449,6 +441,11 @@ function initInternalLinks() {
 
     const hash = link.getAttribute("href");
     if (!hash) {
+      return;
+    }
+
+    const key = normalizeHashKey(hash);
+    if (!docsAliasMap[key]) {
       return;
     }
 

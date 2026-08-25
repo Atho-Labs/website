@@ -3,118 +3,83 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Atho network guide for docs, explorer, testnet, whitepaper, and monetary supply model resources.">
-  <title>Atho Network Guide</title>
+  <meta name="description" content="Current Atho project and network status: implemented pre-mainnet capabilities, retired public testnet, and evidence required before the next network launch.">
+  <title>Atho Project Status</title>
   <link rel="canonical" href="https://atho.io/roadmap.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Atho">
   <meta property="og:url" content="https://atho.io/roadmap.html">
-  <meta property="og:title" content="Atho Network Guide">
-  <meta property="og:description" content="A clear path to Atho docs, explorer, testnet, whitepaper, and monetary supply resources.">
+  <meta property="og:title" content="Atho Project Status">
+  <meta property="og:description" content="What Atho implements today, what is offline, and what remains before public launch.">
   <meta property="og:image" content="https://atho.io/assets/media/og-share-card.png">
-  <meta property="og:image:secure_url" content="https://atho.io/assets/media/og-share-card.png">
-  <meta property="og:image:type" content="image/png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Atho homepage preview with payment-first hero copy and an embedded protocol-engine CPU visual.">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Atho Network Guide">
-  <meta name="twitter:description" content="A clear path to Atho docs, explorer, testnet, whitepaper, and monetary supply resources.">
+  <meta name="twitter:title" content="Atho Project Status">
+  <meta name="twitter:description" content="What Atho implements today, what is offline, and what remains before public launch.">
   <meta name="twitter:image" content="https://atho.io/assets/media/og-share-card.png">
-  <meta name="twitter:image:alt" content="Atho homepage preview with payment-first hero copy and an embedded protocol-engine CPU visual.">
-  <link rel="icon" type="image/png" href="./assets/media/logo%201.png">
+  <link rel="icon" type="image/png" href="./assets/media/logo-mark-transparent.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/css/site.css?v=20260803c">
+  <link rel="stylesheet" href="./assets/css/site.css?v=20260825a">
 </head>
-<body data-stats-endpoint="">
+<body>
   <a class="skip-link" href="#main">Skip to content</a>
-
   <header class="site-header">
     <div class="container nav-shell">
-      <a class="brand" href="./index.html" aria-label="Atho home">
-        <img class="brand-mark" src="./assets/media/logo%201.png" alt="Atho" width="172" height="115" decoding="async">
-        <span class="brand-copy">
-          <span class="brand-name">Atho</span>
-          <span class="brand-tag">The Platinum Standard for the Quantum Age</span>
-        </span>
-      </a>
-
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav-panel" data-menu-toggle>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span class="sr-only">Toggle navigation</span>
-      </button>
-
+      <a class="brand" href="./index.html" aria-label="Atho home"><img class="brand-mark" src="./assets/media/logo-mark-transparent.png" alt="Atho" width="693" height="602" decoding="async"><span class="brand-copy"><span class="brand-name">Atho</span><span class="brand-tag">The Platinum Standard for the Quantum Age</span></span></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav-panel" data-menu-toggle><span></span><span></span><span></span><span class="sr-only">Toggle navigation</span></button>
       <div class="nav-panel" id="site-nav-panel" data-nav-panel>
-        <nav class="site-nav" aria-label="Primary">
-          <a href="./index.html">Home</a>
-          <a href="./docs.html">Docs</a>
-          <a href="./explore/">Explore</a>
-          <a href="./docs.html#mining">Mining</a>
-          <a href="./docs.html#testnet">Testnet</a>
-          <a href="./contact.html">Contact</a>
-        </nav>
-
-        <div class="nav-actions">
-          <a class="button button-secondary" href="./assets/files/atho-whitepaper.pdf">Download Whitepaper</a>
-          <a class="button button-primary" href="./join.html">Join Testnet</a>
-        </div>
+        <nav class="site-nav" aria-label="Primary"><a href="./index.html">Home</a><a href="./docs.html">Docs</a><a href="./docs.html#encrypted-p2p">Privacy</a><a href="./join.html">Build</a><a href="./contact.html">Contact</a></nav>
+        <div class="nav-actions"><a class="button button-secondary" href="./assets/files/atho-whitepaper.pdf">Whitepaper</a><a class="button button-primary" href="./docs.html#network-status">Network Docs</a></div>
       </div>
     </div>
   </header>
 
   <main id="main" class="page-shell">
-    <section class="container page-hero" data-reveal>
-      <span class="section-kicker">Network Guide</span>
-      <h1>Atho Network Guide.</h1>
-      <p>
-        Use this page as the short path to Atho resources: read the docs, open the explorer, run testnet, and review the monetary policy documents.
-      </p>
-      <div class="page-actions">
-        <a class="button button-primary" href="./join.html">Join Testnet</a>
-        <a class="button button-secondary" href="./docs.html">Read the Docs</a>
+    <section class="container page-hero status-page-hero" data-reveal>
+      <span class="section-kicker">Project status</span>
+      <h1>Pre-mainnet, active development.</h1>
+      <p>The implementation has moved forward; the public infrastructure is intentionally paused while the updated chain rules are prepared and reviewed.</p>
+      <div class="page-actions"><a class="button button-primary" href="./docs.html">Read Current Docs</a><a class="button button-secondary" href="https://github.com/Atho-Labs" target="_blank" rel="noopener noreferrer">Review Source</a></div>
+    </section>
+
+    <section class="container status-summary-grid" aria-label="Atho current status">
+      <article data-reveal><span class="status-indicator is-active">Development</span><strong>Active</strong><p>Code, client, transport, wallet, and documentation work continue.</p></article>
+      <article data-reveal><span class="status-indicator is-paused">Public testnet</span><strong>Offline</strong><p>The former nodes, API, explorer feed, and old chain data are retired.</p></article>
+      <article data-reveal><span class="status-indicator is-pending">Mainnet</span><strong>Not launched</strong><p>No page on this site should be interpreted as a live mainnet announcement.</p></article>
+    </section>
+
+    <section class="section section-panel compact-page-section">
+      <div class="section-head" data-reveal><span class="section-kicker">Implemented now</span><h2>Current reference-stack capabilities.</h2></div>
+      <div class="container checklist-grid status-checklist">
+        <article data-reveal><strong>Consensus</strong><p>Public UTXOs, 75-second target, six reward eras, 0.125 ATHO tail, adaptive block budget.</p></article>
+        <article data-reveal><strong>Authorization</strong><p>Falcon-512 wallet signatures and SHA3-384 proof-of-work block production.</p></article>
+        <article data-reveal><strong>Network privacy</strong><p>Mandatory hybrid encrypted P2P with Falcon node identity on public modes.</p></article>
+        <article data-reveal><strong>Interfaces</strong><p>Polished desktop client plus node, CLI, miner, wallet, and address binaries.</p></article>
+        <article data-reveal><strong>Storage and sync</strong><p>Headers-first sync, compact relay, reorgs, pruning, archive mode, validated indexes.</p></article>
+        <article data-reveal><strong>Local controls</strong><p>Authenticated loopback RPC and loopback HTTP with gated write capabilities.</p></article>
       </div>
     </section>
 
-    <section class="container page-grid">
-      <article class="card page-card" data-reveal>
-        <h2>Core References</h2>
-        <ul class="page-list">
-          <li>Read the technical whitepaper for Atho's protocol design.</li>
-          <li>Use the monetary supply model for the reward, fee, and long-range issuance schedule.</li>
-          <li>Open the docs for wallet, node, mining, API, and deployment commands.</li>
-          <li>Use the explorer to inspect live testnet blocks, transactions, addresses, and mempool data.</li>
-        </ul>
-      </article>
+    <section class="section launch-gates-section">
+      <div class="section-head" data-reveal><span class="section-kicker">Launch discipline</span><h2>Evidence before promises.</h2><p>Stable operation matters, but public launch requires a broader body of evidence.</p></div>
+      <div class="container gate-list" data-reveal>
+        <div><span>01</span><p>Freeze the compatible consensus, genesis, monetary, and transport rules.</p></div>
+        <div><span>02</span><p>Publish test vectors, signed reproducible releases, checksums, and upgrade notes.</p></div>
+        <div><span>03</span><p>Complete independent cryptography, consensus, wallet, P2P, RPC, and deployment review.</p></div>
+        <div><span>04</span><p>Run a fresh hostile public testnet on the final ruleset with independent infrastructure.</p></div>
+        <div><span>05</span><p>Resolve material findings and rehearse monitoring, backup, incident, and recovery procedures.</p></div>
+      </div>
+    </section>
 
-      <article class="card page-card" data-reveal>
-        <h2>Testnet Flow</h2>
-        <ul class="page-list">
-          <li>Build with <code>cargo build</code> or <code>cargo build --release</code>.</li>
-          <li>Run <code>python3 run/runtestnet.py</code> to open the client.</li>
-          <li>Create or import a wallet, sync to the network, then mine or send test transactions.</li>
-          <li>Request testnet ATHO from the Atho team when wallet testing needs funds.</li>
-        </ul>
-      </article>
+    <section class="container research-boundary" data-reveal>
+      <span class="section-kicker">Scope boundary</span>
+      <h2>Research is not shipped functionality.</h2>
+      <p>Private transaction layers and state-channel architectures are not part of the current implementation. They are intentionally excluded from this site's feature claims and protocol downloads.</p>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-top">
-      <div class="footer-brand">
-        <img src="./assets/media/logo%201.png" alt="Atho" width="172" height="115" decoding="async">
-      </div>
-      <div class="footer-columns" id="footer-columns"></div>
-    </div>
-    <div class="container footer-bottom">
-      <p>Atho is building post-quantum-aware payment infrastructure with simple rules, durable chain truth, and a long-term protocol posture.</p>
-      <p>&copy; <span data-year></span> Atho Labs. All rights reserved.</p>
-    </div>
-  </footer>
-
-  <script type="module" src="./assets/js/site.js?v=20260803c"></script>
+  <footer class="site-footer"><div class="container footer-top"><div class="footer-brand"><img src="./assets/media/logo-mark-transparent.png" alt="Atho" width="693" height="602" decoding="async"><p>A clear view of what is implemented and what remains.</p></div><div class="footer-columns" id="footer-columns"></div></div><div class="container footer-bottom"><p>No public Atho network is currently presented as live.</p><p>&copy; <span data-year></span> Atho Labs. Apache-2.0 software.</p></div></footer>
+  <script type="module" src="./assets/js/site.js?v=20260825a"></script>
 </body>
 </html>

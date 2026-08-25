@@ -3,30 +3,30 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Atho is a post-quantum-aware proof-of-work payment network with UTXO settlement, Falcon-512 authorization, SHA3-384 mining, low atom-based fees, a public explorer, and a published monetary model.">
-  <title>Atho | The Platinum Standard for the Quantum Age</title>
+  <meta name="description" content="Atho is a pre-mainnet proof-of-work payment network with public UTXO settlement, Falcon-512 authorization, SHA3-384 mining, mandatory encrypted P2P transport, and a focused Rust reference stack.">
+  <title>Atho | Post-Quantum-Aware Digital Money</title>
   <link rel="canonical" href="https://atho.io/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Atho">
   <meta property="og:url" content="https://atho.io/">
-  <meta property="og:title" content="Atho | The Platinum Standard for the Quantum Age">
-  <meta property="og:description" content="Atho is a post-quantum-aware proof-of-work payment network with UTXO settlement, Falcon-512 authorization, SHA3-384 mining, low atom-based fees, a public explorer, and a published monetary model.">
+  <meta property="og:title" content="Atho | Post-Quantum-Aware Digital Money">
+  <meta property="og:description" content="A payment-first UTXO network with Falcon-512 authorization, SHA3-384 mining, encrypted P2P transport, and desktop or headless operation.">
   <meta property="og:image" content="https://atho.io/assets/media/og-share-card.png">
   <meta property="og:image:secure_url" content="https://atho.io/assets/media/og-share-card.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Atho homepage preview.">
+  <meta property="og:image:alt" content="Atho protocol homepage preview.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@AthoHQ">
-  <meta name="twitter:title" content="Atho | The Platinum Standard for the Quantum Age">
-  <meta name="twitter:description" content="Atho is a post-quantum-aware proof-of-work payment network with UTXO settlement, Falcon-512 authorization, SHA3-384 mining, low atom-based fees, a public explorer, and a published monetary model.">
+  <meta name="twitter:title" content="Atho | Post-Quantum-Aware Digital Money">
+  <meta name="twitter:description" content="A payment-first UTXO network with Falcon-512 authorization, SHA3-384 mining, and encrypted P2P transport.">
   <meta name="twitter:image" content="https://atho.io/assets/media/og-share-card.png">
-  <link rel="icon" type="image/png" href="./assets/media/logo%201.png">
+  <link rel="icon" type="image/png" href="./assets/media/logo-mark-transparent.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/css/site.css?v=20260803c">
+  <link rel="stylesheet" href="./assets/css/site.css?v=20260825a">
 </head>
 <body data-stats-endpoint="">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -34,7 +34,7 @@
   <header class="site-header">
     <div class="container nav-shell">
       <a class="brand" href="./index.html" aria-label="Atho home">
-        <img class="brand-mark" src="./assets/media/logo%201.png" alt="Atho" width="172" height="115" decoding="async">
+        <img class="brand-mark" src="./assets/media/logo-mark-transparent.png" alt="Atho" width="693" height="602" decoding="async">
         <span class="brand-copy">
           <span class="brand-name">Atho</span>
           <span class="brand-tag">The Platinum Standard for the Quantum Age</span>
@@ -51,15 +51,13 @@
       <div class="nav-panel" id="site-nav-panel" data-nav-panel>
         <nav class="site-nav" aria-label="Primary">
           <a href="./docs.html">Docs</a>
-          <a href="./explore/">Explore</a>
-          <a href="#pillars">Strengths</a>
-          <a href="#network">Network</a>
-          <a href="#testnet">Testnet</a>
+          <a href="#privacy">Privacy</a>
+          <a href="./docs.html#headless-binaries">Binaries</a>
+          <a href="./roadmap.html">Status</a>
           <a href="./contact.html">Contact</a>
         </nav>
-
         <div class="nav-actions">
-          <a class="button button-secondary" href="./assets/files/atho-whitepaper.pdf">Download Whitepaper</a>
+          <a class="button button-secondary" href="./assets/files/atho-whitepaper.pdf">Whitepaper</a>
           <a class="button button-primary" href="./docs.html">Read the Docs</a>
         </div>
       </div>
@@ -70,32 +68,31 @@
     <section class="hero-section" id="top">
       <div class="container hero-grid">
         <div class="hero-copy" data-reveal>
-          <span class="section-kicker">Payment Network</span>
+          <span class="section-kicker">Pre-mainnet payment network</span>
           <h1>Atho</h1>
           <p class="hero-lead">
-            A simple proof-of-work payment network with public UTXO settlement, Falcon-512 authorization, low atom-based fees, and a published long-range monetary model.
+            Public UTXO settlement, Falcon-512 authorization, SHA3-384 proof of work, and authenticated encrypted peer traffic in a focused Rust stack.
           </p>
           <div class="button-row">
-            <a class="button button-primary" href="./explore/">View Live Testnet Explorer</a>
-            <a class="button button-secondary" href="./docs.html">Read the Docs</a>
-            <a class="button button-tertiary" href="./join.html">Join Testnet</a>
+            <a class="button button-primary" href="./docs.html">Explore the Docs</a>
+            <a class="button button-secondary" href="https://github.com/Atho-Labs" target="_blank" rel="noopener noreferrer">View Source</a>
+            <a class="button button-tertiary" href="./assets/files/atho-whitepaper.pdf">Whitepaper</a>
           </div>
           <div class="hero-signal-row" id="hero-signals"></div>
           <p class="hero-note">
-            Whitepaper, 500-year monetary supply model, explorer, and setup docs are all one step away.
+            Mainnet has not launched. The previous public testnet is retired while the next ruleset is prepared.
           </p>
         </div>
 
         <div data-reveal>
-          <div class="hero-stage" data-hero-engine tabindex="0" aria-label="Atho protocol engine visual">
+          <div class="hero-stage" data-hero-engine tabindex="0" aria-label="Interactive Atho protocol engine visual">
             <div class="hero-stage-glow"></div>
             <div class="hero-stage-title">
               <span>Protocol Engine</span>
-              <p>Tap the engine. It settles back when idle.</p>
+              <p>Tap to inspect the system at work.</p>
             </div>
-
             <div class="hero-power-meter" aria-hidden="true">
-              <span class="hero-power-label">Network load</span>
+              <span class="hero-power-label">Engine activity</span>
               <div class="hero-power-shell">
                 <div class="hero-power-track">
                   <span class="hero-power-fill"></span>
@@ -104,10 +101,9 @@
                   <span class="hero-power-step hero-power-step-c"></span>
                   <span class="hero-power-step hero-power-step-d"></span>
                 </div>
-                <strong class="hero-power-value" data-hero-power-value>8%</strong>
+                <strong class="hero-power-value" data-hero-power-value>36%</strong>
               </div>
             </div>
-
             <div class="hero-engine-canvas">
               <div class="hero-engine-asset-shell">
                 <span class="hero-engine-orbit hero-engine-orbit-a" aria-hidden="true"></span>
@@ -122,104 +118,105 @@
       </div>
     </section>
 
-    <section class="section" id="live-network">
-      <div class="section-head" data-reveal>
-        <span class="section-kicker">Live Network</span>
-        <h2>Live Testnet Feed</h2>
-        <p>
-          Live testnet stats, refreshed from the selected Atho API.
-        </p>
-      </div>
-
-      <div class="container">
-        <div class="live-network-board" data-home-live-shell data-reveal>
-          <div class="live-network-status-row">
-            <div class="live-network-status-copy">
-              <span class="live-network-badge">Testnet Feed</span>
-              <p class="live-network-status" data-home-live-status>
-                Loading live testnet stats...
-              </p>
-            </div>
-            <a class="live-network-link" href="./explore/">Open Explorer</a>
-          </div>
-
-          <div class="live-network-stats" data-home-live-stats></div>
-          <div class="live-network-latest" data-home-live-latest></div>
-          <p class="live-network-footnote" data-home-live-footnote></p>
+    <section class="network-status-band" aria-labelledby="network-status-title">
+      <div class="container network-status-inner" data-reveal>
+        <div>
+          <span class="status-dot" aria-hidden="true"></span>
+          <span class="section-kicker">Current network status</span>
+          <h2 id="network-status-title">Development active. Public testnet offline.</h2>
         </div>
+        <p>The prior 30-day test cycle has concluded, its nodes and chain data were retired, and the explorer is paused until a compatible public network is announced.</p>
+        <a class="text-link" href="./roadmap.html">Read the full status</a>
       </div>
     </section>
 
     <section class="section section-panel" id="pillars">
       <div class="section-head" data-reveal>
-        <span class="section-kicker">Strengths</span>
-        <h2>Core Network Design</h2>
-        <p>
-          Three things matter most at a glance. The fuller explanation stays in the docs.
-        </p>
+        <span class="section-kicker">Core design</span>
+        <h2>A narrow Layer 1 with clear boundaries.</h2>
+        <p>Payments, ownership, block production, and validation remain the center of the protocol.</p>
       </div>
-
       <div class="container">
-        <div class="simple-board" data-reveal>
-          <div class="simple-board-head">
-            <div class="simple-board-copy">
-              <span class="live-network-badge">Core Summary</span>
-              <p class="live-network-status">Open the docs when you want the deeper network model.</p>
-            </div>
-            <a class="live-network-link" href="./docs.html#core-network-summary">Open Docs</a>
+        <div class="feature-grid compact-feature-grid" id="core-features"></div>
+      </div>
+    </section>
+
+    <section class="section privacy-section" id="privacy">
+      <div class="container privacy-layout">
+        <div class="privacy-copy" data-reveal>
+          <span class="section-kicker">P2P privacy</span>
+              <h2>Encrypted before protocol exchange begins.</h2>
+          <p>On mainnet, testnet, and prunetest, nodes establish a hybrid encrypted session before exchanging Atho version, sync, block, or transaction messages.</p>
+          <div class="button-row">
+            <a class="button button-primary" href="./docs.html#encrypted-p2p">Read the Transport Guide</a>
+            <a class="button button-secondary" href="./docs.html#privacy-limits">Understand the Limits</a>
           </div>
-          <div class="feature-grid compact-feature-grid" id="core-features"></div>
+        </div>
+        <div class="privacy-spec" data-reveal>
+          <div>
+            <span>Handshake</span>
+            <strong>X25519 + ML-KEM-768</strong>
+          </div>
+          <div>
+            <span>Key derivation</span>
+            <strong>HKDF-SHA3-256</strong>
+          </div>
+          <div>
+            <span>Record protection</span>
+            <strong>ChaCha20-Poly1305</strong>
+          </div>
+          <div>
+            <span>Node identity</span>
+            <strong>Falcon-512 authenticated</strong>
+          </div>
+          <p>Encryption protects P2P message content. It does not hide IP addresses, timing, or public on-chain transaction data. RPC and HTTP are separate local control interfaces and remain loopback-only.</p>
         </div>
       </div>
     </section>
 
-    <section class="section" id="network">
+    <section class="section section-panel" id="protocol">
       <div class="section-head" data-reveal>
-        <span class="section-kicker">Network</span>
-        <h2>Choose the Right Network</h2>
-        <p>
-          Mainnet, testnet, and regnet stay separate by design. Pick the mode that matches the work you need to do.
-        </p>
+        <span class="section-kicker">Protocol</span>
+        <h2>Current code, in plain language.</h2>
+        <p>The homepage stays concise; each summary leads into source-grounded documentation.</p>
       </div>
-
-      <div class="container">
-        <div class="simple-board" data-reveal>
-          <div class="simple-board-head">
-            <div class="simple-board-copy">
-              <span class="live-network-badge">Network Modes</span>
-              <p class="live-network-status">Ports, replay isolation, storage behavior, and testing flow are documented in one place.</p>
-            </div>
-            <a class="live-network-link" href="./docs.html#network-modes">Read Network Docs</a>
-          </div>
-          <div class="network-card-grid compact-network-grid" id="network-constants"></div>
-        </div>
-      </div>
+      <div class="container number-grid" id="protocol-highlights"></div>
+      <div class="container runtime-pill-grid" id="runtime-pills"></div>
     </section>
 
-    <section class="section section-panel" id="testnet">
+    <section class="section" id="economics">
       <div class="section-head" data-reveal>
-        <span class="section-kicker">Start Here</span>
-        <h2>Read, Explore, or Join Testnet</h2>
-        <p>
-          Keep the homepage simple. Open the page that matches what you want to do next.
-        </p>
+        <span class="section-kicker">Current constants</span>
+        <h2>Updated monetary and payment rules.</h2>
+        <p>These values match the current consensus source and August 2026 whitepaper.</p>
       </div>
+      <div class="container stat-grid" id="network-stats"></div>
+    </section>
 
-      <div class="container">
-        <div class="simple-board" data-reveal>
-          <div class="simple-link-grid" id="access-links"></div>
-        </div>
+    <section class="section section-panel" id="network">
+      <div class="section-head" data-reveal>
+        <span class="section-kicker">Network modes</span>
+        <h2>Separated by identity, ports, storage, and genesis.</h2>
+        <p>Software support for a network mode is not a claim that a public network is currently online.</p>
       </div>
+      <div class="container network-card-grid compact-network-grid" id="network-constants"></div>
+    </section>
+
+    <section class="section" id="start">
+      <div class="section-head" data-reveal>
+        <span class="section-kicker">Start here</span>
+        <h2>Read, review, build, or follow progress.</h2>
+        <p>Choose the shortest path to the information you need.</p>
+      </div>
+      <div class="container simple-link-grid" id="access-links"></div>
     </section>
 
     <section class="cta-section">
       <div class="container cta-shell" data-reveal>
         <div class="cta-copy">
-          <span class="section-kicker">Next Step</span>
-          <h2>Go straight to live chain data, then open docs for setup and reference.</h2>
-          <p>
-            Use the explorer for activity, then use docs for wallets, mining, nodes, and testnet setup.
-          </p>
+          <span class="section-kicker">Build with Atho</span>
+          <h2>Use the docs for operation, GitHub for source, and Discord for the conversation.</h2>
+          <p>The project is pre-mainnet and under active development. Review the implementation and current launch status before treating any interface as production-ready.</p>
         </div>
         <div class="button-row cta-actions" id="community-actions"></div>
       </div>
@@ -229,24 +226,17 @@
   <footer class="site-footer">
     <div class="container footer-top">
       <div class="footer-brand">
-        <img src="./assets/media/logo%201.png" alt="Atho" width="172" height="115" decoding="async">
+        <img src="./assets/media/logo-mark-transparent.png" alt="Atho" width="693" height="602" decoding="async">
+        <p>Post-quantum-aware digital money with explicit rules and independently verifiable settlement.</p>
       </div>
-
       <div class="footer-columns" id="footer-columns"></div>
     </div>
-
     <div class="container footer-bottom">
-      <p>Atho is building post-quantum-aware payment infrastructure with simple rules, durable chain truth, and a long-term protocol posture.</p>
-      <p>&copy; <span data-year></span> Atho Labs. All rights reserved.</p>
+      <p>Pre-mainnet software under active development. No public Atho network is currently presented as live.</p>
+      <p>&copy; <span data-year></span> Atho Labs. Apache-2.0 software.</p>
     </div>
   </footer>
 
-  <script>
-    window.ATHO_EXPLORER_CONFIG = {
-      testnetApiBaseUrl: "https://testnet-node1.atho.io/api/v1"
-    };
-  </script>
-  <script type="module" src="./assets/js/site.js?v=20260803c"></script>
-  <script type="module" src="./assets/js/live-network.js?v=20260803c"></script>
+  <script type="module" src="./assets/js/site.js?v=20260825a"></script>
 </body>
 </html>
