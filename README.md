@@ -9,7 +9,7 @@ Static public site for `atho.io`.
 - `networks.html`: isolated network modes, ports, and current availability
 - `join.html`: desktop and headless build guide
 - `roadmap.html`: project status and launch gates
-- `explore/index.html`: offline Explorer interface and public-feed notice
+- `explore/index.html`: standalone Explorer interface and public-feed notice
 - `contact.html`: security, source, and community channels
 
 ## Source-Grounded Content
@@ -36,6 +36,8 @@ new compatible public testnet is announced.
 - `assets/js/docs.js`: navigation, search, hash routing, and previous/next flow
 - `assets/js/site-data.js`: homepage cards, network constants, links, and footer
 - `assets/js/site.js`: shared rendering, social actions, interaction, and navigation
+- `assets/js/explore.js`: Explorer routes, searches, tables, paging, and detail views
+- `assets/js/explorer-config.js`: runtime-verified Explorer endpoint configuration
 - `assets/js/explorer-offline.js`: first-entry network notice and offline search state
 - `assets/css/site.css`: shared responsive design system
 
