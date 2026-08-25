@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Atho explorer status. The former public testnet explorer is paused while a new compatible ruleset and public network are prepared.">
-  <title>Atho Explorer Status</title>
+  <meta name="description" content="Explore Atho blocks, transactions, and network activity. Live data is paused while the next compatible public network is prepared.">
+  <title>Atho Explorer | Blocks, Transactions, and Network Activity</title>
   <link rel="canonical" href="https://atho.io/explore/">
-  <meta property="og:type" content="website"><meta property="og:site_name" content="Atho"><meta property="og:url" content="https://atho.io/explore/"><meta property="og:title" content="Atho Explorer Status"><meta property="og:description" content="The former public testnet explorer is paused while the next compatible Atho network is prepared."><meta property="og:image" content="https://atho.io/assets/media/explorer-share-card.png">
-  <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Atho Explorer Status"><meta name="twitter:description" content="The former public testnet explorer is paused while the next compatible Atho network is prepared."><meta name="twitter:image" content="https://atho.io/assets/media/explorer-share-card.png">
+  <meta property="og:type" content="website"><meta property="og:site_name" content="Atho"><meta property="og:url" content="https://atho.io/explore/"><meta property="og:title" content="Atho Explorer"><meta property="og:description" content="The Explorer interface remains available while live data is paused for the next compatible Atho network."><meta property="og:image" content="https://atho.io/assets/media/explorer-share-card.png">
+  <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Atho Explorer"><meta name="twitter:description" content="The Explorer interface remains available while live data is paused for the next compatible Atho network."><meta name="twitter:image" content="https://atho.io/assets/media/explorer-share-card.png">
   <link rel="icon" type="image/png" href="../assets/media/logo-mark-transparent.png">
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/css/site.css?v=20260825a">
+  <link rel="stylesheet" href="../assets/css/site.css?v=20260825b">
 </head>
 <body data-site-base="../">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -19,37 +19,92 @@
       <a class="brand" href="../index.html" aria-label="Atho home"><img class="brand-mark" src="../assets/media/logo-mark-transparent.png" alt="Atho" width="693" height="602" decoding="async"><span class="brand-copy"><span class="brand-name">Atho</span><span class="brand-tag">The Platinum Standard for the Quantum Age</span></span></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav-panel" data-menu-toggle><span></span><span></span><span></span><span class="sr-only">Toggle navigation</span></button>
       <div class="nav-panel" id="site-nav-panel" data-nav-panel>
-        <nav class="site-nav" aria-label="Primary"><a href="../index.html">Home</a><a href="../docs.html">Docs</a><a href="../docs.html#encrypted-p2p">Privacy</a><a href="../roadmap.html">Status</a><a href="../contact.html">Contact</a></nav>
+        <nav class="site-nav" aria-label="Primary"><a href="../index.html">Home</a><a href="../docs.html">Docs</a><a href="../index.html#privacy">Privacy</a><a href="../docs.html#headless-binaries">Binaries</a><a href="../networks.html">Networks</a><a href="./" aria-current="page">Explore</a><a href="../roadmap.html">Status</a><a href="../contact.html">Contact</a></nav>
         <div class="nav-actions"><a class="button button-secondary" href="../assets/files/atho-whitepaper.pdf">Whitepaper</a><a class="button button-primary" href="../docs.html#network-status">Network Docs</a></div>
       </div>
     </div>
   </header>
 
-  <main id="main" class="explorer-status-page">
-    <section class="container explorer-status-hero" data-reveal>
-      <span class="status-indicator is-paused">Explorer paused</span>
-      <span class="section-kicker">Public network status</span>
-      <h1>No live chain endpoint is currently configured.</h1>
-      <p>The previous public testnet completed its cycle and was retired. Its block data and API endpoint belong to an older ruleset, so this explorer will remain offline until a compatible public network is announced.</p>
-      <div class="page-actions"><a class="button button-primary" href="../roadmap.html">View Project Status</a><a class="button button-secondary" href="../docs.html#network-status">Read Network Docs</a><a class="button button-tertiary" href="https://github.com/Atho-Labs" target="_blank" rel="noopener noreferrer">GitHub</a></div>
+  <main id="main" class="explorer-page">
+    <section class="explorer-toolbar">
+      <div class="container explorer-toolbar-inner">
+        <div>
+          <span class="section-kicker">Atho Explorer</span>
+          <h1>Blocks and transactions</h1>
+        </div>
+        <div class="explorer-network-state" aria-label="Explorer network state">
+          <span>Testnet</span>
+          <strong><i aria-hidden="true"></i>Offline</strong>
+        </div>
+      </div>
     </section>
 
-    <section class="container explorer-return-grid" aria-label="Explorer return requirements">
-      <article data-reveal><span>01</span><strong>Compatible ruleset</strong><p>Frozen consensus, genesis, network identity, and release metadata.</p></article>
-      <article data-reveal><span>02</span><strong>Public node API</strong><p>A TLS-protected read-only gateway over a loopback Atho API.</p></article>
-      <article data-reveal><span>03</span><strong>Identity verification</strong><p>Explorer checks for network ID, genesis hash, and API version before rendering.</p></article>
-      <article data-reveal><span>04</span><strong>Operational evidence</strong><p>Monitoring, rate limits, independent peers, and stable public-network operation.</p></article>
+    <section class="container explorer-search-section" aria-label="Explorer search">
+      <form class="explorer-search-form" data-explorer-search>
+        <label class="sr-only" for="explorer-query">Search the Atho blockchain</label>
+        <input id="explorer-query" name="query" type="search" placeholder="Search block height, hash, or transaction ID" autocomplete="off">
+        <button class="button button-primary" type="submit">Search</button>
+      </form>
+      <p class="explorer-search-message" data-explorer-message role="status">Live lookup is unavailable while the public network is offline.</p>
     </section>
 
-    <section class="container explorer-local-note" data-reveal>
-      <div><span class="section-kicker">Develop locally</span><h2>Regnet remains available.</h2></div>
-      <p>Run the node and query its loopback interfaces locally while public infrastructure is paused.</p>
-      <pre><code>./target/release/athod --network regnet
-./target/release/atho-cli --network regnet getblockchaininfo</code></pre>
+    <section class="container explorer-metrics" aria-label="Network summary">
+      <article><span>Block height</span><strong>--</strong><small>Feed offline</small></article>
+      <article><span>Latest block</span><strong>--</strong><small>Feed offline</small></article>
+      <article><span>Mempool</span><strong>--</strong><small>Feed offline</small></article>
+      <article><span>Connected peers</span><strong>--</strong><small>Feed offline</small></article>
+    </section>
+
+    <section class="container explorer-dashboard">
+      <div class="explorer-feed-column">
+        <section class="explorer-data-panel" aria-labelledby="recent-blocks-title">
+          <div class="explorer-panel-head"><div><span class="section-kicker">Chain</span><h2 id="recent-blocks-title">Recent blocks</h2></div><span class="explorer-panel-state">Awaiting network</span></div>
+          <div class="explorer-table-wrap">
+            <table>
+              <thead><tr><th>Height</th><th>Hash</th><th>Transactions</th><th>Age</th></tr></thead>
+              <tbody><tr class="explorer-empty-row"><td colspan="4"><strong>No live block data</strong><span>The previous testnet chain was retired with its old ruleset.</span></td></tr></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="explorer-data-panel" aria-labelledby="recent-transactions-title">
+          <div class="explorer-panel-head"><div><span class="section-kicker">Activity</span><h2 id="recent-transactions-title">Recent transactions</h2></div><span class="explorer-panel-state">Awaiting network</span></div>
+          <div class="explorer-table-wrap">
+            <table>
+              <thead><tr><th>Transaction ID</th><th>Inputs</th><th>Outputs</th><th>Age</th></tr></thead>
+              <tbody><tr class="explorer-empty-row"><td colspan="4"><strong>No live transaction data</strong><span>Search and activity will resume with a compatible public endpoint.</span></td></tr></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <aside class="explorer-side-panel" aria-labelledby="explorer-status-title">
+        <span class="status-indicator is-paused">Public feed offline</span>
+        <h2 id="explorer-status-title">Explorer status</h2>
+        <p>The interface is ready, but no public chain endpoint is configured. This prevents obsolete testnet data from being presented as current.</p>
+        <dl>
+          <div><dt>Mode</dt><dd>Testnet</dd></div>
+          <div><dt>Endpoint</dt><dd>Not configured</dd></div>
+          <div><dt>Ruleset</dt><dd>Next release pending</dd></div>
+        </dl>
+        <a class="button button-secondary" href="../roadmap.html">View Project Status</a>
+        <a class="text-link" href="../networks.html">Compare network modes</a>
+      </aside>
     </section>
   </main>
 
+  <dialog class="explorer-offline-dialog" data-explorer-dialog aria-labelledby="explorer-dialog-title" aria-describedby="explorer-dialog-copy">
+    <div class="explorer-dialog-status"><i aria-hidden="true"></i>Network notice</div>
+    <h2 id="explorer-dialog-title">Public Explorer Offline</h2>
+    <p id="explorer-dialog-copy">The previous 30-day testnet completed and its old chain data was retired. The Explorer remains available, but live search and network data will return only after the next compatible public network is verified.</p>
+    <div class="explorer-dialog-actions">
+      <button class="button button-primary" type="button" data-explorer-continue>Continue to Explorer</button>
+      <a class="button button-secondary" href="../roadmap.html">Read Status</a>
+    </div>
+  </dialog>
+
   <footer class="site-footer"><div class="container footer-top"><div class="footer-brand"><img src="../assets/media/logo-mark-transparent.png" alt="Atho" width="693" height="602" decoding="async"><p>The explorer returns with the next verified public network.</p></div><div class="footer-columns" id="footer-columns"></div></div><div class="container footer-bottom"><p>No public Atho network is currently presented as live.</p><p>&copy; <span data-year></span> Atho Labs. Apache-2.0 software.</p></div></footer>
-  <script type="module" src="../assets/js/site.js?v=20260825a"></script>
+  <script type="module" src="../assets/js/site.js?v=20260825b"></script>
+  <script type="module" src="../assets/js/explorer-offline.js?v=20260825b"></script>
 </body>
 </html>

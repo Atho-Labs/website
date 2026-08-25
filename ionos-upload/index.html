@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/css/site.css?v=20260825a">
+  <link rel="stylesheet" href="./assets/css/site.css?v=20260825b">
 </head>
 <body data-stats-endpoint="">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -53,6 +53,8 @@
           <a href="./docs.html">Docs</a>
           <a href="#privacy">Privacy</a>
           <a href="./docs.html#headless-binaries">Binaries</a>
+          <a href="./networks.html">Networks</a>
+          <a href="./explore/">Explore</a>
           <a href="./roadmap.html">Status</a>
           <a href="./contact.html">Contact</a>
         </nav>
@@ -125,7 +127,7 @@
           <span class="section-kicker">Current network status</span>
           <h2 id="network-status-title">Development active. Public testnet offline.</h2>
         </div>
-        <p>The prior 30-day test cycle has concluded, its nodes and chain data were retired, and the explorer is paused until a compatible public network is announced.</p>
+        <p>The prior 30-day test cycle has concluded and its chain data was retired. The Explorer interface remains available in offline mode until a compatible public network is announced.</p>
         <a class="text-link" href="./roadmap.html">Read the full status</a>
       </div>
     </section>
@@ -145,8 +147,9 @@
       <div class="container privacy-layout">
         <div class="privacy-copy" data-reveal>
           <span class="section-kicker">P2P privacy</span>
-              <h2>Encrypted before protocol exchange begins.</h2>
+          <h2>Encrypted before protocol exchange begins.</h2>
           <p>On mainnet, testnet, and prunetest, nodes establish a hybrid encrypted session before exchanging Atho version, sync, block, or transaction messages.</p>
+          <p>Operators who want another layer of IP privacy can run a node on a VPS, or keep it on a local machine and route outbound traffic through an operator-managed VPN, TCP proxy, or tested Tor-compatible gateway. These are deployment choices outside Atho itself; direct peers see the connection's egress address.</p>
           <div class="button-row">
             <a class="button button-primary" href="./docs.html#encrypted-p2p">Read the Transport Guide</a>
             <a class="button button-secondary" href="./docs.html#privacy-limits">Understand the Limits</a>
@@ -169,7 +172,7 @@
             <span>Node identity</span>
             <strong>Falcon-512 authenticated</strong>
           </div>
-          <p>Encryption protects P2P message content. It does not hide IP addresses, timing, or public on-chain transaction data. RPC and HTTP are separate local control interfaces and remain loopback-only.</p>
+          <p>Atho encrypts and authenticates the P2P transport layer. It does not hide IP addresses, timing, traffic volume, or public on-chain transaction data. RPC and HTTP are separate local control interfaces and remain loopback-only.</p>
         </div>
       </div>
     </section>
@@ -181,31 +184,12 @@
         <p>The homepage stays concise; each summary leads into source-grounded documentation.</p>
       </div>
       <div class="container number-grid" id="protocol-highlights"></div>
-      <div class="container runtime-pill-grid" id="runtime-pills"></div>
-    </section>
-
-    <section class="section" id="economics">
-      <div class="section-head" data-reveal>
-        <span class="section-kicker">Current constants</span>
-        <h2>Updated monetary and payment rules.</h2>
-        <p>These values match the current consensus source and August 2026 whitepaper.</p>
-      </div>
-      <div class="container stat-grid" id="network-stats"></div>
-    </section>
-
-    <section class="section section-panel" id="network">
-      <div class="section-head" data-reveal>
-        <span class="section-kicker">Network modes</span>
-        <h2>Separated by identity, ports, storage, and genesis.</h2>
-        <p>Software support for a network mode is not a claim that a public network is currently online.</p>
-      </div>
-      <div class="container network-card-grid compact-network-grid" id="network-constants"></div>
     </section>
 
     <section class="section" id="start">
       <div class="section-head" data-reveal>
         <span class="section-kicker">Start here</span>
-        <h2>Read, review, build, or follow progress.</h2>
+        <h2>Read, explore, build, or review.</h2>
         <p>Choose the shortest path to the information you need.</p>
       </div>
       <div class="container simple-link-grid" id="access-links"></div>
@@ -237,6 +221,6 @@
     </div>
   </footer>
 
-  <script type="module" src="./assets/js/site.js?v=20260825a"></script>
+  <script type="module" src="./assets/js/site.js?v=20260825b"></script>
 </body>
 </html>

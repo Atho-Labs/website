@@ -6,9 +6,10 @@ Static public site for `atho.io`.
 
 - `index.html`: protocol homepage and current network status
 - `docs.html`: searchable, section-based implementation documentation
+- `networks.html`: isolated network modes, ports, and current availability
 - `join.html`: desktop and headless build guide
 - `roadmap.html`: project status and launch gates
-- `explore/index.html`: explorer availability status
+- `explore/index.html`: offline Explorer interface and public-feed notice
 - `contact.html`: security, source, and community channels
 
 ## Source-Grounded Content
@@ -35,6 +36,7 @@ new compatible public testnet is announced.
 - `assets/js/docs.js`: navigation, search, hash routing, and previous/next flow
 - `assets/js/site-data.js`: homepage cards, network constants, links, and footer
 - `assets/js/site.js`: shared rendering, social actions, interaction, and navigation
+- `assets/js/explorer-offline.js`: first-entry network notice and offline search state
 - `assets/css/site.css`: shared responsive design system
 
 Older hash routes are mapped to the closest current section where practical.

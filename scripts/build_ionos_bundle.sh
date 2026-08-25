@@ -30,6 +30,11 @@ rsync -a \
   --exclude="scripts/" \
   --exclude="ionos-upload/" \
   --exclude="assets/docs/" \
+  --exclude="assets/media/docs/" \
+  --exclude="assets/media/logo 1.png" \
+  --exclude="assets/media/logo 2 .PNG" \
+  --exclude="assets/media/logo 3.png" \
+  --exclude="assets/media/logo-mark-green.png" \
   "${SITE_ROOT}/" "${OUT_DIR}/"
 
 (cd "${OUT_DIR}" && zip -qr "${ZIP_PATH}" .)

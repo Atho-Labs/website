@@ -221,28 +221,28 @@ export const siteContent = {
       actionLabel: "Open docs"
     },
     {
+      icon: "globe",
+      title: "Open the Explorer",
+      copy: "Use the familiar Explorer interface while the public data feed remains offline.",
+      hover: "A first-entry notice clearly explains that live search and network data will return with the next compatible public network.",
+      href: "./explore/",
+      actionLabel: "Open Explorer"
+    },
+    {
+      icon: "server",
+      title: "Compare network modes",
+      copy: "Review mainnet, testnet, regnet, and prunetest identities, ports, and current availability.",
+      hover: "Each mode has isolated identity, storage, ports, and genesis state. Software support does not imply a public network is online.",
+      href: "./networks.html",
+      actionLabel: "View networks"
+    },
+    {
       icon: "code",
       title: "Review the source",
       copy: "Browse Atho Labs projects and follow implementation work on GitHub.",
       hover: "Code is the final authority when a summary and the implementation disagree.",
       href: "https://github.com/Atho-Labs",
       actionLabel: "Open GitHub"
-    },
-    {
-      icon: "package",
-      title: "Read the whitepaper",
-      copy: "The current 80-page technical whitepaper is the only protocol PDF published here.",
-      hover: "Research-only channel and private-layer papers are intentionally not presented as implemented features.",
-      href: "./assets/files/atho-whitepaper.pdf",
-      actionLabel: "Download PDF"
-    },
-    {
-      icon: "server",
-      title: "Check network status",
-      copy: "See what is implemented, what is offline, and what remains before a public launch.",
-      hover: "The retired testnet endpoints are no longer shown as live infrastructure.",
-      href: "./roadmap.html",
-      actionLabel: "View status"
     }
   ],
   economics: [
@@ -341,9 +341,10 @@ export const siteContent = {
       title: "Project",
       links: [
         { label: "Current Status", href: "./roadmap.html" },
+        { label: "Network Modes", href: "./networks.html" },
         { label: "Build Atho", href: "./join.html" },
         { label: "Whitepaper", href: "./assets/files/atho-whitepaper.pdf" },
-        { label: "Explorer Status", href: "./explore/" },
+        { label: "Explorer", href: "./explore/" },
         { label: "Contact", href: "./contact.html" }
       ]
     },

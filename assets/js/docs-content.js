@@ -528,6 +528,7 @@ export ATHO_WALLET_PASSWORD
       { id: "p2p-handshake", title: "Handshake Sequence" },
       { id: "p2p-protections", title: "Transport Protections" },
       { id: "privacy-limits", title: "What Encryption Does Not Hide" },
+      { id: "ip-privacy-deployment", title: "Optional IP-Privacy Layers" },
       { id: "p2p-policy", title: "Required Encryption Policy" }
     ],
     related: [
@@ -580,6 +581,11 @@ export ATHO_WALLET_PASSWORD
           <li>public transaction amounts, addresses, or the confirmed UTXO graph;</li>
           <li>compromise of either endpoint, its memory, logs, or operating system.</li>
         </ul>
+      </section>
+      <section class="docs-section" id="ip-privacy-deployment">
+        <h2>Optional IP-Privacy Layers</h2>
+        <p>Atho protects P2P message content, but it does not include a built-in Tor, SOCKS, VPN, or proxy mode. Operators can add a deployment-layer boundary by running a public node on a VPS, or keeping it on a local machine and routing outbound TCP through an operator-managed VPN, TCP proxy, or properly configured Tor-compatible transparent gateway.</p>
+        <p>Direct peers see the egress endpoint used for that connection. Confirm that listen, advertise, firewall, DNS, and routing settings do not reveal or bypass a protected home address. A VPS or VPN with controlled port forwarding is generally the clearest option for a publicly reachable node; transparent proxy or Tor gateway configurations require platform-specific testing before use.</p>
       </section>
       <section class="docs-section" id="p2p-policy">
         <h2>Required Encryption Policy</h2>
@@ -887,6 +893,7 @@ cargo clippy --workspace --all-targets -- -D warnings</code></pre>
       <section class="docs-section" id="faq-encryption">
         <h2>Is Everything End-to-End Encrypted?</h2>
         <p>Every Atho P2P application message on mainnet, testnet, and prunetest is required to travel inside an authenticated encrypted session for that direct peer connection. This is per-hop link encryption, not onion encryption across multiple relays. Raw RPC and HTTP are separate local interfaces and stay loopback-only because they do not provide transport encryption themselves.</p>
+        <p>Operators may add a VPS, VPN, TCP proxy, or tested Tor-compatible gateway to change the IP address visible to direct peers. That routing layer is external to Atho and does not make the public ledger private.</p>
       </section>
       <section class="docs-section" id="faq-network">
         <h2>Is Mainnet or Testnet Live?</h2>

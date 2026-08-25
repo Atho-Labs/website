@@ -1,4 +1,4 @@
-import { siteContent } from "./site-data.js?v=20260825a";
+import { siteContent } from "./site-data.js?v=20260825b";
 
 const iconPaths = {
   shield: "M12 2.4 4 5.6v5.7c0 5.2 3.4 9.9 8 11.3 4.6-1.4 8-6.1 8-11.3V5.6l-8-3.2Zm0 3.3 4.7 1.9v3.8c0 3.3-1.9 6.4-4.7 7.6-2.8-1.2-4.7-4.3-4.7-7.6V7.6L12 5.7Z",
