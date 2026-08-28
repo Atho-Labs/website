@@ -76,7 +76,7 @@ export const docsSections = {
       </section>
       <section class="docs-section" id="current-whitepaper">
         <h2>Current Whitepaper</h2>
-        <p>The August 23, 2026 technical whitepaper is the sole current protocol PDF published on this website. It contains 80 pages covering architecture, consensus, networking, wallet behavior, operations, and limitations.</p>
+        <p>The August 27, 2026 technical whitepaper is the sole current protocol PDF published on this website. It contains 79 pages covering architecture, consensus, networking, wallet behavior, offline signing, operations, and limitations.</p>
         <p><a class="docs-inline-action" href="./assets/files/atho-whitepaper.pdf">Download the Atho Whitepaper</a></p>
       </section>
     `
@@ -204,8 +204,8 @@ export const docsSections = {
   "monetary-policy": {
     title: "Monetary Policy",
     eyebrow: "Core Rules",
-    summary: "Six fixed bootstrap eras lead into a permanent 0.125 ATHO tail reward, with no premine and no fixed maximum supply.",
-    keywords: ["reward", "supply", "tail", "halving", "issuance", "26.46 million"],
+    summary: "Eight fixed bootstrap eras lead into a finite 0.0625 ATHO tail reward and a consensus-enforced maximum supply of 168 million ATHO.",
+    keywords: ["reward", "supply", "cap", "tail", "halving", "issuance", "168 million", "53.55 million"],
     topics: [
       { id: "monetary-policy", title: "Emission Schedule" },
       { id: "tail-emission", title: "Tail Emission" },
@@ -224,24 +224,27 @@ export const docsSections = {
           <table>
             <thead><tr><th>Heights</th><th>Reward</th><th>Era issuance</th><th>Cumulative</th></tr></thead>
             <tbody>
-              <tr><td>1-1,680,000</td><td>8 ATHO</td><td>13,440,000</td><td>13,440,000</td></tr>
-              <tr><td>1,680,001-3,360,000</td><td>4 ATHO</td><td>6,720,000</td><td>20,160,000</td></tr>
-              <tr><td>3,360,001-5,040,000</td><td>2 ATHO</td><td>3,360,000</td><td>23,520,000</td></tr>
-              <tr><td>5,040,001-6,720,000</td><td>1 ATHO</td><td>1,680,000</td><td>25,200,000</td></tr>
-              <tr><td>6,720,001-8,400,000</td><td>0.50 ATHO</td><td>840,000</td><td>26,040,000</td></tr>
-              <tr><td>8,400,001-10,080,000</td><td>0.25 ATHO</td><td>420,000</td><td>26,460,000</td></tr>
-              <tr><td>10,080,001 onward</td><td>0.125 ATHO</td><td>52,560/year at target cadence</td><td>Continues</td></tr>
+              <tr><td>1-1,680,000</td><td>16 ATHO</td><td>26,880,000</td><td>26,880,000</td></tr>
+              <tr><td>1,680,001-3,360,000</td><td>8 ATHO</td><td>13,440,000</td><td>40,320,000</td></tr>
+              <tr><td>3,360,001-5,040,000</td><td>4 ATHO</td><td>6,720,000</td><td>47,040,000</td></tr>
+              <tr><td>5,040,001-6,720,000</td><td>2 ATHO</td><td>3,360,000</td><td>50,400,000</td></tr>
+              <tr><td>6,720,001-8,400,000</td><td>1 ATHO</td><td>1,680,000</td><td>52,080,000</td></tr>
+              <tr><td>8,400,001-10,080,000</td><td>0.50 ATHO</td><td>840,000</td><td>52,920,000</td></tr>
+              <tr><td>10,080,001-11,760,000</td><td>0.25 ATHO</td><td>420,000</td><td>53,340,000</td></tr>
+              <tr><td>11,760,001-13,440,000</td><td>0.125 ATHO</td><td>210,000</td><td>53,550,000</td></tr>
+              <tr><td>13,440,001-1,844,640,000</td><td>0.0625 ATHO</td><td>26,280/year at target cadence</td><td>168,000,000 at completion</td></tr>
+              <tr><td>1,844,640,001 onward</td><td>0 ATHO</td><td>0</td><td>168,000,000</td></tr>
             </tbody>
           </table>
         </div>
       </section>
       <section class="docs-section" id="tail-emission">
-        <h2>Permanent Tail Reward</h2>
-        <p>At the 75-second target, Atho projects 420,480 blocks per nominal year. A 0.125 ATHO tail therefore projects 52,560 ATHO of annual base issuance. Actual calendar issuance follows blocks produced, not a wall-clock minting process.</p>
+        <h2>Finite Tail Reward</h2>
+        <p>At the 75-second target, Atho projects 420,480 blocks per nominal year. A 0.0625 ATHO tail therefore projects 26,280 ATHO of annual base issuance. Actual calendar issuance follows blocks produced, not a wall-clock minting process.</p>
       </section>
       <section class="docs-section" id="supply-cap">
-        <h2>No Premine, No Fixed Cap</h2>
-        <p>The current rules schedule 26,460,000 ATHO through the final bootstrap block and then continue the tail reward. There is no premine and no fixed maximum supply. The tail is intended to preserve a base miner security budget while its percentage inflation declines as total issuance grows.</p>
+        <h2>No Premine, 168 Million Cap</h2>
+        <p>The current rules schedule 53,550,000 ATHO through the final bootstrap block, followed by 114,450,000 ATHO of tail issuance. Consensus pays the final 0.0625 ATHO subsidy at height 1,844,640,000 and zero subsidy afterward, fixing maximum issuance at 168,000,000 ATHO, or 16,800,000,000,000,000 atoms.</p>
       </section>
     `
   },
@@ -302,12 +305,14 @@ export const docsSections = {
     title: "Wallets",
     eyebrow: "Wallets and Tools",
     summary: "Desktop and headless wallets derive addresses, protect local secrets, build transactions, sign messages, and query node-owned chain state.",
-    keywords: ["wallet", "encryption", "aes", "pbkdf2", "mnemonic", "coin control", "message signing"],
+    keywords: ["wallet", "encryption", "aes", "pbkdf2", "mnemonic", "backup", "offline", "psat", "coin control", "message signing"],
     aliases: ["message-signing"],
     topics: [
       { id: "wallets", title: "Wallet Model" },
       { id: "wallet-encryption", title: "Wallet Encryption at Rest" },
       { id: "wallet-backups", title: "Recovery and Backups" },
+      { id: "offline-signing", title: "Offline Signing and PSAT" },
+      { id: "offline-addresses", title: "Offline Receive Addresses" },
       { id: "wallet-privacy", title: "Wallet Privacy Limits" }
     ],
     related: [
@@ -333,7 +338,7 @@ export const docsSections = {
             </tbody>
           </table>
         </div>
-        <p>The current desktop create/import flow requires a non-empty wallet password. The headless CLI also requires a password unless an operator explicitly requests plaintext with <code>--allow-plaintext</code>. That escape hatch should be reserved for controlled disposable workflows.</p>
+        <p>The current desktop create/import flow requires a non-empty wallet password. Release-mode headless wallets also require encryption. The explicit <code>--allow-plaintext</code> escape hatch is restricted to regnet or developer builds and must never be used for funded wallets.</p>
         <p>Encryption protects a stolen file against offline reading only to the strength of the password and implementation. It cannot protect an unlocked wallet on a compromised running computer, screen capture, keylogging, memory extraction, or a stolen recovery phrase.</p>
       </section>
       <section class="docs-section" id="wallet-backups">
@@ -341,9 +346,20 @@ export const docsSections = {
         <ul>
           <li>Record the recovery phrase offline and verify it before funding a wallet.</li>
           <li>Use a strong unique wallet password; it is not a replacement for the recovery phrase.</li>
-          <li>Keep encrypted backups on more than one device or medium.</li>
+          <li>Export an encrypted <code>wallet.datafile</code> backup for complete-state migration and verify it before relying on it.</li>
+          <li>Keep encrypted backups on more than one device or medium. Restoring requires the existing password and never silently overwrites another wallet.</li>
           <li>Never place phrases, passwords, or decrypted wallet files in source control, chat, screenshots, shell history, or cloud notes.</li>
         </ul>
+        <p>A recovery phrase reconstructs deterministic keys. An encrypted datafile also preserves wallet indexes, labels, address state, and settings, so both recovery paths are useful. The node continues validating and relaying while a wallet is locked; private-key operations require an unlock.</p>
+      </section>
+      <section class="docs-section" id="offline-signing">
+        <h2>Offline Signing and PSAT</h2>
+        <p>PSAT V2 lets an online coordinator prepare an unsigned payment, an offline wallet independently verify authenticated complete previous transactions and sign it, and the online system finalize transaction PoW and broadcast it. Files bind to the network, genesis, reference height, outputs, fees, and signer request.</p>
+        <p>The desktop provides an offline mode with no Atho node backend or RPC polling. The headless wallet permits local PSAT inspection, signing, combining, and finalization under <code>--offline</code> while rejecting commands that require network access. Offline signing isolates keys; it does not hide public transaction data or disable unrelated operating-system networking.</p>
+      </section>
+      <section class="docs-section" id="offline-addresses">
+        <h2>Offline Receive-Address Export</h2>
+        <p>The desktop advanced wallet page can reserve and export numbered public receive-address batches as a checksummed, read-only text file. The wallet persists the advanced receive index and warns when a requested batch exceeds the configured recovery window. The file contains no private keys, but the updated encrypted wallet and an adequate recovery scan window remain important.</p>
       </section>
       <section class="docs-section" id="wallet-privacy">
         <h2>Wallet Privacy Limits</h2>
@@ -355,8 +371,8 @@ export const docsSections = {
   "headless-binaries": {
     title: "Headless Binaries",
     eyebrow: "Wallets and Tools",
-    summary: "Five focused binaries cover full-node, RPC, mining, wallet, and address workflows without launching the desktop client.",
-    keywords: ["headless", "binaries", "athod", "atho-cli", "atho-mine", "atho-wallet", "atho-address"],
+    summary: "Seven focused binaries cover node, RPC, mining, wallet, address, snapshot-audit, and pool workflows without launching the desktop client.",
+    keywords: ["headless", "binaries", "athod", "atho-cli", "atho-mine", "atho-wallet", "atho-address", "atho-snapshot", "atho-pool"],
     aliases: ["headless-wallet-and-cli", "command-catalog", "setup", "setup-launchers"],
     topics: [
       { id: "headless-binaries", title: "Binary Overview" },
@@ -366,6 +382,8 @@ export const docsSections = {
       { id: "atho-mine", title: "atho-mine Miner" },
       { id: "atho-wallet", title: "atho-wallet" },
       { id: "atho-address", title: "atho-address" },
+      { id: "atho-snapshot", title: "atho-snapshot" },
+      { id: "atho-pool", title: "atho-pool" },
       { id: "headless-security", title: "Headless Security Boundaries" }
     ],
     related: [
@@ -385,6 +403,8 @@ export const docsSections = {
               <tr><td><code>atho-mine</code></td><td>CPU/GPU template work and block submission</td><td>Miner host with protected node access</td></tr>
               <tr><td><code>atho-wallet</code></td><td>Create, restore, inspect, query, send, and sign without a GUI</td><td>Protected wallet workstation</td></tr>
               <tr><td><code>atho-address</code></td><td>Inspect or deterministically derive Base56 addresses</td><td>Offline or controlled tooling host</td></tr>
+              <tr><td><code>atho-snapshot</code></td><td>Export, inspect, replay, and compare reproducible UTXO snapshot reports</td><td>Independent archive operator</td></tr>
+              <tr><td><code>atho-pool</code></td><td>Encrypted authenticated pool jobs, shares, failover, and accounting input</td><td>Pool gateway or miner host</td></tr>
             </tbody>
           </table>
         </div>
@@ -398,7 +418,9 @@ export const docsSections = {
 ./target/release/atho-cli --help
 ./target/release/atho-mine --help
 ./target/release/atho-wallet --help
-./target/release/atho-address --help</code></pre>
+./target/release/atho-address --help
+./target/release/atho-snapshot help
+./target/release/atho-pool help</code></pre>
         <p>While the public testnet is offline, use regnet for local operation:</p>
         <pre><code>./target/release/athod --network regnet
 ./target/release/atho-cli --network regnet getblockchaininfo</code></pre>
@@ -449,7 +471,7 @@ export ATHO_WALLET_PASSWORD
   --network regnet \
   --cookie-auth \
   --wallet-password-env ATHO_WALLET_PASSWORD</code></pre>
-        <p>The wallet also supports restore, inspect, address lists, UTXO lists, multi-recipient sends, message signing/verification, custom inputs, optional tips, custom change, confirmation policy, and dry-run transaction review.</p>
+        <p>The wallet also supports encrypted backup/restore, offline PSAT V2 inspection and signing, address lists, UTXO lists, multi-recipient sends, oversized-payment planning, message signing/verification, custom inputs, optional tips, custom change, confirmation policy, and dry-run review.</p>
       </section>
       <section class="docs-section" id="atho-address">
         <h2>atho-address: Address Tooling</h2>
@@ -458,6 +480,14 @@ export ATHO_WALLET_PASSWORD
   --phrase '&lt;MNEMONIC&gt;' \
   --count 5</code></pre>
         <p>Passing a mnemonic on the command line can expose it through process lists or shell history. Prefer a protected offline environment and clear history when sensitive material has been handled.</p>
+      </section>
+      <section class="docs-section" id="atho-snapshot">
+        <h2>atho-snapshot: Independent Checkpoint Audit</h2>
+        <p>Archive operators can export a full snapshot and signed review report, independently inspect it through full consensus replay, and compare reports for exact network, ruleset, height, tip, UTXO count, supply, and commitment agreement. No public checkpoint is active until independent operators reproduce and review the same commitment.</p>
+      </section>
+      <section class="docs-section" id="atho-pool">
+        <h2>atho-pool: Mining Pool Gateway</h2>
+        <p>Atho Pool Protocol v1 places a separate encrypted gateway above <code>getblocktemplate</code> and <code>submitblock</code>. It authenticates workers, assigns isolated nonce ranges, cancels stale jobs, rejects duplicate shares, independently checks shares on CPU, supports failover pools, and writes an atomic accounting ledger. It follows Stratum V2 security goals but is not Stratum V2 wire-compatible; custody and payouts remain a separate reviewed wallet process.</p>
       </section>
       <section class="docs-section" id="headless-security">
         <h2>Headless Security Boundaries</h2>
@@ -481,6 +511,7 @@ export ATHO_WALLET_PASSWORD
     topics: [
       { id: "nodes-mining", title: "Node Responsibilities" },
       { id: "mining-flow", title: "Mining Flow" },
+      { id: "pool-integration", title: "Pool Integration" },
       { id: "node-configuration", title: "Node Configuration" }
     ],
     related: [
@@ -508,6 +539,11 @@ export ATHO_WALLET_PASSWORD
   -&gt; node performs complete block validation
   -&gt; accepted block updates durable state and relays</code></pre>
         <p>Mainnet and testnet mining require an explicit same-network reward address. The coinbase claims the scheduled subsidy plus included fees and matures after 100 blocks.</p>
+      </section>
+      <section class="docs-section" id="pool-integration">
+        <h2>Production Pool Boundary</h2>
+        <p><code>atho-pool</code> can run beside a synced <code>athod</code> node while keeping administrative RPC on loopback. Existing pool software can invoke the gateway or implement the bounded versioned messages documented in the source. Every network-target candidate still enters the node through <code>submitblock</code> and receives complete independent consensus validation.</p>
+        <p>Worker accounting is not a payout wallet. Pool operators must reconcile immutable share intervals into reviewed payout batches and preserve transaction IDs before marking an interval paid.</p>
       </section>
       <section class="docs-section" id="node-configuration">
         <h2>Configuration Sources</h2>
@@ -688,6 +724,7 @@ export ATHO_WALLET_PASSWORD
     topics: [
       { id: "storage-sync", title: "Storage Model" },
       { id: "sync-path", title: "Sync Path" },
+      { id: "validated-snapshots", title: "Validated Snapshots" },
       { id: "data-safety", title: "Data Safety" }
     ],
     related: [
@@ -702,7 +739,11 @@ export ATHO_WALLET_PASSWORD
       </section>
       <section class="docs-section" id="sync-path">
         <h2>Validation-First Sync</h2>
-        <p>Nodes synchronize contextual headers, request compact or full blocks, validate consensus and UTXO effects, and only then commit durable state. Peer messages are inputs to local validation, never authority by themselves.</p>
+        <p>Nodes synchronize contextual headers, adapt download windows to peer performance, request compact or full blocks, prepare bounded validation work in parallel, and commit chainstate in order. Full-history and limited-history signaling prevents pruned peers from receiving unavailable historical assignments. Peer messages are inputs to local validation, never authority by themselves.</p>
+      </section>
+      <section class="docs-section" id="validated-snapshots">
+        <h2>Validated Snapshot Readiness</h2>
+        <p>The code can reproduce, inspect, fully replay, and compare UTXO snapshot bundles. Public-network activation additionally requires a release-pinned file hash and a compiled audited height, tip, and UTXO commitment reproduced by independent archive operators. The current public checkpoint list is intentionally empty, so the website does not offer an active snapshot download yet.</p>
       </section>
       <section class="docs-section" id="data-safety">
         <h2>Data Safety</h2>

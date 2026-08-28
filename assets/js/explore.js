@@ -1194,7 +1194,7 @@ function renderOfflineSupplyPage() {
           <div class="stat"><div class="k">Next Reward Change</div><div class="v">--</div><div class="m">Live height unavailable</div></div>
         </div>
         ${renderDetailGrid([
-          { label: "Maximum Supply", valueHtml: "No fixed cap" },
+          { label: "Maximum Supply", valueHtml: "168,000,000 ATHO" },
           { label: "Burned Supply", valueHtml: "--" },
           { label: "Emission Epoch", valueHtml: "--" },
           { label: "Coinbase Maturity", valueHtml: "100 blocks" }
@@ -1812,7 +1812,7 @@ async function renderSupplyPage() {
           <div class="stat"><div class="k">Next Halving</div><div class="v">${supply.blocks_until_halving != null ? esc(formatNumber(supply.blocks_until_halving)) : "Tail Era"}</div><div class="m">${supply.next_halving_height != null ? `Height ${formatNumber(supply.next_halving_height)}` : "Tail emission"}</div></div>
         </div>
         ${renderDetailGrid([
-          { label: "Max Supply", valueHtml: esc(supply.max_supply_label || "No Fixed Cap") },
+          { label: "Max Supply", valueHtml: esc(supply.max_supply_label || supply.maximum_supply_atho || "168,000,000 ATHO") },
           { label: "Burned Supply", valueHtml: esc(formatAthoValue(supply.burned_supply, supply.burned_supply_atoms)) },
           { label: "Emission Epoch", valueHtml: esc(formatNumber(supply.emission_epoch || 0)) },
           { label: "Coinbase Maturity", valueHtml: `${esc(formatNumber(supply.coinbase_maturity_blocks || 0))} blocks` }

@@ -1,7 +1,8 @@
 export const siteContent = {
   socialLinks: [
     { label: "GitHub", href: "https://github.com/Atho-Labs", icon: "github" },
-    { label: "Discord", href: "https://discord.gg/W5fV4aGcUR", icon: "discord" }
+    { label: "Discord", href: "https://discord.gg/W5fV4aGcUR", icon: "discord" },
+    { label: "X (@AthoHQ)", href: "https://x.com/AthoHQ", icon: "x" }
   ],
   heroSignals: [
     "75-second blocks",
@@ -50,9 +51,9 @@ export const siteContent = {
     },
     {
       label: "Headless operation",
-      value: "Five focused CLI tools",
+      value: "Seven focused CLI tools",
       copy: "Run nodes, RPC, mining, wallets, and address inspection without the desktop client.",
-      hover: "athod, atho-cli, atho-mine, atho-wallet, and atho-address can be built and operated independently."
+      hover: "athod, atho-cli, atho-mine, atho-wallet, atho-address, atho-snapshot, and atho-pool can be built and operated independently."
     }
   ],
   networkConstants: [
@@ -105,7 +106,7 @@ export const siteContent = {
     {
       key: "baseReward",
       label: "Starting Reward",
-      value: "8 ATHO",
+      value: "16 ATHO",
       detail: "First bootstrap era.",
       hover: "Height 0 is a zero-emission genesis anchor. Ordinary subsidy begins at height 1.",
       badge: "Current"
@@ -113,17 +114,17 @@ export const siteContent = {
     {
       key: "tailReward",
       label: "Tail Reward",
-      value: "0.125 ATHO",
-      detail: "Permanent per block.",
-      hover: "Tail emission starts at height 10,080,001 and annualizes to 52,560 ATHO at target cadence.",
+      value: "0.0625 ATHO",
+      detail: "Until the supply cap.",
+      hover: "Tail emission starts at height 13,440,001, annualizes to 26,280 ATHO at target cadence, and ends at height 1,844,640,000.",
       badge: "Current"
     },
     {
       key: "bootstrapSupply",
       label: "Bootstrap Issuance",
-      value: "26.46M ATHO",
-      detail: "Through height 10,080,000.",
-      hover: "Six 1,680,000-block eras pay 8, 4, 2, 1, 0.50, and 0.25 ATHO. There is no premine.",
+      value: "53.55M ATHO",
+      detail: "Through height 13,440,000.",
+      hover: "Eight 1,680,000-block eras pay 16, 8, 4, 2, 1, 0.50, 0.25, and 0.125 ATHO. There is no premine.",
       badge: "Current"
     },
     {
@@ -255,31 +256,31 @@ export const siteContent = {
     },
     {
       label: "Bootstrap rewards",
-      value: "8 / 4 / 2 / 1 / 0.50 / 0.25",
+      value: "16 / 8 / 4 / 2 / 1 / 0.50 / 0.25 / 0.125",
       badge: "Current",
       note: "ATHO per block.",
       hover: "Each bootstrap era lasts 1,680,000 blocks."
     },
     {
       label: "Tail reward",
-      value: "0.125 ATHO",
+      value: "0.0625 ATHO",
       badge: "Current",
-      note: "From height 10,080,001.",
-      hover: "The permanent tail provides a continuing base miner security budget."
+      note: "Heights 13,440,001-1,844,640,000.",
+      hover: "The long tail provides a base miner security budget until the hard supply cap is reached."
     },
     {
       label: "Bootstrap issuance",
-      value: "26,460,000 ATHO",
+      value: "53,550,000 ATHO",
       badge: "Current",
       note: "No premine.",
       hover: "This is scheduled issuance through the final 0.25 ATHO bootstrap block."
     },
     {
       label: "Maximum supply",
-      value: "No fixed cap",
+      value: "168,000,000 ATHO",
       badge: "Current",
-      note: "Permanent tail emission.",
-      hover: "Percentage inflation declines as the circulating base grows."
+      note: "Consensus-enforced hard cap.",
+      hover: "Subsidy becomes zero after height 1,844,640,000; integer atom accounting prevents issuance beyond the cap."
     },
     {
       label: "Required fee",
@@ -305,7 +306,7 @@ export const siteContent = {
     {
       label: "Protocol",
       title: "Pre-mainnet alpha",
-      copy: "The current code implements the public UTXO chain, six-era monetary schedule, Falcon-512 authorization, and encrypted P2P.",
+      copy: "The current code implements the public UTXO chain, capped eight-era monetary schedule, Falcon-512 authorization, and encrypted P2P.",
       hover: "Mainnet has not launched. Production-readiness claims require independent review and release evidence."
     },
     {
@@ -324,7 +325,8 @@ export const siteContent = {
   communityActions: [
     { label: "Read the docs", href: "./docs.html", variant: "primary", external: false },
     { label: "View GitHub", href: "https://github.com/Atho-Labs", variant: "secondary", external: true },
-    { label: "Join Discord", href: "https://discord.gg/W5fV4aGcUR", variant: "secondary", external: true }
+    { label: "Join Discord", href: "https://discord.gg/W5fV4aGcUR", variant: "secondary", external: true },
+    { label: "Follow @AthoHQ", href: "https://x.com/AthoHQ", variant: "tertiary", external: true }
   ],
   footerColumns: [
     {

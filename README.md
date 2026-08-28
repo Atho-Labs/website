@@ -19,9 +19,9 @@ The public copy tracks the current Atho source repository:
 - 75-second target blocks
 - Falcon-512 transaction authorization
 - SHA3-384 block proof of work
-- six 1,680,000-block bootstrap reward eras
-- permanent 0.125 ATHO tail reward from height 10,080,001
-- 26,460,000 ATHO bootstrap issuance
+- eight 1,680,000-block bootstrap reward eras beginning at 16 ATHO
+- finite 0.0625 ATHO tail reward from height 13,440,001 through 1,844,640,000
+- 53,550,000 ATHO bootstrap issuance and a consensus-enforced 168,000,000 ATHO cap
 - mandatory X25519 + ML-KEM-768 encrypted P2P transport on public modes
 - loopback-only raw RPC and HTTP API boundaries
 - desktop and headless operator/wallet binaries
