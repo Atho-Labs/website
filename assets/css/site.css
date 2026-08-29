@@ -5366,6 +5366,7 @@ main,
 .hero-crypto .hero-grid {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
   min-height: min(760px, calc(100svh - var(--header-height) - 36px));
   padding-top: 70px;
@@ -5373,7 +5374,8 @@ main,
 }
 
 .hero-crypto .hero-copy {
-  max-width: 650px;
+  align-self: flex-start;
+  max-width: 740px;
   padding: 0;
 }
 
@@ -5402,7 +5404,7 @@ main,
 }
 
 .hero-crypto .hero-lead {
-  max-width: 610px;
+  max-width: 700px;
   color: #e5f0eb;
   font-size: 1.05rem;
   line-height: 1.7;
@@ -6381,9 +6383,10 @@ main,
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero-rail-progress {
-    display: none;
+@media screen and (prefers-reduced-motion: reduce) {
+  .hero-crypto .hero-rail-progress {
+    display: none !important;
+    animation: none !important;
   }
 }
 
