@@ -528,81 +528,6 @@ function renderSocialLinks() {
   }
 }
 
-function initHeroEngine() {
-  const stage = document.querySelector("[data-hero-engine]");
-  if (!(stage instanceof HTMLElement)) {
-    return;
-  }
-
-  const powerValue = stage.querySelector("[data-hero-power-value]");
-  const baseLevel = 36;
-  const maxScale = 1.24;
-  const minScale = 1.04;
-  let powerLevel = baseLevel;
-  let growthLevel = 0;
-  let energyTimer;
-  let decayTimer;
-
-  const renderPower = () => {
-    const scale = minScale + ((maxScale - minScale) * (growthLevel / 100));
-    const glowScale = Math.max(0.16, Math.min(1, powerLevel / 100));
-    stage.style.setProperty("--power-level", `${powerLevel}%`);
-    stage.style.setProperty("--power-scale", glowScale.toFixed(2));
-    stage.style.setProperty("--engine-scale", scale.toFixed(3));
-    if (powerValue instanceof HTMLElement) {
-      powerValue.textContent = `${powerLevel}%`;
-    }
-  };
-
-  const startDecay = () => {
-    window.clearInterval(decayTimer);
-    decayTimer = window.setInterval(() => {
-      const nextPower = Math.max(baseLevel, powerLevel - 5);
-      const nextGrowth = Math.max(0, growthLevel - 10);
-
-      powerLevel = nextPower;
-      growthLevel = nextGrowth;
-      renderPower();
-
-      if (powerLevel <= baseLevel && growthLevel <= 0) {
-        window.clearInterval(decayTimer);
-      }
-    }, 140);
-  };
-
-  const pulseStage = () => {
-    window.clearTimeout(energyTimer);
-    window.clearInterval(decayTimer);
-    stage.classList.remove("is-energized");
-    void stage.offsetWidth;
-    stage.classList.add("is-energized");
-
-    powerLevel = Math.min(100, powerLevel + 16);
-    growthLevel = Math.min(100, growthLevel + 20);
-    renderPower();
-
-    energyTimer = window.setTimeout(() => {
-      stage.classList.remove("is-energized");
-      startDecay();
-    }, 860);
-  };
-
-  renderPower();
-
-  stage.addEventListener("click", () => {
-    pulseStage();
-  });
-
-  stage.addEventListener("keydown", (event) => {
-    if (event.key !== "Enter" && event.key !== " ") {
-      return;
-    }
-
-    event.preventDefault();
-    pulseStage();
-  });
-}
-
 function initReveal() {
   const items = document.querySelectorAll("[data-reveal]");
   if (!items.length) {
@@ -800,7 +725,6 @@ function renderPage() {
   renderFooterColumns();
   renderSocialLinks();
   hydrateStaticHoverCards();
-  initHeroEngine();
   initMenu();
   initReveal();
   initYear();

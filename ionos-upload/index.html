@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/css/site.css?v=20260828a">
+  <link rel="stylesheet" href="./assets/css/site.css?v=20260828b">
 </head>
 <body data-stats-endpoint="">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -87,33 +87,35 @@
         </div>
 
         <div data-reveal>
-          <div class="hero-stage" data-hero-engine tabindex="0" aria-label="Interactive Atho protocol engine visual">
-            <div class="hero-stage-glow"></div>
-            <div class="hero-stage-title">
-              <span>Protocol Engine</span>
-              <p>Tap to inspect the system at work.</p>
-            </div>
-            <div class="hero-power-meter" aria-hidden="true">
-              <span class="hero-power-label">Engine activity</span>
-              <div class="hero-power-shell">
-                <div class="hero-power-track">
-                  <span class="hero-power-fill"></span>
-                  <span class="hero-power-step hero-power-step-a"></span>
-                  <span class="hero-power-step hero-power-step-b"></span>
-                  <span class="hero-power-step hero-power-step-c"></span>
-                  <span class="hero-power-step hero-power-step-d"></span>
-                </div>
-                <strong class="hero-power-value" data-hero-power-value>36%</strong>
+          <div class="hero-protocol-panel" aria-labelledby="payment-flow-title">
+            <div class="hero-protocol-head">
+              <div>
+                <span class="section-kicker">Reference flow</span>
+                <h2 id="payment-flow-title">How an Atho payment moves</h2>
               </div>
+              <span class="hero-protocol-status"><i aria-hidden="true"></i>Pre-mainnet</span>
             </div>
-            <div class="hero-engine-canvas">
-              <div class="hero-engine-asset-shell">
-                <span class="hero-engine-orbit hero-engine-orbit-a" aria-hidden="true"></span>
-                <span class="hero-engine-orbit hero-engine-orbit-b" aria-hidden="true"></span>
-                <span class="hero-engine-orbit hero-engine-orbit-c" aria-hidden="true"></span>
-                <div class="hero-engine-asset-glow" aria-hidden="true"></div>
-                <img class="hero-engine-asset" src="./assets/media/cpu.png" alt="Atho protocol engine CPU">
-              </div>
+            <ol class="hero-protocol-flow">
+              <li>
+                <span class="hero-flow-number">01</span>
+                <div><strong>Wallet authorizes</strong><p>Select UTXOs, set outputs and fees, sign with Falcon-512, then solve transaction PoW.</p></div>
+              </li>
+              <li>
+                <span class="hero-flow-number">02</span>
+                <div><strong>Node validates</strong><p>Check ownership, maturity, values, policy bounds, signatures, and the current UTXO state.</p></div>
+              </li>
+              <li>
+                <span class="hero-flow-number">03</span>
+                <div><strong>Peers relay privately</strong><p>Exchange the transaction across authenticated, hybrid-encrypted direct peer connections.</p></div>
+              </li>
+              <li>
+                <span class="hero-flow-number">04</span>
+                <div><strong>Blocks settle</strong><p>Miners perform SHA3-384 work; every receiving full node independently validates the block.</p></div>
+              </li>
+            </ol>
+            <div class="hero-protocol-foot">
+              <span><strong>Public ledger</strong> Amounts and the UTXO graph remain visible.</span>
+              <a class="text-link" href="./docs.html#transactions-fees">Open transaction docs</a>
             </div>
           </div>
         </div>
@@ -237,6 +239,6 @@
     </div>
   </footer>
 
-  <script type="module" src="./assets/js/site.js?v=20260828a"></script>
+  <script type="module" src="./assets/js/site.js?v=20260828b"></script>
 </body>
 </html>
