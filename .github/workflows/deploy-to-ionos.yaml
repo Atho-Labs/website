@@ -1,6 +1,11 @@
 name: "Deploy Now: Deploy to IONOS"
 
 on:
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
   workflow_dispatch:
     inputs:
       version:

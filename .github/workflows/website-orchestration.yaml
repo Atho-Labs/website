@@ -76,18 +76,12 @@ jobs:
     secrets: inherit
 
   deploy:
-    name: trigger deployment
+    name: deploy website
     needs:
       - retrieve-project
       - build
     if: ${{ needs.retrieve-project.outputs.deployment-enabled == 'true' && needs.retrieve-project.outputs.branch-id != '' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Dispatch deployment(s)
-        uses: ionos-deploy-now/project-action@v1.2.1-beta2
-        with:
-          api-key: ${{ secrets.IONOS_API_KEY }}
-          service-host: api-us.ionos.space
-          project-id: 79353570-e96a-4640-8783-5cf9b2c93269
-          branch-id: ${{ needs.retrieve-project.outputs.branch-id }}
-          action: dispatch-deployments
+    uses: ./.github/workflows/deploy-to-ionos.yaml
+    with:
+      version: ${{ github.sha }}
+    secrets: inherit
