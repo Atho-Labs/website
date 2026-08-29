@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/css/site.css?v=20260828e">
+  <link rel="stylesheet" href="./assets/css/site.css?v=20260828f">
 </head>
 <body data-stats-endpoint="">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -107,93 +107,76 @@
       </div>
     </section>
 
+    <section class="home-principles-section" id="pillars">
+      <div class="container">
+        <div class="home-principles-head" data-reveal>
+          <span class="section-kicker">Why Atho</span>
+          <h2>Digital money, kept deliberate.</h2>
+          <p>A focused Layer 1 for ownership, verification, and settlement without unnecessary protocol surface.</p>
+        </div>
+        <div class="home-principles">
+          <article data-reveal>
+            <span>01</span>
+            <h3>Own it directly.</h3>
+            <p>Falcon-512 authorization keeps control with the holder of the wallet keys.</p>
+          </article>
+          <article data-reveal>
+            <span>02</span>
+            <h3>Verify it independently.</h3>
+            <p>Public UTXO rules let every full node validate transactions and blocks for itself.</p>
+          </article>
+          <article data-reveal>
+            <span>03</span>
+            <h3>Run it your way.</h3>
+            <p>Use the lightweight desktop client or focused headless binaries for servers and automation.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="supply-band" aria-labelledby="maximum-supply-title">
       <div class="container supply-band-inner" data-reveal>
         <div class="supply-band-copy">
           <span class="section-kicker">Consensus maximum</span>
           <h2 id="maximum-supply-title">A finite monetary ceiling.</h2>
-          <p>Eight bootstrap eras lead into a long, finite miner-security tail. Consensus stops new subsidy at the cap.</p>
+          <p>Issuance ends when the consensus-enforced cap is reached.</p>
         </div>
         <div class="supply-counter-shell" aria-label="Maximum supply: 168,000,000 ATHO">
           <strong class="supply-counter" data-supply-counter data-target="168000000">168,000,000</strong>
           <span>ATHO maximum supply</span>
-          <small>16,800,000,000,000,000 atoms</small>
+          <small>Eight decimal places. No premine.</small>
         </div>
-        <a class="text-link supply-band-link" href="./docs.html#monetary-policy">Review the emission schedule</a>
+        <a class="text-link supply-band-link" href="./docs.html#monetary-policy">View monetary policy</a>
       </div>
     </section>
 
-    <section class="section section-panel" id="pillars">
-      <div class="section-head" data-reveal>
-        <span class="section-kicker">Core design</span>
-        <h2>A narrow Layer 1 with clear boundaries.</h2>
-        <p>Payments, ownership, block production, and validation remain the center of the protocol.</p>
-      </div>
-      <div class="container">
-        <div class="feature-grid compact-feature-grid" id="core-features"></div>
-      </div>
-    </section>
-
-    <section class="section privacy-section" id="privacy">
-      <div class="container privacy-layout">
-        <div class="privacy-copy" data-reveal>
-          <span class="section-kicker">P2P privacy</span>
-          <h2>Encrypted before protocol exchange begins.</h2>
-          <p>On mainnet, testnet, and prunetest, nodes establish a hybrid encrypted session before exchanging Atho version, sync, block, or transaction messages.</p>
-          <p>Operators who want another layer of IP privacy can run a node on a VPS, or keep it on a local machine and route outbound traffic through an operator-managed VPN, TCP proxy, or tested Tor-compatible gateway. These are deployment choices outside Atho itself; direct peers see the connection's egress address.</p>
-          <div class="button-row">
-            <a class="button button-primary" href="./docs.html#encrypted-p2p">Read the Transport Guide</a>
-            <a class="button button-secondary" href="./docs.html#privacy-limits">Understand the Limits</a>
-          </div>
+    <section class="home-privacy-section" id="privacy">
+      <div class="container home-privacy-layout">
+        <div class="home-privacy-copy" data-reveal>
+          <span class="section-kicker">Network privacy</span>
+          <h2>Encrypted transport. Public settlement.</h2>
+          <p>Atho authenticates and encrypts direct peer traffic before protocol messages move. The ledger remains public and independently verifiable.</p>
+          <a class="text-link" href="./docs.html#encrypted-p2p">How Atho privacy works</a>
         </div>
-        <div class="privacy-spec" data-reveal>
-          <div>
-            <span>Handshake</span>
-            <strong>X25519 + ML-KEM-768</strong>
-          </div>
-          <div>
-            <span>Key derivation</span>
-            <strong>HKDF-SHA3-256</strong>
-          </div>
-          <div>
-            <span>Record protection</span>
-            <strong>ChaCha20-Poly1305</strong>
-          </div>
-          <div>
-            <span>Node identity</span>
-            <strong>Falcon-512 authenticated</strong>
-          </div>
-          <p>Atho encrypts and authenticates the P2P transport layer. It does not hide IP addresses, timing, traffic volume, or public on-chain transaction data. RPC and HTTP are separate local control interfaces and remain loopback-only.</p>
+        <div class="home-privacy-boundaries" data-reveal>
+          <div><span>Encrypted</span><strong>Peer message content</strong></div>
+          <div><span>Authenticated</span><strong>Direct node sessions</strong></div>
+          <div><span>Public</span><strong>Addresses, amounts, and UTXOs</strong></div>
         </div>
       </div>
     </section>
 
-    <section class="section section-panel" id="protocol">
-      <div class="section-head" data-reveal>
-        <span class="section-kicker">Protocol</span>
-        <h2>Current code, in plain language.</h2>
-        <p>The homepage stays concise; each summary leads into source-grounded documentation.</p>
-      </div>
-      <div class="container number-grid" id="protocol-highlights"></div>
-    </section>
-
-    <section class="section" id="start">
-      <div class="section-head" data-reveal>
-        <span class="section-kicker">Start here</span>
-        <h2>Read, explore, build, or review.</h2>
-        <p>Choose the shortest path to the information you need.</p>
-      </div>
-      <div class="container simple-link-grid" id="access-links"></div>
-    </section>
-
-    <section class="cta-section">
-      <div class="container cta-shell" data-reveal>
-        <div class="cta-copy">
-          <span class="section-kicker">Build with Atho</span>
-          <h2>Use the docs for operation, GitHub for source, and Discord for the conversation.</h2>
-          <p>The project is pre-mainnet and under active development. Review the implementation and current launch status before treating any interface as production-ready.</p>
+    <section class="home-close-section">
+      <div class="container home-close" data-reveal>
+        <div>
+          <span class="section-kicker">Look closer</span>
+          <h2>Read the rules. Inspect the code.</h2>
+          <p>Atho is pre-mainnet and developed in public.</p>
         </div>
-        <div class="button-row cta-actions" id="community-actions"></div>
+        <div class="button-row">
+          <a class="button button-primary" href="./docs.html">Read the Docs</a>
+          <a class="button button-secondary" href="https://github.com/Atho-Labs" target="_blank" rel="noopener noreferrer">View GitHub</a>
+        </div>
       </div>
     </section>
   </main>
