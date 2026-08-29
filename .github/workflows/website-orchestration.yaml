@@ -76,12 +76,21 @@ jobs:
     secrets: inherit
 
   deploy:
-    name: deploy website
+    name: dispatch deployment workflow
     needs:
       - retrieve-project
       - build
     if: ${{ needs.retrieve-project.outputs.deployment-enabled == 'true' && needs.retrieve-project.outputs.branch-id != '' }}
-    uses: ./.github/workflows/deploy-to-ionos.yaml
-    with:
-      version: ${{ github.sha }}
-    secrets: inherit
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - name: Dispatch tested IONOS artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run deploy-to-ionos.yaml \
+            --repo "${GITHUB_REPOSITORY}" \
+            --ref "${GITHUB_REF_NAME}" \
+            -f version="${GITHUB_SHA}"
