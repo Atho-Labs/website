@@ -1,4 +1,4 @@
-import { siteContent } from "./site-data.js?v=20260910a";
+import { siteContent } from "./site-data.js?v=20260910b";
 
 const iconPaths = {
   shield: "M12 2.4 4 5.6v5.7c0 5.2 3.4 9.9 8 11.3 4.6-1.4 8-6.1 8-11.3V5.6l-8-3.2Zm0 3.3 4.7 1.9v3.8c0 3.3-1.9 6.4-4.7 7.6-2.8-1.2-4.7-4.3-4.7-7.6V7.6L12 5.7Z",
@@ -708,25 +708,58 @@ async function hydrateStats() {
   }
 }
 
+let networkStatusRefreshPending = false;
+
 async function hydrateNetworkStatus() {
-  const endpoint = document.body.dataset.networkStatusEndpoint?.trim();
+  const statusEndpoint = document.body.dataset.networkStatusEndpoint?.trim();
+  const statsEndpoint = document.body.dataset.networkStatsEndpoint?.trim();
   const band = document.querySelector("[data-network-status-band]");
   const title = document.querySelector("[data-network-status-title]");
-  const copy = document.querySelector("[data-network-status-copy]");
-  if (!endpoint || !(band instanceof HTMLElement) || !(title instanceof HTMLElement) || !(copy instanceof HTMLElement)) {
+  const note = document.querySelector("[data-network-status-note]");
+  const heightValue = document.querySelector("[data-network-height]");
+  const supplyValue = document.querySelector("[data-network-supply]");
+  const halvingValue = document.querySelector("[data-network-halving]");
+  const halvingReward = document.querySelector("[data-network-halving-reward]");
+  const requiredElements = [band, title, note, heightValue, supplyValue, halvingValue, halvingReward];
+  if (!statusEndpoint || !statsEndpoint || requiredElements.some((element) => !(element instanceof HTMLElement))) {
     return;
   }
+  if (networkStatusRefreshPending) {
+    return;
+  }
+  networkStatusRefreshPending = true;
+
+  const formatDecimal = (rawValue) => {
+    const match = String(rawValue ?? "").trim().match(/^(-?)(\d+)(?:\.(\d+))?/);
+    if (!match) {
+      return "--";
+    }
+    const whole = match[2].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const fraction = String(match[3] || "").replace(/0+$/, "");
+    return `${match[1]}${whole}${fraction ? `.${fraction}` : ""}`;
+  };
 
   try {
-    const response = await fetch(endpoint, { headers: { Accept: "application/json" } });
-    const payload = await response.json();
-    const status = payload?.data;
+    const [statusResponse, statsResponse] = await Promise.all([
+      fetch(statusEndpoint, { headers: { Accept: "application/json" } }),
+      fetch(statsEndpoint, { headers: { Accept: "application/json" } })
+    ]);
+    const [statusPayload, statsPayload] = await Promise.all([
+      statusResponse.json(),
+      statsResponse.json()
+    ]);
+    const status = statusPayload?.data;
+    const stats = statsPayload?.data;
     const expectedGenesis = "0000347169b75a28f067fbc208a143e98e594709c4a3632ce44d48c7916dbabd50662e5e2e9073e5043d0455d6010af6";
     if (
-      !response.ok
-      || !payload?.success
-      || payload.network_id !== "atho-testnet"
-      || payload.genesis_hash !== expectedGenesis
+      !statusResponse.ok
+      || !statsResponse.ok
+      || !statusPayload?.success
+      || !statsPayload?.success
+      || statusPayload.network_id !== "atho-testnet"
+      || statsPayload.network_id !== "atho-testnet"
+      || statusPayload.genesis_hash !== expectedGenesis
+      || statsPayload.genesis_hash !== expectedGenesis
       || !status?.running
       || !status?.api_online
       || !status?.index?.ready
@@ -734,18 +767,29 @@ async function hydrateNetworkStatus() {
       throw new Error("testnet status response is not ready");
     }
 
-    const height = new Intl.NumberFormat("en-US").format(Number(status.height || 0));
-    title.textContent = status.safe_to_serve
-      ? `Public V1 testnet online · height ${height}`
-      : `Public V1 testnet synchronizing · height ${height}`;
-    copy.textContent = `${Number(status.peer_count || 0)} connected peer sessions. The archive index is current through height ${height}, and the public Explorer is reading this verified testnet feed.`;
+    const height = new Intl.NumberFormat("en-US").format(Number(stats.height || 0));
+    const blocksUntilHalving = new Intl.NumberFormat("en-US").format(Number(stats.blocks_until_next_era || 0));
+    const currentReward = formatDecimal(stats.current_reward_atho);
+    const nextReward = formatDecimal(stats.next_era_reward_atho);
+    title.textContent = "Public V1 testnet";
+    note.textContent = status.safe_to_serve ? "Online and fully indexed" : "Synchronizing verified chain data";
+    heightValue.textContent = height;
+    supplyValue.textContent = `${formatDecimal(stats.circulating_supply)} ATHO`;
+    halvingValue.textContent = `${blocksUntilHalving} blocks`;
+    halvingReward.textContent = `${currentReward} to ${nextReward} ATHO`;
     band.classList.add("is-live");
     band.classList.remove("is-degraded");
   } catch {
-    title.textContent = "Public testnet status check unavailable.";
-    copy.textContent = "The live status endpoint did not answer this browser request. Check the Explorer or project status page before relying on current network data.";
+    title.textContent = "Public V1 testnet";
+    note.textContent = "Live status temporarily unavailable";
+    heightValue.textContent = "--";
+    supplyValue.textContent = "--";
+    halvingValue.textContent = "--";
+    halvingReward.textContent = "Reward schedule";
     band.classList.remove("is-live");
     band.classList.add("is-degraded");
+  } finally {
+    networkStatusRefreshPending = false;
   }
 }
 
@@ -772,6 +816,9 @@ function renderPage() {
   initSupplyCounter();
   hydrateStats();
   hydrateNetworkStatus();
+  if (document.body.dataset.networkStatusEndpoint) {
+    window.setInterval(hydrateNetworkStatus, 15_000);
+  }
 }
 
 renderPage();

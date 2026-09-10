@@ -5540,12 +5540,12 @@ main,
 
 .network-status-inner {
   display: grid;
-  grid-template-columns: minmax(260px, 0.9fr) minmax(360px, 1.3fr) auto;
-  gap: 34px;
+  grid-template-columns: minmax(210px, 0.72fr) minmax(560px, 2fr) auto;
+  gap: 30px;
   align-items: center;
 }
 
-.network-status-inner > div {
+.network-status-copy {
   position: relative;
   padding-left: 22px;
 }
@@ -5566,10 +5566,48 @@ main,
   line-height: 1.35;
 }
 
-.network-status-inner p {
+.network-status-copy p {
   margin: 0;
   color: #c5d2cc;
-  font-size: 0.88rem;
+  font-size: 0.76rem;
+}
+
+.network-live-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  min-width: 0;
+  margin: 0;
+}
+
+.network-live-metric {
+  min-width: 0;
+  padding: 2px 22px;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.network-live-metric dt {
+  margin: 0 0 5px;
+  color: #8eada0;
+  font-size: 0.67rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.network-live-metric dd {
+  min-height: 1.55em;
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.08rem;
+  font-weight: 800;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.network-live-metric small {
+  display: block;
+  margin-top: 3px;
+  color: #9db8ad;
+  font-size: 0.67rem;
 }
 
 .status-dot {
@@ -6188,21 +6226,33 @@ main,
   }
 }
 
+@media (max-width: 1100px) {
+  .network-status-inner {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .network-live-metrics {
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .network-live-metric:first-child {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
 @media (max-width: 900px) {
   .section {
     padding: 52px 0;
   }
 
-  .network-status-inner,
   .supply-band-inner,
   .cta-shell,
   .build-command-band,
   .explorer-local-note {
     grid-template-columns: 1fr;
-  }
-
-  .network-status-inner {
-    gap: 18px;
   }
 
   .supply-band-inner {
@@ -6250,6 +6300,24 @@ main,
 }
 
 @media (max-width: 640px) {
+  .network-live-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .network-live-metric {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .network-live-metric:nth-child(3) {
+    grid-column: 1 / -1;
+    margin-top: 14px;
+    padding-top: 14px;
+    padding-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 0;
+  }
+
   .hero-crypto {
     background-position: 62% center;
   }

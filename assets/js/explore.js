@@ -2,7 +2,7 @@ import {
   defaultExplorerNetwork,
   explorerApiConfig,
   explorerNetworks
-} from "./explorer-config.js?v=20260910a";
+} from "./explorer-config.js?v=20260910b";
 
 const HASH_LENGTH = 96;
 const ATHO_DECIMALS = 8;
