@@ -26,7 +26,7 @@ export const explorerRefresh = Object.freeze({
 
 export const explorerApiConfig = Object.freeze({
   apiVersion: API_VERSION,
-  testnetApiBaseUrl: readConfigValue("testnetApiBaseUrl", ""),
+  testnetApiBaseUrl: readConfigValue("testnetApiBaseUrl", "https://testnet-node1.atho.io/api/v1"),
   mainnetApiBaseUrl: readConfigValue("mainnetApiBaseUrl", "")
 });
 
@@ -36,10 +36,10 @@ export const explorerNetworks = Object.freeze({
     label: "Testnet",
     network: "testnet",
     networkId: "atho-testnet",
-    genesisHash: readConfigValue("testnetGenesisHash", ""),
+    genesisHash: readConfigValue("testnetGenesisHash", "0000347169b75a28f067fbc208a143e98e594709c4a3632ce44d48c7916dbabd50662e5e2e9073e5043d0455d6010af6"),
     apiBaseUrl: explorerApiConfig.testnetApiBaseUrl,
     enabled: Boolean(explorerApiConfig.testnetApiBaseUrl),
-    statusLabel: "Public Feed Offline"
+    statusLabel: "Live Testnet"
   }),
   mainnet: Object.freeze({
     key: "mainnet",

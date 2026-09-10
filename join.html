@@ -3,24 +3,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Build Atho from source and run the current pre-mainnet reference stack locally on regnet using the desktop client or headless binaries.">
+  <meta name="description" content="Build Atho from source and run the pre-mainnet reference stack on public testnet or local regnet using the desktop client or headless binaries.">
   <title>Build Atho | Desktop and Headless</title>
   <link rel="canonical" href="https://atho.io/join.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Atho">
   <meta property="og:url" content="https://atho.io/join.html">
   <meta property="og:title" content="Build Atho | Desktop and Headless">
-  <meta property="og:description" content="Build the Atho desktop client or focused headless binaries and run locally on regnet.">
+  <meta property="og:description" content="Build the Atho desktop client or focused headless binaries for public testnet or local regnet.">
   <meta property="og:image" content="https://atho.io/assets/media/og-share-card.png?v=20260828b">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Build Atho | Desktop and Headless">
-  <meta name="twitter:description" content="Build the Atho desktop client or focused headless binaries and run locally on regnet.">
+  <meta name="twitter:description" content="Build the Atho desktop client or focused headless binaries for public testnet or local regnet.">
   <meta name="twitter:image" content="https://atho.io/assets/media/og-share-card.png?v=20260828b">
   <link rel="icon" type="image/png" href="./assets/media/logo-mark-transparent.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/css/site.css?v=20260828a">
+  <link rel="stylesheet" href="./assets/css/site.css?v=20260910a">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -45,7 +45,7 @@
           <a href="./contact.html">Contact</a>
         </nav>
         <div class="nav-actions">
-          <a class="button button-secondary" href="./assets/files/atho-whitepaper.pdf">Whitepaper</a>
+          <a class="button button-secondary" href="./assets/files/atho-whitepaper.pdf?v=20260910">Whitepaper</a>
           <a class="button button-primary" href="https://github.com/Atho-Labs" target="_blank" rel="noopener noreferrer">View Source</a>
         </div>
       </div>
@@ -56,13 +56,13 @@
     <section class="container page-hero" data-reveal>
       <span class="section-kicker">Build Atho</span>
       <h1>Desktop when you want it. Headless when you do not.</h1>
-      <p>Build the current Rust reference stack, run a local regnet, and choose the interface that fits your environment.</p>
+      <p>Build the current Rust reference stack, join the public V1 testnet, or run a disposable local regnet.</p>
       <div class="page-actions">
         <a class="button button-primary" href="./docs.html#headless-binaries">Headless Guide</a>
         <a class="button button-secondary" href="./docs.html#wallets">Wallet Guide</a>
         <a class="button button-tertiary" href="https://github.com/Atho-Labs" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
-      <p class="page-note">The former public testnet is offline. Use regnet locally until a new compatible public testnet is announced.</p>
+      <p class="page-note">Mainnet has not launched. Public testnet coins are for testing only and have no monetary value.</p>
     </section>
 
     <section class="container build-command-band" data-reveal aria-label="Build command">
@@ -88,8 +88,10 @@
         <span class="section-kicker">Headless</span>
         <h2>Focused binaries</h2>
         <p>Compose node, RPC, mining, wallet, and address workflows without loading the desktop client.</p>
-        <pre><code>./target/release/athod --network regnet
-./target/release/atho-cli --network regnet getblockchaininfo</code></pre>
+        <pre><code>./target/release/athod \
+  --network testnet \
+  --peer testnet-node1.atho.io:9100
+./target/release/atho-cli --network testnet getblockchaininfo</code></pre>
         <a class="text-link" href="./docs.html#headless-binaries">See every binary</a>
       </article>
     </section>
@@ -100,7 +102,7 @@
         <h2>Keep the local boundary clear.</h2>
       </div>
       <div class="container checklist-grid">
-        <article data-reveal><strong>Use regnet</strong><p>Keep disposable development state away from mainnet and retired testnet data.</p></article>
+        <article data-reveal><strong>Choose explicitly</strong><p>Use testnet for public interoperability and regnet for disposable local work.</p></article>
         <article data-reveal><strong>Encrypt wallets</strong><p>Use a strong password and keep the recovery phrase offline.</p></article>
         <article data-reveal><strong>Keep RPC local</strong><p>Raw RPC and HTTP must remain on loopback or behind an encrypted operator boundary.</p></article>
         <article data-reveal><strong>Verify releases</strong><p>Match source revisions, checksums, signatures, and upgrade notes before production use.</p></article>
@@ -115,6 +117,6 @@
     </div>
     <div class="container footer-bottom"><p>Pre-mainnet software under active development.</p><p>&copy; <span data-year></span> Atho Labs. Apache-2.0 software.</p></div>
   </footer>
-  <script type="module" src="./assets/js/site.js?v=20260828a"></script>
+  <script type="module" src="./assets/js/site.js?v=20260910a"></script>
 </body>
 </html>

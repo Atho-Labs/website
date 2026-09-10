@@ -9,7 +9,7 @@ Static public site for `atho.io`.
 - `networks.html`: isolated network modes, ports, and current availability
 - `join.html`: desktop and headless build guide
 - `roadmap.html`: project status and launch gates
-- `explore/index.html`: standalone Explorer interface and public-feed notice
+- `explore/index.html`: live standalone V1 testnet Explorer interface
 - `contact.html`: security, source, and community channels
 
 ## Source-Grounded Content
@@ -26,9 +26,11 @@ The public copy tracks the current Atho source repository:
 - loopback-only raw RPC and HTTP API boundaries
 - desktop and headless operator/wallet binaries
 
-The previous public testnet is retired. The site does not configure a live node
-or explorer endpoint. Regnet is the documented local development mode until a
-new compatible public testnet is announced.
+The public V1 testnet is online for a fresh 30-day validation cycle. The site
+configures the read-only Explorer endpoint at
+`https://testnet-node1.atho.io/api/v1` and pins its network ID, API version, and
+testnet genesis hash. Mainnet has not launched, and testnet coins have no
+monetary value. Regnet remains the disposable local development mode.
 
 ## Documentation Architecture
 
@@ -38,7 +40,6 @@ new compatible public testnet is announced.
 - `assets/js/site.js`: shared rendering, social actions, interaction, and navigation
 - `assets/js/explore.js`: Explorer routes, searches, tables, paging, and detail views
 - `assets/js/explorer-config.js`: runtime-verified Explorer endpoint configuration
-- `assets/js/explorer-offline.js`: first-entry network notice and offline search state
 - `assets/css/site.css`: shared responsive design system
 
 Older hash routes are mapped to the closest current section where practical.
@@ -69,4 +70,5 @@ This rebuilds:
 - `ionos-upload/`
 - `ionos-upload.zip`
 
-The generated static bundle contains no live testnet API address.
+The generated static bundle contains the pinned, read-only public testnet API
+address used by the live Explorer and homepage status check.

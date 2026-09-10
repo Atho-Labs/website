@@ -10,7 +10,7 @@
   <meta property="og:site_name" content="Atho">
   <meta property="og:url" content="https://atho.io/explore/">
   <meta property="og:title" content="Atho Explorer | Public Chain Browser">
-  <meta property="og:description" content="The full Atho Explorer interface remains available while the next compatible public network is prepared.">
+  <meta property="og:description" content="Browse live Atho V1 testnet blocks, transactions, addresses, supply, mempool, and network status.">
   <meta property="og:image" content="https://atho.io/assets/media/explorer-share-card.png?v=20260825c">
   <meta property="og:image:secure_url" content="https://atho.io/assets/media/explorer-share-card.png?v=20260825c">
   <meta property="og:image:type" content="image/png">
@@ -19,7 +19,7 @@
   <meta property="og:image:alt" content="Atho Explorer preview with chain metrics and recent activity views.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Atho Explorer | Public Chain Browser">
-  <meta name="twitter:description" content="The full Atho Explorer interface remains available while the next compatible public network is prepared.">
+  <meta name="twitter:description" content="Browse live Atho V1 testnet blocks, transactions, addresses, supply, mempool, and network status.">
   <meta name="twitter:image" content="https://atho.io/assets/media/explorer-share-card.png?v=20260825c">
   <meta name="twitter:image:alt" content="Atho Explorer preview with chain metrics and recent activity views.">
   <link rel="icon" type="image/png" href="../assets/media/logo-mark-transparent.png">
@@ -1569,71 +1569,6 @@
       background: #f4f7f5;
     }
 
-    .explorer-offline-dialog {
-      width: min(calc(100vw - 32px), 600px);
-      padding: 26px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 8px;
-      background: #192d23;
-      color: #ffffff;
-      box-shadow: 0 24px 70px rgba(0, 13, 8, 0.34);
-    }
-
-    .explorer-offline-dialog::backdrop {
-      background: rgba(0, 13, 8, 0.7);
-      backdrop-filter: blur(4px);
-    }
-
-    .explorer-offline-dialog h2 {
-      margin: 17px 0 10px;
-      font-size: 1.45rem;
-      line-height: 1.2;
-    }
-
-    .explorer-offline-dialog p {
-      margin: 0;
-      color: #d3ddd7;
-      font-size: 0.82rem;
-    }
-
-    .explorer-dialog-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      min-height: 30px;
-      padding: 0 10px;
-      border-radius: 5px;
-      background: #fff0d1;
-      color: #87580a;
-      font-size: 0.7rem;
-      font-weight: 700;
-    }
-
-    .explorer-dialog-status i {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #d69220;
-    }
-
-    .explorer-dialog-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 22px;
-    }
-
-    .explorer-dialog-actions button,
-    .explorer-dialog-actions a {
-      min-height: 42px;
-    }
-
-    .explorer-dialog-actions .btn-ghost {
-      border-color: rgba(255, 255, 255, 0.2);
-      background: rgba(255, 255, 255, 0.08);
-      color: #ffffff;
-    }
-
     @media (max-width: 860px) {
       .topbar {
         position: static;
@@ -1665,13 +1600,6 @@
         text-align: left;
       }
 
-      .explorer-offline-dialog {
-        padding: 21px;
-      }
-
-      .explorer-dialog-actions > * {
-        width: 100%;
-      }
     }
   </style>
 </head>
@@ -1682,14 +1610,14 @@
         <img class="brand-logo" src="../assets/media/logo-mark-transparent.png" alt="Atho logo" width="693" height="602">
         <div>
           <div class="brand-title">Atho Explorer</div>
-          <div class="brand-sub" id="networkBadge">Testnet · Offline</div>
+          <div class="brand-sub" id="networkBadge">Testnet · Connecting</div>
         </div>
       </a>
       <div class="toolbar">
         <a class="toolbar-link" href="../index.html">Atho Home</a>
         <a class="toolbar-link" href="../networks.html">Networks</a>
         <button class="network-tab is-active" type="button" data-network-tab="testnet">Testnet</button>
-        <span class="status-chip is-offline" id="headerStatus">Offline</span>
+        <span class="status-chip" id="headerStatus">Connecting</span>
       </div>
     </header>
 
@@ -1710,19 +1638,9 @@
     <main class="page" id="pageRoot" aria-live="polite"></main>
 
     <footer class="explorer-footer">
-      <div>Public refresh paused · <a href="../docs.html#network-status">Network Docs</a> · <a href="../roadmap.html">Project Status</a></div>
+      <div>Live V1 testnet data · <a href="../docs.html#network-status">Network Docs</a> · <a href="../roadmap.html">Project Status</a></div>
     </footer>
   </div>
-
-  <dialog class="explorer-offline-dialog" data-explorer-dialog aria-labelledby="explorer-dialog-title" aria-describedby="explorer-dialog-copy">
-    <div class="explorer-dialog-status"><i aria-hidden="true"></i>Network notice</div>
-    <h2 id="explorer-dialog-title">Public Explorer Offline</h2>
-    <p id="explorer-dialog-copy">The previous 30-day testnet completed and its old chain data was retired. The full Explorer interface remains available, but live search and network data will return only after the next compatible public network is verified.</p>
-    <div class="explorer-dialog-actions">
-      <button type="button" data-explorer-continue>Continue to Explorer</button>
-      <a class="toolbar-link btn-ghost" href="../roadmap.html">Read Status</a>
-    </div>
-  </dialog>
 
   <div class="loading-overlay" id="loadingOverlay" aria-live="polite" aria-busy="true">
     <div class="loading-card">
@@ -1746,7 +1664,6 @@
     </div>
   </div>
 
-  <script type="module" src="../assets/js/explore.js?v=20260825c"></script>
-  <script type="module" src="../assets/js/explorer-offline.js?v=20260825c"></script>
+  <script type="module" src="../assets/js/explore.js?v=20260910a"></script>
 </body>
 </html>

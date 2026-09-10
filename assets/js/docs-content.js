@@ -57,8 +57,8 @@ export const docsSections = {
       <section class="docs-section docs-callout" id="current-state">
         <span class="docs-callout-label">Current state</span>
         <h2>Pre-mainnet development is active.</h2>
-        <p>Mainnet has not launched. The previous public testnet completed its test cycle and is now offline while updated chain rules are prepared. Its bootstrap nodes, explorer endpoint, and old block data should not be treated as current infrastructure.</p>
-        <p>Use <strong>regnet</strong> for local development until a new public testnet is announced.</p>
+        <p>Mainnet has not launched. A fresh public V1 testnet is online for a 30-day validation cycle using the current ruleset, frozen testnet genesis, authenticated encrypted P2P transport, and read-only Explorer feed.</p>
+        <p>Use <strong>testnet</strong> for public interoperability testing and <strong>regnet</strong> for disposable local development. Testnet coins have no monetary value.</p>
       </section>
       <section class="docs-section" id="overview-routing">
         <h2>Choose a Path</h2>
@@ -69,15 +69,15 @@ export const docsSections = {
         <p>These pages summarize the current repository, but consensus code remains authoritative. Monetary values, network identities, validation rules, and transport behavior should be checked against the matching release before real-value use.</p>
         <ul>
           <li>Current software status: pre-mainnet alpha.</li>
-          <li>Current public network status: no public Atho network is presented as live.</li>
+          <li>Current public network status: V1 testnet is live; mainnet is not launched.</li>
           <li>Current implemented ledger: transparent public UTXOs.</li>
           <li>Research-only private transaction and channel designs are not described here as shipped functionality.</li>
         </ul>
       </section>
       <section class="docs-section" id="current-whitepaper">
         <h2>Current Whitepaper</h2>
-        <p>The August 27, 2026 technical whitepaper is the sole current protocol PDF published on this website. It contains 79 pages covering architecture, consensus, networking, wallet behavior, offline signing, operations, and limitations.</p>
-        <p><a class="docs-inline-action" href="./assets/files/atho-whitepaper.pdf">Download the Atho Whitepaper</a></p>
+        <p>The September 10, 2026 technical whitepaper is the sole current protocol PDF published on this website. Revision 10 contains 83 pages covering architecture, consensus, networking, wallet behavior, offline signing, operations, and limitations.</p>
+        <p><a class="docs-inline-action" href="./assets/files/atho-whitepaper.pdf?v=20260910">Download the Atho Whitepaper</a></p>
       </section>
     `
   },
@@ -421,8 +421,13 @@ export const docsSections = {
 ./target/release/atho-address --help
 ./target/release/atho-snapshot help
 ./target/release/atho-pool help</code></pre>
-        <p>While the public testnet is offline, use regnet for local operation:</p>
-        <pre><code>./target/release/athod --network regnet
+        <p>Join the public V1 testnet explicitly, or use regnet for disposable local operation:</p>
+        <pre><code>./target/release/athod \
+  --network testnet \
+  --peer testnet-node1.atho.io:9100
+./target/release/atho-cli --network testnet getblockchaininfo
+
+./target/release/athod --network regnet
 ./target/release/atho-cli --network regnet getblockchaininfo</code></pre>
       </section>
       <section class="docs-section" id="athod">
@@ -665,6 +670,7 @@ export ATHO_WALLET_PASSWORD
       <section class="docs-section" id="http-api">
         <h2>HTTP API</h2>
         <p>The HTTP API defaults to <code>127.0.0.1:8080</code>. Read endpoints cover health, chain status, explorer indexes, mempool, fees, supply, peers, mining status, and metrics. Write routes are feature-gated, but the server remains loopback-only regardless of route selection.</p>
+        <p>The current public testnet exposes only the read-only Explorer surface through <code>https://testnet-node1.atho.io/api/v1</code>. Nginx terminates TLS, applies per-IP request and connection limits, and forwards allowed <code>GET</code>/<code>OPTIONS</code> routes to the loopback API. Raw RPC, wallet writes, and mining routes are not public.</p>
       </section>
       <section class="docs-section" id="remote-operations">
         <h2>Remote Operations</h2>
@@ -676,13 +682,13 @@ export ATHO_WALLET_PASSWORD
   "network-status": {
     title: "Network Status",
     eyebrow: "Nodes and Network",
-    summary: "All four network modes exist in code, but mainnet is unlaunched and the previous public testnet is retired.",
+    summary: "All four network modes exist in code; mainnet is unlaunched and the public V1 testnet is online for validation.",
     keywords: ["network", "status", "mainnet", "testnet", "regnet", "prunetest", "ports"],
     aliases: ["mainnet-vs-testnet", "testnet", "getting-testnet-atho", "network-modes"],
     topics: [
       { id: "network-status", title: "Current Network Status" },
       { id: "network-modes", title: "Network Modes" },
-      { id: "testnet-retirement", title: "Retired Testnet" }
+      { id: "public-testnet", title: "Public V1 Testnet", aliases: ["testnet-retirement"] }
     ],
     related: [
       { label: "Storage and Sync", href: "#storage-sync" },
@@ -697,7 +703,7 @@ export ATHO_WALLET_PASSWORD
             <thead><tr><th>Mode</th><th>P2P / RPC</th><th>Current public status</th></tr></thead>
             <tbody>
               <tr><td>Mainnet</td><td>56000 / 9010</td><td>Implemented mode; not publicly launched</td></tr>
-              <tr><td>Testnet</td><td>9100 / 9110</td><td>Previous public cycle retired; no public endpoint advertised</td></tr>
+              <tr><td>Testnet</td><td>9100 / 9110</td><td>Public V1 validation network online; live Explorer available</td></tr>
               <tr><td>Regnet</td><td>9200 / 9210</td><td>Available for local deterministic development</td></tr>
               <tr><td>Prunetest</td><td>9300 / 9310</td><td>Available for isolated storage/pruning tests</td></tr>
             </tbody>
@@ -708,9 +714,10 @@ export ATHO_WALLET_PASSWORD
         <h2>Isolation</h2>
         <p>Each mode has a distinct consensus ID, visible address prefix, P2P magic, genesis anchor, default ports, and storage root. Transactions and signatures bind to network identity so artifacts cannot be replayed as valid payments on another mode.</p>
       </section>
-      <section class="docs-section" id="testnet-retirement">
-        <h2>Retired Testnet Data</h2>
-        <p>The former testnet bootstrap nodes and explorer API are offline. Because chain rules have changed, old testnet block data should be removed before joining a future incompatible testnet. Wait for an official network announcement, genesis/ruleset identity, release hash, and bootstrap configuration before reconnecting public infrastructure.</p>
+      <section class="docs-section" id="public-testnet">
+        <h2>Public V1 Testnet</h2>
+        <p>The current testnet uses P2P seeds <code>testnet-node1.atho.io:9100</code> and <code>testnet-node2.atho.io:9100</code>. Node 1 retains archive history and serves the rate-limited read-only Explorer API; node 2 is a validating full node and runs a one-core CPU miner. Both nodes keep raw RPC and the native HTTP API on loopback.</p>
+        <p>The Explorer verifies API version <code>v1</code>, network ID <code>atho-testnet</code>, and genesis hash <code>0000347169b75a28f067fbc208a143e98e594709c4a3632ce44d48c7916dbabd50662e5e2e9073e5043d0455d6010af6</code> before rendering data. This 30-day cycle is pre-mainnet testing; availability, balances, and mined testnet coins do not imply monetary value or a mainnet launch.</p>
       </section>
     `
   },
@@ -752,7 +759,7 @@ export ATHO_WALLET_PASSWORD
           <li>Back up wallet files independently from replaceable chain data.</li>
           <li>Use <code>athod verify</code> and clean shutdowns before assuming local state is healthy.</li>
           <li>Use the explicit <code>athod wipe</code> flow only after checking network and data-directory targets.</li>
-          <li>Do not reuse the retired testnet database for a future network with new chain rules.</li>
+          <li>Do not reuse an earlier testnet database when a later network publishes incompatible chain rules.</li>
         </ul>
       </section>
     `
@@ -938,7 +945,7 @@ cargo clippy --workspace --all-targets -- -D warnings</code></pre>
       </section>
       <section class="docs-section" id="faq-network">
         <h2>Is Mainnet or Testnet Live?</h2>
-        <p>Mainnet has not launched. The previous public testnet is retired, and its old explorer and bootstrap endpoints are offline. Use regnet locally and wait for an official compatible public-network announcement.</p>
+        <p>Mainnet has not launched. The public V1 testnet and live Explorer are online for the current 30-day validation cycle. Use testnet for public interoperability and regnet for disposable local work; testnet coins have no monetary value.</p>
       </section>
       <section class="docs-section" id="faq-ledger-privacy">
         <h2>Does P2P Encryption Hide Transactions on the Blockchain?</h2>

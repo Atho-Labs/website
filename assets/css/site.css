@@ -3644,6 +3644,12 @@ main {
   white-space: pre;
 }
 
+.docs-section :not(pre) > code {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
 .docs-figure {
   margin: 18px 0 0;
   padding: 16px;
@@ -5577,6 +5583,16 @@ main,
   box-shadow: 0 0 0 5px rgba(241, 184, 75, 0.12);
 }
 
+.network-status-band.is-live .status-dot {
+  background: #35d896;
+  box-shadow: 0 0 0 5px rgba(53, 216, 150, 0.14);
+}
+
+.network-status-band.is-degraded .status-dot {
+  background: #f1b84b;
+  box-shadow: 0 0 0 5px rgba(241, 184, 75, 0.12);
+}
+
 .text-link {
   display: inline-flex;
   align-items: center;
@@ -6895,50 +6911,6 @@ main,
   text-align: right;
 }
 
-.explorer-offline-dialog {
-  width: min(calc(100vw - 32px), 590px);
-  padding: 28px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 8px;
-  background: #192d23;
-  color: #ffffff;
-  box-shadow: 0 24px 70px rgba(0, 13, 8, 0.34);
-}
-
-.explorer-offline-dialog::backdrop {
-  background: rgba(0, 13, 8, 0.7);
-  backdrop-filter: blur(4px);
-}
-
-.explorer-offline-dialog h2 {
-  margin: 18px 0 10px;
-  font-size: 1.55rem;
-  line-height: 1.2;
-}
-
-.explorer-offline-dialog p {
-  margin: 0;
-  color: #d3ddd7;
-  font-size: 0.84rem;
-}
-
-.explorer-dialog-status {
-  width: fit-content;
-}
-
-.explorer-dialog-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 22px;
-}
-
-.explorer-offline-dialog .button-secondary {
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.08);
-  color: #ffffff;
-}
-
 @media (min-width: 980px) and (max-width: 1320px) {
   .brand-copy {
     display: none;
@@ -7039,11 +7011,4 @@ main,
     flex-direction: column;
   }
 
-  .explorer-offline-dialog {
-    padding: 22px;
-  }
-
-  .explorer-dialog-actions .button {
-    width: 100%;
-  }
 }

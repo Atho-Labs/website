@@ -2,7 +2,7 @@ import {
   defaultExplorerNetwork,
   explorerApiConfig,
   explorerNetworks
-} from "./explorer-config.js?v=20260825c";
+} from "./explorer-config.js?v=20260910a";
 
 const HASH_LENGTH = 96;
 const ATHO_DECIMALS = 8;
@@ -13,6 +13,7 @@ const state = {
   route: { page: "home", ref: "" },
   dashboard: null,
   cache: new Map(),
+  inFlight: new Map(),
   txInline: new Map(),
   homeBlocksPage: 0,
   homeBlocksPageSize: 10,
@@ -393,6 +394,8 @@ function showWarn(message = "", tone = "warn") {
 function setHeaderStatus(message) {
   if (refs.headerStatus instanceof HTMLElement) {
     refs.headerStatus.textContent = message;
+    const unavailable = /offline|unavailable|mismatch|not configured/i.test(message);
+    refs.headerStatus.classList.toggle("is-offline", unavailable);
   }
 }
 
@@ -464,35 +467,48 @@ async function apiRequest(path, { networkKey = state.activeNetwork, ttlMs = 0, f
   if (!force && ttlMs > 0 && cached && Date.now() - cached.ts < ttlMs) {
     return cached.value;
   }
+  const pending = state.inFlight.get(cacheKey);
+  if (pending) {
+    return pending;
+  }
 
   const controller = new AbortController();
   const timeout = window.setTimeout(() => controller.abort(), 12_000);
-
+  const request = (async () => {
+    try {
+      const response = await fetch(`${network.apiBaseUrl}${path}`, {
+        headers: { Accept: "application/json" },
+        signal: controller.signal
+      });
+      const payload = await response.json().catch(() => null);
+      if (!response.ok || !payload?.success) {
+        throw createApiError(payload?.error || `http_${response.status}`);
+      }
+      verifyPayloadIdentity(payload, networkKey);
+      const value = { payload, data: payload.data || {} };
+      if (ttlMs > 0) {
+        state.cache.set(cacheKey, { ts: Date.now(), value });
+      }
+      return value;
+    } catch (error) {
+      if (error?.name === "AbortError") {
+        throw createApiError("timeout");
+      }
+      if (error?.code) {
+        throw error;
+      }
+      throw createApiError("request_failed");
+    } finally {
+      window.clearTimeout(timeout);
+    }
+  })();
+  state.inFlight.set(cacheKey, request);
   try {
-    const response = await fetch(`${network.apiBaseUrl}${path}`, {
-      headers: { Accept: "application/json" },
-      signal: controller.signal
-    });
-    const payload = await response.json().catch(() => null);
-    if (!response.ok || !payload?.success) {
-      throw createApiError(payload?.error || `http_${response.status}`);
-    }
-    verifyPayloadIdentity(payload, networkKey);
-    const value = { payload, data: payload.data || {} };
-    if (ttlMs > 0) {
-      state.cache.set(cacheKey, { ts: Date.now(), value });
-    }
-    return value;
-  } catch (error) {
-    if (error?.name === "AbortError") {
-      throw createApiError("timeout");
-    }
-    if (error?.code) {
-      throw error;
-    }
-    throw createApiError("request_failed");
+    return await request;
   } finally {
-    window.clearTimeout(timeout);
+    if (state.inFlight.get(cacheKey) === request) {
+      state.inFlight.delete(cacheKey);
+    }
   }
 }
 
@@ -721,6 +737,7 @@ function updateHeaderFromDashboard(dashboard) {
   setNetworkBadge(
     `${network.label.toUpperCase()} · Height ${formatNumber(height)}`
   );
+  setHeaderStatus("Live");
 }
 
 function renderDetailGrid(items) {
@@ -990,9 +1007,9 @@ async function renderHomePage(dashboard) {
 
 function renderOfflineMetricStrip() {
   const cards = [
-    { key: "Network Uptime", meta: "Public feed offline", action: "go-network" },
-    { key: "Height", meta: "Awaiting compatible network" },
-    { key: "Latest Block", meta: "No public tip configured" },
+    { key: "Network Uptime", meta: "Public feed unavailable", action: "go-network" },
+    { key: "Height", meta: "Awaiting verified API" },
+    { key: "Latest Block", meta: "Awaiting verified tip" },
     { key: "Estimated Hashrate", meta: "No live estimate" },
     { key: "Active Peers", meta: "No public peer feed", action: "go-network" },
     { key: "Mempool TXs", meta: "Lookup paused", action: "go-mempool" },
@@ -1042,8 +1059,8 @@ function renderOfflineTransactionsTable() {
 function renderOfflineHomePage() {
   state.currentJsonTitle = "";
   state.currentJsonPayload = null;
-  setNetworkBadge("TESTNET · OFFLINE");
-  setHeaderStatus("Offline");
+  setNetworkBadge("TESTNET · UNAVAILABLE");
+  setHeaderStatus("Unavailable");
   showWarn("", "warn");
 
   refs.pageRoot.innerHTML = `
@@ -1063,8 +1080,8 @@ function renderOfflineHomePage() {
             </div>
           </div>
           <div class="overview-side">
-            <span class="status-chip is-offline">Public feed offline</span>
-            <span class="overview-note">The retired testnet data is not shown as current.</span>
+            <span class="status-chip is-offline">Public feed unavailable</span>
+            <span class="overview-note">No unverified or mismatched chain data is shown.</span>
           </div>
         </div>
         ${renderOfflineMetricStrip()}
@@ -1126,7 +1143,7 @@ function renderOfflineLookupPage(route) {
         <div class="panel-body">
           ${renderDetailGrid([
             { label: "Transaction ID", valueHtml: `<span class="inline-actions"><span class="mono">${esc(displayRef)}</span>${copyMini(ref)}</span>`, className: "mono" },
-            { label: "Status", valueHtml: "Public feed offline" },
+            { label: "Status", valueHtml: "Public feed unavailable" },
             { label: "Block", valueHtml: "--" },
             { label: "Fee", valueHtml: "--" },
             { label: "Virtual Size", valueHtml: "--" },
@@ -1150,7 +1167,7 @@ function renderOfflineLookupPage(route) {
       <div class="panel-body">
         ${renderDetailGrid([
           { label: "Requested Block", valueHtml: `<span class="inline-actions"><span class="mono">${esc(displayRef)}</span>${copyMini(ref)}</span>`, className: "mono" },
-          { label: "Status", valueHtml: "Public feed offline" },
+          { label: "Status", valueHtml: "Public feed unavailable" },
           { label: "Height", valueHtml: /^\d+$/.test(ref) ? esc(`#${formatNumber(ref)}`) : "--" },
           { label: "Block Hash", valueHtml: /^[0-9a-fA-F]{96}$/.test(ref) ? esc(ref) : "--", className: "mono" },
           { label: "Timestamp", valueHtml: "--" },
@@ -1170,10 +1187,10 @@ function renderOfflineMempoolPage() {
       <div class="panel-head"><button class="btn-ghost" type="button" data-action="go-home">Explorer</button><span class="section-title">Mempool</span></div>
       <div class="panel-body">
         <div class="stats">
-          <div class="stat"><div class="k">Pending TXs</div><div class="v">--</div><div class="m">Feed offline</div></div>
-          <div class="stat"><div class="k">Mempool Size</div><div class="v">--</div><div class="m">Feed offline</div></div>
-          <div class="stat"><div class="k">Average Fee</div><div class="v">--</div><div class="m">Feed offline</div></div>
-          <div class="stat"><div class="k">Est. Next Block TXs</div><div class="v">--</div><div class="m">Feed offline</div></div>
+          <div class="stat"><div class="k">Pending TXs</div><div class="v">--</div><div class="m">Feed unavailable</div></div>
+          <div class="stat"><div class="k">Mempool Size</div><div class="v">--</div><div class="m">Feed unavailable</div></div>
+          <div class="stat"><div class="k">Average Fee</div><div class="v">--</div><div class="m">Feed unavailable</div></div>
+          <div class="stat"><div class="k">Est. Next Block TXs</div><div class="v">--</div><div class="m">Feed unavailable</div></div>
         </div>
         ${renderDetailGrid([{ label: "Highest Fee", valueHtml: "--" }, { label: "Lowest Fee", valueHtml: "--" }])}
       </div>
@@ -1217,7 +1234,7 @@ function renderOfflineNetworkPage() {
           { label: "Chain Uptime", valueHtml: "--" },
           { label: "API Version", valueHtml: esc(explorerApiConfig.apiVersion) },
           { label: "Node Version", valueHtml: "--" },
-          { label: "Sync Status", valueHtml: "Offline" },
+          { label: "Sync Status", valueHtml: "Unavailable" },
           { label: "Tip Height", valueHtml: "--" },
           { label: "Latest Block Hash", valueHtml: "--", className: "mono" }
         ])}
@@ -1230,8 +1247,8 @@ function renderOfflineNetworkPage() {
 function renderOfflineRoute(route) {
   state.currentJsonTitle = "";
   state.currentJsonPayload = null;
-  setNetworkBadge("TESTNET · OFFLINE");
-  setHeaderStatus("Offline");
+  setNetworkBadge("TESTNET · UNAVAILABLE");
+  setHeaderStatus("Unavailable");
   showWarn("", "warn");
 
   switch (route.page) {

@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/css/site.css?v=20260828a">
+  <link rel="stylesheet" href="./assets/css/site.css?v=20260910a">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -46,7 +46,7 @@
           <a href="./contact.html">Contact</a>
         </nav>
         <div class="nav-actions">
-          <a class="button button-secondary" href="./assets/files/atho-whitepaper.pdf">Whitepaper</a>
+          <a class="button button-secondary" href="./assets/files/atho-whitepaper.pdf?v=20260910">Whitepaper</a>
           <a class="button button-primary" href="./docs.html#network-modes">Network Docs</a>
         </div>
       </div>
@@ -68,7 +68,7 @@
       <div class="section-head" data-reveal>
         <span class="section-kicker">Current directory</span>
         <h2 id="network-directory-title">Identity, ports, and availability.</h2>
-        <p>The previous public testnet has been retired. Regnet remains the recommended local development mode.</p>
+        <p>The public V1 testnet is online for interoperability testing. Regnet remains the recommended disposable local development mode.</p>
       </div>
       <div class="container network-card-grid compact-network-grid" id="network-constants"></div>
     </section>
@@ -90,7 +90,7 @@
 
     <section class="container explorer-local-note network-local-note" data-reveal>
       <div><span class="section-kicker">Local development</span><h2>Start with regnet.</h2></div>
-      <p>Regnet provides a disposable local chain for integration work while no public Atho network is online.</p>
+      <p>Regnet provides a disposable local chain for integration work. Use testnet when you specifically need to connect to the public V1 network.</p>
       <pre><code>./target/release/athod --network regnet
 ./target/release/atho-cli --network regnet getblockchaininfo</code></pre>
     </section>
@@ -101,8 +101,8 @@
       <div class="footer-brand"><img src="./assets/media/logo-mark-transparent.png" alt="Atho" width="693" height="602" decoding="async"><p>Explicit network identities for production, testing, and local development.</p></div>
       <div class="footer-columns" id="footer-columns"></div>
     </div>
-    <div class="container footer-bottom"><p>No public Atho network is currently presented as live.</p><p>&copy; <span data-year></span> Atho Labs. Apache-2.0 software.</p></div>
+    <div class="container footer-bottom"><p>Mainnet is not live. Public testnet coins have no monetary value.</p><p>&copy; <span data-year></span> Atho Labs. Apache-2.0 software.</p></div>
   </footer>
-  <script type="module" src="./assets/js/site.js?v=20260828a"></script>
+  <script type="module" src="./assets/js/site.js?v=20260910a"></script>
 </body>
 </html>

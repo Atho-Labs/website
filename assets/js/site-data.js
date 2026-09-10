@@ -70,10 +70,10 @@ export const siteContent = {
       name: "Testnet",
       detail: "atho-testnet",
       value: "<span class=\"stack-line\">P2P 9100</span><span class=\"stack-line\">RPC 9110</span>",
-      copy: "The previous public testnet cycle is retired while updated chain rules are prepared.",
-      hover: "The network mode remains in the software, but the former public bootstrap nodes and explorer endpoint are offline. Old testnet chain data is obsolete.",
-      href: "./roadmap.html",
-      actionLabel: "View current status"
+      copy: "The public V1 testnet is online for a new 30-day validation cycle.",
+      hover: "testnet-node1.atho.io is the archive and Explorer API node. testnet-node2.atho.io is a validating node with a one-core CPU miner. Testnet coins have no monetary value.",
+      href: "./explore/",
+      actionLabel: "Open live Explorer"
     },
     {
       name: "Regnet",
@@ -224,8 +224,8 @@ export const siteContent = {
     {
       icon: "globe",
       title: "Open the Explorer",
-      copy: "Use the familiar Explorer interface while the public data feed remains offline.",
-      hover: "A first-entry notice clearly explains that live search and network data will return with the next compatible public network.",
+      copy: "Browse live V1 testnet blocks, transactions, addresses, supply, mempool, and network status.",
+      hover: "The Explorer verifies the API version, network identity, and frozen testnet genesis hash before displaying data.",
       href: "./explore/",
       actionLabel: "Open Explorer"
     },
@@ -300,7 +300,8 @@ export const siteContent = {
     { kind: "command", prompt: "$", text: "cargo build --release -p atho-node -p atho-wallet -p atho-qt" },
     { kind: "command", prompt: "$", text: "./target/release/athod --network regnet" },
     { kind: "command", prompt: "$", text: "./target/release/atho-cli --network regnet getblockchaininfo" },
-    { kind: "comment", text: "Use regnet for local work while the public testnet is offline" }
+    { kind: "comment", text: "Use testnet for public interoperability and regnet for disposable local work" },
+    { kind: "command", prompt: "$", text: "./target/release/athod --network testnet --peer testnet-node1.atho.io:9100" }
   ],
   statusCards: [
     {
@@ -311,9 +312,9 @@ export const siteContent = {
     },
     {
       label: "Network",
-      title: "Public testnet retired",
-      copy: "The previous public testnet and explorer endpoints are offline while updated chain rules are prepared.",
-      hover: "Old testnet block data should not be treated as compatible with the next ruleset."
+      title: "Public V1 testnet live",
+      copy: "Two public full nodes, one archive Explorer API, and one one-core miner are online for the current validation cycle.",
+      hover: "This is pre-mainnet test infrastructure. Availability and testnet balances do not imply a mainnet launch or monetary value."
     },
     {
       label: "Documentation",
@@ -345,7 +346,7 @@ export const siteContent = {
         { label: "Current Status", href: "./roadmap.html" },
         { label: "Network Modes", href: "./networks.html" },
         { label: "Build Atho", href: "./join.html" },
-        { label: "Whitepaper", href: "./assets/files/atho-whitepaper.pdf" },
+        { label: "Whitepaper", href: "./assets/files/atho-whitepaper.pdf?v=20260910" },
         { label: "Explorer", href: "./explore/" },
         { label: "Contact", href: "./contact.html" }
       ]
