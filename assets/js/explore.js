@@ -813,15 +813,19 @@ function renderStatsGrid(dashboard) {
       ref: ""
     },
     {
-      key: "Next Halving",
+      key: "Next Reward Era",
       value:
-        stats.blocks_until_halving != null
-          ? `${formatNumber(stats.blocks_until_halving)} blocks`
-          : "Tail Emission",
+        (stats.blocks_until_next_era ?? stats.blocks_until_halving) != null
+          ? `${formatNumber(stats.blocks_until_next_era ?? stats.blocks_until_halving)} blocks`
+          : stats.tail_active
+            ? "Tail active"
+            : "Schedule complete",
       meta:
-        stats.next_halving_height != null
-          ? `Height ${formatNumber(stats.next_halving_height)}`
-          : "Tail emission",
+        (stats.current_era_end_height ?? stats.next_halving_height) != null
+          ? `${stats.next_era_reward_atho ? `${stats.next_era_reward_atho} ATHO at ` : ""}Height ${formatNumber(stats.next_halving_height ?? (Number(stats.current_era_end_height) + 1))}`
+          : stats.tail_active
+            ? `Final subsidy height ${formatNumber(stats.final_subsidy_height)}`
+            : "No further reward era",
       action: "go-supply",
       ref: ""
     }
@@ -1915,7 +1919,7 @@ async function renderSupplyPage() {
           <div class="stat"><div class="k">Circulating Supply</div><div class="v">${esc(formatAthoValue(supply.circulating_supply, supply.circulating_supply_atoms))}</div><div class="m">Live network</div></div>
           <div class="stat"><div class="k">Total Mined</div><div class="v">${esc(formatAthoValue(supply.total_mined_supply, supply.total_mined_supply_atoms))}</div><div class="m">Emission schedule</div></div>
           <div class="stat"><div class="k">Current Reward</div><div class="v">${esc(formatAthoValue(supply.current_block_reward, supply.current_block_reward_atoms))}</div><div class="m">Current subsidy</div></div>
-          <div class="stat"><div class="k">Next Halving</div><div class="v">${supply.blocks_until_halving != null ? esc(formatNumber(supply.blocks_until_halving)) : "Tail Era"}</div><div class="m">${supply.next_halving_height != null ? `Height ${formatNumber(supply.next_halving_height)}` : "Tail emission"}</div></div>
+          <div class="stat"><div class="k">Next Reward Era</div><div class="v">${(supply.blocks_until_next_era ?? supply.blocks_until_halving) != null ? esc(formatNumber(supply.blocks_until_next_era ?? supply.blocks_until_halving)) : supply.tail_active ? "Tail active" : "Schedule complete"}</div><div class="m">${(supply.current_era_end_height ?? supply.next_halving_height) != null ? `${supply.next_era_reward_atho ? `${esc(supply.next_era_reward_atho)} ATHO at ` : ""}Height ${formatNumber(supply.next_halving_height ?? (Number(supply.current_era_end_height) + 1))}` : supply.tail_active ? `Final subsidy height ${formatNumber(supply.final_subsidy_height)}` : "No further reward era"}</div></div>
         </div>
         ${renderDetailGrid([
           { label: "Max Supply", valueHtml: esc(supply.max_supply_label || supply.maximum_supply_atho || "168,000,000 ATHO") },
