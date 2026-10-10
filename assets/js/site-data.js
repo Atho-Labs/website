@@ -61,8 +61,8 @@ export const siteContent = {
       name: "Mainnet",
       detail: "atho-mainnet",
       value: "<span class=\"stack-line\">P2P 56000</span><span class=\"stack-line\">RPC 9010</span>",
-      copy: "Implemented network mode; public launch has not occurred.",
-      hover: "Mainnet has its own consensus ID, genesis anchor, address prefix, ports, storage, and P2P magic. Launch remains gated by release review and deployment readiness.",
+      copy: "Scheduled to launch January 1, 2027 at 00:00 UTC.",
+      hover: "Mainnet has its own consensus ID, genesis anchor, address prefix, ports, storage, and P2P magic. The scheduled launch remains gated by release review and deployment readiness.",
       href: "./docs.html#network-status",
       actionLabel: "Read network status"
     },
@@ -106,7 +106,7 @@ export const siteContent = {
     {
       key: "baseReward",
       label: "Starting Reward",
-      value: "16 ATHO",
+      value: "32 ATHO",
       detail: "First bootstrap era.",
       hover: "Height 0 is a zero-emission genesis anchor. Ordinary subsidy begins at height 1.",
       badge: "Current"
@@ -114,17 +114,17 @@ export const siteContent = {
     {
       key: "tailReward",
       label: "Tail Reward",
-      value: "0.0625 ATHO",
+      value: "1 ATHO",
       detail: "Until the supply cap.",
-      hover: "Tail emission starts at height 13,440,001, annualizes to 26,280 ATHO at target cadence, and ends at height 1,844,640,000.",
+      hover: "Tail emission starts at height 10,080,001, annualizes to 420,480 ATHO at target cadence, and ends at height 72,240,000.",
       badge: "Current"
     },
     {
       key: "bootstrapSupply",
       label: "Bootstrap Issuance",
-      value: "53.55M ATHO",
-      detail: "Through height 13,440,000.",
-      hover: "Eight 1,680,000-block eras pay 16, 8, 4, 2, 1, 0.50, 0.25, and 0.125 ATHO. There is no premine.",
+      value: "105.84M ATHO",
+      detail: "Through height 10,080,000.",
+      hover: "Six 1,680,000-block eras pay 32, 16, 8, 4, 2, and 1 ATHO. There is no premine.",
       badge: "Current"
     },
     {
@@ -256,31 +256,31 @@ export const siteContent = {
     },
     {
       label: "Bootstrap rewards",
-      value: "16 / 8 / 4 / 2 / 1 / 0.50 / 0.25 / 0.125",
+      value: "32 / 16 / 8 / 4 / 2 / 1",
       badge: "Current",
       note: "ATHO per block.",
       hover: "Each bootstrap era lasts 1,680,000 blocks."
     },
     {
       label: "Tail reward",
-      value: "0.0625 ATHO",
+      value: "1 ATHO",
       badge: "Current",
-      note: "Heights 13,440,001-1,844,640,000.",
+      note: "Heights 10,080,001-72,240,000.",
       hover: "The long tail provides a base miner security budget until the hard supply cap is reached."
     },
     {
       label: "Bootstrap issuance",
-      value: "53,550,000 ATHO",
+      value: "105,840,000 ATHO",
       badge: "Current",
       note: "No premine.",
-      hover: "This is scheduled issuance through the final 0.25 ATHO bootstrap block."
+      hover: "This is scheduled issuance through the final 1 ATHO bootstrap block."
     },
     {
       label: "Maximum supply",
       value: "168,000,000 ATHO",
       badge: "Current",
       note: "Consensus-enforced hard cap.",
-      hover: "Subsidy becomes zero after height 1,844,640,000; integer atom accounting prevents issuance beyond the cap."
+      hover: "Subsidy becomes zero after height 72,240,000; integer atom accounting prevents issuance beyond the cap."
     },
     {
       label: "Required fee",
@@ -307,8 +307,8 @@ export const siteContent = {
     {
       label: "Protocol",
       title: "Pre-mainnet alpha",
-      copy: "The current code implements the public UTXO chain, capped eight-era monetary schedule, Falcon-512 authorization, and encrypted P2P.",
-      hover: "Mainnet has not launched. Production-readiness claims require independent review and release evidence."
+      copy: "The current code implements the public UTXO chain, capped 32-1 monetary schedule, Falcon-512 authorization, and encrypted P2P.",
+      hover: "Mainnet is scheduled for January 1, 2027 at 00:00 UTC. Launch still requires the published review and release evidence."
     },
     {
       label: "Network",

@@ -57,7 +57,7 @@ export const docsSections = {
       <section class="docs-section docs-callout" id="current-state">
         <span class="docs-callout-label">Current state</span>
         <h2>Pre-mainnet development is active.</h2>
-        <p>Mainnet has not launched. A fresh public V1 testnet is online for a 30-day validation cycle using the current ruleset, frozen testnet genesis, authenticated encrypted P2P transport, and read-only Explorer feed.</p>
+        <p>Mainnet is scheduled for January 1, 2027 at 00:00 UTC. A public V1 testnet is online using the current ruleset, frozen testnet genesis, authenticated encrypted P2P transport, and read-only Explorer feed.</p>
         <p>Use <strong>testnet</strong> for public interoperability testing and <strong>regnet</strong> for disposable local development. Testnet coins have no monetary value.</p>
       </section>
       <section class="docs-section" id="overview-routing">
@@ -69,7 +69,7 @@ export const docsSections = {
         <p>These pages summarize the current repository, but consensus code remains authoritative. Monetary values, network identities, validation rules, and transport behavior should be checked against the matching release before real-value use.</p>
         <ul>
           <li>Current software status: pre-mainnet alpha.</li>
-          <li>Current public network status: V1 testnet is live; mainnet is not launched.</li>
+          <li>Current public network status: V1 testnet is live; mainnet is scheduled for January 1, 2027 at 00:00 UTC.</li>
           <li>Current implemented ledger: transparent public UTXOs.</li>
           <li>Research-only private transaction and channel designs are not described here as shipped functionality.</li>
         </ul>
@@ -204,8 +204,8 @@ export const docsSections = {
   "monetary-policy": {
     title: "Monetary Policy",
     eyebrow: "Core Rules",
-    summary: "Eight fixed bootstrap eras lead into a finite 0.0625 ATHO tail reward and a consensus-enforced maximum supply of 168 million ATHO.",
-    keywords: ["reward", "supply", "cap", "tail", "halving", "issuance", "168 million", "53.55 million"],
+    summary: "Six fixed bootstrap eras lead into a finite 1 ATHO tail reward and a consensus-enforced maximum supply of 168 million ATHO.",
+    keywords: ["reward", "supply", "cap", "tail", "halving", "issuance", "168 million", "105.84 million"],
     topics: [
       { id: "monetary-policy", title: "Emission Schedule" },
       { id: "tail-emission", title: "Tail Emission" },
@@ -224,27 +224,25 @@ export const docsSections = {
           <table>
             <thead><tr><th>Heights</th><th>Reward</th><th>Era issuance</th><th>Cumulative</th></tr></thead>
             <tbody>
-              <tr><td>1-1,680,000</td><td>16 ATHO</td><td>26,880,000</td><td>26,880,000</td></tr>
-              <tr><td>1,680,001-3,360,000</td><td>8 ATHO</td><td>13,440,000</td><td>40,320,000</td></tr>
-              <tr><td>3,360,001-5,040,000</td><td>4 ATHO</td><td>6,720,000</td><td>47,040,000</td></tr>
-              <tr><td>5,040,001-6,720,000</td><td>2 ATHO</td><td>3,360,000</td><td>50,400,000</td></tr>
-              <tr><td>6,720,001-8,400,000</td><td>1 ATHO</td><td>1,680,000</td><td>52,080,000</td></tr>
-              <tr><td>8,400,001-10,080,000</td><td>0.50 ATHO</td><td>840,000</td><td>52,920,000</td></tr>
-              <tr><td>10,080,001-11,760,000</td><td>0.25 ATHO</td><td>420,000</td><td>53,340,000</td></tr>
-              <tr><td>11,760,001-13,440,000</td><td>0.125 ATHO</td><td>210,000</td><td>53,550,000</td></tr>
-              <tr><td>13,440,001-1,844,640,000</td><td>0.0625 ATHO</td><td>26,280/year at target cadence</td><td>168,000,000 at completion</td></tr>
-              <tr><td>1,844,640,001 onward</td><td>0 ATHO</td><td>0</td><td>168,000,000</td></tr>
+              <tr><td>1-1,680,000</td><td>32 ATHO</td><td>53,760,000</td><td>53,760,000</td></tr>
+              <tr><td>1,680,001-3,360,000</td><td>16 ATHO</td><td>26,880,000</td><td>80,640,000</td></tr>
+              <tr><td>3,360,001-5,040,000</td><td>8 ATHO</td><td>13,440,000</td><td>94,080,000</td></tr>
+              <tr><td>5,040,001-6,720,000</td><td>4 ATHO</td><td>6,720,000</td><td>100,800,000</td></tr>
+              <tr><td>6,720,001-8,400,000</td><td>2 ATHO</td><td>3,360,000</td><td>104,160,000</td></tr>
+              <tr><td>8,400,001-10,080,000</td><td>1 ATHO</td><td>1,680,000</td><td>105,840,000</td></tr>
+              <tr><td>10,080,001-72,240,000</td><td>1 ATHO</td><td>62,160,000</td><td>168,000,000 at completion</td></tr>
+              <tr><td>72,240,001 onward</td><td>0 ATHO</td><td>0</td><td>168,000,000</td></tr>
             </tbody>
           </table>
         </div>
       </section>
       <section class="docs-section" id="tail-emission">
         <h2>Finite Tail Reward</h2>
-        <p>At the 75-second target, Atho projects 420,480 blocks per nominal year. A 0.0625 ATHO tail therefore projects 26,280 ATHO of annual base issuance. Actual calendar issuance follows blocks produced, not a wall-clock minting process.</p>
+        <p>At the 75-second target, Atho projects 420,480 blocks per nominal year. A 1 ATHO tail therefore projects 420,480 ATHO of annual base issuance. Actual calendar issuance follows blocks produced, not a wall-clock minting process.</p>
       </section>
       <section class="docs-section" id="supply-cap">
         <h2>No Premine, 168 Million Cap</h2>
-        <p>The current rules schedule 53,550,000 ATHO through the final bootstrap block, followed by 114,450,000 ATHO of tail issuance. Consensus pays the final 0.0625 ATHO subsidy at height 1,844,640,000 and zero subsidy afterward, fixing maximum issuance at 168,000,000 ATHO, or 16,800,000,000,000,000 atoms.</p>
+        <p>The current rules schedule 105,840,000 ATHO through the final bootstrap block, followed by 62,160,000 ATHO of tail issuance. Consensus pays the final 1 ATHO subsidy at height 72,240,000 and zero subsidy afterward, fixing maximum issuance at 168,000,000 ATHO, or 16,800,000,000,000,000 atoms.</p>
       </section>
     `
   },
@@ -682,7 +680,7 @@ export ATHO_WALLET_PASSWORD
   "network-status": {
     title: "Network Status",
     eyebrow: "Nodes and Network",
-    summary: "All four network modes exist in code; mainnet is unlaunched and the public V1 testnet is online for validation.",
+    summary: "All four network modes exist in code; mainnet is scheduled for January 1, 2027 at 00:00 UTC and the public V1 testnet is online for validation.",
     keywords: ["network", "status", "mainnet", "testnet", "regnet", "prunetest", "ports"],
     aliases: ["mainnet-vs-testnet", "testnet", "getting-testnet-atho", "network-modes"],
     topics: [
@@ -702,7 +700,7 @@ export ATHO_WALLET_PASSWORD
           <table>
             <thead><tr><th>Mode</th><th>P2P / RPC</th><th>Current public status</th></tr></thead>
             <tbody>
-              <tr><td>Mainnet</td><td>56000 / 9010</td><td>Implemented mode; not publicly launched</td></tr>
+              <tr><td>Mainnet</td><td>56000 / 9010</td><td>Scheduled for January 1, 2027 at 00:00 UTC</td></tr>
               <tr><td>Testnet</td><td>9100 / 9110</td><td>Public V1 validation network online; live Explorer available</td></tr>
               <tr><td>Regnet</td><td>9200 / 9210</td><td>Available for local deterministic development</td></tr>
               <tr><td>Prunetest</td><td>9300 / 9310</td><td>Available for isolated storage/pruning tests</td></tr>
@@ -717,7 +715,7 @@ export ATHO_WALLET_PASSWORD
       <section class="docs-section" id="public-testnet">
         <h2>Public V1 Testnet</h2>
         <p>The current testnet uses P2P seeds <code>testnet-node1.atho.io:9100</code> and <code>testnet-node2.atho.io:9100</code>. Node 1 retains archive history and serves the rate-limited read-only Explorer API; node 2 is a validating full node and runs a one-core CPU miner. Both nodes keep raw RPC and the native HTTP API on loopback.</p>
-        <p>The Explorer verifies API version <code>v1</code>, network ID <code>atho-testnet</code>, and genesis hash <code>0000347169b75a28f067fbc208a143e98e594709c4a3632ce44d48c7916dbabd50662e5e2e9073e5043d0455d6010af6</code> before rendering data. This 30-day cycle is pre-mainnet testing; availability, balances, and mined testnet coins do not imply monetary value or a mainnet launch.</p>
+        <p>The Explorer verifies API version <code>v1</code>, network ID <code>atho-testnet</code>, and genesis hash <code>000025033a2ff4ad6438a6be276303ec5bcbe763aa416bae6469b5982db9e1c7636cd676e9ccf630a3f5508c9970f02f</code> before rendering data. This is pre-mainnet testing; availability, balances, and mined testnet coins do not imply monetary value or an early mainnet launch.</p>
       </section>
     `
   },
@@ -945,7 +943,7 @@ cargo clippy --workspace --all-targets -- -D warnings</code></pre>
       </section>
       <section class="docs-section" id="faq-network">
         <h2>Is Mainnet or Testnet Live?</h2>
-        <p>Mainnet has not launched. The public V1 testnet and live Explorer are online for the current 30-day validation cycle. Use testnet for public interoperability and regnet for disposable local work; testnet coins have no monetary value.</p>
+        <p>Mainnet is scheduled for January 1, 2027 at 00:00 UTC. The public V1 testnet and live Explorer are online now. Use testnet for public interoperability and regnet for disposable local work; testnet coins have no monetary value.</p>
       </section>
       <section class="docs-section" id="faq-ledger-privacy">
         <h2>Does P2P Encryption Hide Transactions on the Blockchain?</h2>

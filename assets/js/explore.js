@@ -2,7 +2,7 @@ import {
   defaultExplorerNetwork,
   explorerApiConfig,
   explorerNetworks
-} from "./explorer-config.js?v=20260910b";
+} from "./explorer-config.js?v=20261010";
 
 const HASH_LENGTH = 96;
 const ATHO_DECIMALS = 8;
@@ -19,6 +19,11 @@ const state = {
   homeBlocksPageSize: 10,
   homeTxPage: 0,
   homeTxPageSize: 10,
+  blockTxPage: 0,
+  blockTxPageSize: 25,
+  txInputsPage: 0,
+  txOutputsPage: 0,
+  txPartsPageSize: 25,
   refreshTimer: 0,
   uptimeTimer: 0,
   uptimeBaseSeconds: null,
@@ -546,6 +551,9 @@ function parseRoute() {
 function setRoute(page, ref = "") {
   const route = ref ? `#${page}/${encodeURIComponent(ref)}` : `#${page}`;
   if (window.location.hash !== route) {
+    state.blockTxPage = 0;
+    state.txInputsPage = 0;
+    state.txOutputsPage = 0;
     window.location.hash = route;
     return;
   }
@@ -594,6 +602,9 @@ function getOutputAddress(output) {
 }
 
 function getFirstAddressFromTransaction(transaction) {
+  if (transaction?.first_address) {
+    return transaction.first_address;
+  }
   const outputs = Array.isArray(transaction?.outputs) ? transaction.outputs : [];
   return outputs.find((output) => getOutputAddress(output))?.address_hint || outputs.find((output) => getOutputAddress(output))?.address || "";
 }
@@ -612,11 +623,6 @@ function cacheInlineTransaction(transaction, meta = {}) {
   });
 }
 
-async function fetchBlockDetailByHeight(height) {
-  const { data } = await apiRequest(`/block/height/${encodeURIComponent(String(height))}`, { ttlMs: 300_000 });
-  return data;
-}
-
 function summarizeHomeTransaction(transaction, meta = {}) {
   cacheInlineTransaction(transaction, meta);
   return {
@@ -625,7 +631,7 @@ function summarizeHomeTransaction(transaction, meta = {}) {
     height: meta.height || 0,
     isCoinbase: Boolean(transaction.is_coinbase),
     vsize: transaction.vsize_bytes || 0,
-    outputCount: Array.isArray(transaction.outputs) ? transaction.outputs.length : 0,
+    outputCount: transaction.output_count ?? (Array.isArray(transaction.outputs) ? transaction.outputs.length : 0),
     firstAddress: getFirstAddressFromTransaction(transaction),
     feeAtoms: transaction.fee_atoms ?? null,
     feeAtho: transaction.fee_atho || ""
@@ -635,26 +641,8 @@ function summarizeHomeTransaction(transaction, meta = {}) {
 async function loadHomeBlocksPage(tipHeight, page, pageSize) {
   const totalItems = Math.max(0, Math.floor(toNum(tipHeight, 0)) + 1);
   const safePage = clampPage(page, Math.max(totalItems, 1), pageSize);
-  const newestHeight = Math.max(0, Math.floor(toNum(tipHeight, 0)) - safePage * pageSize);
-  const oldestHeight = Math.max(0, newestHeight - pageSize + 1);
-  const heights = [];
-  for (let height = newestHeight; height >= oldestHeight; height -= 1) {
-    heights.push(height);
-  }
-  const items = await Promise.all(
-    heights.map(async (height) => {
-      const block = await fetchBlockDetailByHeight(height);
-      const header = block.header || {};
-      const transactions = Array.isArray(block.transactions) ? block.transactions : [];
-      return {
-        height: toNum(header.height, height),
-        hash: block.hash || header.hash || "",
-        timestamp: header.timestamp || 0,
-        transaction_count: toNum(block.transaction_count, transactions.length),
-        vsize_bytes: toNum(block.vsize_bytes, 0)
-      };
-    })
-  );
+  const { data } = await apiRequest(`/blocks/latest?limit=${pageSize}&offset=${safePage * pageSize}`, { ttlMs: 15_000 });
+  const items = Array.isArray(data.blocks) ? data.blocks : [];
   return { items, page: safePage, totalItems };
 }
 
@@ -668,33 +656,32 @@ async function loadHomeTransactionsPage(tipHeight, page, pageSize, totalTransact
 
   let seen = 0;
   const items = [];
-  for (let height = Math.max(0, Math.floor(toNum(tipHeight, 0))); height >= 0 && items.length < pageSize; height -= 1) {
-    const block = await fetchBlockDetailByHeight(height);
-    const header = block.header || {};
-    const transactions = Array.isArray(block.transactions) ? block.transactions : [];
-    if (!transactions.length) {
-      continue;
-    }
-    if (seen + transactions.length <= skip) {
-      seen += transactions.length;
-      continue;
-    }
-    const meta = {
-      blockHash: block.hash || header.hash || "",
-      height: toNum(header.height, height),
-      timestamp: header.timestamp || 0
-    };
-    for (const transaction of transactions) {
-      if (seen < skip) {
-        seen += 1;
+  for (let blockOffset = 0; blockOffset <= tipHeight && items.length < pageSize; blockOffset += 50) {
+    const { data } = await apiRequest(`/blocks/latest?limit=50&offset=${blockOffset}`, { ttlMs: 30_000 });
+    const blocks = Array.isArray(data.blocks) ? data.blocks : [];
+    if (!blocks.length) break;
+    for (const block of blocks) {
+      const count = Math.max(0, Math.floor(toNum(block.transaction_count, 0)));
+      if (seen + count <= skip) {
+        seen += count;
         continue;
       }
-      items.push(summarizeHomeTransaction(transaction, meta));
-      seen += 1;
-      if (items.length >= pageSize) {
-        break;
+      const localOffset = Math.max(0, skip - seen);
+      const take = Math.min(pageSize - items.length, count - localOffset);
+      if (take > 0) {
+        const { data: pageData } = await apiRequest(
+          `/block/height/${block.height}/transactions?offset=${localOffset}&limit=${take}`,
+          { ttlMs: 30_000 }
+        );
+        const meta = { blockHash: block.hash, height: block.height, timestamp: block.timestamp };
+        for (const transaction of pageData.transactions || []) {
+          items.push(summarizeHomeTransaction(transaction, meta));
+        }
       }
+      seen += count;
+      if (items.length >= pageSize) break;
     }
+    if (blocks.length < 50) break;
   }
 
   return { items, page: safePage, totalItems };
@@ -955,10 +942,19 @@ async function renderHomePage(dashboard) {
   const stats = dashboard.stats;
   const tipHeight = Math.max(0, Math.floor(toNum(stats.height, 0)));
   const totalTransactions = Math.max(0, Math.floor(toNum(stats.total_transactions, 0)));
-  const [blockPage, txPage] = await Promise.all([
+  const [blockResult, txResult] = await Promise.allSettled([
     loadHomeBlocksPage(tipHeight, state.homeBlocksPage, state.homeBlocksPageSize),
     loadHomeTransactionsPage(tipHeight, state.homeTxPage, state.homeTxPageSize, totalTransactions)
   ]);
+  const blockPage = blockResult.status === "fulfilled"
+    ? blockResult.value
+    : { items: [], page: state.homeBlocksPage, totalItems: tipHeight + 1 };
+  const txPage = txResult.status === "fulfilled"
+    ? txResult.value
+    : { items: [], page: state.homeTxPage, totalItems: totalTransactions };
+  if (blockResult.status === "rejected" || txResult.status === "rejected") {
+    showWarn("Some explorer lists are temporarily unavailable. Node status remains live.", "warn");
+  }
   state.homeBlocksPage = blockPage.page;
   state.homeTxPage = txPage.page;
 
@@ -1360,13 +1356,22 @@ function blockActionButtons(block, currentHeight) {
 
 async function renderBlockPage(ref) {
   const byHeight = /^\d+$/.test(String(ref || ""));
-  const endpoint = byHeight
+  const base = byHeight
     ? `/block/height/${encodeURIComponent(String(ref))}`
     : `/block/hash/${encodeURIComponent(String(ref))}`;
-  const result = await apiRequest(endpoint, { ttlMs: 20_000 });
+  const result = await apiRequest(`${base}/summary`, { ttlMs: 20_000 });
   const block = result.data;
   const header = block.header || {};
-  const txs = Array.isArray(block.transactions) ? block.transactions : [];
+  state.blockTxPage = clampPage(state.blockTxPage, block.transaction_count || 0, state.blockTxPageSize);
+  let txs = [];
+  let bodyUnavailable = false;
+  try {
+    const txResult = await apiRequest(`${base}/transactions?offset=${state.blockTxPage * state.blockTxPageSize}&limit=${state.blockTxPageSize}`, { ttlMs: 20_000 });
+    txs = Array.isArray(txResult.data.transactions) ? txResult.data.transactions : [];
+  } catch (error) {
+    if (error?.code !== "block_body_unavailable") throw error;
+    bodyUnavailable = true;
+  }
   txs.forEach((transaction) =>
     cacheInlineTransaction(transaction, {
       blockHash: block.hash || header.hash || "",
@@ -1382,7 +1387,8 @@ async function renderBlockPage(ref) {
         <button class="btn-ghost" type="button" data-action="go-home">Explorer</button>
         <span class="section-title">Block #${esc(formatNumber(header.height || 0))}</span>
         <span class="head-spacer"></span>
-        <button class="btn-ghost mini" type="button" data-action="view-block-json">View Full JSON</button>
+        <button class="btn-ghost mini" type="button" data-action="view-block-json">View Summary JSON</button>
+        ${bodyUnavailable ? "" : `<button class="btn-ghost mini block-raw-download" type="button" data-action="download-block-raw" data-ref="${escAttr(block.hash || header.hash || "")}" data-size="${escAttr(block.size_bytes || 0)}">Download Raw Block</button>`}
         ${blockActionButtons(block, currentHeight)}
       </div>
       <div class="panel-body">
@@ -1396,7 +1402,7 @@ async function renderBlockPage(ref) {
         ${renderDetailGrid([
           { label: "Block Hash", valueHtml: linkWithCopy("go-block", block.hash, block.hash, "mono"), className: "mono" },
           { label: "Previous Hash", valueHtml: linkWithCopy("go-block", header.previous_block_hash, header.previous_block_hash, "mono"), className: "mono" },
-          { label: "Coinbase Txid", valueHtml: linkWithCopy("go-tx", block.coinbase_txid, block.coinbase_txid, "mono"), className: "mono" },
+          { label: "Coinbase Txid", valueHtml: state.blockTxPage === 0 && txs.length ? linkWithCopy("go-tx", txs[0].txid, txs[0].txid, "mono") : "Open first transaction page", className: "mono" },
           { label: "Total Fees", valueHtml: esc(formatAthoValue(block.fees_total_atho, block.fees_total_atoms, { maxDecimals: ATHO_DECIMALS })) },
           { label: "Difficulty Target", valueHtml: esc(header.difficulty_target || "--"), className: "mono" },
           { label: "Nonce", valueHtml: esc(formatNumber(header.nonce || 0)) },
@@ -1408,6 +1414,7 @@ async function renderBlockPage(ref) {
     <section class="panel">
       <div class="panel-head">
         <span class="section-title">Transactions</span>
+        ${bodyUnavailable ? "" : renderPager("block-txs", state.blockTxPage, block.transaction_count || 0, state.blockTxPageSize)}
       </div>
       <div class="panel-body">
         <div class="x-scroll">
@@ -1435,14 +1442,14 @@ async function renderBlockPage(ref) {
                             <td data-label="Type">${esc(tx.is_coinbase ? "Coinbase" : "Standard")}</td>
                             <td class="mono" data-label="Primary Address">${firstAddress ? linkWithCopy("go-address", firstAddress, clip(firstAddress, 54), "mono") : "--"}</td>
                             <td data-label="Fee">${esc(formatAthoValue(tx.fee_atho, tx.fee_atoms, { maxDecimals: ATHO_DECIMALS }))}</td>
-                            <td data-label="Outputs">${esc(formatNumber(Array.isArray(tx.outputs) ? tx.outputs.length : 0))}</td>
+                            <td data-label="Outputs">${esc(formatNumber(tx.output_count ?? 0))}</td>
                             <td data-label="VSize">${esc(formatVBytes(tx.vsize_bytes || 0))}</td>
                             <td data-label="PoW Bits">${esc(formatNumber(tx.tx_pow_bits || 0))}</td>
                           </tr>
                         `;
                       })
                       .join("")
-                  : '<tr><td colspan="7" class="muted">No decoded transactions were available for this block.</td></tr>'
+                  : `<tr><td colspan="7" class="muted">${bodyUnavailable ? "Block body is not retained by this node." : "No decoded transactions were available for this block."}</td></tr>`
               }
             </tbody>
           </table>
@@ -1450,18 +1457,90 @@ async function renderBlockPage(ref) {
       </div>
     </section>
   `;
-  state.currentJsonTitle = `Block #${formatNumber(header.height || 0)} JSON`;
+  state.currentJsonTitle = `Block #${formatNumber(header.height || 0)} Summary JSON`;
   state.currentJsonPayload = result.data;
+}
+
+async function requestRawBlockChunk(hash, offset, limit, networkKey) {
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    try {
+      return await apiRequest(`/block/hash/${hash}/raw?offset=${offset}&limit=${limit}`, { networkKey });
+    } catch (error) {
+      if ((error?.code !== "server_busy" && error?.code !== "timeout") || attempt === 2) throw error;
+      await new Promise((resolve) => window.setTimeout(resolve, 200 * (attempt + 1)));
+    }
+  }
+  throw createApiError("request_failed");
+}
+
+async function downloadRawBlock(button, hash, expectedBytes) {
+  if (button.disabled) return;
+  const total = Number(expectedBytes);
+  if (!/^[0-9a-fA-F]{96}$/.test(hash) || !Number.isSafeInteger(total) || total < 1 || total > 8_000_000) {
+    showWarn("Block archive size is invalid or exceeds the supported network limit.", "error");
+    return;
+  }
+  const networkKey = state.activeNetwork;
+  const originalLabel = button.textContent;
+  const chunks = [];
+  button.disabled = true;
+  try {
+    const appendChunk = (data, offset, chunkSize) => {
+      const expectedLength = Math.min(chunkSize, total - offset);
+      const encoded = data.data_hex;
+      if (data.block_hash !== hash || data.offset !== offset || data.total_bytes !== total
+        || data.returned_bytes !== expectedLength || data.next_offset !== offset + expectedLength
+        || typeof encoded !== "string" || encoded.length !== expectedLength * 2
+        || !/^[0-9a-f]*$/i.test(encoded)) {
+        throw createApiError("invalid_block_chunk");
+      }
+      const bytes = new Uint8Array(expectedLength);
+      for (let byteIndex = 0; byteIndex < expectedLength; byteIndex += 1) {
+        bytes[byteIndex] = Number.parseInt(encoded.slice(byteIndex * 2, byteIndex * 2 + 2), 16);
+      }
+      chunks.push(bytes);
+    };
+
+    const first = await requestRawBlockChunk(hash, 0, 64 * 1024, networkKey);
+    const chunkSize = Number(first.data.limit);
+    if (!Number.isSafeInteger(chunkSize) || chunkSize < 1 || chunkSize > 64 * 1024) {
+      throw createApiError("invalid_block_chunk");
+    }
+    appendChunk(first.data, 0, chunkSize);
+    for (let start = chunkSize; start < total; start += chunkSize * 2) {
+      const offsets = [start, start + chunkSize].filter((offset) => offset < total);
+      const pages = await Promise.all(offsets.map((offset) =>
+        requestRawBlockChunk(hash, offset, chunkSize, networkKey)
+      ));
+      for (let index = 0; index < pages.length; index += 1) {
+        appendChunk(pages[index].data, offsets[index], chunkSize);
+      }
+      button.textContent = `Downloading ${Math.round(100 * Math.min(start + chunkSize * 2, total) / total)}%`;
+    }
+    const url = URL.createObjectURL(new Blob(chunks, { type: "application/octet-stream" }));
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `atho-${networkKey}-block-${hash}.bin`;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 60_000);
+  } catch (error) {
+    showWarn(`Raw block download failed: ${error?.code || "request_failed"}.`, "error");
+  } finally {
+    button.disabled = false;
+    button.textContent = originalLabel;
+  }
 }
 
 async function loadTxRecord(txid) {
   try {
-    const result = await apiRequest(`/tx/${encodeURIComponent(txid)}`, { ttlMs: 20_000 });
+    const result = await apiRequest(`/tx/${encodeURIComponent(txid)}/summary`, { ttlMs: 20_000 });
     return {
       ...result.data,
       fee_atoms: result.data.fee_atoms ?? result.data.transaction?.fee_atoms ?? null,
       fee_atho: result.data.fee_atho || result.data.transaction?.fee_atho || "",
-      pending: false,
+      pending: result.data.source === "mempool",
       rawJson: result.data
     };
   } catch (error) {
@@ -1489,8 +1568,16 @@ async function loadTxRecord(txid) {
 async function renderTxPage(ref) {
   const record = await loadTxRecord(ref);
   const tx = record.transaction || {};
-  const inputs = Array.isArray(tx.inputs) ? tx.inputs : [];
-  const outputs = Array.isArray(tx.outputs) ? tx.outputs : [];
+  const inputCount = tx.input_count ?? (Array.isArray(tx.inputs) ? tx.inputs.length : 0);
+  const outputCount = tx.output_count ?? (Array.isArray(tx.outputs) ? tx.outputs.length : 0);
+  state.txInputsPage = clampPage(state.txInputsPage, inputCount, state.txPartsPageSize);
+  state.txOutputsPage = clampPage(state.txOutputsPage, outputCount, state.txPartsPageSize);
+  const [inputResult, outputResult] = await Promise.all([
+    apiRequest(`/tx/${encodeURIComponent(ref)}/inputs?offset=${state.txInputsPage * state.txPartsPageSize}&limit=${state.txPartsPageSize}`, { ttlMs: 20_000 }),
+    apiRequest(`/tx/${encodeURIComponent(ref)}/outputs?offset=${state.txOutputsPage * state.txPartsPageSize}&limit=${state.txPartsPageSize}`, { ttlMs: 20_000 })
+  ]);
+  const inputs = Array.isArray(inputResult.data.items) ? inputResult.data.items : [];
+  const outputs = Array.isArray(outputResult.data.items) ? outputResult.data.items : [];
   const lockTime = formatLockTimeValue(tx.lock_time);
   const txTimestamp =
     record.received_at_unix
@@ -1514,7 +1601,7 @@ async function renderTxPage(ref) {
         <button class="btn-ghost" type="button" data-action="go-home">Explorer</button>
         <span class="section-title">${record.pending ? "Pending Transaction" : "Transaction Detail"}</span>
         <span class="head-spacer"></span>
-        <button class="btn-ghost mini" type="button" data-action="view-tx-json">View Full JSON</button>
+        <button class="btn-ghost mini" type="button" data-action="view-tx-json">View Summary JSON</button>
         ${record.block_hash ? `<button class="btn-ghost mini" type="button" data-action="go-block" data-ref="${escAttr(record.block_hash)}">Open Block</button>` : ""}
       </div>
       <div class="panel-body">
@@ -1529,8 +1616,8 @@ async function renderTxPage(ref) {
           { label: "Fee", valueHtml: esc(txFee) },
           { label: "Version", valueHtml: esc(formatNumber(tx.version || 0)) },
           { label: "Lock Time", valueHtml: renderValueWithNote(lockTime.primary, lockTime.note) },
-          { label: "Inputs", valueHtml: esc(formatNumber(inputs.length)) },
-          { label: "Outputs", valueHtml: esc(formatNumber(outputs.length)) }
+          { label: "Inputs", valueHtml: esc(formatNumber(inputCount)) },
+          { label: "Outputs", valueHtml: esc(formatNumber(outputCount)) }
         ])}
       </div>
     </section>
@@ -1539,6 +1626,7 @@ async function renderTxPage(ref) {
       <section class="panel">
         <div class="panel-head">
           <span class="section-title">Inputs</span>
+          ${renderPager("tx-inputs", state.txInputsPage, inputCount, state.txPartsPageSize)}
         </div>
         <div class="panel-body">
           <div class="x-scroll">
@@ -1575,6 +1663,7 @@ async function renderTxPage(ref) {
       <section class="panel">
         <div class="panel-head">
           <span class="section-title">Outputs</span>
+          ${renderPager("tx-outputs", state.txOutputsPage, outputCount, state.txPartsPageSize)}
         </div>
         <div class="panel-body">
           <div class="x-scroll">
@@ -1610,7 +1699,7 @@ async function renderTxPage(ref) {
       </section>
     </section>
   `;
-  state.currentJsonTitle = `${record.pending ? "Pending Transaction" : "Transaction"} JSON`;
+  state.currentJsonTitle = `${record.pending ? "Pending Transaction" : "Transaction"} Summary JSON`;
   state.currentJsonPayload = record.rawJson || record;
 }
 
@@ -1904,9 +1993,11 @@ async function refreshCurrentRoute({ force = false, busy = true } = {}) {
   }
 
   const runner = async () => {
+    let dashboardLive = false;
     try {
       showWarn("", "warn");
       const dashboard = await loadDashboard({ force });
+      dashboardLive = true;
       updateHeaderFromDashboard(dashboard);
 
       switch (route.page) {
@@ -1947,6 +2038,10 @@ async function refreshCurrentRoute({ force = false, busy = true } = {}) {
       } else if (isNotFoundCode(code)) {
         showWarn("", "warn");
         renderDetailError("Not Found", "No matching block, transaction, address, or mempool record was found.");
+      } else if (dashboardLive) {
+        showWarn("This explorer view is temporarily unavailable. Node status remains live.", "error");
+        setHeaderStatus("Live");
+        renderDetailError("Explorer Request Failed", `Current error: ${code}`);
       } else {
         showWarn("Explorer unavailable. Confirm the selected Atho API is running.", "error");
         setHeaderStatus("API Offline");
@@ -2098,6 +2193,12 @@ function handleActionClick(event) {
     return;
   }
 
+  if (action === "download-block-raw") {
+    event.preventDefault();
+    void downloadRawBlock(target, ref, target.dataset.size);
+    return;
+  }
+
   if (action === "view-tx-json") {
     event.preventDefault();
     openJsonModal(state.currentJsonTitle || "Transaction JSON", state.currentJsonPayload);
@@ -2117,6 +2218,15 @@ function handleActionClick(event) {
     if (ref) {
       setRoute("tx", ref);
     }
+    return;
+  }
+
+  const pagedAction = /^(block-txs|tx-inputs|tx-outputs)-(prev|next)$/.exec(action);
+  if (pagedAction) {
+    event.preventDefault();
+    const pageKey = { "block-txs": "blockTxPage", "tx-inputs": "txInputsPage", "tx-outputs": "txOutputsPage" }[pagedAction[1]];
+    state[pageKey] = Math.max(0, state[pageKey] + (pagedAction[2] === "next" ? 1 : -1));
+    void refreshCurrentRoute({ busy: false });
     return;
   }
 
@@ -2185,6 +2295,21 @@ function handleActionChange(event) {
   }
   const action = target.dataset.action || "";
   const value = Math.floor(toNum(target.value, 0));
+
+  if (action === "block-txs-size" && [10, 25, 50].includes(value)) {
+    state.blockTxPageSize = value;
+    state.blockTxPage = 0;
+    void refreshCurrentRoute({ busy: false });
+    return;
+  }
+
+  if ((action === "tx-inputs-size" || action === "tx-outputs-size") && [10, 25, 50].includes(value)) {
+    state.txPartsPageSize = value;
+    state.txInputsPage = 0;
+    state.txOutputsPage = 0;
+    void refreshCurrentRoute({ busy: false });
+    return;
+  }
 
   if (action === "home-blocks-size" && [10, 25, 50].includes(value)) {
     state.homeBlocksPageSize = value;

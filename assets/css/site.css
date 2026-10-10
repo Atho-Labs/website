@@ -5530,6 +5530,115 @@ main,
   box-shadow: none;
 }
 
+.launch-countdown-band {
+  position: relative;
+  overflow: hidden;
+  padding: 34px 0;
+  border-top: 1px solid rgba(124, 242, 189, 0.18);
+  border-bottom: 1px solid rgba(124, 242, 189, 0.22);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(6, 213, 141, 0.14), transparent 34%),
+    linear-gradient(110deg, #04140d 0%, #071c13 52%, #0a2519 100%);
+  color: #ffffff;
+}
+
+.launch-countdown-band::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(rgba(124, 242, 189, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 242, 189, 0.035) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(90deg, transparent, #000 24%, #000 76%, transparent);
+}
+
+.launch-countdown-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(520px, 1.45fr) auto;
+  gap: 34px;
+  align-items: center;
+}
+
+.launch-countdown-copy .section-kicker {
+  margin-bottom: 8px;
+  color: #7cf2bd;
+}
+
+.launch-countdown-copy .section-kicker::before {
+  background: rgba(124, 242, 189, 0.62);
+}
+
+.launch-countdown-copy h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+  line-height: 1.25;
+}
+
+.launch-countdown-copy p {
+  margin: 7px 0 0;
+  color: #b8cdc3;
+  font-size: 0.76rem;
+}
+
+.launch-countdown-clock {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  min-width: 0;
+  margin: 0;
+  border: 1px solid rgba(124, 242, 189, 0.18);
+  border-radius: 14px;
+  background: rgba(0, 9, 5, 0.42);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.launch-countdown-clock > div {
+  min-width: 0;
+  padding: 15px 18px 13px;
+  border-left: 1px solid rgba(124, 242, 189, 0.14);
+  text-align: center;
+}
+
+.launch-countdown-clock > div:first-child {
+  border-left: 0;
+}
+
+.launch-countdown-clock dd {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(1.55rem, 3vw, 2.35rem);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  text-shadow: 0 0 22px rgba(124, 242, 189, 0.2);
+}
+
+.launch-countdown-clock dt {
+  margin-top: 8px;
+  color: #7fc5a5;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.launch-countdown-meta {
+  display: grid;
+  gap: 8px;
+  justify-items: end;
+  color: #8faea0;
+  font-size: 0.67rem;
+  text-align: right;
+}
+
+.launch-countdown-meta .text-link {
+  color: #7cf2bd;
+  white-space: nowrap;
+}
+
 .network-status-band {
   padding: 30px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -6227,6 +6336,18 @@ main,
 }
 
 @media (max-width: 1100px) {
+  .launch-countdown-inner {
+    grid-template-columns: minmax(240px, 0.8fr) minmax(500px, 1.5fr);
+  }
+
+  .launch-countdown-meta {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    justify-items: initial;
+    text-align: left;
+  }
+
   .network-status-inner {
     grid-template-columns: 1fr;
     gap: 22px;
@@ -6244,6 +6365,15 @@ main,
 }
 
 @media (max-width: 900px) {
+  .launch-countdown-inner {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .launch-countdown-meta {
+    grid-column: auto;
+  }
+
   .section {
     padding: 52px 0;
   }
@@ -6286,6 +6416,27 @@ main,
 }
 
 @media (max-width: 520px) {
+  .launch-countdown-band {
+    padding: 28px 0;
+  }
+
+  .launch-countdown-clock > div {
+    padding: 13px 6px 11px;
+  }
+
+  .launch-countdown-clock dd {
+    font-size: 1.45rem;
+  }
+
+  .launch-countdown-clock dt {
+    font-size: 0.54rem;
+    letter-spacing: 0.07em;
+  }
+
+  .launch-countdown-meta {
+    display: grid;
+  }
+
   .supply-band {
     padding: 34px 0;
   }

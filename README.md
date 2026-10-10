@@ -19,9 +19,9 @@ The public copy tracks the current Atho source repository:
 - 75-second target blocks
 - Falcon-512 transaction authorization
 - SHA3-384 block proof of work
-- eight 1,680,000-block bootstrap reward eras beginning at 16 ATHO
-- finite 0.0625 ATHO tail reward from height 13,440,001 through 1,844,640,000
-- 53,550,000 ATHO bootstrap issuance and a consensus-enforced 168,000,000 ATHO cap
+- six 1,680,000-block bootstrap reward eras beginning at 32 ATHO
+- finite 1 ATHO tail reward from height 10,080,001 through 72,240,000
+- 105,840,000 ATHO bootstrap issuance and a consensus-enforced 168,000,000 ATHO cap
 - mandatory X25519 + ML-KEM-768 encrypted P2P transport on public modes
 - loopback-only raw RPC and HTTP API boundaries
 - desktop and headless operator/wallet binaries
@@ -29,8 +29,9 @@ The public copy tracks the current Atho source repository:
 The public V1 testnet is online for a fresh 30-day validation cycle. The site
 configures the read-only Explorer endpoint at
 `https://testnet-node1.atho.io/api/v1` and pins its network ID, API version, and
-testnet genesis hash. Mainnet has not launched, and testnet coins have no
-monetary value. Regnet remains the disposable local development mode.
+current testnet genesis hash. Mainnet is scheduled for January 1, 2027 at
+00:00 UTC, subject to the published launch gates. Testnet coins have no monetary
+value. Regnet remains the disposable local development mode.
 
 ## Documentation Architecture
 

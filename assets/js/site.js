@@ -1,4 +1,4 @@
-import { siteContent } from "./site-data.js?v=20260910b";
+import { siteContent } from "./site-data.js?v=20261010";
 
 const iconPaths = {
   shield: "M12 2.4 4 5.6v5.7c0 5.2 3.4 9.9 8 11.3 4.6-1.4 8-6.1 8-11.3V5.6l-8-3.2Zm0 3.3 4.7 1.9v3.8c0 3.3-1.9 6.4-4.7 7.6-2.8-1.2-4.7-4.3-4.7-7.6V7.6L12 5.7Z",
@@ -710,6 +710,50 @@ async function hydrateStats() {
 
 let networkStatusRefreshPending = false;
 
+function initLaunchCountdown() {
+  const root = document.querySelector("[data-launch-countdown]");
+  if (!(root instanceof HTMLElement)) {
+    return;
+  }
+
+  const target = Date.parse(root.dataset.launchAt || "");
+  const days = root.querySelector("[data-countdown-days]");
+  const hours = root.querySelector("[data-countdown-hours]");
+  const minutes = root.querySelector("[data-countdown-minutes]");
+  const seconds = root.querySelector("[data-countdown-seconds]");
+  const status = root.querySelector("[data-countdown-status]");
+  const fields = [days, hours, minutes, seconds, status];
+  if (!Number.isFinite(target) || fields.some((field) => !(field instanceof HTMLElement))) {
+    return;
+  }
+
+  const pad = (value) => String(value).padStart(2, "0");
+  const render = () => {
+    const remainingSeconds = Math.max(0, Math.floor((target - Date.now()) / 1000));
+    const remainingDays = Math.floor(remainingSeconds / 86_400);
+    const remainingHours = Math.floor((remainingSeconds % 86_400) / 3_600);
+    const remainingMinutes = Math.floor((remainingSeconds % 3_600) / 60);
+    const remainingClockSeconds = remainingSeconds % 60;
+
+    days.textContent = String(remainingDays);
+    hours.textContent = pad(remainingHours);
+    minutes.textContent = pad(remainingMinutes);
+    seconds.textContent = pad(remainingClockSeconds);
+    status.textContent = remainingSeconds > 0
+      ? "Counting down to the scheduled Atho mainnet launch."
+      : "The scheduled Atho mainnet launch time has arrived.";
+  };
+
+  render();
+  const timer = window.setInterval(render, 1_000);
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+      render();
+    }
+  });
+  window.addEventListener("pagehide", () => window.clearInterval(timer), { once: true });
+}
+
 async function hydrateNetworkStatus() {
   const statusEndpoint = document.body.dataset.networkStatusEndpoint?.trim();
   const statsEndpoint = document.body.dataset.networkStatsEndpoint?.trim();
@@ -750,7 +794,7 @@ async function hydrateNetworkStatus() {
     ]);
     const status = statusPayload?.data;
     const stats = statsPayload?.data;
-    const expectedGenesis = "0000347169b75a28f067fbc208a143e98e594709c4a3632ce44d48c7916dbabd50662e5e2e9073e5043d0455d6010af6";
+    const expectedGenesis = "000025033a2ff4ad6438a6be276303ec5bcbe763aa416bae6469b5982db9e1c7636cd676e9ccf630a3f5508c9970f02f";
     if (
       !statusResponse.ok
       || !statsResponse.ok
@@ -814,6 +858,7 @@ function renderPage() {
   initReveal();
   initYear();
   initSupplyCounter();
+  initLaunchCountdown();
   hydrateStats();
   hydrateNetworkStatus();
   if (document.body.dataset.networkStatusEndpoint) {

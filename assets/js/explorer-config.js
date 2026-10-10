@@ -36,7 +36,7 @@ export const explorerNetworks = Object.freeze({
     label: "Testnet",
     network: "testnet",
     networkId: "atho-testnet",
-    genesisHash: readConfigValue("testnetGenesisHash", "0000347169b75a28f067fbc208a143e98e594709c4a3632ce44d48c7916dbabd50662e5e2e9073e5043d0455d6010af6"),
+    genesisHash: readConfigValue("testnetGenesisHash", "000025033a2ff4ad6438a6be276303ec5bcbe763aa416bae6469b5982db9e1c7636cd676e9ccf630a3f5508c9970f02f"),
     apiBaseUrl: explorerApiConfig.testnetApiBaseUrl,
     enabled: Boolean(explorerApiConfig.testnetApiBaseUrl),
     statusLabel: "Live Testnet"
